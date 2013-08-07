@@ -1,20 +1,17 @@
 #pragma once
 
-#include <import/TreeXmlParserStrategy.h>
+#include <TreeXmlParserStrategy.h>
 
+#include <QStack>
+#include <QHash>
 #include <QString>
 
-class CityGMLStrategy : public TreeXmlParserStrategy
+class Node;
+
+class SoftwareSystemStrategy : public TreeXmlParserStrategy
 {
 public:
-	enum InformationType {
-		None,
-		Label,
-		ParentId,
-		Size
-	};
-
-	CityGMLStrategy(TreeXmlParser& parser);
+	SoftwareSystemStrategy(TreeXmlParser& parser);
 
 	virtual bool startDocument();
 	virtual bool endDocument();
@@ -24,9 +21,7 @@ public:
 
 	virtual bool characters(const QString& characters);
 protected:
-	int _id;
-	QString _label;
-	int _parentId;
-	int _size;
-	InformationType _nextInformation;
+	QString _currentMetricName;
+	QStack<Node*> _stack;
+	QHash<QString, Node*> _nodes;
 };

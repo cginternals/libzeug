@@ -1,6 +1,6 @@
-#include <import/SoftwareSystemStrategy.h>
+#include <SoftwareSystemStrategy.h>
 
-#include <import/TreeXmlParser.h>
+#include <TreeXmlParser.h>
 
 SoftwareSystemStrategy::SoftwareSystemStrategy(TreeXmlParser& parser)
 : TreeXmlParserStrategy(parser)

@@ -1,3 +1,4 @@
 add_subdirectory(propertyzeug)
 add_subdirectory(treezeug)
+add_subdirectory(treeimportzeug)
 add_subdirectory(signalzeug)

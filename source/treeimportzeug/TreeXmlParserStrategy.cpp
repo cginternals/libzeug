@@ -1,6 +1,6 @@
-#include <import/TreeXmlParserStrategy.h>
+#include <TreeXmlParserStrategy.h>
 
-#include <import/TreeXmlParser.h>
+#include <TreeXmlParser.h>
 
 TreeXmlParserStrategy::TreeXmlParserStrategy(TreeXmlParser& parser)
 : _parser(parser)
