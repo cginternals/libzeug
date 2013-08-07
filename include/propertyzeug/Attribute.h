@@ -8,6 +8,9 @@
 #include <propertyzeug/propertyzeug.h>
 
 
+namespace propertyzeug {
+
+
 /**
 *  @brief
 *    Empty class to implement file name attributes
@@ -428,3 +431,6 @@ class Attribute<Texture> : public AttributeBase {
     private:
         QStringList m_files;
 };
+
+
+} // namespace

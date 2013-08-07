@@ -4,6 +4,9 @@
 #include <treezeug/treezeug.h>
 
 
+namespace treezeug {
+
+
 /**
 *  @brief
 *    Tree class
@@ -17,3 +20,6 @@ TREEZEUG_API class Tree {
 
 
 };
+
+
+} // namespace

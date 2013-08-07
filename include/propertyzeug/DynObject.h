@@ -7,6 +7,9 @@
 #include <propertyzeug/Attribute.h>
 
 
+namespace propertyzeug {
+
+
 /**
 *  @brief
 *    Object with dynamic attributes
@@ -246,3 +249,6 @@ class DynObject : public QObject
 
 
 };
+
+
+} // namespace

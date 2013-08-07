@@ -1,6 +1,9 @@
 #include <propertyzeug/DynObject.h>
 
 
+namespace propertyzeug {
+
+
 /**
 *  @brief
 *    Constructor
@@ -61,3 +64,6 @@ void DynObject::clearChildObjects()
     // Remove child objects
     m_childObjects.clear();
 }
+
+
+} // namespace
