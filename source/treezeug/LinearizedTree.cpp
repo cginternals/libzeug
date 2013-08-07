@@ -24,6 +24,8 @@ const Tree* LinearizedTree::tree() const
 void LinearizedTree::setTree(const Tree* tree)
 {
 	_tree = tree;
+
+	changed.fire();
 }
 
 void LinearizedTree::setAlgorithm(Algorithm strategy)
@@ -31,9 +33,14 @@ void LinearizedTree::setAlgorithm(Algorithm strategy)
 	_strategy = strategy;
 }
 
-int LinearizedTree::size() const
+unsigned LinearizedTree::size() const
 {
 	return _tree ? _tree->size() : 0;
+}
+
+int LinearizedTree::maxId() const
+{
+	return _tree ? _tree->maxId() : 0;
 }
 
 const Node* LinearizedTree::root() const
@@ -74,11 +81,11 @@ std::vector<std::pair<int, int>> LinearizedTree::createTreeLayerRanges() const
 	}
 
 	std::vector<std::pair<int, int>> ranges(_treeDepthTresholds.size()-1);
-	
+
 	treeLayerRangesDo([&ranges](int start, int end) {
 		ranges.push_back(std::make_pair(start, end));
 	});
-	
+
 	return ranges;
 }
 

@@ -7,6 +7,8 @@
 #include <utility>
 #include <functional>
 
+#include <Signal.hpp>
+
 class LinearizedTree
 {
 public:
@@ -28,7 +30,8 @@ public:
 
 	void setAlgorithm(Algorithm strategy);
 
-	int size() const;
+	unsigned size() const;
+	int maxId() const;
 	const Node* root() const;
 
 	int indexOf(const Node* node) const;
@@ -38,6 +41,8 @@ public:
 	const std::vector<const Node*>& asVector() const;
 	std::vector<std::pair<int, int>> createTreeLayerRanges() const;
 	void treeLayerRangesDo(std::function<void(int, int)> callback) const;
+
+	Signal<> changed;
 protected:
 	const Tree* _tree;
 	Algorithm _strategy;

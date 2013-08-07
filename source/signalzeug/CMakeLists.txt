@@ -1,63 +1,43 @@
 # Target
-set(target treezeug)
+set(target signalzeug)
 message(STATUS "lib ${target}")
 
 # Find externals
-find_package(Qt5Core)
-set(CMAKE_AUTOMOC ON)
 
 # Include directories
 include_directories(
     ${CMAKE_CURRENT_BINARY_DIR}/../../  # for Meta.h
     ${CMAKE_CURRENT_SOURCE_DIR}/../../include
-    ${CMAKE_CURRENT_SOURCE_DIR}/../../include/signalzeug
-    ${CMAKE_CURRENT_SOURCE_DIR}/../../include/treezeug)
+    ${CMAKE_CURRENT_SOURCE_DIR}/../../include/signalzeug)
 
 # Libraries
 set(libs
 )
 
 # Definitions
-add_definitions("-DTREEZEUG_EXPORTS")
+add_definitions("-DSIGNALZEUG_EXPORTS")
 
 # Sources
-set(header_path "${CMAKE_CURRENT_SOURCE_DIR}/../../include/treezeug")
+set(header_path "${CMAKE_CURRENT_SOURCE_DIR}/../../include/signalzeug")
 set(source_path "${CMAKE_CURRENT_SOURCE_DIR}")
 
 set(headers
-    ${header_path}/treezeug.h
-    ${header_path}/Attribute.h
-    ${header_path}/AttributeMap.h
-    ${header_path}/LinearizedTree.h
-    ${header_path}/Tree.h
-    
-    ${header_path}/import/CityGMLStrategy.h
-    ${header_path}/import/SoftwareSystemStrategy.h
-    ${header_path}/import/TreeStrategy.h
-    ${header_path}/import/TreeXmlParser.h
-    ${header_path}/import/TreeXmlParserStrategy.h
+    ${header_path}/signalzeug.h
+    ${header_path}/AbstractSignal.h
+    ${header_path}/Signal.hpp
 )
 
 set(sources
-    ${source_path}/Attribute.cpp
-    ${source_path}/AttributeMap.cpp
-    ${source_path}/LinearizedTree.cpp
-    ${source_path}/Tree.cpp
-    
-    ${source_path}/import/CityGMLStrategy.cpp
-    ${source_path}/import/SoftwareSystemStrategy.cpp
-    ${source_path}/import/TreeStrategy.cpp
-    ${source_path}/import/TreeXmlParser.cpp
-    ${source_path}/import/TreeXmlParserStrategy.cpp
+    ${source_path}/AbstractSignal.cpp
 )
 
 # Group source files
-set(treezeug_header_group "Header Files (API)")
-set(treezeug_source_group "Source Files")
+set(signalzeug_header_group "Header Files (API)")
+set(signalzeug_source_group "Source Files")
 source_group_by_path(${header_path} "\\\\.h$|\\\\.hpp$" 
-    ${treezeug_header_group} ${headers})
+    ${signalzeug_header_group} ${headers})
 source_group_by_path(${source_path} "\\\\.cpp$|\\\\.c$|\\\\.h$|\\\\.hpp$" 
-    ${treezeug_source_group} ${sources})
+    ${signalzeug_source_group} ${sources})
 
 # Build library
 if(OPTION_BUILD_STATIC)
@@ -66,7 +46,6 @@ else()
     add_library(${target} SHARED ${headers} ${sources})
 endif()
 target_link_libraries(${target} ${libs})
-qt5_use_modules(${target} Core Xml)
 set_target_properties(${target}
     PROPERTIES
     LINKER_LANGUAGE CXX
