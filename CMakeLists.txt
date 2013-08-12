@@ -27,7 +27,7 @@ option(OPTION_BUILD_EXAMPLES "Build examples" ON)
 ##
 ## CMake configuration
 ##
-
+set(LIBZEUG_INCLUDE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/include)
 set(LIBZEUG_SOURCE_DIR ${CMAKE_CURRENT_SOURCE_DIR})
 
 # Include cmake modules from ./cmake
@@ -174,6 +174,9 @@ file(WRITE ${CMAKE_BINARY_DIR}/revision ${GIT_REV})
 
 # Generate meta-header
 configure_file(${CMAKE_CURRENT_SOURCE_DIR}/source/meta.h.in ${CMAKE_CURRENT_BINARY_DIR}/meta.h)
+
+# Qt 5 Dependencies
+find_package(Qt5Core)
 
 ##
 ## libzeug libraries

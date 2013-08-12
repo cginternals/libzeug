@@ -6,8 +6,8 @@ set(target propertyexample)
 
 # Include directories
 include_directories(
-	include
-  ${LIBZEUG_INCLUDE_DIR}
+	${LIBZEUG_INCLUDE_DIR}
+  include
 )
 
 # Libraries
@@ -38,6 +38,7 @@ source_group_by_path(${source_path} "\\\\.cpp$|\\\\.c$|\\\\.h$|\\\\.hpp$"
 # Build executable
 add_executable(${target} ${headers} ${sources})
 target_link_libraries(${target} ${libs})
+qt5_use_modules(${target} Core)
 
 # Deployment
 install(TARGETS ${target}

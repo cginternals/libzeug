@@ -2,8 +2,7 @@
 set(target propertyzeug)
 message(STATUS "lib ${target}")
 
-# Find externals
-find_package(Qt5Core)
+# Qt 5 Dependencies
 set(CMAKE_AUTOMOC ON)
 
 # Include directories
