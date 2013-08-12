@@ -18,7 +18,7 @@ set(libs
 add_definitions("-DSIGNALZEUG_EXPORTS")
 
 # Sources
-set(header_path "${CMAKE_CURRENT_SOURCE_DIR}/../../include/signalzeug")
+set(header_path "${LIBZEUG_SOURCE_DIR}/include/signalzeug")
 set(source_path "${CMAKE_CURRENT_SOURCE_DIR}")
 
 set(headers
