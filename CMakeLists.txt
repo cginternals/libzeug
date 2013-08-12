@@ -181,6 +181,14 @@ configure_file(${CMAKE_CURRENT_SOURCE_DIR}/source/meta.h.in ${CMAKE_CURRENT_BINA
 
 add_subdirectory(source)
 
+##
+## libzeug examples
+##
+
+if(OPTION_BUILD_EXAMPLES)
+    add_subdirectory(examples)
+endif()
+
 
 ##
 ## Packaging
