@@ -23,14 +23,20 @@ const Tree* LinearizedTree::tree() const
 
 void LinearizedTree::setTree(const Tree* tree)
 {
+	if (_tree == tree) return;
+
 	_tree = tree;
 
-	changed.fire();
+	treeChanged();
+	changed();
 }
 
 void LinearizedTree::setAlgorithm(Algorithm strategy)
 {
+	if (_strategy == strategy) return;
+
 	_strategy = strategy;
+	changed();
 }
 
 unsigned LinearizedTree::size() const

@@ -14,6 +14,7 @@ public:
 	Signal();
 
 	void fire(Arguments... arguments);
+	void operator()(Arguments... arguments);
 
 	ConnectionHandle connect(Callback callback) const;
 	template <class T>
@@ -38,6 +39,12 @@ void Signal<Arguments...>::fire(Arguments... arguments)
 		Callback callback = pair.second;
 		callback(arguments...);
 	}
+}
+
+template <typename... Arguments>
+void Signal<Arguments...>::operator()(Arguments... arguments)
+{
+	fire(arguments...);
 }
 
 template <typename... Arguments>
