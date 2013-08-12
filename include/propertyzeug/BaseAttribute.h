@@ -11,6 +11,8 @@ template <typename Type>
 class PROPERTYZEUG_API BaseAttribute : public AbstractAttribute
 {
 public:
+    enum Events { kTitleChanged, kValueChanged };
+    
     BaseAttribute(std::string name, std::string title, Type value);
     BaseAttribute(std::string name, std::string title, 
         std::function<Type()> getter, std::function<void(Type &)> setter);
@@ -18,7 +20,7 @@ public:
 
     Type value() const;
     void setValue(Type value);
-private:
+protected:
     ValueInterface<Type> * m_value;
 };
 
@@ -54,6 +56,7 @@ template <typename Type>
 void BaseAttribute<Type>::setValue(Type value)
 {
     m_value->set(value);
+    m_announcer->notify(kValueChanged);
 }
 
 } // namespace

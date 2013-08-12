@@ -14,7 +14,7 @@ public:
 
     virtual Type get() const;
     virtual void set(Type value);
-private:
+protected:
     Type m_value;
 };
 

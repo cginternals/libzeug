@@ -15,7 +15,7 @@ public:
 
     virtual Type get() const;
     virtual void set(Type value);
-private:
+protected:
     std::function<Type()> m_getter;
     std::function<void(Type &)> m_setter;
 };

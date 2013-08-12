@@ -23,12 +23,13 @@ set(source_path "${CMAKE_CURRENT_SOURCE_DIR}")
 
 set(headers
     ${header_path}/propertyzeug.h
-    ${header_path}/Attribute.h
-    ${header_path}/DynObject.h
+    # ${header_path}/Attribute.h
+    # ${header_path}/DynObject.h
 
     ${header_path}/AbstractAttribute.h
     ${header_path}/Announcer.h
 
+    ${header_path}/Attribute.h
     ${header_path}/BaseAttribute.h
     ${header_path}/ValueInterface.h
     ${header_path}/StoredValue.h
@@ -36,7 +37,7 @@ set(headers
 )
 
 set(sources
-    ${source_path}/DynObject.cpp
+    # ${source_path}/DynObject.cpp
 
     ${source_path}/AbstractAttribute.cpp
     ${source_path}/Announcer.cpp
