@@ -19,7 +19,7 @@ set(libs
 add_definitions("-DTREEZEUG_EXPORTS")
 
 # Sources
-set(header_path "${CMAKE_CURRENT_SOURCE_DIR}/../../include/treezeug")
+set(header_path "${LIBZEUG_SOURCE_DIR}/include/treezeug")
 set(source_path "${CMAKE_CURRENT_SOURCE_DIR}")
 
 set(headers

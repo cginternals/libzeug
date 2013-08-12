@@ -19,7 +19,7 @@ set(libs
 add_definitions("-DPROPERTYZEUG_EXPORTS")
 
 # Sources
-set(header_path "${CMAKE_SOURCE_DIR}/include/propertyzeug")
+set(header_path "${LIBZEUG_SOURCE_DIR}/include/propertyzeug")
 set(source_path "${CMAKE_CURRENT_SOURCE_DIR}")
 
 set(headers

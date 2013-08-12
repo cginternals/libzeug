@@ -21,7 +21,7 @@ set(libs
 add_definitions("-Dtreeimportzeug_EXPORTS")
 
 # Sources
-set(header_path "${CMAKE_CURRENT_SOURCE_DIR}/../../include/treeimportzeug")
+set(header_path "${LIBZEUG_SOURCE_DIR}/include/treeimportzeug")
 set(source_path "${CMAKE_CURRENT_SOURCE_DIR}")
 
 set(headers
