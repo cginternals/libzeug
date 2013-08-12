@@ -28,6 +28,11 @@ set(headers
 
     ${header_path}/AbstractAttribute.h
     ${header_path}/Announcer.h
+
+    ${header_path}/BaseAttribute.h
+    ${header_path}/ValueInterface.h
+    ${header_path}/StoredValue.h
+    ${header_path}/AccessorValue.h
 )
 
 set(sources

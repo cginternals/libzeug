@@ -9,7 +9,8 @@ namespace propertyzeug {
     
 class AbstractAttribute;
 
-class PROPERTYZEUG_API Announcer {
+class PROPERTYZEUG_API Announcer 
+{
 public:
     Announcer(AbstractAttribute * attribute);
     virtual ~Announcer();
@@ -29,6 +30,11 @@ protected:
 };
 
 template <typename Object>
-void subscribe(int event, Object * object, void (Object::*method_pointer)(AbstractAttribute &));
+void Announcer::subscribe(int event, Object * object, void (Object::*method_pointer)(AbstractAttribute &))
+{
+    this->subscribe(event, [object, method_pointer] (AbstractAttribute & attribute) {
+        (object->*method_pointer)(attribute);
+    });
+}
 
 } // namespace

@@ -5,7 +5,7 @@
 #include <string>
 #include <iostream>
 #include <propertyzeug/propertyzeug.h>
-#include "announcer.h"
+#include "Announcer.h"
 
 namespace propertyzeug {
     
