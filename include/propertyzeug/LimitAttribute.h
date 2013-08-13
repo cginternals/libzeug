@@ -26,12 +26,12 @@ public:
                   void (Object::*setter_pointer)(Type));
     
     const Type & minimum() const;
-    void setMinimum(const Type & minimum) const;
+    void setMinimum(const Type & minimum);
 
     const Type & maximum() const;
-    void setMaximum(const Type & maximum) const;
+    void setMaximum(const Type & maximum);
     
-private:
+protected:
     Type m_min;
     Type m_max;
 };
@@ -83,7 +83,7 @@ const Type & LimitAttribute<Type>::minimum() const
 }
 
 template <typename Type>
-void LimitAttribute<Type>::setMinimum(const Type & minimum) const
+void LimitAttribute<Type>::setMinimum(const Type & minimum)
 {
     m_min = minimum;
 }
@@ -96,7 +96,7 @@ const Type & LimitAttribute<Type>::maximum() const
 }
 
 template <typename Type>
-void LimitAttribute<Type>::setMaximum(const Type & maximum) const
+void LimitAttribute<Type>::setMaximum(const Type & maximum)
 {
     m_max = maximum;
 }
