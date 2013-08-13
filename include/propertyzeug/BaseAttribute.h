@@ -12,6 +12,7 @@ class PROPERTYZEUG_API BaseAttribute : public AbstractAttribute
 {
 public:
     BaseAttribute(const std::string & name, const std::string & title, const Type & value);
+    
     BaseAttribute(const std::string & name, const std::string & title, 
                   const std::function<const Type & ()> & getter,
                   const std::function<void(const Type &)> & setter);

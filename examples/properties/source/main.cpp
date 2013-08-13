@@ -44,5 +44,11 @@ int main(int argc, char const *argv[])
     
     std::cout << object.appleCount() << std::endl;
     
+    std::cout << "==========" << std::endl;
+    
+    StringAttribute stringAttr("string", "String", "hallo Welt!");
+    
+    stringAttr.setChoices({"eins", "zwei", "drei"});
+    
     return 0;
 }

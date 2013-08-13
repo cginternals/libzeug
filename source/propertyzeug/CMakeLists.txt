@@ -32,6 +32,7 @@ set(headers
 
     ${header_path}/BaseAttribute.h
     ${header_path}/LimitAttribute.h
+    ${header_path}/StringAttribute.h
     ${header_path}/Attribute.h
 
     ${header_path}/AbstractValue.h
@@ -44,6 +45,7 @@ set(sources
 
     ${source_path}/AbstractAttribute.cpp
     ${source_path}/Announcer.cpp
+    ${source_path}/StringAttribute.cpp
 )
 
 # Group source files

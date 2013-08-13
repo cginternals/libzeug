@@ -4,6 +4,7 @@
 #include <propertyzeug/propertyzeug.h>
 #include "BaseAttribute.h"
 #include "LimitAttribute.h"
+#include "StringAttribute.h"
 
 namespace propertyzeug {
 
