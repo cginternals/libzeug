@@ -37,6 +37,8 @@ public:
 	const std::vector<std::string>& attributes() const;
 
 	unsigned depth() const;
+	
+	Tree* copy() const;
 protected:
 	Node* _root;
 	std::unordered_map<int, Node*> _idMap;

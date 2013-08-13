@@ -2,6 +2,7 @@
 
 #include <QString>
 #include <QSqlDatabase>
+#include <QList>
 
 #include <Tree.h>
 
@@ -13,11 +14,13 @@ public:
 	TreeSqliteParser(const QString& filename);
 	
 	static Tree* createTreeFromDatabase(const QString& filename);
+	static QList<Tree*> createTreesFromDatabase(const QString& filename);
 	
 	Tree* tree();
+	QList<Tree*>& trees();
 	QSqlDatabase& database();
 protected:
-	Tree* _tree;
+	QList<Tree*> _trees;
 	TreeSqliteParserStrategy* _strategy;
 	QSqlDatabase _database;
 };

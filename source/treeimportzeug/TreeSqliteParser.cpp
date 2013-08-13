@@ -5,8 +5,7 @@
 #include <QDebug>
 
 TreeSqliteParser::TreeSqliteParser(const QString& filename)
-: _tree(nullptr)
-, _strategy(nullptr)
+: _strategy(nullptr)
 {
 	if (QSqlDatabase::contains(filename))
 	{
@@ -26,10 +25,9 @@ Tree* TreeSqliteParser::createTreeFromDatabase(const QString& filename)
 	
 	if (parser.database().open())
 	{
-		parser._tree = new Tree();
 		parser._strategy = new SDStrategy(parser);
 		
-		parser._strategy->process();
+		parser._strategy->processOne();
 	}
 	else
 	{
@@ -41,9 +39,34 @@ Tree* TreeSqliteParser::createTreeFromDatabase(const QString& filename)
 	return parser.tree();
 }
 
+QList<Tree*> TreeSqliteParser::createTreesFromDatabase(const QString& filename)
+{
+	TreeSqliteParser parser(filename);
+	
+	if (parser.database().open())
+	{
+		parser._strategy = new SDStrategy(parser);
+		
+		parser._strategy->processMultiple();
+	}
+	else
+	{
+		qDebug() << "Couldn't open database";
+		
+		return QList<Tree*>();
+	}
+	
+	return parser.trees();
+}
+
 Tree* TreeSqliteParser::tree()
 {
-	return _tree;
+	return _trees.first();
+}
+
+QList<Tree*>& TreeSqliteParser::trees()
+{
+	return _trees;
 }
 
 QSqlDatabase& TreeSqliteParser::database()

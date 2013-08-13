@@ -22,6 +22,12 @@ Tree::~Tree()
 	}
 }
 
+Tree* Tree::copy() const
+{
+	// TODO: implement
+	return nullptr;
+}
+
 Node* Tree::root()
 {
 	return _root;
