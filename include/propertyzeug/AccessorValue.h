@@ -13,6 +13,11 @@ class PROPERTYZEUG_API AccessorValue : public ValueInterface<Type>
 {
 public:
     AccessorValue(std::function<const Type & ()> getter, std::function<void(const Type &)> setter);
+    
+    template <class Object>
+    AccessorValue(Object & object, const Type & (Object::*getter_pointer)() const,
+        void (Object::*setter_pointer)(const Type &));
+    
     virtual ~AccessorValue();
 
     virtual const Type & get() const;
@@ -28,6 +33,21 @@ AccessorValue<Type>::AccessorValue(std::function<const Type & ()> getter, std::f
 ,   m_setter(setter)
 {   
 }
+    
+template <typename Type>
+template <class Object>
+AccessorValue<Type>::AccessorValue(Object & object, const Type & (Object::*getter_pointer)() const,
+    void (Object::*setter_pointer)(const Type &))
+{
+    m_getter = [&object, getter_pointer] () -> const Type & {
+        return (object.*getter_pointer)();
+    };
+    
+    m_setter = [&object, setter_pointer] (const Type & value) {
+        (object.*setter_pointer)(value);
+    };
+}
+    
 
 template <typename Type>
 AccessorValue<Type>::~AccessorValue()
