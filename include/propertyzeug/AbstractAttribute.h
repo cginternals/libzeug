@@ -30,7 +30,7 @@ public:
 
     template <typename Object>
     void subscribe(int event, Object * object,
-        void (Object::*method_pointer)(AbstractAttribute &));
+                   void (Object::*method_pointer)(AbstractAttribute &));
 
     void subscribe(int event, std::function<void(AbstractAttribute &)> functor);
 

@@ -15,12 +15,13 @@ public:
     
     BaseAttribute(const std::string & name, const std::string & title, const Type & value);
     BaseAttribute(const std::string & name, const std::string & title, 
-        const std::function<const Type & ()> & getter, const std::function<void(const Type &)> & setter);
+                  const std::function<const Type & ()> & getter,
+                  const std::function<void(const Type &)> & setter);
     
     template <class Object>
     BaseAttribute(const std::string & name, const std::string & title,
-        Object & object, const Type & (Object::*getter_pointer)() const,
-        void (Object::*setter_pointer)(const Type &));
+                  Object & object, const Type & (Object::*getter_pointer)() const,
+                  void (Object::*setter_pointer)(const Type &));
 
     virtual ~BaseAttribute();
 
@@ -31,8 +32,8 @@ protected:
 };
 
 template <typename Type>
-BaseAttribute<Type>::BaseAttribute(const std::string & name, 
-    const std::string & title, const Type & value)
+BaseAttribute<Type>::BaseAttribute(const std::string & name, const std::string & title,
+    const Type & value)
 :   AbstractAttribute(name, title)
 ,   m_value(new StoredValue<Type>(value))
 {
@@ -40,7 +41,8 @@ BaseAttribute<Type>::BaseAttribute(const std::string & name,
 
 template <typename Type>
 BaseAttribute<Type>::BaseAttribute(const std::string & name, const std::string & title, 
-        const std::function<const Type & ()> & getter, const std::function<void(const Type &)> & setter)
+    const std::function<const Type & ()> & getter,
+    const std::function<void(const Type &)> & setter)
 :   AbstractAttribute(name, title)
 ,   m_value(new AccessorValue<Type>(getter, setter))
 {

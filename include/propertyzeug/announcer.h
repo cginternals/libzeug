@@ -17,7 +17,7 @@ public:
 
     template <typename Object>
     void subscribe(int event, Object * object,
-        void (Object::*method_pointer)(AbstractAttribute &));
+                   void (Object::*method_pointer)(AbstractAttribute &));
 
     void subscribe(int event, std::function<void(AbstractAttribute &)> functor);
     void notify(int event);
@@ -30,7 +30,8 @@ protected:
 };
 
 template <typename Object>
-void Announcer::subscribe(int event, Object * object, void (Object::*method_pointer)(AbstractAttribute &))
+void Announcer::subscribe(int event, Object * object,
+    void (Object::*method_pointer)(AbstractAttribute &))
 {
     this->subscribe(event, [object, method_pointer] (AbstractAttribute & attribute) {
         (object->*method_pointer)(attribute);
