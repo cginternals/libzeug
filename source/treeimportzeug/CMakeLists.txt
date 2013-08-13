@@ -4,6 +4,9 @@ message(STATUS "lib ${target}")
 
 # Find externals
 find_package(Qt5Core)
+find_package(Qt5Sql)
+find_package(Qt5Xml)
+
 set(CMAKE_AUTOMOC ON)
 
 # Include directories
@@ -26,7 +29,10 @@ set(source_path "${CMAKE_CURRENT_SOURCE_DIR}")
 
 set(headers
     ${header_path}/CityGMLStrategy.h
+    ${header_path}/SDStrategy.h
     ${header_path}/SoftwareSystemStrategy.h
+    ${header_path}/TreeSqliteParser.h
+    ${header_path}/TreeSqliteParserStrategy.h
     ${header_path}/TreeStrategy.h
     ${header_path}/TreeXmlParser.h
     ${header_path}/TreeXmlParserStrategy.h
@@ -34,7 +40,10 @@ set(headers
 
 set(sources
     ${source_path}/CityGMLStrategy.cpp
+    ${source_path}/SDStrategy.cpp
     ${source_path}/SoftwareSystemStrategy.cpp
+    ${source_path}/TreeSqliteParser.cpp
+    ${source_path}/TreeSqliteParserStrategy.cpp
     ${source_path}/TreeStrategy.cpp
     ${source_path}/TreeXmlParser.cpp
     ${source_path}/TreeXmlParserStrategy.cpp
@@ -55,7 +64,7 @@ else()
     add_library(${target} SHARED ${headers} ${sources})
 endif()
 target_link_libraries(${target} ${libs})
-qt5_use_modules(${target} Core Xml)
+qt5_use_modules(${target} Core Xml Sql)
 set_target_properties(${target}
     PROPERTIES
     LINKER_LANGUAGE CXX
