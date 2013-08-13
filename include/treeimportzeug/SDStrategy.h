@@ -6,7 +6,6 @@
 
 #include <QHash>
 #include <QString>
-#include <QVariantMap>
 
 class SDStrategy : public TreeSqliteParserStrategy
 {
@@ -29,6 +28,4 @@ protected:
 	void addMetricsForOneTimestamp();
 	void addMetricsForAllTimestamps();
 	void transferTrees();
-private:
-	QList<QVariantMap> executeQuery(const QString& statement) const;
 };

@@ -1,8 +1,10 @@
 #include <TreeSqliteParser.h>
 
 #include <SDStrategy.h>
+#include <ChangesStrategy.h>
 
 #include <QDebug>
+#include <QSqlRecord>
 
 TreeSqliteParser::TreeSqliteParser(const QString& filename)
 : _strategy(nullptr)
@@ -25,7 +27,14 @@ Tree* TreeSqliteParser::createTreeFromDatabase(const QString& filename)
 	
 	if (parser.database().open())
 	{
-		parser._strategy = new SDStrategy(parser);
+		if (parser.database().record("nodes").isEmpty())
+		{
+			parser._strategy = new SDStrategy(parser);
+		}
+		else
+		{
+			parser._strategy = new ChangesStrategy(parser);
+		}
 		
 		parser._strategy->processOne();
 	}
@@ -45,7 +54,14 @@ QList<Tree*> TreeSqliteParser::createTreesFromDatabase(const QString& filename)
 	
 	if (parser.database().open())
 	{
-		parser._strategy = new SDStrategy(parser);
+		if (parser.database().record("nodes").isEmpty())
+		{
+			parser._strategy = new SDStrategy(parser);
+		}
+		else
+		{
+			parser._strategy = new ChangesStrategy(parser);
+		}
 		
 		parser._strategy->processMultiple();
 	}

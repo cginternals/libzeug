@@ -28,6 +28,7 @@ set(header_path "${LIBZEUG_SOURCE_DIR}/include/treeimportzeug")
 set(source_path "${CMAKE_CURRENT_SOURCE_DIR}")
 
 set(headers
+    ${header_path}/ChangesStrategy.h
     ${header_path}/CityGMLStrategy.h
     ${header_path}/SDStrategy.h
     ${header_path}/SoftwareSystemStrategy.h
@@ -39,6 +40,7 @@ set(headers
 )
 
 set(sources
+    ${source_path}/ChangesStrategy.cpp
     ${source_path}/CityGMLStrategy.cpp
     ${source_path}/SDStrategy.cpp
     ${source_path}/SoftwareSystemStrategy.cpp

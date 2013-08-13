@@ -1,5 +1,9 @@
 #pragma once
 
+#include <QList>
+#include <QString>
+#include <QVariantMap>
+
 class TreeSqliteParser;
 
 class TreeSqliteParserStrategy
@@ -11,4 +15,6 @@ public:
 	virtual void processMultiple() = 0;
 protected:
 	TreeSqliteParser& _parser;
+	
+	QList<QVariantMap> executeQuery(const QString& statement) const;
 };
