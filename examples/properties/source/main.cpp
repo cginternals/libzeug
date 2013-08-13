@@ -33,7 +33,10 @@ int main(int argc, char const *argv[])
     
     DynamicObject object;
 
-    BaseAttribute<int> apple_count("apple_count", "Apple Count", object, &DynamicObject::appleCount, &DynamicObject::setAppleCount);
+    LimitAttribute<int> apple_count("apple_count", "Apple Count", object, &DynamicObject::appleCount, &DynamicObject::setAppleCount);
+    
+    apple_count.setMinimum(0);
+    apple_count.setMaximum(12);
     
     std::cout << object.appleCount() << std::endl;
     
