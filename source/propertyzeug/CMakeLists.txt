@@ -31,7 +31,7 @@ set(headers
 
     ${header_path}/Attribute.h
     ${header_path}/BaseAttribute.h
-    ${header_path}/ValueInterface.h
+    ${header_path}/AbstractValue.h
     ${header_path}/StoredValue.h
     ${header_path}/AccessorValue.h
 )

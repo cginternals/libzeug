@@ -1,12 +1,12 @@
 
 #pragma once
 
-#include "ValueInterface.h"
+#include "AbstractValue.h"
 
 namespace propertyzeug {
 
 template <typename Type>
-class PROPERTYZEUG_API StoredValue : public ValueInterface<Type>
+class PROPERTYZEUG_API StoredValue : public AbstractValue<Type>
 {
 public:
     StoredValue(Type value);

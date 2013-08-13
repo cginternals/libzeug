@@ -34,7 +34,7 @@ public:
     const Type & value() const;
     void setValue(const Type & value);
 protected:
-    ValueInterface<Type> * m_value;
+    AbstractValue<Type> * m_value;
 };
 
 template <typename Type>

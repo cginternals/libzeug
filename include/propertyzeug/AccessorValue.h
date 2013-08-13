@@ -2,14 +2,14 @@
 #pragma once
 
 #include <functional>
-#include "ValueInterface.h"
+#include "AbstractValue.h"
 
 namespace propertyzeug {
 
 // TODO Implement method pointer option
     
 template <typename Type>
-class PROPERTYZEUG_API AccessorValue : public ValueInterface<Type>
+class PROPERTYZEUG_API AccessorValue : public AbstractValue<Type>
 {
 public:
     AccessorValue(std::function<const Type & ()> getter,

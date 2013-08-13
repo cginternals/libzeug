@@ -6,7 +6,7 @@
 namespace propertyzeug {
 
 template <typename Type>
-class PROPERTYZEUG_API ValueInterface
+class PROPERTYZEUG_API AbstractValue
 {
 public:
     virtual const Type & get() const = 0;
