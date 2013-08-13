@@ -1,5 +1,6 @@
 #include <iostream>
 #include <propertyzeug/Attribute.h>
+#include "DynamicObject.h"
 
 using namespace propertyzeug;
 
@@ -28,7 +29,17 @@ int main(int argc, char const *argv[])
     apple.setTitle("Appoel");
     
     Attribute<int> * banana = new Attribute<int>("banana", "Banana", 5);
-    std::cout << banana->value();
+    std::cout << banana->value() << std::endl;
+    
+    DynamicObject object;
+
+    BaseAttribute<int> apple_count("apple_count", "Apple Count", object, &DynamicObject::appleCount, &DynamicObject::setAppleCount);
+    
+    std::cout << object.appleCount() << std::endl;
+    
+    apple_count.setValue(5);
+    
+    std::cout << object.appleCount() << std::endl;
     
     return 0;
 }

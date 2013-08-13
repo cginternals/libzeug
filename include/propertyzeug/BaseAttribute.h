@@ -16,6 +16,12 @@ public:
     BaseAttribute(const std::string & name, const std::string & title, const Type & value);
     BaseAttribute(const std::string & name, const std::string & title, 
         const std::function<const Type & ()> & getter, const std::function<void(const Type &)> & setter);
+    
+    template <class Object>
+    BaseAttribute(const std::string & name, const std::string & title,
+        Object & object, const Type & (Object::*getter_pointer)() const,
+        void (Object::*setter_pointer)(const Type &));
+
     virtual ~BaseAttribute();
 
     const Type & value() const;
@@ -37,6 +43,16 @@ BaseAttribute<Type>::BaseAttribute(const std::string & name, const std::string &
         const std::function<const Type & ()> & getter, const std::function<void(const Type &)> & setter)
 :   AbstractAttribute(name, title)
 ,   m_value(new AccessorValue<Type>(getter, setter))
+{
+}
+
+template <typename Type>
+template <class Object>
+BaseAttribute<Type>::BaseAttribute(const std::string & name, const std::string & title,
+    Object & object, const Type & (Object::*getter_pointer)() const,
+    void (Object::*setter_pointer)(const Type &))
+:   AbstractAttribute(name, title)
+,   m_value(new AccessorValue<Type>(object, getter_pointer, setter_pointer))
 {
 }
 
