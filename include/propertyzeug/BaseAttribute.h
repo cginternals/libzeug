@@ -27,8 +27,7 @@ public:
     BaseAttribute(const std::string & name, const std::string & title,
                   Object & object, Type (Object::*getter_pointer)() const,
                   void (Object::*setter_pointer)(Type));
-
-
+    
     virtual ~BaseAttribute();
 
     const Type & value() const;

@@ -9,8 +9,6 @@ public:
     const int & appleCount() const;
     void setAppleCount(const int & count);
     
-    
-
 private:
     int m_apple_count;
 };
