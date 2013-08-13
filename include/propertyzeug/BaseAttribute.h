@@ -22,6 +22,12 @@ public:
     BaseAttribute(const std::string & name, const std::string & title,
                   Object & object, const Type & (Object::*getter_pointer)() const,
                   void (Object::*setter_pointer)(const Type &));
+    
+    template <class Object>
+    BaseAttribute(const std::string & name, const std::string & title,
+                  Object & object, Type (Object::*getter_pointer)() const,
+                  void (Object::*setter_pointer)(Type));
+
 
     virtual ~BaseAttribute();
 
@@ -53,6 +59,16 @@ template <class Object>
 BaseAttribute<Type>::BaseAttribute(const std::string & name, const std::string & title,
     Object & object, const Type & (Object::*getter_pointer)() const,
     void (Object::*setter_pointer)(const Type &))
+:   AbstractAttribute(name, title)
+,   m_value(new AccessorValue<Type>(object, getter_pointer, setter_pointer))
+{
+}
+    
+template <typename Type>
+template <class Object>
+BaseAttribute<Type>::BaseAttribute(const std::string & name, const std::string & title,
+    Object & object, Type (Object::*getter_pointer)() const,
+    void (Object::*setter_pointer)(Type))
 :   AbstractAttribute(name, title)
 ,   m_value(new AccessorValue<Type>(object, getter_pointer, setter_pointer))
 {

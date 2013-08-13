@@ -20,6 +20,12 @@ public:
                   const Type & (Object::*getter_pointer)() const,
                   void (Object::*setter_pointer)(const Type &));
     
+    template <class Object>
+    AccessorValue(Object & object,
+                  Type (Object::*getter_pointer)() const,
+                  void (Object::*setter_pointer)(Type));
+
+    
     virtual ~AccessorValue();
 
     virtual const Type & get() const;
@@ -42,6 +48,21 @@ template <class Object>
 AccessorValue<Type>::AccessorValue(Object & object,
     const Type & (Object::*getter_pointer)() const,
     void (Object::*setter_pointer)(const Type &))
+{
+    m_getter = [&object, getter_pointer] () -> const Type & {
+        return (object.*getter_pointer)();
+    };
+    
+    m_setter = [&object, setter_pointer] (const Type & value) {
+        (object.*setter_pointer)(value);
+    };
+}
+    
+template <typename Type>
+template <class Object>
+AccessorValue<Type>::AccessorValue(Object & object,
+    Type (Object::*getter_pointer)() const,
+    void (Object::*setter_pointer)(Type))
 {
     m_getter = [&object, getter_pointer] () -> const Type & {
         return (object.*getter_pointer)();
