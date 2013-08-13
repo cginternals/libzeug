@@ -86,6 +86,7 @@ template <typename Type>
 void LimitAttribute<Type>::setMinimum(const Type & minimum)
 {
     m_min = minimum;
+    this->m_announcer->notify(kLimitsChanged);
 }
 
 
@@ -99,6 +100,7 @@ template <typename Type>
 void LimitAttribute<Type>::setMaximum(const Type & maximum)
 {
     m_max = maximum;
+    this->m_announcer->notify(kLimitsChanged);
 }
 
 } // namespace
