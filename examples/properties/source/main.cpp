@@ -22,7 +22,7 @@ int main(int argc, char const *argv[])
     delete attr2;
     
     BaseAttribute<int> apple("apple", "Apple", 4);
-    apple.subscribe(BaseAttribute<int>::kTitleChanged, [](AbstractAttribute &) {
+    apple.subscribe(propertyzeug::kTitleChanged, [](AbstractAttribute &) {
         std::cout << "Title changed!" << std::endl;
     });
     
