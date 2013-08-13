@@ -4,6 +4,7 @@
 #include <forward_list>
 #include <unordered_map>
 #include <propertyzeug/propertyzeug.h>
+#include "Events.h"
 
 namespace propertyzeug {
     

@@ -14,8 +14,6 @@ class Announcer;
 class PROPERTYZEUG_API AbstractAttribute 
 {
 public:
-    enum Events { kTitleChanged };
-    
     AbstractAttribute(std::string name, std::string title);
     virtual ~AbstractAttribute();
 

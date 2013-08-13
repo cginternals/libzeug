@@ -26,9 +26,10 @@ set(headers
     # ${header_path}/Attribute.h
     # ${header_path}/DynObject.h
 
+    ${header_path}/Events.h
     ${header_path}/Announcer.h
-
     ${header_path}/AbstractAttribute.h
+
     ${header_path}/BaseAttribute.h
     ${header_path}/LimitAttribute.h
     ${header_path}/Attribute.h

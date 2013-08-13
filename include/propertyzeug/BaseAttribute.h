@@ -11,8 +11,6 @@ template <typename Type>
 class PROPERTYZEUG_API BaseAttribute : public AbstractAttribute
 {
 public:
-    enum Events { kTitleChanged, kValueChanged };
-    
     BaseAttribute(const std::string & name, const std::string & title, const Type & value);
     BaseAttribute(const std::string & name, const std::string & title, 
                   const std::function<const Type & ()> & getter,
