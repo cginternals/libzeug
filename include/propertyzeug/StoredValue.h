@@ -12,8 +12,8 @@ public:
     StoredValue(Type value);
     virtual ~StoredValue();
 
-    virtual Type get() const;
-    virtual void set(Type value);
+    virtual const Type & get() const;
+    virtual void set(const Type & value);
 protected:
     Type m_value;
 };
@@ -30,13 +30,13 @@ StoredValue<Type>::~StoredValue()
 }
 
 template <typename Type>
-Type StoredValue<Type>::get() const
+const Type &  StoredValue<Type>::get() const
 {
     return m_value;
 }
 
 template <typename Type>
-void StoredValue<Type>::set(Type value)
+void StoredValue<Type>::set(const Type & value)
 {
     m_value = value;
 }

@@ -6,22 +6,24 @@
 
 namespace propertyzeug {
 
+// TODO Implement method pointer option
+    
 template <typename Type>
 class PROPERTYZEUG_API AccessorValue : public ValueInterface<Type>
 {
 public:
-    AccessorValue(std::function<Type()> getter, std::function<void(Type &)> setter);
+    AccessorValue(std::function<const Type & ()> getter, std::function<void(const Type &)> setter);
     virtual ~AccessorValue();
 
-    virtual Type get() const;
-    virtual void set(Type value);
+    virtual const Type & get() const;
+    virtual void set(const Type & value);
 protected:
-    std::function<Type()> m_getter;
-    std::function<void(Type &)> m_setter;
+    std::function<const Type & ()> m_getter;
+    std::function<void(const Type &)> m_setter;
 };
 
 template <typename Type>
-AccessorValue<Type>::AccessorValue(std::function<Type()> getter, std::function<void(Type &)> setter)
+AccessorValue<Type>::AccessorValue(std::function<const Type & ()> getter, std::function<void(const Type &)> setter)
 :   m_getter(getter)
 ,   m_setter(setter)
 {   
@@ -33,13 +35,13 @@ AccessorValue<Type>::~AccessorValue()
 }
 
 template <typename Type>
-Type AccessorValue<Type>::get() const
+const Type & AccessorValue<Type>::get() const
 {
     return m_getter();
 }
 
 template <typename Type>
-void AccessorValue<Type>::set(Type value)
+void AccessorValue<Type>::set(const Type & value)
 {
     m_setter(value);
 }

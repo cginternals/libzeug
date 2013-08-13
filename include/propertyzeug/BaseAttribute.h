@@ -13,27 +13,28 @@ class PROPERTYZEUG_API BaseAttribute : public AbstractAttribute
 public:
     enum Events { kTitleChanged, kValueChanged };
     
-    BaseAttribute(std::string name, std::string title, Type value);
-    BaseAttribute(std::string name, std::string title, 
-        std::function<Type()> getter, std::function<void(Type &)> setter);
+    BaseAttribute(const std::string & name, const std::string & title, const Type & value);
+    BaseAttribute(const std::string & name, const std::string & title, 
+        const std::function<const Type & ()> & getter, const std::function<void(const Type &)> & setter);
     virtual ~BaseAttribute();
 
-    Type value() const;
-    void setValue(Type value);
+    const Type & value() const;
+    void setValue(const Type & value);
 protected:
     ValueInterface<Type> * m_value;
 };
 
 template <typename Type>
-BaseAttribute<Type>::BaseAttribute(std::string name, std::string title, Type value)
+BaseAttribute<Type>::BaseAttribute(const std::string & name, 
+    const std::string & title, const Type & value)
 :   AbstractAttribute(name, title)
 ,   m_value(new StoredValue<Type>(value))
 {
 }
 
 template <typename Type>
-BaseAttribute<Type>::BaseAttribute(std::string name, std::string title, 
-    std::function<Type()> getter, std::function<void(Type &)> setter)
+BaseAttribute<Type>::BaseAttribute(const std::string & name, const std::string & title, 
+        const std::function<const Type & ()> & getter, const std::function<void(const Type &)> & setter)
 :   AbstractAttribute(name, title)
 ,   m_value(new AccessorValue<Type>(getter, setter))
 {
@@ -47,13 +48,13 @@ BaseAttribute<Type>::~BaseAttribute()
 
 
 template <typename Type>
-Type BaseAttribute<Type>::value() const
+const Type & BaseAttribute<Type>::value() const
 {
     return m_value->get();
 }
 
 template <typename Type>
-void BaseAttribute<Type>::setValue(Type value)
+void BaseAttribute<Type>::setValue(const Type & value)
 {
     m_value->set(value);
     m_announcer->notify(kValueChanged);

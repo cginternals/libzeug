@@ -17,7 +17,7 @@ public:
     : BaseAttribute<int>(name, title, value) {};
     
     Attribute(std::string name, std::string title, 
-        std::function<int()> getter, std::function<void(int &)> setter)
+        std::function<const int & ()> getter, std::function<void(const int &)> setter)
     : BaseAttribute<int>(name, title, getter, setter) {};
 };
 
