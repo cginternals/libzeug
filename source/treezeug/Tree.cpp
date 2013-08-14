@@ -9,7 +9,7 @@ Tree::Tree()
 , _nextId(0)
 , _depth(0)
 {
-	registerNode(_root);
+	registerNode(_root, true);
 }
 
 Tree::~Tree()
@@ -24,8 +24,44 @@ Tree::~Tree()
 
 Tree* Tree::copy() const
 {
-	// TODO: implement
-	return nullptr;
+	Tree* newTree = new Tree();
+	
+	nodesDo([=](const Node* node) {
+		Node* newNode = new Node(node->id());
+		newNode->setName(node->name());
+		
+		if (newNode->id() == 0)
+		{
+			newTree->setRoot(newNode);
+		}
+		else
+		{
+			newTree->getNode(node->parent()->id())->addChild(newNode);
+		}
+	});
+	
+	for (const std::string& attribute : _attributes)
+	{
+		newTree->addAttributeMap(attribute, attributeMapType(attribute));
+		
+		nodesDo([=](const Node* node) {
+			if (node->hasAttribute(attribute))
+			{
+				const Attribute* attr = node->attribute(attribute);
+				
+				if (attr->isNumeric())
+				{
+					newTree->getNode(node->id())->setAttribute(attribute, attr->numericValue());
+				}
+				else
+				{
+					newTree->getNode(node->id())->setAttribute(attribute, attr->asNominal()->valueName());
+				}
+			}
+		});
+	}
+	
+	return newTree;
 }
 
 Node* Tree::root()
@@ -41,7 +77,7 @@ const Node* Tree::root() const
 void Tree::setRoot(Node* node)
 {
 	node->_id = 0;
-	registerNode(node);
+	registerNode(node, true);
 	node->_parent = nullptr;
 	_root = node;
 }
@@ -76,7 +112,7 @@ const std::vector<std::string>& Tree::attributes() const
 	return _attributes;
 }
 
-bool Tree::hasAttributeMap(const std::string& name)
+bool Tree::hasAttributeMap(const std::string& name) const
 {
 	return _attributeMaps.count(name) > 0;
 }
@@ -97,14 +133,14 @@ void Tree::addAttributeMap(const std::string& name, AttributeMap::Type type)
 	_attributes.push_back(name);
 }
 
-AttributeMap::Type Tree::attributeMapType(const std::string& name)
+AttributeMap::Type Tree::attributeMapType(const std::string& name) const
 {
 	if (!hasAttributeMap(name))
 	{
 		return AttributeMap::None;
 	}
 	
-	return _attributeMaps[name]->type();
+	return _attributeMaps.at(name)->type();
 }
 
 void Tree::setAttribute(const Node* node, const std::string& name, double value)
@@ -141,7 +177,7 @@ const Attribute* Tree::attribute(const Node* node, const std::string& name) cons
 	return _attributeMaps.at(name)->attributeFor(node);
 }
 
-void Tree::registerNode(Node* node)
+void Tree::registerNode(Node* node, bool silent)
 {
 	node->_tree = this;
 
@@ -158,7 +194,10 @@ void Tree::registerNode(Node* node)
 
 	if (_idMap.count(node->_id))
 	{
-		std::cout << "Replace node " << node->_id << std::endl;
+		if (!silent)
+		{
+			std::cout << "Replace node " << node->_id << std::endl;
+		}
 		
 		_idMap[node->_id]->reparentChildrenTo(node);
 
@@ -295,6 +334,11 @@ void Node::setAttribute(const std::string& name, const std::string& value)
 const Attribute* Node::attribute(const std::string& name) const
 {
 	return _tree->attribute(this, name);
+}
+
+bool Node::hasAttribute(const std::string& name) const
+{
+	return attribute(name) != nullptr;
 }
 
 const std::vector<Node*>& Node::children() const
