@@ -100,3 +100,8 @@ double AttributeMap::normalize(const Attribute* value) const
 	
 	return (value->numericValue() - _min) / (_max - _min);
 }
+
+AttributeMap::Type AttributeMap::type() const
+{
+	return _type;
+}

@@ -12,6 +12,7 @@ class AttributeMap
 public:
 	enum Type
 	{
+		None,
 		Numeric,
 		Nominal
 	};
@@ -30,6 +31,8 @@ public:
 	void addAttribute(const Node* node, const std::string& value);
 
 	double normalize(const Attribute* value) const;
+	
+	Type type() const;
 protected:
 	std::string _name;
 	Type _type;

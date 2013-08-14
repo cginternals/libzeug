@@ -76,24 +76,45 @@ const std::vector<std::string>& Tree::attributes() const
 	return _attributes;
 }
 
-void Tree::addAttributeMap(const std::string&name, AttributeMap::Type type)
+bool Tree::hasAttributeMap(const std::string& name)
 {
+	return _attributeMaps.count(name) > 0;
+}
+
+void Tree::addAttributeMap(const std::string& name, AttributeMap::Type type)
+{
+	if (hasAttributeMap(name))
+	{
+		if (attributeMapType(name) != type)
+		{
+			std::cout << "Try to overwrite AttributeMap " << name << " with differing type";
+		}
+		
+		return;
+	}
+	
 	_attributeMaps[name] = new AttributeMap(name, type);
 	_attributes.push_back(name);
 }
 
+AttributeMap::Type Tree::attributeMapType(const std::string& name)
+{
+	if (!hasAttributeMap(name))
+	{
+		return AttributeMap::None;
+	}
+	
+	return _attributeMaps[name]->type();
+}
+
 void Tree::setAttribute(const Node* node, const std::string& name, double value)
 {
-	if (!_attributeMaps.count(name))
+	if (!hasAttributeMap(name))
 	{
 		return;
 	}
-
-	AttributeMap* map = _attributeMaps[name];
-	if (map)
-	{
-		map->addAttribute(node, value);
-	}
+	
+	_attributeMaps[name]->addAttribute(node, value);
 }
 
 void Tree::setAttribute(const Node* node, const std::string& name, const std::string& value)
@@ -137,7 +158,8 @@ void Tree::registerNode(Node* node)
 
 	if (_idMap.count(node->_id))
 	{
-		std::cout << "Replace node " << node->_id;
+		std::cout << "Replace node " << node->_id << std::endl;
+		
 		_idMap[node->_id]->reparentChildrenTo(node);
 
 		delete _idMap[node->_id];
@@ -398,4 +420,9 @@ const Node* Node::firstChild() const
 bool Node::hasChildren() const
 {
 	return _children.size() > 0;
+}
+
+const Tree* Node::tree() const
+{
+	return _tree;
 }

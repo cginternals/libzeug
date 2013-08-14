@@ -32,8 +32,10 @@ public:
 	void nodesOrderedByDepthDo(std::function<void(const Node*)> action) const;
 	void leavesDo(std::function<void(Node*)> action);
 	void leavesDo(std::function<void(const Node*)> action) const;
-
-	void addAttributeMap(const std::string&name, AttributeMap::Type type);
+	
+	bool hasAttributeMap(const std::string& name);
+	void addAttributeMap(const std::string& name, AttributeMap::Type type);
+	AttributeMap::Type attributeMapType(const std::string& name);
 	const std::vector<std::string>& attributes() const;
 
 	unsigned depth() const;
@@ -91,6 +93,8 @@ public:
 	const Node* nextSibling() const;
 	const Node* firstChild() const;
 	std::vector<Node*> siblings() const;
+	
+	const Tree* tree() const;
 protected:
 	Tree* _tree;
 	int _id;
