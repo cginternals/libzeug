@@ -3,7 +3,6 @@
 #include <TreeSqliteParser.h>
 
 #include <QHash>
-#include <QDebug>
 
 ChangesStrategy::ChangesStrategy(TreeSqliteParser& parser)
 : TreeSqliteParserStrategy(parser)
@@ -13,17 +12,17 @@ ChangesStrategy::ChangesStrategy(TreeSqliteParser& parser)
 
 void ChangesStrategy::processOne()
 {
-	for (const QVariantMap& revision : executeQuery("SELECT id FROM revisions WHERE 1 ORDER BY id LIMIT 1"))
-	{
-		createTreeForRevision(revision["id"].toUInt());
-	}
-	
-	transferTrees();
+	processRevisions(executeQuery("SELECT id FROM revisions WHERE 1 ORDER BY id LIMIT 1"));
 }
 
 void ChangesStrategy::processMultiple()
 {
-	for (const QVariantMap& revision : executeQuery("SELECT id FROM revisions WHERE 1 ORDER BY id"))
+	processRevisions(executeQuery("SELECT id FROM revisions WHERE 1 ORDER BY id"));
+}
+
+void ChangesStrategy::processRevisions(const QList<QVariantMap>& revisions)
+{
+	for (const QVariantMap& revision : revisions)
 	{
 		createTreeForRevision(revision["id"].toUInt());
 	}

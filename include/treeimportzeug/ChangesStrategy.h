@@ -18,6 +18,7 @@ protected:
 	mutable QHash<long, int> _ids;
 	mutable int _nextId;
 	
+	void processRevisions(const QList<QVariantMap>& revisions);
 	void createTreeForRevision(unsigned revisionId);
 	void transferTrees();
 	int idFor(long hash) const;
