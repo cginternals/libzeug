@@ -42,25 +42,25 @@ template <>
 class Attribute<Color> : public BaseAttribute<Color>
 {
 public:
-    Attribute(const std::string & name, const std::string & title, const bool & value)
-    :   BaseAttribute<bool>(name, title, value) {};
+    Attribute(const std::string & name, const std::string & title, const Color & value)
+    :   BaseAttribute<Color>(name, title, value) {};
     
     Attribute(const std::string & name, const std::string & title,
-              const std::function<const bool & ()> & getter,
-              const std::function<void(const bool &)> & setter)
-    :   BaseAttribute<bool>(name, title, getter, setter) {};
-    
-    template <class Object>
-    Attribute(const std::string & name, const std::string & title,
-              Object & object, const bool & (Object::*getter_pointer)() const,
-              void (Object::*setter_pointer)(const bool &))
-    :   BaseAttribute<bool>(name, title, object, getter_pointer, setter_pointer) {};
+              const std::function<const Color & ()> & getter,
+              const std::function<void(const Color &)> & setter)
+    :   BaseAttribute<Color>(name, title, getter, setter) {};
     
     template <class Object>
     Attribute(const std::string & name, const std::string & title,
-              Object & object, bool (Object::*getter_pointer)() const,
-              void (Object::*setter_pointer)(bool))
-    :   BaseAttribute<bool>(name, title, object, getter_pointer, setter_pointer) {};
+              Object & object, const Color & (Object::*getter_pointer)() const,
+              void (Object::*setter_pointer)(const Color &))
+    :   BaseAttribute<Color>(name, title, object, getter_pointer, setter_pointer) {};
+    
+    template <class Object>
+    Attribute(const std::string & name, const std::string & title,
+              Object & object, Color (Object::*getter_pointer)() const,
+              void (Object::*setter_pointer)(Color))
+    :   BaseAttribute<Color>(name, title, object, getter_pointer, setter_pointer) {};
 };
 
 template <>
