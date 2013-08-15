@@ -7,6 +7,7 @@
 #include "StringAttribute.h"
 
 #include "Color.h"
+#include "FilePath.h"
 
 namespace propertyzeug {
 
@@ -61,6 +62,31 @@ public:
               Object & object, Color (Object::*getter_pointer)() const,
               void (Object::*setter_pointer)(Color))
     :   BaseAttribute<Color>(name, title, object, getter_pointer, setter_pointer) {};
+};
+
+template <>
+class Attribute<FilePath> : public BaseAttribute<FilePath>
+{
+public:
+    Attribute(const std::string & name, const std::string & title, const FilePath & value)
+    :   BaseAttribute<FilePath>(name, title, value) {};
+    
+    Attribute(const std::string & name, const std::string & title,
+              const std::function<const FilePath & ()> & getter,
+              const std::function<void(const FilePath &)> & setter)
+    :   BaseAttribute<FilePath>(name, title, getter, setter) {};
+    
+    template <class Object>
+    Attribute(const std::string & name, const std::string & title,
+              Object & object, const FilePath & (Object::*getter_pointer)() const,
+              void (Object::*setter_pointer)(const FilePath &))
+    :   BaseAttribute<FilePath>(name, title, object, getter_pointer, setter_pointer) {};
+    
+    template <class Object>
+    Attribute(const std::string & name, const std::string & title,
+              Object & object, FilePath (Object::*getter_pointer)() const,
+              void (Object::*setter_pointer)(FilePath))
+    :   BaseAttribute<FilePath>(name, title, object, getter_pointer, setter_pointer) {};
 };
 
 template <>

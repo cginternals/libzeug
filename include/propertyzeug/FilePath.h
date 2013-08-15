@@ -12,6 +12,7 @@ public:
     FilePath();
     FilePath(const FilePath & filePath);
     FilePath(const std::string & string);
+    FilePath(const char * string);
     virtual ~FilePath();
 
     const std::string & string() const;

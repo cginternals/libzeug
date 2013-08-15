@@ -17,6 +17,11 @@ FilePath::FilePath(const std::string & string)
 :   m_string(string)
 {
 }
+    
+FilePath::FilePath(const char * string)
+:   m_string(string)
+{
+}
 
 FilePath::~FilePath()
 {
