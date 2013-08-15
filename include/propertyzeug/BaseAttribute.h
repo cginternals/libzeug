@@ -32,7 +32,7 @@ public:
     const Type & value() const;
     void setValue(const Type & value);
 protected:
-    AbstractValue<Type> * m_value;
+    std::unique_ptr<AbstractValue<Type>> m_value;
 };
 
 template <typename Type>
@@ -75,7 +75,6 @@ BaseAttribute<Type>::BaseAttribute(const std::string & name, const std::string &
 template <typename Type>
 BaseAttribute<Type>::~BaseAttribute()
 {
-    delete m_value;
 }
 
 
