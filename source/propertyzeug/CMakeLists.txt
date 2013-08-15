@@ -40,6 +40,7 @@ set(headers
     ${header_path}/AccessorValue.h
 
     ${header_path}/Color.h
+    ${header_path}/FilePath.h
 )
 
 set(sources
@@ -50,6 +51,7 @@ set(sources
     ${source_path}/StringAttribute.cpp
     
     ${source_path}/Color.cpp
+    ${source_path}/FilePath.cpp
 )
 
 # Group source files
