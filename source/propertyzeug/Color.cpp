@@ -7,6 +7,11 @@ Color::Color()
 {
 }
 
+Color::Color(const Color & color)
+:   m_rgba{.v=color.rgba()}
+{
+}
+
 Color::Color(unsigned int rgba)
 :   m_rgba{.v=rgba}
 {

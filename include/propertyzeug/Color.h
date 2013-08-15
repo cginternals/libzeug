@@ -7,6 +7,7 @@ class PROPERTYZEUG_API Color
 {
 public:
     Color();
+    Color(const Color & color);
     Color(unsigned int rgba);
     Color(int red, int green, int blue, int alpha = 255);
     virtual ~Color();
