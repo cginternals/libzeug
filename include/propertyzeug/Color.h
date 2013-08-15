@@ -7,7 +7,7 @@ class PROPERTYZEUG_API Color
 {
 public:
     Color();
-    Color(unsigned int argb);
+    Color(unsigned int rgba);
     Color(int red, int green, int blue, int alpha = 255);
     virtual ~Color();
 
@@ -20,8 +20,8 @@ public:
     int alpha() const;
     void setAlpha(int value);
     
-    unsigned int argb() const;
-    void setArgb(unsigned int argb);
+    unsigned int rgba() const;
+    void setRgba(unsigned int rgba);
     
 protected:
     union {
@@ -32,5 +32,5 @@ protected:
             char b;
         };
         unsigned int v;
-    } m_argb;
+    } m_rgba;
 };

@@ -3,17 +3,17 @@
 #include <propertyzeug/Color.h>
 
 Color::Color()
-:   m_argb{.v=0}
+:   m_rgba{.v=0}
 {
 }
 
-Color::Color(unsigned int argb)
-:   m_argb{.v=argb}
+Color::Color(unsigned int rgba)
+:   m_rgba{.v=rgba}
 {
 }
 
 Color::Color(int red, int green, int blue, int alpha)
-:   m_argb {
+:   m_rgba {
         .a=static_cast<char>(alpha),
         .r=static_cast<char>(red),
         .g=static_cast<char>(green),
@@ -28,55 +28,55 @@ Color::~Color()
 
 int Color::red() const
 {
-    return m_argb.r;
+    return m_rgba.r;
 }
 
 void Color::setRed(int value)
 {
     assert(0 <= value && value <= 255);
-    m_argb.r = static_cast<char>(value);
+    m_rgba.r = static_cast<char>(value);
 }
 
 int Color::green() const
 {
-    return m_argb.g;
+    return m_rgba.g;
 }
 
 void Color::setGreen(int value)
 {
     assert(0 <= value && value <= 255);
-    m_argb.g = static_cast<char>(value);
+    m_rgba.g = static_cast<char>(value);
 }
 
 int Color::blue() const
 {
-    return m_argb.b;
+    return m_rgba.b;
 }
 
 void Color::setBlue(int value)
 {
     assert(0 <= value && value <= 255);
-    m_argb.b = static_cast<char>(value);
+    m_rgba.b = static_cast<char>(value);
 }
 
 int Color::alpha() const
 {
-    return m_argb.a;
+    return m_rgba.a;
 }
 
 void Color::setAlpha(int value)
 {
     assert(0 <= value && value <= 255);
-    m_argb.a = static_cast<char>(value);
+    m_rgba.a = static_cast<char>(value);
 }
 
-unsigned int Color::argb() const
+unsigned int Color::rgba() const
 {
-    return m_argb.v;
+    return m_rgba.v;
 }
 
-void Color::setArgb(unsigned int argb)
+void Color::setRgba(unsigned int rgba)
 {
-    m_argb.v = argb;
+    m_rgba.v = rgba;
 }
 
