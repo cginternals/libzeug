@@ -23,17 +23,17 @@ set(source_path "${CMAKE_CURRENT_SOURCE_DIR}")
 
 set(headers
     ${header_path}/propertyzeug.h
-    # ${header_path}/Attribute.h
+    # ${header_path}/Property.h
     # ${header_path}/DynObject.h
 
     ${header_path}/Events.h
     ${header_path}/Announcer.h
-    ${header_path}/AbstractAttribute.h
+    ${header_path}/AbstractProperty.h
 
-    ${header_path}/BaseAttribute.h
-    ${header_path}/LimitAttribute.h
-    ${header_path}/StringAttribute.h
-    ${header_path}/Attribute.h
+    ${header_path}/BaseProperty.h
+    ${header_path}/LimitProperty.h
+    ${header_path}/StringProperty.h
+    ${header_path}/Property.h
 
     ${header_path}/AbstractValue.h
     ${header_path}/StoredValue.h
@@ -46,9 +46,9 @@ set(headers
 set(sources
     # ${source_path}/DynObject.cpp
 
-    ${source_path}/AbstractAttribute.cpp
+    ${source_path}/AbstractProperty.cpp
     ${source_path}/Announcer.cpp
-    ${source_path}/StringAttribute.cpp
+    ${source_path}/StringProperty.cpp
     
     ${source_path}/Color.cpp
     ${source_path}/FilePath.cpp

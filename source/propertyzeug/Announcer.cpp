@@ -1,12 +1,12 @@
 
 #include <propertyzeug/Announcer.h>
-#include <propertyzeug/AbstractAttribute.h>
+#include <propertyzeug/AbstractProperty.h>
 
 namespace propertyzeug {
 
-Announcer::Announcer(AbstractAttribute * attribute)
+Announcer::Announcer(AbstractProperty * attribute)
 :   m_subscriptions(new std::unordered_map<int, 
-        std::forward_list<std::function<void(AbstractAttribute &)>> *>())
+        std::forward_list<std::function<void(AbstractProperty &)>> *>())
 ,   m_attribute(attribute)
 {
 }
@@ -18,21 +18,21 @@ Announcer::~Announcer()
     delete m_subscriptions;
 }
 
-void Announcer::subscribe(int event, const std::function<void(AbstractAttribute &)> & functor)
+void Announcer::subscribe(int event, const std::function<void(AbstractProperty &)> & functor)
 {
     this->subscriptions(event).push_front(functor);
 }
 
 void Announcer::notify(int event)
 {
-    for (std::function<void(AbstractAttribute &)> functor : this->subscriptions(event))
+    for (std::function<void(AbstractProperty &)> functor : this->subscriptions(event))
         functor(*m_attribute);
 }
 
-std::forward_list<std::function<void(AbstractAttribute &)>> & Announcer::subscriptions(int event)
+std::forward_list<std::function<void(AbstractProperty &)>> & Announcer::subscriptions(int event)
 {
     if (m_subscriptions->find(event) == m_subscriptions->end()) {
-        auto list = new std::forward_list<std::function<void(AbstractAttribute &)>>();
+        auto list = new std::forward_list<std::function<void(AbstractProperty &)>>();
         m_subscriptions->insert(std::make_pair(event, list));
     }
     
