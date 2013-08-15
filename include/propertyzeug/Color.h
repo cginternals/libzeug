@@ -3,6 +3,8 @@
 
 #include <propertyzeug/propertyzeug.h>
 
+namespace propertyzeug {
+
 class PROPERTYZEUG_API Color
 {
 public:
@@ -35,3 +37,5 @@ protected:
         unsigned int v;
     } m_rgba;
 };
+
+} // namespace

@@ -2,6 +2,8 @@
 #include <assert.h>
 #include <propertyzeug/Color.h>
 
+namespace propertyzeug {
+
 Color::Color()
 :   m_rgba{.v=0}
 {
@@ -84,4 +86,6 @@ void Color::setRgba(unsigned int rgba)
 {
     m_rgba.v = rgba;
 }
+    
+} // namespace
 
