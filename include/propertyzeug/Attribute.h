@@ -12,7 +12,7 @@
 
 namespace propertyzeug {
 
-/* @brief
+/** @brief
  * Dynamic Attribute class.
  * Supported Types:
  *   - bool
