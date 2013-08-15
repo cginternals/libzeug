@@ -5,6 +5,8 @@
 #include <functional>
 #include <unordered_map>
 
+namespace signal {
+
 template <typename... Arguments>
 class SIGNALZEUG_API Signal : public AbstractSignal
 {
@@ -16,13 +18,13 @@ public:
 	void fire(Arguments... arguments);
 	void operator()(Arguments... arguments);
 
-	ConnectionHandle connect(Callback callback) const;
+	Connection connect(Callback callback) const;
 	template <class T>
-	ConnectionHandle connect(T* object, void (T::*method)(Arguments...)) const;
+	Connection connect(T* object, void (T::*method)(Arguments...)) const;
 protected:
-	void disconnect(HandleId id) const override;
+	virtual void disconnectId(Connection::Id id) const override;
 protected:
-	mutable std::unordered_map<HandleId, Callback> _callbacks;
+	mutable std::unordered_map<Connection::Id, Callback> _callbacks;
 };
 
 
@@ -34,7 +36,7 @@ Signal<Arguments...>::Signal()
 template <typename... Arguments>
 void Signal<Arguments...>::fire(Arguments... arguments)
 {
-	for (const std::pair<HandleId, Callback>& pair: _callbacks)
+	for (const std::pair<Connection::Id, Callback>& pair: _callbacks)
 	{
 		Callback callback = pair.second;
 		callback(arguments...);
@@ -48,16 +50,16 @@ void Signal<Arguments...>::operator()(Arguments... arguments)
 }
 
 template <typename... Arguments>
-ConnectionHandle Signal<Arguments...>::connect(Callback callback) const
+Connection Signal<Arguments...>::connect(Callback callback) const
 {
-	ConnectionHandle handle = createConnectionHandle();
-	_callbacks[handle.id()] = callback;
-	return handle;
+	Connection connection = createConnection();
+	_callbacks[connection.id()] = callback;
+	return connection;
 }
 
 template <typename... Arguments>
 template <class T>
-ConnectionHandle Signal<Arguments...>::connect(T* object, void (T::*method)(Arguments...)) const
+Connection Signal<Arguments...>::connect(T* object, void (T::*method)(Arguments...)) const
 {
 	return connect([&object, &method](Arguments... arguments) {
 		(object->*method)(arguments...);
@@ -65,7 +67,9 @@ ConnectionHandle Signal<Arguments...>::connect(T* object, void (T::*method)(Argu
 }
 
 template <typename... Arguments>
-void Signal<Arguments...>::disconnect(HandleId id) const
+void Signal<Arguments...>::disconnectId(Connection::Id id) const
 {
 	_callbacks.erase(id);
 }
+
+} // namespace signal

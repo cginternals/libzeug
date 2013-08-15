@@ -8,6 +8,7 @@
 #include <functional>
 
 #include <Signal.hpp>
+#include <ConnectionMap.h>
 
 class LinearizedTree
 {
@@ -42,8 +43,8 @@ public:
 	std::vector<std::pair<int, int>> createTreeLayerRanges() const;
 	void treeLayerRangesDo(std::function<void(int, int)> callback) const;
 
-	Signal<> treeChanged;
-	Signal<> changed;
+	signal::Signal<> treeChanged;
+	signal::Signal<> changed;
 protected:
 	const Tree* _tree;
 	Algorithm _strategy;
