@@ -20,7 +20,7 @@ public:
     void subscribe(int event, Object * object,
                    void (Object::*method_pointer)(AbstractAttribute &));
 
-    void subscribe(int event, std::function<void(AbstractAttribute &)> functor);
+    void subscribe(int event, const std::function<void(AbstractAttribute &)> & functor);
     void notify(int event);
 
 protected:

@@ -18,7 +18,7 @@ Announcer::~Announcer()
     delete m_subscriptions;
 }
 
-void Announcer::subscribe(int event, std::function<void(AbstractAttribute &)> functor)
+void Announcer::subscribe(int event, const std::function<void(AbstractAttribute &)> & functor)
 {
     this->subscriptions(event).push_front(functor);
 }
