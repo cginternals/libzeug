@@ -6,13 +6,12 @@ namespace propertyzeug {
 AbstractAttribute::AbstractAttribute(std::string name, std::string title)
 :   m_name(name)
 ,   m_title(title)
-,   m_announcer(new Announcer(this))
+,   m_announcer(this)
 {
 }
 
 AbstractAttribute::~AbstractAttribute()
 {
-    delete m_announcer;
 }
 
 std::string AbstractAttribute::name() const
@@ -28,12 +27,12 @@ std::string AbstractAttribute::title() const
 void AbstractAttribute::setTitle(std::string title)
 {
     m_title = title;
-    m_announcer->notify(events::kTitleChanged);
+    m_announcer.notify(events::kTitleChanged);
 }
 
 void AbstractAttribute::subscribe(int event, std::function<void(AbstractAttribute &)> functor)
 {
-    m_announcer->subscribe(event, functor);
+    m_announcer.subscribe(event, functor);
 }
 
 } // namespace

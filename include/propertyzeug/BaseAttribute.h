@@ -88,7 +88,7 @@ template <typename Type>
 void BaseAttribute<Type>::setValue(const Type & value)
 {
     m_value->set(value);
-    m_announcer->notify(events::kValueChanged);
+    m_announcer.notify(events::kValueChanged);
 }
 
 } // namespace

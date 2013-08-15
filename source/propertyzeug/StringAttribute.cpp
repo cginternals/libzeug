@@ -45,19 +45,19 @@ const std::vector<std::string> & StringAttribute::getChoices() const
 void StringAttribute::clearChoices()
 {
     m_choices.clear();
-    this->m_announcer->notify(events::kChoicesChanged);
+    this->m_announcer.notify(events::kChoicesChanged);
 }
  
 void StringAttribute::setChoices(const std::vector<std::string> & choices)
 {
     m_choices = choices;
-    this->m_announcer->notify(events::kChoicesChanged);
+    this->m_announcer.notify(events::kChoicesChanged);
 }
  
 void StringAttribute::addChoice(const std::string & string)
 {
     m_choices.push_back(string);
-    this->m_announcer->notify(events::kChoicesChanged);
+    this->m_announcer.notify(events::kChoicesChanged);
 }
     
 } // namespace

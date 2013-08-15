@@ -35,7 +35,7 @@ public:
 protected:
     std::string m_name;
     std::string m_title;
-    Announcer * m_announcer;
+    Announcer m_announcer;
 };
 
 template <class Attribute>
@@ -52,7 +52,7 @@ template <typename Object>
 void AbstractAttribute::subscribe(int event, Object * object,
     void (Object::*method_pointer)(AbstractAttribute &))
 {
-    m_announcer->subscribe(event, object, method_pointer);
+    m_announcer.subscribe(event, object, method_pointer);
 }
 
 } // namespace
