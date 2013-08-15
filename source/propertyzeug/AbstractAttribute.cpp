@@ -28,7 +28,7 @@ std::string AbstractAttribute::title() const
 void AbstractAttribute::setTitle(std::string title)
 {
     m_title = title;
-    m_announcer->notify(kTitleChanged);
+    m_announcer->notify(events::kTitleChanged);
 }
 
 void AbstractAttribute::subscribe(int event, std::function<void(AbstractAttribute &)> functor)
