@@ -38,6 +38,8 @@ set(headers
     ${header_path}/AbstractValue.h
     ${header_path}/StoredValue.h
     ${header_path}/AccessorValue.h
+
+    ${header_path}/Color.h
 )
 
 set(sources
@@ -46,6 +48,8 @@ set(sources
     ${source_path}/AbstractAttribute.cpp
     ${source_path}/Announcer.cpp
     ${source_path}/StringAttribute.cpp
+    
+    ${source_path}/Color.cpp
 )
 
 # Group source files
