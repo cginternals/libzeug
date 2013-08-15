@@ -6,6 +6,8 @@
 #include "LimitAttribute.h"
 #include "StringAttribute.h"
 
+#include "Color.h"
+
 namespace propertyzeug {
 
 template <typename Type>
@@ -19,6 +21,31 @@ public:
     :   BaseAttribute<bool>(name, title, value) {};
 
     Attribute(const std::string & name, const std::string & title, 
+              const std::function<const bool & ()> & getter,
+              const std::function<void(const bool &)> & setter)
+    :   BaseAttribute<bool>(name, title, getter, setter) {};
+    
+    template <class Object>
+    Attribute(const std::string & name, const std::string & title,
+              Object & object, const bool & (Object::*getter_pointer)() const,
+              void (Object::*setter_pointer)(const bool &))
+    :   BaseAttribute<bool>(name, title, object, getter_pointer, setter_pointer) {};
+    
+    template <class Object>
+    Attribute(const std::string & name, const std::string & title,
+              Object & object, bool (Object::*getter_pointer)() const,
+              void (Object::*setter_pointer)(bool))
+    :   BaseAttribute<bool>(name, title, object, getter_pointer, setter_pointer) {};
+};
+    
+template <>
+class Attribute<Color> : public BaseAttribute<Color>
+{
+public:
+    Attribute(const std::string & name, const std::string & title, const bool & value)
+    :   BaseAttribute<bool>(name, title, value) {};
+    
+    Attribute(const std::string & name, const std::string & title,
               const std::function<const bool & ()> & getter,
               const std::function<void(const bool &)> & setter)
     :   BaseAttribute<bool>(name, title, getter, setter) {};
