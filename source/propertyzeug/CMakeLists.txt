@@ -35,6 +35,8 @@ set(headers
     ${header_path}/StringProperty.h
     ${header_path}/Property.h
 
+    ${header_path}/PropertyGroup.h
+
     ${header_path}/AbstractValue.h
     ${header_path}/StoredValue.h
     ${header_path}/AccessorValue.h
@@ -49,6 +51,8 @@ set(sources
     ${source_path}/AbstractProperty.cpp
     ${source_path}/Announcer.cpp
     ${source_path}/StringProperty.cpp
+
+    ${source_path}/PropertyGroup.cpp
     
     ${source_path}/Color.cpp
     ${source_path}/FilePath.cpp
