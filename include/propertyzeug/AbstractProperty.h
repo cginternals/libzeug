@@ -14,14 +14,14 @@ class Announcer;
 class PROPERTYZEUG_API AbstractProperty 
 {
 public:
-    AbstractProperty(std::string name, std::string title);
+    AbstractProperty(const std::string & name, const std::string & title);
     virtual ~AbstractProperty();
 
     // virtual void accept(AbstractPropertyVisitor & visitor) = 0;
 
-    std::string name() const;
-    std::string title() const;
-    void setTitle(std::string title);
+    const std::string & name() const;
+    const std::string & title() const;
+    void setTitle(const std::string & title);
 
     template <class Property>
     Property * to();

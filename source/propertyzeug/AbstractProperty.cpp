@@ -3,7 +3,8 @@
 
 namespace propertyzeug {
 
-AbstractProperty::AbstractProperty(std::string name, std::string title)
+AbstractProperty::AbstractProperty(const std::string & name,
+    const std::string & title)
 :   m_name(name)
 ,   m_title(title)
 ,   m_announcer(this)
@@ -14,17 +15,17 @@ AbstractProperty::~AbstractProperty()
 {
 }
 
-std::string AbstractProperty::name() const
+const std::string & AbstractProperty::name() const
 {
     return m_name;
 }
 
-std::string AbstractProperty::title() const
+const std::string & AbstractProperty::title() const
 {
     return m_title;
 }
 
-void AbstractProperty::setTitle(std::string title)
+void AbstractProperty::setTitle(const std::string & title)
 {
     m_title = title;
     m_announcer.notify(events::kTitleChanged);
