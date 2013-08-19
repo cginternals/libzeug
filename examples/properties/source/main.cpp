@@ -1,6 +1,5 @@
 #include <iostream>
 #include <propertyzeug/Property.h>
-#include <propertyzeug/Color.h>
 #include "SomeObject.h"
 
 using namespace propertyzeug;
@@ -43,10 +42,36 @@ void subscribeToChanges()
     gender.setValue('f');
 }
 
+void createPropertyWithLimits()
+{
+    std::cout << ">> createPropertyWithLimits()" << std::endl;
+    
+    Property<float> size("size", "Size", 13.4);
+    size.setMinimum(10.0);
+    size.setMaximum(20.0);
+}
+
+void createStringPropertyWithChoices()
+{
+    std::cout << "createStringPropertyWithChoices()" << std::endl;
+    
+    Property<std::string> dragon("dragon", "Dragon", "Viserion");
+    dragon.setChoices({ "Viserion", "Rhaegal" });
+    dragon.addChoice("Drogon");
+    
+    for (const std::string & element: dragon.choices()) {
+        std::cout << element << std::endl;
+    }
+    
+    dragon.clearChoices();
+}
+
 int main(int argc, char const *argv[])
 {
     createProperties();
     subscribeToChanges();
+    createPropertyWithLimits();
+    createStringPropertyWithChoices();
     
     return 0;
 }
