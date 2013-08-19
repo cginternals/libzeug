@@ -14,18 +14,18 @@ public:
     BaseProperty(const std::string & name, const std::string & title, const Type & value);
     
     BaseProperty(const std::string & name, const std::string & title, 
-                  const std::function<const Type & ()> & getter,
-                  const std::function<void(const Type &)> & setter);
+                 const std::function<const Type & ()> & getter,
+                 const std::function<void(const Type &)> & setter);
     
     template <class Object>
     BaseProperty(const std::string & name, const std::string & title,
-                  Object & object, const Type & (Object::*getter_pointer)() const,
-                  void (Object::*setter_pointer)(const Type &));
+                 Object & object, const Type & (Object::*getter_pointer)() const,
+                 void (Object::*setter_pointer)(const Type &));
     
     template <class Object>
     BaseProperty(const std::string & name, const std::string & title,
-                  Object & object, Type (Object::*getter_pointer)() const,
-                  void (Object::*setter_pointer)(Type));
+                 Object & object, Type (Object::*getter_pointer)() const,
+                 void (Object::*setter_pointer)(Type));
     
     virtual ~BaseProperty();
 
