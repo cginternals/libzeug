@@ -1,7 +1,7 @@
 
 #pragma once
 
-#include <typeinfo>
+#include <assert.h>
 #include <string>
 #include <iostream>
 #include <propertyzeug/propertyzeug.h>
@@ -27,10 +27,10 @@ public:
     Property * to();
 
     template <typename Object>
-    void subscribe(int event, Object * object,
+    void subscribe(int event, Object & object,
                    void (Object::*method_pointer)(AbstractProperty &));
 
-    void subscribe(int event, std::function<void(AbstractProperty &)> functor);
+    void subscribe(int event, const std::function<void(AbstractProperty &)> & functor);
 
 protected:
     std::string m_name;
@@ -41,15 +41,13 @@ protected:
 template <class Property>
 Property * AbstractProperty::to()
 {
-    Property * attribute = dynamic_cast<Property *>(this);
-    if (!attribute)
-        std::cerr << "Requested Property " << this->name()
-            << " is not of Type " << typeid(Property).name();
-    return attribute;
+    Property * property = dynamic_cast<Property *>(this);
+    assert(property);
+    return property;
 }
 
 template <typename Object>
-void AbstractProperty::subscribe(int event, Object * object,
+void AbstractProperty::subscribe(int event, Object & object,
     void (Object::*method_pointer)(AbstractProperty &))
 {
     m_announcer.subscribe(event, object, method_pointer);

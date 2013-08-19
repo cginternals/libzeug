@@ -30,7 +30,7 @@ void AbstractProperty::setTitle(std::string title)
     m_announcer.notify(events::kTitleChanged);
 }
 
-void AbstractProperty::subscribe(int event, std::function<void(AbstractProperty &)> functor)
+void AbstractProperty::subscribe(int event, const std::function<void(AbstractProperty &)> & functor)
 {
     m_announcer.subscribe(event, functor);
 }

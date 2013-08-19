@@ -4,10 +4,10 @@
 
 namespace propertyzeug {
 
-Announcer::Announcer(AbstractProperty * attribute)
+Announcer::Announcer(AbstractProperty * property)
 :   m_subscriptions(new std::unordered_map<int, 
         std::forward_list<std::function<void(AbstractProperty &)>> *>())
-,   m_attribute(attribute)
+,   m_property(property)
 {
 }
 
@@ -26,7 +26,7 @@ void Announcer::subscribe(int event, const std::function<void(AbstractProperty &
 void Announcer::notify(int event)
 {
     for (std::function<void(AbstractProperty &)> functor : this->subscriptions(event))
-        functor(*m_attribute);
+        functor(*m_property);
 }
 
 std::forward_list<std::function<void(AbstractProperty &)>> & Announcer::subscriptions(int event)
