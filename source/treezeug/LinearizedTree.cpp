@@ -26,9 +26,6 @@ void LinearizedTree::setTree(const Tree* tree)
 	if (_tree == tree) return;
 
 	_tree = tree;
-
-	treeChanged();
-	changed();
 }
 
 void LinearizedTree::setAlgorithm(Algorithm strategy)
@@ -36,7 +33,6 @@ void LinearizedTree::setAlgorithm(Algorithm strategy)
 	if (_strategy == strategy) return;
 
 	_strategy = strategy;
-	changed();
 }
 
 unsigned LinearizedTree::size() const
@@ -84,27 +80,6 @@ const Node* LinearizedTree::getNode(int id) const
     return _tree->getNode(id);
 }
 
-const std::vector<const Node*>& LinearizedTree::asVector() const
-{
-	return _nodes;
-}
-
-std::vector<std::pair<int, int>> LinearizedTree::createTreeLayerRanges() const
-{
-	if (_treeDepthTresholds.empty())
-	{
-		return std::vector<std::pair<int, int>>();
-	}
-
-	std::vector<std::pair<int, int>> ranges(_treeDepthTresholds.size()-1);
-
-	treeLayerRangesDo([&ranges](int start, int end) {
-		ranges.push_back(std::make_pair(start, end));
-	});
-
-	return ranges;
-}
-
 void LinearizedTree::treeLayerRangesDo(std::function<void(int, int)> callback) const
 {
 	unsigned start = 0;
@@ -116,6 +91,16 @@ void LinearizedTree::treeLayerRangesDo(std::function<void(int, int)> callback) c
 
 		start = end+1;
 	}
+}
+
+std::vector<const Node*>::const_iterator LinearizedTree::begin() const
+{
+	return _nodes.begin();
+}
+
+std::vector<const Node*>::const_iterator LinearizedTree::end() const
+{
+	return _nodes.end();
 }
 
 void LinearizedTree::linearize()
@@ -135,9 +120,9 @@ void LinearizedTree::linearize()
 	case BreadthFirst:
 		linearizeBreadthFirst();
 		break;
-	default:
-		return;
 	}
+
+	linearized();
 }
 
 void LinearizedTree::clear()

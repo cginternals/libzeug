@@ -26,6 +26,7 @@ set(headers
     ${header_path}/AbstractSignal.h
     ${header_path}/Connection.h
     ${header_path}/ConnectionMap.h
+    ${header_path}/ScopedConnection.h
     ${header_path}/Signal.hpp
 )
 
@@ -33,6 +34,7 @@ set(sources
     ${source_path}/AbstractSignal.cpp
     ${source_path}/Connection.cpp
     ${source_path}/ConnectionMap.cpp
+    ${source_path}/ScopedConnection.cpp
 )
 
 # Group source files

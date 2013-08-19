@@ -25,11 +25,11 @@ Tree::~Tree()
 Tree* Tree::copy() const
 {
 	Tree* newTree = new Tree();
-	
+
 	nodesDo([=](const Node* node) {
 		Node* newNode = new Node(node->id());
 		newNode->setName(node->name());
-		
+
 		if (newNode->id() == 0)
 		{
 			newTree->setRoot(newNode);
@@ -39,16 +39,16 @@ Tree* Tree::copy() const
 			newTree->getNode(node->parent()->id())->addChild(newNode);
 		}
 	});
-	
+
 	for (const std::string& attribute : _attributes)
 	{
 		newTree->addAttributeMap(attribute, attributeMapType(attribute));
-		
+
 		nodesDo([=](const Node* node) {
 			if (node->hasAttribute(attribute))
 			{
 				const Attribute* attr = node->attribute(attribute);
-				
+
 				if (attr->isNumeric())
 				{
 					newTree->getNode(node->id())->setAttribute(attribute, attr->numericValue());
@@ -60,7 +60,7 @@ Tree* Tree::copy() const
 			}
 		});
 	}
-	
+
 	return newTree;
 }
 
@@ -125,10 +125,10 @@ void Tree::addAttributeMap(const std::string& name, AttributeMap::Type type)
 		{
 			std::cout << "Try to overwrite AttributeMap " << name << " with differing type";
 		}
-		
+
 		return;
 	}
-	
+
 	_attributeMaps[name] = new AttributeMap(name, type);
 	_attributes.push_back(name);
 }
@@ -139,7 +139,7 @@ AttributeMap::Type Tree::attributeMapType(const std::string& name) const
 	{
 		return AttributeMap::None;
 	}
-	
+
 	return _attributeMaps.at(name)->type();
 }
 
@@ -149,7 +149,7 @@ void Tree::setAttribute(const Node* node, const std::string& name, double value)
 	{
 		return;
 	}
-	
+
 	_attributeMaps[name]->addAttribute(node, value);
 }
 
@@ -198,7 +198,7 @@ void Tree::registerNode(Node* node, bool silent)
 		{
 			std::cout << "Replace node " << node->_id << std::endl;
 		}
-		
+
 		_idMap[node->_id]->reparentChildrenTo(node);
 
 		delete _idMap[node->_id];

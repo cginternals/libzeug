@@ -41,12 +41,12 @@ public:
 	const Node* operator[](int index) const;
     const Node* getNode(int id) const;
 
-	const std::vector<const Node*>& asVector() const;
-	std::vector<std::pair<int, int>> createTreeLayerRanges() const;
+	std::vector<const Node*>::const_iterator begin() const;
+	std::vector<const Node*>::const_iterator end() const;
+
 	void treeLayerRangesDo(std::function<void(int, int)> callback) const;
 
-	signal::Signal<> treeChanged;
-	signal::Signal<> changed;
+	signal::Signal<> linearized;
 protected:
 	const Tree* _tree;
 	Algorithm _strategy;
