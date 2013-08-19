@@ -64,6 +64,11 @@ int LinearizedTree::indexOf(const Node* node) const
 	return _indices.at(node);
 }
 
+int LinearizedTree::indexOf(int id) const
+{
+    return indexOf(getNode(id));
+}
+
 const Node* LinearizedTree::at(int index) const
 {
 	return _nodes[index];
@@ -72,6 +77,11 @@ const Node* LinearizedTree::at(int index) const
 const Node* LinearizedTree::operator[](int index) const
 {
 	return _nodes[index];
+}
+
+const Node* LinearizedTree::getNode(int id) const
+{
+    return _tree->getNode(id);
 }
 
 const std::vector<const Node*>& LinearizedTree::asVector() const

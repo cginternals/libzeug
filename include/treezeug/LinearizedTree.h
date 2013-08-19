@@ -36,8 +36,10 @@ public:
 	const Node* root() const;
 
 	int indexOf(const Node* node) const;
+    int indexOf(int id) const;
 	const Node* at(int index) const;
 	const Node* operator[](int index) const;
+    const Node* getNode(int id) const;
 
 	const std::vector<const Node*>& asVector() const;
 	std::vector<std::pair<int, int>> createTreeLayerRanges() const;
