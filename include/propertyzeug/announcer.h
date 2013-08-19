@@ -34,7 +34,7 @@ template <typename Object>
 void Announcer::subscribe(int event, Object & object,
     void (Object::*method_pointer)(AbstractProperty &))
 {
-    this->subscribe(event, std::bind(method_pointer, object, std::placeholders::_1));
+    this->subscribe(event, std::bind(method_pointer, &object, std::placeholders::_1));
 }
 
 } // namespace
