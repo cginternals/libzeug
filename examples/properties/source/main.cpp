@@ -1,5 +1,6 @@
 #include <iostream>
 #include <propertyzeug/Property.h>
+#include <propertyzeug/PropertyGroup.h>
 #include "SomeObject.h"
 
 using namespace propertyzeug;
@@ -53,7 +54,7 @@ void createPropertyWithLimits()
 
 void createStringPropertyWithChoices()
 {
-    std::cout << "createStringPropertyWithChoices()" << std::endl;
+    std::cout << ">> createStringPropertyWithChoices()" << std::endl;
     
     Property<std::string> dragon("dragon", "Dragon", "Viserion");
     dragon.setChoices({ "Viserion", "Rhaegal" });
@@ -66,12 +67,24 @@ void createStringPropertyWithChoices()
     dragon.clearChoices();
 }
 
+void createPropertiesFromGroup()
+{
+    std::cout << ">> createPropertiesFromGroup()" << std::endl;
+    
+    PropertyGroup group("rectangle", "Rectangle");
+    group.addProperty<int>("x", "x", 10);
+    group.addProperty<int>("y", "y", 30);
+    group.addProperty<int>("height", "Height", 200);
+    group.insertPropertyAfter("y", new Property<int>("width", "Width", 100));
+}
+
 int main(int argc, char const *argv[])
 {
     createProperties();
     subscribeToChanges();
     createPropertyWithLimits();
     createStringPropertyWithChoices();
+    createPropertiesFromGroup();
     
     return 0;
 }
