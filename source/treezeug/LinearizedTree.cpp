@@ -121,8 +121,6 @@ void LinearizedTree::linearize()
 		linearizeBreadthFirst();
 		break;
 	}
-
-	linearized();
 }
 
 void LinearizedTree::clear()
