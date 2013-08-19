@@ -37,7 +37,7 @@ bool StringProperty::hasChoices() const
     return !m_choices.empty();
 }
  
-const std::vector<std::string> & StringProperty::getChoices() const
+const std::vector<std::string> & StringProperty::choices() const
 {
     return m_choices;
 }
