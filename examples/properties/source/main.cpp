@@ -1,54 +1,52 @@
 #include <iostream>
-#include <propertyzeug/Attribute.h>
-#include "DynamicObject.h"
+#include <propertyzeug/Property.h>
+#include <propertyzeug/Color.h>
+#include "SomeObject.h"
 
 using namespace propertyzeug;
 
-int main(int argc, char const *argv[])
+void createProperties()
 {
-    std::cout << "it works!" << std::endl;
+    std::cout << ">> createProperties()" << std::endl;
     
+    Property<unsigned long> property1("property1", "Property Title 1", 4815162342);
     
-    BaseAttribute<int> * attr = new BaseAttribute<int>("name", "title", 2);
-    BaseAttribute<int> * attr2 = new BaseAttribute<int>("name2", "title2", [](){return 3;}, [](int){});
-    
-    std::cout << attr->name() << std::endl;
-    std::cout << attr->title() << std::endl;
-    std::cout << attr->value() << std::endl;
-    
-    std::cout << attr2->value() << std::endl;
-    
-    delete attr;
-    delete attr2;
-    
-    BaseAttribute<int> apple("apple", "Apple", 4);
-    apple.subscribe(events::kTitleChanged, [](AbstractAttribute &) {
-        std::cout << "Title changed!" << std::endl;
+    bool value2 = true;
+    Property<bool> property2("property2", "Property Title 2", [&value2]() {
+        return value2;
+    }, [&value2](const bool & value) {
+        value2 = value;
     });
     
-    apple.setTitle("Appoel");
-    
-    Attribute<int> * banana = new Attribute<int>("banana", "Banana", 5);
-    std::cout << banana->value() << std::endl;
-    
-    DynamicObject object;
+    SomeObject object3;
+    Property<int> property3("property3", "Property Title 3", object3, &SomeObject::count, &SomeObject::setCount);
+}
 
-    LimitAttribute<int> apple_count("apple_count", "Apple Count", object, &DynamicObject::appleCount, &DynamicObject::setAppleCount);
+void subscribeToChanges()
+{
+    std::cout << ">> subscribeToChanges()" << std::endl;
     
-    apple_count.setMinimum(0);
-    apple_count.setMaximum(12);
+    Property<std::string> name("name", "Name", "Littlefinger");
     
-    std::cout << object.appleCount() << std::endl;
+    name.subscribe(events::kValueChanged, [](AbstractProperty & property) {
+        auto name = property.to<Property<std::string>>();
+        std::cout << name->value() << std::endl;
+    });
     
-    apple_count.setValue(5);
+    name.setValue("Tyrion Lannister");
     
-    std::cout << object.appleCount() << std::endl;
+    Property<char> gender("gender", "Gender", 'm');
     
-    std::cout << "==========" << std::endl;
+    SomeObject object;
+    gender.subscribe(events::kValueChanged, object, &SomeObject::propertyChanged);
     
-    StringAttribute stringAttr("string", "String", "hallo Welt!");
-    
-    stringAttr.setChoices({"eins", "zwei", "drei"});
+    gender.setValue('f');
+}
+
+int main(int argc, char const *argv[])
+{
+    createProperties();
+    subscribeToChanges();
     
     return 0;
 }
