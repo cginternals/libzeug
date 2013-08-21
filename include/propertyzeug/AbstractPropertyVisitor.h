@@ -1,17 +1,23 @@
 
 #pragma once
 
+#include <string>
+#include <propertyzeug/propertyzeug.h>
+
 namespace propertyzeug {
 
 template <typename Type>
 class Property;
+    
+class Color;
+class FilePath;
 
 class PropertyGroup;
     
 class PROPERTYZEUG_API AbstractPropertyVisitor
 {
 public:
-    virtual ~AbstractPropertyVisitor() {};
+    virtual ~AbstractPropertyVisitor();
 
     virtual void visit(Property<bool> & property) = 0;
     virtual void visit(Property<int> & property) = 0;
@@ -27,6 +33,10 @@ public:
     virtual void visit(Property<FilePath> & property) = 0;
 
     virtual void visit(PropertyGroup & property) = 0;
+
+protected:
+    void traverse(PropertyGroup & group);
+
 };
 
 } // namespace

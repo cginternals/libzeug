@@ -54,6 +54,7 @@ set(sources
     ${source_path}/StringProperty.cpp
 
     ${source_path}/PropertyGroup.cpp
+    ${source_path}/AbstractPropertyVisitor.cpp
     
     ${source_path}/Color.cpp
     ${source_path}/FilePath.cpp
