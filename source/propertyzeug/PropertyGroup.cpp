@@ -46,6 +46,18 @@ const AbstractProperty & PropertyGroup::property(const std::string & name) const
     return *m_propertiesMap.at(name);
 }
 
+PropertyGroup & PropertyGroup::subGroup(const std::string & name)
+{
+    assert(this->propertyExists(name));
+    return *(this->property(name).to<PropertyGroup>());
+}
+
+const PropertyGroup & PropertyGroup::subGroup(const std::string & name) const
+{
+    assert(this->propertyExists(name));
+    return *(this->property(name).to<PropertyGroup>());
+}
+
 bool PropertyGroup::propertyExists(const std::string & name) const
 {
     if (m_propertiesMap.find(name) == m_propertiesMap.end())
@@ -115,7 +127,7 @@ void PropertyGroup::forEachSubGroup(const std::function<void(PropertyGroup &)> f
 {
     for (AbstractProperty * property : m_properties) {
         if (property->isGroup())
-            functor(*static_cast<PropertyGroup *>(property));
+            functor(*property->to<PropertyGroup>());
     }
 }
     

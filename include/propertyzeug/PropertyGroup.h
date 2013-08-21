@@ -50,7 +50,10 @@ public:
     
     template <typename Type>
     const Property<Type> & property(const std::string & name) const;
-    
+
+    PropertyGroup & subGroup(const std::string & name);
+
+    const PropertyGroup & subGroup(const std::string & name) const;
 
     template <typename Type>
     const Type & value(const std::string & name) const;
