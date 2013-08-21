@@ -1,6 +1,7 @@
 #include <iostream>
 #include <propertyzeug/Property.h>
 #include <propertyzeug/PropertyGroup.h>
+#include <propertyzeug/PropertySerializer.h>
 #include "SomeObject.h"
 
 using namespace propertyzeug;
@@ -100,6 +101,18 @@ void iterateOverProperties()
     });
 }
 
+void deserializeFromFile()
+{
+    PropertyGroup group("root", "Root");
+    group.addProperty<int>("value1", "Value 1", 2);
+    group.addProperty<unsigned int>("value2", "Value 2", 6);
+    
+    PropertySerializer serializer;
+    serializer.deserialize(group, "examples/properties/data/group.ini");
+    
+    std::cout << group.value<int>("value1");
+}
+
 int main(int argc, char const *argv[])
 {
     createProperties();
@@ -108,6 +121,7 @@ int main(int argc, char const *argv[])
     createStringPropertyWithChoices();
     createPropertiesFromGroup();
     iterateOverProperties();
+    deserializeFromFile();
     
     return 0;
 }
