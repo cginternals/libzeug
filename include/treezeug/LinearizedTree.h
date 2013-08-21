@@ -43,6 +43,7 @@ public:
 	std::vector<const Node*>::const_iterator begin() const;
 	std::vector<const Node*>::const_iterator end() const;
 
+	const std::vector<int>& thresholds() const;
 	void treeLayerRangesDo(std::function<void(int, int)> callback) const;
 protected:
 	const Tree* _tree;

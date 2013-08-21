@@ -80,6 +80,11 @@ const Node* LinearizedTree::getNode(int id) const
     return _tree->getNode(id);
 }
 
+const std::vector<int>& LinearizedTree::thresholds() const
+{
+	return _treeDepthTresholds;
+}
+
 void LinearizedTree::treeLayerRangesDo(std::function<void(int, int)> callback) const
 {
 	unsigned start = 0;
