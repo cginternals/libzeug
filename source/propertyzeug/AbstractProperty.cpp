@@ -2,6 +2,8 @@
 #include <propertyzeug/AbstractProperty.h>
 
 namespace propertyzeug {
+    
+const std::regex AbstractProperty::s_nameRegex("[a-zA-Z]\\w*");
 
 AbstractProperty::AbstractProperty(const std::string & name,
     const std::string & title)
@@ -9,6 +11,7 @@ AbstractProperty::AbstractProperty(const std::string & name,
 ,   m_title(title)
 ,   m_announcer(this)
 {
+    assert(std::regex_match(m_name,s_nameRegex));
 }
 
 AbstractProperty::~AbstractProperty()

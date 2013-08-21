@@ -2,6 +2,7 @@
 #pragma once
 
 #include <assert.h>
+#include <regex>
 #include <string>
 #include <iostream>
 #include <propertyzeug/propertyzeug.h>
@@ -36,6 +37,8 @@ public:
     virtual void accept(AbstractPropertyVisitor & visitor) = 0;
 
 protected:
+    static const std::regex s_nameRegex;
+    
     std::string m_name;
     std::string m_title;
     Announcer m_announcer;
