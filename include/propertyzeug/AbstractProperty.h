@@ -31,6 +31,8 @@ public:
                    void (Object::*method_pointer)(AbstractProperty &));
 
     void subscribe(int event, const std::function<void(AbstractProperty &)> & functor);
+    
+    virtual bool isGroup() const;
 
 protected:
     std::string m_name;

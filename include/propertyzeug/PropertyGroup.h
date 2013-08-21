@@ -16,6 +16,8 @@ public:
     PropertyGroup(std::string name, std::string title);
     virtual ~PropertyGroup();
     
+    virtual bool isGroup() const;
+    
     bool addProperty(AbstractProperty * property);
     
     template <typename Type>
@@ -67,6 +69,11 @@ public:
     bool removeProperty(AbstractProperty * property);
     
     AbstractProperty * obtainProperty(const std::string & name);
+    
+    
+    void forEachProperty(const std::function<void(AbstractProperty &)> functor);
+    void forEachValueProperty(const std::function<void(AbstractProperty &)> functor); /** TODO look for better name **/
+    void forEachSubGroup(const std::function<void(PropertyGroup &)> functor);
     
 protected:
     std::list<AbstractProperty *> m_properties;

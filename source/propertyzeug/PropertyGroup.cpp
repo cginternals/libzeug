@@ -12,6 +12,11 @@ PropertyGroup::~PropertyGroup()
 {
     // TODO delete all properties?
 }
+    
+bool PropertyGroup::isGroup() const
+{
+    return true;
+}
 
 bool PropertyGroup::addProperty(AbstractProperty * property)
 {
@@ -84,6 +89,28 @@ AbstractProperty * PropertyGroup::obtainProperty(const std::string & name)
     m_properties.remove(property);
     m_propertiesMap.erase(property->name());
     return property;
+}
+
+void PropertyGroup::forEachProperty(const std::function<void(AbstractProperty &)> functor)
+{
+    for (AbstractProperty * property : m_properties)
+        functor(*property);
+}
+
+void PropertyGroup::forEachValueProperty(const std::function<void(AbstractProperty &)> functor)
+{
+    for (AbstractProperty * property : m_properties) {
+        if (!property->isGroup())
+            functor(*property);
+    }
+}
+
+void PropertyGroup::forEachSubGroup(const std::function<void(PropertyGroup &)> functor)
+{
+    for (AbstractProperty * property : m_properties) {
+        if (property->isGroup())
+            functor(*static_cast<PropertyGroup *>(property));
+    }
 }
     
 } // namespace

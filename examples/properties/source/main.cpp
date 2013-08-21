@@ -71,11 +71,33 @@ void createPropertiesFromGroup()
 {
     std::cout << ">> createPropertiesFromGroup()" << std::endl;
     
+    SomeObject object;
     PropertyGroup group("rectangle", "Rectangle");
-    group.addProperty<int>("x", "x", 10);
+    group.addProperty<int>("x", "x", object, &SomeObject::count, &SomeObject::setCount);
     group.addProperty<int>("y", "y", 30);
     group.addProperty<int>("height", "Height", 200);
     group.insertPropertyAfter("y", new Property<int>("width", "Width", 100));
+}
+
+void iterateOverProperties()
+{
+    std::cout << ">> iterateOverProperties()" << std::endl;
+    
+    PropertyGroup group("group", "Group");
+    
+    group.addProperty<float>("first", "First", 0.3f);
+    group.addProperty(new PropertyGroup("second", "Second"));
+    group.addProperty<unsigned long>("third", "Third", 7);
+    group.addProperty(new PropertyGroup("fourth", "Fourth"));
+    group.addProperty<Color>("fifth", "Fifth", Color(125, 125, 125));
+    
+    group.forEachValueProperty([](AbstractProperty & property) {
+        std::cout << property.title() << std::endl;
+    });
+
+    group.forEachSubGroup([](PropertyGroup & group) {
+        std::cout << group.title() << std::endl;
+    });
 }
 
 int main(int argc, char const *argv[])
@@ -85,6 +107,7 @@ int main(int argc, char const *argv[])
     createPropertyWithLimits();
     createStringPropertyWithChoices();
     createPropertiesFromGroup();
+    iterateOverProperties();
     
     return 0;
 }

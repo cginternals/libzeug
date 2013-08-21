@@ -35,5 +35,10 @@ void AbstractProperty::subscribe(int event, const std::function<void(AbstractPro
 {
     m_announcer.subscribe(event, functor);
 }
+    
+bool AbstractProperty::isGroup() const
+{
+    return false;
+}
 
 } // namespace
