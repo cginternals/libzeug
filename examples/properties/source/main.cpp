@@ -105,12 +105,19 @@ void deserializeFromFile()
 {
     PropertyGroup group("root", "Root");
     group.addProperty<int>("value1", "Value 1", 2);
-    group.addProperty<unsigned int>("value2", "Value 2", 6);
+    group.addProperty<float>("value2", "Value 2", 6);
+    group.addProperty<float>("failure", "Failure", false);
+    
+    group.addProperty(new PropertyGroup("group1", "Group 1"));
+    group.subGroup("group1").addProperty<char>("value3", "Value3", 'a');
     
     PropertySerializer serializer;
     serializer.deserialize(group, "examples/properties/data/group.ini");
     
-    std::cout << group.value<int>("value1");
+    std::cout << group.value<int>("value1") << std::endl;
+    std::cout << group.value<float>("value2") << std::endl;
+    std::cout << group.value<float>("failure") << std::endl;
+    std::cout << group.subGroup("group1").value<char>("value3") << std::endl;
 }
 
 int main(int argc, char const *argv[])

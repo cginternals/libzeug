@@ -1,6 +1,5 @@
 
 #include <iostream>
-#include <sstream>
 #include <propertyzeug/Property.h>
 #include <propertyzeug/PropertyGroup.h>
 #include <propertyzeug/PropertySerializer.h>
@@ -38,13 +37,15 @@ bool PropertySerializer::deserialize(PropertyGroup & group, std::string filePath
         if (std::regex_match(line, s_groupRegex)) {
             std::string groupName = line.substr(1, line.length() - 2);
             
-            if (group.name().compare(groupName)) {
+            if (group.name() == groupName) {
                 m_currentGroup = &group;
             } else {
-                if (group.propertyExists(groupName))
+                if (group.propertyExists(groupName)) {
                     m_currentGroup = &group.subGroup(groupName);
-                else
+                } else {
                     std::cerr << "Group with name \"" << groupName << "\" does not exist";
+                    return false;
+                }
             }
         } else if (std::regex_match(line, s_propertyRegex)) {
             std::smatch match;
@@ -64,8 +65,8 @@ bool PropertySerializer::deserialize(PropertyGroup & group, std::string filePath
                     }
                 } else {
                     std::cerr << "Something went wrong" << std::endl;
+                    break;
                 }
-                
             }
         }
     }
@@ -75,50 +76,47 @@ bool PropertySerializer::deserialize(PropertyGroup & group, std::string filePath
 
 void PropertySerializer::visit(Property<bool> & property)
 {
-
+    this->setPrimitiveValue(property, m_currentValue);
 }
 
 void PropertySerializer::visit(Property<int> & property)
 {
-    std::stringstream stream(m_currentValue);
-    int value;
-    stream >> value;
-    property.setValue(value);
+    this->setPrimitiveValue(property, m_currentValue);
 }
 
 void PropertySerializer::visit(Property<unsigned int> & property)
 {
-
+    this->setPrimitiveValue(property, m_currentValue);
 }
 
 void PropertySerializer::visit(Property<long> & property)
 {
-
+    this->setPrimitiveValue(property, m_currentValue);
 }
 
 void PropertySerializer::visit(Property<unsigned long> & property)
 {
-
+    this->setPrimitiveValue(property, m_currentValue);
 }
 
 void PropertySerializer::visit(Property<char> & property)
 {
-
+    this->setPrimitiveValue(property, m_currentValue);
 }
 
 void PropertySerializer::visit(Property<unsigned char> & property)
 {
-
+    this->setPrimitiveValue(property, m_currentValue);
 }
 
 void PropertySerializer::visit(Property<float> & property)
 {
-
+    this->setPrimitiveValue(property, m_currentValue);
 }
 
 void PropertySerializer::visit(Property<double> & property)
 {
-
+    this->setPrimitiveValue(property, m_currentValue);
 }
 
 void PropertySerializer::visit(Property<std::string> & property)
