@@ -77,7 +77,6 @@ BaseProperty<Type>::~BaseProperty()
 {
 }
 
-
 template <typename Type>
 const Type & BaseProperty<Type>::value() const
 {

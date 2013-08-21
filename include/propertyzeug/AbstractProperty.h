@@ -8,16 +8,15 @@
 #include "Announcer.h"
 
 namespace propertyzeug {
-    
+
 class Announcer;
+class AbstractPropertyVisitor;
 
 class PROPERTYZEUG_API AbstractProperty 
 {
 public:
     AbstractProperty(const std::string & name, const std::string & title);
     virtual ~AbstractProperty();
-
-    // virtual void accept(AbstractPropertyVisitor & visitor) = 0;
 
     const std::string & name() const;
     const std::string & title() const;
@@ -33,6 +32,8 @@ public:
     void subscribe(int event, const std::function<void(AbstractProperty &)> & functor);
     
     virtual bool isGroup() const;
+    
+    virtual void accept(AbstractPropertyVisitor & visitor) = 0;
 
 protected:
     std::string m_name;

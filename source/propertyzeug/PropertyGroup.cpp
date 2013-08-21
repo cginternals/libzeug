@@ -1,5 +1,6 @@
 
 #include <propertyzeug/PropertyGroup.h>
+#include <propertyzeug/AbstractPropertyVisitor.h>
 
 namespace propertyzeug {
     
@@ -16,6 +17,11 @@ PropertyGroup::~PropertyGroup()
 bool PropertyGroup::isGroup() const
 {
     return true;
+}
+
+void PropertyGroup::accept(AbstractPropertyVisitor & visitor)
+{
+    visitor.visit(*this);
 }
 
 bool PropertyGroup::addProperty(AbstractProperty * property)

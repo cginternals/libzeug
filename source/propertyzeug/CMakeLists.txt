@@ -28,14 +28,15 @@ set(headers
 
     ${header_path}/Events.h
     ${header_path}/Announcer.h
-    ${header_path}/AbstractProperty.h
 
+    ${header_path}/AbstractProperty.h
     ${header_path}/BaseProperty.h
     ${header_path}/LimitProperty.h
     ${header_path}/StringProperty.h
     ${header_path}/Property.h
 
     ${header_path}/PropertyGroup.h
+    ${header_path}/AbstractPropertyVisitor.h
 
     ${header_path}/AbstractValue.h
     ${header_path}/StoredValue.h

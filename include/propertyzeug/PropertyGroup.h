@@ -17,6 +17,7 @@ public:
     virtual ~PropertyGroup();
     
     virtual bool isGroup() const;
+    virtual void accept(AbstractPropertyVisitor & visitor);
     
     bool addProperty(AbstractProperty * property);
     

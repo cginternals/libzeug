@@ -10,6 +10,8 @@
 #include "Color.h"
 #include "FilePath.h"
 
+#include "AbstractPropertyVisitor.h"
+
 namespace propertyzeug {
 
 /** @brief
@@ -52,6 +54,8 @@ public:
               Object & object, bool (Object::*getter_pointer)() const,
               void (Object::*setter_pointer)(bool))
     :   BaseProperty<bool>(name, title, object, getter_pointer, setter_pointer) {};
+
+    virtual void accept(AbstractPropertyVisitor & visitor) { visitor.visit(*this); };
 };
 
 template <>
@@ -77,6 +81,8 @@ public:
               Object & object, int (Object::*getter_pointer)() const,
               void (Object::*setter_pointer)(int))
     :   LimitProperty<int>(name, title, object, getter_pointer, setter_pointer) {};
+
+    virtual void accept(AbstractPropertyVisitor & visitor) { visitor.visit(*this); };
 };
 
 template <>
@@ -102,6 +108,8 @@ public:
               Object & object, unsigned int (Object::*getter_pointer)() const,
               void (Object::*setter_pointer)(unsigned int))
     :   LimitProperty<unsigned int>(name, title, object, getter_pointer, setter_pointer) {};
+
+    virtual void accept(AbstractPropertyVisitor & visitor) { visitor.visit(*this); };
 };
 
 template <>
@@ -127,6 +135,8 @@ public:
               Object & object, long (Object::*getter_pointer)() const,
               void (Object::*setter_pointer)(long))
     :   LimitProperty<long>(name, title, object, getter_pointer, setter_pointer) {};
+
+    virtual void accept(AbstractPropertyVisitor & visitor) { visitor.visit(*this); };
 };
 
 template <>
@@ -152,6 +162,8 @@ public:
               Object & object, unsigned long (Object::*getter_pointer)() const,
               void (Object::*setter_pointer)(unsigned long))
     :   LimitProperty<unsigned long>(name, title, object, getter_pointer, setter_pointer) {};
+
+    virtual void accept(AbstractPropertyVisitor & visitor) { visitor.visit(*this); };
 };
 
 template <>
@@ -177,6 +189,8 @@ public:
               Object & object, char (Object::*getter_pointer)() const,
               void (Object::*setter_pointer)(char))
     :   LimitProperty<char>(name, title, object, getter_pointer, setter_pointer) {};
+
+    virtual void accept(AbstractPropertyVisitor & visitor) { visitor.visit(*this); };
 };
 
 template <>
@@ -202,6 +216,8 @@ public:
               Object & object, unsigned char (Object::*getter_pointer)() const,
               void (Object::*setter_pointer)(unsigned char))
     :   LimitProperty<unsigned char>(name, title, object, getter_pointer, setter_pointer) {};
+
+    virtual void accept(AbstractPropertyVisitor & visitor) { visitor.visit(*this); };
 };
 
 template <>
@@ -227,6 +243,8 @@ public:
               Object & object, float (Object::*getter_pointer)() const,
               void (Object::*setter_pointer)(float))
     :   LimitProperty<float>(name, title, object, getter_pointer, setter_pointer) {};
+
+    virtual void accept(AbstractPropertyVisitor & visitor) { visitor.visit(*this); };
 };
 
 template <>
@@ -252,6 +270,8 @@ public:
               Object & object, double (Object::*getter_pointer)() const,
               void (Object::*setter_pointer)(double))
     :   LimitProperty<double>(name, title, object, getter_pointer, setter_pointer) {};
+
+    virtual void accept(AbstractPropertyVisitor & visitor) { visitor.visit(*this); };
 };
 
 template <>
@@ -276,7 +296,9 @@ public:
     Property(const std::string & name, const std::string & title,
                   Object & object, std::string (Object::*getter_pointer)() const,
                   void (Object::*setter_pointer)(std::string))
-    :   StringProperty(name, title, object, getter_pointer, setter_pointer) {};   
+    :   StringProperty(name, title, object, getter_pointer, setter_pointer) {};
+
+    virtual void accept(AbstractPropertyVisitor & visitor) { visitor.visit(*this); };
 };
     
 template <>
@@ -302,6 +324,8 @@ public:
               Object & object, Color (Object::*getter_pointer)() const,
               void (Object::*setter_pointer)(Color))
     :   BaseProperty<Color>(name, title, object, getter_pointer, setter_pointer) {};
+
+    virtual void accept(AbstractPropertyVisitor & visitor) { visitor.visit(*this); };
 };
 
 template <>
@@ -327,6 +351,8 @@ public:
               Object & object, FilePath (Object::*getter_pointer)() const,
               void (Object::*setter_pointer)(FilePath))
     :   BaseProperty<FilePath>(name, title, object, getter_pointer, setter_pointer) {};
+
+    virtual void accept(AbstractPropertyVisitor & visitor) { visitor.visit(*this); };
 };
 
 } // namespace
