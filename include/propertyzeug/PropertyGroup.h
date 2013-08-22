@@ -42,28 +42,30 @@ public:
                  void (Object::*setter_pointer)(Type));
     
 
-    AbstractProperty & property(const std::string & name);
-    const AbstractProperty & property(const std::string & name) const;
+    AbstractProperty & property(const std::string & path);
+    const AbstractProperty & property(const std::string & path) const;
 
     template <typename Type>
-    Property<Type> & property(const std::string & name);
+    Property<Type> & property(const std::string & path);
     
     template <typename Type>
-    const Property<Type> & property(const std::string & name) const;
+    const Property<Type> & property(const std::string & path) const;
 
-    PropertyGroup & subGroup(const std::string & name);
+    PropertyGroup & subGroup(const std::string & path);
 
-    const PropertyGroup & subGroup(const std::string & name) const;
+    const PropertyGroup & subGroup(const std::string & path) const;
 
     template <typename Type>
-    const Type & value(const std::string & name) const;
+    const Type & value(const std::string & path) const;
     
     template <typename Type>
-    void setValue(const std::string & name, const Type & value);
+    void setValue(const std::string & path, const Type & value);
 
     
-    bool propertyExists(const std::string & name) const;
-    bool subGroupExists(const std::string & name) const;
+    bool propertyExists(const std::string & path) const;
+    bool subGroupExists(const std::string & path) const;
+    
+    bool directChildPropertyExists(const std::string & name) const;
     
     AbstractProperty * replaceProperty(const std::string & name,
                                        AbstractProperty * property);

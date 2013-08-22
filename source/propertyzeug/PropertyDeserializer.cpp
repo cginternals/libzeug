@@ -1,5 +1,6 @@
 
 #include <iostream>
+#include <regex>
 #include <propertyzeug/Property.h>
 #include <propertyzeug/PropertyGroup.h>
 #include <propertyzeug/PropertyDeserializer.h>

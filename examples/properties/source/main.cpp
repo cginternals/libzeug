@@ -122,6 +122,19 @@ void deserializeFromFile()
     std::cout << group.subGroup("group1").value<char>("value3") << std::endl;
 }
 
+void accessProperties()
+{
+    PropertyGroup root("root", "Root");
+    PropertyGroup child("child", "Child");
+    PropertyGroup childOfChild("childOfChild", "Child Of Child");
+    root.addProperty(&child);
+    child.addProperty(&childOfChild);
+    childOfChild.addProperty("value", "Value", 42);
+    
+    std::cout << "Value of root/child/childOfChild/value: ";
+    std::cout << root.value<int>("child/childOfChild/value") << std::endl;
+}
+
 int main(int argc, char const *argv[])
 {
     createProperties();
@@ -131,6 +144,7 @@ int main(int argc, char const *argv[])
     createPropertiesFromGroup();
     iterateOverProperties();
     deserializeFromFile();
+    accessProperties();
     
     return 0;
 }

@@ -1,7 +1,6 @@
 
 #pragma once
 
-#include <regex>
 #include <sstream>
 #include <fstream>
 #include "AbstractPropertyVisitor.h"

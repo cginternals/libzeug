@@ -1,4 +1,5 @@
 
+#include <regex>
 #include <propertyzeug/PropertyGroup.h>
 #include <propertyzeug/AbstractPropertyVisitor.h>
 
@@ -34,16 +35,28 @@ bool PropertyGroup::addProperty(AbstractProperty * property)
     return true;
 }
 
-AbstractProperty & PropertyGroup::property(const std::string & name)
+AbstractProperty & PropertyGroup::property(const std::string & path)
 {
-    assert(this->propertyExists(name));
-    return *m_propertiesMap.at(name);
+    assert(this->propertyExists(path));
+    
+    if (std::regex_match(path, std::regex(AbstractProperty::s_nameRegexString)))
+        return *m_propertiesMap.at(path);
+    
+    std::smatch match;
+    std::regex_search(path, match, std::regex("\\/"));
+    return m_propertiesMap.at(match.prefix())->to<PropertyGroup>()->property(match.suffix());
 }
     
-const AbstractProperty & PropertyGroup::property(const std::string & name) const
+const AbstractProperty & PropertyGroup::property(const std::string & path) const
 {
-    assert(this->propertyExists(name));
-    return *m_propertiesMap.at(name);
+    assert(this->propertyExists(path));
+    
+    if (std::regex_match(path, std::regex(AbstractProperty::s_nameRegexString)))
+        return *m_propertiesMap.at(path);
+    
+    std::smatch match;
+    std::regex_search(path, match, std::regex("\\/"));
+    return m_propertiesMap.at(match.prefix())->to<PropertyGroup>()->property(match.suffix());
 }
 
 PropertyGroup & PropertyGroup::subGroup(const std::string & name)
@@ -52,25 +65,44 @@ PropertyGroup & PropertyGroup::subGroup(const std::string & name)
     return *(this->property(name).to<PropertyGroup>());
 }
 
-const PropertyGroup & PropertyGroup::subGroup(const std::string & name) const
+const PropertyGroup & PropertyGroup::subGroup(const std::string & path) const
 {
-    assert(this->propertyExists(name));
-    return *(this->property(name).to<PropertyGroup>());
+    assert(this->propertyExists(path));
+    return *(this->property(path).to<PropertyGroup>());
 }
 
-bool PropertyGroup::propertyExists(const std::string & name) const
+bool PropertyGroup::propertyExists(const std::string & path) const
 {
-    return !(m_propertiesMap.find(name) == m_propertiesMap.end());
+    if (std::regex_match(path, std::regex(AbstractProperty::s_nameRegexString)))
+        return !(m_propertiesMap.find(path) == m_propertiesMap.end());
+    
+    static const std::regex pathRegex(AbstractProperty::s_nameRegexString +
+                                      "(\\/" +
+                                      AbstractProperty::s_nameRegexString +
+                                      ")*");
+
+    if (std::regex_match(path, pathRegex)) {
+        std::smatch match;
+        std::regex_search(path, match, std::regex("\\/"));
+        return m_propertiesMap.at(match.prefix())->to<PropertyGroup>()->propertyExists(match.suffix());
+    }
+    
+    return false;
 }
     
-bool PropertyGroup::subGroupExists(const std::string & name) const
+bool PropertyGroup::subGroupExists(const std::string & path) const
 {
-    return this->propertyExists(name) && this->property(name).isGroup();
+    return this->propertyExists(path) && this->property(path).isGroup();
+}
+    
+bool PropertyGroup::directChildPropertyExists(const std::string & name) const
+{
+    return !(m_propertiesMap.find(name) == m_propertiesMap.end());
 }
 
 AbstractProperty * PropertyGroup::replaceProperty(const std::string & name, AbstractProperty * property)
 {
-    if (!this->propertyExists(name))
+    if (!this->directChildPropertyExists(name))
         return nullptr;
     
     this->insertPropertyAfter(name, property);
@@ -79,7 +111,7 @@ AbstractProperty * PropertyGroup::replaceProperty(const std::string & name, Abst
 
 bool PropertyGroup::insertPropertyAfter(const std::string & name, AbstractProperty * property)
 {
-    if (!this->propertyExists(name) || this->propertyExists(property->name()))
+    if (!this->directChildPropertyExists(name) || this->directChildPropertyExists(property->name()))
         return false;
     
     auto propertyIterator = m_properties.begin();
@@ -92,7 +124,7 @@ bool PropertyGroup::insertPropertyAfter(const std::string & name, AbstractProper
 
 bool PropertyGroup::removeProperty(AbstractProperty * property)
 {
-    if (!this->propertyExists(property->name()))
+    if (!this->directChildPropertyExists(property->name()))
         return false;
     
     m_properties.remove(property);
@@ -102,7 +134,7 @@ bool PropertyGroup::removeProperty(AbstractProperty * property)
 
 AbstractProperty * PropertyGroup::obtainProperty(const std::string & name)
 {
-    if (!this->propertyExists(name))
+    if (!this->directChildPropertyExists(name))
         return nullptr;
     
     AbstractProperty * property = m_propertiesMap.find(name)->second;
