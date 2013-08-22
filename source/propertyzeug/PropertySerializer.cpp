@@ -129,42 +129,42 @@ void PropertySerializer::visit(Property<bool> & property)
 
 void PropertySerializer::visit(Property<int> & property)
 {
-    this->setPrimitiveValue(property, m_currentValue);
+    property.setValue(this->convertString<int>(m_currentValue));
 }
 
 void PropertySerializer::visit(Property<unsigned int> & property)
 {
-    this->setPrimitiveValue(property, m_currentValue);
+    property.setValue(this->convertString<unsigned int>(m_currentValue));
 }
 
 void PropertySerializer::visit(Property<long> & property)
 {
-    this->setPrimitiveValue(property, m_currentValue);
+    property.setValue(this->convertString<long>(m_currentValue));
 }
 
 void PropertySerializer::visit(Property<unsigned long> & property)
 {
-    this->setPrimitiveValue(property, m_currentValue);
+    property.setValue(this->convertString<unsigned long>(m_currentValue));
 }
 
 void PropertySerializer::visit(Property<char> & property)
 {
-    this->setPrimitiveValue(property, m_currentValue);
+    property.setValue(this->convertString<char>(m_currentValue));
 }
 
 void PropertySerializer::visit(Property<unsigned char> & property)
 {
-    this->setPrimitiveValue(property, m_currentValue);
+    property.setValue(this->convertString<unsigned char>(m_currentValue));
 }
 
 void PropertySerializer::visit(Property<float> & property)
 {
-    this->setPrimitiveValue(property, m_currentValue);
+    property.setValue(this->convertString<float>(m_currentValue));
 }
 
 void PropertySerializer::visit(Property<double> & property)
 {
-    this->setPrimitiveValue(property, m_currentValue);
+    property.setValue(this->convertString<double>(m_currentValue));
 }
 
 void PropertySerializer::visit(Property<std::string> & property)
@@ -174,12 +174,32 @@ void PropertySerializer::visit(Property<std::string> & property)
 
 void PropertySerializer::visit(Property<Color> & property)
 {
-
+    static const std::string colorRangeRegexString = "([01]?[0-9]?[0-9]|2[0-4][0-9]|25[0-5])";
+    static const std::regex colorFormatRegex("\\s*\\(" +
+                                colorRangeRegexString + "," +
+                                colorRangeRegexString + "," +
+                                colorRangeRegexString + "," +
+                                colorRangeRegexString +
+                                "\\)\\s*");
+    
+    if (!std::regex_match(m_currentValue, colorFormatRegex)) {
+        std::cerr << "Color value has wrong format: " << m_currentValue << std::endl;
+        return;
+    }
+    
+    std::smatch match;
+    std::regex_search(m_currentValue, match, std::regex(colorRangeRegexString));
+    int red, green, blue, alpha;
+    red = this->convertString<int>(match[0].str());
+    green = this->convertString<int>(match[1].str());
+    blue = this->convertString<int>(match[2].str());
+    alpha = this->convertString<int>(match[3].str());
+    property.setValue(Color(red, green, blue, alpha));
 }
 
 void PropertySerializer::visit(Property<FilePath> & property)
 {
-
+    property.setValue(m_currentValue);
 }
 
 void PropertySerializer::visit(PropertyGroup & property)

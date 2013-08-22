@@ -34,7 +34,7 @@ public:
     
 protected:
     template <typename Type>
-    void setPrimitiveValue(Property<Type> & property, std::string value);
+    Type convertString(const std::string & value);
     
     bool isGroupDeclaration(const std::string line);
     bool isPropertyDeclaration(const std::string line);
@@ -49,12 +49,12 @@ protected:
 };
     
 template <typename Type>
-void PropertySerializer::setPrimitiveValue(Property<Type> & property, std::string stringValue)
+Type PropertySerializer::convertString(const std::string & stringValue)
 {
     std::stringstream stream(stringValue);
     Type value;
     stream >> value;
-    property.setValue(value);
+    return value;
 }
 
 } // namespace
