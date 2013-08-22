@@ -34,6 +34,8 @@ bool PropertySerializer::deserialize(PropertyGroup & group, std::string filePath
         else if (this->isPropertyDeclaration(line))
             noErrorsOccured = this->setPropertyValue(line) && noErrorsOccured;
     }
+
+    m_fstream.close();
     
     return noErrorsOccured;
 }
