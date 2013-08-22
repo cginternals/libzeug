@@ -117,7 +117,14 @@ bool PropertySerializer::setPropertyValue(const std::string line)
 
 void PropertySerializer::visit(Property<bool> & property)
 {
-    this->setPrimitiveValue(property, m_currentValue);
+    if (std::regex_match(m_currentValue, std::regex("\\s*true\\s*"))) {
+        property.setValue(true);
+        return;
+    }
+    
+    if (std::regex_match(m_currentValue, std::regex("\\s*false\\s*"))) {
+        property.setValue(false);
+    }
 }
 
 void PropertySerializer::visit(Property<int> & property)
