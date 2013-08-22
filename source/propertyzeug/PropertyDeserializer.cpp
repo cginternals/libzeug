@@ -2,7 +2,7 @@
 #include <iostream>
 #include <propertyzeug/Property.h>
 #include <propertyzeug/PropertyGroup.h>
-#include <propertyzeug/PropertySerializer.h>
+#include <propertyzeug/PropertyDeserializer.h>
 
 namespace propertyzeug {
 
