@@ -29,7 +29,6 @@ public:
 
     virtual void visit(PropertyGroup & property);
 
-    bool serialize(PropertyGroup & group, std::string filePath);
     bool deserialize(PropertyGroup & group, std::string filePath);
     
 protected:

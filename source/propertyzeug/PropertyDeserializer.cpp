@@ -17,12 +17,6 @@ PropertySerializer::~PropertySerializer()
 {
 }
 
-bool PropertySerializer::serialize(PropertyGroup & group, std::string filePath)
-{
-    
-    return false;
-}
-
 bool PropertySerializer::deserialize(PropertyGroup & group, std::string filePath)
 {
     m_fstream.open(filePath, std::ios_base::in);
