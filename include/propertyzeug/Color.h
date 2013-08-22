@@ -29,10 +29,10 @@ public:
 protected:
     union {
         struct {
-            char a;
-            char r;
-            char g;
-            char b;
+            unsigned char a;
+            unsigned char r;
+            unsigned char g;
+            unsigned char b;
         };
         unsigned int v;
     } m_rgba;

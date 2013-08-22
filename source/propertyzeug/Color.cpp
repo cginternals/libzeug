@@ -21,10 +21,10 @@ Color::Color(unsigned int rgba)
 
 Color::Color(int red, int green, int blue, int alpha)
 :   m_rgba {
-        .a=static_cast<char>(alpha),
-        .r=static_cast<char>(red),
-        .g=static_cast<char>(green),
-        .b=static_cast<char>(blue)
+        .a=static_cast<unsigned char>(alpha),
+        .r=static_cast<unsigned char>(red),
+        .g=static_cast<unsigned char>(green),
+        .b=static_cast<unsigned char>(blue)
     }
 {
 }
@@ -41,7 +41,7 @@ int Color::red() const
 void Color::setRed(int value)
 {
     assert(0 <= value && value <= 255);
-    m_rgba.r = static_cast<char>(value);
+    m_rgba.r = static_cast<unsigned char>(value);
 }
 
 int Color::green() const
@@ -52,7 +52,7 @@ int Color::green() const
 void Color::setGreen(int value)
 {
     assert(0 <= value && value <= 255);
-    m_rgba.g = static_cast<char>(value);
+    m_rgba.g = static_cast<unsigned char>(value);
 }
 
 int Color::blue() const
@@ -63,7 +63,7 @@ int Color::blue() const
 void Color::setBlue(int value)
 {
     assert(0 <= value && value <= 255);
-    m_rgba.b = static_cast<char>(value);
+    m_rgba.b = static_cast<unsigned char>(value);
 }
 
 int Color::alpha() const
@@ -74,7 +74,7 @@ int Color::alpha() const
 void Color::setAlpha(int value)
 {
     assert(0 <= value && value <= 255);
-    m_rgba.a = static_cast<char>(value);
+    m_rgba.a = static_cast<unsigned char>(value);
 }
 
 unsigned int Color::rgba() const
