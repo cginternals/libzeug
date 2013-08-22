@@ -60,10 +60,12 @@ const PropertyGroup & PropertyGroup::subGroup(const std::string & name) const
 
 bool PropertyGroup::propertyExists(const std::string & name) const
 {
-    if (m_propertiesMap.find(name) == m_propertiesMap.end())
-        return false;
-    else
-        return true;
+    return !(m_propertiesMap.find(name) == m_propertiesMap.end());
+}
+    
+bool PropertyGroup::subGroupExists(const std::string & name) const
+{
+    return this->propertyExists(name) && this->property(name).isGroup();
 }
 
 AbstractProperty * PropertyGroup::replaceProperty(const std::string & name, AbstractProperty * property)

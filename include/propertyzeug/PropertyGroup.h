@@ -63,6 +63,7 @@ public:
 
     
     bool propertyExists(const std::string & name) const;
+    bool subGroupExists(const std::string & name) const;
     
     AbstractProperty * replaceProperty(const std::string & name,
                                        AbstractProperty * property);

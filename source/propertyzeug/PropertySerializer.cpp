@@ -5,12 +5,10 @@
 #include <propertyzeug/PropertySerializer.h>
 
 namespace propertyzeug {
-    
-const std::regex PropertySerializer::s_groupRegex("\\[[a-zA-Z]\\w*\\]");
-const std::regex PropertySerializer::s_propertyRegex("[a-zA-Z]\\w*(\\/[a-zA-Z]\\w*)*=.+");
 
 PropertySerializer::PropertySerializer()
-:   m_currentGroup(nullptr)
+:   m_rootGroup(nullptr)
+,   m_currentGroup(nullptr)
 ,   m_currentValue("")
 {
 }
@@ -33,46 +31,89 @@ bool PropertySerializer::deserialize(PropertyGroup & group, std::string filePath
         return false;
     }
     
+    bool noErrorsOccured = true;
+    m_rootGroup = &group;
+    
     for (std::string line; std::getline(m_fstream, line);) {
-        if (std::regex_match(line, s_groupRegex)) {
-            std::string groupName = line.substr(1, line.length() - 2);
-            
-            if (group.name() == groupName) {
-                m_currentGroup = &group;
-            } else {
-                if (group.propertyExists(groupName)) {
-                    m_currentGroup = &group.subGroup(groupName);
-                } else {
-                    std::cerr << "Group with name \"" << groupName << "\" does not exist";
-                    return false;
-                }
-            }
-        } else if (std::regex_match(line, s_propertyRegex)) {
-            std::smatch match;
-            std::regex_search(line, match, std::regex("="));
-            const std::string & path = match.prefix();
-            m_currentValue = match.suffix();
-            
-            std::regex_search(path, match, AbstractProperty::s_nameRegex);
-            PropertyGroup * traverse_group = m_currentGroup;
-            for (const std::string & name : match) {
-                if (traverse_group->propertyExists(name)) {
-                    AbstractProperty & property = traverse_group->property(name);
-                    if (property.isGroup()) {
-                        traverse_group = property.to<PropertyGroup>();
-                    } else {
-                        property.accept(*this);
-                    }
-                } else {
-                    std::cerr << "Something went wrong" << std::endl;
-                    break;
-                }
-            }
-        }
+        if (this->isGroupDeclaration(line))
+            noErrorsOccured = this->updateCurrentGroup(line) && noErrorsOccured;
+        else if (this->isPropertyDeclaration(line))
+            noErrorsOccured = this->setPropertyValue(line) && noErrorsOccured;
     }
     
+    return noErrorsOccured;
+}
+    
+bool PropertySerializer::isGroupDeclaration(const std::string line)
+{
+    static const std::regex groupRegex("\\[" + AbstractProperty::s_nameRegexString + "\\]");
+
+    return std::regex_match(line, groupRegex);
+}
+
+bool PropertySerializer::isPropertyDeclaration(const std::string line)
+{
+    static const std::regex propertyRegex(AbstractProperty::s_nameRegexString +
+                                          "(\\/" +
+                                          AbstractProperty::s_nameRegexString +
+                                          ")*=.+");
+
+    return std::regex_match(line, propertyRegex);
+}
+
+bool PropertySerializer::updateCurrentGroup(const std::string line)
+{
+    std::string groupName = line.substr(1, line.length() - 2);
+    
+    assert(m_rootGroup);
+    if (m_rootGroup->name() == groupName) {
+        m_currentGroup = m_rootGroup;
+        return true;
+    }
+    
+    if (m_rootGroup->subGroupExists(groupName)) {
+        m_currentGroup = &(m_rootGroup->subGroup(groupName));
+        return true;
+    }
+    
+    m_currentGroup = nullptr;
+    std::cerr << "Group with name \"" << groupName << "\" does not exist" << std::endl;
+    return false;
+}
+
+bool PropertySerializer::setPropertyValue(const std::string line)
+{
+    if (!m_currentGroup) {
+        std::cerr << "Could not parse line\"" << line << "\" because no existing group was declared" << std::endl;
+        return false;
+    }
+
+    std::smatch match;
+    std::regex_search(line, match, std::regex("="));
+    const std::string & path = match.prefix();
+    m_currentValue = match.suffix();
+    
+    PropertyGroup * traverseGroup = m_currentGroup;
+    std::regex_search(path, match, std::regex(AbstractProperty::s_nameRegexString));
+    for (const std::string & name : match) {
+        if (traverseGroup->propertyExists(name)) {
+            AbstractProperty & property = traverseGroup->property(name);
+            
+            if (property.isGroup())
+                traverseGroup = property.to<PropertyGroup>();
+            else
+                property.accept(*this);
+
+        } else {
+            std::cerr << "Property/Group with name \"" << name << "\" ";
+            std::cerr << "in path \"" << path << "\" not found " << std::endl;
+            return false;
+        }
+    }
+
     return true;
-} 
+}
+
 
 void PropertySerializer::visit(Property<bool> & property)
 {
@@ -121,7 +162,7 @@ void PropertySerializer::visit(Property<double> & property)
 
 void PropertySerializer::visit(Property<std::string> & property)
 {
-
+    property.setValue(m_currentValue);
 }
 
 void PropertySerializer::visit(Property<Color> & property)
@@ -136,7 +177,7 @@ void PropertySerializer::visit(Property<FilePath> & property)
 
 void PropertySerializer::visit(PropertyGroup & property)
 {
-
+    /** should not be called **/
 }
 
 } // namespace

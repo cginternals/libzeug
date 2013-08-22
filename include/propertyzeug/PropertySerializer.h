@@ -31,14 +31,19 @@ public:
 
     bool serialize(PropertyGroup & group, std::string filePath);
     bool deserialize(PropertyGroup & group, std::string filePath);
-protected:
-    static const std::regex s_groupRegex;
-    static const std::regex s_propertyRegex;
     
+protected:
     template <typename Type>
     void setPrimitiveValue(Property<Type> & property, std::string value);
     
+    bool isGroupDeclaration(const std::string line);
+    bool isPropertyDeclaration(const std::string line);
+    
+    bool updateCurrentGroup(const std::string line);
+    bool setPropertyValue(const std::string line);
+    
     std::fstream m_fstream;
+    PropertyGroup * m_rootGroup;
     PropertyGroup * m_currentGroup;
     std::string m_currentValue;
 };
