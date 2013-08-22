@@ -8,11 +8,11 @@
 
 namespace propertyzeug {
     
-class PROPERTYZEUG_API PropertySerializer : public AbstractPropertyVisitor
+class PROPERTYZEUG_API PropertyDeserializer : public AbstractPropertyVisitor
 {
 public:
-    PropertySerializer();
-    virtual ~PropertySerializer();
+    PropertyDeserializer();
+    virtual ~PropertyDeserializer();
 
     virtual void visit(Property<bool> & property);
     virtual void visit(Property<int> & property);
@@ -48,7 +48,7 @@ protected:
 };
     
 template <typename Type>
-Type PropertySerializer::convertString(const std::string & stringValue)
+Type PropertyDeserializer::convertString(const std::string & stringValue)
 {
     std::stringstream stream(stringValue);
     Type value;

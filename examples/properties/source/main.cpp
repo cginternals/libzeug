@@ -113,8 +113,8 @@ void deserializeFromFile()
     group.subGroup("group1").addProperty<char>("value3", "Value3", 'a');
     group.subGroup("group1").addProperty<std::string>("name", "Name", "horst");
     
-    PropertySerializer serializer;
-    serializer.deserialize(group, "examples/properties/data/group.ini");
+    PropertyDeserializer deserializer;
+    deserializer.deserialize(group, "examples/properties/data/group.ini");
     
     std::cout << group.value<int>("value1") << std::endl;
     std::cout << group.value<float>("value2") << std::endl;

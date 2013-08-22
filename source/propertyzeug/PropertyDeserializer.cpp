@@ -6,18 +6,18 @@
 
 namespace propertyzeug {
 
-PropertySerializer::PropertySerializer()
+PropertyDeserializer::PropertyDeserializer()
 :   m_rootGroup(nullptr)
 ,   m_currentGroup(nullptr)
 ,   m_currentValue("")
 {
 }
 
-PropertySerializer::~PropertySerializer()
+PropertyDeserializer::~PropertyDeserializer()
 {
 }
 
-bool PropertySerializer::deserialize(PropertyGroup & group, std::string filePath)
+bool PropertyDeserializer::deserialize(PropertyGroup & group, std::string filePath)
 {
     m_fstream.open(filePath, std::ios_base::in);
     if (!m_fstream.is_open()) {
@@ -40,14 +40,14 @@ bool PropertySerializer::deserialize(PropertyGroup & group, std::string filePath
     return noErrorsOccured;
 }
     
-bool PropertySerializer::isGroupDeclaration(const std::string line)
+bool PropertyDeserializer::isGroupDeclaration(const std::string line)
 {
     static const std::regex groupRegex("\\[" + AbstractProperty::s_nameRegexString + "\\]");
 
     return std::regex_match(line, groupRegex);
 }
 
-bool PropertySerializer::isPropertyDeclaration(const std::string line)
+bool PropertyDeserializer::isPropertyDeclaration(const std::string line)
 {
     static const std::regex propertyRegex(AbstractProperty::s_nameRegexString +
                                           "(\\/" +
@@ -57,7 +57,7 @@ bool PropertySerializer::isPropertyDeclaration(const std::string line)
     return std::regex_match(line, propertyRegex);
 }
 
-bool PropertySerializer::updateCurrentGroup(const std::string line)
+bool PropertyDeserializer::updateCurrentGroup(const std::string line)
 {
     std::string groupName = line.substr(1, line.length() - 2);
     
@@ -77,7 +77,7 @@ bool PropertySerializer::updateCurrentGroup(const std::string line)
     return false;
 }
 
-bool PropertySerializer::setPropertyValue(const std::string line)
+bool PropertyDeserializer::setPropertyValue(const std::string line)
 {
     if (!m_currentGroup) {
         std::cerr << "Could not parse line\"" << line << "\" because no existing group was declared" << std::endl;
@@ -111,7 +111,7 @@ bool PropertySerializer::setPropertyValue(const std::string line)
 }
 
 
-void PropertySerializer::visit(Property<bool> & property)
+void PropertyDeserializer::visit(Property<bool> & property)
 {
     if (std::regex_match(m_currentValue, std::regex("\\s*true\\s*"))) {
         property.setValue(true);
@@ -123,52 +123,52 @@ void PropertySerializer::visit(Property<bool> & property)
     }
 }
 
-void PropertySerializer::visit(Property<int> & property)
+void PropertyDeserializer::visit(Property<int> & property)
 {
     property.setValue(this->convertString<int>(m_currentValue));
 }
 
-void PropertySerializer::visit(Property<unsigned int> & property)
+void PropertyDeserializer::visit(Property<unsigned int> & property)
 {
     property.setValue(this->convertString<unsigned int>(m_currentValue));
 }
 
-void PropertySerializer::visit(Property<long> & property)
+void PropertyDeserializer::visit(Property<long> & property)
 {
     property.setValue(this->convertString<long>(m_currentValue));
 }
 
-void PropertySerializer::visit(Property<unsigned long> & property)
+void PropertyDeserializer::visit(Property<unsigned long> & property)
 {
     property.setValue(this->convertString<unsigned long>(m_currentValue));
 }
 
-void PropertySerializer::visit(Property<char> & property)
+void PropertyDeserializer::visit(Property<char> & property)
 {
     property.setValue(this->convertString<char>(m_currentValue));
 }
 
-void PropertySerializer::visit(Property<unsigned char> & property)
+void PropertyDeserializer::visit(Property<unsigned char> & property)
 {
     property.setValue(this->convertString<unsigned char>(m_currentValue));
 }
 
-void PropertySerializer::visit(Property<float> & property)
+void PropertyDeserializer::visit(Property<float> & property)
 {
     property.setValue(this->convertString<float>(m_currentValue));
 }
 
-void PropertySerializer::visit(Property<double> & property)
+void PropertyDeserializer::visit(Property<double> & property)
 {
     property.setValue(this->convertString<double>(m_currentValue));
 }
 
-void PropertySerializer::visit(Property<std::string> & property)
+void PropertyDeserializer::visit(Property<std::string> & property)
 {
     property.setValue(m_currentValue);
 }
 
-void PropertySerializer::visit(Property<Color> & property)
+void PropertyDeserializer::visit(Property<Color> & property)
 {
     static const std::string colorRangeRegexString = "([01]?[0-9]?[0-9]|2[0-4][0-9]|25[0-5])";
     static const std::regex colorFormatRegex("\\s*\\(" +
@@ -193,12 +193,12 @@ void PropertySerializer::visit(Property<Color> & property)
     property.setValue(Color(red, green, blue, alpha));
 }
 
-void PropertySerializer::visit(Property<FilePath> & property)
+void PropertyDeserializer::visit(Property<FilePath> & property)
 {
     property.setValue(m_currentValue);
 }
 
-void PropertySerializer::visit(PropertyGroup & property)
+void PropertyDeserializer::visit(PropertyGroup & property)
 {
     /** should not be called **/
 }
