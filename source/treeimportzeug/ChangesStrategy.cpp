@@ -70,28 +70,27 @@ void ChangesStrategy::createTreeForRevision(unsigned revisionId)
 	}
 	
 	_trees << tree;
-	
-	QHash<int, Node*> nodes;
-	QHash<int, int> parentIds;
-	QHash<int, long> hashes;
+
+    QHash<GeneratedId, Node*> nodes;
+    QHash<DatabaseId, GeneratedId> ids;
+    QHash<GeneratedId, GeneratedId> parentIds;
 	
 	QList<QVariantMap> rows = executeQuery("SELECT id, hash, type_id, parent_id FROM nodes WHERE revision_id = " + QString::number(revisionId) + " ORDER BY id");
-	for (const QVariantMap& node : rows)
+    for (const QVariantMap& row : rows)
 	{
-		int id = idFor(node["hash"].toInt());
+        GeneratedId id = idFor(row["hash"].value<DatabaseHash>());
 		nodes[id] = new Node(id);
-		
-		hashes[node["id"].toInt()] = node["hash"].toInt();
+        ids[row["id"].value<DatabaseId>()] = id;
 	}
 	
-	for (const QVariantMap& node : rows)
+    for (const QVariantMap& row : rows)
 	{
-		parentIds[idFor(node["hash"].toInt())] = idFor(hashes[node["parent_id"].toInt()]);
+        parentIds[ids[row["id"].value<DatabaseId>()]] = ids[row["parent_id"].value<DatabaseId>()];
 	}
 	
-	for (Node* node : nodes)
-	{
-		insertIntoTree(node, tree, nodes, parentIds);
+    for (Node* node : nodes)
+    {
+        insertIntoTree(node, tree, nodes, parentIds);
 	}
 	
 	for (Node* node : nodes)
@@ -106,12 +105,12 @@ void ChangesStrategy::createTreeForRevision(unsigned revisionId)
 		{
 			for (const QVariantMap& attributeValue : _attributeValues[attribute.index])
 			{
-				if (!hashes.contains(attributeValue["node_id"].toInt()))
+                if (!ids.contains(attributeValue["node_id"].toInt()))
 				{
 					continue;
 				}
 				
-				Node* node = tree->getNode(idFor(hashes[attributeValue["node_id"].toInt()]));
+                Node* node = tree->getNode(ids[attributeValue["node_id"].toInt()]);
 				
 				Q_ASSERT(node != nullptr);
 				
@@ -128,7 +127,7 @@ void ChangesStrategy::createTreeForRevision(unsigned revisionId)
 	}
 }
 
-void ChangesStrategy::insertIntoTree(Node* node, Tree* tree, const QHash<int, Node*>& nodes, const QHash<int, int>& parentIds) const
+void ChangesStrategy::insertIntoTree(Node* node, Tree* tree, const QHash<GeneratedId, Node*>& nodes, const QHash<GeneratedId, GeneratedId>& parentIds) const
 {
 	if (node->id() == 0)
 	{
@@ -144,7 +143,7 @@ void ChangesStrategy::insertIntoTree(Node* node, Tree* tree, const QHash<int, No
 		return;
 	}
 	
-	if (parentIds.value(node->id(), 0) <= 0)
+    if (parentIds.value(node->id(), 0) <= 0)
 	{
 		tree->root()->addChild(node);
 		
