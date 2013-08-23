@@ -103,6 +103,8 @@ void iterateOverProperties()
 
 void deserializeFromFile()
 {
+    std::cout << ">> deserializeFromFile()" << std::endl;
+    
     PropertyGroup group("root", "Root");
     group.addProperty<int>("value1", "Value 1", 2);
     group.addProperty<float>("value2", "Value 2", 6);
@@ -115,15 +117,15 @@ void deserializeFromFile()
     
     PropertyDeserializer deserializer;
     deserializer.deserialize(group, "examples/properties/data/group.ini");
-    
-    std::cout << group.value<int>("value1") << std::endl;
-    std::cout << group.value<float>("value2") << std::endl;
-    std::cout << group.value<bool>("failure") << std::endl;
-    std::cout << group.subGroup("group1").value<char>("value3") << std::endl;
+
+    std::cout << "Value of root/group1/value3: ";
+    std::cout << group.value<char>("group1/value3") << std::endl;
 }
 
 void accessProperties()
 {
+    std::cout << ">> accessProperties()" << std::endl;
+    
     PropertyGroup root("root", "Root");
     PropertyGroup child("child", "Child");
     PropertyGroup childOfChild("childOfChild", "Child Of Child");
