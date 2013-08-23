@@ -61,20 +61,20 @@ const AbstractProperty & PropertyGroup::property(const std::string & path) const
 
 PropertyGroup & PropertyGroup::subGroup(const std::string & name)
 {
-    assert(this->propertyExists(name));
+    assert(this->subGroupExists(name));
     return *(this->property(name).to<PropertyGroup>());
 }
 
 const PropertyGroup & PropertyGroup::subGroup(const std::string & path) const
 {
-    assert(this->propertyExists(path));
+    assert(this->subGroupExists(path));
     return *(this->property(path).to<PropertyGroup>());
 }
 
 bool PropertyGroup::propertyExists(const std::string & path) const
 {
     if (std::regex_match(path, std::regex(AbstractProperty::s_nameRegexString)))
-        return !(m_propertiesMap.find(path) == m_propertiesMap.end());
+        return this->directChildPropertyExists(path);
     
     static const std::regex pathRegex(AbstractProperty::s_nameRegexString +
                                       "(\\/" +
@@ -84,7 +84,8 @@ bool PropertyGroup::propertyExists(const std::string & path) const
     if (std::regex_match(path, pathRegex)) {
         std::smatch match;
         std::regex_search(path, match, std::regex("\\/"));
-        return m_propertiesMap.at(match.prefix())->to<PropertyGroup>()->propertyExists(match.suffix());
+        if (this->directChildPropertyExists(match.prefix()))
+            return m_propertiesMap.at(match.prefix())->to<PropertyGroup>()->propertyExists(match.suffix());
     }
     
     return false;
