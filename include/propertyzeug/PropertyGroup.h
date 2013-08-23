@@ -66,6 +66,7 @@ public:
     bool subGroupExists(const std::string & path) const;
     
     bool directChildPropertyExists(const std::string & name) const;
+    bool directChildSubGroupExists(const std::string & name) const;
     
     AbstractProperty * replaceProperty(const std::string & name,
                                        AbstractProperty * property);

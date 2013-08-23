@@ -100,6 +100,11 @@ bool PropertyGroup::directChildPropertyExists(const std::string & name) const
 {
     return !(m_propertiesMap.find(name) == m_propertiesMap.end());
 }
+    
+bool PropertyGroup::directChildSubGroupExists(const std::string & path) const
+{
+    return this->directChildPropertyExists(path) && this->property(path).isGroup();
+}
 
 AbstractProperty * PropertyGroup::replaceProperty(const std::string & name, AbstractProperty * property)
 {

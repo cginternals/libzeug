@@ -68,7 +68,7 @@ bool PropertyDeserializer::updateCurrentGroup(const std::string line)
         return true;
     }
     
-    if (m_rootGroup->subGroupExists(groupName)) {
+    if (m_rootGroup->directChildSubGroupExists(groupName)) {
         m_currentGroup = &(m_rootGroup->subGroup(groupName));
         return true;
     }
@@ -90,22 +90,12 @@ bool PropertyDeserializer::setPropertyValue(const std::string line)
     const std::string & path = match.prefix();
     m_currentValue = match.suffix();
     
-    PropertyGroup * traverseGroup = m_currentGroup;
-    std::regex_search(path, match, std::regex(AbstractProperty::s_nameRegexString));
-    for (const std::string & name : match) {
-        if (traverseGroup->propertyExists(name)) {
-            AbstractProperty & property = traverseGroup->property(name);
-            
-            if (property.isGroup())
-                traverseGroup = property.to<PropertyGroup>();
-            else
-                property.accept(*this);
-
-        } else {
-            std::cerr << "Property/Group with name \"" << name << "\" ";
-            std::cerr << "in path \"" << path << "\" not found " << std::endl;
-            return false;
-        }
+    if (m_currentGroup->propertyExists(path)) {
+        m_currentGroup->property(path).accept(*this);
+    } else {
+        std::cerr << "Property path \"" << path << "\" ";
+        std::cerr << "is invalid" << std::endl;
+        return false;
     }
 
     return true;
@@ -201,7 +191,8 @@ void PropertyDeserializer::visit(Property<FilePath> & property)
 
 void PropertyDeserializer::visit(PropertyGroup & property)
 {
-    /** should not be called **/
+    std::cerr << "Tried to assign value to group with name: ";
+    std::cerr << property.name() << std::endl;
 }
 
 } // namespace
