@@ -39,7 +39,6 @@ bool PropertyDeserializer::deserialize(PropertyGroup & group, std::string filePa
     }
 
     fstream.close();
-    
     return noErrorsOccured;
 }
     
