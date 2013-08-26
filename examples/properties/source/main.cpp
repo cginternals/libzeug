@@ -138,7 +138,7 @@ void accessProperties()
     std::cout << root.value<int>("child/childOfChild/value") << std::endl;
 }
 
-void serializeFromFile()
+void serializeToFile()
 {
     std::cout << ">> serializeFromFile()" << std::endl;
     
@@ -173,7 +173,7 @@ int main(int argc, char const *argv[])
     createPropertiesFromGroup();
     iterateOverProperties();
     deserializeFromFile();
-    serializeFromFile();
+    serializeToFile();
     accessProperties();
     
     return 0;
