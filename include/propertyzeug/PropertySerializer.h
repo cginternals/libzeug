@@ -7,6 +7,10 @@
 
 namespace propertyzeug {
     
+/** @brief
+ * Saves values of a property hierachy to a specified file.
+ */
+    
 class PROPERTYZEUG_API PropertySerializer : public AbstractPropertyVisitor
 {
 public:

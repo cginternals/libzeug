@@ -5,6 +5,10 @@
 #include <propertyzeug/propertyzeug.h>
 
 namespace propertyzeug {
+    
+/** @brief
+ * A simple file path class for use as a property value.
+ */
 
 class PROPERTYZEUG_API FilePath
 {

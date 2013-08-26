@@ -9,6 +9,10 @@
 namespace propertyzeug {
     
 class AbstractProperty;
+    
+/** @brief
+ * Manages subsriptions and notifications for events of a property.
+ */
 
 class PROPERTYZEUG_API Announcer 
 {

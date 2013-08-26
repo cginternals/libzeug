@@ -12,6 +12,11 @@ namespace propertyzeug {
 
 class Announcer;
 class AbstractPropertyVisitor;
+    
+/** @brief
+ * Part of the property hierarchy.
+ * The base class of all properties.
+ */
 
 class PROPERTYZEUG_API AbstractProperty 
 {

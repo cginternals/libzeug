@@ -4,6 +4,11 @@
 #include "BaseProperty.h"
 
 namespace propertyzeug {
+    
+/** @brief
+ * Part of the property hierarchy.
+ * Extends the BaseProperty by adding a minimum and maximum.
+ */
 
 template <typename Type>
 class PROPERTYZEUG_API LimitProperty : public BaseProperty<Type>

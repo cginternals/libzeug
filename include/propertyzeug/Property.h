@@ -15,7 +15,9 @@
 namespace propertyzeug {
 
 /** @brief
- * Dynamic Property class.
+ * Part of the property hierarchy
+ * Has different implementation based on its template Type.
+ * Only this class should be instantiated!
  * Supported Types:
  *   - bool
  *   - [unsigned] int

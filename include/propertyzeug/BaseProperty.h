@@ -6,6 +6,11 @@
 #include "AccessorValue.h"
 
 namespace propertyzeug {
+    
+/** @brief
+ * Part of the property hierarchy.
+ * The super class of all properties that have a value.
+ */
 
 template <typename Type>
 class PROPERTYZEUG_API BaseProperty : public AbstractProperty

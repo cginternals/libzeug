@@ -5,6 +5,11 @@
 #include "BaseProperty.h"
 
 namespace propertyzeug {
+    
+/** @brief
+ * Part of the property hierarchy.
+ * Manages a string and can have choices.
+ */
 
 class PROPERTYZEUG_API StringProperty : public BaseProperty<std::string>
 {

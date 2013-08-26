@@ -5,6 +5,10 @@
 
 namespace propertyzeug {
 
+/** @brief
+ * Provides access to a stored value.
+ */
+    
 template <typename Type>
 class PROPERTYZEUG_API StoredValue : public AbstractValue<Type>
 {

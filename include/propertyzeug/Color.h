@@ -4,6 +4,10 @@
 #include <propertyzeug/propertyzeug.h>
 
 namespace propertyzeug {
+    
+/** @brief
+ * A simple RGBA color class for use as a property value.
+ */
 
 class PROPERTYZEUG_API Color
 {

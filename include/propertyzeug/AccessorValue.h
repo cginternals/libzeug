@@ -6,6 +6,10 @@
 
 namespace propertyzeug {
     
+/** @brief
+ * Provides access to a value by accessors.
+ */
+    
 template <typename Type>
 class PROPERTYZEUG_API AccessorValue : public AbstractValue<Type>
 {

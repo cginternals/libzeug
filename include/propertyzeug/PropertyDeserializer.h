@@ -6,6 +6,10 @@
 
 namespace propertyzeug {
     
+/** @brief
+ * Loads property values from a given file.
+ */
+    
 class PROPERTYZEUG_API PropertyDeserializer : public AbstractPropertyVisitor
 {
 public:

@@ -14,6 +14,10 @@ class FilePath;
 
 class PropertyGroup;
     
+/** @brief
+ * Part of the Visitor Pattern implementation.
+ */
+    
 class PROPERTYZEUG_API AbstractPropertyVisitor
 {
 public:

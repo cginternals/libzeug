@@ -9,6 +9,11 @@
 #include "Property.h"
 
 namespace propertyzeug {
+    
+/** @brief
+ * Part of the Property Hierarchy.
+ * Manages properties while being a property itself.
+ */
 
 class PROPERTYZEUG_API PropertyGroup : public AbstractProperty
 {

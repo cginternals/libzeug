@@ -4,6 +4,10 @@
 #include "propertyzeug/propertyzeug.h"
 
 namespace propertyzeug {
+    
+/** @brief
+ * The base class for value implementations of BaseProperty.
+ */
 
 template <typename Type>
 class PROPERTYZEUG_API AbstractValue
