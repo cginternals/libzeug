@@ -39,7 +39,7 @@ bool PropertySerializer::serialize(PropertyGroup & group, std::string filePath)
     
     
     m_fstream.close();
-    return false;
+    return true;
 }
 
 void PropertySerializer::visit(Property<bool> & property)
