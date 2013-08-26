@@ -2,7 +2,6 @@
 #pragma once
 
 #include <sstream>
-#include <fstream>
 #include "AbstractPropertyVisitor.h"
 
 namespace propertyzeug {
@@ -40,7 +39,6 @@ protected:
     bool updateCurrentGroup(const std::string line);
     bool setPropertyValue(const std::string line);
     
-    std::fstream m_fstream;
     PropertyGroup * m_rootGroup;
     PropertyGroup * m_currentGroup;
     std::string m_currentValue;

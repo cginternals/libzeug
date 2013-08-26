@@ -1,5 +1,6 @@
 
 #include <iostream>
+#include <fstream>
 #include <regex>
 #include <propertyzeug/Property.h>
 #include <propertyzeug/PropertyGroup.h>
@@ -20,8 +21,9 @@ PropertyDeserializer::~PropertyDeserializer()
 
 bool PropertyDeserializer::deserialize(PropertyGroup & group, std::string filePath)
 {
-    m_fstream.open(filePath, std::ios_base::in);
-    if (!m_fstream.is_open()) {
+    std::fstream fstream;
+    fstream.open(filePath, std::ios_base::in);
+    if (!fstream.is_open()) {
         std::cerr << "Could not open file \"" << filePath << "\"" << std::endl;
         return false;
     }
@@ -29,14 +31,14 @@ bool PropertyDeserializer::deserialize(PropertyGroup & group, std::string filePa
     bool noErrorsOccured = true;
     m_rootGroup = &group;
     
-    for (std::string line; std::getline(m_fstream, line);) {
+    for (std::string line; std::getline(fstream, line);) {
         if (this->isGroupDeclaration(line))
             noErrorsOccured = this->updateCurrentGroup(line) && noErrorsOccured;
         else if (this->isPropertyDeclaration(line))
             noErrorsOccured = this->setPropertyValue(line) && noErrorsOccured;
     }
 
-    m_fstream.close();
+    fstream.close();
     
     return noErrorsOccured;
 }
