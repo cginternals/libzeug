@@ -30,8 +30,8 @@ set(sources
 )
 
 # Group source files
-set(header_group "Property Example Headers")
-set(source_group "Property Example Sources")
+set(header_group "Header Files")
+set(source_group "Source Files")
 source_group_by_path(${header_path} "\\\\.h$|\\\\.hpp$" 
     ${header_group} ${headers})
 source_group_by_path(${source_path} "\\\\.cpp$|\\\\.c$|\\\\.h$|\\\\.hpp$" 
