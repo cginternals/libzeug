@@ -35,7 +35,6 @@ public:
     virtual void visit(PropertyGroup & property) = 0;
 
 protected:
-    void traverse(PropertyGroup & group);
 
 };
 

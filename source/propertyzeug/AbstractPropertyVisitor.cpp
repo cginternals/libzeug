@@ -9,11 +9,4 @@ AbstractPropertyVisitor::~AbstractPropertyVisitor()
 {
 }
 
-void AbstractPropertyVisitor::traverse(PropertyGroup & group)
-{
-    group.forEachProperty([this](AbstractProperty & property) {
-        property.accept(*this);
-    });
-}
-
 } // namespace
