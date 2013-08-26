@@ -21,7 +21,7 @@ public:
     template <class Object>
     AccessorValue(Object & object,
                   Type (Object::*getter_pointer)() const,
-                  void (Object::*setter_pointer)(Type));
+                  void (Object::*setter_pointer)(const Type &));
 
     
     virtual ~AccessorValue();
@@ -55,7 +55,7 @@ template <typename Type>
 template <class Object>
 AccessorValue<Type>::AccessorValue(Object & object,
     Type (Object::*getter_pointer)() const,
-    void (Object::*setter_pointer)(Type))
+    void (Object::*setter_pointer)(const Type &))
 :   m_getter(std::bind(getter_pointer, &object))
 ,   m_setter(std::bind(setter_pointer, &object, std::placeholders::_1))
 {

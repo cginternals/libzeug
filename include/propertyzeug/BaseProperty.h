@@ -25,7 +25,7 @@ public:
     template <class Object>
     BaseProperty(const std::string & name, const std::string & title,
                  Object & object, Type (Object::*getter_pointer)() const,
-                 void (Object::*setter_pointer)(Type));
+                 void (Object::*setter_pointer)(const Type &));
     
     virtual ~BaseProperty();
 
@@ -66,7 +66,7 @@ template <typename Type>
 template <class Object>
 BaseProperty<Type>::BaseProperty(const std::string & name, const std::string & title,
     Object & object, Type (Object::*getter_pointer)() const,
-    void (Object::*setter_pointer)(Type))
+    void (Object::*setter_pointer)(const Type &))
 :   AbstractProperty(name, title)
 ,   m_value(new AccessorValue<Type>(object, getter_pointer, setter_pointer))
 {

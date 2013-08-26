@@ -52,7 +52,7 @@ public:
     template <class Object>
     Property(const std::string & name, const std::string & title,
               Object & object, bool (Object::*getter_pointer)() const,
-              void (Object::*setter_pointer)(bool))
+              void (Object::*setter_pointer)(const bool &))
     :   BaseProperty<bool>(name, title, object, getter_pointer, setter_pointer) {};
 
     virtual void accept(AbstractPropertyVisitor & visitor) { visitor.visit(*this); };
@@ -79,7 +79,7 @@ public:
     template <class Object>
     Property(const std::string & name, const std::string & title,
               Object & object, int (Object::*getter_pointer)() const,
-              void (Object::*setter_pointer)(int))
+              void (Object::*setter_pointer)(const int &))
     :   LimitProperty<int>(name, title, object, getter_pointer, setter_pointer) {};
 
     virtual void accept(AbstractPropertyVisitor & visitor) { visitor.visit(*this); };
@@ -106,7 +106,7 @@ public:
     template <class Object>
     Property(const std::string & name, const std::string & title,
               Object & object, unsigned int (Object::*getter_pointer)() const,
-              void (Object::*setter_pointer)(unsigned int))
+              void (Object::*setter_pointer)(const unsigned int &))
     :   LimitProperty<unsigned int>(name, title, object, getter_pointer, setter_pointer) {};
 
     virtual void accept(AbstractPropertyVisitor & visitor) { visitor.visit(*this); };
@@ -133,7 +133,7 @@ public:
     template <class Object>
     Property(const std::string & name, const std::string & title,
               Object & object, long (Object::*getter_pointer)() const,
-              void (Object::*setter_pointer)(long))
+              void (Object::*setter_pointer)(const long &))
     :   LimitProperty<long>(name, title, object, getter_pointer, setter_pointer) {};
 
     virtual void accept(AbstractPropertyVisitor & visitor) { visitor.visit(*this); };
@@ -160,7 +160,7 @@ public:
     template <class Object>
     Property(const std::string & name, const std::string & title,
               Object & object, unsigned long (Object::*getter_pointer)() const,
-              void (Object::*setter_pointer)(unsigned long))
+              void (Object::*setter_pointer)(const unsigned long &))
     :   LimitProperty<unsigned long>(name, title, object, getter_pointer, setter_pointer) {};
 
     virtual void accept(AbstractPropertyVisitor & visitor) { visitor.visit(*this); };
@@ -187,7 +187,7 @@ public:
     template <class Object>
     Property(const std::string & name, const std::string & title,
               Object & object, char (Object::*getter_pointer)() const,
-              void (Object::*setter_pointer)(char))
+              void (Object::*setter_pointer)(const char &))
     :   LimitProperty<char>(name, title, object, getter_pointer, setter_pointer) {};
 
     virtual void accept(AbstractPropertyVisitor & visitor) { visitor.visit(*this); };
@@ -214,7 +214,7 @@ public:
     template <class Object>
     Property(const std::string & name, const std::string & title,
               Object & object, unsigned char (Object::*getter_pointer)() const,
-              void (Object::*setter_pointer)(unsigned char))
+              void (Object::*setter_pointer)(const unsigned char &))
     :   LimitProperty<unsigned char>(name, title, object, getter_pointer, setter_pointer) {};
 
     virtual void accept(AbstractPropertyVisitor & visitor) { visitor.visit(*this); };
@@ -241,7 +241,7 @@ public:
     template <class Object>
     Property(const std::string & name, const std::string & title,
               Object & object, float (Object::*getter_pointer)() const,
-              void (Object::*setter_pointer)(float))
+              void (Object::*setter_pointer)(const float &))
     :   LimitProperty<float>(name, title, object, getter_pointer, setter_pointer) {};
 
     virtual void accept(AbstractPropertyVisitor & visitor) { visitor.visit(*this); };
@@ -268,7 +268,7 @@ public:
     template <class Object>
     Property(const std::string & name, const std::string & title,
               Object & object, double (Object::*getter_pointer)() const,
-              void (Object::*setter_pointer)(double))
+              void (Object::*setter_pointer)(const double &))
     :   LimitProperty<double>(name, title, object, getter_pointer, setter_pointer) {};
 
     virtual void accept(AbstractPropertyVisitor & visitor) { visitor.visit(*this); };
@@ -295,7 +295,7 @@ public:
     template <class Object>
     Property(const std::string & name, const std::string & title,
                   Object & object, std::string (Object::*getter_pointer)() const,
-                  void (Object::*setter_pointer)(std::string))
+                  void (Object::*setter_pointer)(const std::string &))
     :   StringProperty(name, title, object, getter_pointer, setter_pointer) {};
 
     virtual void accept(AbstractPropertyVisitor & visitor) { visitor.visit(*this); };
@@ -322,7 +322,7 @@ public:
     template <class Object>
     Property(const std::string & name, const std::string & title,
               Object & object, Color (Object::*getter_pointer)() const,
-              void (Object::*setter_pointer)(Color))
+              void (Object::*setter_pointer)(const Color &))
     :   BaseProperty<Color>(name, title, object, getter_pointer, setter_pointer) {};
 
     virtual void accept(AbstractPropertyVisitor & visitor) { visitor.visit(*this); };
@@ -349,7 +349,7 @@ public:
     template <class Object>
     Property(const std::string & name, const std::string & title,
               Object & object, FilePath (Object::*getter_pointer)() const,
-              void (Object::*setter_pointer)(FilePath))
+              void (Object::*setter_pointer)(const FilePath &))
     :   BaseProperty<FilePath>(name, title, object, getter_pointer, setter_pointer) {};
 
     virtual void accept(AbstractPropertyVisitor & visitor) { visitor.visit(*this); };
