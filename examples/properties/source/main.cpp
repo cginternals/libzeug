@@ -148,9 +148,16 @@ void serializeFromFile()
     group.addProperty<bool>("failure", "Failure", false);
     group.addProperty<Color>("color", "Color", 0);
     
-    group.addProperty(new PropertyGroup("group1", "Group 1"));
-    group.subGroup("group1").addProperty<char>("value3", "Value3", 'a');
-    group.subGroup("group1").addProperty<std::string>("name", "Name", "horst");
+    PropertyGroup group1("group1", "Group 1");
+    group.addProperty(&group1);
+
+    group1.addProperty<char>("value3", "Value3", 'a');
+    group1.addProperty<std::string>("name", "Name", "horst");
+    
+    PropertyGroup group2("group2", "Group 2");
+    group1.addProperty(&group2);
+    
+    group2.addProperty<std::string>("city", "City", "Potsdam");
     
     PropertySerializer serializer;
     serializer.serialize(group, "examples/properties/data/group2.ini");

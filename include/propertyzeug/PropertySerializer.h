@@ -1,6 +1,8 @@
 
 #pragma once
 
+#include <fstream>
+#include <propertyzeug/Property.h>
 #include "AbstractPropertyVisitor.h"
 
 namespace propertyzeug {
@@ -29,7 +31,18 @@ public:
     bool serialize(PropertyGroup & group, std::string filePath);
     
 protected:
+    template <typename Type>
+    void convertPrimitiveProperty(const Property<Type> & property);
 
+    std::fstream m_fstream;
+    std::string m_currentPath;
 };
-
+    
+template <typename Type>
+void PropertySerializer::convertPrimitiveProperty(const Property<Type> & property)
+{
+    assert(m_fstream.is_open());
+    m_fstream << m_currentPath << property.name() << "=" << property.value() << std::endl;
+}
+    
 } // namespace
