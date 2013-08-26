@@ -146,7 +146,7 @@ void serializeFromFile()
     group.addProperty<int>("value1", "Value 1", 2);
     group.addProperty<float>("value2", "Value 2", 6);
     group.addProperty<bool>("failure", "Failure", false);
-    group.addProperty<Color>("color", "Color", 0);
+    group.addProperty<Color>("color", "Color", Color(42,244,123));
     
     PropertyGroup group1("group1", "Group 1");
     group.addProperty(&group1);
@@ -160,7 +160,7 @@ void serializeFromFile()
     group2.addProperty<std::string>("city", "City", "Potsdam");
     
     PropertySerializer serializer;
-    serializer.serialize(group, "examples/properties/data/group2.ini");
+    serializer.serialize(group, "examples/properties/data/groupOut.ini");
 
 }
 
