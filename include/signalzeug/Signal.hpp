@@ -61,7 +61,7 @@ template <typename... Arguments>
 template <class T>
 Connection Signal<Arguments...>::connect(T* object, void (T::*method)(Arguments...)) const
 {
-	return connect([&object, &method](Arguments... arguments) {
+	return connect([object, method](Arguments... arguments) {
 		(object->*method)(arguments...);
 	});
 }
