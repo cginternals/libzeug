@@ -2,6 +2,7 @@
 #include <propertyzeug/Property.h>
 #include <propertyzeug/PropertyGroup.h>
 #include <propertyzeug/PropertyDeserializer.h>
+#include <propertyzeug/PropertySerializer.h>
 #include "SomeObject.h"
 
 using namespace propertyzeug;
@@ -137,6 +138,25 @@ void accessProperties()
     std::cout << root.value<int>("child/childOfChild/value") << std::endl;
 }
 
+void serializeFromFile()
+{
+    std::cout << ">> serializeFromFile()" << std::endl;
+    
+    PropertyGroup group("root", "Root");
+    group.addProperty<int>("value1", "Value 1", 2);
+    group.addProperty<float>("value2", "Value 2", 6);
+    group.addProperty<bool>("failure", "Failure", false);
+    group.addProperty<Color>("color", "Color", 0);
+    
+    group.addProperty(new PropertyGroup("group1", "Group 1"));
+    group.subGroup("group1").addProperty<char>("value3", "Value3", 'a');
+    group.subGroup("group1").addProperty<std::string>("name", "Name", "horst");
+    
+    PropertySerializer serializer;
+    serializer.serialize(group, "examples/properties/data/group2.ini");
+
+}
+
 int main(int argc, char const *argv[])
 {
     createProperties();
@@ -146,6 +166,7 @@ int main(int argc, char const *argv[])
     createPropertiesFromGroup();
     iterateOverProperties();
     deserializeFromFile();
+    serializeFromFile();
     accessProperties();
     
     return 0;

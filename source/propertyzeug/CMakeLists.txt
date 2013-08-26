@@ -38,6 +38,7 @@ set(headers
     ${header_path}/PropertyGroup.h
     ${header_path}/AbstractPropertyVisitor.h
     ${header_path}/PropertyDeserializer.h
+    ${header_path}/PropertySerializer.h
 
     ${header_path}/AbstractValue.h
     ${header_path}/StoredValue.h
@@ -57,6 +58,7 @@ set(sources
     ${source_path}/PropertyGroup.cpp
     ${source_path}/AbstractPropertyVisitor.cpp
     ${source_path}/PropertyDeserializer.cpp
+    ${source_path}/PropertySerializer.cpp
     
     ${source_path}/Color.cpp
     ${source_path}/FilePath.cpp
