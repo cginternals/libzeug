@@ -19,6 +19,11 @@ public:
     virtual bool isGroup() const;
     virtual void accept(AbstractPropertyVisitor & visitor);
     
+    /** @name Property Adding
+     * @brief Methods for adding properties.
+     */
+    /** @{ */
+    
     bool addProperty(AbstractProperty * property);
     
     template <typename Type>
@@ -41,7 +46,14 @@ public:
                  Object & object, Type (Object::*getter_pointer)() const,
                  void (Object::*setter_pointer)(Type));
     
-
+    /** @} */
+    
+    /** @name Property Accessing
+     * @brief Methods accessing properties, subgroups and values.
+     * Acces Properties in the hierachy with the separater '/'
+     */
+    /** @{ */
+    
     AbstractProperty & property(const std::string & path);
     const AbstractProperty & property(const std::string & path) const;
 
@@ -60,13 +72,26 @@ public:
     
     template <typename Type>
     void setValue(const std::string & path, const Type & value);
-
     
+    /** @} */
+    
+    /** @name Existence Tests
+     * @brief Methods for testing for existence of properties
+     */
+    /** @{ */
+
     bool propertyExists(const std::string & path) const;
     bool subGroupExists(const std::string & path) const;
     
-    bool directChildPropertyExists(const std::string & name) const;
+    bool directChildPropertyExists(const std::string & name) const; /** TODO look for better name **/
     bool directChildSubGroupExists(const std::string & name) const;
+    
+    /** @} */
+    
+    /** @name Convenience Methods
+     * @brief Methods for manipulating the property list
+     */
+    /** @{ */
     
     AbstractProperty * replaceProperty(const std::string & name,
                                        AbstractProperty * property);
@@ -78,10 +103,18 @@ public:
     
     AbstractProperty * obtainProperty(const std::string & name);
     
+    /** @} */
+    
+    /** @name Property Iterators
+     * @brief Methods for property iteration
+     */
+    /** @{ */
     
     void forEachProperty(const std::function<void(AbstractProperty &)> functor);
     void forEachValueProperty(const std::function<void(AbstractProperty &)> functor); /** TODO look for better name **/
     void forEachSubGroup(const std::function<void(PropertyGroup &)> functor);
+    
+    /** @} */
     
 protected:
     std::list<AbstractProperty *> m_properties;
