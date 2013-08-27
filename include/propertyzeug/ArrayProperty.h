@@ -57,6 +57,7 @@ ArrayProperty<Array>::ArrayProperty(const std::string & name, const std::string 
     const Array & value)
 :   BaseProperty<Array>(name, title, value)
 ,   m_fixedSize(this->m_value->get().size())
+,   m_dimensions({m_fixedSize})
 {
     assert(m_fixedSize != 0);
 }
@@ -67,6 +68,7 @@ ArrayProperty<Array>::ArrayProperty(const std::string & name, const std::string 
     const std::function<void(const Array &)> & setter)
 :   BaseProperty<Array>(name, title, getter, setter)
 ,   m_fixedSize(this->m_value->get().size())
+,   m_dimensions({m_fixedSize})
 {
     assert(m_fixedSize != 0);
 }
@@ -78,6 +80,7 @@ ArrayProperty<Array>::ArrayProperty(const std::string & name, const std::string 
     void (Object::*setter_pointer)(const Array &))
 :   BaseProperty<Array>(name, title, object, getter_pointer, setter_pointer)
 ,   m_fixedSize(this->m_value->get().size())
+,   m_dimensions({m_fixedSize})
 {
     assert(m_fixedSize != 0);
 }
@@ -89,6 +92,7 @@ ArrayProperty<Array>::ArrayProperty(const std::string & name, const std::string 
     void (Object::*setter_pointer)(Array))
 :   BaseProperty<Array>(name, title, object, getter_pointer, setter_pointer)
 ,   m_fixedSize(this->m_value->get().size())
+,   m_dimensions({m_fixedSize})
 {
     assert(m_fixedSize != 0);
 }
