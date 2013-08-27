@@ -34,8 +34,8 @@ public:
     
     virtual ~BaseProperty();
 
-    const Type & value() const;
-    void setValue(const Type & value);
+    virtual const Type & value() const;
+    virtual void setValue(const Type & value);
 protected:
     std::unique_ptr<AbstractValue<Type>> m_value;
 };
