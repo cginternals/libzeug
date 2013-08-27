@@ -14,12 +14,15 @@ class Tree
 {
 	friend class Node;
 public:
-	Tree();
+    Tree(const std::string& name);
 	virtual ~Tree();
 
 	Node* root();
 	const Node* root() const;
 	void setRoot(Node* node);
+
+    const std::string& name() const;
+    void setName(const std::string& name);
 
 	unsigned size() const;
 	int maxId() const;
@@ -42,6 +45,7 @@ public:
 
 	Tree* copy() const;
 protected:
+    std::string _name;
 	Node* _root;
 	std::unordered_map<int, Node*> _idMap;
 	int _nextId;
@@ -78,6 +82,7 @@ public:
 	bool hasAttribute(const std::string& name) const;
 
 	const std::vector<Node*>& children() const;
+    std::vector<Node*>& children();
 	void addChild(Node* child);
 	void addChildren(const std::vector<Node*>& children);
 

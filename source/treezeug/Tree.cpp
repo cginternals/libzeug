@@ -4,12 +4,13 @@
 #include <queue>
 #include <iostream>
 
-Tree::Tree()
-: _root(new Node())
+Tree::Tree(const std::string& name)
+: _name(name)
+, _root(new Node())
 , _nextId(0)
 , _depth(0)
 {
-	registerNode(_root, true);
+    registerNode(_root, true);
 }
 
 Tree::~Tree()
@@ -24,7 +25,7 @@ Tree::~Tree()
 
 Tree* Tree::copy() const
 {
-	Tree* newTree = new Tree();
+    Tree* newTree = new Tree(_name);
 
 	nodesDo([=](const Node* node) {
 		Node* newNode = new Node(node->id());
@@ -62,6 +63,16 @@ Tree* Tree::copy() const
 	}
 
 	return newTree;
+}
+
+const std::string& Tree::name() const
+{
+    return _name;
+}
+
+void Tree::setName(const std::string& name)
+{
+    _name = name;
 }
 
 Node* Tree::root()
@@ -344,6 +355,11 @@ bool Node::hasAttribute(const std::string& name) const
 const std::vector<Node*>& Node::children() const
 {
 	return _children;
+}
+
+std::vector<Node*>& Node::children()
+{
+    return _children;
 }
 
 void Node::childrenDo(std::function<void(Node*)> action)

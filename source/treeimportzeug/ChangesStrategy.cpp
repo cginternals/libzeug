@@ -48,7 +48,7 @@ void ChangesStrategy::processRevisions(const QList<QVariantMap>& revisions)
 
 void ChangesStrategy::createTreeForRevision(unsigned revisionId)
 {
-	Tree* tree = new Tree();
+    Tree* tree = new Tree(QString("Revision %1").arg(revisionId).toStdString());
 	
 	tree->addAttributeMap("id", AttributeMap::Numeric);
 	tree->addAttributeMap("depth", AttributeMap::Numeric);
@@ -125,6 +125,12 @@ void ChangesStrategy::createTreeForRevision(unsigned revisionId)
 			}
 		}
 	}
+
+    tree->nodesOrderedByDepthDo([](Node* node) {
+        std::sort(node->children().begin(), node->children().end(), [](Node* node1, Node* node2) {
+            return node1->id() < node2->id();
+        });
+    });
 }
 
 void ChangesStrategy::insertIntoTree(Node* node, Tree* tree, const QHash<GeneratedId, Node*>& nodes, const QHash<GeneratedId, GeneratedId>& parentIds) const

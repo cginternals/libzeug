@@ -2,9 +2,11 @@
 
 #include <TreeSqliteParser.h>
 
+#include <QDateTime>
+
 SDStrategy::SDStrategy(TreeSqliteParser& parser)
 : TreeSqliteParserStrategy(parser)
-, _tree(new Tree())
+, _tree(new Tree(""))
 {
 }
 
@@ -95,6 +97,11 @@ void SDStrategy::addMetricsForOneTimestamp()
 	
 	for (const QVariantMap& metricSet : executeQuery("SELECT timestamp FROM metricssets WHERE 1 ORDER BY timestamp LIMIT 1"))
 	{
+        QDateTime time;
+        time.setMSecsSinceEpoch(metricSet["timestamp"].toULongLong());
+
+        _tree->setName(time.toString("dd.MM.yyyy hh:mm").toStdString());
+
 		for (const QVariantMap& metricData : executeQuery("SELECT itemId, metricId, value FROM metricsdata WHERE timestamp = " + metricSet["timestamp"].toString() + " ORDER BY itemId"))
 		{
 			_tree->getNode(metricData["itemId"].toInt())->setAttribute(
@@ -132,6 +139,11 @@ void SDStrategy::addMetricsForAllTimestamps()
 	for (const QVariantMap& metricSet : executeQuery("SELECT timestamp FROM metricssets WHERE 1 ORDER BY timestamp"))
 	{
 		Tree* tree = _tree->copy();
+
+        QDateTime time;
+        time.setMSecsSinceEpoch(metricSet["timestamp"].toULongLong());
+
+        _tree->setName(time.toString("dd.MM.yyyy hh:mm").toStdString());
 		
 		for (const QVariantMap& metricData : executeQuery("SELECT itemId, metricId, value FROM metricsdata WHERE timestamp = " + metricSet["timestamp"].toString() + " ORDER BY itemId"))
 		{

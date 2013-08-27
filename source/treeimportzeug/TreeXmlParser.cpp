@@ -6,11 +6,13 @@
 
 #include <iostream>
 
+#include <QFileInfo>
+
 TreeXmlParser::TreeXmlParser()
 : _tree(nullptr)
 , _strategy(nullptr)
 {
-	_tree = new Tree();
+    _tree = new Tree("");
 }
 
 Tree* TreeXmlParser::createTreeFromFile(const QString& filename)
@@ -35,6 +37,8 @@ Tree* TreeXmlParser::createTreeFromFile(const QString& filename)
 	{
 		return nullptr;
 	}
+
+    parser.tree()->setName(QFileInfo(filename).baseName().toStdString());
 
 	return parser.tree();
 }
