@@ -144,9 +144,11 @@ void serializeToFile()
     
     PropertyGroup group("root", "Root");
     group.addProperty<int>("value1", "Value 1", 2);
-    group.addProperty<float>("value2", "Value 2", 6);
+    group.addProperty<float>("value2", "Value 2", 6.2);
     group.addProperty<bool>("failure", "Failure", false);
     group.addProperty<Color>("color", "Color", Color(42,244,123));
+    group.addProperty<std::vector<int>>("vec3", "Vector 3", {1,2,3});
+    group.addProperty<std::vector<bool>>("bvec2", "Bool Vector 2", {true, false});
     
     PropertyGroup group1("group1", "Group 1");
     group.addProperty(&group1);

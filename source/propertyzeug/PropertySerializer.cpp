@@ -41,69 +41,81 @@ bool PropertySerializer::serialize(PropertyGroup & group, std::string filePath)
     m_fstream.close();
     return true;
 }
+    
+void PropertySerializer::serializeProperty(const AbstractProperty & property,
+    std::function<std::string()> valueFunctor)
+{
+    assert(m_fstream.is_open());
+    m_fstream << m_currentPath << property.name();
+    m_fstream << "=" << valueFunctor() << std::endl;
+}
 
 void PropertySerializer::visit(Property<bool> & property)
 {
-    assert(m_fstream.is_open());
-    std::string value = property.value() ? "true" : "false";
-    m_fstream << property.name() << "=" << value << std::endl;
+    this->serializeProperty(property, [&property]() {
+        return property.value() ? "true" : "false";
+    });
 }
 
 void PropertySerializer::visit(Property<int> & property)
 {
-    this->convertPrimitiveProperty(property);
+    this->serializePrimitiveProperty(property);
 }
 
 void PropertySerializer::visit(Property<unsigned int> & property)
 {
-    this->convertPrimitiveProperty(property);
+    this->serializePrimitiveProperty(property);
 }
 
 void PropertySerializer::visit(Property<long> & property)
 {
-    this->convertPrimitiveProperty(property);
+    this->serializePrimitiveProperty(property);
 }
 
 void PropertySerializer::visit(Property<unsigned long> & property)
 {
-    this->convertPrimitiveProperty(property);
+    this->serializePrimitiveProperty(property);
 }
 
 void PropertySerializer::visit(Property<char> & property)
 {
-    this->convertPrimitiveProperty(property);
+    this->serializePrimitiveProperty(property);
 }
 
 void PropertySerializer::visit(Property<unsigned char> & property)
 {
-    this->convertPrimitiveProperty(property);
+    this->serializePrimitiveProperty(property);
 }
 
 void PropertySerializer::visit(Property<float> & property)
 {
-    this->convertPrimitiveProperty(property);
+    this->serializePrimitiveProperty(property);
 }
 
 void PropertySerializer::visit(Property<double> & property)
 {
-    this->convertPrimitiveProperty(property);
+    this->serializePrimitiveProperty(property);
 }
 
 void PropertySerializer::visit(Property<std::string> & property)
 {
-    this->convertPrimitiveProperty(property);
+    this->serializeProperty(property, [&property]() {
+        return property.value();
+    });
 }
 
 void PropertySerializer::visit(Property<Color> & property)
 {
-    assert(m_fstream.is_open());
-    m_fstream << m_currentPath << property.name() << "=";
-    m_fstream << "(";
-    m_fstream << property.value().red() << ",";
-    m_fstream << property.value().green() << ",";
-    m_fstream << property.value().blue() << ",";
-    m_fstream << property.value().alpha();
-    m_fstream << ")" << std::endl;
+    this->serializeProperty(property, [&property]() {
+        std::stringstream stream;
+        stream << "(";
+        stream << property.value().red() << ",";
+        stream << property.value().green() << ",";
+        stream << property.value().blue() << ",";
+        stream << property.value().alpha();
+        stream << ")";
+        return stream.str();
+    });
 }
 
 void PropertySerializer::visit(Property<FilePath> & property)
@@ -111,6 +123,36 @@ void PropertySerializer::visit(Property<FilePath> & property)
     assert(m_fstream.is_open());
     m_fstream << m_currentPath << property.name() << "=";
     m_fstream << property.value().string() << std::endl;
+}
+
+void PropertySerializer::visit(Property<std::vector<bool>> & property)
+{
+    this->serializeProperty(property, [&property]() {
+        std::stringstream stream;
+        stream << "(";
+        for(auto e = property.value().begin(); e < --property.value().end(); e++) {
+            stream << (*e ? "true" : "false") << ",";
+        }
+        stream << (property.value().back() ? "true" : "false");
+        stream << ")";
+        
+        return stream.str();
+    });
+}
+
+void PropertySerializer::visit(Property<std::vector<int>> & property)
+{
+    this->serializeVectorProperty(property);
+}
+
+void PropertySerializer::visit(Property<std::vector<float>> & property)
+{
+    this->serializeVectorProperty(property);
+}
+
+void PropertySerializer::visit(Property<std::vector<double>> & property)
+{
+    this->serializeVectorProperty(property);
 }
 
 void PropertySerializer::visit(PropertyGroup & property)

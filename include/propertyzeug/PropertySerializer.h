@@ -1,6 +1,7 @@
 
 #pragma once
 
+#include <sstream>
 #include <fstream>
 #include <propertyzeug/Property.h>
 #include "AbstractPropertyVisitor.h"
@@ -30,23 +31,53 @@ public:
     virtual void visit(Property<Color> & property);
     virtual void visit(Property<FilePath> & property);
 
+    virtual void visit(Property<std::vector<bool>> & property);
+    virtual void visit(Property<std::vector<int>> & property);
+    virtual void visit(Property<std::vector<float>> & property);
+    virtual void visit(Property<std::vector<double>> & property);
+
     virtual void visit(PropertyGroup & property);
 
     bool serialize(PropertyGroup & group, std::string filePath);
     
 protected:
+    void serializeProperty(const AbstractProperty & property,
+                           std::function<std::string()> valueFunctor);
+    
     template <typename Type>
-    void convertPrimitiveProperty(const Property<Type> & property);
+    void serializePrimitiveProperty(const Property<Type> & property);
+    
+    template <typename Type>
+    void serializeVectorProperty(const Property<Type> & property);
 
     std::fstream m_fstream;
     std::string m_currentPath;
 };
     
 template <typename Type>
-void PropertySerializer::convertPrimitiveProperty(const Property<Type> & property)
+void PropertySerializer::serializePrimitiveProperty(const Property<Type> & property)
 {
-    assert(m_fstream.is_open());
-    m_fstream << m_currentPath << property.name() << "=" << property.value() << std::endl;
+    this->serializeProperty(property, [&property]() -> std::string {
+        std::stringstream stream;
+        stream << property.value();
+        return stream.str();
+    });
+}
+    
+template <typename Type>
+void PropertySerializer::serializeVectorProperty(const Property<Type> & property)
+{
+    this->serializeProperty(property, [&property]() {
+        std::stringstream stream;
+        stream << "(";
+        for(auto e = property.value().begin(); e < --property.value().end(); e++) {
+            stream << *e << ",";
+        }
+        stream << property.value().back();
+        stream << ")";
+        
+        return stream.str();
+    });
 }
     
 } // namespace

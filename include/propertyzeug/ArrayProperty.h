@@ -58,6 +58,7 @@ ArrayProperty<Array>::ArrayProperty(const std::string & name, const std::string 
 :   BaseProperty<Array>(name, title, value)
 ,   m_fixedSize(this->m_value->get().size())
 {
+    assert(m_fixedSize != 0);
 }
 
 template <typename Array>
@@ -67,6 +68,7 @@ ArrayProperty<Array>::ArrayProperty(const std::string & name, const std::string 
 :   BaseProperty<Array>(name, title, getter, setter)
 ,   m_fixedSize(this->m_value->get().size())
 {
+    assert(m_fixedSize != 0);
 }
 
 template <typename Array>
@@ -77,6 +79,7 @@ ArrayProperty<Array>::ArrayProperty(const std::string & name, const std::string 
 :   BaseProperty<Array>(name, title, object, getter_pointer, setter_pointer)
 ,   m_fixedSize(this->m_value->get().size())
 {
+    assert(m_fixedSize != 0);
 }
 
 template <typename Array>
@@ -87,6 +90,7 @@ ArrayProperty<Array>::ArrayProperty(const std::string & name, const std::string 
 :   BaseProperty<Array>(name, title, object, getter_pointer, setter_pointer)
 ,   m_fixedSize(this->m_value->get().size())
 {
+    assert(m_fixedSize != 0);
 }
 
 template <typename Array>
