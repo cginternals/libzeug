@@ -161,7 +161,26 @@ void serializeToFile()
     
     PropertySerializer serializer;
     serializer.serialize(group, "examples/properties/data/groupOut.ini");
+}
 
+void useVectorProperties()
+{
+    std::cout << ">> useVectorProperties()" << std::endl;
+    
+    Property<std::vector<int>> ivec3("ivec3", "Integer Vector 3", {1,2,3});
+    std::cout << "ivec3.fixedSize() = " << ivec3.fixedSize() << std::endl;
+    
+    Property<std::vector<float>> mat2x2("mat2x2", "Matrix 2x2", {1.1, 2.2, 3.3, 4.4});
+    std::cout << "mat2x2.fixedSize() = " << mat2x2.fixedSize() << std::endl;
+    mat2x2.setDimensions({2,2});
+    
+    std::vector<bool> mat = {
+        true,  false, false, false,
+        false, true,  false, false,
+        false, false, true,  false
+    };
+    Property<std::vector<bool>> mat4x3("mat4x3", "Bool Matrix 4x3", mat);
+    std::cout << "mat4x3.fixedSize() = " << mat4x3.fixedSize() << std::endl;
 }
 
 int main(int argc, char const *argv[])
@@ -175,6 +194,7 @@ int main(int argc, char const *argv[])
     deserializeFromFile();
     serializeToFile();
     accessProperties();
+    useVectorProperties();
     
     return 0;
 }
