@@ -29,12 +29,15 @@ bool PropertySerializer::serialize(PropertyGroup & group, std::string filePath)
         property.accept(*this);
     });
     
+    m_fstream << std::endl;
+    
     group.forEachSubGroup([this](PropertyGroup & subGroup) {
         m_fstream << "[" << subGroup.name() << "]" << std::endl;
         m_currentPath = "";
         subGroup.forEachProperty([this](AbstractProperty & property) {
             property.accept(*this);
         });
+        m_fstream << std::endl;
     });
     
     
