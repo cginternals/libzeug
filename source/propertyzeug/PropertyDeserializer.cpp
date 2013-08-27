@@ -1,4 +1,5 @@
 
+#include <sstream>
 #include <iostream>
 #include <fstream>
 #include <regex>
@@ -101,6 +102,31 @@ bool PropertyDeserializer::setPropertyValue(const std::string line)
 
     return true;
 }
+    
+void PropertyDeserializer::deserializeVectorValues(const std::string & valueRegexString,
+    int size, const std::function<void(const std::string &)> & functor)
+{
+    std::stringstream vectorRegexStream;
+    
+    vectorRegexStream << "\\s*\\(";
+    for (int i = 0; i < size - 1; i++) {
+        vectorRegexStream << valueRegexString << ",";
+    }
+    vectorRegexStream << valueRegexString << "\\)\\s*";
+    
+    std::string string(vectorRegexStream.str());
+    if (!std::regex_match(m_currentValue, std::regex(vectorRegexStream.str()))) {
+        std::cerr << "Vector values does not match format:";
+        std::cerr << "\"" << valueRegexString << "\"" << std::endl;
+        return;
+    }
+    
+    std::smatch match;
+    std::regex_search(m_currentValue, match, std::regex(vectorRegexStream.str()));
+    for (int i = 1; i < match.size(); ++i) {
+        functor(match[i].str());
+    }
+}
 
 
 void PropertyDeserializer::visit(Property<bool> & property)
@@ -162,32 +188,57 @@ void PropertyDeserializer::visit(Property<std::string> & property)
 
 void PropertyDeserializer::visit(Property<Color> & property)
 {
-    static const std::string colorRangeRegexString = "([01]?[0-9]?[0-9]|2[0-4][0-9]|25[0-5])";
-    static const std::regex colorFormatRegex("\\s*\\(" +
-                                colorRangeRegexString + "," +
-                                colorRangeRegexString + "," +
-                                colorRangeRegexString + "," +
-                                colorRangeRegexString +
-                                "\\)\\s*");
-    
-    if (!std::regex_match(m_currentValue, colorFormatRegex)) {
-        std::cerr << "Color value has wrong format: " << m_currentValue << std::endl;
-        return;
-    }
-    
-    std::smatch match;
-    std::regex_search(m_currentValue, match, std::regex(colorRangeRegexString));
-    int red, green, blue, alpha;
-    red = this->convertString<int>(match[0].str());
-    green = this->convertString<int>(match[1].str());
-    blue = this->convertString<int>(match[2].str());
-    alpha = this->convertString<int>(match[3].str());
-    property.setValue(Color(red, green, blue, alpha));
+    std::vector<int> color;
+    this->deserializeVectorValues("([01]?[0-9]?[0-9]|2[0-4][0-9]|25[0-5])", 4,
+                                  [this, &color](const std::string & string) {
+                                      color.push_back(this->convertString<int>(string));
+                                  });
+    property.setValue(Color(color[0], color[1], color[2], color[3]));
 }
 
 void PropertyDeserializer::visit(Property<FilePath> & property)
 {
     property.setValue(m_currentValue);
+}
+
+void PropertyDeserializer::visit(Property<std::vector<bool>> & property)
+{
+    std::vector<bool> vector;
+    this->deserializeVectorValues("(true|false)", property.fixedSize(),
+                                  [this, &vector](const std::string & string) {
+                                      vector.push_back(string == "true" ? true : false);
+                                  });
+    property.setValue(vector);
+}
+
+void PropertyDeserializer::visit(Property<std::vector<int>> & property)
+{
+    std::vector<int> vector;
+    this->deserializeVectorValues("(\\d+\\.?\\d*)", property.fixedSize(),
+                                  [this, &vector](const std::string & string) {
+                                      vector.push_back(this->convertString<int>(string));
+                                  });
+    property.setValue(vector);
+}
+
+void PropertyDeserializer::visit(Property<std::vector<float>> & property)
+{
+    std::vector<float> vector;
+    this->deserializeVectorValues("(\\d+\\.?\\d*)", property.fixedSize(),
+                                  [this, &vector](const std::string & string) {
+                                      vector.push_back(this->convertString<float>(string));
+                                  });
+    property.setValue(vector);
+}
+
+void PropertyDeserializer::visit(Property<std::vector<double>> & property)
+{
+    std::vector<double> vector;
+    this->deserializeVectorValues("(\\d+\\.?\\d*)", property.fixedSize(),
+                                  [this, &vector](const std::string & string) {
+                                      vector.push_back(this->convertString<double>(string));
+                                  });
+    property.setValue(vector);
 }
 
 void PropertyDeserializer::visit(PropertyGroup & property)

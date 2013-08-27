@@ -111,16 +111,18 @@ void deserializeFromFile()
     group.addProperty<float>("value2", "Value 2", 6);
     group.addProperty<bool>("failure", "Failure", false);
     group.addProperty<Color>("color", "Color", 0);
+    group.addProperty<std::vector<int>>("vec3", "Vector 3", {12,4,54});
     
     group.addProperty(new PropertyGroup("group1", "Group 1"));
     group.subGroup("group1").addProperty<char>("value3", "Value3", 'a');
     group.subGroup("group1").addProperty<std::string>("name", "Name", "horst");
+    group.subGroup("group1").addProperty<std::vector<bool>>("bool2", "Bool 2", {false,false});
     
     PropertyDeserializer deserializer;
     deserializer.deserialize(group, "examples/properties/data/group.ini");
 
-    std::cout << "Value of root/group1/value3: ";
-    std::cout << group.value<char>("group1/value3") << std::endl;
+    std::cout << "Value of root/vec3[0]: ";
+    std::cout << group.value<std::vector<int>>("vec3").at(0) << std::endl;
 }
 
 void accessProperties()
