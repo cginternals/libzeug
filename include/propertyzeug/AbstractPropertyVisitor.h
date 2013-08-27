@@ -2,6 +2,7 @@
 #pragma once
 
 #include <string>
+#include <vector>
 #include <propertyzeug/propertyzeug.h>
 
 namespace propertyzeug {
@@ -35,6 +36,8 @@ public:
     virtual void visit(Property<std::string> & property) = 0;
     virtual void visit(Property<Color> & property) = 0;
     virtual void visit(Property<FilePath> & property) = 0;
+    
+    virtual void visit(Property<std::vector<bool>> & property) {};
 
     virtual void visit(PropertyGroup & property) = 0;
 

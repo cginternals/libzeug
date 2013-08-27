@@ -33,6 +33,7 @@ set(headers
     ${header_path}/BaseProperty.h
     ${header_path}/LimitProperty.h
     ${header_path}/StringProperty.h
+    ${header_path}/ArrayProperty.h
     ${header_path}/Property.h
 
     ${header_path}/PropertyGroup.h

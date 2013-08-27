@@ -6,6 +6,7 @@
 #include "BaseProperty.h"
 #include "LimitProperty.h"
 #include "StringProperty.h"
+#include "ArrayProperty.h"
 
 #include "Color.h"
 #include "FilePath.h"
@@ -353,6 +354,36 @@ public:
               Object & object, FilePath (Object::*getter_pointer)() const,
               void (Object::*setter_pointer)(const FilePath &))
     :   BaseProperty<FilePath>(name, title, object, getter_pointer, setter_pointer) {};
+
+    virtual void accept(AbstractPropertyVisitor & visitor) { visitor.visit(*this); };
+};
+
+template <>
+class Property<std::vector<bool>> : public ArrayProperty<std::vector<bool>>
+{
+public:
+    Property(const std::string & name,
+             const std::string & title,
+             const std::vector<bool> & value,
+             int fixedSize = ArrayProperty<std::vector<bool>>::s_noFixedSize)
+    :   ArrayProperty<std::vector<bool>>(name, title, value, fixedSize) {};
+    
+    Property(const std::string & name, const std::string & title,
+             const std::function<const std::vector<bool> & ()> & getter,
+             const std::function<void(const std::vector<bool> &)> & setter)
+    :   ArrayProperty<std::vector<bool>>(name, title, getter, setter) {};
+    
+    template <class Object>
+    Property(const std::string & name, const std::string & title,
+             Object & object, const std::vector<bool> & (Object::*getter_pointer)() const,
+             void (Object::*setter_pointer)(const std::vector<bool> &))
+    :   ArrayProperty<std::vector<bool>>(name, title, object, getter_pointer, setter_pointer) {};
+    
+    template <class Object>
+    Property(const std::string & name, const std::string & title,
+             Object & object, std::vector<bool> (Object::*getter_pointer)() const,
+             void (Object::*setter_pointer)(const std::vector<bool> &))
+    :   ArrayProperty<std::vector<bool>>(name, title, object, getter_pointer, setter_pointer) {};
 
     virtual void accept(AbstractPropertyVisitor & visitor) { visitor.visit(*this); };
 };
