@@ -42,7 +42,7 @@ public:
     
 protected:
     void serializeProperty(const AbstractProperty & property,
-                           std::function<std::string()> valueFunctor);
+                           const std::function<std::string()> & valueFunctor);
     
     template <typename Type>
     void serializePrimitiveProperty(const Property<Type> & property);
