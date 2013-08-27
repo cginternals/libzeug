@@ -7,6 +7,13 @@
 
 namespace propertyzeug {
     
+/** @brief
+ * Part of the property hierarchy.
+ * Should only be instantiated with an std::vector like container.
+ * The size of the container must not change, therefore it makes no sense to pass
+ * an empty container to the constructor.
+ */
+    
 template <typename Array>
 class ArrayProperty : public BaseProperty<Array>
 {
