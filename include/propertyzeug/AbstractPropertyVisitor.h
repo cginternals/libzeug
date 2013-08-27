@@ -38,6 +38,9 @@ public:
     virtual void visit(Property<FilePath> & property) = 0;
     
     virtual void visit(Property<std::vector<bool>> & property) {};
+    virtual void visit(Property<std::vector<int>> & property) {};
+    virtual void visit(Property<std::vector<float>> & property) {};
+    virtual void visit(Property<std::vector<double>> & property) {};
 
     virtual void visit(PropertyGroup & property) = 0;
 

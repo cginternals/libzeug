@@ -29,6 +29,10 @@ namespace propertyzeug {
  *   - std::string
  *   - Color
  *   - FilePath
+ *   - std::vector<bool>
+ *   - std::vector<int>
+ *   - std::vector<float>
+ *   - std::vector<double>
  */
 
 template <typename Type>
@@ -384,6 +388,96 @@ public:
              Object & object, std::vector<bool> (Object::*getter_pointer)() const,
              void (Object::*setter_pointer)(const std::vector<bool> &))
     :   ArrayProperty<std::vector<bool>>(name, title, object, getter_pointer, setter_pointer) {};
+
+    virtual void accept(AbstractPropertyVisitor & visitor) { visitor.visit(*this); };
+};
+
+template <>
+class Property<std::vector<int>> : public ArrayProperty<std::vector<int>>
+{
+public:
+    Property(const std::string & name,
+             const std::string & title,
+             const std::vector<int> & value,
+             int fixedSize = ArrayProperty<std::vector<int>>::s_noFixedSize)
+    :   ArrayProperty<std::vector<int>>(name, title, value, fixedSize) {};
+    
+    Property(const std::string & name, const std::string & title,
+             const std::function<const std::vector<int> & ()> & getter,
+             const std::function<void(const std::vector<int> &)> & setter)
+    :   ArrayProperty<std::vector<int>>(name, title, getter, setter) {};
+    
+    template <class Object>
+    Property(const std::string & name, const std::string & title,
+             Object & object, const std::vector<int> & (Object::*getter_pointer)() const,
+             void (Object::*setter_pointer)(const std::vector<int> &))
+    :   ArrayProperty<std::vector<int>>(name, title, object, getter_pointer, setter_pointer) {};
+    
+    template <class Object>
+    Property(const std::string & name, const std::string & title,
+             Object & object, std::vector<int> (Object::*getter_pointer)() const,
+             void (Object::*setter_pointer)(const std::vector<int> &))
+    :   ArrayProperty<std::vector<int>>(name, title, object, getter_pointer, setter_pointer) {};
+
+    virtual void accept(AbstractPropertyVisitor & visitor) { visitor.visit(*this); };
+};
+
+template <>
+class Property<std::vector<float>> : public ArrayProperty<std::vector<float>>
+{
+public:
+    Property(const std::string & name,
+             const std::string & title,
+             const std::vector<float> & value,
+             int fixedSize = ArrayProperty<std::vector<float>>::s_noFixedSize)
+    :   ArrayProperty<std::vector<float>>(name, title, value, fixedSize) {};
+    
+    Property(const std::string & name, const std::string & title,
+             const std::function<const std::vector<float> & ()> & getter,
+             const std::function<void(const std::vector<float> &)> & setter)
+    :   ArrayProperty<std::vector<float>>(name, title, getter, setter) {};
+    
+    template <class Object>
+    Property(const std::string & name, const std::string & title,
+             Object & object, const std::vector<float> & (Object::*getter_pointer)() const,
+             void (Object::*setter_pointer)(const std::vector<float> &))
+    :   ArrayProperty<std::vector<float>>(name, title, object, getter_pointer, setter_pointer) {};
+    
+    template <class Object>
+    Property(const std::string & name, const std::string & title,
+             Object & object, std::vector<float> (Object::*getter_pointer)() const,
+             void (Object::*setter_pointer)(const std::vector<float> &))
+    :   ArrayProperty<std::vector<float>>(name, title, object, getter_pointer, setter_pointer) {};
+
+    virtual void accept(AbstractPropertyVisitor & visitor) { visitor.visit(*this); };
+};
+
+template <>
+class Property<std::vector<double>> : public ArrayProperty<std::vector<double>>
+{
+public:
+    Property(const std::string & name,
+             const std::string & title,
+             const std::vector<double> & value,
+             int fixedSize = ArrayProperty<std::vector<double>>::s_noFixedSize)
+    :   ArrayProperty<std::vector<double>>(name, title, value, fixedSize) {};
+    
+    Property(const std::string & name, const std::string & title,
+             const std::function<const std::vector<double> & ()> & getter,
+             const std::function<void(const std::vector<double> &)> & setter)
+    :   ArrayProperty<std::vector<double>>(name, title, getter, setter) {};
+    
+    template <class Object>
+    Property(const std::string & name, const std::string & title,
+             Object & object, const std::vector<double> & (Object::*getter_pointer)() const,
+             void (Object::*setter_pointer)(const std::vector<double> &))
+    :   ArrayProperty<std::vector<double>>(name, title, object, getter_pointer, setter_pointer) {};
+    
+    template <class Object>
+    Property(const std::string & name, const std::string & title,
+             Object & object, std::vector<double> (Object::*getter_pointer)() const,
+             void (Object::*setter_pointer)(const std::vector<double> &))
+    :   ArrayProperty<std::vector<double>>(name, title, object, getter_pointer, setter_pointer) {};
 
     virtual void accept(AbstractPropertyVisitor & visitor) { visitor.visit(*this); };
 };
