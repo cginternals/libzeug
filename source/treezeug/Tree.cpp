@@ -3,6 +3,7 @@
 #include <algorithm>
 #include <queue>
 #include <iostream>
+#include <sstream>
 
 Tree::Tree(const std::string& name)
 : _name(name)
@@ -116,6 +117,26 @@ Node* Tree::getNode(int id) const
 	}
 
 	return _idMap.at(id);
+}
+
+Node* Tree::getNodeByPath(const std::string& path, char separator)
+{
+	if (path.empty()) return nullptr;
+	if (path == std::to_string(separator)) return _root;
+
+    std::stringstream ss(path);
+	std::string item;
+    Node* node = _root;
+
+	std::getline(ss, item, separator);
+	if (!item.empty()) return nullptr;
+
+    while (node && std::getline(ss, item, separator))
+	{
+        node = node->getChildByName(item);
+    }
+
+    return node;
 }
 
 const std::vector<std::string>& Tree::attributes() const
@@ -330,6 +351,30 @@ const std::string& Node::name() const
 void Node::setName(const std::string& name)
 {
 	_name = name;
+}
+
+std::string Node::path(char separator) const
+{
+	std::string path;
+	const Node* current = this;
+	while (!current->isRoot())
+	{
+		path = path.empty() ? current->name() : current->name() + separator + path;
+		current = current->parent();
+	}
+
+	return separator + path;
+}
+
+Node* Node::getChildByName(const std::string& name)
+{
+	for (Node* node: _children)
+	{
+		if (node->name() == name)
+			return node;
+	}
+
+	return nullptr;
 }
 
 void Node::setAttribute(const std::string& name, double value)

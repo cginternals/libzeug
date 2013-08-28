@@ -29,6 +29,8 @@ public:
 
 	Node* getNode(int id) const;
 
+	Node* getNodeByPath(const std::string& path, char separator = '/');
+
 	void nodesDo(std::function<void(Node*)> action);
 	void nodesDo(std::function<void(const Node*)> action) const;
 	void nodesOrderedByDepthDo(std::function<void(Node*)> action);
@@ -73,6 +75,9 @@ public:
 
 	const std::string& name() const;
 	void setName(const std::string& name);
+
+	std::string path(char separator = '/') const;
+	Node* getChildByName(const std::string& name);
 
 	int id() const;
 
