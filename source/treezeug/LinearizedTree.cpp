@@ -84,22 +84,17 @@ const Node* LinearizedTree::getNode(int id) const
 
 const std::vector<std::pair<int, int>>& LinearizedTree::thresholds() const
 {
-	return _treeDepthTresholds;
+    return _treeDepthTresholds;
 }
 
 void LinearizedTree::treeLayerRangesDo(std::function<void(int, int)> callback) const
 {
-    switch (_strategy)
+    if (_strategy == BreadthFirst || _strategy == OptimizedBreadthFirst)
     {
-    case BreadthFirst:
-    case OptimizedBreadthFirst:
         for (const std::pair<int, int>& pair : _treeDepthTresholds)
         {
             callback(pair.first, pair.second);
         }
-        break;
-    default:
-        ;// nothing
     }
 }
 
@@ -133,7 +128,7 @@ void LinearizedTree::linearize()
     case OptimizedBreadthFirst:
         linearizeOptimizedBreadthFirst();
         break;
-	}
+    }
 }
 
 void LinearizedTree::clear()
@@ -180,27 +175,41 @@ void LinearizedTree::linearizeBreadthFirst()
 
 void LinearizedTree::linearizeOptimizedBreadthFirst()
 {
-    add(_tree->root());
-    _tree->nodesOrderedByDepthDo([this](const Node* node) {
-        std::vector<Node*> children = node->children();
+    std::vector<const Node*> currentLevel;
 
-        std::sort(children.begin(), children.end(), [](Node* node1, Node* node2) {
-            return (node1->isLeaf() ? 0 : 1) < (node2->isLeaf() ? 0 : 1);
-        });
-
-        for (Node* child : children)
+    _tree->nodesOrderedByDepthDo([this, &currentLevel](const Node* node)
+    {
+        if (!currentLevel.empty() && node->depth() > currentLevel.back()->depth())
         {
-            add(child);
-        }
+            std::sort(currentLevel.begin(), currentLevel.end(), [](const Node* node1, const Node* node2) {
+                return (node1->isLeaf() ? 0 : 1) < (node2->isLeaf() ? 0 : 1);
+            });
 
-        for (Node* child : children)
-        {
-            if (child->isLeaf())
+            for (const Node* child : currentLevel)
             {
-                continue;
+                add(child);
             }
 
-            _treeDepthTresholds.emplace_back(indexOf(child), indexOf(children.back()));
+            for (const Node* child : currentLevel)
+            {
+                if (child->isLeaf())
+                {
+                    continue;
+                }
+
+                _treeDepthTresholds.emplace_back(indexOf(child), indexOf(currentLevel.back()));
+                break;
+            }
+
+            currentLevel.clear();
         }
+
+        currentLevel.push_back(node);
     });
+
+    // only add the remaining nodes because they are all leafs
+    for (const Node* child : currentLevel)
+    {
+        add(child);
+    }
 }
