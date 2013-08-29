@@ -15,28 +15,28 @@ namespace propertyzeug {
  */
     
 template <typename Array>
-class ArrayProperty : public BaseProperty<Array>
+class VectorProperty : public BaseProperty<Array>
 {
 public:
-    ArrayProperty(const std::string & name,
+    VectorProperty(const std::string & name,
                   const std::string & title,
                   const Array & value);
     
-    ArrayProperty(const std::string & name, const std:: string & title,
+    VectorProperty(const std::string & name, const std:: string & title,
                   const std::function<const Array & ()> & getter,
                   const std::function<void(const Array &)> & setter);
     
     template <class Object>
-    ArrayProperty(const std::string & name, const std::string & title,
+    VectorProperty(const std::string & name, const std::string & title,
                   Object & object, const Array & (Object::*getter_pointer)() const,
                   void (Object::*setter_pointer)(const Array &));
     
     template <class Object>
-    ArrayProperty(const std::string & name, const std::string & title,
+    VectorProperty(const std::string & name, const std::string & title,
                   Object & object, Array (Object::*getter_pointer)() const,
                   void (Object::*setter_pointer)(Array));
 
-    virtual ~ArrayProperty();
+    virtual ~VectorProperty();
     
     virtual const Array & value() const;
     virtual void setValue(const Array & value);
@@ -53,7 +53,7 @@ protected:
 };
 
 template <typename Array>
-ArrayProperty<Array>::ArrayProperty(const std::string & name, const std::string & title,
+VectorProperty<Array>::VectorProperty(const std::string & name, const std::string & title,
     const Array & value)
 :   BaseProperty<Array>(name, title, value)
 ,   m_fixedSize(this->m_value->get().size())
@@ -63,7 +63,7 @@ ArrayProperty<Array>::ArrayProperty(const std::string & name, const std::string 
 }
 
 template <typename Array>
-ArrayProperty<Array>::ArrayProperty(const std::string & name, const std::string & title,
+VectorProperty<Array>::VectorProperty(const std::string & name, const std::string & title,
     const std::function<const Array & ()> & getter,
     const std::function<void(const Array &)> & setter)
 :   BaseProperty<Array>(name, title, getter, setter)
@@ -75,7 +75,7 @@ ArrayProperty<Array>::ArrayProperty(const std::string & name, const std::string 
 
 template <typename Array>
 template <class Object>
-ArrayProperty<Array>::ArrayProperty(const std::string & name, const std::string & title,
+VectorProperty<Array>::VectorProperty(const std::string & name, const std::string & title,
     Object & object, const Array & (Object::*getter_pointer)() const,
     void (Object::*setter_pointer)(const Array &))
 :   BaseProperty<Array>(name, title, object, getter_pointer, setter_pointer)
@@ -87,7 +87,7 @@ ArrayProperty<Array>::ArrayProperty(const std::string & name, const std::string 
 
 template <typename Array>
 template <class Object>
-ArrayProperty<Array>::ArrayProperty(const std::string & name, const std::string & title,
+VectorProperty<Array>::VectorProperty(const std::string & name, const std::string & title,
     Object & object, Array (Object::*getter_pointer)() const,
     void (Object::*setter_pointer)(Array))
 :   BaseProperty<Array>(name, title, object, getter_pointer, setter_pointer)
@@ -98,38 +98,38 @@ ArrayProperty<Array>::ArrayProperty(const std::string & name, const std::string 
 }
 
 template <typename Array>
-ArrayProperty<Array>::~ArrayProperty()
+VectorProperty<Array>::~VectorProperty()
 {
 }
 
 template <typename Array>
-const Array & ArrayProperty<Array>::value() const
+const Array & VectorProperty<Array>::value() const
 {
     assert(this->m_value->get().size() == m_fixedSize);
     return BaseProperty<Array>::value();
 }
 
 template <typename Array>
-void ArrayProperty<Array>::setValue(const Array & value)
+void VectorProperty<Array>::setValue(const Array & value)
 {
     assert(value.size() == m_fixedSize);
     BaseProperty<Array>::setValue(value);
 }
     
 template <typename Array>
-unsigned int ArrayProperty<Array>::fixedSize() const
+unsigned int VectorProperty<Array>::fixedSize() const
 {
     return m_fixedSize;
 }
 
 template <typename Array>
-const std::vector<unsigned int> & ArrayProperty<Array>::dimensions() const
+const std::vector<unsigned int> & VectorProperty<Array>::dimensions() const
 {
     return m_dimensions;
 }
 
 template <typename Array>
-void ArrayProperty<Array>::setDimensions(const std::vector<unsigned int> & dimensions)
+void VectorProperty<Array>::setDimensions(const std::vector<unsigned int> & dimensions)
 {    
     assert(m_fixedSize == std::accumulate(dimensions.begin(), dimensions.end(), 1,
                                           [](unsigned int a, unsigned int b) {
