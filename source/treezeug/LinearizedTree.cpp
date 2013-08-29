@@ -1,5 +1,7 @@
 #include <LinearizedTree.h>
 
+#include <algorithm>
+
 LinearizedTree::LinearizedTree()
 : _tree(nullptr)
 , _strategy(None)
@@ -80,22 +82,25 @@ const Node* LinearizedTree::getNode(int id) const
     return _tree->getNode(id);
 }
 
-const std::vector<int>& LinearizedTree::thresholds() const
+const std::vector<std::pair<int, int>>& LinearizedTree::thresholds() const
 {
 	return _treeDepthTresholds;
 }
 
 void LinearizedTree::treeLayerRangesDo(std::function<void(int, int)> callback) const
 {
-	unsigned start = 0;
-	for (unsigned i = 1; i < _treeDepthTresholds.size(); ++i)
-	{
-		unsigned end = _treeDepthTresholds[i]-1;
-
-		callback(start, end);
-
-		start = end+1;
-	}
+    switch (_strategy)
+    {
+    case BreadthFirst:
+    case OptimizedBreadthFirst:
+        for (const std::pair<int, int>& pair : _treeDepthTresholds)
+        {
+            callback(pair.first, pair.second);
+        }
+        break;
+    default:
+        ;// nothing
+    }
 }
 
 std::vector<const Node*>::const_iterator LinearizedTree::begin() const
@@ -125,6 +130,9 @@ void LinearizedTree::linearize()
 	case BreadthFirst:
 		linearizeBreadthFirst();
 		break;
+    case OptimizedBreadthFirst:
+        linearizeOptimizedBreadthFirst();
+        break;
 	}
 }
 
@@ -133,12 +141,11 @@ void LinearizedTree::clear()
 	_nextIndex = 0;
 	_nodes.clear();
 	_indices.clear();
-	_treeDepthTresholds.clear();
+    _treeDepthTresholds.clear();
 
 	if (_tree)
 	{
-		_nodes.resize(_tree->size());
-		_treeDepthTresholds.reserve(_tree->depth()+1);
+        _nodes.resize(_tree->size());
 	}
 }
 
@@ -160,11 +167,40 @@ void LinearizedTree::linearizeBreadthFirst()
 	_tree->nodesOrderedByDepthDo([this](const Node* node) {
 		add(node);
 
-		while (_treeDepthTresholds.size() <= node->depth())
+        if (_treeDepthTresholds.size() < node->depth()+1)
 		{
-			_treeDepthTresholds.push_back(indexOf(node));
+            _treeDepthTresholds.emplace_back(indexOf(node), indexOf(node));
 		}
-	});
+        else
+        {
+            _treeDepthTresholds.back().second = indexOf(node);
+        }
+    });
+}
 
-	_treeDepthTresholds.push_back(_tree->size());
+void LinearizedTree::linearizeOptimizedBreadthFirst()
+{
+    add(_tree->root());
+    _tree->nodesOrderedByDepthDo([this](const Node* node) {
+        std::vector<Node*> children = node->children();
+
+        std::sort(children.begin(), children.end(), [](Node* node1, Node* node2) {
+            return (node1->isLeaf() ? 0 : 1) < (node2->isLeaf() ? 0 : 1);
+        });
+
+        for (Node* child : children)
+        {
+            add(child);
+        }
+
+        for (Node* child : children)
+        {
+            if (child->isLeaf())
+            {
+                continue;
+            }
+
+            _treeDepthTresholds.emplace_back(indexOf(child), indexOf(children.back()));
+        }
+    });
 }

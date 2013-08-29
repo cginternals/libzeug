@@ -16,7 +16,8 @@ public:
 	{
 		None,
 		DepthFirst,
-		BreadthFirst
+        BreadthFirst,
+        OptimizedBreadthFirst
 	};
 
 	LinearizedTree();
@@ -43,7 +44,7 @@ public:
 	std::vector<const Node*>::const_iterator begin() const;
 	std::vector<const Node*>::const_iterator end() const;
 
-	const std::vector<int>& thresholds() const;
+    const std::vector<std::pair<int, int>>& thresholds() const;
 	void treeLayerRangesDo(std::function<void(int, int)> callback) const;
 protected:
 	const Tree* _tree;
@@ -52,10 +53,11 @@ protected:
 
 	std::vector<const Node*> _nodes;
 	std::unordered_map<const Node*, int> _indices;
-	std::vector<int> _treeDepthTresholds;
+    std::vector<std::pair<int, int>> _treeDepthTresholds;
 
 	void linearizeDepthFirst();
 	void linearizeBreadthFirst();
+    void linearizeOptimizedBreadthFirst();
 
 	void add(const Node* node);
 };
