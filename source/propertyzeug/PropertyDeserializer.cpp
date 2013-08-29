@@ -83,7 +83,8 @@ bool PropertyDeserializer::updateCurrentGroup(const std::string line)
 bool PropertyDeserializer::setPropertyValue(const std::string line)
 {
     if (!m_currentGroup) {
-        std::cerr << "Could not parse line\"" << line << "\" because no existing group was declared" << std::endl;
+        std::cerr << "Could not parse line\"" << line << "\"";
+        std::cerr << "because no existing group was declared" << std::endl;
         return false;
     }
 
