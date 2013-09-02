@@ -3,6 +3,7 @@ cmake_minimum_required(VERSION 2.8)
 # Project
 project(propertyexample)
 set(target propertyexample)
+message(STATUS "example ${target}")
 
 # Include directories
 include_directories(
@@ -40,7 +41,6 @@ source_group_by_path(${source_path} "\\\\.cpp$|\\\\.c$|\\\\.h$|\\\\.hpp$"
 # Build executable
 add_executable(${target} ${headers} ${sources})
 target_link_libraries(${target} ${libs})
-qt5_use_modules(${target} Core)
 
 # Deployment
 install(TARGETS ${target}
