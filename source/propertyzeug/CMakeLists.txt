@@ -23,8 +23,6 @@ set(source_path "${CMAKE_CURRENT_SOURCE_DIR}")
 
 set(headers
     ${header_path}/propertyzeug.h
-    # ${header_path}/Property.h
-    # ${header_path}/DynObject.h
 
     ${header_path}/Events.h
     ${header_path}/Announcer.h
@@ -50,8 +48,6 @@ set(headers
 )
 
 set(sources
-    # ${source_path}/DynObject.cpp
-
     ${source_path}/AbstractProperty.cpp
     ${source_path}/Announcer.cpp
     ${source_path}/StringProperty.cpp
