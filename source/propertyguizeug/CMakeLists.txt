@@ -12,6 +12,7 @@ include_directories(
 
 # Libraries
 set(libs
+    propertyzeug
 )
 
 # Definitions
@@ -28,7 +29,7 @@ set(headers
 )
 
 set(sources
-
+    ${source_path}/WidgetBuilder.cpp
 )
 
 # Group source files

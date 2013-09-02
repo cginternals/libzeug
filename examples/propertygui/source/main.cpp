@@ -1,9 +1,24 @@
 
 #include <iostream>
+#include <QApplication>
+#include <QWidget>
+#include <propertyzeug/PropertyGroup.h>
 #include <propertyguizeug/WidgetBuilder.h>
 
-int main(int argc, char const *argv[])
+using namespace propertyzeug;
+using namespace propertyguizeug;
+
+int main(int argc, char *argv[])
 {
-    std::cout << "Hello World!" << std::endl;
-    return 0;
+    QApplication a(argc, argv);
+    
+    PropertyGroup group("group", "Group");
+    WidgetBuilder builder;
+    QWidget * widget = builder.build(group);
+    widget->show();
+    
+    int result = a.exec();
+    delete widget;
+    
+    return result;
 }
