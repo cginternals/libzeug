@@ -6,6 +6,12 @@ namespace propertyzeug {
         /** @brief
          * All possible property events.
          */
-        enum Events { kTitleChanged, kValueChanged, kLimitsChanged, kChoicesChanged };
+        enum Events {
+            kTitleChanged,
+            kAnnotationsChanged,
+            kValueChanged,
+            kLimitsChanged,
+            kChoicesChanged
+        };
     }
 }

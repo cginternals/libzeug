@@ -20,6 +20,8 @@ void createProperties()
         value2 = value;
     });
     
+    property2.setAnnotations("This is an important property.");
+    
     SomeObject object3;
     Property<int> property3("property3", "Property Title 3", object3, &SomeObject::count, &SomeObject::setCount);
 }

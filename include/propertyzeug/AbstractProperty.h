@@ -27,8 +27,13 @@ public:
     virtual ~AbstractProperty();
 
     const std::string & name() const;
+    
     const std::string & title() const;
     void setTitle(const std::string & title);
+    
+    const std::string & annotations() const;
+    void setAnnotations(const std::string & annotations);
+
 
     template <class Property>
     Property * to();
@@ -49,6 +54,7 @@ public:
 protected:
     std::string m_name;
     std::string m_title;
+    std::string m_annotations;
     Announcer m_announcer;
 };
     

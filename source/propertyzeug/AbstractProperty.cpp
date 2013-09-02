@@ -33,6 +33,17 @@ void AbstractProperty::setTitle(const std::string & title)
     m_title = title;
     m_announcer.notify(events::kTitleChanged);
 }
+    
+const std::string & AbstractProperty::annotations() const
+{
+    return m_title;
+}
+
+void AbstractProperty::setAnnotations(const std::string & annotations)
+{
+    m_annotations = annotations;
+    m_announcer.notify(events::kAnnotationsChanged);
+}
 
 void AbstractProperty::subscribe(int event, const std::function<void(AbstractProperty &)> & functor)
 {
