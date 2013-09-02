@@ -177,6 +177,8 @@ configure_file(${CMAKE_CURRENT_SOURCE_DIR}/source/meta.h.in ${CMAKE_CURRENT_BINA
 
 # Qt 5 Dependencies
 find_package(Qt5Core)
+find_package(Qt5Gui)
+find_package(Qt5Widgets)
 
 ##
 ## libzeug libraries
