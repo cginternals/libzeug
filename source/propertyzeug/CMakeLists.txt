@@ -76,7 +76,6 @@ else()
     add_library(${target} SHARED ${headers} ${sources})
 endif()
 target_link_libraries(${target} ${libs})
-qt5_use_modules(${target} Core)
 set_target_properties(${target}
     PROPERTIES
     LINKER_LANGUAGE CXX
