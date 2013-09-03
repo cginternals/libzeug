@@ -36,7 +36,7 @@ void AbstractProperty::setTitle(const std::string & title)
     
 const std::string & AbstractProperty::annotations() const
 {
-    return m_title;
+    return m_annotations;
 }
 
 void AbstractProperty::setAnnotations(const std::string & annotations)
