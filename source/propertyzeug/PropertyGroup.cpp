@@ -28,7 +28,7 @@ void PropertyGroup::accept(AbstractPropertyVisitor & visitor)
 
 bool PropertyGroup::addProperty(AbstractProperty * property)
 {
-    if (this->propertyExists(property->name()) || property->hasParent())
+    if (this->pathExists(property->name()) || property->hasParent())
         return false;
     
     m_properties.push_back(property);
@@ -39,7 +39,7 @@ bool PropertyGroup::addProperty(AbstractProperty * property)
 
 AbstractProperty & PropertyGroup::property(const std::string & path)
 {
-    assert(this->propertyExists(path));
+    assert(this->pathExists(path));
     
     if (std::regex_match(path, std::regex(AbstractProperty::s_nameRegexString)))
         return *m_propertiesMap.at(path);
@@ -51,7 +51,7 @@ AbstractProperty & PropertyGroup::property(const std::string & path)
     
 const AbstractProperty & PropertyGroup::property(const std::string & path) const
 {
-    assert(this->propertyExists(path));
+    assert(this->pathExists(path));
     
     if (std::regex_match(path, std::regex(AbstractProperty::s_nameRegexString)))
         return *m_propertiesMap.at(path);
@@ -63,13 +63,13 @@ const AbstractProperty & PropertyGroup::property(const std::string & path) const
 
 PropertyGroup & PropertyGroup::subGroup(const std::string & name)
 {
-    assert(this->subGroupExists(name));
+    assert(this->groupPathExists(name));
     return *(this->property(name).to<PropertyGroup>());
 }
 
 const PropertyGroup & PropertyGroup::subGroup(const std::string & path) const
 {
-    assert(this->subGroupExists(path));
+    assert(this->groupPathExists(path));
     return *(this->property(path).to<PropertyGroup>());
 }
     
@@ -85,10 +85,10 @@ const AbstractProperty & PropertyGroup::property(unsigned int index) const
     return *m_properties[index];
 }
 
-bool PropertyGroup::propertyExists(const std::string & path) const
+bool PropertyGroup::pathExists(const std::string & path) const
 {
     if (std::regex_match(path, std::regex(AbstractProperty::s_nameRegexString)))
-        return this->directChildPropertyExists(path);
+        return this->propertyExists(path);
     
     static const std::regex pathRegex(AbstractProperty::s_nameRegexString +
                                       "(\\/" +
@@ -98,31 +98,31 @@ bool PropertyGroup::propertyExists(const std::string & path) const
     if (std::regex_match(path, pathRegex)) {
         std::smatch match;
         std::regex_search(path, match, std::regex("\\/"));
-        if (this->directChildPropertyExists(match.prefix()))
-            return m_propertiesMap.at(match.prefix())->to<PropertyGroup>()->propertyExists(match.suffix());
+        if (this->propertyExists(match.prefix()))
+            return m_propertiesMap.at(match.prefix())->to<PropertyGroup>()->pathExists(match.suffix());
     }
     
     return false;
 }
     
-bool PropertyGroup::subGroupExists(const std::string & path) const
+bool PropertyGroup::groupPathExists(const std::string & path) const
 {
-    return this->propertyExists(path) && this->property(path).isGroup();
+    return this->pathExists(path) && this->property(path).isGroup();
 }
     
-bool PropertyGroup::directChildPropertyExists(const std::string & name) const
+bool PropertyGroup::propertyExists(const std::string & name) const
 {
     return !(m_propertiesMap.find(name) == m_propertiesMap.end());
 }
     
-bool PropertyGroup::directChildSubGroupExists(const std::string & path) const
+bool PropertyGroup::groupExists(const std::string & path) const
 {
-    return this->directChildPropertyExists(path) && this->property(path).isGroup();
+    return this->propertyExists(path) && this->property(path).isGroup();
 }
 
 bool PropertyGroup::removeProperty(AbstractProperty * property)
 {
-    if (!this->directChildPropertyExists(property->name()))
+    if (!this->propertyExists(property->name()))
         return false;
     
     auto propertyIt = std::find(m_properties.begin(), m_properties.end(), property);
@@ -133,7 +133,7 @@ bool PropertyGroup::removeProperty(AbstractProperty * property)
 
 AbstractProperty * PropertyGroup::obtainProperty(const std::string & name)
 {
-    if (!this->directChildPropertyExists(name))
+    if (!this->propertyExists(name))
         return nullptr;
     
     AbstractProperty * property = m_propertiesMap.find(name)->second;
@@ -151,7 +151,7 @@ unsigned int PropertyGroup::propertyCount() const
     
 int PropertyGroup::indexOfProperty(const std::string & name) const
 {
-    if (!this->directChildPropertyExists(name))
+    if (!this->propertyExists(name))
         return -1;
     
     AbstractProperty * property = m_propertiesMap.find(name)->second;

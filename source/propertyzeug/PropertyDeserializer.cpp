@@ -70,7 +70,7 @@ bool PropertyDeserializer::updateCurrentGroup(const std::string line)
         return true;
     }
     
-    if (m_rootGroup->directChildSubGroupExists(groupName)) {
+    if (m_rootGroup->groupExists(groupName)) {
         m_currentGroup = &(m_rootGroup->subGroup(groupName));
         return true;
     }
@@ -93,7 +93,7 @@ bool PropertyDeserializer::setPropertyValue(const std::string line)
     const std::string & path = match.prefix();
     m_currentValue = match.suffix();
     
-    if (m_currentGroup->propertyExists(path)) {
+    if (m_currentGroup->pathExists(path)) {
         m_currentGroup->property(path).accept(*this);
     } else {
         std::cerr << "Property path \"" << path << "\" ";

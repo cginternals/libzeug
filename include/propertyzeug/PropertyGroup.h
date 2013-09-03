@@ -87,11 +87,11 @@ public:
      */
     /** @{ */
 
-    bool propertyExists(const std::string & path) const;
-    bool subGroupExists(const std::string & path) const;
+    bool pathExists(const std::string & path) const;
+    bool groupPathExists(const std::string & path) const;
     
-    bool directChildPropertyExists(const std::string & name) const; /** TODO look for better name **/
-    bool directChildSubGroupExists(const std::string & name) const;
+    bool propertyExists(const std::string & name) const; /** TODO look for better name **/
+    bool groupExists(const std::string & name) const;
     
     /** @} */
     
