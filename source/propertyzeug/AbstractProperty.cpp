@@ -10,6 +10,7 @@ AbstractProperty::AbstractProperty(const std::string & name,
 :   m_name(name)
 ,   m_title(title)
 ,   m_announcer(this)
+,   m_parent(nullptr)
 {
     assert(std::regex_match(m_name,std::regex(s_nameRegexString)));
 }
@@ -43,6 +44,26 @@ void AbstractProperty::setAnnotations(const std::string & annotations)
 {
     m_annotations = annotations;
     m_announcer.notify(events::kAnnotationsChanged);
+}
+    
+PropertyGroup * AbstractProperty::parent() const
+{
+    return m_parent;
+}
+    
+void AbstractProperty::setParent(PropertyGroup * parent)
+{
+    m_parent = parent;
+}
+
+bool AbstractProperty::hasParent() const
+{
+    return m_parent;
+}
+
+void AbstractProperty::removeParent()
+{
+    m_parent = nullptr;
 }
 
 void AbstractProperty::subscribe(int event, const std::function<void(AbstractProperty &)> & functor)

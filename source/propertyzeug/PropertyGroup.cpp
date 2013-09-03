@@ -27,11 +27,12 @@ void PropertyGroup::accept(AbstractPropertyVisitor & visitor)
 
 bool PropertyGroup::addProperty(AbstractProperty * property)
 {
-    if (this->propertyExists(property->name()))
+    if (this->propertyExists(property->name()) || property->hasParent())
         return false;
     
     m_properties.push_back(property);
     m_propertiesMap.insert(std::make_pair(property->name(), property));
+    property->setParent(this);
     return true;
 }
 
@@ -146,6 +147,7 @@ AbstractProperty * PropertyGroup::obtainProperty(const std::string & name)
     AbstractProperty * property = m_propertiesMap.find(name)->second;
     m_properties.remove(property);
     m_propertiesMap.erase(property->name());
+    property->removeParent();
     return property;
 }
 

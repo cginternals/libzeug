@@ -12,6 +12,7 @@ namespace propertyzeug {
 
 class Announcer;
 class AbstractPropertyVisitor;
+class PropertyGroup;
     
 /** @brief
  * Part of the property hierarchy.
@@ -33,7 +34,11 @@ public:
     
     const std::string & annotations() const;
     void setAnnotations(const std::string & annotations);
-
+    
+    PropertyGroup * parent() const;
+    void setParent(PropertyGroup * parent);
+    void removeParent();
+    bool hasParent() const;
 
     template <class Property>
     Property * to();
@@ -56,6 +61,8 @@ protected:
     std::string m_title;
     std::string m_annotations;
     Announcer m_announcer;
+    
+    PropertyGroup * m_parent;
 };
     
 template <class Property>
