@@ -58,18 +58,17 @@ public:
      */
     /** @{ */
     
-    AbstractProperty & property(const std::string & path);
-    const AbstractProperty & property(const std::string & path) const;
+    AbstractProperty * property(const std::string & path);
+    const AbstractProperty * property(const std::string & path) const;
 
     template <typename Type>
-    Property<Type> & property(const std::string & path);
+    Property<Type> * property(const std::string & path);
     
     template <typename Type>
-    const Property<Type> & property(const std::string & path) const;
+    const Property<Type> * property(const std::string & path) const;
 
-    PropertyGroup & subGroup(const std::string & path);
-
-    const PropertyGroup & subGroup(const std::string & path) const;
+    PropertyGroup * group(const std::string & path);
+    const PropertyGroup * group(const std::string & path) const;
 
     template <typename Type>
     const Type & value(const std::string & path) const;
@@ -77,38 +76,23 @@ public:
     template <typename Type>
     void setValue(const std::string & path, const Type & value);
     
-    AbstractProperty & property(unsigned int index);
-    const AbstractProperty & property(unsigned int index) const;
+    AbstractProperty * property(unsigned int index);
+    const AbstractProperty * property(unsigned int index) const;
     
-    /** @} */
-    
-    /** @name Existence Tests
-     * @brief Methods for testing for existence of properties
+    /** @name Properties
+     * @brief Methods for manipulating properties
      */
     /** @{ */
 
-    bool pathExists(const std::string & path) const;
-    bool groupPathExists(const std::string & path) const;
-    
-    bool propertyExists(const std::string & name) const; /** TODO look for better name **/
-    bool groupExists(const std::string & name) const;
-    
-    /** @} */
-    
-    /** @name More Methods for Properties
-     * @brief Methods for working with the property list
-     */
-    /** @{ */
-
-    AbstractProperty * obtainProperty(const std::string & name);
-
-    bool removeProperty(AbstractProperty * property);
-
-    unsigned int propertyCount() const;
-    
-    int indexOfProperty(const std::string & name) const;
+    bool propertyExists(const std::string & path) const;
+    bool groupExists(const std::string & path) const;
     
     bool hasProperties() const;
+    unsigned int propertyCount() const;
+    int indexOfProperty(const std::string & name) const;
+
+    AbstractProperty * obtainProperty(const std::string & name);
+    bool removeProperty(AbstractProperty * property);
     
     /** @} */
     
@@ -118,7 +102,7 @@ public:
     /** @{ */
     
     void forEachProperty(const std::function<void(AbstractProperty &)> functor);
-    void forEachValueProperty(const std::function<void(AbstractProperty &)> functor); /** TODO look for better name **/
+    void forEachValueProperty(const std::function<void(AbstractProperty &)> functor);
     void forEachSubGroup(const std::function<void(PropertyGroup &)> functor);
     
     /** @} */
@@ -126,6 +110,10 @@ public:
 protected:
     std::vector<AbstractProperty *> m_properties;
     std::unordered_map<std::string, AbstractProperty *> m_propertiesMap;
+    
+private:
+    AbstractProperty * findProperty(const std::string & path);
+    const AbstractProperty * findProperty(const std::string & path) const;
 };
 
 template <typename Type>
@@ -159,27 +147,29 @@ bool PropertyGroup::addProperty(const std::string & name,
 }
 
 template <typename Type>
-Property<Type> & PropertyGroup::property(const std::string & name)
+Property<Type> * PropertyGroup::property(const std::string & name)
 {
-    return *(this->property(name).to<Property<Type>>());
+    return this->property(name)->to<Property<Type>>();
 }
     
 template <typename Type>
-const Property<Type> & PropertyGroup::property(const std::string & name) const
+const Property<Type> * PropertyGroup::property(const std::string & name) const
 {
-    return *(this->property(name).to<Property<Type>>());
+    return this->property(name)->to<Property<Type>>();
 }
 
 template <typename Type>
 const Type & PropertyGroup::value(const std::string & name) const
 {
-    return this->property(name).to<Property<Type>>()->value();
+    /** TODO handle non-existence of property **/
+    return this->property(name)->to<Property<Type>>()->value();
 }
 
 template <typename Type>
 void PropertyGroup::setValue(const std::string & name, const Type & value)
 {
-    this->property(name).to<Property<Type>>()->setValue(value);
+    /** TODO handle non-existence of property **/
+    this->property(name)->to<Property<Type>>()->setValue(value);
 }
 
 } // namespace

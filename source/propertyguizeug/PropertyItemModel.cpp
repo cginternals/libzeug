@@ -33,7 +33,7 @@ QModelIndex PropertyItemModel::index(int row, int column, const QModelIndex & pa
     
     PropertyGroup * parent = property->to<PropertyGroup>();
     
-    return this->createIndex(row, column, &parent->property(row));
+    return this->createIndex(row, column, parent->property(row));
 }
 
 QModelIndex PropertyItemModel::parent(const QModelIndex & index) const

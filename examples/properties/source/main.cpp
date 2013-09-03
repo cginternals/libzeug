@@ -117,9 +117,9 @@ void deserializeFromFile()
     group.addProperty<std::vector<int>>("vec3", {12,4,54});
     
     group.addProperty(new PropertyGroup("group1"));
-    group.subGroup("group1").addProperty<char>("value3", 'a');
-    group.subGroup("group1").addProperty<std::string>("name", "horst");
-    group.subGroup("group1").addProperty<std::vector<bool>>("bool2", {false,false});
+    group.group("group1")->addProperty<char>("value3", 'a');
+    group.group("group1")->addProperty<std::string>("name", "horst");
+    group.group("group1")->addProperty<std::vector<bool>>("bool2", {false,false});
     
     PropertyDeserializer deserializer;
     deserializer.deserialize(group, "examples/properties/data/group.ini");
