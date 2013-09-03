@@ -26,10 +26,12 @@ set(headers
     ${header_path}/propertyguizeug.h
 
     ${header_path}/WidgetBuilder.h
+    ${header_path}/PropertyItemModel.h
 )
 
 set(sources
     ${source_path}/WidgetBuilder.cpp
+    ${source_path}/PropertyItemModel.cpp
 )
 
 # Group source files
