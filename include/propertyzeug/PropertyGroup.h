@@ -2,7 +2,7 @@
 #pragma once
 
 #include <assert.h>
-#include <list>
+#include <vector>
 #include <unordered_map>
 #include <propertyzeug/propertyzeug.h>
 #include "AbstractProperty.h"
@@ -78,6 +78,9 @@ public:
     template <typename Type>
     void setValue(const std::string & path, const Type & value);
     
+    AbstractProperty & property(unsigned int index);
+    const AbstractProperty & property(unsigned int index) const;
+    
     /** @} */
     
     /** @name Existence Tests
@@ -97,14 +100,8 @@ public:
      * @brief Methods for working with the property list
      */
     /** @{ */
-    
-    AbstractProperty * replaceProperty(const std::string & name,
-                                       AbstractProperty * property);
 
     AbstractProperty * obtainProperty(const std::string & name);
-
-    bool insertPropertyAfter(const std::string & name, 
-                             AbstractProperty * property);
 
     bool removeProperty(AbstractProperty * property);
 
@@ -124,7 +121,7 @@ public:
     /** @} */
     
 protected:
-    std::list<AbstractProperty *> m_properties;
+    std::vector<AbstractProperty *> m_properties;
     std::unordered_map<std::string, AbstractProperty *> m_propertiesMap;
 };
 

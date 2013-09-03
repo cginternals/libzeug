@@ -1,5 +1,6 @@
 
 #include <regex>
+#include <algorithm>
 #include <propertyzeug/PropertyGroup.h>
 #include <propertyzeug/AbstractPropertyVisitor.h>
 
@@ -71,6 +72,18 @@ const PropertyGroup & PropertyGroup::subGroup(const std::string & path) const
     assert(this->subGroupExists(path));
     return *(this->property(path).to<PropertyGroup>());
 }
+    
+AbstractProperty & PropertyGroup::property(unsigned int index)
+{
+    assert(index < this->propertyCount());
+    return *m_properties[index];
+}
+
+const AbstractProperty & PropertyGroup::property(unsigned int index) const
+{
+    assert(index < this->propertyCount());
+    return *m_properties[index];
+}
 
 bool PropertyGroup::propertyExists(const std::string & path) const
 {
@@ -107,34 +120,13 @@ bool PropertyGroup::directChildSubGroupExists(const std::string & path) const
     return this->directChildPropertyExists(path) && this->property(path).isGroup();
 }
 
-AbstractProperty * PropertyGroup::replaceProperty(const std::string & name, AbstractProperty * property)
-{
-    if (!this->directChildPropertyExists(name))
-        return nullptr;
-    
-    this->insertPropertyAfter(name, property);
-    return this->obtainProperty(name);
-}
-
-bool PropertyGroup::insertPropertyAfter(const std::string & name, AbstractProperty * property)
-{
-    if (!this->directChildPropertyExists(name) || this->directChildPropertyExists(property->name()))
-        return false;
-    
-    auto propertyIterator = m_properties.begin();
-    while (name == (*(propertyIterator++))->name());
-    
-    m_properties.insert(propertyIterator, property);
-    m_propertiesMap.insert(std::make_pair(property->name(), property));
-    return true;
-}
-
 bool PropertyGroup::removeProperty(AbstractProperty * property)
 {
     if (!this->directChildPropertyExists(property->name()))
         return false;
     
-    m_properties.remove(property);
+    auto propertyIt = std::find(m_properties.begin(), m_properties.end(), property);
+    m_properties.erase(propertyIt);
     m_propertiesMap.erase(property->name());
     return true;
 }
@@ -145,7 +137,8 @@ AbstractProperty * PropertyGroup::obtainProperty(const std::string & name)
         return nullptr;
     
     AbstractProperty * property = m_propertiesMap.find(name)->second;
-    m_properties.remove(property);
+    auto propertyIt = std::find(m_properties.begin(), m_properties.end(), property);
+    m_properties.erase(propertyIt);
     m_propertiesMap.erase(property->name());
     property->removeParent();
     return property;
