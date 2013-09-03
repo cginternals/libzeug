@@ -107,6 +107,10 @@ public:
 
     unsigned int propertyCount() const;
     
+    int indexOfProperty(const std::string & name) const;
+    
+    bool hasProperties() const;
+    
     /** @} */
     
     /** @name Property Iterators

@@ -148,6 +148,22 @@ unsigned int PropertyGroup::propertyCount() const
 {
     return m_properties.size();
 }
+    
+int PropertyGroup::indexOfProperty(const std::string & name) const
+{
+    if (!this->directChildPropertyExists(name))
+        return -1;
+    
+    AbstractProperty * property = m_propertiesMap.find(name)->second;
+    return std::distance(m_properties.begin(),
+                         std::find(m_properties.begin(),
+                                   m_properties.end(), property));
+}
+    
+bool PropertyGroup::hasProperties() const
+{
+    return this->propertyCount() != 0;
+}
 
 void PropertyGroup::forEachProperty(const std::function<void(AbstractProperty &)> functor)
 {
