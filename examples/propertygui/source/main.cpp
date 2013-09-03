@@ -19,7 +19,8 @@ int main(int argc, char *argv[])
     PropertyGroup constraints("Constraints");
     constraints.addProperty<std::vector<int>>("Position", std::vector<int>(100, 200));
     settings.addProperty(&constraints);
-    constraints.addProperty("prop3", 3);
+    constraints.addProperty("Height", 3);
+    constraints.addProperty("Width", 12);
     
     QTreeView treeView;
     PropertyItemModel model(&settings);
