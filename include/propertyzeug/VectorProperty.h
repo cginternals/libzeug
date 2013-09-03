@@ -18,21 +18,19 @@ template <typename Array>
 class VectorProperty : public BaseProperty<Array>
 {
 public:
-    VectorProperty(const std::string & name,
-                  const std::string & title,
-                  const Array & value);
+    VectorProperty(const std::string & name, const Array & value);
     
-    VectorProperty(const std::string & name, const std:: string & title,
+    VectorProperty(const std::string & name,
                   const std::function<const Array & ()> & getter,
                   const std::function<void(const Array &)> & setter);
     
     template <class Object>
-    VectorProperty(const std::string & name, const std::string & title,
+    VectorProperty(const std::string & name,
                   Object & object, const Array & (Object::*getter_pointer)() const,
                   void (Object::*setter_pointer)(const Array &));
     
     template <class Object>
-    VectorProperty(const std::string & name, const std::string & title,
+    VectorProperty(const std::string & name,
                   Object & object, Array (Object::*getter_pointer)() const,
                   void (Object::*setter_pointer)(Array));
 
@@ -53,9 +51,9 @@ protected:
 };
 
 template <typename Array>
-VectorProperty<Array>::VectorProperty(const std::string & name, const std::string & title,
+VectorProperty<Array>::VectorProperty(const std::string & name,
     const Array & value)
-:   BaseProperty<Array>(name, title, value)
+:   BaseProperty<Array>(name, value)
 ,   m_fixedSize(this->m_value->get().size())
 ,   m_dimensions({m_fixedSize})
 {
@@ -63,10 +61,10 @@ VectorProperty<Array>::VectorProperty(const std::string & name, const std::strin
 }
 
 template <typename Array>
-VectorProperty<Array>::VectorProperty(const std::string & name, const std::string & title,
+VectorProperty<Array>::VectorProperty(const std::string & name,
     const std::function<const Array & ()> & getter,
     const std::function<void(const Array &)> & setter)
-:   BaseProperty<Array>(name, title, getter, setter)
+:   BaseProperty<Array>(name, getter, setter)
 ,   m_fixedSize(this->m_value->get().size())
 ,   m_dimensions({m_fixedSize})
 {
@@ -75,10 +73,10 @@ VectorProperty<Array>::VectorProperty(const std::string & name, const std::strin
 
 template <typename Array>
 template <class Object>
-VectorProperty<Array>::VectorProperty(const std::string & name, const std::string & title,
+VectorProperty<Array>::VectorProperty(const std::string & name,
     Object & object, const Array & (Object::*getter_pointer)() const,
     void (Object::*setter_pointer)(const Array &))
-:   BaseProperty<Array>(name, title, object, getter_pointer, setter_pointer)
+:   BaseProperty<Array>(name, object, getter_pointer, setter_pointer)
 ,   m_fixedSize(this->m_value->get().size())
 ,   m_dimensions({m_fixedSize})
 {
@@ -87,10 +85,10 @@ VectorProperty<Array>::VectorProperty(const std::string & name, const std::strin
 
 template <typename Array>
 template <class Object>
-VectorProperty<Array>::VectorProperty(const std::string & name, const std::string & title,
+VectorProperty<Array>::VectorProperty(const std::string & name,
     Object & object, Array (Object::*getter_pointer)() const,
     void (Object::*setter_pointer)(Array))
-:   BaseProperty<Array>(name, title, object, getter_pointer, setter_pointer)
+:   BaseProperty<Array>(name, object, getter_pointer, setter_pointer)
 ,   m_fixedSize(this->m_value->get().size())
 ,   m_dimensions({m_fixedSize})
 {

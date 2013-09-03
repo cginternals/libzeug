@@ -18,7 +18,7 @@ namespace propertyzeug {
 class PROPERTYZEUG_API PropertyGroup : public AbstractProperty
 {
 public:
-    PropertyGroup(std::string name, std::string title);
+    PropertyGroup(const std::string & name);
     virtual ~PropertyGroup();
     
     virtual bool isGroup() const;
@@ -33,21 +33,20 @@ public:
     
     template <typename Type>
     bool addProperty(const std::string & name,
-                     const std::string & title,
                      const Type & value);
     
     template <typename Type>
-    bool addProperty(const std::string & name, const std::string & title,
+    bool addProperty(const std::string & name,
                  const std::function<const Type & ()> & getter,
                  const std::function<void(const Type &)> & setter);
     
     template <typename Type, class Object>
-    bool addProperty(const std::string & name, const std::string & title,
+    bool addProperty(const std::string & name,
                  Object & object, const Type & (Object::*getter_pointer)() const,
                  void (Object::*setter_pointer)(const Type &));
     
     template <typename Type, class Object>
-    bool addProperty(const std::string & name, const std::string & title,
+    bool addProperty(const std::string & name,
                  Object & object, Type (Object::*getter_pointer)() const,
                  void (Object::*setter_pointer)(Type));
     
@@ -130,34 +129,33 @@ protected:
 };
 
 template <typename Type>
-bool PropertyGroup::addProperty(const std::string & name,
-    const std::string & title, const Type & value)
+bool PropertyGroup::addProperty(const std::string & name, const Type & value)
 {
-    return this->addProperty(new Property<Type>(name, title, value));
+    return this->addProperty(new Property<Type>(name, value));
 }
 
 template <typename Type>
-bool PropertyGroup::addProperty(const std::string & name, const std::string & title,
+bool PropertyGroup::addProperty(const std::string & name,
     const std::function<const Type & ()> & getter,
     const std::function<void(const Type &)> & setter)
 {
-    return this->addProperty(new Property<Type>(name, title, getter, setter));
+    return this->addProperty(new Property<Type>(name, getter, setter));
 }
 
 template <typename Type, class Object>
-bool PropertyGroup::addProperty(const std::string & name, const std::string & title,
+bool PropertyGroup::addProperty(const std::string & name,
     Object & object, const Type & (Object::*getter_pointer)() const,
     void (Object::*setter_pointer)(const Type &))
 {
-    return this->addProperty(new Property<Type>(name, title, object, getter_pointer, setter_pointer));
+    return this->addProperty(new Property<Type>(name, object, getter_pointer, setter_pointer));
 }
 
 template <typename Type, class Object>
-bool PropertyGroup::addProperty(const std::string & name, const std::string & title,
+bool PropertyGroup::addProperty(const std::string & name,
     Object & object, Type (Object::*getter_pointer)() const,
     void (Object::*setter_pointer)(Type))
 {
-    return this->addProperty(new Property<Type>(name, title, object, getter_pointer, setter_pointer));
+    return this->addProperty(new Property<Type>(name, object, getter_pointer, setter_pointer));
 }
 
 template <typename Type>

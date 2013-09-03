@@ -10,7 +10,6 @@ namespace propertyzeug {
     class PropertyGroup;
 }
 
-
 namespace propertyguizeug {
     
 using namespace propertyzeug;

@@ -24,7 +24,7 @@ class PROPERTYZEUG_API AbstractProperty
 public:
     static const std::string s_nameRegexString;
     
-    AbstractProperty(const std::string & name, const std::string & title);
+    AbstractProperty(const std::string & name);
     virtual ~AbstractProperty();
 
     const std::string & name() const;

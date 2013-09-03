@@ -6,8 +6,8 @@
 
 namespace propertyzeug {
     
-PropertyGroup::PropertyGroup(std::string name, std::string title)
-:   AbstractProperty(name, title)
+PropertyGroup::PropertyGroup(const std::string & name)
+:   AbstractProperty(name)
 {
 }
 

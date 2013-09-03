@@ -1,5 +1,4 @@
 
-#include <propertyzeug/Property.h>
 #include <propertyzeug/PropertyGroup.h>
 #include <propertyguizeug/PropertyItemModel.h>
 
@@ -27,7 +26,6 @@ QModelIndex PropertyItemModel::index(int row, int column, const QModelIndex & pa
             return QModelIndex();
     }
 
-    
     AbstractProperty * property = static_cast<AbstractProperty *>(parentIndex.internalPointer());
         
     if (!property->isGroup())

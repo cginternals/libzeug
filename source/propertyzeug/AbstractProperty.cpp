@@ -5,10 +5,9 @@ namespace propertyzeug {
     
 const std::string AbstractProperty::s_nameRegexString("[a-zA-Z]\\w*");
 
-AbstractProperty::AbstractProperty(const std::string & name,
-    const std::string & title)
+AbstractProperty::AbstractProperty(const std::string & name)
 :   m_name(name)
-,   m_title(title)
+,   m_title(name)
 ,   m_announcer(this)
 ,   m_parent(nullptr)
 {

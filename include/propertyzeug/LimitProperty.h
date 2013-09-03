@@ -14,19 +14,19 @@ template <typename Type>
 class PROPERTYZEUG_API LimitProperty : public BaseProperty<Type>
 {
 public:
-    LimitProperty(const std::string & name, const std::string & title, const Type & value);
+    LimitProperty(const std::string & name, const Type & value);
 
-    LimitProperty(const std::string & name, const std::string & title, 
+    LimitProperty(const std::string & name, 
                   const std::function<const Type & ()> & getter,
                   const std::function<void(const Type &)> & setter);
     
     template <class Object>
-    LimitProperty(const std::string & name, const std::string & title,
+    LimitProperty(const std::string & name,
                   Object & object, const Type & (Object::*getter_pointer)() const,
                   void (Object::*setter_pointer)(const Type &));
     
     template <class Object>
-    LimitProperty(const std::string & name, const std::string & title,
+    LimitProperty(const std::string & name,
                   Object & object, Type (Object::*getter_pointer)() const,
                   void (Object::*setter_pointer)(Type));
     
@@ -42,18 +42,18 @@ protected:
 };
 
 template <typename Type>
-LimitProperty<Type>::LimitProperty(const std::string & name, const std::string & title, const Type & value)
-:   BaseProperty<Type>(name, title, value)
+LimitProperty<Type>::LimitProperty(const std::string & name, const Type & value)
+:   BaseProperty<Type>(name, value)
 ,   m_min(0)
 ,   m_max(0)
 {
 };
 
 template <typename Type>
-LimitProperty<Type>::LimitProperty(const std::string & name, const std::string & title, 
+LimitProperty<Type>::LimitProperty(const std::string & name, 
     const std::function<const Type & ()> & getter,
     const std::function<void(const Type &)> & setter)
-:   BaseProperty<Type>(name, title, getter, setter)
+:   BaseProperty<Type>(name, getter, setter)
 ,   m_min(0)
 ,   m_max(0)
 {
@@ -61,10 +61,10 @@ LimitProperty<Type>::LimitProperty(const std::string & name, const std::string &
 
 template <typename Type>
 template <class Object>
-LimitProperty<Type>::LimitProperty(const std::string & name, const std::string & title,
+LimitProperty<Type>::LimitProperty(const std::string & name,
     Object & object, const Type & (Object::*getter_pointer)() const,
     void (Object::*setter_pointer)(const Type &))
-:   BaseProperty<Type>(name, title, object, getter_pointer, setter_pointer)
+:   BaseProperty<Type>(name, object, getter_pointer, setter_pointer)
 ,   m_min(0)
 ,   m_max(0)
 {
@@ -72,10 +72,10 @@ LimitProperty<Type>::LimitProperty(const std::string & name, const std::string &
 
 template <typename Type>
 template <class Object>
-LimitProperty<Type>::LimitProperty(const std::string & name, const std::string & title,
+LimitProperty<Type>::LimitProperty(const std::string & name,
     Object & object, Type (Object::*getter_pointer)() const,
     void (Object::*setter_pointer)(Type))
-:   BaseProperty<Type>(name, title, object, getter_pointer, setter_pointer)
+:   BaseProperty<Type>(name, object, getter_pointer, setter_pointer)
 ,   m_min(0)
 ,   m_max(0)
 {

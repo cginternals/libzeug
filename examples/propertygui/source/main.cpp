@@ -36,12 +36,12 @@ int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);
     
-    PropertyGroup group("root", "Group");
-    group.addProperty("prop1", "Prop 1", 4);
+    PropertyGroup group("root");
+    group.addProperty("prop1", 4);
     
-    PropertyGroup group2("prop2", "Prop2");
+    PropertyGroup group2("prop2");
     group.addProperty(&group2);
-    group2.addProperty("prop3", "Prop3", 3);
+    group2.addProperty("prop3", 3);
     
     QStandardItemModel stdmodel;
     QStandardItem root(QString("root"));
