@@ -81,6 +81,8 @@ void createPropertiesFromGroup()
     group.addProperty<int>("y", "y", 30);
     group.addProperty<int>("height", "Height", 200);
     group.insertPropertyAfter("y", new Property<int>("width", "Width", 100));
+    
+    std::cout << "Property Count: " << group.propertyCount() << std::endl;
 }
 
 void iterateOverProperties()

@@ -151,6 +151,11 @@ AbstractProperty * PropertyGroup::obtainProperty(const std::string & name)
     return property;
 }
 
+unsigned int PropertyGroup::propertyCount() const
+{
+    return m_properties.size();
+}
+
 void PropertyGroup::forEachProperty(const std::function<void(AbstractProperty &)> functor)
 {
     for (AbstractProperty * property : m_properties)

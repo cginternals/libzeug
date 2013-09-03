@@ -93,20 +93,22 @@ public:
     
     /** @} */
     
-    /** @name Convenience Methods
-     * @brief Methods for manipulating the property list
+    /** @name More Methods for Properties
+     * @brief Methods for working with the property list
      */
     /** @{ */
     
     AbstractProperty * replaceProperty(const std::string & name,
                                        AbstractProperty * property);
 
+    AbstractProperty * obtainProperty(const std::string & name);
+
     bool insertPropertyAfter(const std::string & name, 
                              AbstractProperty * property);
 
     bool removeProperty(AbstractProperty * property);
-    
-    AbstractProperty * obtainProperty(const std::string & name);
+
+    unsigned int propertyCount() const;
     
     /** @} */
     
