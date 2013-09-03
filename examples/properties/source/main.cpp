@@ -91,9 +91,9 @@ void iterateOverProperties()
     PropertyGroup group("group");
     
     group.addProperty<float>("first", 0.3f);
-    group.addProperty(new PropertyGroup("second"));
+    group.addGroup("second");
     group.addProperty<unsigned long>("third", 7);
-    group.addProperty(new PropertyGroup("fourth"));
+    group.addGroup("fourth");
     group.addProperty<Color>("fifth", Color(125, 125, 125));
     
     group.forEachValueProperty([](AbstractProperty & property) {
@@ -116,16 +116,17 @@ void deserializeFromFile()
     group.addProperty<Color>("color", 0);
     group.addProperty<std::vector<int>>("vec3", {12,4,54});
     
-    group.addProperty(new PropertyGroup("group1"));
+    group.addGroup("group1");
     group.group("group1")->addProperty<char>("value3", 'a');
     group.group("group1")->addProperty<std::string>("name", "horst");
     group.group("group1")->addProperty<std::vector<bool>>("bool2", {false,false});
+    group.group("group1")->addProperty<std::vector<int>>("vec3", {12,4,54});
     
     PropertyDeserializer deserializer;
     deserializer.deserialize(group, "examples/properties/data/group.ini");
 
-    std::vector<int> vec3 = group.value<std::vector<int>>("vec3");
-    std::cout << "Value of root/vec3: ";
+    std::vector<int> vec3 = group.value<std::vector<int>>("group1/vec3");
+    std::cout << "Value of root/group1/vec3: ";
     std::cout << "(" << vec3[0] << "," << vec3[1] << "," << vec3[2] << ")" << std::endl;
 }
 

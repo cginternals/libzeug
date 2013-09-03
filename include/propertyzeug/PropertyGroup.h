@@ -50,6 +50,8 @@ public:
                  Object & object, Type (Object::*getter_pointer)() const,
                  void (Object::*setter_pointer)(Type));
     
+    bool addGroup(const std::string & name);
+    
     /** @} */
     
     /** @name Property Accessing
@@ -84,8 +86,8 @@ public:
      */
     /** @{ */
 
-    bool propertyExists(const std::string & path) const;
-    bool groupExists(const std::string & path) const;
+    bool propertyExists(const std::string & name) const;
+    bool groupExists(const std::string & name) const;
     
     bool hasProperties() const;
     unsigned int propertyCount() const;

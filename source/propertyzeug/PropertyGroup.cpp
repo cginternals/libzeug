@@ -36,6 +36,18 @@ bool PropertyGroup::addProperty(AbstractProperty * property)
     property->setParent(this);
     return true;
 }
+    
+bool PropertyGroup::addGroup(const std::string & name)
+{
+    PropertyGroup * group = new PropertyGroup(name);
+    
+    if (!this->addProperty(group)) {
+        delete group;
+        return false;
+    }
+    
+    return true;
+}
 
 AbstractProperty * PropertyGroup::property(const std::string & path)
 {
