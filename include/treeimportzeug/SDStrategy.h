@@ -1,8 +1,8 @@
 #pragma once
 
-#include <TreeSqliteParserStrategy.h>
+#include <treeimportzeug/TreeSqliteParserStrategy.h>
 
-#include <Tree.h>
+#include <treezeug/Tree.h>
 
 #include <QHash>
 #include <QString>

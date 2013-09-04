@@ -1,6 +1,6 @@
-#include <CityGMLStrategy.h>
+#include <treeimportzeug/CityGMLStrategy.h>
 
-#include <TreeXmlParser.h>
+#include <treeimportzeug/TreeXmlParser.h>
 
 CityGMLStrategy::CityGMLStrategy(TreeXmlParser& parser)
 : TreeXmlParserStrategy(parser)

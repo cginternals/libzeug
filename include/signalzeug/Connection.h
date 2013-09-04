@@ -1,6 +1,6 @@
 #pragma once
 
-#include <signalzeug.h>
+#include <signalzeug/signalzeug.h>
 
 #include <memory>
 

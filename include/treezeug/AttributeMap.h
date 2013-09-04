@@ -1,6 +1,6 @@
 #pragma once
 
-#include <Attribute.h>
+#include <treezeug/Attribute.h>
 
 #include <string>
 #include <unordered_map>

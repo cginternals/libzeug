@@ -1,13 +1,13 @@
 #pragma once
 
-#include <Tree.h>
+#include <treezeug/Tree.h>
 
 #include <vector>
 #include <unordered_map>
 #include <utility>
 #include <functional>
 
-#include <ConnectionMap.h>
+#include <signalzeug/ConnectionMap.h>
 
 class LinearizedTree
 {

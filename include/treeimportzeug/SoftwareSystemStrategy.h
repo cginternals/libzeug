@@ -1,6 +1,6 @@
 #pragma once
 
-#include <TreeXmlParserStrategy.h>
+#include <treeimportzeug/TreeXmlParserStrategy.h>
 
 #include <QStack>
 #include <QHash>

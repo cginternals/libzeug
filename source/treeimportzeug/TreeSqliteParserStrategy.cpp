@@ -1,6 +1,6 @@
-#include <TreeSqliteParserStrategy.h>
+#include <treeimportzeug/TreeSqliteParserStrategy.h>
 
-#include <TreeSqliteParser.h>
+#include <treeimportzeug/TreeSqliteParser.h>
 
 #include <QSqlRecord>
 #include <QSqlQuery>

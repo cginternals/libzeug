@@ -1,6 +1,6 @@
 #pragma once
 
-#include <Connection.h>
+#include <signalzeug/Connection.h>
 
 #include <unordered_map>
 

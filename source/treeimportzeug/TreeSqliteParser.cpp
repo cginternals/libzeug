@@ -1,7 +1,7 @@
-#include <TreeSqliteParser.h>
+#include <treeimportzeug/TreeSqliteParser.h>
 
-#include <SDStrategy.h>
-#include <ChangesStrategy.h>
+#include <treeimportzeug/SDStrategy.h>
+#include <treeimportzeug/ChangesStrategy.h>
 
 #include <QDebug>
 #include <QSqlRecord>

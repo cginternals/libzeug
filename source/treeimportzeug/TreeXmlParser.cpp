@@ -1,8 +1,8 @@
-#include <TreeXmlParser.h>
+#include <treeimportzeug/TreeXmlParser.h>
 
-#include <CityGMLStrategy.h>
-#include <TreeStrategy.h>
-#include <SoftwareSystemStrategy.h>
+#include <treeimportzeug/CityGMLStrategy.h>
+#include <treeimportzeug/TreeStrategy.h>
+#include <treeimportzeug/SoftwareSystemStrategy.h>
 
 #include <iostream>
 

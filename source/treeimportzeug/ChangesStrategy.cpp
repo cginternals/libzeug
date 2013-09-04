@@ -1,6 +1,6 @@
-#include <ChangesStrategy.h>
+#include <treeimportzeug/ChangesStrategy.h>
 
-#include <TreeSqliteParser.h>
+#include <treeimportzeug/TreeSqliteParser.h>
 
 #include <QHash>
 

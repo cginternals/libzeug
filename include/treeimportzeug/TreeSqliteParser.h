@@ -4,7 +4,7 @@
 #include <QSqlDatabase>
 #include <QList>
 
-#include <Tree.h>
+#include <treezeug/Tree.h>
 
 class TreeSqliteParserStrategy;
 

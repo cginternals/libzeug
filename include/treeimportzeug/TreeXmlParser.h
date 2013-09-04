@@ -3,7 +3,7 @@
 #include <QtXml/QXmlDefaultHandler>
 #include <QString>
 
-#include <Tree.h>
+#include <treezeug/Tree.h>
 
 class TreeXmlParserStrategy;
 

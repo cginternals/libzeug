@@ -1,6 +1,6 @@
-#include <SDStrategy.h>
+#include <treeimportzeug/SDStrategy.h>
 
-#include <TreeSqliteParser.h>
+#include <treeimportzeug/TreeSqliteParser.h>
 
 #include <QDateTime>
 
