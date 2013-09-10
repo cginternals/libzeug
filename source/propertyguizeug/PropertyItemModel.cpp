@@ -87,7 +87,10 @@ QVariant PropertyItemModel::data(const QModelIndex & index, int role) const
         
         AbstractProperty * property = static_cast<AbstractProperty *>(index.internalPointer());
         
-        if (index.column() == 0)
+        if (index.column() == 1 && property->isGroup())
+            return QVariant();
+        
+//        if (index.column() == 0)
             return QVariant(QString::fromStdString(property->name()));
         
         if (index.column() == 1 && !property->isGroup())
@@ -102,7 +105,14 @@ Qt::ItemFlags PropertyItemModel::flags(const QModelIndex &index) const
     if (!index.isValid())
         return 0;
     
-    return Qt::ItemIsEnabled | Qt::ItemIsSelectable;
+    AbstractProperty * property = static_cast<AbstractProperty *>(index.internalPointer());
+    
+    Qt::ItemFlags flags = Qt::ItemIsEnabled | Qt::ItemIsSelectable;
+
+    if (index.column() == 1 && !property->isGroup())
+        flags |= Qt::ItemIsEditable;
+    
+    return flags;
 }
 
 } // namespace
