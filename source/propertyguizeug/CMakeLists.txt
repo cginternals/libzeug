@@ -25,13 +25,16 @@ set(source_path "${CMAKE_CURRENT_SOURCE_DIR}")
 set(headers
     ${header_path}/propertyguizeug.h
 
+    ${header_path}/PropertyType.h
     ${header_path}/WidgetBuilder.h
     ${header_path}/PropertyItemModel.h
+    ${header_path}/PropertyDelegate.h
 )
 
 set(sources
     ${source_path}/WidgetBuilder.cpp
     ${source_path}/PropertyItemModel.cpp
+    ${source_path}/PropertyDelegate.cpp
 )
 
 # Group source files

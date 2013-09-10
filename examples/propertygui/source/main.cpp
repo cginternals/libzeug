@@ -5,8 +5,8 @@
 #include <QWidget>
 #include <QDebug>
 #include <propertyzeug/PropertyGroup.h>
-#include <propertyguizeug/WidgetBuilder.h>
 #include <propertyguizeug/PropertyItemModel.h>
+#include <propertyguizeug/PropertyDelegate.h>
 
 using namespace propertyzeug;
 using namespace propertyguizeug;
@@ -24,7 +24,9 @@ int main(int argc, char *argv[])
     
     QTreeView treeView;
     PropertyItemModel model(&settings);
+    PropertyDelegate delegate;
     treeView.setModel(&model);
+    treeView.setItemDelegate(&delegate);
     treeView.show();
     
     return a.exec();

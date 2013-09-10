@@ -1,6 +1,7 @@
 
 #include <propertyzeug/PropertyGroup.h>
 #include <propertyguizeug/PropertyItemModel.h>
+#include <propertyguizeug/PropertyType.h>
 
 namespace propertyguizeug {
     
@@ -66,7 +67,7 @@ int PropertyItemModel::rowCount(const QModelIndex & parentIndex) const
 int PropertyItemModel::columnCount(const QModelIndex & parentIndex) const
 {
     if (!parentIndex.isValid())
-        return 1;
+        return 2;
     
     AbstractProperty * property = static_cast<AbstractProperty *>(parentIndex.internalPointer());
     
@@ -75,20 +76,25 @@ int PropertyItemModel::columnCount(const QModelIndex & parentIndex) const
     
     PropertyGroup * group = property->to<PropertyGroup>();
     
-    return group->hasProperties() ? 1 : 0;
+    return group->hasProperties() ? 2 : 0;
 }
 
 QVariant PropertyItemModel::data(const QModelIndex & index, int role) const
 {
     if (role == Qt::DisplayRole) {
         if (!index.isValid())
-            return QModelIndex();
+            return QVariant();
         
         AbstractProperty * property = static_cast<AbstractProperty *>(index.internalPointer());
-        return QVariant(QString::fromStdString(property->name()));
-    } else {
-        return QVariant();
+        
+        if (index.column() == 0)
+            return QVariant(QString::fromStdString(property->name()));
+        
+        if (index.column() == 1 && !property->isGroup())
+            return QVariant::fromValue(PropertyType(property));
     }
+    
+    return QVariant();
 }
     
 Qt::ItemFlags PropertyItemModel::flags(const QModelIndex &index) const
