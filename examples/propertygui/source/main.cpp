@@ -20,14 +20,18 @@ int main(int argc, char *argv[])
     constraints.addProperty<std::vector<int>>("Position", std::vector<int>({ 100, 200 }));
     settings.addProperty(&constraints);
     constraints.addProperty("Height", 3);
+    constraints.property<int>("Height")->setMinimum(0);
+    constraints.property<int>("Height")->setMaximum(100);
     constraints.addProperty("Width", 12);
     
     QTreeView treeView;
+    treeView.setAlternatingRowColors(true);
     PropertyItemModel model(&settings);
     PropertyDelegate delegate;
     treeView.setModel(&model);
-//    treeView.setItemDelegateForColumn(1, &delegate);
+    treeView.setItemDelegateForColumn(1, &delegate);
     treeView.show();
+    treeView.expandAll();
     
     return a.exec();
 }

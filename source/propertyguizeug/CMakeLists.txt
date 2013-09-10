@@ -29,6 +29,7 @@ set(headers
     ${header_path}/WidgetBuilder.h
     ${header_path}/PropertyItemModel.h
     ${header_path}/PropertyDelegate.h
+    ${header_path}/NumberEditor.h
 )
 
 set(sources
