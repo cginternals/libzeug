@@ -56,7 +56,7 @@ void PropertySerializer::serializeProperty(const AbstractProperty & property,
 void PropertySerializer::visit(Property<bool> & property)
 {
     this->serializeProperty(property, [&property]() {
-        return property.value() ? "true" : "false";
+        return property.valueAsString();
     });
 }
 
@@ -110,14 +110,7 @@ void PropertySerializer::visit(Property<std::string> & property)
 void PropertySerializer::visit(Property<Color> & property)
 {
     this->serializeProperty(property, [&property]() {
-        std::stringstream stream;
-        stream << "(";
-        stream << property.value().red() << ",";
-        stream << property.value().green() << ",";
-        stream << property.value().blue() << ",";
-        stream << property.value().alpha();
-        stream << ")";
-        return stream.str();
+        return property.valueAsString();
     });
 }
 
@@ -131,15 +124,7 @@ void PropertySerializer::visit(Property<FilePath> & property)
 void PropertySerializer::visit(Property<std::vector<bool>> & property)
 {
     this->serializeProperty(property, [&property]() {
-        std::stringstream stream;
-        stream << "(";
-        for(auto e = property.value().begin(); e < --property.value().end(); e++) {
-            stream << (*e ? "true" : "false") << ",";
-        }
-        stream << (property.value().back() ? "true" : "false");
-        stream << ")";
-        
-        return stream.str();
+        return property.valueAsString();
     });
 }
 

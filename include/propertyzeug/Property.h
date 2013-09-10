@@ -63,6 +63,7 @@ public:
     :   BaseProperty<bool>(name, object, getter_pointer, setter_pointer) {};
 
     virtual void accept(AbstractPropertyVisitor & visitor) { visitor.visit(*this); };
+    virtual std::string valueAsString() const { return this->value() ? "true" : "false"; };
 };
 
 template <>
@@ -333,6 +334,18 @@ public:
     :   BaseProperty<Color>(name, object, getter_pointer, setter_pointer) {};
 
     virtual void accept(AbstractPropertyVisitor & visitor) { visitor.visit(*this); };
+    
+    virtual std::string valueAsString() const
+    {
+        std::stringstream stream;
+        stream << "(";
+        stream << this->value().red() << ",";
+        stream << this->value().green() << ",";
+        stream << this->value().blue() << ",";
+        stream << this->value().alpha();
+        stream << ")";
+        return stream.str();
+    }
 };
 
 template <>
@@ -360,6 +373,7 @@ public:
     :   BaseProperty<FilePath>(name, object, getter_pointer, setter_pointer) {};
 
     virtual void accept(AbstractPropertyVisitor & visitor) { visitor.visit(*this); };
+    virtual std::string valueAsString() const { return this->value().string(); };
 };
 
 template <>
@@ -387,6 +401,19 @@ public:
     :   VectorProperty<std::vector<bool>>(name, object, getter_pointer, setter_pointer) {};
 
     virtual void accept(AbstractPropertyVisitor & visitor) { visitor.visit(*this); };
+    
+    virtual std::string valueAsString() const
+    {
+        std::stringstream stream;
+        stream << "(";
+        for(auto e = this->value().begin(); e < --this->value().end(); e++) {
+            stream << (*e ? "true" : "false") << ",";
+        }
+        stream << (this->value().back() ? "true" : "false");
+        stream << ")";
+        
+        return stream.str();
+    }
 };
 
 template <>

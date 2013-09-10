@@ -60,5 +60,10 @@ void StringProperty::addChoice(const std::string & string)
     this->m_announcer.notify(events::kChoicesChanged);
 }
     
+std::string StringProperty::valueAsString() const
+{
+    return this->value();
+}
+    
 } // namespace
 

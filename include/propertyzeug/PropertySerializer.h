@@ -58,9 +58,7 @@ template <typename Type>
 void PropertySerializer::serializePrimitiveProperty(const Property<Type> & property)
 {
     this->serializeProperty(property, [&property]() -> std::string {
-        std::stringstream stream;
-        stream << property.value();
-        return stream.str();
+        return property.valueAsString();
     });
 }
     
@@ -68,15 +66,7 @@ template <typename Type>
 void PropertySerializer::serializeVectorProperty(const Property<Type> & property)
 {
     this->serializeProperty(property, [&property]() {
-        std::stringstream stream;
-        stream << "(";
-        for(auto e = property.value().begin(); e < --property.value().end(); e++) {
-            stream << *e << ",";
-        }
-        stream << property.value().back();
-        stream << ")";
-        
-        return stream.str();
+        return property.valueAsString();
     });
 }
     

@@ -36,6 +36,8 @@ public:
     void setChoices(const std::vector<std::string> & choices);
     void addChoice(const std::string & string);
     
+    virtual std::string valueAsString() const;
+    
 protected:
     std::vector<std::string> m_choices;
 };

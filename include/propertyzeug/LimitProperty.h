@@ -1,6 +1,7 @@
 
 #pragma once
 
+#include <sstream>
 #include "BaseProperty.h"
 
 namespace propertyzeug {
@@ -35,6 +36,8 @@ public:
 
     const Type & maximum() const;
     void setMaximum(const Type & maximum);
+    
+    virtual std::string valueAsString() const;
     
 protected:
     Type m_min;
@@ -106,6 +109,14 @@ void LimitProperty<Type>::setMaximum(const Type & maximum)
 {
     m_max = maximum;
     this->m_announcer.notify(events::kLimitsChanged);
+}
+    
+template <typename Type>
+std::string LimitProperty<Type>::valueAsString() const
+{
+    std::stringstream stream;
+    stream << this->value();
+    return stream.str();
 }
 
 } // namespace

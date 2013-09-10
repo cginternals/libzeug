@@ -36,6 +36,9 @@ public:
 
     virtual const Type & value() const;
     virtual void setValue(const Type & value);
+    
+    virtual std::string valueAsString() const = 0;
+    
 protected:
     std::unique_ptr<AbstractValue<Type>> m_value;
 };

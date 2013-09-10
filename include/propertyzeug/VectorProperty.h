@@ -1,6 +1,7 @@
 
 #pragma once 
 
+#include <sstream>
 #include <numeric>
 #include <vector>
 #include "BaseProperty.h"
@@ -43,6 +44,8 @@ public:
 
     const std::vector<unsigned int> & dimensions() const;
     void setDimensions(const std::vector<unsigned int> & dimensions);
+    
+    virtual std::string valueAsString() const;
 
 protected:
     unsigned int m_fixedSize;
@@ -135,6 +138,20 @@ void VectorProperty<Array>::setDimensions(const std::vector<unsigned int> & dime
                                           }));
     
     m_dimensions = dimensions;
+}
+
+template <typename Array>
+std::string VectorProperty<Array>::valueAsString() const
+{
+    std::stringstream stream;
+    stream << "(";
+    for(auto e = this->value().begin(); e < --this->value().end(); e++) {
+        stream << *e << ",";
+    }
+    stream << this->value().back();
+    stream << ")";
+    
+    return stream.str();
 }
 
 } // namespace
