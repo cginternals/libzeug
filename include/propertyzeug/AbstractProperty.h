@@ -55,6 +55,7 @@ public:
     virtual bool isGroup() const;
     
     virtual void accept(AbstractPropertyVisitor & visitor) = 0;
+    virtual std::string valueAsString() const = 0;
 
 protected:
     std::string m_name;

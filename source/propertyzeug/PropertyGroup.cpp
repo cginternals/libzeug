@@ -25,6 +25,11 @@ void PropertyGroup::accept(AbstractPropertyVisitor & visitor)
 {
     visitor.visit(*this);
 }
+    
+std::string PropertyGroup::valueAsString() const
+{
+    return "";
+}
 
 bool PropertyGroup::addProperty(AbstractProperty * property)
 {

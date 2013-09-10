@@ -23,6 +23,7 @@ public:
     
     virtual bool isGroup() const;
     virtual void accept(AbstractPropertyVisitor & visitor);
+    virtual std::string valueAsString() const;
     
     /** @name Property Adding
      * @brief Methods for adding properties.

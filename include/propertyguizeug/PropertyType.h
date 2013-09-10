@@ -15,16 +15,10 @@ using namespace propertyzeug;
 class PROPERTYGUIZEUG_API PropertyType
 {
 public:
-    PropertyType() : m_property(nullptr) {};
-    PropertyType(const PropertyType & type) : m_property(type.property()) {};
+    PropertyType() {};
+    PropertyType(const PropertyType & type) {};
     PropertyType(AbstractProperty * property) {};
     ~PropertyType() {};
-    
-    AbstractProperty * property() const { return m_property; };
-    void setProperty(AbstractProperty * property) { m_property = property; };
-
-protected:
-    AbstractProperty * m_property;
 };
 
 } // namespace
