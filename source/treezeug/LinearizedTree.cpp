@@ -44,7 +44,7 @@ unsigned LinearizedTree::size() const
 
 int LinearizedTree::maxId() const
 {
-	return _tree ? _tree->maxId() : 0;
+    return _tree ? _tree->maxId() : -1;
 }
 
 const Node* LinearizedTree::root() const
