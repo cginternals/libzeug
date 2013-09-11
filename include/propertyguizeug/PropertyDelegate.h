@@ -43,7 +43,7 @@ public:
     virtual void visit(Property<FilePath> & property) {};
     
     virtual void visit(Property<std::vector<bool>> & property) {};
-    virtual void visit(Property<std::vector<int>> & property) {};
+    virtual void visit(Property<std::vector<int>> & property);
     virtual void visit(Property<std::vector<float>> & property) {};
     virtual void visit(Property<std::vector<double>> & property) {};
 

@@ -4,6 +4,7 @@
 #include <QTreeView>
 #include <QWidget>
 #include <QDebug>
+#include <propertyzeug/Property.h>
 #include <propertyzeug/PropertyGroup.h>
 #include <propertyguizeug/PropertyItemModel.h>
 #include <propertyguizeug/PropertyDelegate.h>
@@ -20,11 +21,11 @@ int main(int argc, char *argv[])
     constraints.addProperty<std::vector<int>>("Position", std::vector<int>({ 100, 200 }));
     settings.addProperty(&constraints);
     constraints.addProperty("Height", 3);
-    constraints.property<int>("Height")->setMinimum(0);
-    constraints.property<int>("Height")->setMaximum(100);
     constraints.addProperty("Width", 12);
     settings.addProperty<std::string>("FilePath", "/Users/Horst/Desktop/");
-    
+    settings.addProperty<std::vector<int>>("Mat3x2", {1,2,3,4,5,6});
+    settings.property<std::vector<int>>("Mat3x2")->setDimensions(3,2);
+
     QTreeView treeView;
     treeView.setAlternatingRowColors(true);
     PropertyItemModel model(&settings);

@@ -3,6 +3,7 @@
 #include <propertyguizeug/PropertyType.h>
 #include <propertyguizeug/NumberEditor.h>
 #include <propertyguizeug/StringEditor.h>
+#include <propertyguizeug/VectorEditor.h>
 #include <propertyguizeug/PropertyDelegate.h>
 
 namespace propertyguizeug {
@@ -66,6 +67,11 @@ void PropertyDelegate::visit(Property<int> & property)
 void PropertyDelegate::visit(Property<std::string> & property)
 {
     m_activeEditor = new StringEditor(&property);
+}
+
+void PropertyDelegate::visit(Property<std::vector<int>> & property)
+{
+    m_activeEditor = new VectorEditor<int>(&property);
 }
     
 } // namespace
