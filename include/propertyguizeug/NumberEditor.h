@@ -25,10 +25,11 @@ NumberEditor<Number>::NumberEditor(Property<Number> * property, QWidget * parent
 :   QSpinBox(parent)
 ,   m_property(property)
 {
-    this->setMinimum(m_property->minimum());
-    this->setMaximum(m_property->maximum());
-    this->setValue(m_property->value());
     this->setFrame(false);
+    this->setValue(m_property->value());
+
+    if (m_property->hasRanges())
+        this->setRange(m_property->minimum(), m_property->maximum());
     
     this->connect(this, static_cast<void (QSpinBox::*)(int)>(&QSpinBox::valueChanged),
                   [this](int i) {
