@@ -8,9 +8,9 @@ StringEditor::StringEditor(Property<std::string> * property, QWidget * parent)
 ,   m_property(property)
 {
     this->setText(QString::fromStdString(m_property->value()));
-    this->connect(this, (&QLineEdit::textChanged),
-                  [this](const QString & text) {
-                      m_property->setValue(text.toStdString());
+    this->connect(this, &QLineEdit::editingFinished,
+                  [this]() {
+                      m_property->setValue(this->text().toStdString());
                   });
 }
 
