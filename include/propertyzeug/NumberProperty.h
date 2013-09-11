@@ -12,22 +12,22 @@ namespace propertyzeug {
  */
 
 template <typename Type>
-class PROPERTYZEUG_API LimitProperty : public BaseProperty<Type>
+class PROPERTYZEUG_API NumberProperty : public BaseProperty<Type>
 {
 public:
-    LimitProperty(const std::string & name, const Type & value);
+    NumberProperty(const std::string & name, const Type & value);
 
-    LimitProperty(const std::string & name, 
+    NumberProperty(const std::string & name, 
                   const std::function<const Type & ()> & getter,
                   const std::function<void(const Type &)> & setter);
     
     template <class Object>
-    LimitProperty(const std::string & name,
+    NumberProperty(const std::string & name,
                   Object & object, const Type & (Object::*getter_pointer)() const,
                   void (Object::*setter_pointer)(const Type &));
     
     template <class Object>
-    LimitProperty(const std::string & name,
+    NumberProperty(const std::string & name,
                   Object & object, Type (Object::*getter_pointer)() const,
                   void (Object::*setter_pointer)(Type));
     
@@ -37,6 +37,8 @@ public:
     const Type & maximum() const;
     void setMaximum(const Type & maximum);
     
+    void setRange(const Type & minimum, const Type & maximum);
+    
     virtual std::string valueAsString() const;
     
 protected:
@@ -45,7 +47,7 @@ protected:
 };
 
 template <typename Type>
-LimitProperty<Type>::LimitProperty(const std::string & name, const Type & value)
+NumberProperty<Type>::NumberProperty(const std::string & name, const Type & value)
 :   BaseProperty<Type>(name, value)
 ,   m_min(0)
 ,   m_max(0)
@@ -53,7 +55,7 @@ LimitProperty<Type>::LimitProperty(const std::string & name, const Type & value)
 };
 
 template <typename Type>
-LimitProperty<Type>::LimitProperty(const std::string & name, 
+NumberProperty<Type>::NumberProperty(const std::string & name, 
     const std::function<const Type & ()> & getter,
     const std::function<void(const Type &)> & setter)
 :   BaseProperty<Type>(name, getter, setter)
@@ -64,7 +66,7 @@ LimitProperty<Type>::LimitProperty(const std::string & name,
 
 template <typename Type>
 template <class Object>
-LimitProperty<Type>::LimitProperty(const std::string & name,
+NumberProperty<Type>::NumberProperty(const std::string & name,
     Object & object, const Type & (Object::*getter_pointer)() const,
     void (Object::*setter_pointer)(const Type &))
 :   BaseProperty<Type>(name, object, getter_pointer, setter_pointer)
@@ -75,7 +77,7 @@ LimitProperty<Type>::LimitProperty(const std::string & name,
 
 template <typename Type>
 template <class Object>
-LimitProperty<Type>::LimitProperty(const std::string & name,
+NumberProperty<Type>::NumberProperty(const std::string & name,
     Object & object, Type (Object::*getter_pointer)() const,
     void (Object::*setter_pointer)(Type))
 :   BaseProperty<Type>(name, object, getter_pointer, setter_pointer)
@@ -85,13 +87,13 @@ LimitProperty<Type>::LimitProperty(const std::string & name,
 };
 
 template <typename Type>
-const Type & LimitProperty<Type>::minimum() const
+const Type & NumberProperty<Type>::minimum() const
 {
     return m_min;
 }
 
 template <typename Type>
-void LimitProperty<Type>::setMinimum(const Type & minimum)
+void NumberProperty<Type>::setMinimum(const Type & minimum)
 {
     m_min = minimum;
     this->m_announcer.notify(events::kLimitsChanged);
@@ -99,20 +101,28 @@ void LimitProperty<Type>::setMinimum(const Type & minimum)
 
 
 template <typename Type>
-const Type & LimitProperty<Type>::maximum() const
+const Type & NumberProperty<Type>::maximum() const
 {
     return m_max;
 }
 
 template <typename Type>
-void LimitProperty<Type>::setMaximum(const Type & maximum)
+void NumberProperty<Type>::setMaximum(const Type & maximum)
 {
     m_max = maximum;
     this->m_announcer.notify(events::kLimitsChanged);
 }
     
 template <typename Type>
-std::string LimitProperty<Type>::valueAsString() const
+void NumberProperty<Type>::setRange(const Type & minimum, const Type & maximum)
+{
+    m_min = minimum;
+    m_max = maximum;
+    this->m_announcer.notify(events::kLimitsChanged);
+}
+    
+template <typename Type>
+std::string NumberProperty<Type>::valueAsString() const
 {
     std::stringstream stream;
     stream << this->value();

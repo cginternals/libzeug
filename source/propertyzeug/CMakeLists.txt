@@ -29,7 +29,7 @@ set(headers
 
     ${header_path}/AbstractProperty.h
     ${header_path}/BaseProperty.h
-    ${header_path}/LimitProperty.h
+    ${header_path}/NumberProperty.h
     ${header_path}/StringProperty.h
     ${header_path}/VectorProperty.h
     ${header_path}/Property.h

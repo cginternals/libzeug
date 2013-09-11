@@ -4,7 +4,7 @@
 #include <propertyzeug/propertyzeug.h>
 
 #include "BaseProperty.h"
-#include "LimitProperty.h"
+#include "NumberProperty.h"
 #include "StringProperty.h"
 #include "VectorProperty.h"
 
@@ -67,217 +67,217 @@ public:
 };
 
 template <>
-class Property<int> : public LimitProperty<int>
+class Property<int> : public NumberProperty<int>
 {
 public:
     Property(const std::string & name, const int & value)
-    :   LimitProperty<int>(name, value) {};
+    :   NumberProperty<int>(name, value) {};
     
     Property(const std::string & name,
               const std::function<const int & ()> & getter,
               const std::function<void(const int &)> & setter)
-    :   LimitProperty<int>(name, getter, setter) {};
+    :   NumberProperty<int>(name, getter, setter) {};
     
     template <class Object>
     Property(const std::string & name,
               Object & object, const int & (Object::*getter_pointer)() const,
               void (Object::*setter_pointer)(const int &))
-    :   LimitProperty<int>(name, object, getter_pointer, setter_pointer) {};
+    :   NumberProperty<int>(name, object, getter_pointer, setter_pointer) {};
     
     template <class Object>
     Property(const std::string & name,
               Object & object, int (Object::*getter_pointer)() const,
               void (Object::*setter_pointer)(const int &))
-    :   LimitProperty<int>(name, object, getter_pointer, setter_pointer) {};
+    :   NumberProperty<int>(name, object, getter_pointer, setter_pointer) {};
 
     virtual void accept(AbstractPropertyVisitor & visitor) { visitor.visit(*this); };
 };
 
 template <>
-class Property<unsigned int> : public LimitProperty<unsigned int>
+class Property<unsigned int> : public NumberProperty<unsigned int>
 {
 public:
     Property(const std::string & name, const unsigned int & value)
-    :   LimitProperty<unsigned int>(name, value) {};
+    :   NumberProperty<unsigned int>(name, value) {};
     
     Property(const std::string & name,
               const std::function<const unsigned int & ()> & getter,
               const std::function<void(const unsigned int &)> & setter)
-    :   LimitProperty<unsigned int>(name, getter, setter) {};
+    :   NumberProperty<unsigned int>(name, getter, setter) {};
     
     template <class Object>
     Property(const std::string & name,
               Object & object, const unsigned int & (Object::*getter_pointer)() const,
               void (Object::*setter_pointer)(const unsigned int &))
-    :   LimitProperty<unsigned int>(name, object, getter_pointer, setter_pointer) {};
+    :   NumberProperty<unsigned int>(name, object, getter_pointer, setter_pointer) {};
     
     template <class Object>
     Property(const std::string & name,
               Object & object, unsigned int (Object::*getter_pointer)() const,
               void (Object::*setter_pointer)(const unsigned int &))
-    :   LimitProperty<unsigned int>(name, object, getter_pointer, setter_pointer) {};
+    :   NumberProperty<unsigned int>(name, object, getter_pointer, setter_pointer) {};
 
     virtual void accept(AbstractPropertyVisitor & visitor) { visitor.visit(*this); };
 };
 
 template <>
-class Property<long> : public LimitProperty<long>
+class Property<long> : public NumberProperty<long>
 {
 public:
     Property(const std::string & name, const long & value)
-    :   LimitProperty<long>(name, value) {};
+    :   NumberProperty<long>(name, value) {};
     
     Property(const std::string & name,
               const std::function<const long & ()> & getter,
               const std::function<void(const long &)> & setter)
-    :   LimitProperty<long>(name, getter, setter) {};
+    :   NumberProperty<long>(name, getter, setter) {};
     
     template <class Object>
     Property(const std::string & name,
               Object & object, const long & (Object::*getter_pointer)() const,
               void (Object::*setter_pointer)(const long &))
-    :   LimitProperty<long>(name, object, getter_pointer, setter_pointer) {};
+    :   NumberProperty<long>(name, object, getter_pointer, setter_pointer) {};
     
     template <class Object>
     Property(const std::string & name,
               Object & object, long (Object::*getter_pointer)() const,
               void (Object::*setter_pointer)(const long &))
-    :   LimitProperty<long>(name, object, getter_pointer, setter_pointer) {};
+    :   NumberProperty<long>(name, object, getter_pointer, setter_pointer) {};
 
     virtual void accept(AbstractPropertyVisitor & visitor) { visitor.visit(*this); };
 };
 
 template <>
-class Property<unsigned long> : public LimitProperty<unsigned long>
+class Property<unsigned long> : public NumberProperty<unsigned long>
 {
 public:
     Property(const std::string & name, const unsigned long & value)
-    :   LimitProperty<unsigned long>(name, value) {};
+    :   NumberProperty<unsigned long>(name, value) {};
     
     Property(const std::string & name,
               const std::function<const unsigned long & ()> & getter,
               const std::function<void(const unsigned long &)> & setter)
-    :   LimitProperty<unsigned long>(name, getter, setter) {};
+    :   NumberProperty<unsigned long>(name, getter, setter) {};
     
     template <class Object>
     Property(const std::string & name,
               Object & object, const unsigned long & (Object::*getter_pointer)() const,
               void (Object::*setter_pointer)(const unsigned long &))
-    :   LimitProperty<unsigned long>(name, object, getter_pointer, setter_pointer) {};
+    :   NumberProperty<unsigned long>(name, object, getter_pointer, setter_pointer) {};
     
     template <class Object>
     Property(const std::string & name,
               Object & object, unsigned long (Object::*getter_pointer)() const,
               void (Object::*setter_pointer)(const unsigned long &))
-    :   LimitProperty<unsigned long>(name, object, getter_pointer, setter_pointer) {};
+    :   NumberProperty<unsigned long>(name, object, getter_pointer, setter_pointer) {};
 
     virtual void accept(AbstractPropertyVisitor & visitor) { visitor.visit(*this); };
 };
 
 template <>
-class Property<char> : public LimitProperty<char>
+class Property<char> : public NumberProperty<char>
 {
 public:
     Property(const std::string & name, const char & value)
-    :   LimitProperty<char>(name, value) {};
+    :   NumberProperty<char>(name, value) {};
     
     Property(const std::string & name,
               const std::function<const char & ()> & getter,
               const std::function<void(const char &)> & setter)
-    :   LimitProperty<char>(name, getter, setter) {};
+    :   NumberProperty<char>(name, getter, setter) {};
     
     template <class Object>
     Property(const std::string & name,
               Object & object, const char & (Object::*getter_pointer)() const,
               void (Object::*setter_pointer)(const char &))
-    :   LimitProperty<char>(name, object, getter_pointer, setter_pointer) {};
+    :   NumberProperty<char>(name, object, getter_pointer, setter_pointer) {};
     
     template <class Object>
     Property(const std::string & name,
               Object & object, char (Object::*getter_pointer)() const,
               void (Object::*setter_pointer)(const char &))
-    :   LimitProperty<char>(name, object, getter_pointer, setter_pointer) {};
+    :   NumberProperty<char>(name, object, getter_pointer, setter_pointer) {};
 
     virtual void accept(AbstractPropertyVisitor & visitor) { visitor.visit(*this); };
 };
 
 template <>
-class Property<unsigned char> : public LimitProperty<unsigned char>
+class Property<unsigned char> : public NumberProperty<unsigned char>
 {
 public:
     Property(const std::string & name, const unsigned char & value)
-    :   LimitProperty<unsigned char>(name, value) {};
+    :   NumberProperty<unsigned char>(name, value) {};
     
     Property(const std::string & name,
               const std::function<const unsigned char & ()> & getter,
               const std::function<void(const unsigned char &)> & setter)
-    :   LimitProperty<unsigned char>(name, getter, setter) {};
+    :   NumberProperty<unsigned char>(name, getter, setter) {};
     
     template <class Object>
     Property(const std::string & name,
               Object & object, const unsigned char & (Object::*getter_pointer)() const,
               void (Object::*setter_pointer)(const unsigned char &))
-    :   LimitProperty<unsigned char>(name, object, getter_pointer, setter_pointer) {};
+    :   NumberProperty<unsigned char>(name, object, getter_pointer, setter_pointer) {};
     
     template <class Object>
     Property(const std::string & name,
               Object & object, unsigned char (Object::*getter_pointer)() const,
               void (Object::*setter_pointer)(const unsigned char &))
-    :   LimitProperty<unsigned char>(name, object, getter_pointer, setter_pointer) {};
+    :   NumberProperty<unsigned char>(name, object, getter_pointer, setter_pointer) {};
 
     virtual void accept(AbstractPropertyVisitor & visitor) { visitor.visit(*this); };
 };
 
 template <>
-class Property<float> : public LimitProperty<float>
+class Property<float> : public NumberProperty<float>
 {
 public:
     Property(const std::string & name, const float & value)
-    :   LimitProperty<float>(name, value) {};
+    :   NumberProperty<float>(name, value) {};
     
     Property(const std::string & name,
               const std::function<const float & ()> & getter,
               const std::function<void(const float &)> & setter)
-    :   LimitProperty<float>(name, getter, setter) {};
+    :   NumberProperty<float>(name, getter, setter) {};
     
     template <class Object>
     Property(const std::string & name,
               Object & object, const float & (Object::*getter_pointer)() const,
               void (Object::*setter_pointer)(const float &))
-    :   LimitProperty<float>(name, object, getter_pointer, setter_pointer) {};
+    :   NumberProperty<float>(name, object, getter_pointer, setter_pointer) {};
     
     template <class Object>
     Property(const std::string & name,
               Object & object, float (Object::*getter_pointer)() const,
               void (Object::*setter_pointer)(const float &))
-    :   LimitProperty<float>(name, object, getter_pointer, setter_pointer) {};
+    :   NumberProperty<float>(name, object, getter_pointer, setter_pointer) {};
 
     virtual void accept(AbstractPropertyVisitor & visitor) { visitor.visit(*this); };
 };
 
 template <>
-class Property<double> : public LimitProperty<double>
+class Property<double> : public NumberProperty<double>
 {
 public:
     Property(const std::string & name, const double & value)
-    :   LimitProperty<double>(name, value) {};
+    :   NumberProperty<double>(name, value) {};
     
     Property(const std::string & name,
               const std::function<const double & ()> & getter,
               const std::function<void(const double &)> & setter)
-    :   LimitProperty<double>(name, getter, setter) {};
+    :   NumberProperty<double>(name, getter, setter) {};
     
     template <class Object>
     Property(const std::string & name,
               Object & object, const double & (Object::*getter_pointer)() const,
               void (Object::*setter_pointer)(const double &))
-    :   LimitProperty<double>(name, object, getter_pointer, setter_pointer) {};
+    :   NumberProperty<double>(name, object, getter_pointer, setter_pointer) {};
     
     template <class Object>
     Property(const std::string & name,
               Object & object, double (Object::*getter_pointer)() const,
               void (Object::*setter_pointer)(const double &))
-    :   LimitProperty<double>(name, object, getter_pointer, setter_pointer) {};
+    :   NumberProperty<double>(name, object, getter_pointer, setter_pointer) {};
 
     virtual void accept(AbstractPropertyVisitor & visitor) { visitor.visit(*this); };
 };
