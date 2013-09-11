@@ -42,14 +42,17 @@ public:
     
     unsigned int fixedSize() const;
 
-    const std::vector<unsigned int> & dimensions() const;
-    void setDimensions(const std::vector<unsigned int> & dimensions);
+    unsigned int columns() const;
+    unsigned int rows() const;
+
+    void setDimensions(unsigned int columns, unsigned int rows);
     
     virtual std::string valueAsString() const;
 
 protected:
     unsigned int m_fixedSize;
-    std::vector<unsigned int> m_dimensions;
+    unsigned int m_columns;
+    unsigned int m_rows;
     
 };
 
@@ -58,7 +61,8 @@ VectorProperty<Vector>::VectorProperty(const std::string & name,
     const Vector & value)
 :   ValueProperty<Vector>(name, value)
 ,   m_fixedSize(this->m_value->get().size())
-,   m_dimensions({m_fixedSize})
+,   m_columns(m_fixedSize)
+,   m_rows(1)
 {
     assert(m_fixedSize != 0);
 }
@@ -69,7 +73,8 @@ VectorProperty<Vector>::VectorProperty(const std::string & name,
     const std::function<void(const Vector &)> & setter)
 :   ValueProperty<Vector>(name, getter, setter)
 ,   m_fixedSize(this->m_value->get().size())
-,   m_dimensions({m_fixedSize})
+,   m_columns(m_fixedSize)
+,   m_rows(1)
 {
     assert(m_fixedSize != 0);
 }
@@ -81,7 +86,8 @@ VectorProperty<Vector>::VectorProperty(const std::string & name,
     void (Object::*setter_pointer)(const Vector &))
 :   ValueProperty<Vector>(name, object, getter_pointer, setter_pointer)
 ,   m_fixedSize(this->m_value->get().size())
-,   m_dimensions({m_fixedSize})
+,   m_columns(m_fixedSize)
+,   m_rows(1)
 {
     assert(m_fixedSize != 0);
 }
@@ -93,7 +99,8 @@ VectorProperty<Vector>::VectorProperty(const std::string & name,
     void (Object::*setter_pointer)(Vector))
 :   ValueProperty<Vector>(name, object, getter_pointer, setter_pointer)
 ,   m_fixedSize(this->m_value->get().size())
-,   m_dimensions({m_fixedSize})
+,   m_columns(m_fixedSize)
+,   m_rows(1)
 {
     assert(m_fixedSize != 0);
 }
@@ -124,20 +131,24 @@ unsigned int VectorProperty<Vector>::fixedSize() const
 }
 
 template <typename Vector>
-const std::vector<unsigned int> & VectorProperty<Vector>::dimensions() const
+unsigned int VectorProperty<Vector>::columns() const
 {
-    return m_dimensions;
+    return m_columns;
 }
 
 template <typename Vector>
-void VectorProperty<Vector>::setDimensions(const std::vector<unsigned int> & dimensions)
+unsigned int VectorProperty<Vector>::rows() const
+{
+    return m_rows;
+}
+
+template <typename Vector>
+void VectorProperty<Vector>::setDimensions(unsigned int columns, unsigned int rows)
 {    
-    assert(m_fixedSize == std::accumulate(dimensions.begin(), dimensions.end(), 1,
-                                          [](unsigned int a, unsigned int b) {
-                                              return a * b;
-                                          }));
+    assert(columns * rows == m_fixedSize);
     
-    m_dimensions = dimensions;
+    m_columns = columns;
+    m_rows = rows;
 }
 
 template <typename Vector>

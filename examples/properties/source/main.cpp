@@ -181,7 +181,7 @@ void useVectorProperties()
     
     Property<std::vector<float>> mat2x2("mat2x2", {1.1, 2.2, 3.3, 4.4});
     std::cout << "mat2x2.fixedSize() = " << mat2x2.fixedSize() << std::endl;
-    mat2x2.setDimensions({2,2});
+    mat2x2.setDimensions(2, 2);
     
     std::vector<bool> mat = {
         true,  false, false, false,
