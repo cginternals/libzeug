@@ -7,6 +7,8 @@
 
 namespace propertyguizeug {
 
+using namespace propertyzeug;
+
 template <typename Number>
 class PROPERTYGUIZEUG_API NumberEditor : public QSpinBox
 {

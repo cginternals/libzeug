@@ -38,7 +38,7 @@ public:
     virtual void visit(Property<unsigned char> & property) {};
     virtual void visit(Property<float> & property) {};
     virtual void visit(Property<double> & property) {};
-    virtual void visit(Property<std::string> & property) {};
+    virtual void visit(Property<std::string> & property);
     virtual void visit(Property<Color> & property) {};
     virtual void visit(Property<FilePath> & property) {};
     
@@ -54,8 +54,6 @@ protected:
     QWidget * createEditorForProperty(QWidget * parent, AbstractProperty * property);
 
     QWidget * m_activeEditor;
-    QWidget * m_activeParent;
-
 };
     
 } // namespace 

@@ -23,6 +23,7 @@ int main(int argc, char *argv[])
     constraints.property<int>("Height")->setMinimum(0);
     constraints.property<int>("Height")->setMaximum(100);
     constraints.addProperty("Width", 12);
+    settings.addProperty<std::string>("FilePath", "/Users/Horst/Desktop/");
     
     QTreeView treeView;
     treeView.setAlternatingRowColors(true);

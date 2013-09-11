@@ -2,6 +2,7 @@
 #include <propertyzeug/AbstractProperty.h>
 #include <propertyguizeug/PropertyType.h>
 #include <propertyguizeug/NumberEditor.h>
+#include <propertyguizeug/StringEditor.h>
 #include <propertyguizeug/PropertyDelegate.h>
 
 namespace propertyguizeug {
@@ -11,7 +12,6 @@ using namespace propertyzeug;
 PropertyDelegate::PropertyDelegate(QWidget * parent)
 :   QStyledItemDelegate(parent)
 ,   m_activeEditor(nullptr)
-,   m_activeParent(nullptr)
 {
 }
     
@@ -47,8 +47,8 @@ void PropertyDelegate::updateEditorGeometry(QWidget * editor, const QStyleOption
 
 QWidget * PropertyDelegate::createEditorForProperty(QWidget * parent, AbstractProperty * property)
 {
-    m_activeParent = parent;
     property->accept(*this);
+    m_activeEditor->setParent(parent);
     return m_activeEditor;
 }
     
@@ -60,7 +60,12 @@ QSize PropertyDelegate::sizeHint (const QStyleOptionViewItem & option,
 
 void PropertyDelegate::visit(Property<int> & property)
 {
-    m_activeEditor = new NumberEditor<int>(&property, m_activeParent);
+    m_activeEditor = new NumberEditor<int>(&property);
+}
+    
+void PropertyDelegate::visit(Property<std::string> & property)
+{
+    m_activeEditor = new StringEditor(&property);
 }
     
 } // namespace
