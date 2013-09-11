@@ -116,5 +116,18 @@ Qt::ItemFlags PropertyItemModel::flags(const QModelIndex &index) const
     return flags;
 }
 
+QVariant PropertyItemModel::headerData(int section, Qt::Orientation orientation, int role) const
+{
+    if (role == Qt::DisplayRole) {
+        if (section == 0)
+            return QVariant("Property");
+        
+        if (section == 1)
+            return QVariant("Value");
+    }
+
+    return QVariant();
+}
+
 } // namespace
 
