@@ -10,7 +10,7 @@ namespace propertyzeug {
             kTitleChanged,
             kAnnotationsChanged,
             kValueChanged,
-            kLimitsChanged,
+            kRangeChanged,
             kChoicesChanged
         };
     }

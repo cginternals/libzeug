@@ -96,7 +96,7 @@ template <typename Type>
 void NumberProperty<Type>::setMinimum(const Type & minimum)
 {
     m_min = minimum;
-    this->m_announcer.notify(events::kLimitsChanged);
+    this->m_announcer.notify(events::kRangeChanged);
 }
 
 
@@ -110,7 +110,7 @@ template <typename Type>
 void NumberProperty<Type>::setMaximum(const Type & maximum)
 {
     m_max = maximum;
-    this->m_announcer.notify(events::kLimitsChanged);
+    this->m_announcer.notify(events::kRangeChanged);
 }
     
 template <typename Type>
@@ -118,7 +118,7 @@ void NumberProperty<Type>::setRange(const Type & minimum, const Type & maximum)
 {
     m_min = minimum;
     m_max = maximum;
-    this->m_announcer.notify(events::kLimitsChanged);
+    this->m_announcer.notify(events::kRangeChanged);
 }
     
 template <typename Type>
