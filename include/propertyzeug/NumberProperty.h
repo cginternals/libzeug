@@ -38,6 +38,7 @@ public:
     void setMaximum(const Type & maximum);
     
     void setRange(const Type & minimum, const Type & maximum);
+    bool hasRanges() const;
     
     virtual std::string valueAsString() const;
     
@@ -119,6 +120,12 @@ void NumberProperty<Type>::setRange(const Type & minimum, const Type & maximum)
     m_min = minimum;
     m_max = maximum;
     this->m_announcer.notify(events::kRangeChanged);
+}
+
+template <typename Type>
+bool NumberProperty<Type>::hasRanges() const
+{
+    return !(m_min == 0 && m_max == 0);
 }
     
 template <typename Type>
