@@ -19,22 +19,19 @@ QModelIndex PropertyItemModel::index(int row, int column, const QModelIndex & pa
 {
     if (column > 1)
         return QModelIndex();
-    
-    if (!parentIndex.isValid()) {
-        if (row == 0 && column == 0)
-            return this->createIndex(0, 0, m_root);
-        else
-            return QModelIndex();
-    }
 
-    AbstractProperty * property = static_cast<AbstractProperty *>(parentIndex.internalPointer());
+    AbstractProperty * parent;
+    if (!parentIndex.isValid())
+        parent = m_root;
+    else
+        parent = static_cast<AbstractProperty *>(parentIndex.internalPointer());
         
-    if (!property->isGroup())
+    if (!parent->isGroup())
         return QModelIndex();
     
-    PropertyGroup * parent = property->to<PropertyGroup>();
+    PropertyGroup * group = parent->to<PropertyGroup>();
     
-    return this->createIndex(row, column, parent->property(row));
+    return this->createIndex(row, column, group->property(row));
 }
 
 QModelIndex PropertyItemModel::parent(const QModelIndex & index) const
@@ -48,17 +45,20 @@ QModelIndex PropertyItemModel::parent(const QModelIndex & index) const
         return QModelIndex();
     
     PropertyGroup * parent = property->parent();
-    if (parent == m_root)
-        return this->createIndex(0, 0, m_root);
     
-    int row = parent->parent()->indexOfProperty(parent->name());
+    int row;
+    if (parent == m_root)
+        row = 0;
+    else
+        row = parent->parent()->indexOfProperty(parent->name());
+    
     return this->createIndex(row, 0, parent);
 }
 
 int PropertyItemModel::rowCount(const QModelIndex & parentIndex) const
 {
     if (!parentIndex.isValid())
-        return 1;
+        return m_root->propertyCount();
     
     AbstractProperty * property = static_cast<AbstractProperty *>(parentIndex.internalPointer());
     return property->isGroup() ? property->to<PropertyGroup>()->propertyCount() : 0;
