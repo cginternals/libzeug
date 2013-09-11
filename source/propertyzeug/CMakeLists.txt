@@ -28,7 +28,7 @@ set(headers
     ${header_path}/Announcer.h
 
     ${header_path}/AbstractProperty.h
-    ${header_path}/BaseProperty.h
+    ${header_path}/ValueProperty.h
     ${header_path}/NumberProperty.h
     ${header_path}/StringProperty.h
     ${header_path}/VectorProperty.h

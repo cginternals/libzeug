@@ -2,7 +2,7 @@
 #pragma once
 
 #include <vector>
-#include "BaseProperty.h"
+#include "ValueProperty.h"
 
 namespace propertyzeug {
     
@@ -11,7 +11,7 @@ namespace propertyzeug {
  * Manages a string and can have choices.
  */
 
-class PROPERTYZEUG_API StringProperty : public BaseProperty<std::string>
+class PROPERTYZEUG_API StringProperty : public ValueProperty<std::string>
 {
 public:
     StringProperty(const std::string & name, const std::string & value);

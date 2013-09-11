@@ -4,7 +4,7 @@
 #include <sstream>
 #include <numeric>
 #include <vector>
-#include "BaseProperty.h"
+#include "ValueProperty.h"
 
 namespace propertyzeug {
     
@@ -16,7 +16,7 @@ namespace propertyzeug {
  */
     
 template <typename Vector>
-class VectorProperty : public BaseProperty<Vector>
+class VectorProperty : public ValueProperty<Vector>
 {
 public:
     VectorProperty(const std::string & name, const Vector & value);
@@ -56,7 +56,7 @@ protected:
 template <typename Vector>
 VectorProperty<Vector>::VectorProperty(const std::string & name,
     const Vector & value)
-:   BaseProperty<Vector>(name, value)
+:   ValueProperty<Vector>(name, value)
 ,   m_fixedSize(this->m_value->get().size())
 ,   m_dimensions({m_fixedSize})
 {
@@ -67,7 +67,7 @@ template <typename Vector>
 VectorProperty<Vector>::VectorProperty(const std::string & name,
     const std::function<const Vector & ()> & getter,
     const std::function<void(const Vector &)> & setter)
-:   BaseProperty<Vector>(name, getter, setter)
+:   ValueProperty<Vector>(name, getter, setter)
 ,   m_fixedSize(this->m_value->get().size())
 ,   m_dimensions({m_fixedSize})
 {
@@ -79,7 +79,7 @@ template <class Object>
 VectorProperty<Vector>::VectorProperty(const std::string & name,
     Object & object, const Vector & (Object::*getter_pointer)() const,
     void (Object::*setter_pointer)(const Vector &))
-:   BaseProperty<Vector>(name, object, getter_pointer, setter_pointer)
+:   ValueProperty<Vector>(name, object, getter_pointer, setter_pointer)
 ,   m_fixedSize(this->m_value->get().size())
 ,   m_dimensions({m_fixedSize})
 {
@@ -91,7 +91,7 @@ template <class Object>
 VectorProperty<Vector>::VectorProperty(const std::string & name,
     Object & object, Vector (Object::*getter_pointer)() const,
     void (Object::*setter_pointer)(Vector))
-:   BaseProperty<Vector>(name, object, getter_pointer, setter_pointer)
+:   ValueProperty<Vector>(name, object, getter_pointer, setter_pointer)
 ,   m_fixedSize(this->m_value->get().size())
 ,   m_dimensions({m_fixedSize})
 {
@@ -107,14 +107,14 @@ template <typename Vector>
 const Vector & VectorProperty<Vector>::value() const
 {
     assert(this->m_value->get().size() == m_fixedSize);
-    return BaseProperty<Vector>::value();
+    return ValueProperty<Vector>::value();
 }
 
 template <typename Vector>
 void VectorProperty<Vector>::setValue(const Vector & value)
 {
     assert(value.size() == m_fixedSize);
-    BaseProperty<Vector>::setValue(value);
+    ValueProperty<Vector>::setValue(value);
 }
     
 template <typename Vector>

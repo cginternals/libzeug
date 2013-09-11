@@ -6,7 +6,7 @@
 namespace propertyzeug {
     
 /** @brief
- * The base class for value implementations of BaseProperty.
+ * The base class for value implementations of ValueProperty.
  */
 
 template <typename Type>

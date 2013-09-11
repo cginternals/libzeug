@@ -5,14 +5,14 @@ namespace propertyzeug {
 
 StringProperty::StringProperty(const std::string & name,
     const std::string & value)
-:   BaseProperty<std::string>(name, value)
+:   ValueProperty<std::string>(name, value)
 {
 }
 
 StringProperty::StringProperty(const std::string & name, 
     const std::function<const std::string & ()> & getter,
     const std::function<void(const std::string &)> & setter)
-:   BaseProperty<std::string>(name, getter, setter)
+:   ValueProperty<std::string>(name, getter, setter)
 {
 }
 
@@ -20,7 +20,7 @@ template <class Object>
 StringProperty::StringProperty(const std::string & name,
     Object & object, const std::string & (Object::*getter_pointer)() const,
     void (Object::*setter_pointer)(const std::string &))
-:   BaseProperty<std::string>(name, object, getter_pointer, setter_pointer)
+:   ValueProperty<std::string>(name, object, getter_pointer, setter_pointer)
 {
 }
     
@@ -28,7 +28,7 @@ template <class Object>
 StringProperty::StringProperty(const std::string & name,
     Object & object, std::string (Object::*getter_pointer)() const,
     void (Object::*setter_pointer)(std::string))
-:   BaseProperty<std::string>(name, object, getter_pointer, setter_pointer)
+:   ValueProperty<std::string>(name, object, getter_pointer, setter_pointer)
 {
 }
      

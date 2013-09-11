@@ -2,17 +2,17 @@
 #pragma once
 
 #include <sstream>
-#include "BaseProperty.h"
+#include "ValueProperty.h"
 
 namespace propertyzeug {
     
 /** @brief
  * Part of the property hierarchy.
- * Extends the BaseProperty by adding a minimum and maximum.
+ * Extends the ValueProperty by adding a minimum and maximum.
  */
 
 template <typename Type>
-class PROPERTYZEUG_API NumberProperty : public BaseProperty<Type>
+class PROPERTYZEUG_API NumberProperty : public ValueProperty<Type>
 {
 public:
     NumberProperty(const std::string & name, const Type & value);
@@ -48,7 +48,7 @@ protected:
 
 template <typename Type>
 NumberProperty<Type>::NumberProperty(const std::string & name, const Type & value)
-:   BaseProperty<Type>(name, value)
+:   ValueProperty<Type>(name, value)
 ,   m_min(0)
 ,   m_max(0)
 {
@@ -58,7 +58,7 @@ template <typename Type>
 NumberProperty<Type>::NumberProperty(const std::string & name, 
     const std::function<const Type & ()> & getter,
     const std::function<void(const Type &)> & setter)
-:   BaseProperty<Type>(name, getter, setter)
+:   ValueProperty<Type>(name, getter, setter)
 ,   m_min(0)
 ,   m_max(0)
 {
@@ -69,7 +69,7 @@ template <class Object>
 NumberProperty<Type>::NumberProperty(const std::string & name,
     Object & object, const Type & (Object::*getter_pointer)() const,
     void (Object::*setter_pointer)(const Type &))
-:   BaseProperty<Type>(name, object, getter_pointer, setter_pointer)
+:   ValueProperty<Type>(name, object, getter_pointer, setter_pointer)
 ,   m_min(0)
 ,   m_max(0)
 {
@@ -80,7 +80,7 @@ template <class Object>
 NumberProperty<Type>::NumberProperty(const std::string & name,
     Object & object, Type (Object::*getter_pointer)() const,
     void (Object::*setter_pointer)(Type))
-:   BaseProperty<Type>(name, object, getter_pointer, setter_pointer)
+:   ValueProperty<Type>(name, object, getter_pointer, setter_pointer)
 ,   m_min(0)
 ,   m_max(0)
 {

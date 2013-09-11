@@ -13,26 +13,26 @@ namespace propertyzeug {
  */
 
 template <typename Type>
-class PROPERTYZEUG_API BaseProperty : public AbstractProperty
+class PROPERTYZEUG_API ValueProperty : public AbstractProperty
 {
 public:
-    BaseProperty(const std::string & name, const Type & value);
+    ValueProperty(const std::string & name, const Type & value);
     
-    BaseProperty(const std::string & name, 
+    ValueProperty(const std::string & name, 
                  const std::function<const Type & ()> & getter,
                  const std::function<void(const Type &)> & setter);
     
     template <class Object>
-    BaseProperty(const std::string & name,
+    ValueProperty(const std::string & name,
                  Object & object, const Type & (Object::*getter_pointer)() const,
                  void (Object::*setter_pointer)(const Type &));
     
     template <class Object>
-    BaseProperty(const std::string & name,
+    ValueProperty(const std::string & name,
                  Object & object, Type (Object::*getter_pointer)() const,
                  void (Object::*setter_pointer)(const Type &));
     
-    virtual ~BaseProperty();
+    virtual ~ValueProperty();
 
     virtual const Type & value() const;
     virtual void setValue(const Type & value);
@@ -42,7 +42,7 @@ protected:
 };
 
 template <typename Type>
-BaseProperty<Type>::BaseProperty(const std::string & name,
+ValueProperty<Type>::ValueProperty(const std::string & name,
     const Type & value)
 :   AbstractProperty(name)
 ,   m_value(new StoredValue<Type>(value))
@@ -50,7 +50,7 @@ BaseProperty<Type>::BaseProperty(const std::string & name,
 }
 
 template <typename Type>
-BaseProperty<Type>::BaseProperty(const std::string & name, 
+ValueProperty<Type>::ValueProperty(const std::string & name, 
     const std::function<const Type & ()> & getter,
     const std::function<void(const Type &)> & setter)
 :   AbstractProperty(name)
@@ -60,7 +60,7 @@ BaseProperty<Type>::BaseProperty(const std::string & name,
 
 template <typename Type>
 template <class Object>
-BaseProperty<Type>::BaseProperty(const std::string & name,
+ValueProperty<Type>::ValueProperty(const std::string & name,
     Object & object, const Type & (Object::*getter_pointer)() const,
     void (Object::*setter_pointer)(const Type &))
 :   AbstractProperty(name)
@@ -70,7 +70,7 @@ BaseProperty<Type>::BaseProperty(const std::string & name,
     
 template <typename Type>
 template <class Object>
-BaseProperty<Type>::BaseProperty(const std::string & name,
+ValueProperty<Type>::ValueProperty(const std::string & name,
     Object & object, Type (Object::*getter_pointer)() const,
     void (Object::*setter_pointer)(const Type &))
 :   AbstractProperty(name)
@@ -79,18 +79,18 @@ BaseProperty<Type>::BaseProperty(const std::string & name,
 }
 
 template <typename Type>
-BaseProperty<Type>::~BaseProperty()
+ValueProperty<Type>::~ValueProperty()
 {
 }
 
 template <typename Type>
-const Type & BaseProperty<Type>::value() const
+const Type & ValueProperty<Type>::value() const
 {
     return m_value->get();
 }
 
 template <typename Type>
-void BaseProperty<Type>::setValue(const Type & value)
+void ValueProperty<Type>::setValue(const Type & value)
 {
     m_value->set(value);
     m_announcer.notify(events::kValueChanged);
