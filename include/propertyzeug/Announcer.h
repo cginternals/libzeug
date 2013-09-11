@@ -25,6 +25,7 @@ public:
                    void (Object::*method_pointer)(AbstractProperty &));
 
     void subscribe(int event, const std::function<void(AbstractProperty &)> & functor);
+
     void notify(int event);
 
 protected:
