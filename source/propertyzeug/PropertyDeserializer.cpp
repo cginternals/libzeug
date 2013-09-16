@@ -190,12 +190,17 @@ void PropertyDeserializer::visit(Property<std::string> & property)
 
 void PropertyDeserializer::visit(Property<Color> & property)
 {
-    std::vector<int> color;
-    this->deserializeVectorValues("([01]?[0-9]?[0-9]|2[0-4][0-9]|25[0-5])", 4,
-                                  [this, &color](const std::string & string) {
-                                      color.push_back(this->convertString<int>(string));
-                                  });
-    property.setValue(Color(color[0], color[1], color[2], color[3]));
+    std::regex colorHexRegex("#[0-9A-F]{8}");
+    if (!std::regex_match(m_currentValue, colorHexRegex)) {
+        std::cerr << "Color value does not match format: " << property.name() << std::endl;
+        return;
+    }
+    
+    std::stringstream stream(m_currentValue.substr(1, m_currentValue.length()));
+    unsigned int colorHex;
+    stream >> std::hex >> std::uppercase;
+    stream >> colorHex;
+    property.setValue(Color(colorHex));
 }
 
 void PropertyDeserializer::visit(Property<FilePath> & property)

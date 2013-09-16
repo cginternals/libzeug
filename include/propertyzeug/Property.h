@@ -335,17 +335,7 @@ public:
 
     virtual void accept(AbstractPropertyVisitor & visitor) { visitor.visit(*this); };
     
-    virtual std::string valueAsString() const
-    {
-        std::stringstream stream;
-        stream << "(";
-        stream << this->value().red() << ", ";
-        stream << this->value().green() << ", ";
-        stream << this->value().blue() << ", ";
-        stream << this->value().alpha();
-        stream << ")";
-        return stream.str();
-    }
+    virtual std::string valueAsString() const { return this->value().asHex(); };
 };
 
 template <>

@@ -1,5 +1,7 @@
 
 #include <assert.h>
+#include <sstream>
+#include <iomanip>
 #include <propertyzeug/Color.h>
 
 namespace propertyzeug {
@@ -85,6 +87,15 @@ unsigned int Color::rgba() const
 void Color::setRgba(unsigned int rgba)
 {
     m_rgba.v = rgba;
+}
+    
+std::string Color::asHex() const
+{
+    std::stringstream stream;
+    stream << "#";
+    stream << std::hex << std::uppercase << std::setw(8) << std::setfill('0');
+    stream << this->rgba();
+    return stream.str();
 }
     
 } // namespace

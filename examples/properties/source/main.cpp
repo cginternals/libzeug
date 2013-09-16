@@ -113,7 +113,7 @@ void deserializeFromFile()
     group.addProperty<int>("value1", 2);
     group.addProperty<float>("value2", 6);
     group.addProperty<bool>("failure", false);
-    group.addProperty<Color>("color", 0);
+    group.addProperty<Color>("color", Color(125, 125, 0));
     group.addProperty<std::vector<int>>("vec3", {12,4,54});
     
     group.addGroup("group1");
