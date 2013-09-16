@@ -1,12 +1,12 @@
 
 #include <iostream>
+#include <propertyzeug/Property.h>
 #include <propertyzeug/PropertyGroup.h>
 #include <propertyzeug/PropertySerializer.h>
 
 namespace propertyzeug {
     
 PropertySerializer::PropertySerializer()
-:   m_currentPath("")
 {
 }
 
@@ -23,99 +23,55 @@ bool PropertySerializer::serialize(PropertyGroup & group, std::string filePath)
         return false;
     }
     
-    m_fstream << "[" << group.name() << "]" << std::endl;
-    m_currentPath = "";
-    group.forEachValueProperty([this](AbstractProperty & property) {
-        property.accept(*this);
-    });
     
+    m_currentPath = "";
+    
+    m_fstream << "[" << group.name() << "]" << std::endl;
+    group.forEachValueProperty([this](AbstractProperty & property) {
+        this->serializeProperty(property);
+    });
     m_fstream << std::endl;
     
     group.forEachSubGroup([this](PropertyGroup & subGroup) {
         m_fstream << "[" << subGroup.name() << "]" << std::endl;
-        m_currentPath = "";
-        subGroup.forEachProperty([this](AbstractProperty & property) {
-            property.accept(*this);
-        });
+        this->serializeGroup(subGroup);
         m_fstream << std::endl;
     });
-    
     
     m_fstream.close();
     return true;
 }
     
-void PropertySerializer::serializeProperty(const AbstractProperty & property,
-    const std::function<std::string()> & valueFunctor)
+void PropertySerializer::serializeProperty(const AbstractProperty & property)
 {
     assert(m_fstream.is_open());
     m_fstream << m_currentPath << property.name();
-    m_fstream << "=" << valueFunctor() << std::endl;
+    m_fstream << "=" << property.valueAsString() << std::endl;
 }
 
-void PropertySerializer::visit(Property<bool> & property)
+void PropertySerializer::serializeGroup(PropertyGroup & group)
 {
-    this->serializeProperty(property, [&property]() {
-        return property.valueAsString();
+    group.forEachProperty([this](AbstractProperty & property) {
+        if (property.isGroup()) {
+            PropertyGroup & subGroup = *property.to<PropertyGroup>();
+            this->pushGroupToPath(subGroup);
+            this->serializeGroup(subGroup);
+            this->popGroupFromPath();
+        } else { 
+            this->serializeProperty(property);
+        }
     });
 }
 
-void PropertySerializer::visit(Property<int> & property)
+void PropertySerializer::pushGroupToPath(const PropertyGroup & group)
 {
-    this->serializePrimitiveProperty(property);
+    m_previousPath = m_currentPath;
+    m_currentPath += group.name() + "/"; 
 }
 
-void PropertySerializer::visit(Property<double> & property)
+void PropertySerializer::popGroupFromPath()
 {
-    this->serializePrimitiveProperty(property);
-}
-
-void PropertySerializer::visit(Property<std::string> & property)
-{
-    this->serializeProperty(property, [&property]() {
-        return property.value();
-    });
-}
-
-void PropertySerializer::visit(Property<Color> & property)
-{
-    this->serializeProperty(property, [&property]() {
-        return property.valueAsString();
-    });
-}
-
-void PropertySerializer::visit(Property<FilePath> & property)
-{
-    assert(m_fstream.is_open());
-    m_fstream << m_currentPath << property.name() << "=";
-    m_fstream << property.value().string() << std::endl;
-}
-
-void PropertySerializer::visit(Property<std::vector<bool>> & property)
-{
-    this->serializeProperty(property, [&property]() {
-        return property.valueAsString();
-    });
-}
-
-void PropertySerializer::visit(Property<std::vector<int>> & property)
-{
-    this->serializeVectorProperty(property);
-}
-
-void PropertySerializer::visit(Property<std::vector<double>> & property)
-{
-    this->serializeVectorProperty(property);
-}
-
-void PropertySerializer::visit(PropertyGroup & property)
-{
-    std::string oldPath = m_currentPath;
-    m_currentPath += property.name() + "/";
-    property.forEachProperty([this](AbstractProperty & property) {
-        property.accept(*this);
-    });
-    m_currentPath = oldPath;
+    m_currentPath = m_previousPath;
 }
 
 } // namespace

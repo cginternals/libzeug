@@ -3,64 +3,36 @@
 
 #include <sstream>
 #include <fstream>
-#include <propertyzeug/Property.h>
 #include "AbstractPropertyVisitor.h"
 
 namespace propertyzeug {
+
+template <typename Type>
+class Property;
+
+class PropertyGroup;
     
 /** @brief
  * Saves values of a property hierachy to a specified file.
  */
     
-class PROPERTYZEUG_API PropertySerializer : public AbstractPropertyVisitor
+class PROPERTYZEUG_API PropertySerializer
 {
 public:
     PropertySerializer();
     virtual ~PropertySerializer();
 
-    virtual void visit(Property<bool> & property);
-    virtual void visit(Property<int> & property);
-    virtual void visit(Property<double> & property);
-    virtual void visit(Property<std::string> & property);
-    virtual void visit(Property<Color> & property);
-    virtual void visit(Property<FilePath> & property);
-
-    virtual void visit(Property<std::vector<bool>> & property);
-    virtual void visit(Property<std::vector<int>> & property);
-    virtual void visit(Property<std::vector<double>> & property);
-
-    virtual void visit(PropertyGroup & property);
-
     bool serialize(PropertyGroup & group, std::string filePath);
     
 protected:
-    void serializeProperty(const AbstractProperty & property,
-                           const std::function<std::string()> & valueFunctor);
-    
-    template <typename Type>
-    void serializePrimitiveProperty(const Property<Type> & property);
-    
-    template <typename Type>
-    void serializeVectorProperty(const Property<Type> & property);
+    void serializeProperty(const AbstractProperty & property);
+    void serializeGroup(PropertyGroup & group);
+    void pushGroupToPath(const PropertyGroup & group);
+    void popGroupFromPath();
 
     std::fstream m_fstream;
     std::string m_currentPath;
+    std::string m_previousPath;
 };
-    
-template <typename Type>
-void PropertySerializer::serializePrimitiveProperty(const Property<Type> & property)
-{
-    this->serializeProperty(property, [&property]() -> std::string {
-        return property.valueAsString();
-    });
-}
-    
-template <typename Type>
-void PropertySerializer::serializeVectorProperty(const Property<Type> & property)
-{
-    this->serializeProperty(property, [&property]() {
-        return property.valueAsString();
-    });
-}
     
 } // namespace
