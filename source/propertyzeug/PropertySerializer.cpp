@@ -44,7 +44,6 @@ bool PropertySerializer::serialize(PropertyGroup & group, std::string filePath)
     
 void PropertySerializer::serializeProperty(const AbstractProperty & property)
 {
-    assert(m_fstream.is_open());
     m_fstream << m_currentPath << property.name();
     m_fstream << "=" << property.valueAsString() << std::endl;
 }
