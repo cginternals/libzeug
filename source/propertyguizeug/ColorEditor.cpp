@@ -11,7 +11,7 @@ ColorEditor::ColorEditor(Property<Color> * property, QWidget * parent)
 {
     const Color & color = m_property->value();
     m_dialog->setCurrentColor(QColor(color.red(), color.green(), color.blue(), color.alpha()));
-    m_dialog->setOptions(QColorDialog::NoButtons | QColorDialog::ShowAlphaChannel);
+    m_dialog->setOptions(QColorDialog::NoButtons | QColorDialog::ShowAlphaChannel); // TODO NoButtons does not work
     this->connect(m_dialog, &QColorDialog::colorSelected, this, &ColorEditor::setColor);
     m_dialog->show();
 }
