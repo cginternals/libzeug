@@ -65,36 +65,6 @@ void PropertySerializer::visit(Property<int> & property)
     this->serializePrimitiveProperty(property);
 }
 
-void PropertySerializer::visit(Property<unsigned int> & property)
-{
-    this->serializePrimitiveProperty(property);
-}
-
-void PropertySerializer::visit(Property<long> & property)
-{
-    this->serializePrimitiveProperty(property);
-}
-
-void PropertySerializer::visit(Property<unsigned long> & property)
-{
-    this->serializePrimitiveProperty(property);
-}
-
-void PropertySerializer::visit(Property<char> & property)
-{
-    this->serializePrimitiveProperty(property);
-}
-
-void PropertySerializer::visit(Property<unsigned char> & property)
-{
-    this->serializePrimitiveProperty(property);
-}
-
-void PropertySerializer::visit(Property<float> & property)
-{
-    this->serializePrimitiveProperty(property);
-}
-
 void PropertySerializer::visit(Property<double> & property)
 {
     this->serializePrimitiveProperty(property);
@@ -129,11 +99,6 @@ void PropertySerializer::visit(Property<std::vector<bool>> & property)
 }
 
 void PropertySerializer::visit(Property<std::vector<int>> & property)
-{
-    this->serializeVectorProperty(property);
-}
-
-void PropertySerializer::visit(Property<std::vector<float>> & property)
 {
     this->serializeVectorProperty(property);
 }

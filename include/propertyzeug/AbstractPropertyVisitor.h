@@ -26,12 +26,6 @@ public:
 
     virtual void visit(Property<bool> & property) = 0;
     virtual void visit(Property<int> & property) = 0;
-    virtual void visit(Property<unsigned int> & property) = 0;
-    virtual void visit(Property<long> & property) = 0;
-    virtual void visit(Property<unsigned long> & property) = 0;
-    virtual void visit(Property<char> & property) = 0;
-    virtual void visit(Property<unsigned char> & property) = 0;
-    virtual void visit(Property<float> & property) = 0;
     virtual void visit(Property<double> & property) = 0;
     virtual void visit(Property<std::string> & property) = 0;
     virtual void visit(Property<Color> & property) = 0;
@@ -39,7 +33,6 @@ public:
     
     virtual void visit(Property<std::vector<bool>> & property) = 0;
     virtual void visit(Property<std::vector<int>> & property) = 0;
-    virtual void visit(Property<std::vector<float>> & property) = 0;
     virtual void visit(Property<std::vector<double>> & property) = 0;
 
     virtual void visit(PropertyGroup & property) = 0;

@@ -148,36 +148,6 @@ void PropertyDeserializer::visit(Property<int> & property)
     property.setValue(this->convertString<int>(m_currentValue));
 }
 
-void PropertyDeserializer::visit(Property<unsigned int> & property)
-{
-    property.setValue(this->convertString<unsigned int>(m_currentValue));
-}
-
-void PropertyDeserializer::visit(Property<long> & property)
-{
-    property.setValue(this->convertString<long>(m_currentValue));
-}
-
-void PropertyDeserializer::visit(Property<unsigned long> & property)
-{
-    property.setValue(this->convertString<unsigned long>(m_currentValue));
-}
-
-void PropertyDeserializer::visit(Property<char> & property)
-{
-    property.setValue(this->convertString<char>(m_currentValue));
-}
-
-void PropertyDeserializer::visit(Property<unsigned char> & property)
-{
-    property.setValue(this->convertString<unsigned char>(m_currentValue));
-}
-
-void PropertyDeserializer::visit(Property<float> & property)
-{
-    property.setValue(this->convertString<float>(m_currentValue));
-}
-
 void PropertyDeserializer::visit(Property<double> & property)
 {
     property.setValue(this->convertString<double>(m_currentValue));
@@ -224,16 +194,6 @@ void PropertyDeserializer::visit(Property<std::vector<int>> & property)
     this->deserializeVectorValues("(\\d+\\.?\\d*)", property.fixedSize(),
                                   [this, &vector](const std::string & string) {
                                       vector.push_back(this->convertString<int>(string));
-                                  });
-    property.setValue(vector);
-}
-
-void PropertyDeserializer::visit(Property<std::vector<float>> & property)
-{
-    std::vector<float> vector;
-    this->deserializeVectorValues("(\\d+\\.?\\d*)", property.fixedSize(),
-                                  [this, &vector](const std::string & string) {
-                                      vector.push_back(this->convertString<float>(string));
                                   });
     property.setValue(vector);
 }

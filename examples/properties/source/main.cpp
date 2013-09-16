@@ -11,7 +11,7 @@ void createProperties()
 {
     std::cout << ">> createProperties()" << std::endl;
     
-    Property<unsigned long> property1("property1", 4815162342);
+    Property<int> property1("property1", 4815162342);
     
     bool value2 = true;
     Property<bool> property2("property2", [&value2]() {
@@ -39,19 +39,19 @@ void subscribeToChanges()
     
     name.setValue("Tyrion Lannister");
     
-    Property<char> gender("gender", 'm');
+    Property<int> gender("gender", 12);
     
     SomeObject object;
     gender.subscribe(events::kValueChanged, object, &SomeObject::propertyChanged);
     
-    gender.setValue('f');
+    gender.setValue(13);
 }
 
 void createPropertyWithLimits()
 {
     std::cout << ">> createPropertyWithLimits()" << std::endl;
     
-    Property<float> size("size", 13.4);
+    Property<double> size("size", 13.4);
     size.setMinimum(10.0);
     size.setMaximum(20.0);
 }
@@ -90,9 +90,9 @@ void iterateOverProperties()
     
     PropertyGroup group("group");
     
-    group.addProperty<float>("first", 0.3f);
+    group.addProperty<double>("first", 0.3f);
     group.addGroup("second");
-    group.addProperty<unsigned long>("third", 7);
+    group.addProperty<int>("third", 7);
     group.addGroup("fourth");
     group.addProperty<Color>("fifth", Color(125, 125, 125));
     
@@ -111,13 +111,13 @@ void deserializeFromFile()
     
     PropertyGroup group("root");
     group.addProperty<int>("value1", 2);
-    group.addProperty<float>("value2", 6);
+    group.addProperty<double>("value2", 6);
     group.addProperty<bool>("failure", false);
     group.addProperty<Color>("color", Color(125, 125, 0));
     group.addProperty<std::vector<int>>("vec3", {12,4,54});
     
     group.addGroup("group1");
-    group.group("group1")->addProperty<char>("value3", 'a');
+    group.group("group1")->addProperty<int>("value3", 143);
     group.group("group1")->addProperty<std::string>("name", "horst");
     group.group("group1")->addProperty<std::vector<bool>>("bool2", {false,false});
     group.group("group1")->addProperty<std::vector<int>>("vec3", {12,4,54});
@@ -151,7 +151,7 @@ void serializeToFile()
     
     PropertyGroup group("root");
     group.addProperty<int>("value1", 2);
-    group.addProperty<float>("value2", 6.2);
+    group.addProperty<double>("value2", 6.2);
     group.addProperty<bool>("failure", false);
     group.addProperty<Color>("color", Color(42,244,123));
     group.addProperty<std::vector<int>>("vec3", {1,2,3});
@@ -160,7 +160,7 @@ void serializeToFile()
     PropertyGroup group1("group1");
     group.addProperty(&group1);
 
-    group1.addProperty<char>("value3", 'a');
+    group1.addProperty<int>("value3", 143);
     group1.addProperty<std::string>("name", "horst");
     
     PropertyGroup group2("group2");
@@ -179,7 +179,7 @@ void useVectorProperties()
     Property<std::vector<int>> ivec3("ivec3", {1,2,3});
     std::cout << "ivec3.fixedSize() = " << ivec3.fixedSize() << std::endl;
     
-    Property<std::vector<float>> mat2x2("mat2x2", {1.1, 2.2, 3.3, 4.4});
+    Property<std::vector<double>> mat2x2("mat2x2", {1.1, 2.2, 3.3, 4.4});
     std::cout << "mat2x2.fixedSize() = " << mat2x2.fixedSize() << std::endl;
     mat2x2.setDimensions(2, 2);
     

@@ -11,7 +11,7 @@ AbstractProperty::AbstractProperty(const std::string & name)
 ,   m_announcer(this)
 ,   m_parent(nullptr)
 {
-    assert(std::regex_match(m_name,std::regex(s_nameRegexString)));
+    assert(std::regex_match(m_name, std::regex(s_nameRegexString)));
 }
 
 AbstractProperty::~AbstractProperty()

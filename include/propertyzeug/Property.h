@@ -21,9 +21,7 @@ namespace propertyzeug {
  * Only this class should be instantiated!
  * Supported Types:
  *   - bool
- *   - [unsigned] int
- *   - [unsigned] long
- *   - [unsigned] char
+ *   - int
  *   - float
  *   - double
  *   - std::string
@@ -89,168 +87,6 @@ public:
               Object & object, int (Object::*getter_pointer)() const,
               void (Object::*setter_pointer)(const int &))
     :   NumberProperty<int>(name, object, getter_pointer, setter_pointer) {};
-
-    virtual void accept(AbstractPropertyVisitor & visitor) { visitor.visit(*this); };
-};
-
-template <>
-class Property<unsigned int> : public NumberProperty<unsigned int>
-{
-public:
-    Property(const std::string & name, const unsigned int & value)
-    :   NumberProperty<unsigned int>(name, value) {};
-    
-    Property(const std::string & name,
-              const std::function<const unsigned int & ()> & getter,
-              const std::function<void(const unsigned int &)> & setter)
-    :   NumberProperty<unsigned int>(name, getter, setter) {};
-    
-    template <class Object>
-    Property(const std::string & name,
-              Object & object, const unsigned int & (Object::*getter_pointer)() const,
-              void (Object::*setter_pointer)(const unsigned int &))
-    :   NumberProperty<unsigned int>(name, object, getter_pointer, setter_pointer) {};
-    
-    template <class Object>
-    Property(const std::string & name,
-              Object & object, unsigned int (Object::*getter_pointer)() const,
-              void (Object::*setter_pointer)(const unsigned int &))
-    :   NumberProperty<unsigned int>(name, object, getter_pointer, setter_pointer) {};
-
-    virtual void accept(AbstractPropertyVisitor & visitor) { visitor.visit(*this); };
-};
-
-template <>
-class Property<long> : public NumberProperty<long>
-{
-public:
-    Property(const std::string & name, const long & value)
-    :   NumberProperty<long>(name, value) {};
-    
-    Property(const std::string & name,
-              const std::function<const long & ()> & getter,
-              const std::function<void(const long &)> & setter)
-    :   NumberProperty<long>(name, getter, setter) {};
-    
-    template <class Object>
-    Property(const std::string & name,
-              Object & object, const long & (Object::*getter_pointer)() const,
-              void (Object::*setter_pointer)(const long &))
-    :   NumberProperty<long>(name, object, getter_pointer, setter_pointer) {};
-    
-    template <class Object>
-    Property(const std::string & name,
-              Object & object, long (Object::*getter_pointer)() const,
-              void (Object::*setter_pointer)(const long &))
-    :   NumberProperty<long>(name, object, getter_pointer, setter_pointer) {};
-
-    virtual void accept(AbstractPropertyVisitor & visitor) { visitor.visit(*this); };
-};
-
-template <>
-class Property<unsigned long> : public NumberProperty<unsigned long>
-{
-public:
-    Property(const std::string & name, const unsigned long & value)
-    :   NumberProperty<unsigned long>(name, value) {};
-    
-    Property(const std::string & name,
-              const std::function<const unsigned long & ()> & getter,
-              const std::function<void(const unsigned long &)> & setter)
-    :   NumberProperty<unsigned long>(name, getter, setter) {};
-    
-    template <class Object>
-    Property(const std::string & name,
-              Object & object, const unsigned long & (Object::*getter_pointer)() const,
-              void (Object::*setter_pointer)(const unsigned long &))
-    :   NumberProperty<unsigned long>(name, object, getter_pointer, setter_pointer) {};
-    
-    template <class Object>
-    Property(const std::string & name,
-              Object & object, unsigned long (Object::*getter_pointer)() const,
-              void (Object::*setter_pointer)(const unsigned long &))
-    :   NumberProperty<unsigned long>(name, object, getter_pointer, setter_pointer) {};
-
-    virtual void accept(AbstractPropertyVisitor & visitor) { visitor.visit(*this); };
-};
-
-template <>
-class Property<char> : public NumberProperty<char>
-{
-public:
-    Property(const std::string & name, const char & value)
-    :   NumberProperty<char>(name, value) {};
-    
-    Property(const std::string & name,
-              const std::function<const char & ()> & getter,
-              const std::function<void(const char &)> & setter)
-    :   NumberProperty<char>(name, getter, setter) {};
-    
-    template <class Object>
-    Property(const std::string & name,
-              Object & object, const char & (Object::*getter_pointer)() const,
-              void (Object::*setter_pointer)(const char &))
-    :   NumberProperty<char>(name, object, getter_pointer, setter_pointer) {};
-    
-    template <class Object>
-    Property(const std::string & name,
-              Object & object, char (Object::*getter_pointer)() const,
-              void (Object::*setter_pointer)(const char &))
-    :   NumberProperty<char>(name, object, getter_pointer, setter_pointer) {};
-
-    virtual void accept(AbstractPropertyVisitor & visitor) { visitor.visit(*this); };
-};
-
-template <>
-class Property<unsigned char> : public NumberProperty<unsigned char>
-{
-public:
-    Property(const std::string & name, const unsigned char & value)
-    :   NumberProperty<unsigned char>(name, value) {};
-    
-    Property(const std::string & name,
-              const std::function<const unsigned char & ()> & getter,
-              const std::function<void(const unsigned char &)> & setter)
-    :   NumberProperty<unsigned char>(name, getter, setter) {};
-    
-    template <class Object>
-    Property(const std::string & name,
-              Object & object, const unsigned char & (Object::*getter_pointer)() const,
-              void (Object::*setter_pointer)(const unsigned char &))
-    :   NumberProperty<unsigned char>(name, object, getter_pointer, setter_pointer) {};
-    
-    template <class Object>
-    Property(const std::string & name,
-              Object & object, unsigned char (Object::*getter_pointer)() const,
-              void (Object::*setter_pointer)(const unsigned char &))
-    :   NumberProperty<unsigned char>(name, object, getter_pointer, setter_pointer) {};
-
-    virtual void accept(AbstractPropertyVisitor & visitor) { visitor.visit(*this); };
-};
-
-template <>
-class Property<float> : public NumberProperty<float>
-{
-public:
-    Property(const std::string & name, const float & value)
-    :   NumberProperty<float>(name, value) {};
-    
-    Property(const std::string & name,
-              const std::function<const float & ()> & getter,
-              const std::function<void(const float &)> & setter)
-    :   NumberProperty<float>(name, getter, setter) {};
-    
-    template <class Object>
-    Property(const std::string & name,
-              Object & object, const float & (Object::*getter_pointer)() const,
-              void (Object::*setter_pointer)(const float &))
-    :   NumberProperty<float>(name, object, getter_pointer, setter_pointer) {};
-    
-    template <class Object>
-    Property(const std::string & name,
-              Object & object, float (Object::*getter_pointer)() const,
-              void (Object::*setter_pointer)(const float &))
-    :   NumberProperty<float>(name, object, getter_pointer, setter_pointer) {};
 
     virtual void accept(AbstractPropertyVisitor & visitor) { visitor.visit(*this); };
 };
@@ -434,33 +270,6 @@ public:
 };
 
 template <>
-class Property<std::vector<float>> : public VectorProperty<std::vector<float>>
-{
-public:
-    Property(const std::string & name, const std::vector<float> & value)
-    :   VectorProperty<std::vector<float>>(name, value) {};
-    
-    Property(const std::string & name,
-              const std::function<const std::vector<float> & ()> & getter,
-              const std::function<void(const std::vector<float> &)> & setter)
-    :   VectorProperty<std::vector<float>>(name, getter, setter) {};
-    
-    template <class Object>
-    Property(const std::string & name,
-              Object & object, const std::vector<float> & (Object::*getter_pointer)() const,
-              void (Object::*setter_pointer)(const std::vector<float> &))
-    :   VectorProperty<std::vector<float>>(name, object, getter_pointer, setter_pointer) {};
-    
-    template <class Object>
-    Property(const std::string & name,
-              Object & object, std::vector<float> (Object::*getter_pointer)() const,
-              void (Object::*setter_pointer)(const std::vector<float> &))
-    :   VectorProperty<std::vector<float>>(name, object, getter_pointer, setter_pointer) {};
-
-    virtual void accept(AbstractPropertyVisitor & visitor) { visitor.visit(*this); };
-};
-
-template <>
 class Property<std::vector<double>> : public VectorProperty<std::vector<double>>
 {
 public:
@@ -486,7 +295,5 @@ public:
 
     virtual void accept(AbstractPropertyVisitor & visitor) { visitor.visit(*this); };
 };
-
-
 
 } // namespace

@@ -26,7 +26,6 @@ set(headers
     ${header_path}/propertyguizeug.h
 
     ${header_path}/PropertyType.h
-    ${header_path}/WidgetBuilder.h
     ${header_path}/PropertyBrowser.h
     ${header_path}/PropertyModel.h
     ${header_path}/PropertyDelegate.h
@@ -43,7 +42,6 @@ set(headers
 
 set(sources
     ${source_path}/PropertyBrowser.cpp
-    ${source_path}/WidgetBuilder.cpp
     ${source_path}/PropertyModel.cpp
     ${source_path}/PropertyDelegate.cpp
     ${source_path}/StringEditor.cpp

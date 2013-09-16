@@ -22,7 +22,7 @@ int main(int argc, char *argv[])
     settings.addProperty<std::vector<int>>("Mat3x2", {1,2,3,4,5,6});
     settings.property<std::vector<int>>("Mat3x2")->setDimensions(3,2);
     settings.addProperty<bool>("Activate", true);
-    settings.addProperty<unsigned char>("Count", 79);
+    settings.addProperty<int>("Count", 79);
     PropertyGroup extras("Extras");
     settings.addProperty(&extras);
     extras.addProperty<Color>("Color", Color(127,127,127));

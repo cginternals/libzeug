@@ -64,31 +64,6 @@ void PropertyDelegate::visit(Property<int> & property)
 {
     m_activeEditor = new NumberEditor<int>(&property);
 }
-
-void PropertyDelegate::visit(Property<unsigned int> & property)
-{
-    m_activeEditor = new NumberEditor<unsigned int>(&property);
-}
-    
-void PropertyDelegate::visit(Property<long> & property)
-{
-    m_activeEditor = new NumberEditor<long>(&property);
-}
-    
-void PropertyDelegate::visit(Property<unsigned long> & property)
-{
-    m_activeEditor = new NumberEditor<unsigned long>(&property);
-}
-    
-void PropertyDelegate::visit(Property<char> & property)
-{
-    m_activeEditor = new NumberEditor<char>(&property);
-}
-    
-void PropertyDelegate::visit(Property<unsigned char> & property)
-{
-    m_activeEditor = new NumberEditor<unsigned char>(&property);
-}
     
 void PropertyDelegate::visit(Property<std::string> & property)
 {
