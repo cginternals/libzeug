@@ -1,41 +1,28 @@
 
-#include <QHBoxLayout>
 #include <QColorDialog>
-#include <QPushButton>
-#include <QPixmap>
-#include <QDebug>
-#include <QLabel>
 #include <propertyguizeug/ColorEditor.h>
 
 namespace propertyguizeug {
 
 ColorEditor::ColorEditor(Property<Color> * property, QWidget * parent)
 :   QWidget(parent)
+,   m_dialog(new QColorDialog(this))
 ,   m_property(property)
 {
-    QHBoxLayout * layout = new QHBoxLayout(this);
-    QPushButton * button = new QPushButton("…", this);
-    QLabel * label = new QLabel(this);
-    QPixmap pixmap(16,16);
-    const Color & color = property->value();
-    pixmap.fill(QColor(color.red(), color.green(), color.blue(), color.alpha()));
-    label->setPixmap(pixmap);
-    this->connect(button, &QPushButton::clicked,
-                  [this, label]() {
-                      QColor color = QColorDialog::getColor();
-                      m_property->setValue(Color(color.red(), color.green(), color.blue(), color.alpha()));
-                      QPixmap pixmap(16,16);
-                      pixmap.fill(color);
-                      label->setPixmap(pixmap);
-                  });
-    
-    layout->addWidget(label);
-    layout->addWidget(button);
-    
+    const Color & color = m_property->value();
+    m_dialog->setCurrentColor(QColor(color.red(), color.green(), color.blue(), color.alpha()));
+    m_dialog->setOptions(QColorDialog::NoButtons | QColorDialog::ShowAlphaChannel);
+    this->connect(m_dialog, &QColorDialog::colorSelected, this, &ColorEditor::setColor);
+    m_dialog->show();
 }
 
 ColorEditor::~ColorEditor()
 {
+}
+
+void ColorEditor::setColor(const QColor & color)
+{
+    m_property->setValue(Color(color.red(), color.green(), color.blue(), color.alpha()));
 }
 
 } // namespace
