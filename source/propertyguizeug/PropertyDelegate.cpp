@@ -3,13 +3,13 @@
 #include <propertyguizeug/PropertyType.h>
 #include <propertyguizeug/NumberEditor.h>
 #include <propertyguizeug/StringEditor.h>
+#include <propertyguizeug/ChoiceEditor.h>
 #include <propertyguizeug/VectorEditor.h>
 #include <propertyguizeug/ColorEditor.h>
+#include <propertyguizeug/FilePathEditor.h>
 #include <propertyguizeug/PropertyDelegate.h>
 
 namespace propertyguizeug {
-  
-using namespace propertyzeug;
     
 PropertyDelegate::PropertyDelegate(QWidget * parent)
 :   QStyledItemDelegate(parent)
@@ -92,7 +92,10 @@ void PropertyDelegate::visit(Property<unsigned char> & property)
     
 void PropertyDelegate::visit(Property<std::string> & property)
 {
-    m_activeEditor = new StringEditor(&property);
+    if (property.hasChoices())
+        m_activeEditor = new ChoiceEditor(&property);
+    else
+        m_activeEditor = new StringEditor(&property);
 }
 
 void PropertyDelegate::visit(Property<std::vector<int>> & property)
@@ -103,6 +106,11 @@ void PropertyDelegate::visit(Property<std::vector<int>> & property)
 void PropertyDelegate::visit(Property<Color> & property)
 {
     m_activeEditor = new ColorEditor(&property);
+}
+
+void PropertyDelegate::visit(Property<FilePath> & property)
+{
+    m_activeEditor = new FilePathEditor(&property);
 }
     
 } // namespace

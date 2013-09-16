@@ -32,7 +32,9 @@ set(headers
     ${header_path}/PropertyDelegate.h
     ${header_path}/NumberEditor.h
     ${header_path}/StringEditor.h
+    ${header_path}/ChoiceEditor.h
     ${header_path}/ColorEditor.h
+    ${header_path}/FilePathEditor.h
     ${header_path}/VectorEditor.h
     ${header_path}/VectorModel.h
     ${header_path}/VectorDelegate.h
@@ -45,7 +47,9 @@ set(sources
     ${source_path}/PropertyModel.cpp
     ${source_path}/PropertyDelegate.cpp
     ${source_path}/StringEditor.cpp
+    ${source_path}/ChoiceEditor.cpp
     ${source_path}/ColorEditor.cpp
+    ${source_path}/FilePathEditor.cpp
 )
 
 # Group source files

@@ -26,6 +26,9 @@ int main(int argc, char *argv[])
     PropertyGroup extras("Extras");
     settings.addProperty(&extras);
     extras.addProperty<Color>("Color", Color(127,127,127));
+    extras.addProperty<FilePath>("Path", FilePath("/Users/max/"));
+    extras.addProperty<std::string>("Animal", "Rabbit");
+    extras.property<std::string>("Animal")->setChoices({"Rabbit", "Duck", "Elephant"});
 
     PropertyBrowser browser(&settings);
     browser.show();

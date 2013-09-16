@@ -12,8 +12,6 @@ using namespace propertyzeug;
 
 class PropertyDelegate : public QStyledItemDelegate, public AbstractPropertyVisitor
 {
-    Q_OBJECT
-    
 public:
     PropertyDelegate(QWidget * parent = nullptr);
     virtual ~PropertyDelegate();
@@ -44,7 +42,7 @@ public:
     virtual void visit(Property<double> & property) {};
     virtual void visit(Property<std::string> & property);
     virtual void visit(Property<Color> & property);
-    virtual void visit(Property<FilePath> & property) {};
+    virtual void visit(Property<FilePath> & property);
     
     virtual void visit(Property<std::vector<bool>> & property) {};
     virtual void visit(Property<std::vector<int>> & property);
@@ -52,7 +50,6 @@ public:
     virtual void visit(Property<std::vector<double>> & property) {};
 
     virtual void visit(PropertyGroup & property) {};
-
 
 protected:
     QWidget * createEditorForProperty(QWidget * parent, AbstractProperty * property);
