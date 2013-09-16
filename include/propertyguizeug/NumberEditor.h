@@ -1,7 +1,7 @@
 
 #pragma once
 
-#include <QSpinbox>
+#include <QSpinBox>
 #include <propertyzeug/Property.h>
 #include "propertyguizeug.h"
 
