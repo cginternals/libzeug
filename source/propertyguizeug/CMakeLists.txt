@@ -27,10 +27,12 @@ set(headers
 
     ${header_path}/PropertyType.h
     ${header_path}/WidgetBuilder.h
+    ${header_path}/PropertyBrowser.h
     ${header_path}/PropertyItemModel.h
     ${header_path}/PropertyDelegate.h
     ${header_path}/NumberEditor.h
     ${header_path}/StringEditor.h
+    ${header_path}/ColorEditor.h
     ${header_path}/VectorEditor.h
     ${header_path}/VectorModel.h
     ${header_path}/VectorDelegate.h
@@ -38,10 +40,12 @@ set(headers
 )
 
 set(sources
+    ${source_path}/PropertyBrowser.cpp
     ${source_path}/WidgetBuilder.cpp
     ${source_path}/PropertyItemModel.cpp
     ${source_path}/PropertyDelegate.cpp
     ${source_path}/StringEditor.cpp
+    ${source_path}/ColorEditor.cpp
 )
 
 # Group source files

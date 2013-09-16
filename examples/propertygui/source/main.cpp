@@ -1,13 +1,9 @@
 
 #include <iostream>
 #include <QApplication>
-#include <QTreeView>
-#include <QWidget>
-#include <QDebug>
 #include <propertyzeug/Property.h>
 #include <propertyzeug/PropertyGroup.h>
-#include <propertyguizeug/PropertyItemModel.h>
-#include <propertyguizeug/PropertyDelegate.h>
+#include <propertyguizeug/PropertyBrowser.h>
 
 using namespace propertyzeug;
 using namespace propertyguizeug;
@@ -25,15 +21,14 @@ int main(int argc, char *argv[])
     settings.addProperty<std::string>("FilePath", "/Users/Horst/Desktop/");
     settings.addProperty<std::vector<int>>("Mat3x2", {1,2,3,4,5,6});
     settings.property<std::vector<int>>("Mat3x2")->setDimensions(3,2);
+    settings.addProperty<bool>("Activate", true);
+    settings.addProperty<unsigned char>("Count", 79);
+    PropertyGroup extras("Extras");
+    settings.addProperty(&extras);
+    extras.addProperty<Color>("Color", Color(127,127,127));
 
-    QTreeView treeView;
-    treeView.setAlternatingRowColors(true);
-    PropertyItemModel model(&settings);
-    PropertyDelegate delegate;
-    treeView.setModel(&model);
-    treeView.setItemDelegateForColumn(1, &delegate);
-    treeView.show();
-    treeView.expandAll();
+    PropertyBrowser browser(settings);
+    browser.show();
     
     return a.exec();
 }
