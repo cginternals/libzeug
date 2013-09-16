@@ -7,7 +7,7 @@
 
 namespace propertyguizeug {
 
-class PropertyItemModel;
+class PropertyModel;
 class PropertyDelegate;
 
 using propertyzeug::PropertyGroup;
@@ -19,7 +19,7 @@ public:
     ~PropertyBrowser();
 
 protected:
-    PropertyItemModel * m_model;
+    PropertyModel * m_model;
     PropertyDelegate * m_delegate;
     
 };

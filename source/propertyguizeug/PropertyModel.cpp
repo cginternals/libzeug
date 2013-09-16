@@ -1,21 +1,21 @@
 
 #include <propertyzeug/PropertyGroup.h>
-#include <propertyguizeug/PropertyItemModel.h>
+#include <propertyguizeug/PropertyModel.h>
 #include <propertyguizeug/PropertyType.h>
 
 namespace propertyguizeug {
     
-PropertyItemModel::PropertyItemModel(PropertyGroup * root, QObject * parent)
+PropertyModel::PropertyModel(PropertyGroup * root, QObject * parent)
 :   QAbstractItemModel(parent)
 ,   m_root(root)
 {
 }
 
-PropertyItemModel::~PropertyItemModel()
+PropertyModel::~PropertyModel()
 {
 }
 
-QModelIndex PropertyItemModel::index(int row, int column, const QModelIndex & parentIndex) const
+QModelIndex PropertyModel::index(int row, int column, const QModelIndex & parentIndex) const
 {
     if (column > 1)
         return QModelIndex();
@@ -34,7 +34,7 @@ QModelIndex PropertyItemModel::index(int row, int column, const QModelIndex & pa
     return this->createIndex(row, column, group->property(row));
 }
 
-QModelIndex PropertyItemModel::parent(const QModelIndex & index) const
+QModelIndex PropertyModel::parent(const QModelIndex & index) const
 {
     if (!index.isValid())
         return QModelIndex();
@@ -55,7 +55,7 @@ QModelIndex PropertyItemModel::parent(const QModelIndex & index) const
     return this->createIndex(row, 0, parent);
 }
 
-int PropertyItemModel::rowCount(const QModelIndex & parentIndex) const
+int PropertyModel::rowCount(const QModelIndex & parentIndex) const
 {
     if (!parentIndex.isValid())
         return m_root->propertyCount();
@@ -64,7 +64,7 @@ int PropertyItemModel::rowCount(const QModelIndex & parentIndex) const
     return property->isGroup() ? property->to<PropertyGroup>()->propertyCount() : 0;
 }
 
-int PropertyItemModel::columnCount(const QModelIndex & parentIndex) const
+int PropertyModel::columnCount(const QModelIndex & parentIndex) const
 {
     if (!parentIndex.isValid())
         return 2;
@@ -79,7 +79,7 @@ int PropertyItemModel::columnCount(const QModelIndex & parentIndex) const
     return group->hasProperties() ? 2 : 0;
 }
 
-QVariant PropertyItemModel::data(const QModelIndex & index, int role) const
+QVariant PropertyModel::data(const QModelIndex & index, int role) const
 {
     if (role == Qt::DisplayRole) {
         if (!index.isValid())
@@ -101,7 +101,7 @@ QVariant PropertyItemModel::data(const QModelIndex & index, int role) const
     return QVariant();
 }
     
-Qt::ItemFlags PropertyItemModel::flags(const QModelIndex &index) const
+Qt::ItemFlags PropertyModel::flags(const QModelIndex &index) const
 {
     if (!index.isValid())
         return 0;
@@ -116,7 +116,7 @@ Qt::ItemFlags PropertyItemModel::flags(const QModelIndex &index) const
     return flags;
 }
 
-QVariant PropertyItemModel::headerData(int section, Qt::Orientation orientation, int role) const
+QVariant PropertyModel::headerData(int section, Qt::Orientation orientation, int role) const
 {
     if (role == Qt::DisplayRole) {
         if (section == 0)

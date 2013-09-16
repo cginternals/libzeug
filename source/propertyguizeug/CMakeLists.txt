@@ -28,7 +28,7 @@ set(headers
     ${header_path}/PropertyType.h
     ${header_path}/WidgetBuilder.h
     ${header_path}/PropertyBrowser.h
-    ${header_path}/PropertyItemModel.h
+    ${header_path}/PropertyModel.h
     ${header_path}/PropertyDelegate.h
     ${header_path}/NumberEditor.h
     ${header_path}/StringEditor.h
@@ -42,7 +42,7 @@ set(headers
 set(sources
     ${source_path}/PropertyBrowser.cpp
     ${source_path}/WidgetBuilder.cpp
-    ${source_path}/PropertyItemModel.cpp
+    ${source_path}/PropertyModel.cpp
     ${source_path}/PropertyDelegate.cpp
     ${source_path}/StringEditor.cpp
     ${source_path}/ColorEditor.cpp

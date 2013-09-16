@@ -1,13 +1,13 @@
 
 #include <propertyguizeug/PropertyBrowser.h>
-#include <propertyguizeug/PropertyItemModel.h>
+#include <propertyguizeug/PropertyModel.h>
 #include <propertyguizeug/PropertyDelegate.h>
 
 namespace propertyguizeug {
     
 PropertyBrowser::PropertyBrowser(PropertyGroup & root, QWidget * parent)
 :   QTreeView(parent)
-,   m_model(new PropertyItemModel(&root, this))
+,   m_model(new PropertyModel(&root, this))
 ,   m_delegate(new PropertyDelegate(this))
 {
     this->setModel(m_model);

@@ -14,11 +14,11 @@ namespace propertyguizeug {
     
 using namespace propertyzeug;
 
-class PROPERTYGUIZEUG_API PropertyItemModel : public QAbstractItemModel
+class PROPERTYGUIZEUG_API PropertyModel : public QAbstractItemModel
 {
 public:
-    PropertyItemModel(PropertyGroup * root, QObject * parent = nullptr);
-    virtual ~PropertyItemModel();
+    PropertyModel(PropertyGroup * root, QObject * parent = nullptr);
+    virtual ~PropertyModel();
     
     virtual QModelIndex index(int row, int column,
                               const QModelIndex & parentIndex = QModelIndex()) const;
