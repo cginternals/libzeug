@@ -112,7 +112,7 @@ void PropertyDeserializer::deserializeVectorValues(const std::string & valueRege
     
     vectorRegexStream << "\\s*\\(";
     for (int i = 0; i < size - 1; i++) {
-        vectorRegexStream << valueRegexString << ",";
+        vectorRegexStream << valueRegexString << ",?";
     }
     vectorRegexStream << valueRegexString << "\\)\\s*";
     

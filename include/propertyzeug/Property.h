@@ -339,9 +339,9 @@ public:
     {
         std::stringstream stream;
         stream << "(";
-        stream << this->value().red() << ",";
-        stream << this->value().green() << ",";
-        stream << this->value().blue() << ",";
+        stream << this->value().red() << ", ";
+        stream << this->value().green() << ", ";
+        stream << this->value().blue() << ", ";
         stream << this->value().alpha();
         stream << ")";
         return stream.str();

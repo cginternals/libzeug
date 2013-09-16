@@ -54,6 +54,9 @@ protected:
     unsigned int m_columns;
     unsigned int m_rows;
     
+private:
+    std::string join(const Vector & vector, const std::string & separator) const;
+    
 };
 
 template <typename Vector>
@@ -154,14 +157,17 @@ void VectorProperty<Vector>::setDimensions(unsigned int columns, unsigned int ro
 template <typename Vector>
 std::string VectorProperty<Vector>::valueAsString() const
 {
-    std::stringstream stream;
-    stream << "(";
-    for(auto e = this->value().begin(); e < --this->value().end(); e++) {
-        stream << *e << ",";
-    }
-    stream << this->value().back();
-    stream << ")";
+    return "(" + join(this->value(), ", ") + ")";
+}
     
+template <typename Vector>
+std::string VectorProperty<Vector>::join(const Vector & vector,
+    const std::string & separator) const
+{
+    std::stringstream stream;
+    for (int i = 0; i < vector.size() - 1; i++)
+        stream << vector.at(i) << separator;
+    stream << vector.back();
     return stream.str();
 }
 
