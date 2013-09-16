@@ -15,7 +15,7 @@ using propertyzeug::PropertyGroup;
 class PROPERTYGUIZEUG_API PropertyBrowser : public QTreeView
 {
 public:
-    PropertyBrowser(PropertyGroup & root, QWidget * parent = nullptr);
+    PropertyBrowser(PropertyGroup * root, QWidget * parent = nullptr);
     ~PropertyBrowser();
 
 protected:

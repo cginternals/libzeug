@@ -27,7 +27,7 @@ int main(int argc, char *argv[])
     settings.addProperty(&extras);
     extras.addProperty<Color>("Color", Color(127,127,127));
 
-    PropertyBrowser browser(settings);
+    PropertyBrowser browser(&settings);
     browser.show();
     
     return a.exec();

@@ -5,9 +5,9 @@
 
 namespace propertyguizeug {
     
-PropertyBrowser::PropertyBrowser(PropertyGroup & root, QWidget * parent)
+PropertyBrowser::PropertyBrowser(PropertyGroup * root, QWidget * parent)
 :   QTreeView(parent)
-,   m_model(new PropertyModel(&root, this))
+,   m_model(new PropertyModel(root, this))
 ,   m_delegate(new PropertyDelegate(this))
 {
     this->setModel(m_model);
