@@ -17,18 +17,16 @@ Color::Color(const Color & color)
 }
 
 Color::Color(unsigned int rgba)
-:   m_rgba{.v=rgba}
 {
+    m_rgba.v = rgba;
 }
 
 Color::Color(int red, int green, int blue, int alpha)
-:   m_rgba {
-        .a=static_cast<unsigned char>(alpha),
-        .r=static_cast<unsigned char>(red),
-        .g=static_cast<unsigned char>(green),
-        .b=static_cast<unsigned char>(blue)
-    }
 {
+    m_rgba.a=static_cast<unsigned char>(alpha);
+    m_rgba.r=static_cast<unsigned char>(red);
+    m_rgba.g=static_cast<unsigned char>(green);
+    m_rgba.b=static_cast<unsigned char>(blue);
 }
 
 Color::~Color()
