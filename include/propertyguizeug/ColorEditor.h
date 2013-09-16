@@ -9,8 +9,9 @@ class QColorDialog;
 
 namespace propertyguizeug {
 
-using namespace propertyzeug;
-    
+using propertyzeug::Property;
+using propertyzeug::Color;
+
 class PROPERTYGUIZEUG_API ColorEditor : public QWidget
 {
 public:
