@@ -7,6 +7,7 @@
 #include <propertyguizeug/VectorEditor.h>
 #include <propertyguizeug/ColorEditor.h>
 #include <propertyguizeug/FilePathEditor.h>
+#include <propertyguizeug/DoubleEditor.h>
 #include <propertyguizeug/PropertyDelegate.h>
 
 namespace propertyguizeug {
@@ -63,6 +64,11 @@ QSize PropertyDelegate::sizeHint (const QStyleOptionViewItem & option,
 void PropertyDelegate::visit(Property<int> & property)
 {
     m_activeEditor = new NumberEditor<int>(&property);
+}
+    
+void PropertyDelegate::visit(Property<double> & property)
+{
+    m_activeEditor = new DoubleEditor(&property);
 }
     
 void PropertyDelegate::visit(Property<std::string> & property)

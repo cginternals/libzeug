@@ -33,7 +33,7 @@ public:
 
     virtual void visit(Property<bool> & property) {};
     virtual void visit(Property<int> & property);
-    virtual void visit(Property<double> & property) {};
+    virtual void visit(Property<double> & property);
     virtual void visit(Property<std::string> & property);
     virtual void visit(Property<Color> & property);
     virtual void visit(Property<FilePath> & property);
