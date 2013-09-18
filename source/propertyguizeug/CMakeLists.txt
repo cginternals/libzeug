@@ -29,11 +29,11 @@ set(headers
     ${header_path}/PropertyBrowser.h
     ${header_path}/PropertyModel.h
     ${header_path}/PropertyDelegate.h
-    ${header_path}/IntegerEditor.h
     ${header_path}/StringEditor.h
     ${header_path}/ChoiceEditor.h
     ${header_path}/ColorEditor.h
     ${header_path}/FilePathEditor.h
+    ${header_path}/IntegerEditor.h
     ${header_path}/DoubleEditor.h
     ${header_path}/VectorEditor.h
     ${header_path}/VectorModel.h
@@ -49,6 +49,7 @@ set(sources
     ${source_path}/ChoiceEditor.cpp
     ${source_path}/ColorEditor.cpp
     ${source_path}/FilePathEditor.cpp
+    ${source_path}/IntegerEditor.cpp
     ${source_path}/DoubleEditor.cpp
 )
 

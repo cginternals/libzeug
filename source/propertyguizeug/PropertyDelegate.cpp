@@ -63,7 +63,7 @@ QSize PropertyDelegate::sizeHint (const QStyleOptionViewItem & option,
 
 void PropertyDelegate::visit(Property<int> & property)
 {
-    m_activeEditor = new IntegerEditor<int>(&property);
+    m_activeEditor = new IntegerEditor(&property);
 }
     
 void PropertyDelegate::visit(Property<double> & property)
