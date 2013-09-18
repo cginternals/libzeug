@@ -29,7 +29,7 @@ set(headers
     ${header_path}/PropertyBrowser.h
     ${header_path}/PropertyModel.h
     ${header_path}/PropertyDelegate.h
-    ${header_path}/NumberEditor.h
+    ${header_path}/IntegerEditor.h
     ${header_path}/StringEditor.h
     ${header_path}/ChoiceEditor.h
     ${header_path}/ColorEditor.h

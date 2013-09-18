@@ -1,7 +1,7 @@
 
 #include <propertyzeug/AbstractProperty.h>
 #include <propertyguizeug/PropertyType.h>
-#include <propertyguizeug/NumberEditor.h>
+#include <propertyguizeug/IntegerEditor.h>
 #include <propertyguizeug/StringEditor.h>
 #include <propertyguizeug/ChoiceEditor.h>
 #include <propertyguizeug/VectorEditor.h>
@@ -63,7 +63,7 @@ QSize PropertyDelegate::sizeHint (const QStyleOptionViewItem & option,
 
 void PropertyDelegate::visit(Property<int> & property)
 {
-    m_activeEditor = new NumberEditor<int>(&property);
+    m_activeEditor = new IntegerEditor<int>(&property);
 }
     
 void PropertyDelegate::visit(Property<double> & property)

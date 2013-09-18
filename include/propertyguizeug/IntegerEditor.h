@@ -10,18 +10,18 @@ namespace propertyguizeug {
 using namespace propertyzeug;
 
 template <typename Number>
-class PROPERTYGUIZEUG_API NumberEditor : public QSpinBox
+class PROPERTYGUIZEUG_API IntegerEditor : public QSpinBox
 {
 public:
-    NumberEditor(Property<Number> * property, QWidget * parent = nullptr);
-    virtual ~NumberEditor();
+    IntegerEditor(Property<Number> * property, QWidget * parent = nullptr);
+    virtual ~IntegerEditor();
 
 protected:
     Property<Number> * m_property;
 };
 
 template <typename Number>
-NumberEditor<Number>::NumberEditor(Property<Number> * property, QWidget * parent)
+IntegerEditor<Number>::IntegerEditor(Property<Number> * property, QWidget * parent)
 :   QSpinBox(parent)
 ,   m_property(property)
 {
@@ -38,7 +38,7 @@ NumberEditor<Number>::NumberEditor(Property<Number> * property, QWidget * parent
 }
     
 template <typename Number>
-NumberEditor<Number>::~NumberEditor()
+IntegerEditor<Number>::~IntegerEditor()
 {
     
 }
