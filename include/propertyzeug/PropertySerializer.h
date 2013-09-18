@@ -26,7 +26,7 @@ public:
     
 protected:
     void serializeProperty(const AbstractProperty & property);
-    void serializeGroup(PropertyGroup & group);
+    void serializeGroup(const PropertyGroup & group);
     void pushGroupToPath(const PropertyGroup & group);
     void popGroupFromPath();
 

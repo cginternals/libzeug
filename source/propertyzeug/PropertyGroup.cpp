@@ -186,6 +186,12 @@ void PropertyGroup::forEachProperty(const std::function<void(AbstractProperty &)
         functor(*property);
 }
 
+void PropertyGroup::forEachProperty(const std::function<void(AbstractProperty &)> functor) const
+{
+    for (AbstractProperty * property : m_properties)
+        functor(*property);
+}
+
 void PropertyGroup::forEachValueProperty(const std::function<void(AbstractProperty &)> functor)
 {
     for (AbstractProperty * property : m_properties) {
@@ -194,7 +200,23 @@ void PropertyGroup::forEachValueProperty(const std::function<void(AbstractProper
     }
 }
 
+void PropertyGroup::forEachValueProperty(const std::function<void(AbstractProperty &)> functor) const
+{
+    for (AbstractProperty * property : m_properties) {
+        if (!property->isGroup())
+            functor(*property);
+    }
+}
+
 void PropertyGroup::forEachSubGroup(const std::function<void(PropertyGroup &)> functor)
+{
+    for (AbstractProperty * property : m_properties) {
+        if (property->isGroup())
+            functor(*property->to<PropertyGroup>());
+    }
+}
+
+void PropertyGroup::forEachSubGroup(const std::function<void(PropertyGroup &)> functor) const
 {
     for (AbstractProperty * property : m_properties) {
         if (property->isGroup())

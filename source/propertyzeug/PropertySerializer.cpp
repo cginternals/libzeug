@@ -48,7 +48,7 @@ void PropertySerializer::serializeProperty(const AbstractProperty & property)
     m_fstream << "=" << property.valueAsString() << std::endl;
 }
 
-void PropertySerializer::serializeGroup(PropertyGroup & group)
+void PropertySerializer::serializeGroup(const PropertyGroup & group)
 {
     group.forEachProperty([this](AbstractProperty & property) {
         if (property.isGroup()) {
