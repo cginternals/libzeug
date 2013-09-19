@@ -3,18 +3,22 @@
 
 #include <QStyledItemDelegate>
 #include <propertyzeug/Property.h>
-#include <propertyzeug/AbstractPropertyVisitor.h>
+#include <propertyguizeug/PropertyEditorFactory.h>
 #include "propertyguizeug.h"
 
 namespace propertyguizeug {
     
 using namespace propertyzeug;
 
-class PropertyDelegate : public QStyledItemDelegate, public AbstractPropertyVisitor
+class PropertyDelegate : public QStyledItemDelegate
 {
 public:
     PropertyDelegate(QWidget * parent = nullptr);
     virtual ~PropertyDelegate();
+    
+    virtual void paint(QPainter * painter,
+                       const QStyleOptionViewItem & option,
+                       const QModelIndex & index) const;
     
     virtual QWidget * createEditor(QWidget * parent, const QStyleOptionViewItem & option,
                                    const QModelIndex & index) const;
@@ -31,23 +35,10 @@ public:
     virtual QSize sizeHint (const QStyleOptionViewItem & option,
                             const QModelIndex & index) const;
 
-    virtual void visit(Property<bool> & property) {};
-    virtual void visit(Property<int> & property);
-    virtual void visit(Property<double> & property);
-    virtual void visit(Property<std::string> & property);
-    virtual void visit(Property<Color> & property);
-    virtual void visit(Property<FilePath> & property);
-    
-    virtual void visit(Property<std::vector<bool>> & property) {};
-    virtual void visit(Property<std::vector<int>> & property);
-    virtual void visit(Property<std::vector<double>> & property) {};
-
-    virtual void visit(PropertyGroup & property) {};
-
 protected:
     QWidget * createEditorForProperty(QWidget * parent, AbstractProperty * property);
-
-    QWidget * m_activeEditor;
+    
+    PropertyEditorFactory m_editorFactory;
 };
     
 } // namespace 

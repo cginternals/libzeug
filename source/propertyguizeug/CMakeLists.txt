@@ -25,16 +25,17 @@ set(source_path "${CMAKE_CURRENT_SOURCE_DIR}")
 set(headers
     ${header_path}/propertyguizeug.h
 
-    ${header_path}/PropertyType.h
     ${header_path}/PropertyBrowser.h
     ${header_path}/PropertyModel.h
     ${header_path}/PropertyDelegate.h
+    ${header_path}/PropertyEditorFactory.h
+    ${header_path}/BoolEditor.h
+    ${header_path}/IntegerEditor.h
+    ${header_path}/DoubleEditor.h
     ${header_path}/StringEditor.h
     ${header_path}/ChoiceEditor.h
     ${header_path}/ColorEditor.h
     ${header_path}/FilePathEditor.h
-    ${header_path}/IntegerEditor.h
-    ${header_path}/DoubleEditor.h
     ${header_path}/VectorEditor.h
     ${header_path}/VectorModel.h
     ${header_path}/VectorDelegate.h
@@ -45,12 +46,14 @@ set(sources
     ${source_path}/PropertyBrowser.cpp
     ${source_path}/PropertyModel.cpp
     ${source_path}/PropertyDelegate.cpp
+    ${source_path}/PropertyEditorFactory.cpp
+    ${source_path}/BoolEditor.cpp
+    ${source_path}/IntegerEditor.cpp
+    ${source_path}/DoubleEditor.cpp
     ${source_path}/StringEditor.cpp
     ${source_path}/ChoiceEditor.cpp
     ${source_path}/ColorEditor.cpp
     ${source_path}/FilePathEditor.cpp
-    ${source_path}/IntegerEditor.cpp
-    ${source_path}/DoubleEditor.cpp
 )
 
 # Group source files

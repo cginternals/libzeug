@@ -89,13 +89,6 @@ QVariant PropertyModel::data(const QModelIndex & index, int role) const
         
         if (index.column() == 0)
             return QVariant(QString::fromStdString(property->title()));
-        
-        if (index.column() == 1) {
-            if (property->isGroup())
-                return QVariant();
-            
-            return QVariant(QString::fromStdString(property->valueAsString()));
-        }    
     }
     
     return QVariant();

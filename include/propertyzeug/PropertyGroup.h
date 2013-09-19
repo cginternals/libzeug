@@ -113,7 +113,6 @@ public:
     void forEachSubGroup(const std::function<void(PropertyGroup &)> functor);
     void forEachSubGroup(const std::function<void(PropertyGroup &)> functor) const;
     
-    
     /** @} */
     
 protected:
