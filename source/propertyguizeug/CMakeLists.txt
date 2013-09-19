@@ -28,6 +28,7 @@ set(headers
     ${header_path}/PropertyBrowser.h
     ${header_path}/PropertyModel.h
     ${header_path}/PropertyDelegate.h
+    ${header_path}/PropertyPainter.h
     ${header_path}/PropertyEditorFactory.h
     ${header_path}/BoolEditor.h
     ${header_path}/IntegerEditor.h
@@ -46,6 +47,7 @@ set(sources
     ${source_path}/PropertyBrowser.cpp
     ${source_path}/PropertyModel.cpp
     ${source_path}/PropertyDelegate.cpp
+    ${source_path}/PropertyPainter.cpp
     ${source_path}/PropertyEditorFactory.cpp
     ${source_path}/BoolEditor.cpp
     ${source_path}/IntegerEditor.cpp

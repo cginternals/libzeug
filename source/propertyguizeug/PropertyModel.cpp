@@ -1,7 +1,6 @@
 
 #include <propertyzeug/PropertyGroup.h>
 #include <propertyguizeug/PropertyModel.h>
-#include <propertyguizeug/PropertyType.h>
 
 namespace propertyguizeug {
     

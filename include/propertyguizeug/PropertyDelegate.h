@@ -4,6 +4,7 @@
 #include <QStyledItemDelegate>
 #include <propertyzeug/Property.h>
 #include <propertyguizeug/PropertyEditorFactory.h>
+#include <propertyguizeug/PropertyPainter.h>
 #include "propertyguizeug.h"
 
 namespace propertyguizeug {
@@ -39,6 +40,7 @@ protected:
     QWidget * createEditorForProperty(QWidget * parent, AbstractProperty * property);
     
     PropertyEditorFactory m_editorFactory;
+    mutable PropertyPainter m_propertyPainter;
 };
     
 } // namespace 

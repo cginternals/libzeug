@@ -23,10 +23,12 @@ void PropertyDelegate::paint(QPainter * painter,
     if (property->isGroup())
         return QStyledItemDelegate::paint(painter, option, index);
     
-    QStyleOptionViewItem myOption(option);
+    if (m_propertyPainter.drawValue(painter, option, *property))
+        return;
+    
+    QStyleOptionViewItem myOption = option;
     QString text = QString::fromStdString(property->valueAsString());
     myOption.text = text;
-    
     QStyledItemDelegate::paint(painter, myOption, index);
 }
     
