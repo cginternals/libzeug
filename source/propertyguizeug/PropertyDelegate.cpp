@@ -37,10 +37,10 @@ QWidget * PropertyDelegate::createEditor(QWidget * parent,
 {
     AbstractProperty * property = static_cast<AbstractProperty *>(index.internalPointer());
     
-    if (!property->isGroup())
-        return const_cast<PropertyDelegate *>(this)->createEditorForProperty(parent, property);
+    if (property->isGroup())
+        return QStyledItemDelegate::createEditor(parent, option, index);
     
-    return QStyledItemDelegate::createEditor(parent, option, index);
+    return const_cast<PropertyDelegate *>(this)->createEditorForProperty(parent, property);
 }
 
 void PropertyDelegate::setEditorData(QWidget *editor, const QModelIndex &index) const
