@@ -61,7 +61,7 @@ void PropertyDelegate::updateEditorGeometry(QWidget * editor, const QStyleOption
 QSize PropertyDelegate::sizeHint (const QStyleOptionViewItem & option,
     const QModelIndex & index) const
 {
-    return QSize(100, 30);
+    return QSize(100, 28);
 }
     
 QWidget * PropertyDelegate::createEditorForProperty(QWidget * parent, AbstractProperty * property)
