@@ -1,7 +1,7 @@
 #pragma once
 
-#include <signalzeug.h>
-#include <Connection.h>
+#include <signalzeug/signalzeug.h>
+#include <signalzeug/Connection.h>
 
 #include <unordered_map>
 

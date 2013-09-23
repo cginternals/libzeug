@@ -1,8 +1,8 @@
 #pragma once
 
-#include <signalzeug.h>
+#include <signalzeug/signalzeug.h>
 
-#include <Connection.h>
+#include <signalzeug/Connection.h>
 
 namespace signal {
 

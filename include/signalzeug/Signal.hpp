@@ -1,6 +1,6 @@
 #pragma once
 
-#include <AbstractSignal.h>
+#include <signalzeug/AbstractSignal.h>
 
 #include <functional>
 #include <unordered_map>
