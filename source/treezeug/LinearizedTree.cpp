@@ -12,7 +12,7 @@ LinearizedTree::LinearizedTree()
 LinearizedTree::LinearizedTree(const Tree* tree, Algorithm strategy)
 : _tree(tree)
 , _strategy(strategy)
-, _nodes(tree->size())
+, _nodes(tree ? tree->size() : 0)
 , _nextIndex(0)
 {
 	linearize();
