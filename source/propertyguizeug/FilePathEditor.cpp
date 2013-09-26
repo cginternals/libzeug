@@ -30,6 +30,10 @@ FilePathEditor::FilePathEditor(Property<FilePath> * property, QWidget * parent)
     this->connect(completer, static_cast<void (QCompleter::*)(const QString &)>(&QCompleter::activated),
                   this, &FilePathEditor::handleItemActivated);
     
+    this->connect(this, &QLineEdit::selectionChanged, [this] () {
+        this->completer()->complete();
+    });
+    
 }
 
 FilePathEditor::~FilePathEditor()
