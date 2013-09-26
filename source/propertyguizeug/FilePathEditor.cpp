@@ -51,8 +51,22 @@ void FilePathEditor::openFileDialog()
 {
     m_dialogOpened = true;
     this->clear();
-    m_filePathFromDialog = QFileDialog::getOpenFileName();
-    this->clearFocus();
+    QFileDialog * fileDialog = new QFileDialog(this);
+    
+    if (m_property->isFile()) {
+        fileDialog->setFileMode(m_property->shouldExist() ?
+                                QFileDialog::ExistingFile : QFileDialog::AnyFile);
+    } else {
+        fileDialog->setFileMode(QFileDialog::Directory);
+    }
+    
+    this->connect(fileDialog, &QFileDialog::fileSelected,
+                  [this] (const QString & file) {
+                      m_filePathFromDialog = file;
+                      this->clearFocus();
+                  });
+    
+    fileDialog->show();
 }
     
 } // namespace

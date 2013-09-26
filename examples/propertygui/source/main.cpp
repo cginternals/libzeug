@@ -28,6 +28,7 @@ int main(int argc, char *argv[])
     settings.addProperty(&extras);
     extras.addProperty<Color>("Color", Color(127,127,127));
     extras.addProperty<FilePath>("Path", FilePath("/Users/max/"));
+    extras.property<FilePath>("Path")->setIsFile(false);
     extras.addProperty<std::string>("Animal", "Rabbit");
     extras.property<std::string>("Animal")->setChoices({"Rabbit", "Duck", "Elephant"});
     PropertyGroup general("General");
