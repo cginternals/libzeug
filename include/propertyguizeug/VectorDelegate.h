@@ -49,12 +49,19 @@ template <typename Type>
 QWidget * VectorDelegate<Type>::createEditor(QWidget * parent,
     const QStyleOptionViewItem & option, const QModelIndex & index) const
 {
+    if (!index.isValid())
+        return nullptr;
+    
+    int i = m_property->columns() * index.row() + index.column();
+    
     QSpinBox * editor = new QSpinBox(parent);
     editor->setValue(m_property->value().at(m_property->columns() * index.row() + index.column()));
-//    this->connect(editor, static_cast<void (QSpinBox::*)(int)>(&QSpinBox::valueChanged),
-//                  [this](int i) {
-//                      m_property->setValue(m_property->value().at(m_property->columns() * index.row() + index.column()));
-//                  });
+    this->connect(editor, static_cast<void (QSpinBox::*)(int)>(&QSpinBox::valueChanged),
+                  [i, this](int value) {
+                      std::vector<int> vector = m_property->value();
+                      vector[i] = value;
+                      m_property->setValue(vector);
+                  });
     return editor;
 }
 
@@ -80,7 +87,7 @@ template <typename Type>
 QSize VectorDelegate<Type>::sizeHint (const QStyleOptionViewItem & option,
     const QModelIndex & index) const
 {
-    return QSize(50, 30);
+    return QSize(50, 26);
 }
 
 } // namespace

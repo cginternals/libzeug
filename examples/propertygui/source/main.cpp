@@ -14,7 +14,7 @@ int main(int argc, char *argv[])
     
     PropertyGroup settings("Settings");
     PropertyGroup constraints("Constraints");
-    constraints.addProperty<std::vector<int>>("Position", std::vector<int>({ 100, 200 }));
+    constraints.addProperty<std::vector<int>>("Position", std::vector<int>({ 10, 20, 30 }));
     settings.addProperty(&constraints);
     constraints.addProperty("Height", 3);
     constraints.addProperty("Width", 12.3);

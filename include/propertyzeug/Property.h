@@ -233,7 +233,7 @@ public:
         std::stringstream stream;
         stream << "(";
         for(auto e = this->value().begin(); e < --this->value().end(); e++) {
-            stream << (*e ? "true" : "false") << ",";
+            stream << (*e ? "true" : "false") << ", ";
         }
         stream << (this->value().back() ? "true" : "false");
         stream << ")";

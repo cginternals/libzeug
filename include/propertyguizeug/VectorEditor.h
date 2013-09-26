@@ -33,6 +33,8 @@ VectorEditor<Type>::VectorEditor(Property<std::vector<Type>> * property, QWidget
     this->setItemDelegate(m_delegate);
     this->verticalHeader()->hide();
     this->horizontalHeader()->hide();
+    this->setEditTriggers(QAbstractItemView::AllEditTriggers);
+    this->setShowGrid(false);
 }
 
 template <typename Type>
