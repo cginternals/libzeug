@@ -40,6 +40,10 @@ set(headers
     ${header_path}/VectorEditor.h
     ${header_path}/VectorModel.h
     ${header_path}/VectorDelegate.h
+    ${header_path}/MatrixEditor.h
+    ${header_path}/BoolMatrixEditor.h
+    ${header_path}/IntMatrixEditor.h
+    ${header_path}/DoubleMatrixEditor.h
 
 )
 
@@ -56,6 +60,10 @@ set(sources
     ${source_path}/ChoiceEditor.cpp
     ${source_path}/ColorEditor.cpp
     ${source_path}/FilePathEditor.cpp
+    ${source_path}/MatrixEditor.cpp
+    ${source_path}/BoolMatrixEditor.cpp
+    ${source_path}/IntMatrixEditor.cpp
+    ${source_path}/DoubleMatrixEditor.cpp
 )
 
 # Group source files

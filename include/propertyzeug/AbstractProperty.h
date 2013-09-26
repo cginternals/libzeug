@@ -62,7 +62,6 @@ protected:
     std::string m_title;
     std::string m_annotations;
     Announcer m_announcer;
-    
     PropertyGroup * m_parent;
 };
     

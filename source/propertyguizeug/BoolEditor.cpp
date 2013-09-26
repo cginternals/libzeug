@@ -11,10 +11,7 @@ BoolEditor::BoolEditor(Property<bool> * property, QWidget * parent)
     this->setCheckState(property->value() ? Qt::Checked : Qt::Unchecked);
     this->connect(this, &QCheckBox::stateChanged,
                   [this](int state) {
-                      if (state == Qt::Unchecked)
-                          m_property->setValue(false);
-                      else
-                          m_property->setValue(true);
+                      m_property->setValue(state == Qt::Checked);
                   });
 }
     

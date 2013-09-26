@@ -7,6 +7,9 @@
 #include <propertyguizeug/FilePathEditor.h>
 #include <propertyguizeug/DoubleEditor.h>
 #include <propertyguizeug/BoolEditor.h>
+#include <propertyguizeug/BoolMatrixEditor.h>
+#include <propertyguizeug/IntMatrixEditor.h>
+#include <propertyguizeug/DoubleMatrixEditor.h>
 #include <propertyguizeug/PropertyEditorFactory.h>
 
 namespace propertyguizeug {
@@ -61,16 +64,24 @@ void PropertyEditorFactory::visit(Property<FilePath> & property)
 
 void PropertyEditorFactory::visit(Property<std::vector<bool>> & property)
 {
+    if (property.rows() > 1)
+        m_editor = new BoolMatrixEditor(&property);
     // TODO add BoolVectorEditor
 }
 
 void PropertyEditorFactory::visit(Property<std::vector<int>> & property)
 {
-    m_editor = new VectorEditor<int>(&property);
+    if (property.rows() > 1)
+        m_editor = new IntMatrixEditor(&property);
+    else
+        m_editor = new VectorEditor<int>(&property);
 }
 
 void PropertyEditorFactory::visit(Property<std::vector<double>> & property)
 {
+    if (property.rows() > 1)
+        m_editor = new DoubleMatrixEditor(&property);
+    
     // TODO add DoubleVectorEditor
 }
 

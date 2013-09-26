@@ -20,7 +20,8 @@ int main(int argc, char *argv[])
     constraints.addProperty("Width", 12.3);
     settings.addProperty<std::string>("FilePath", "/Users/Horst/Desktop/");
     settings.addProperty<std::vector<int>>("Mat3x2", {1,2,3,4,5,6});
-    settings.property<std::vector<int>>("Mat3x2")->setDimensions(3,2);
+    settings.addProperty<std::vector<double>>("Mat2x2", {1.1, 2.3, 6.1, 4});
+    settings.property<std::vector<double>>("Mat2x2")->setDimensions(2,2);
     settings.addProperty<bool>("Activate", true);
     settings.addProperty<int>("Count", 79);
     PropertyGroup extras("Extras");
@@ -29,6 +30,10 @@ int main(int argc, char *argv[])
     extras.addProperty<FilePath>("Path", FilePath("/Users/max/"));
     extras.addProperty<std::string>("Animal", "Rabbit");
     extras.property<std::string>("Animal")->setChoices({"Rabbit", "Duck", "Elephant"});
+    PropertyGroup general("General");
+    extras.addProperty(&general);
+    general.addProperty<std::vector<bool>>("BoolMat", {true, false, true, false});
+    general.property<std::vector<bool>>("BoolMat")->setDimensions(2,2);
 
     PropertyBrowser browser1(&settings);
     browser1.show();
