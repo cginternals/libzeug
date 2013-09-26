@@ -12,6 +12,7 @@ FilePathEditor::FilePathEditor(Property<FilePath> * property, QWidget * parent)
 :   QLineEdit(parent)
 ,   m_property(property)
 ,   m_dialogOpened(false)
+,   m_filePathFromDialog("")
 {
     this->setText(QString::fromStdString(m_property->value().string()));
     QCompleter * completer = new QCompleter({"/User/max/doc.txt", "~/Downloads/text.txt", "~/Desktop/picture.png", s_openFileDialog}, this);
@@ -39,6 +40,10 @@ void FilePathEditor::handleItemActivated(const QString & text)
 void FilePathEditor::setFilePath()
 {
     QString filePath = m_dialogOpened ? m_filePathFromDialog : this->text();
+
+    if (filePath.isEmpty() || filePath == s_openFileDialog)
+        return;
+    
     m_property->setValue(filePath.toStdString());
 }
     
