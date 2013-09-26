@@ -7,6 +7,7 @@
 #include "NumberProperty.h"
 #include "StringProperty.h"
 #include "VectorProperty.h"
+#include "FilePathProperty.h"
 
 #include "Color.h"
 #include "FilePath.h"
@@ -175,31 +176,30 @@ public:
 };
 
 template <>
-class Property<FilePath> : public ValueProperty<FilePath>
+class Property<FilePath> : public FilePathProperty
 {
 public:
     Property(const std::string & name, const FilePath & value)
-    :   ValueProperty<FilePath>(name, value) {};
+    :   FilePathProperty(name, value) {};
     
     Property(const std::string & name,
               const std::function<const FilePath & ()> & getter,
               const std::function<void(const FilePath &)> & setter)
-    :   ValueProperty<FilePath>(name, getter, setter) {};
+    :   FilePathProperty(name, getter, setter) {};
     
     template <class Object>
     Property(const std::string & name,
               Object & object, const FilePath & (Object::*getter_pointer)() const,
               void (Object::*setter_pointer)(const FilePath &))
-    :   ValueProperty<FilePath>(name, object, getter_pointer, setter_pointer) {};
+    :   FilePathProperty(name, object, getter_pointer, setter_pointer) {};
     
     template <class Object>
     Property(const std::string & name,
               Object & object, FilePath (Object::*getter_pointer)() const,
               void (Object::*setter_pointer)(const FilePath &))
-    :   ValueProperty<FilePath>(name, object, getter_pointer, setter_pointer) {};
+    :   FilePathProperty(name, object, getter_pointer, setter_pointer) {};
 
     virtual void accept(AbstractPropertyVisitor & visitor) { visitor.visit(*this); };
-    virtual std::string valueAsString() const { return this->value().string(); };
 };
 
 template <>
