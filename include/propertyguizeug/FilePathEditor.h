@@ -22,6 +22,9 @@ public:
     void setFilePath();
     void handleItemActivated(const QString & text);
     
+    QStringList recentlyUsedFilePaths();
+    void pushRecentlyUsedFilePath(const QString & filePath);
+    
     void openFileDialog();
 
 protected:

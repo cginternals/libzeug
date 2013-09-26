@@ -1,5 +1,9 @@
 
+#include <QDebug>
+#include <QSettings>
+#include <QApplication>
 #include <QFileDialog>
+#include <QVariant>
 #include <QCompleter>
 #include <QLineEdit>
 #include <propertyguizeug/FilePathEditor.h>
@@ -15,7 +19,8 @@ FilePathEditor::FilePathEditor(Property<FilePath> * property, QWidget * parent)
 ,   m_filePathFromDialog("")
 {
     this->setText(QString::fromStdString(m_property->value().string()));
-    QCompleter * completer = new QCompleter({"/User/max/doc.txt", "~/Downloads/text.txt", "~/Desktop/picture.png", s_openFileDialog}, this);
+    
+    QCompleter * completer = new QCompleter(this->recentlyUsedFilePaths() << s_openFileDialog, this);
     completer->setCompletionMode(QCompleter::UnfilteredPopupCompletion);
     this->setCompleter(completer);
     
@@ -31,6 +36,34 @@ FilePathEditor::~FilePathEditor()
 {
 }
     
+QStringList FilePathEditor::recentlyUsedFilePaths()
+{
+    QSettings settings(QSettings::NativeFormat,
+                       QSettings::UserScope,
+                       QApplication::organizationName());
+    
+    return settings.value(QString::fromStdString(m_property->path()),
+                          QVariant(QStringList())).toStringList();
+}
+
+void FilePathEditor::pushRecentlyUsedFilePath(const QString & filePath)
+{
+    QStringList list = this->recentlyUsedFilePaths();
+    
+    if (list.size() > 5)
+        list.pop_front();
+    
+    if (!list.contains(filePath))
+        list.push_back(filePath);
+    
+    QSettings settings(QSettings::NativeFormat,
+                       QSettings::UserScope,
+                       QApplication::organizationName());
+    
+    settings.setValue(QString::fromStdString(m_property->path()),
+                      QVariant(list));
+}
+    
 void FilePathEditor::handleItemActivated(const QString & text)
 {
     if (text == s_openFileDialog)
@@ -44,6 +77,7 @@ void FilePathEditor::setFilePath()
     if (filePath.isEmpty() || filePath == s_openFileDialog)
         return;
     
+    this->pushRecentlyUsedFilePath(filePath);
     m_property->setValue(filePath.toStdString());
 }
     

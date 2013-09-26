@@ -39,6 +39,8 @@ public:
     void setParent(PropertyGroup * parent);
     void removeParent();
     bool hasParent() const;
+    
+    std::string path() const;
 
     template <class Property>
     Property * to();

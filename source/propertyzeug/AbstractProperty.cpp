@@ -1,5 +1,6 @@
 
 #include <propertyzeug/AbstractProperty.h>
+#include <propertyzeug/PropertyGroup.h>
 
 namespace propertyzeug {
     
@@ -63,6 +64,14 @@ bool AbstractProperty::hasParent() const
 void AbstractProperty::removeParent()
 {
     m_parent = nullptr;
+}
+    
+std::string AbstractProperty::path() const
+{
+    if (!this->hasParent())
+        return this->name();
+    
+    return this->parent()->path() + "/" + this->name();
 }
 
 void AbstractProperty::subscribe(int event, const std::function<void(AbstractProperty &)> & functor)
