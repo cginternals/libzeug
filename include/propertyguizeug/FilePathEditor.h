@@ -1,7 +1,7 @@
 
 #pragma once
 
-#include <QWidget>
+#include <QLineEdit>
 #include <propertyzeug/Property.h>
 #include "propertyguizeug.h"
 
@@ -13,15 +13,23 @@ namespace propertyguizeug {
 using propertyzeug::Property;
 using propertyzeug::FilePath;
     
-class PROPERTYGUIZEUG_API FilePathEditor : public QWidget
+class PROPERTYGUIZEUG_API FilePathEditor : public QLineEdit
 {
 public:
     FilePathEditor(Property<FilePath> * property, QWidget * parent = nullptr);
     virtual ~FilePathEditor();
+    
+    void setFilePath();
+    void handleItemActivated(const QString & text);
+    
+    void openFileDialog();
 
 protected:
-    QHBoxLayout * m_layout;
+    static const QString s_openFileDialog;
+    
     Property<FilePath> * m_property;
+    bool m_dialogOpened;
+    QString m_filePathFromDialog;
     
 };
 

@@ -1,30 +1,53 @@
 
 #include <QFileDialog>
-#include <QHBoxLayout>
+#include <QCompleter>
 #include <QLineEdit>
-#include <QPushButton>
 #include <propertyguizeug/FilePathEditor.h>
 
 namespace propertyguizeug {
     
+const QString FilePathEditor::s_openFileDialog = "Open File Dialog …";
+    
 FilePathEditor::FilePathEditor(Property<FilePath> * property, QWidget * parent)
-:   QWidget(parent)
-,   m_layout(new QHBoxLayout(this))
+:   QLineEdit(parent)
 ,   m_property(property)
+,   m_dialogOpened(false)
 {
-    m_layout->setMargin(0);
-    m_layout->setContentsMargins(0, 0, 0, 0);
-
-    QLineEdit * lineEdit = new QLineEdit(this);
-    lineEdit->setText(QString::fromStdString(m_property->value().string()));
-    QPushButton * button = new QPushButton("…", this);
-
-    m_layout->addWidget(lineEdit);
-    m_layout->addWidget(button);
+    this->setText(QString::fromStdString(m_property->value().string()));
+    QCompleter * completer = new QCompleter({"/User/max/doc.txt", "~/Downloads/text.txt", "~/Desktop/picture.png", s_openFileDialog}, this);
+    completer->setCompletionMode(QCompleter::UnfilteredPopupCompletion);
+    this->setCompleter(completer);
+    
+    this->connect(this, &QLineEdit::editingFinished,
+                  this, &FilePathEditor::setFilePath);
+    
+    this->connect(completer, static_cast<void (QCompleter::*)(const QString &)>(&QCompleter::activated),
+                  this, &FilePathEditor::handleItemActivated);
+    
 }
 
 FilePathEditor::~FilePathEditor()
 {
+}
+    
+void FilePathEditor::handleItemActivated(const QString & text)
+{
+    if (text == s_openFileDialog)
+        this->openFileDialog();
+}
+    
+void FilePathEditor::setFilePath()
+{
+    QString filePath = m_dialogOpened ? m_filePathFromDialog : this->text();
+    m_property->setValue(filePath.toStdString());
+}
+    
+void FilePathEditor::openFileDialog()
+{
+    m_dialogOpened = true;
+    this->clear();
+    m_filePathFromDialog = QFileDialog::getOpenFileName();
+    this->clearFocus();
 }
     
 } // namespace
