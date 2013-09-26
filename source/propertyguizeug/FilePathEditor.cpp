@@ -50,7 +50,7 @@ void FilePathEditor::pushRecentlyUsedFilePath(const QString & filePath)
 {
     QStringList list = this->recentlyUsedFilePaths();
     
-    if (list.size() > 5)
+    while (list.size() > 5)
         list.pop_front();
     
     if (!list.contains(filePath))
