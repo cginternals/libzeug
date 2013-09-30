@@ -101,7 +101,7 @@ void FilePathEditor::openFileDialog()
     this->connect(fileDialog, &QFileDialog::fileSelected,
                   [this] (const QString & file) {
                       m_filePathFromDialog = file;
-                      this->clearFocus();
+                      this->setText(file);
                   });
     
     fileDialog->show();
