@@ -27,7 +27,7 @@ int main(int argc, char *argv[])
     settings.addProperty<int>("Count", 79);
     PropertyGroup extras("Extras");
     settings.addProperty(&extras);
-    extras.addProperty<Color>("Color", Color(255,122,0,255));
+    extras.addProperty<Color>("Color", Color(255,122,0,190));
     extras.addProperty<FilePath>("Path", FilePath("/Users/max/"));
     extras.property<FilePath>("Path")->setIsFile(false);
     extras.addProperty<std::string>("Animal", "Rabbit");
