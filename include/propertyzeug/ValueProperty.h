@@ -1,6 +1,7 @@
 
 #pragma once
 
+#include <memory>
 #include "AbstractProperty.h"
 #include "StoredValue.h"
 #include "AccessorValue.h"

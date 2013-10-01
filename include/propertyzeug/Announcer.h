@@ -1,6 +1,7 @@
 
 #pragma once
 
+#include <functional>
 #include <forward_list>
 #include <unordered_map>
 #include <propertyzeug/propertyzeug.h>

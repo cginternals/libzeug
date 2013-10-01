@@ -61,7 +61,9 @@ void createStringPropertyWithChoices()
     std::cout << ">> createStringPropertyWithChoices()" << std::endl;
     
     Property<std::string> dragon("dragon", "Viserion");
-    dragon.setChoices({ "Viserion", "Rhaegal" });
+
+	std::string choices[] = {"Viserion", "Rhaegal"};
+    dragon.setChoices(std::vector<std::string>(std::begin(choices), std::end(choices)));
     dragon.addChoice("Drogon");
     
     for (const std::string & element: dragon.choices()) {
@@ -114,13 +116,19 @@ void deserializeFromFile()
     group.addProperty<double>("value2", 6);
     group.addProperty<bool>("failure", false);
     group.addProperty<Color>("color", Color(125, 125, 0));
-    group.addProperty<std::vector<int>>("vec3", {12,4,54});
+
+	int vec3[] = {12, 4, 54};
+    group.addProperty<std::vector<int>>("vec3", std::vector<int>(std::begin(vec3), std::end(vec3)));
     
     group.addGroup("group1");
     group.group("group1")->addProperty<int>("value3", 143);
     group.group("group1")->addProperty<std::string>("name", "horst");
-    group.group("group1")->addProperty<std::vector<bool>>("bool2", {false,false});
-    group.group("group1")->addProperty<std::vector<int>>("vec3", {12,4,54});
+
+	int bool2[] = {false, false};
+    group.group("group1")->addProperty<std::vector<bool>>("bool2", std::vector<bool>(std::begin(bool2), std::end(bool2)));
+
+	int vec4[] = {0, 0, 0, 0};
+    group.group("group1")->addProperty<std::vector<int>>("vec4", std::vector<int>(std::begin(vec4), std::end(vec4)));
     
     PropertyDeserializer deserializer;
     deserializer.deserialize(group, "examples/properties/data/group.ini");
@@ -154,8 +162,11 @@ void serializeToFile()
     group.addProperty<double>("value2", 6.2);
     group.addProperty<bool>("failure", false);
     group.addProperty<Color>("color", Color(42,244,123));
-    group.addProperty<std::vector<int>>("vec3", {1,2,3});
-    group.addProperty<std::vector<bool>>("bvec2", {true, false});
+
+	int vec3[] = {1, 2, 3};
+    group.addProperty<std::vector<int>>("vec3", std::vector<int>(std::begin(vec3), std::end(vec3)));
+
+    group.addProperty<std::vector<bool>>("bvec2", std::vector<bool>(2, true));
     
     PropertyGroup group1("group1");
     group.addProperty(&group1);
@@ -176,20 +187,22 @@ void useVectorProperties()
 {
     std::cout << ">> useVectorProperties()" << std::endl;
     
-    Property<std::vector<int>> ivec3("ivec3", {1,2,3});
-    std::cout << "ivec3.fixedSize() = " << ivec3.fixedSize() << std::endl;
+	int ivec3[] = {1, 2, 3};
+    Property<std::vector<int>> ivec3Property("ivec3", std::vector<int>(std::begin(ivec3), std::end(ivec3)));
+    std::cout << "ivec3.fixedSize() = " << ivec3Property.fixedSize() << std::endl;
     
-    Property<std::vector<double>> mat2x2("mat2x2", {1.1, 2.2, 3.3, 4.4});
-    std::cout << "mat2x2.fixedSize() = " << mat2x2.fixedSize() << std::endl;
-    mat2x2.setDimensions(2, 2);
+	double mat2x2[] = {1.1, 2.2, 3.3, 4.4};
+    Property<std::vector<double>> mat2x2Property("mat2x2", std::vector<double>(std::begin(mat2x2), std::end(mat2x2)));
+    std::cout << "mat2x2.fixedSize() = " << mat2x2Property.fixedSize() << std::endl;
+    mat2x2Property.setDimensions(2, 2);
     
-    std::vector<bool> mat = {
+    bool mat4x3[] = {
         true,  false, false, false,
         false, true,  false, false,
         false, false, true,  false
     };
-    Property<std::vector<bool>> mat4x3("mat4x3", mat);
-    std::cout << "mat4x3.fixedSize() = " << mat4x3.fixedSize() << std::endl;
+    Property<std::vector<bool>> mat4x3Property("mat4x3", std::vector<bool>(std::begin(mat4x3), std::end(mat4x3)));
+    std::cout << "mat4x3.fixedSize() = " << mat4x3Property.fixedSize() << std::endl;
 }
 
 int main(int argc, char const *argv[])

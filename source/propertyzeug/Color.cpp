@@ -7,13 +7,13 @@
 namespace propertyzeug {
 
 Color::Color()
-:   m_rgba{.v=0}
 {
+	m_rgba.v=0;
 }
 
 Color::Color(const Color & color)
-:   m_rgba{.v=color.rgba()}
 {
+	m_rgba.v=color.rgba();
 }
 
 Color::Color(unsigned int rgba)
