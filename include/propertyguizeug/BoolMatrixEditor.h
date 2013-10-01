@@ -2,11 +2,17 @@
 #pragma once
 
 #include <QStringList>
+
 #include "MatrixEditor.h"
+
+namespace propertyzeug {
+    template <typename Type>
+    class Property;
+}
 
 namespace propertyguizeug {
 
-using namespace propertyzeug;
+using propertyzeug::Property;
 
 class PROPERTYGUIZEUG_API BoolMatrixEditor : public MatrixEditor
 {

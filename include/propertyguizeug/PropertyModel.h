@@ -1,18 +1,17 @@
 
 #pragma once
 
+#include <propertyguizeug/propertyguizeug.h>
+
 #include <QAbstractItemModel>
-#include "propertyguizeug.h"
 
 namespace propertyzeug {
-    template <typename Type>
-    class Property;
     class PropertyGroup;
 }
 
 namespace propertyguizeug {
     
-using namespace propertyzeug;
+using propertyzeug::PropertyGroup;
 
 class PROPERTYGUIZEUG_API PropertyModel : public QAbstractItemModel
 {

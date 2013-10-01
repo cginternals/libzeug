@@ -1,16 +1,20 @@
 
 #pragma once
 
+#include <propertyguizeug/propertyguizeug.h>
+
 #include <QTreeView>
-#include <propertyzeug/PropertyGroup.h>
-#include "propertyguizeug.h"
+
+namespace propertyzeug {
+    class PropertyGroup;
+}
 
 namespace propertyguizeug {
+    
+using propertyzeug::PropertyGroup;
 
 class PropertyModel;
 class PropertyDelegate;
-
-using propertyzeug::PropertyGroup;
 
 class PROPERTYGUIZEUG_API PropertyBrowser : public QTreeView
 {

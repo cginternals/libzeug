@@ -6,6 +6,8 @@
 #include <QLabel>
 #include <QHBoxLayout>
 
+#include <propertyzeug/Property.h>
+
 #include <propertyguizeug/ColorButton.h>
 
 namespace propertyguizeug {

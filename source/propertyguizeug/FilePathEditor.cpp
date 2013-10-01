@@ -1,4 +1,6 @@
 
+#include <propertyguizeug/FilePathEditor.h>
+
 #include <QDebug>
 #include <QSettings>
 #include <QApplication>
@@ -6,7 +8,8 @@
 #include <QVariant>
 #include <QCompleter>
 #include <QLineEdit>
-#include <propertyguizeug/FilePathEditor.h>
+
+#include <propertyzeug/Property.h>
 
 namespace propertyguizeug {
     

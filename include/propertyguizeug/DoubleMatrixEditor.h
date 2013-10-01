@@ -3,6 +3,11 @@
 
 #include "MatrixEditor.h"
 
+namespace propertyzeug {
+    template <typename Type>
+    class Property;
+}
+
 namespace propertyguizeug {
 
 using namespace propertyzeug;

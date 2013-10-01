@@ -1,6 +1,8 @@
 
 #include <propertyguizeug/DoubleEditor.h>
 
+#include <propertyzeug/Property.h>
+
 namespace propertyguizeug {
     
 DoubleEditor::DoubleEditor(Property<double> * property, QWidget * parent)

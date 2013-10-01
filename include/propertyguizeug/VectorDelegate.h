@@ -1,10 +1,11 @@
 
 #pragma once
 
+#include <propertyguizeug/propertyguizeug.h>
+
 #include <QStyledItemDelegate>
 #include <QSpinBox>
 #include <propertyzeug/Property.h>
-#include "propertyguizeug.h"
 
 namespace propertyguizeug {
 

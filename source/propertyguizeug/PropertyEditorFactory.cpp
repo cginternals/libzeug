@@ -1,4 +1,8 @@
 
+#include <propertyguizeug/PropertyEditorFactory.h>
+
+#include <propertyzeug/Property.h>
+
 #include <propertyguizeug/IntegerEditor.h>
 #include <propertyguizeug/StringEditor.h>
 #include <propertyguizeug/ChoiceEditor.h>
@@ -10,7 +14,7 @@
 #include <propertyguizeug/BoolMatrixEditor.h>
 #include <propertyguizeug/IntMatrixEditor.h>
 #include <propertyguizeug/DoubleMatrixEditor.h>
-#include <propertyguizeug/PropertyEditorFactory.h>
+
 
 namespace propertyguizeug {
     

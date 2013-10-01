@@ -1,8 +1,9 @@
 
+#include <propertyguizeug/MatrixEditor.h>
+
 #include <QRegExpValidator>
 #include <QRegularExpression>
 #include <QTextStream>
-#include <propertyguizeug/MatrixEditor.h>
 
 namespace propertyguizeug {
     

@@ -1,11 +1,12 @@
 
+#include <propertyguizeug/PropertyPainter.h>
+
 #include <QApplication>
 #include <QPainter>
-#include <QStyleOptionViewItem>
 
-#include <propertyguizeug/PropertyPainter.h>
+#include <propertyzeug/Property.h>
+
 #include <propertyguizeug/TransparencyBackgroundBrush.hpp>
-
 
 namespace propertyguizeug {
     

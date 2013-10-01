@@ -1,9 +1,10 @@
 
 #pragma once
 
+#include <propertyguizeug/propertyguizeug.h>
+
 #include <QLabel>
 #include <QColor>
-#include "propertyguizeug.h"
 
 class PROPERTYGUIZEUG_API ColorButton : public QLabel
 {
@@ -14,8 +15,6 @@ public:
 	virtual ~ColorButton();
 
 	virtual const QColor color();
-
-public slots:
 	void setColor(const QColor &color);
     
 signals:

@@ -1,6 +1,8 @@
 
 #include <propertyguizeug/IntegerEditor.h>
 
+#include <propertyzeug/Property.h>
+
 namespace propertyguizeug {
     
 IntegerEditor::IntegerEditor(Property<int> * property, QWidget * parent)

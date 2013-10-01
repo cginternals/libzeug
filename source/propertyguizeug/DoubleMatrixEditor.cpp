@@ -1,6 +1,8 @@
 
 #include <propertyguizeug/DoubleMatrixEditor.h>
 
+#include <propertyzeug/Property.h>
+
 namespace propertyguizeug {
     
 DoubleMatrixEditor::DoubleMatrixEditor(Property<std::vector<double>> * property, QWidget * parent)

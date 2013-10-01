@@ -1,12 +1,19 @@
 
 #pragma once
 
+#include <propertyguizeug/propertyguizeug.h>
+
 #include <QWidget>
-#include <propertyzeug/Property.h>
-#include "propertyguizeug.h"
 
 class QLineEdit;
 class ColorButton;
+
+namespace propertyzeug {
+    template <typename Type>
+    class Property;
+    
+    class Color;
+}
 
 namespace propertyguizeug {
 

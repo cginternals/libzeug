@@ -1,11 +1,21 @@
 
 #pragma once
 
+#include <propertyguizeug/propertyguizeug.h>
+
 #include <propertyzeug/AbstractPropertyVisitor.h>
-#include <propertyzeug/Property.h>
-#include "propertyguizeug.h"
 
 class QWidget;
+
+namespace propertyzeug {
+    template <typename Type>
+    class Property;
+    class AbstractProperty;
+    class PropertyGroup;
+    
+    class Color;
+    class FilePath;
+}
 
 namespace propertyguizeug {
 

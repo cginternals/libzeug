@@ -1,7 +1,10 @@
 
+#include <propertyguizeug/ChoiceEditor.h>
+
 #include <QHBoxLayout>
 #include <QComboBox>
-#include <propertyguizeug/ChoiceEditor.h>
+
+#include <propertyzeug/Property.h>
 
 namespace propertyguizeug {
     

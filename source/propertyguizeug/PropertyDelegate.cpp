@@ -1,7 +1,7 @@
 
-#include <QApplication>
-#include <QPainter>
 #include <propertyguizeug/PropertyDelegate.h>
+
+#include <propertyzeug/AbstractProperty.h>
 
 namespace propertyguizeug {
     

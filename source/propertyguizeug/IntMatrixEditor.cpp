@@ -1,6 +1,8 @@
 
 #include <propertyguizeug/IntMatrixEditor.h>
 
+#include <propertyzeug/Property.h>
+
 namespace propertyguizeug {
     
 IntMatrixEditor::IntMatrixEditor(Property<std::vector<int>> * property, QWidget * parent)

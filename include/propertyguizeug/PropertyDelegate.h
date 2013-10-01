@@ -1,15 +1,20 @@
 
 #pragma once
 
+#include <propertyguizeug/propertyguizeug.h>
+
 #include <QStyledItemDelegate>
-#include <propertyzeug/Property.h>
+
 #include <propertyguizeug/PropertyEditorFactory.h>
 #include <propertyguizeug/PropertyPainter.h>
-#include "propertyguizeug.h"
+
+namespace propertyzeug {
+    class AbstractProperty;
+}
 
 namespace propertyguizeug {
     
-using namespace propertyzeug;
+using propertyzeug::AbstractProperty;
 
 class PropertyDelegate : public QStyledItemDelegate
 {

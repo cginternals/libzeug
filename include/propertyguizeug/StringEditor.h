@@ -1,9 +1,14 @@
 
 #pragma once
 
+#include <propertyguizeug/propertyguizeug.h>
+
 #include <QLineEdit>
-#include <propertyzeug/Property.h>
-#include "propertyguizeug.h"
+
+namespace propertyzeug {
+    template <typename Type>
+    class Property;
+}
 
 namespace propertyguizeug {
 

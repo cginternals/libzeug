@@ -1,6 +1,8 @@
 
 #include <propertyguizeug/BoolMatrixEditor.h>
 
+#include <propertyzeug/Property.h>
+
 namespace propertyguizeug {
     
 BoolMatrixEditor::BoolMatrixEditor(Property<std::vector<bool>> * property, QWidget * parent)

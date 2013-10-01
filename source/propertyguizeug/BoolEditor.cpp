@@ -1,6 +1,8 @@
 
 #include <propertyguizeug/BoolEditor.h>
 
+#include <propertyzeug/Property.h>
+
 namespace propertyguizeug {
     
 BoolEditor::BoolEditor(Property<bool> * property, QWidget * parent)

@@ -1,6 +1,8 @@
 
 #include <propertyguizeug/StringEditor.h>
 
+#include <propertyzeug/Property.h>
+
 namespace propertyguizeug {
     
 StringEditor::StringEditor(Property<std::string> * property, QWidget * parent)
