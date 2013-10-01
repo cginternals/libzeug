@@ -2,6 +2,7 @@
 #pragma once
 
 #include <sstream>
+
 #include "ValueProperty.h"
 
 namespace propertyzeug {

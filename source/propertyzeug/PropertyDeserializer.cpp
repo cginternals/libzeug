@@ -1,11 +1,12 @@
 
-#include <sstream>
+#include <propertyzeug/PropertyDeserializer.h>
+
 #include <iostream>
 #include <fstream>
 #include <regex>
+
 #include <propertyzeug/Property.h>
 #include <propertyzeug/PropertyGroup.h>
-#include <propertyzeug/PropertyDeserializer.h>
 
 namespace propertyzeug {
 

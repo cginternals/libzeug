@@ -1,6 +1,8 @@
 
-#include <propertyzeug/AbstractProperty.h>
 #include "SomeObject.h"
+
+#include <iostream>
+#include <propertyzeug/AbstractProperty.h>
 
 const int & SomeObject::count() const
 {

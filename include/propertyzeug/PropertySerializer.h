@@ -1,15 +1,13 @@
 
 #pragma once
 
-#include <sstream>
 #include <fstream>
+
 #include "AbstractPropertyVisitor.h"
 
 namespace propertyzeug {
 
-template <typename Type>
-class Property;
-
+class AbstractProperty;
 class PropertyGroup;
     
 /** @brief

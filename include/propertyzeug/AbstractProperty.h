@@ -1,16 +1,15 @@
 
 #pragma once
 
-#include <assert.h>
-#include <regex>
-#include <string>
-#include <iostream>
 #include <propertyzeug/propertyzeug.h>
+
+#include <assert.h>
+#include <string>
+
 #include "Announcer.h"
 
 namespace propertyzeug {
 
-class Announcer;
 class AbstractPropertyVisitor;
 class PropertyGroup;
     

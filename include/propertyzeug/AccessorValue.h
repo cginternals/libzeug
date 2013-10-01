@@ -2,6 +2,7 @@
 #pragma once
 
 #include <functional>
+
 #include "AbstractValue.h"
 
 namespace propertyzeug {

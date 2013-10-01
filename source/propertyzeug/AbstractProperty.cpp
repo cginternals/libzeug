@@ -1,5 +1,7 @@
 
 #include <propertyzeug/AbstractProperty.h>
+
+#include <regex>
 #include <propertyzeug/PropertyGroup.h>
 
 namespace propertyzeug {

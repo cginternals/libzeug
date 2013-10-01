@@ -2,6 +2,7 @@
 #pragma once
 
 #include <sstream>
+
 #include "AbstractPropertyVisitor.h"
 
 namespace propertyzeug {

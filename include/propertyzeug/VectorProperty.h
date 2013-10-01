@@ -2,8 +2,8 @@
 #pragma once 
 
 #include <sstream>
-#include <numeric>
 #include <vector>
+
 #include "ValueProperty.h"
 
 namespace propertyzeug {

@@ -3,6 +3,8 @@
 
 #include <propertyzeug/propertyzeug.h>
 
+#include <string>
+
 namespace propertyzeug {
     
 /** @brief

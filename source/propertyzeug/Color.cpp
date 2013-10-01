@@ -1,8 +1,9 @@
 
+#include <propertyzeug/Color.h>
+
 #include <assert.h>
 #include <sstream>
 #include <iomanip>
-#include <propertyzeug/Color.h>
 
 namespace propertyzeug {
 

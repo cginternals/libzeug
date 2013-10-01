@@ -1,7 +1,9 @@
 
+#include <propertyzeug/PropertyGroup.h>
+
 #include <regex>
 #include <algorithm>
-#include <propertyzeug/PropertyGroup.h>
+
 #include <propertyzeug/AbstractPropertyVisitor.h>
 
 namespace propertyzeug {
@@ -28,7 +30,7 @@ void PropertyGroup::accept(AbstractPropertyVisitor & visitor)
     
 std::string PropertyGroup::valueAsString() const
 {
-    return "";
+    return ""; // TODO how can I avoid this?
 }
 
 bool PropertyGroup::addProperty(AbstractProperty * property)

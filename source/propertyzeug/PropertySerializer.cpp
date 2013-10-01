@@ -1,8 +1,11 @@
 
-#include <iostream>
-#include <propertyzeug/Property.h>
-#include <propertyzeug/PropertyGroup.h>
 #include <propertyzeug/PropertySerializer.h>
+
+#include <iostream>
+#include <sstream>
+
+#include <propertyzeug/AbstractProperty.h>
+#include <propertyzeug/PropertyGroup.h>
 
 namespace propertyzeug {
     

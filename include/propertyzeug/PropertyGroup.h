@@ -1,11 +1,12 @@
 
 #pragma once
 
+#include <propertyzeug/propertyzeug.h>
+
 #include <assert.h>
 #include <vector>
 #include <unordered_map>
-#include <propertyzeug/propertyzeug.h>
-#include "AbstractProperty.h"
+
 #include "Property.h"
 
 namespace propertyzeug {
