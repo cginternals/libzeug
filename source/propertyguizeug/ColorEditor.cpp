@@ -1,28 +1,65 @@
 
-#include <QColorDialog>
 #include <propertyguizeug/ColorEditor.h>
+
+#include <QColorDialog>
+#include <QLineEdit>
+#include <QLabel>
+#include <QHBoxLayout>
+
+#include <propertyguizeug/ColorButton.h>
 
 namespace propertyguizeug {
 
 ColorEditor::ColorEditor(Property<Color> * property, QWidget * parent)
 :   QWidget(parent)
-,   m_dialog(new QColorDialog(this))
 ,   m_property(property)
 {
     const Color & color = m_property->value();
-    m_dialog->setCurrentColor(QColor(color.red(), color.green(), color.blue(), color.alpha()));
-    m_dialog->setOptions(QColorDialog::NoButtons | QColorDialog::ShowAlphaChannel); // TODO NoButtons does not work
-    this->connect(m_dialog, &QColorDialog::colorSelected, this, &ColorEditor::setColor);
-    m_dialog->show();
+    QColor qcolor(color.red(), color.green(), color.blue(), color.alpha());
+    
+    QHBoxLayout * layout = new QHBoxLayout(this);
+    layout->setMargin(3);
+    layout->setSpacing(6);
+    
+    m_lineEdit = new QLineEdit(this);
+    m_lineEdit->setText(QString::fromStdString(m_property->valueAsString()));
+    
+    m_button = new ColorButton(qcolor, this);
+    
+    layout->addWidget(m_button);
+    layout->addWidget(m_lineEdit);
+    
+    this->setFocusProxy(m_lineEdit);
+    
+    this->connect(m_button, &ColorButton::pressed, this, &ColorEditor::openColorPicker);
 }
 
 ColorEditor::~ColorEditor()
 {
 }
-
-void ColorEditor::setColor(const QColor & color)
+    
+void ColorEditor::openColorPicker()
 {
-    m_property->setValue(Color(color.red(), color.green(), color.blue(), color.alpha()));
+    QColor qcolor = QColorDialog::getColor(this->qcolor(),
+                                           m_button,
+                                           "Choose Color",
+                                           QColorDialog::ShowAlphaChannel);
+    this->setQColor(qcolor);
+}
+    
+QColor ColorEditor::qcolor() const
+{
+    const Color & color = m_property->value();
+    return QColor(QColor(color.red(), color.green(), color.blue(), color.alpha()));
+}
+    
+void ColorEditor::setQColor(const QColor & qcolor)
+{
+    Color color(qcolor.red(), qcolor.green(), qcolor.blue(), qcolor.alpha());
+    m_property->setValue(color);
+    
+    m_button->setColor(qcolor);
+    m_lineEdit->setText(QString::fromStdString(m_property->valueAsString()));
 }
 
 } // namespace

@@ -5,7 +5,8 @@
 #include <propertyzeug/Property.h>
 #include "propertyguizeug.h"
 
-class QColorDialog;
+class QLineEdit;
+class ColorButton;
 
 namespace propertyguizeug {
 
@@ -18,12 +19,16 @@ public:
     ColorEditor(Property<Color> * property, QWidget * parent = nullptr);
     virtual ~ColorEditor();
     
-    void setColor(const QColor & color);
+    void openColorPicker();
 
 protected:
-    QColorDialog * m_dialog;
-    Property<Color> * m_property;
+    QColor qcolor() const;
+    void setQColor(const QColor & qcolor);
     
+    ColorButton * m_button;
+    QLineEdit * m_lineEdit;
+    
+    Property<Color> * m_property;    
 };
 
 } // namespace

@@ -44,6 +44,8 @@ set(headers
     ${header_path}/BoolMatrixEditor.h
     ${header_path}/IntMatrixEditor.h
     ${header_path}/DoubleMatrixEditor.h
+    ${header_path}/ColorButton.h
+    ${header_path}/TransparencyBackgroundBrush.hpp
 
 )
 
@@ -64,6 +66,7 @@ set(sources
     ${source_path}/BoolMatrixEditor.cpp
     ${source_path}/IntMatrixEditor.cpp
     ${source_path}/DoubleMatrixEditor.cpp
+    ${source_path}/ColorButton.cpp
 )
 
 # Group source files

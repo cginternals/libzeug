@@ -20,13 +20,14 @@ int main(int argc, char *argv[])
     constraints.addProperty("Width", 12.3);
     settings.addProperty<std::string>("FilePath", "/Users/Horst/Desktop/");
     settings.addProperty<std::vector<int>>("Mat3x2", {1,2,3,4,5,6});
+    settings.property<std::vector<int>>("Mat3x2")->setDimensions(2,3);
     settings.addProperty<std::vector<double>>("Mat2x2", {1.1, 2.3, 6.1, 4});
     settings.property<std::vector<double>>("Mat2x2")->setDimensions(2,2);
     settings.addProperty<bool>("Activate", true);
     settings.addProperty<int>("Count", 79);
     PropertyGroup extras("Extras");
     settings.addProperty(&extras);
-    extras.addProperty<Color>("Color", Color(127,127,127));
+    extras.addProperty<Color>("Color", Color(255,122,0,255));
     extras.addProperty<FilePath>("Path", FilePath("/Users/max/"));
     extras.property<FilePath>("Path")->setIsFile(false);
     extras.addProperty<std::string>("Animal", "Rabbit");
