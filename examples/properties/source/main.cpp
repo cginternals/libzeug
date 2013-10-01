@@ -133,7 +133,7 @@ void deserializeFromFile()
     PropertyDeserializer deserializer;
     deserializer.deserialize(group, "examples/properties/data/group.ini");
 
-    Property<std::vector<int>> * vectorProperty = group.property<std::vector<int>>("group1/vec3");
+    Property<std::vector<int>> * vectorProperty = group.property<std::vector<int>>("group1/vec4");
     std::cout << "Value of root/group1/vec3: ";
     std::cout << vectorProperty->valueAsString() << std::endl;
 }
