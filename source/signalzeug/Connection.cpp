@@ -1,7 +1,7 @@
 #include <Connection.h>
 #include <AbstractSignal.h>
 
-namespace signal {
+namespace signalzeug {
 
 Connection::Connection()
 {
@@ -35,4 +35,4 @@ void Connection::detach()
 	}
 }
 
-} // namespace signal
+} // namespace signalzeug

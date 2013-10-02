@@ -1,7 +1,7 @@
 #include <ScopedConnection.h>
 
 
-namespace signal {
+namespace signalzeug {
 
 ScopedConnection::ScopedConnection()
 {
@@ -23,4 +23,4 @@ void ScopedConnection::operator=(const Connection& connection)
 	_connection = connection;
 }
 
-} // namespace signal
+} // namespace signalzeug

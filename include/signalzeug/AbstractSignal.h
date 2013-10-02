@@ -5,7 +5,7 @@
 
 #include <unordered_map>
 
-namespace signal {
+namespace signalzeug {
 
 class SIGNALZEUG_API AbstractSignal
 {
@@ -24,4 +24,4 @@ protected:
 	mutable std::unordered_map<Connection::Id, Connection> _connections;
 };
 
-} // namespace signal
+} // namespace signalzeug

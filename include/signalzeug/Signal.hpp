@@ -5,7 +5,7 @@
 #include <functional>
 #include <unordered_map>
 
-namespace signal {
+namespace signalzeug {
 
 template <typename... Arguments>
 class SIGNALZEUG_API Signal : public AbstractSignal
@@ -72,4 +72,4 @@ void Signal<Arguments...>::disconnectId(Connection::Id id) const
 	_callbacks.erase(id);
 }
 
-} // namespace signal
+} // namespace signalzeug

@@ -1,6 +1,6 @@
 #include <AbstractSignal.h>
 
-namespace signal {
+namespace signalzeug {
 
 AbstractSignal::AbstractSignal()
 : _nextId(1)
@@ -31,4 +31,4 @@ void AbstractSignal::disconnect(Connection& connection) const
 	disconnectId(connection.id());
 }
 
-} // namespace signal
+} // namespace signalzeug
