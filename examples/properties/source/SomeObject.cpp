@@ -14,7 +14,7 @@ void SomeObject::setCount(const int & count)
     m_count = count;
 }
 
-void SomeObject::propertyChanged(propertyzeug::AbstractProperty & property)
+void SomeObject::valueChanged(const int & value)
 {
-    std::cout << "Property changed with name = " << property.name() << std::endl;
+    std::cout << "Property value changed to \"" << value << "\"" << std::endl;
 }

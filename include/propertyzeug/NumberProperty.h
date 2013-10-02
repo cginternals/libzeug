@@ -43,6 +43,8 @@ public:
     
     virtual std::string valueAsString() const;
     
+    signalzeug::Signal<int, int> rangeChanged;
+    
 protected:
     Type m_min;
     Type m_max;
@@ -98,7 +100,7 @@ template <typename Type>
 void NumberProperty<Type>::setMinimum(const Type & minimum)
 {
     m_min = minimum;
-    this->m_announcer.notify(events::kRangeChanged);
+    this->rangeChanged(m_min, m_max);
 }
 
 
@@ -112,7 +114,7 @@ template <typename Type>
 void NumberProperty<Type>::setMaximum(const Type & maximum)
 {
     m_max = maximum;
-    this->m_announcer.notify(events::kRangeChanged);
+    this->rangeChanged(m_min, m_max);
 }
     
 template <typename Type>
@@ -120,7 +122,7 @@ void NumberProperty<Type>::setRange(const Type & minimum, const Type & maximum)
 {
     m_min = minimum;
     m_max = maximum;
-    this->m_announcer.notify(events::kRangeChanged);
+    this->rangeChanged(m_min, m_max);
 }
 
 template <typename Type>

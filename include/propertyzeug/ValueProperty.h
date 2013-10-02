@@ -39,6 +39,7 @@ public:
     virtual const Type & value() const;
     virtual void setValue(const Type & value);
     
+    signalzeug::Signal<const Type &> valueChanged;
 protected:
     std::unique_ptr<AbstractValue<Type>> m_value;
 };
@@ -95,7 +96,7 @@ template <typename Type>
 void ValueProperty<Type>::setValue(const Type & value)
 {
     m_value->set(value);
-    m_announcer.notify(events::kValueChanged);
+    this->valueChanged(value);
 }
 
 } // namespace

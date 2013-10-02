@@ -2,9 +2,6 @@
 set(target propertyzeug)
 message(STATUS "lib ${target}")
 
-# Qt 5 Dependencies
-set(CMAKE_AUTOMOC ON)
-
 # Include directories
 include_directories(
     ${CMAKE_CURRENT_BINARY_DIR}/../../  # for Meta.h
@@ -12,6 +9,7 @@ include_directories(
 
 # Libraries
 set(libs
+    signalzeug
 )
 
 # Definitions
@@ -23,9 +21,6 @@ set(source_path "${CMAKE_CURRENT_SOURCE_DIR}")
 
 set(headers
     ${header_path}/propertyzeug.h
-
-    ${header_path}/Events.h
-    ${header_path}/Announcer.h
 
     ${header_path}/AbstractProperty.h
     ${header_path}/ValueProperty.h
@@ -50,7 +45,6 @@ set(headers
 
 set(sources
     ${source_path}/AbstractProperty.cpp
-    ${source_path}/Announcer.cpp
     ${source_path}/StringProperty.cpp
     ${source_path}/FilePathProperty.cpp
 

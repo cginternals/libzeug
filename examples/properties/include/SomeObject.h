@@ -13,7 +13,7 @@ public:
     const int & count() const;
     void setCount(const int & count);
 
-    void propertyChanged(propertyzeug::AbstractProperty & property);
+    void valueChanged(const int & value);
     
 private:
     int m_count;

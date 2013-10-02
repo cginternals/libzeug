@@ -39,6 +39,8 @@ public:
     
     virtual std::string valueAsString() const;
     
+    signalzeug::Signal<const std::vector<std::string> &> choicesChanged;
+    
 protected:
     std::vector<std::string> m_choices;
 };

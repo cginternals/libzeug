@@ -32,9 +32,8 @@ void subscribeToChanges()
     
     Property<std::string> name("name", "Littlefinger");
     
-    name.subscribe(events::kValueChanged, [](AbstractProperty & property) {
-        auto name = property.to<Property<std::string>>();
-        std::cout << name->value() << std::endl;
+    name.valueChanged.connect([] (const std::string & string) {
+        std::cout << "Value Changed to \"" << string << "\"" << std::endl;
     });
     
     name.setValue("Tyrion Lannister");
@@ -42,7 +41,7 @@ void subscribeToChanges()
     Property<int> gender("gender", 12);
     
     SomeObject object;
-    gender.subscribe(events::kValueChanged, object, &SomeObject::propertyChanged);
+    gender.valueChanged.connect(&object, &SomeObject::valueChanged);
     
     gender.setValue(13);
 }

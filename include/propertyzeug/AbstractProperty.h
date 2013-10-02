@@ -6,7 +6,7 @@
 #include <assert.h>
 #include <string>
 
-#include "Announcer.h"
+#include <signalzeug/Signal.hpp>
 
 namespace propertyzeug {
 
@@ -47,12 +47,6 @@ public:
     template <class Property>
     const Property * to() const;
 
-    template <typename Object>
-    void subscribe(int event, Object & object,
-                   void (Object::*method_pointer)(AbstractProperty &));
-
-    void subscribe(int event, const std::function<void(AbstractProperty &)> & functor);
-
     virtual bool isGroup() const;
     
     virtual void accept(AbstractPropertyVisitor & visitor) = 0;
@@ -62,7 +56,7 @@ protected:
     std::string m_name;
     std::string m_title;
     std::string m_annotations;
-    Announcer m_announcer;
+
     PropertyGroup * m_parent;
 };
     
@@ -80,13 +74,6 @@ const Property * AbstractProperty::to() const
     const Property * property = dynamic_cast<const Property *>(this);
     assert(property);
     return property;
-}
-
-template <typename Object>
-void AbstractProperty::subscribe(int event, Object & object,
-    void (Object::*method_pointer)(AbstractProperty &))
-{
-    m_announcer.subscribe(event, object, method_pointer);
 }
 
 } // namespace
