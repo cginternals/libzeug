@@ -4,7 +4,7 @@
 
 #include <unordered_map>
 
-namespace signal {
+namespace signalzeug {
 
 class ConnectionMap
 {
@@ -26,4 +26,4 @@ Connection& ConnectionMap::operator[](T* object)
 	return get(static_cast<void*>(object));
 }
 
-} // namespace signal
+} // namespace signalzeug

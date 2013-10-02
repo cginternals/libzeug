@@ -1,6 +1,6 @@
 #include <ConnectionMap.h>
 
-namespace signal {
+namespace signalzeug {
 
 ConnectionMap::ConnectionMap()
 {
@@ -19,4 +19,4 @@ Connection& ConnectionMap::get(void* ptr)
 	return _connections[ptr];
 }
 
-} // namespace signal
+} // namespace signalzeug

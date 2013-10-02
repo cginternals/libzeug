@@ -4,7 +4,7 @@
 
 #include <memory>
 
-namespace signal {
+namespace signalzeug {
 
 class AbstractSignal;
 
@@ -33,4 +33,4 @@ protected:
 	std::shared_ptr<State> _state;
 };
 
-} // namespace signal
+} // namespace signalzeug
