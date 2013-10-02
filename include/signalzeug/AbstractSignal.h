@@ -1,55 +1,27 @@
 #pragma once
 
-#include <signalzeug.h>
+#include <signalzeug/signalzeug.h>
+#include <signalzeug/Connection.h>
 
 #include <unordered_map>
-#include <memory>
 
-class ConnectionHandle;
-class ConnectionState;
+namespace signal {
 
 class SIGNALZEUG_API AbstractSignal
 {
 public:
-	friend class ConnectionHandle;
-	typedef int HandleId;
+	friend class Connection;
 
 	AbstractSignal();
 	virtual ~AbstractSignal();
 protected:
-	ConnectionHandle createConnectionHandle() const;
-	void disconnect(const ConnectionHandle& handle) const;
+	Connection createConnection() const;
+	void disconnect(Connection& connection) const;
 protected:
-	virtual void disconnect(HandleId id) const = 0;
+	virtual void disconnectId(Connection::Id id) const = 0;
 protected:
-	mutable HandleId _nextId;
-	mutable std::unordered_map<HandleId, std::shared_ptr<ConnectionState>> _states;
+	mutable Connection::Id _nextId;
+	mutable std::unordered_map<Connection::Id, Connection> _connections;
 };
 
-class SIGNALZEUG_API ConnectionState
-{
-public:
-	friend class AbstractSignal;
-
-	ConnectionState();
-	ConnectionState(const AbstractSignal* signal, AbstractSignal::HandleId id);
-
-	const AbstractSignal* signal;
-	AbstractSignal::HandleId id;
-};
-
-class SIGNALZEUG_API ConnectionHandle
-{
-public:
-	friend class AbstractSignal;
-
-	ConnectionHandle();
-
-	void disconnect();
-
-	AbstractSignal::HandleId id() const;
-protected:
-	ConnectionHandle(std::shared_ptr<ConnectionState> state);
-protected:
-	std::shared_ptr<ConnectionState> _state;
-};
+} // namespace signal

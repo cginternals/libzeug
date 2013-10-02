@@ -1,16 +1,18 @@
-#include <TreeXmlParser.h>
+#include <treeimportzeug/TreeXmlParser.h>
 
-#include <CityGMLStrategy.h>
-#include <TreeStrategy.h>
-#include <SoftwareSystemStrategy.h>
+#include <treeimportzeug/CityGMLStrategy.h>
+#include <treeimportzeug/TreeStrategy.h>
+#include <treeimportzeug/SoftwareSystemStrategy.h>
 
 #include <iostream>
+
+#include <QFileInfo>
 
 TreeXmlParser::TreeXmlParser()
 : _tree(nullptr)
 , _strategy(nullptr)
 {
-	_tree = new Tree();
+    _tree = new Tree("");
 }
 
 Tree* TreeXmlParser::createTreeFromFile(const QString& filename)
@@ -35,6 +37,8 @@ Tree* TreeXmlParser::createTreeFromFile(const QString& filename)
 	{
 		return nullptr;
 	}
+
+    parser.tree()->setName(QFileInfo(filename).baseName().toStdString());
 
 	return parser.tree();
 }

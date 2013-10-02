@@ -1,13 +1,13 @@
 #pragma once
 
-#include <Tree.h>
+#include <treezeug/Tree.h>
 
 #include <vector>
 #include <unordered_map>
 #include <utility>
 #include <functional>
 
-#include <Signal.hpp>
+#include <signalzeug/ConnectionMap.h>
 
 class LinearizedTree
 {
@@ -16,7 +16,8 @@ public:
 	{
 		None,
 		DepthFirst,
-		BreadthFirst
+        BreadthFirst,
+        OptimizedBreadthFirst
 	};
 
 	LinearizedTree();
@@ -35,15 +36,16 @@ public:
 	const Node* root() const;
 
 	int indexOf(const Node* node) const;
+    int indexOf(int id) const;
 	const Node* at(int index) const;
 	const Node* operator[](int index) const;
+    const Node* getNode(int id) const;
 
-	const std::vector<const Node*>& asVector() const;
-	std::vector<std::pair<int, int>> createTreeLayerRanges() const;
+	std::vector<const Node*>::const_iterator begin() const;
+	std::vector<const Node*>::const_iterator end() const;
+
+    const std::vector<std::pair<int, int>>& thresholds() const;
 	void treeLayerRangesDo(std::function<void(int, int)> callback) const;
-
-	Signal<> treeChanged;
-	Signal<> changed;
 protected:
 	const Tree* _tree;
 	Algorithm _strategy;
@@ -51,10 +53,11 @@ protected:
 
 	std::vector<const Node*> _nodes;
 	std::unordered_map<const Node*, int> _indices;
-	std::vector<int> _treeDepthTresholds;
+    std::vector<std::pair<int, int>> _treeDepthTresholds;
 
 	void linearizeDepthFirst();
 	void linearizeBreadthFirst();
+    void linearizeOptimizedBreadthFirst();
 
 	void add(const Node* node);
 };

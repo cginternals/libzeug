@@ -1,5 +1,7 @@
 #include <LinearizedTree.h>
 
+#include <algorithm>
+
 LinearizedTree::LinearizedTree()
 : _tree(nullptr)
 , _strategy(None)
@@ -10,7 +12,7 @@ LinearizedTree::LinearizedTree()
 LinearizedTree::LinearizedTree(const Tree* tree, Algorithm strategy)
 : _tree(tree)
 , _strategy(strategy)
-, _nodes(tree->size())
+, _nodes(tree ? tree->size() : 0)
 , _nextIndex(0)
 {
 	linearize();
@@ -26,9 +28,6 @@ void LinearizedTree::setTree(const Tree* tree)
 	if (_tree == tree) return;
 
 	_tree = tree;
-
-	treeChanged();
-	changed();
 }
 
 void LinearizedTree::setAlgorithm(Algorithm strategy)
@@ -36,7 +35,6 @@ void LinearizedTree::setAlgorithm(Algorithm strategy)
 	if (_strategy == strategy) return;
 
 	_strategy = strategy;
-	changed();
 }
 
 unsigned LinearizedTree::size() const
@@ -46,7 +44,7 @@ unsigned LinearizedTree::size() const
 
 int LinearizedTree::maxId() const
 {
-	return _tree ? _tree->maxId() : 0;
+    return _tree ? _tree->maxId() : -1;
 }
 
 const Node* LinearizedTree::root() const
@@ -64,6 +62,11 @@ int LinearizedTree::indexOf(const Node* node) const
 	return _indices.at(node);
 }
 
+int LinearizedTree::indexOf(int id) const
+{
+    return indexOf(getNode(id));
+}
+
 const Node* LinearizedTree::at(int index) const
 {
 	return _nodes[index];
@@ -74,38 +77,35 @@ const Node* LinearizedTree::operator[](int index) const
 	return _nodes[index];
 }
 
-const std::vector<const Node*>& LinearizedTree::asVector() const
+const Node* LinearizedTree::getNode(int id) const
 {
-	return _nodes;
+    return _tree->getNode(id);
 }
 
-std::vector<std::pair<int, int>> LinearizedTree::createTreeLayerRanges() const
+const std::vector<std::pair<int, int>>& LinearizedTree::thresholds() const
 {
-	if (_treeDepthTresholds.empty())
-	{
-		return std::vector<std::pair<int, int>>();
-	}
-
-	std::vector<std::pair<int, int>> ranges(_treeDepthTresholds.size()-1);
-
-	treeLayerRangesDo([&ranges](int start, int end) {
-		ranges.push_back(std::make_pair(start, end));
-	});
-
-	return ranges;
+    return _treeDepthTresholds;
 }
 
 void LinearizedTree::treeLayerRangesDo(std::function<void(int, int)> callback) const
 {
-	unsigned start = 0;
-	for (unsigned i = 1; i < _treeDepthTresholds.size(); ++i)
-	{
-		unsigned end = _treeDepthTresholds[i]-1;
+    if (_strategy == BreadthFirst || _strategy == OptimizedBreadthFirst)
+    {
+        for (const std::pair<int, int>& pair : _treeDepthTresholds)
+        {
+            callback(pair.first, pair.second);
+        }
+    }
+}
 
-		callback(start, end);
+std::vector<const Node*>::const_iterator LinearizedTree::begin() const
+{
+	return _nodes.begin();
+}
 
-		start = end+1;
-	}
+std::vector<const Node*>::const_iterator LinearizedTree::end() const
+{
+	return _nodes.end();
 }
 
 void LinearizedTree::linearize()
@@ -125,9 +125,10 @@ void LinearizedTree::linearize()
 	case BreadthFirst:
 		linearizeBreadthFirst();
 		break;
-	default:
-		return;
-	}
+    case OptimizedBreadthFirst:
+        linearizeOptimizedBreadthFirst();
+        break;
+    }
 }
 
 void LinearizedTree::clear()
@@ -135,12 +136,11 @@ void LinearizedTree::clear()
 	_nextIndex = 0;
 	_nodes.clear();
 	_indices.clear();
-	_treeDepthTresholds.clear();
+    _treeDepthTresholds.clear();
 
 	if (_tree)
 	{
-		_nodes.resize(_tree->size());
-		_treeDepthTresholds.reserve(_tree->depth()+1);
+        _nodes.resize(_tree->size());
 	}
 }
 
@@ -162,11 +162,54 @@ void LinearizedTree::linearizeBreadthFirst()
 	_tree->nodesOrderedByDepthDo([this](const Node* node) {
 		add(node);
 
-		while (_treeDepthTresholds.size() <= node->depth())
+        if (_treeDepthTresholds.size() < node->depth()+1)
 		{
-			_treeDepthTresholds.push_back(indexOf(node));
+            _treeDepthTresholds.emplace_back(indexOf(node), indexOf(node));
 		}
-	});
+        else
+        {
+            _treeDepthTresholds.back().second = indexOf(node);
+        }
+    });
+}
 
-	_treeDepthTresholds.push_back(_tree->size());
+void LinearizedTree::linearizeOptimizedBreadthFirst()
+{
+    std::vector<const Node*> currentLevel;
+
+    _tree->nodesOrderedByDepthDo([this, &currentLevel](const Node* node)
+    {
+        if (!currentLevel.empty() && node->depth() > currentLevel.back()->depth())
+        {
+            std::sort(currentLevel.begin(), currentLevel.end(), [](const Node* node1, const Node* node2) {
+                return (node1->isLeaf() ? 0 : 1) < (node2->isLeaf() ? 0 : 1);
+            });
+
+            for (const Node* child : currentLevel)
+            {
+                add(child);
+            }
+
+            for (const Node* child : currentLevel)
+            {
+                if (child->isLeaf())
+                {
+                    continue;
+                }
+
+                _treeDepthTresholds.emplace_back(indexOf(child), indexOf(currentLevel.back()));
+                break;
+            }
+
+            currentLevel.clear();
+        }
+
+        currentLevel.push_back(node);
+    });
+
+    // only add the remaining nodes because they are all leafs
+    for (const Node* child : currentLevel)
+    {
+        add(child);
+    }
 }

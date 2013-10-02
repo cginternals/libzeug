@@ -3,13 +3,15 @@
 #include <algorithm>
 #include <queue>
 #include <iostream>
+#include <sstream>
 
-Tree::Tree()
-: _root(new Node())
+Tree::Tree(const std::string& name)
+: _name(name)
+, _root(new Node())
 , _nextId(0)
 , _depth(0)
 {
-	registerNode(_root);
+    registerNode(_root, true);
 }
 
 Tree::~Tree()
@@ -22,6 +24,114 @@ Tree::~Tree()
 	}
 }
 
+Tree* Tree::copy() const
+{
+	Tree* newTree = new Tree(_name);
+
+	nodesDo([=](const Node* node) {
+		Node* newNode = new Node(node->id());
+		newNode->setName(node->name());
+
+		if (newNode->id() == 0)
+		{
+			newTree->setRoot(newNode);
+		}
+		else
+		{
+			newTree->getNode(node->parent()->id())->addChild(newNode);
+		}
+	});
+
+	for (const std::string& attribute : _attributes)
+	{
+		newTree->addAttributeMap(attribute, attributeMapType(attribute));
+
+		nodesDo([=](const Node* node) {
+			if (node->hasAttribute(attribute))
+			{
+				const Attribute* attr = node->attribute(attribute);
+
+				if (attr->isNumeric())
+				{
+					newTree->getNode(node->id())->setAttribute(attribute, attr->numericValue());
+				}
+				else
+				{
+					newTree->getNode(node->id())->setAttribute(attribute, attr->asNominal()->valueName());
+				}
+			}
+		});
+	}
+
+	return newTree;
+}
+
+Tree* Tree::restrictTo(Node* newRoot) const
+{
+	Tree* newTree = new Tree(_name);
+	
+	newTree->deregisterNode(newTree->root());
+	
+	newRoot->withAllChildrenDo([=](const Node* node) {
+		Node* newNode = new Node(node->id());
+		newNode->setName(node->name());
+
+		if (newNode->id() == newRoot->id())
+		{
+			newTree->setRoot(newNode, newRoot->id());
+		}
+		else
+		{
+			newTree->getNode(node->parent()->id())->addChild(newNode);
+		}
+	});
+
+	for (const std::string& attribute : _attributes)
+	{
+		newTree->addAttributeMap(attribute, attributeMapType(attribute));
+
+		newRoot->withAllChildrenDo([=](const Node* node) {
+			if (node->hasAttribute(attribute))
+			{
+				const Attribute* attr = node->attribute(attribute);
+
+				if (attr->isNumeric())
+				{
+					newTree->getNode(node->id())->setAttribute(attribute, attr->numericValue());
+				}
+				else
+				{
+					newTree->getNode(node->id())->setAttribute(attribute, attr->asNominal()->valueName());
+				}
+			}
+		});
+	}
+
+	return newTree;
+}
+
+Tree* Tree::restrictTo(int id) const
+{
+	Node* newRoot = getNode(id);
+	
+	if (!newRoot)
+	{
+		return nullptr;
+	}
+	
+	return restrictTo(newRoot);
+}
+
+const std::string& Tree::name() const
+{
+    return _name;
+}
+
+void Tree::setName(const std::string& name)
+{
+    _name = name;
+}
+
 Node* Tree::root()
 {
 	return _root;
@@ -32,10 +142,10 @@ const Node* Tree::root() const
 	return _root;
 }
 
-void Tree::setRoot(Node* node)
+void Tree::setRoot(Node* node, int id)
 {
-	node->_id = 0;
-	registerNode(node);
+	node->_id = id;
+	registerNode(node, true);
 	node->_parent = nullptr;
 	_root = node;
 }
@@ -65,29 +175,70 @@ Node* Tree::getNode(int id) const
 	return _idMap.at(id);
 }
 
+Node* Tree::getNodeByPath(const std::string& path, char separator)
+{
+	if (path.empty()) return nullptr;
+	if (path == std::to_string(separator)) return _root;
+
+    std::stringstream ss(path);
+	std::string item;
+    Node* node = _root;
+
+	std::getline(ss, item, separator);
+	if (!item.empty()) return nullptr;
+
+    while (node && std::getline(ss, item, separator))
+	{
+        node = node->getChildByName(item);
+    }
+
+    return node;
+}
+
 const std::vector<std::string>& Tree::attributes() const
 {
 	return _attributes;
 }
 
-void Tree::addAttributeMap(const std::string&name, AttributeMap::Type type)
+bool Tree::hasAttributeMap(const std::string& name) const
 {
+	return _attributeMaps.count(name) > 0;
+}
+
+void Tree::addAttributeMap(const std::string& name, AttributeMap::Type type)
+{
+	if (hasAttributeMap(name))
+	{
+		if (attributeMapType(name) != type)
+		{
+			std::cout << "Try to overwrite AttributeMap " << name << " with differing type";
+		}
+
+		return;
+	}
+
 	_attributeMaps[name] = new AttributeMap(name, type);
 	_attributes.push_back(name);
 }
 
+AttributeMap::Type Tree::attributeMapType(const std::string& name) const
+{
+	if (!hasAttributeMap(name))
+	{
+		return AttributeMap::None;
+	}
+
+	return _attributeMaps.at(name)->type();
+}
+
 void Tree::setAttribute(const Node* node, const std::string& name, double value)
 {
-	if (!_attributeMaps.count(name))
+	if (!hasAttributeMap(name))
 	{
 		return;
 	}
 
-	AttributeMap* map = _attributeMaps[name];
-	if (map)
-	{
-		map->addAttribute(node, value);
-	}
+	_attributeMaps[name]->addAttribute(node, value);
 }
 
 void Tree::setAttribute(const Node* node, const std::string& name, const std::string& value)
@@ -114,7 +265,7 @@ const Attribute* Tree::attribute(const Node* node, const std::string& name) cons
 	return _attributeMaps.at(name)->attributeFor(node);
 }
 
-void Tree::registerNode(Node* node)
+void Tree::registerNode(Node* node, bool silent)
 {
 	node->_tree = this;
 
@@ -131,7 +282,11 @@ void Tree::registerNode(Node* node)
 
 	if (_idMap.count(node->_id))
 	{
-		std::cout << "Replace node " << node->_id;
+		if (!silent)
+		{
+			std::cout << "Replace node " << node->_id << std::endl;
+		}
+
 		_idMap[node->_id]->reparentChildrenTo(node);
 
 		delete _idMap[node->_id];
@@ -140,6 +295,18 @@ void Tree::registerNode(Node* node)
 	_depth = std::max(_depth, node->depth());
 
 	_idMap[node->_id] = node;
+}
+
+void Tree::deregisterNode(Node* node)
+{
+	if (_root == node)
+	{
+		_root = nullptr;
+	}
+	
+	node->_tree = nullptr;
+
+	_idMap.erase(node->_id);
 }
 
 void Tree::nodesDo(std::function<void(Node*)> action)
@@ -204,192 +371,4 @@ void Tree::nodesOrderedByDepthDo(std::function<void(const Node*)> action) const
 			queue.push(child);
 		}
 	}
-}
-
-
-Node::Node()
-: _tree(nullptr)
-, _id(-1)
-, _parent(nullptr)
-{
-}
-
-Node::Node(int id)
-: _tree(nullptr)
-, _id(id)
-, _parent(nullptr)
-{
-}
-
-Node::~Node()
-{
-	for (Node* child : _children)
-	{
-		delete child;
-	}
-}
-
-bool Node::isLeaf() const
-{
-	return _children.empty();
-}
-
-bool Node::isRoot() const
-{
-	return !_parent;
-}
-
-int Node::id() const
-{
-	return _id;
-}
-
-const std::string& Node::name() const
-{
-	return _name;
-}
-
-void Node::setName(const std::string& name)
-{
-	_name = name;
-}
-
-void Node::setAttribute(const std::string& name, double value)
-{
-	_tree->setAttribute(this, name, value);
-}
-
-void Node::setAttribute(const std::string& name, const std::string& value)
-{
-	_tree->setAttribute(this, name, value);
-}
-
-const Attribute* Node::attribute(const std::string& name) const
-{
-	return _tree->attribute(this, name);
-}
-
-const std::vector<Node*>& Node::children() const
-{
-	return _children;
-}
-
-void Node::childrenDo(std::function<void(Node*)> action)
-{
-	for (Node* child: _children)
-	{
-		action(child);
-	}
-}
-
-void Node::childrenDo(std::function<void(const Node*)> action) const
-{
-	for (const Node* child: _children)
-	{
-		action(child);
-	}
-}
-
-void Node::withAllChildrenDo(std::function<void(Node*)> action)
-{
-	action(this);
-
-	for (Node* child: _children)
-	{
-		child->withAllChildrenDo(action);
-	}
-}
-
-void Node::withAllChildrenDo(std::function<void(const Node*)> action) const
-{
-	action(this);
-
-	for (const Node* child: _children)
-	{
-		child->withAllChildrenDo(action);
-	}
-}
-
-void Node::addChild(Node* child)
-{
-	_children.push_back(child);
-	child->_parent = this;
-	_tree->registerNode(child);
-}
-
-void Node::reparentChildrenTo(Node* newParent)
-{
-	for (Node* child : _children)
-	{
-		newParent->_children.push_back(child);
-		child->_parent = newParent;
-	}
-
-	_children.clear();
-}
-
-unsigned Node::depth() const
-{
-	if (!_parent) return 0;
-	return _parent->depth() + 1;
-}
-
-const Node* Node::parent() const
-{
-	return _parent;
-}
-
-std::vector<Node*> Node::siblings() const
-{
-	std::vector<Node*> nodes;
-
-	if (_parent)
-	{
-		for (Node* sibling: _parent->children())
-		{
-			if (sibling != this) nodes.push_back(sibling);
-		}
-	}
-
-	return nodes;
-}
-
-const Node* Node::previousSibling() const
-{
-	if (!_parent) return nullptr;
-
-	std::vector<Node*>::iterator current = std::find(_parent->_children.begin(), _parent->_children.end(), this);
-
-	if (current == _parent->_children.begin() || current == _parent->_children.end())
-	{
-		return nullptr;
-	}
-
-	return *(current-1);
-}
-
-const Node* Node::nextSibling() const
-{
-	if (!_parent) return nullptr;
-
-	std::vector<Node*>::iterator current = std::find(_parent->_children.begin(), _parent->_children.end(), this);
-
-	if (current == _parent->_children.end() || current+1 == _parent->_children.end())
-	{
-		return nullptr;
-	}
-
-	return *(current+1);
-}
-
-const Node* Node::firstChild() const
-{
-	if (_children.empty()) return nullptr;
-
-	return _children.front();
-}
-
-bool Node::hasChildren() const
-{
-	return _children.size() > 0;
 }
