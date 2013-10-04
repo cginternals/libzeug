@@ -175,10 +175,26 @@ file(WRITE ${CMAKE_BINARY_DIR}/revision ${GIT_REV})
 # Generate meta-header
 configure_file(${CMAKE_CURRENT_SOURCE_DIR}/source/meta.h.in ${CMAKE_CURRENT_BINARY_DIR}/meta.h)
 
-# Qt 5 Dependencies
-find_package(Qt5Core)
-find_package(Qt5Gui)
-find_package(Qt5Widgets)
+# Qt5
+
+set(CMAKE_AUTOMOC ON)
+set(AUTOMOC_MOC_OPTIONS PROPERTIES FOLDER CMakeAutomocTargets)
+
+# Probably works in the next cmake release -> http://www.cmake.org/Bug/view.php?id=13788
+# What we do not want is automocs beside the project -> http://www.cmake.org/Bug/view.php?id=13688
+
+set_property(GLOBAL PROPERTY AUTOMOC_FOLDER CMakeAutomocTargets)
+
+# good resource: http://www.kdab.com/using-cmake-with-qt-5/
+
+# http://qt-project.org/forums/viewthread/30006/
+
+cmake_policy(SET CMP0020 NEW)
+
+find_package(Qt5Core REQUIRED)
+find_package(Qt5Gui REQUIRED)
+find_package(Qt5Widgets REQUIRED) # this is important in order to get uic working 
+find_package(Qt5OpenGL REQUIRED)
 
 ##
 ## libzeug libraries
