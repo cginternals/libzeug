@@ -55,7 +55,7 @@ void PropertySerializer::serializeGroup(const PropertyGroup & group)
 {
     group.forEachProperty([this](AbstractProperty & property) {
         if (property.isGroup()) {
-            PropertyGroup & subGroup = *property.to<PropertyGroup>();
+            PropertyGroup & subGroup = *property.as<PropertyGroup>();
             this->pushGroupToPath(subGroup);
             this->serializeGroup(subGroup);
             this->popGroupFromPath();
