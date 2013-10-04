@@ -1,12 +1,13 @@
 
 #pragma once
 
-#include <propertyguizeug/propertyguizeug.h>
-
 #include <QLabel>
 #include <QColor>
 
-class PROPERTYGUIZEUG_API ColorButton : public QLabel
+namespace zeug
+{
+
+class ColorButton : public QLabel
 {
 	Q_OBJECT
 
@@ -22,10 +23,12 @@ signals:
 
 protected:
     static const QSize s_fixedSize;
-    
+
 	virtual void mousePressEvent(QMouseEvent *event);
     void updateColor();
     
     QColor m_color;
 
 };
+
+} // namespace zeug

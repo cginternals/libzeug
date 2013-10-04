@@ -1,7 +1,8 @@
 
 #pragma once
 
-namespace zeug {
+namespace zeug 
+{
 
 template <typename Type>
 StoredValue<Type>::StoredValue(Type value)

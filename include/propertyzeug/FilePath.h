@@ -1,11 +1,13 @@
 
 #pragma once
 
-#include <propertyzeug/propertyzeug.h>
-
 #include <string>
 
-namespace zeug {
+#include <propertyzeug/propertyzeug.h>
+
+
+namespace zeug 
+{
     
 /** @brief
  * A simple file path class for use as a property value.
@@ -27,4 +29,4 @@ protected:
     std::string m_string;
 };
 
-} // namespace
+} // namespace zeug

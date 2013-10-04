@@ -40,4 +40,4 @@ VectorEditor<Type>::~VectorEditor()
 {
 }
 
-} // namespace
+} // namespace zeug

@@ -58,4 +58,4 @@ void ValueProperty<Type>::setValue(const Type & value)
     this->valueChanged(value);
 }
 
-} // namespace
+} // namespace zeug

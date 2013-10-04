@@ -91,4 +91,4 @@ std::string NumberProperty<Type>::valueAsString() const
     return stream.str();
 }
 
-} // namespace
+} // namespace zeug

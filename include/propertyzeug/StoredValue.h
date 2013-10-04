@@ -1,7 +1,7 @@
 
 #pragma once
 
-#include "AbstractValue.h"
+#include <propertyzeug/AbstractValue.h>
 
 namespace zeug {
 

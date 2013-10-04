@@ -1,10 +1,13 @@
 
 #pragma once
 
-#include "ValueProperty.h"
-#include "FilePath.h"
+#include <propertyzeug/ValueProperty.h>
+#include <propertyzeug/FilePath.h>
 
-namespace zeug {
+#include <propertyzeug/propertyzeug.h>
+
+namespace zeug 
+{
     
 /** @brief
  * Part of the property hierarchy.
@@ -43,4 +46,4 @@ protected:
     bool m_isFile;
 };
 
-} // namespace
+} // namespace zeug

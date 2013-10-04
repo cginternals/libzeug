@@ -1,10 +1,13 @@
 
-#include "ColorButton.h"
 
 #include <QColorDialog>
 #include <QGridLayout>
 
 #include "TransparencyBackgroundBrush.hpp"
+#include "ColorButton.h"
+
+namespace zeug
+{
 
 const QSize ColorButton::s_fixedSize = QSize(20, 20);
 
@@ -52,3 +55,4 @@ void ColorButton::updateColor()
 	setPixmap(pixmap);
 }
 
+} // namespace zeug

@@ -11,7 +11,8 @@
 
 #include <propertyzeug/Property.h>
 
-namespace zeug {
+namespace zeug 
+{
     
 const QString FilePathEditor::s_openFileDialog = "Open File Dialog …";
     

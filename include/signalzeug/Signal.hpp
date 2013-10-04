@@ -1,4 +1,3 @@
-
 #pragma once
 
 namespace zeug 
@@ -12,7 +11,7 @@ Signal<Arguments...>::Signal()
 template <typename... Arguments>
 void Signal<Arguments...>::fire(Arguments... arguments)
 {
-	for (const std::pair<Connection::Id, Callback> & pair: m_callbacks)
+	for (auto & pair : m_callbacks)
 	{
 		Callback callback = pair.second;
 		callback(arguments...);
@@ -49,4 +48,4 @@ void Signal<Arguments...>::disconnectId(Connection::Id id) const
 	m_callbacks.erase(id);
 }
 
-} // namespace signalzeug
+} // namespace zeug

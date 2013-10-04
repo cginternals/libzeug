@@ -4,9 +4,10 @@
 #include <sstream>
 #include <vector>
 
-#include "ValueProperty.h"
+#include <propertyzeug/ValueProperty.h>
 
-namespace zeug {
+namespace zeug 
+{
     
 /** @brief
  * Part of the property hierarchy.
@@ -59,6 +60,6 @@ private:
     
 };
 
-} // namespace
+} // namespace zeug
 
 #include "VectorProperty.hpp"

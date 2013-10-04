@@ -3,16 +3,17 @@
 
 #include <propertyzeug/propertyzeug.h>
 
-#include "ValueProperty.h"
-#include "NumberProperty.h"
-#include "StringProperty.h"
-#include "VectorProperty.h"
-#include "FilePathProperty.h"
+#include <propertyzeug/ValueProperty.h>
+#include <propertyzeug/NumberProperty.h>
+#include <propertyzeug/StringProperty.h>
+#include <propertyzeug/VectorProperty.h>
+#include <propertyzeug/FilePathProperty.h>
 
-#include "Color.h"
-#include "FilePath.h"
+#include <propertyzeug/Color.h>
+#include <propertyzeug/FilePath.h>
 
-#include "AbstractPropertyVisitor.h"
+#include <propertyzeug/AbstractPropertyVisitor.h>
+
 
 namespace zeug {
 

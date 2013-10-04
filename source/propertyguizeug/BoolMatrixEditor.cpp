@@ -40,12 +40,12 @@ QString BoolMatrixEditor::valueRegexString() const
     
 QStringList BoolMatrixEditor::trueValues() const
 {
-    return {"true", "1", "yes", "on", "t"};
+    return QStringList() << "true" << "1" << "yes" << "on" << "t";
 }
 
 QStringList BoolMatrixEditor::falseValues() const
 {
-    return {"false", "0", "no", "off", "f"};
+    return QStringList() << "false" << "0" << "no" << "off" << "f";
 }
 
 } // namespace

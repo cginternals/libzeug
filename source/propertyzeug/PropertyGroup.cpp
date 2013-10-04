@@ -170,11 +170,10 @@ int PropertyGroup::indexOfProperty(const std::string & name) const
 {
     if (!this->propertyExists(name))
         return -1;
-    
+
     AbstractProperty * property = m_propertiesMap.find(name)->second;
-    return std::distance(m_properties.begin(),
-                         std::find(m_properties.begin(),
-                                   m_properties.end(), property));
+    return static_cast<int>(std::distance(
+        m_properties.begin(), std::find(m_properties.begin(), m_properties.end(), property)));
 }
     
 bool PropertyGroup::hasProperties() const

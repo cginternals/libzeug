@@ -11,14 +11,12 @@ void createProperties()
 {
     std::cout << ">> createProperties()" << std::endl;
     
-    Property<int> property1("property1", 4815162342);
+    Property<int> property1("property1", 481516234);
     
     bool value2 = true;
-    Property<bool> property2("property2", [&value2]() {
-        return value2;
-    }, [&value2](const bool & value) {
-        value2 = value;
-    });
+    Property<bool> property2("property2", 
+        [&value2]() -> const bool & { return value2; }
+    ,   [&value2](const bool & value) { value2 = value; });
     
     property2.setAnnotations("This is an important property.");
     
@@ -116,17 +114,17 @@ void deserializeFromFile()
     group.addProperty<bool>("failure", false);
     group.addProperty<Color>("color", Color(125, 125, 0));
 
-	int vec3[] = {12, 4, 54};
+	int vec3[]{12, 4, 54};
     group.addProperty<std::vector<int>>("vec3", std::vector<int>(std::begin(vec3), std::end(vec3)));
     
     group.addGroup("group1");
     group.group("group1")->addProperty<int>("value3", 143);
     group.group("group1")->addProperty<std::string>("name", "horst");
 
-	int bool2[] = {false, false};
+	bool bool2[]{ false, false };
     group.group("group1")->addProperty<std::vector<bool>>("bool2", std::vector<bool>(std::begin(bool2), std::end(bool2)));
 
-	int vec4[] = {0, 0, 0, 0};
+	int vec4[]{ 0, 0, 0, 0 };
     group.group("group1")->addProperty<std::vector<int>>("vec4", std::vector<int>(std::begin(vec4), std::end(vec4)));
     
     PropertyDeserializer deserializer;

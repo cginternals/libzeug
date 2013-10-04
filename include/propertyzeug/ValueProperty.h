@@ -5,9 +5,9 @@
 
 #include <signalzeug/Signal.h>
 
-#include "AbstractProperty.h"
-#include "StoredValue.h"
-#include "AccessorValue.h"
+#include <propertyzeug/AbstractProperty.h>
+#include <propertyzeug/StoredValue.h>
+#include <propertyzeug/AccessorValue.h>
 
 namespace zeug {
     
@@ -46,6 +46,6 @@ protected:
     std::unique_ptr<AbstractValue<Type>> m_value;
 };
 
-} // namespace
+} // namespace zeug
 
 #include "ValueProperty.hpp"

@@ -1,9 +1,10 @@
 
 #pragma once
 
+#include <propertyzeug/AbstractPropertyVisitor.h>
+
 #include <propertyguizeug/propertyguizeug.h>
 
-#include <propertyzeug/AbstractPropertyVisitor.h>
 
 class QWidget;
 
@@ -42,4 +43,4 @@ protected:
     QWidget * m_editor;
 };
 
-} // namespace
+} // namespace zeug

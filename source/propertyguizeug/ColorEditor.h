@@ -1,20 +1,21 @@
 
 #pragma once
 
-#include <propertyguizeug/propertyguizeug.h>
-
 #include <QWidget>
 
 class QLineEdit;
-class ColorButton;
 
 namespace zeug {
 
+class ColorButton;
+
 template <typename Type>
 class Property;
+
 class Color;
 
-class PROPERTYGUIZEUG_API ColorEditor : public QWidget
+
+class ColorEditor : public QWidget
 {
 public:
     ColorEditor(Property<Color> * property, QWidget * parent = nullptr);

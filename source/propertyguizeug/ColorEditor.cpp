@@ -1,5 +1,4 @@
 
-#include "ColorEditor.h"
 
 #include <QColorDialog>
 #include <QLineEdit>
@@ -8,6 +7,7 @@
 
 #include <propertyzeug/Property.h>
 
+#include "ColorEditor.h"
 #include "ColorButton.h"
 
 namespace zeug {

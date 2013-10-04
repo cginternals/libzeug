@@ -1,9 +1,10 @@
 
 #pragma once
 
+#include <functional>
 #include <sstream>
 
-#include "AbstractPropertyVisitor.h"
+#include <propertyzeug/AbstractPropertyVisitor.h>
 
 namespace zeug {
     
@@ -59,4 +60,4 @@ Type PropertyDeserializer::convertString(const std::string & stringValue)
     return value;
 }
 
-} // namespace
+} // namespace zeug

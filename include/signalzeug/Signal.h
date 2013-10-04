@@ -3,6 +3,7 @@
 #include <functional>
 #include <unordered_map>
 
+#include <signalzeug/signalzeug.h>
 #include <signalzeug/AbstractSignal.h>
 
 
@@ -10,7 +11,7 @@ namespace zeug
 {
 
 template <typename... Arguments>
-class SIGNALZEUG_API Signal : public AbstractSignal
+class Signal : public AbstractSignal
 {
 public:
 	typedef std::function<void(Arguments...)> Callback;

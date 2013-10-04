@@ -74,4 +74,4 @@ Qt::ItemFlags VectorModel<Type>::flags(const QModelIndex &index) const
     return Qt::ItemIsEnabled | Qt::ItemIsSelectable | Qt::ItemIsEditable;
 }
 
-} // namespace
+} // namespace zeug

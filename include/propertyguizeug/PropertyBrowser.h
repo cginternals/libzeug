@@ -1,9 +1,9 @@
 
 #pragma once
 
-#include <propertyguizeug/propertyguizeug.h>
-
 #include <QTreeView>
+
+#include <propertyguizeug/propertyguizeug.h>
 
 namespace zeug {
     
@@ -23,4 +23,4 @@ protected:
     
 };
     
-} // namespace
+} // namespace zeug

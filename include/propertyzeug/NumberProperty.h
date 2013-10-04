@@ -3,9 +3,10 @@
 
 #include <sstream>
 
-#include "ValueProperty.h"
+#include <propertyzeug/ValueProperty.h>
 
-namespace zeug {
+namespace zeug 
+{
     
 /** @brief
  * Part of the property hierarchy.
@@ -48,6 +49,6 @@ protected:
     Type m_max;
 };
 
-} // namespace
+} // namespace zeug
 
 #include "NumberProperty.hpp"

@@ -1,11 +1,12 @@
-
 #pragma once
-
-#include <propertyzeug/propertyzeug.h>
 
 #include <string>
 
-namespace zeug {
+#include <propertyzeug/propertyzeug.h>
+
+
+namespace zeug 
+{
     
 /** @brief
  * A simple RGBA color class for use as a property value.
@@ -18,6 +19,7 @@ public:
     Color(const Color & color);
     explicit Color(unsigned int rgba);
     Color(int red, int green, int blue, int alpha = 255);
+
     virtual ~Color();
 
     int red() const;
@@ -46,4 +48,4 @@ protected:
     } m_rgba;
 };
 
-} // namespace
+} // namespace zeug

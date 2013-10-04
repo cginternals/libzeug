@@ -5,9 +5,10 @@
 
 #include <signalzeug/Signal.h>
 
-#include "ValueProperty.h"
+#include <propertyzeug/ValueProperty.h>
 
-namespace zeug {
+namespace zeug 
+{
     
 /** @brief
  * Part of the property hierarchy.
@@ -47,4 +48,4 @@ protected:
     std::vector<std::string> m_choices;
 };
 
-} // namespace
+} // namespace zeug

@@ -89,4 +89,4 @@ QSize VectorDelegate<Type>::sizeHint (const QStyleOptionViewItem & option,
     return QSize(50, 26);
 }
 
-} // namespace
+} // namespace zeug

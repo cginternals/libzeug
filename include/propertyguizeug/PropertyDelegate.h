@@ -1,18 +1,19 @@
 
 #pragma once
 
-#include <propertyguizeug/propertyguizeug.h>
-
 #include <QStyledItemDelegate>
+
+#include <propertyguizeug/propertyguizeug.h>
 
 #include <propertyguizeug/PropertyEditorFactory.h>
 #include <propertyguizeug/PropertyPainter.h>
+
 
 namespace zeug {
     
 class AbstractProperty;
 
-class PropertyDelegate : public QStyledItemDelegate
+class PROPERTYGUIZEUG_API PropertyDelegate : public QStyledItemDelegate
 {
 public:
     PropertyDelegate(QWidget * parent = nullptr);
@@ -44,4 +45,4 @@ protected:
     mutable PropertyPainter m_propertyPainter;
 };
     
-} // namespace 
+} // namespace zeug

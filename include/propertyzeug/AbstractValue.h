@@ -13,10 +13,10 @@ template <typename Type>
 class AbstractValue
 {
 public:
-    virtual ~AbstractValue() {};
+    virtual ~AbstractValue() { };
     
     virtual const Type & get() const = 0;
     virtual void set(const Type & value) = 0;
 };
 
-} // namespace
+} // namespace zeug

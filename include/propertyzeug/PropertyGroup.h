@@ -1,13 +1,13 @@
 
 #pragma once
 
-#include <propertyzeug/propertyzeug.h>
-
 #include <assert.h>
 #include <vector>
 #include <unordered_map>
 
-#include "Property.h"
+#include <propertyzeug/propertyzeug.h>
+
+#include <propertyzeug/Property.h>
 
 namespace zeug {
     

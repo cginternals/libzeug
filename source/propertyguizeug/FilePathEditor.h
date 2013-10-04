@@ -1,20 +1,19 @@
 
 #pragma once
 
-#include <propertyguizeug/propertyguizeug.h>
-
 #include <QLineEdit>
 
 class QFileDialog;
 class QHBoxLayout;
 
-namespace zeug {
+namespace zeug 
+{
 
 template <typename Type>
 class Property;
 class FilePath;
     
-class PROPERTYGUIZEUG_API FilePathEditor : public QLineEdit
+class FilePathEditor : public QLineEdit
 {
 public:
     FilePathEditor(Property<FilePath> * property, QWidget * parent = nullptr);
@@ -28,13 +27,15 @@ public:
     
     void openFileDialog();
 
-protected:
+private:
     static const QString s_openFileDialog;
-    
+
+protected:
+
     Property<FilePath> * m_property;
     bool m_dialogOpened;
-    QString m_filePathFromDialog;
-    
+
+    QString m_filePathFromDialog;    
 };
 
 } // namespace

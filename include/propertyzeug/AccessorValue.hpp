@@ -1,7 +1,8 @@
 
 #pragma once
 
-namespace zeug {
+namespace zeug 
+{
 
 template <typename Type>
 AccessorValue<Type>::AccessorValue(std::function<const Type & ()> getter,
@@ -49,4 +50,4 @@ void AccessorValue<Type>::set(const Type & value)
     m_setter(value);
 }
 
-} // namespace
+} // namespace zeug

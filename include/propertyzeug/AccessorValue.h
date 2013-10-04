@@ -3,9 +3,10 @@
 
 #include <functional>
 
-#include "AbstractValue.h"
+#include <propertyzeug/AbstractValue.h>
 
-namespace zeug {
+namespace zeug 
+{
     
 /** @brief
  * Provides access to a value by accessors.

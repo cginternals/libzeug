@@ -1,7 +1,7 @@
 
-#include <propertyzeug/AbstractProperty.h>
-
 #include <regex>
+
+#include <propertyzeug/AbstractProperty.h>
 #include <propertyzeug/PropertyGroup.h>
 
 namespace zeug {
@@ -57,7 +57,7 @@ void AbstractProperty::setParent(PropertyGroup * parent)
 
 bool AbstractProperty::hasParent() const
 {
-    return m_parent;
+    return nullptr != m_parent;
 }
 
 void AbstractProperty::removeParent()
@@ -78,4 +78,4 @@ bool AbstractProperty::isGroup() const
     return false;
 }
 
-} // namespace
+} // namespace zeug

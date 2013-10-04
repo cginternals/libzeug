@@ -3,9 +3,10 @@
 
 #include <fstream>
 
-#include "AbstractPropertyVisitor.h"
+#include <propertyzeug/AbstractPropertyVisitor.h>
 
-namespace zeug {
+namespace zeug 
+{
 
 class AbstractProperty;
 class PropertyGroup;
@@ -28,6 +29,7 @@ protected:
     void pushGroupToPath(const PropertyGroup & group);
     void popGroupFromPath();
 
+protected:
     std::fstream m_fstream;
     std::string m_currentPath;
     std::string m_previousPath;

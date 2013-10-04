@@ -1,12 +1,13 @@
 
 #pragma once
 
-#include <propertyzeug/propertyzeug.h>
-
 #include <string>
 #include <vector>
 
-namespace zeug {
+#include <propertyzeug/propertyzeug.h>
+
+namespace zeug 
+{
 
 template <typename Type>
 class Property;
@@ -42,4 +43,4 @@ protected:
 
 };
 
-} // namespace
+} // namespace zeug

@@ -9,7 +9,7 @@
 namespace zeug
 {
 
-class SIGNALZEUG_API ConnectionMap
+class ConnectionMap
 {
 public:
 	ConnectionMap();
