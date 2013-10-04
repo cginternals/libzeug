@@ -1,6 +1,8 @@
 
 #include <propertyguizeug/PropertyModel.h>
 
+#include <signalzeug/Signal.h>
+#include <signalzeug/ScopedConnection.h>
 #include <propertyzeug/PropertyGroup.h>
 
 namespace zeug {
@@ -9,6 +11,12 @@ PropertyModel::PropertyModel(PropertyGroup * root, QObject * parent)
 :   QAbstractItemModel(parent)
 ,   m_root(root)
 {
+    this->subscribeToValueChanges();
+}
+    
+void PropertyModel::subscribeToValueChanges()
+{
+    // TODO subscribe to valueChanged signals
 }
 
 PropertyModel::~PropertyModel()

@@ -6,7 +6,7 @@ namespace zeug {
 template <typename Type>
 ValueProperty<Type>::ValueProperty(const std::string & name,
     const Type & value)
-:   AbstractProperty(name)
+:   ValuePropertyBase(name)
 ,   m_value(new StoredValue<Type>(value))
 {
 }
@@ -15,7 +15,7 @@ template <typename Type>
 ValueProperty<Type>::ValueProperty(const std::string & name, 
     const std::function<const Type & ()> & getter,
     const std::function<void(const Type &)> & setter)
-:   AbstractProperty(name)
+:   ValuePropertyBase(name)
 ,   m_value(new AccessorValue<Type>(getter, setter))
 {
 }
@@ -25,7 +25,7 @@ template <class Object>
 ValueProperty<Type>::ValueProperty(const std::string & name,
     Object & object, const Type & (Object::*getter_pointer)() const,
     void (Object::*setter_pointer)(const Type &))
-:   AbstractProperty(name)
+:   ValuePropertyBase(name)
 ,   m_value(new AccessorValue<Type>(object, getter_pointer, setter_pointer))
 {
 }
@@ -35,7 +35,7 @@ template <class Object>
 ValueProperty<Type>::ValueProperty(const std::string & name,
     Object & object, Type (Object::*getter_pointer)() const,
     void (Object::*setter_pointer)(const Type &))
-:   AbstractProperty(name)
+:   ValuePropertyBase(name)
 ,   m_value(new AccessorValue<Type>(object, getter_pointer, setter_pointer))
 {
 }

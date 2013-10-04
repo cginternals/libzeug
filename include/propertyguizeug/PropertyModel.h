@@ -3,10 +3,12 @@
 
 #include <propertyguizeug/propertyguizeug.h>
 
+#include <QList>
 #include <QAbstractItemModel>
 
 namespace zeug {
     
+class ScopedConnection;
 class PropertyGroup;
 
 class PROPERTYGUIZEUG_API PropertyModel : public QAbstractItemModel
@@ -14,6 +16,8 @@ class PROPERTYGUIZEUG_API PropertyModel : public QAbstractItemModel
 public:
     PropertyModel(PropertyGroup * root, QObject * parent = nullptr);
     virtual ~PropertyModel();
+    
+    void subscribeToValueChanges();
     
     virtual QModelIndex index(int row, int column,
                               const QModelIndex & parentIndex = QModelIndex()) const;
@@ -30,9 +34,10 @@ public:
     
     virtual QVariant headerData(int section, Qt::Orientation orientation,
                                 int role = Qt::DisplayRole) const;
-
+    
 protected:
     PropertyGroup * m_root;
+    QList<ScopedConnection> m_connectionList;
 
 };
 

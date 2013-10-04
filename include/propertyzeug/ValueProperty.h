@@ -3,9 +3,7 @@
 
 #include <memory>
 
-#include <signalzeug/Signal.h>
-
-#include "AbstractProperty.h"
+#include "ValuePropertyBase.h"
 #include "StoredValue.h"
 #include "AccessorValue.h"
 
@@ -13,11 +11,11 @@ namespace zeug {
     
 /** @brief
  * Part of the property hierarchy.
- * The super class of all properties that have a value.
+ * The Template Class for all properties that have a value.
  */
 
 template <typename Type>
-class ValueProperty : public AbstractProperty
+class ValueProperty : public ValuePropertyBase
 {
 public:
     ValueProperty(const std::string & name, const Type & value);
