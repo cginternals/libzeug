@@ -21,6 +21,8 @@ signals:
 	void pressed();
 
 protected:
+    static const QSize s_fixedSize;
+    
 	virtual void mousePressEvent(QMouseEvent *event);
     void updateColor();
     

@@ -77,7 +77,7 @@ void PropertyPainter::visit(Property<Color> & property)
                 ));
     
     QRect pixmapRect = m_option.rect;
-    pixmapRect.setLeft(pixmapRect.left() + 5);
+    pixmapRect.setLeft(pixmapRect.left() + 3);
     pixmapRect.setTop(pixmapRect.top() + 4);
     pixmapRect.setWidth(20);
     pixmapRect.setHeight(20);
@@ -86,7 +86,7 @@ void PropertyPainter::visit(Property<Color> & property)
     m_painter->drawPixmap(pixmapRect, pixmap);
     
     QRect rect = m_option.rect;
-    rect.setLeft(pixmapRect.right() + 7);
+    rect.setLeft(pixmapRect.right() + 6);
     
     QApplication::style()->drawItemText(m_painter,
                                         rect,

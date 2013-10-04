@@ -6,13 +6,15 @@
 
 #include <propertyguizeug/TransparencyBackgroundBrush.hpp>
 
+const QSize ColorButton::s_fixedSize = QSize(20, 20);
+
 ColorButton::ColorButton(const QColor & initialColor, QWidget * parent)
 :	QLabel(parent)
 {
-	this->setFrameShape(QFrame::StyledPanel);
-	this->setFrameShadow(QFrame::Raised);
-	
+    this->setFrameStyle(QFrame::StyledPanel | QFrame::Raised);
 	this->setAutoFillBackground(true);
+    
+    this->setFixedSize(s_fixedSize);
 
 	QPalette palette;
 	palette.setBrush(QPalette::Background, QBrush(TransparencyBackgroundBrush()));
@@ -45,7 +47,7 @@ void ColorButton::mousePressEvent(QMouseEvent * event)
 
 void ColorButton::updateColor() 
 {
-	QPixmap pixmap(20, 20);
+	QPixmap pixmap(s_fixedSize);
     pixmap.fill(m_color);
 	setPixmap(pixmap);
 }

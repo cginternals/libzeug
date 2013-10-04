@@ -20,8 +20,8 @@ ColorEditor::ColorEditor(Property<Color> * property, QWidget * parent)
     QColor qcolor(color.red(), color.green(), color.blue(), color.alpha());
     
     QHBoxLayout * layout = new QHBoxLayout(this);
-    layout->setMargin(3);
-    layout->setSpacing(6);
+    layout->setContentsMargins(3, 0, 3, 0);
+    layout->setSpacing(3);
     
     m_lineEdit = new QLineEdit(this);
     m_lineEdit->setText(QString::fromStdString(m_property->valueAsString()));
