@@ -5,7 +5,7 @@ namespace zeug
 {
     
 template <class Property>
-Property * AbstractProperty::to()
+Property * AbstractProperty::as()
 {
     Property * property = dynamic_cast<Property *>(this);
     assert(property);
@@ -13,7 +13,7 @@ Property * AbstractProperty::to()
 }
 
 template <class Property>
-const Property * AbstractProperty::to() const
+const Property * AbstractProperty::as() const
 {
     const Property * property = dynamic_cast<const Property *>(this);
     assert(property);

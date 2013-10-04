@@ -5,7 +5,8 @@
 
 #include <signalzeug/Signal.h>
 
-#include <propertyzeug/AbstractProperty.h>
+#include <propertyzeug/propertyzeug.h>
+#include <propertyzeug/ValuePropertyBase.h>
 #include <propertyzeug/StoredValue.h>
 #include <propertyzeug/AccessorValue.h>
 

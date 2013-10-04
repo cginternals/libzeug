@@ -5,6 +5,7 @@
 
 #include <signalzeug/Signal.h>
 
+#include <propertyzeug/propertyzeug.h>
 #include <propertyzeug/ValueProperty.h>
 
 namespace zeug 
