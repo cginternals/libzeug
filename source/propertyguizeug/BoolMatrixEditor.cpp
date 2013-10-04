@@ -1,5 +1,5 @@
 
-#include <propertyguizeug/BoolMatrixEditor.h>
+#include "BoolMatrixEditor.h"
 
 #include <propertyzeug/Property.h>
 

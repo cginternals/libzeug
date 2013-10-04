@@ -1,5 +1,5 @@
 
-#include <propertyguizeug/IntMatrixEditor.h>
+#include "IntMatrixEditor.h"
 
 #include <propertyzeug/Property.h>
 

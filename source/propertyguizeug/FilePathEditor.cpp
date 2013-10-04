@@ -1,5 +1,5 @@
 
-#include <propertyguizeug/FilePathEditor.h>
+#include "FilePathEditor.h"
 
 #include <QDebug>
 #include <QSettings>

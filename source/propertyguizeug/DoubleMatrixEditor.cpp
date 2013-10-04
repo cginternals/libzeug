@@ -1,5 +1,5 @@
 
-#include <propertyguizeug/DoubleMatrixEditor.h>
+#include "DoubleMatrixEditor.h"
 
 #include <propertyzeug/Property.h>
 

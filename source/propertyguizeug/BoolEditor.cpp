@@ -1,5 +1,5 @@
 
-#include <propertyguizeug/BoolEditor.h>
+#include "BoolEditor.h"
 
 #include <propertyzeug/Property.h>
 

@@ -1,10 +1,10 @@
 
-#include <propertyguizeug/ColorButton.h>
+#include "ColorButton.h"
 
 #include <QColorDialog>
 #include <QGridLayout>
 
-#include <propertyguizeug/TransparencyBackgroundBrush.hpp>
+#include "TransparencyBackgroundBrush.hpp"
 
 const QSize ColorButton::s_fixedSize = QSize(20, 20);
 

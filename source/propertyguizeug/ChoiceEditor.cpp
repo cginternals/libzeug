@@ -1,5 +1,5 @@
 
-#include <propertyguizeug/ChoiceEditor.h>
+#include "ChoiceEditor.h"
 
 #include <QHBoxLayout>
 #include <QComboBox>

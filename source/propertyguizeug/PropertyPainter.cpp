@@ -6,7 +6,7 @@
 
 #include <propertyzeug/Property.h>
 
-#include <propertyguizeug/TransparencyBackgroundBrush.hpp>
+#include "TransparencyBackgroundBrush.hpp"
 
 namespace zeug {
     

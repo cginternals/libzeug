@@ -1,5 +1,5 @@
 
-#include <propertyguizeug/IntegerEditor.h>
+#include "IntegerEditor.h"
 
 #include <propertyzeug/Property.h>
 

@@ -1,5 +1,5 @@
 
-#include <propertyguizeug/StringEditor.h>
+#include "StringEditor.h"
 
 #include <propertyzeug/Property.h>
 

@@ -1,4 +1,6 @@
 
+#pragma once
+
 namespace zeug {
 
 template <typename Type>

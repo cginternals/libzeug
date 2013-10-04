@@ -33,4 +33,4 @@ protected:
 
 } // namespace zeug
 
-#include <signalzeug/Signal.hpp>
+#include "Signal.hpp"

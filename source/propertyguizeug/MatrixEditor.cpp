@@ -1,5 +1,5 @@
 
-#include <propertyguizeug/MatrixEditor.h>
+#include "MatrixEditor.h"
 
 #include <QRegExpValidator>
 #include <QRegularExpression>

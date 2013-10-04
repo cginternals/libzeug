@@ -1,5 +1,5 @@
 
-#include <propertyguizeug/DoubleEditor.h>
+#include "DoubleEditor.h"
 
 #include <propertyzeug/Property.h>
 

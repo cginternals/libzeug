@@ -6,7 +6,7 @@
 #include <assert.h>
 #include <string>
 
-#include <signalzeug/Signal.hpp>
+#include <signalzeug/Signal.h>
 
 namespace zeug {
 

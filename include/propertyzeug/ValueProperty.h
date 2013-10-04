@@ -3,6 +3,8 @@
 
 #include <memory>
 
+#include <signalzeug/Signal.h>
+
 #include "AbstractProperty.h"
 #include "StoredValue.h"
 #include "AccessorValue.h"
@@ -15,7 +17,7 @@ namespace zeug {
  */
 
 template <typename Type>
-class PROPERTYZEUG_API ValueProperty : public AbstractProperty
+class ValueProperty : public AbstractProperty
 {
 public:
     ValueProperty(const std::string & name, const Type & value);
@@ -39,7 +41,7 @@ public:
     virtual const Type & value() const;
     virtual void setValue(const Type & value);
     
-    signalzeug::Signal<const Type &> valueChanged;
+    Signal<const Type &> valueChanged;
 protected:
     std::unique_ptr<AbstractValue<Type>> m_value;
 };
