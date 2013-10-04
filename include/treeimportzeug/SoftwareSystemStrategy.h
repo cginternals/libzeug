@@ -23,5 +23,5 @@ public:
 protected:
 	QString _currentMetricName;
 	QStack<Node*> _stack;
-	QHash<QString, Node*> _nodes;
+	QHash<QString, Node*> m_nodes;
 };

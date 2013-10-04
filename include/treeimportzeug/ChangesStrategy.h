@@ -39,10 +39,10 @@ protected:
 	};
 	
 	QList<Tree*> _trees;
-	QHash<NodeType, QList<Attribute>> _attributes;
+	QHash<NodeType, QList<Attribute>> m_attributes;
 	QHash<unsigned, QList<QVariantMap>> _attributeValues;
     mutable QHash<DatabaseHash, GeneratedId> _ids;
-    mutable GeneratedId _nextId;
+    mutable GeneratedId m_nextId;
 	
 	void loadAttributes();
 	void processRevisions(const QList<QVariantMap>& revisions);

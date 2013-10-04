@@ -21,6 +21,6 @@ public:
 	QSqlDatabase& database();
 protected:
 	QList<Tree*> _trees;
-	TreeSqliteParserStrategy* _strategy;
+	TreeSqliteParserStrategy* m_strategy;
 	QSqlDatabase _database;
 };

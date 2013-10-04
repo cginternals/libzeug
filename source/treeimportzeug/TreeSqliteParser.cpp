@@ -7,7 +7,7 @@
 #include <QSqlRecord>
 
 TreeSqliteParser::TreeSqliteParser(const QString& filename)
-: _strategy(nullptr)
+: m_strategy(nullptr)
 {
 	if (QSqlDatabase::contains(filename))
 	{
@@ -29,14 +29,14 @@ Tree* TreeSqliteParser::createTreeFromDatabase(const QString& filename)
 	{
 		if (parser.database().record("nodes").isEmpty())
 		{
-			parser._strategy = new SDStrategy(parser);
+			parser.m_strategy = new SDStrategy(parser);
 		}
 		else
 		{
-			parser._strategy = new ChangesStrategy(parser);
+			parser.m_strategy = new ChangesStrategy(parser);
 		}
 		
-		parser._strategy->processOne();
+		parser.m_strategy->processOne();
 	}
 	else
 	{
@@ -56,14 +56,14 @@ QList<Tree*> TreeSqliteParser::createTreesFromDatabase(const QString& filename)
 	{
 		if (parser.database().record("nodes").isEmpty())
 		{
-			parser._strategy = new SDStrategy(parser);
+			parser.m_strategy = new SDStrategy(parser);
 		}
 		else
 		{
-			parser._strategy = new ChangesStrategy(parser);
+			parser.m_strategy = new ChangesStrategy(parser);
 		}
 		
-		parser._strategy->processMultiple();
+		parser.m_strategy->processMultiple();
 	}
 	else
 	{

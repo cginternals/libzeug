@@ -1,65 +1,70 @@
-#include <LinearizedTree.h>
 
 #include <algorithm>
 
+#include <treezeug/LinearizedTree.h>
+
+
+namespace zeug
+{
+
 LinearizedTree::LinearizedTree()
-: _tree(nullptr)
-, _strategy(None)
-, _nextIndex(0)
+:   m_tree(nullptr)
+,   m_strategy(None)
+,   m_nextIndex(0)
 {
 }
 
-LinearizedTree::LinearizedTree(const Tree* tree, Algorithm strategy)
-: _tree(tree)
-, _strategy(strategy)
-, _nodes(tree ? tree->size() : 0)
-, _nextIndex(0)
+LinearizedTree::LinearizedTree(const Tree * tree, Algorithm strategy)
+: m_tree(tree)
+, m_strategy(strategy)
+, m_nodes(tree ? tree->size() : 0)
+, m_nextIndex(0)
 {
 	linearize();
 }
 
-const Tree* LinearizedTree::tree() const
+const Tree * LinearizedTree::tree() const
 {
-	return _tree;
+	return m_tree;
 }
 
-void LinearizedTree::setTree(const Tree* tree)
+void LinearizedTree::setTree(const Tree * tree)
 {
-	if (_tree == tree) return;
+	if (m_tree == tree) return;
 
-	_tree = tree;
+	m_tree = tree;
 }
 
 void LinearizedTree::setAlgorithm(Algorithm strategy)
 {
-	if (_strategy == strategy) return;
+	if (m_strategy == strategy) return;
 
-	_strategy = strategy;
+	m_strategy = strategy;
 }
 
 unsigned LinearizedTree::size() const
 {
-	return _tree ? _tree->size() : 0;
+	return m_tree ? m_tree->size() : 0;
 }
 
 int LinearizedTree::maxId() const
 {
-    return _tree ? _tree->maxId() : -1;
+    return m_tree ? m_tree->maxId() : -1;
 }
 
 const Node* LinearizedTree::root() const
 {
-	return _tree ? _tree->root() : nullptr;
+	return m_tree ? m_tree->root() : nullptr;
 }
 
 int LinearizedTree::indexOf(const Node* node) const
 {
-	if (!_indices.count(node))
+	if (!m_indices.count(node))
 	{
 		return -1;
 	}
 
-	return _indices.at(node);
+	return m_indices.at(node);
 }
 
 int LinearizedTree::indexOf(int id) const
@@ -67,31 +72,31 @@ int LinearizedTree::indexOf(int id) const
     return indexOf(getNode(id));
 }
 
-const Node* LinearizedTree::at(int index) const
+const Node * LinearizedTree::at(int index) const
 {
-	return _nodes[index];
+	return m_nodes[index];
 }
 
-const Node* LinearizedTree::operator[](int index) const
+const Node * LinearizedTree::operator[](int index) const
 {
-	return _nodes[index];
+	return m_nodes[index];
 }
 
-const Node* LinearizedTree::getNode(int id) const
+const Node * LinearizedTree::getNode(int id) const
 {
-    return _tree->getNode(id);
+    return m_tree->getNode(id);
 }
 
-const std::vector<std::pair<int, int>>& LinearizedTree::thresholds() const
+const std::vector<std::pair<int, int>> & LinearizedTree::thresholds() const
 {
-    return _treeDepthTresholds;
+    return m_treeDepthTresholds;
 }
 
 void LinearizedTree::treeLayerRangesDo(std::function<void(int, int)> callback) const
 {
-    if (_strategy == BreadthFirst || _strategy == OptimizedBreadthFirst)
+    if (m_strategy == BreadthFirst || m_strategy == OptimizedBreadthFirst)
     {
-        for (const std::pair<int, int>& pair : _treeDepthTresholds)
+        for (const std::pair<int, int>& pair : m_treeDepthTresholds)
         {
             callback(pair.first, pair.second);
         }
@@ -100,24 +105,22 @@ void LinearizedTree::treeLayerRangesDo(std::function<void(int, int)> callback) c
 
 std::vector<const Node*>::const_iterator LinearizedTree::begin() const
 {
-	return _nodes.begin();
+	return m_nodes.begin();
 }
 
 std::vector<const Node*>::const_iterator LinearizedTree::end() const
 {
-	return _nodes.end();
+	return m_nodes.end();
 }
 
 void LinearizedTree::linearize()
 {
 	clear();
 
-	if (!_tree)
-	{
+	if (!m_tree)
 		return;
-	}
 
-	switch (_strategy)
+	switch (m_strategy)
 	{
 	case DepthFirst:
 		linearizeDepthFirst();
@@ -133,42 +136,42 @@ void LinearizedTree::linearize()
 
 void LinearizedTree::clear()
 {
-	_nextIndex = 0;
-	_nodes.clear();
-	_indices.clear();
-    _treeDepthTresholds.clear();
+	m_nextIndex = 0;
+	m_nodes.clear();
+	m_indices.clear();
+    m_treeDepthTresholds.clear();
 
-	if (_tree)
+	if (m_tree)
 	{
-        _nodes.resize(_tree->size());
+        m_nodes.resize(m_tree->size());
 	}
 }
 
-void LinearizedTree::add(const Node* node)
+void LinearizedTree::add(const Node * node)
 {
-	int index = _nextIndex++;
+	int index = m_nextIndex++;
 
-	_nodes[index] = node;
-	_indices[node] = index;
+	m_nodes[index] = node;
+	m_indices[node] = index;
 }
 
 void LinearizedTree::linearizeDepthFirst()
 {
-	_tree->nodesDo([this](const Node* node) { add(node); });
+	m_tree->nodesDo([this](const Node* node) { add(node); });
 }
 
 void LinearizedTree::linearizeBreadthFirst()
 {
-	_tree->nodesOrderedByDepthDo([this](const Node* node) {
+	m_tree->nodesOrderedByDepthDo([this](const Node * node) {
 		add(node);
 
-        if (_treeDepthTresholds.size() < node->depth()+1)
+        if (m_treeDepthTresholds.size() < node->depth()+1)
 		{
-            _treeDepthTresholds.emplace_back(indexOf(node), indexOf(node));
+            m_treeDepthTresholds.emplace_back(indexOf(node), indexOf(node));
 		}
         else
         {
-            _treeDepthTresholds.back().second = indexOf(node);
+            m_treeDepthTresholds.back().second = indexOf(node);
         }
     });
 }
@@ -177,7 +180,7 @@ void LinearizedTree::linearizeOptimizedBreadthFirst()
 {
     std::vector<const Node*> currentLevel;
 
-    _tree->nodesOrderedByDepthDo([this, &currentLevel](const Node* node)
+    m_tree->nodesOrderedByDepthDo([this, &currentLevel](const Node * node)
     {
         if (!currentLevel.empty() && node->depth() > currentLevel.back()->depth())
         {
@@ -197,7 +200,7 @@ void LinearizedTree::linearizeOptimizedBreadthFirst()
                     continue;
                 }
 
-                _treeDepthTresholds.emplace_back(indexOf(child), indexOf(currentLevel.back()));
+                m_treeDepthTresholds.emplace_back(indexOf(child), indexOf(currentLevel.back()));
                 break;
             }
 
@@ -213,3 +216,5 @@ void LinearizedTree::linearizeOptimizedBreadthFirst()
         add(child);
     }
 }
+
+} // namespace zeug

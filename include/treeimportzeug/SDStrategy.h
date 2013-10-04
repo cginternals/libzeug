@@ -15,10 +15,10 @@ public:
 	virtual void processOne();
 	virtual void processMultiple();
 protected:
-	QHash<int, Node*> _nodes;
+	QHash<int, Node*> m_nodes;
 	QHash<int, int> _parents;
 	QHash<int, QString> _metrics;
-	Tree* _tree;
+	Tree* m_tree;
 	QList<Tree*> _trees;
 	
 	void loadDirectories();

@@ -9,10 +9,10 @@
 #include <QFileInfo>
 
 TreeXmlParser::TreeXmlParser()
-: _tree(nullptr)
-, _strategy(nullptr)
+: m_tree(nullptr)
+, m_strategy(nullptr)
 {
-    _tree = new Tree("");
+    m_tree = new Tree("");
 }
 
 Tree* TreeXmlParser::createTreeFromFile(const QString& filename)
@@ -45,7 +45,7 @@ Tree* TreeXmlParser::createTreeFromFile(const QString& filename)
 
 Tree* TreeXmlParser::tree()
 {
-	return _tree;
+	return m_tree;
 }
 
 bool TreeXmlParser::startDocument()
@@ -55,15 +55,15 @@ bool TreeXmlParser::startDocument()
 
 bool TreeXmlParser::endDocument()
 {
-	if (_strategy)
+	if (m_strategy)
 	{
-		_strategy->endDocument();
+		m_strategy->endDocument();
 	}
 
-	_tree->addAttributeMap("id", AttributeMap::Numeric);
-	_tree->addAttributeMap("depth", AttributeMap::Numeric);
+	m_tree->addAttributeMap("id", AttributeMap::Numeric);
+	m_tree->addAttributeMap("depth", AttributeMap::Numeric);
 
-	_tree->nodesDo([](Node* node) {
+	m_tree->nodesDo([](Node* node) {
 		node->setAttribute("id", node->id());
 		node->setAttribute("depth", node->depth());
 	});
@@ -73,29 +73,29 @@ bool TreeXmlParser::endDocument()
 
 bool TreeXmlParser::startElement(const QString& namespaceURI, const QString& localName, const QString& name, const QXmlAttributes& attributes)
 {
-	if (_strategy)
+	if (m_strategy)
 	{
-		return _strategy->startElement(namespaceURI, localName, name, attributes);
+		return m_strategy->startElement(namespaceURI, localName, name, attributes);
 	}
 	else
 	{
 		if (name == "tree")
 		{
-			_strategy = new TreeStrategy(*this);
+			m_strategy = new TreeStrategy(*this);
 
-			return _strategy->startDocument();
+			return m_strategy->startDocument();
 		}
 		else if (name == "hpiSoftwareSystem")
 		{
-			_strategy = new SoftwareSystemStrategy(*this);
+			m_strategy = new SoftwareSystemStrategy(*this);
 
-			return _strategy->startDocument();
+			return m_strategy->startDocument();
 		}
 		else if (name == "hierarchy")
 		{
-			_strategy = new CityGMLStrategy(*this);
+			m_strategy = new CityGMLStrategy(*this);
 
-			return _strategy->startDocument();
+			return m_strategy->startDocument();
 		}
 	}
 
@@ -104,9 +104,9 @@ bool TreeXmlParser::startElement(const QString& namespaceURI, const QString& loc
 
 bool TreeXmlParser::endElement(const QString& namespaceURI, const QString& localName, const QString& qName)
 {
-	if (_strategy)
+	if (m_strategy)
 	{
-		return _strategy->endElement(namespaceURI, localName, qName);
+		return m_strategy->endElement(namespaceURI, localName, qName);
 	}
 
 	return false;
@@ -114,9 +114,9 @@ bool TreeXmlParser::endElement(const QString& namespaceURI, const QString& local
 
 bool TreeXmlParser::characters(const QString& characters)
 {
-	if (_strategy)
+	if (m_strategy)
 	{
-		return _strategy->characters(characters);
+		return m_strategy->characters(characters);
 	}
 
 	return false;

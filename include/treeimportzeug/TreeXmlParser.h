@@ -16,8 +16,8 @@ public:
 
 	Tree* tree();
 protected:
-	Tree* _tree;
-	TreeXmlParserStrategy* _strategy;
+	Tree* m_tree;
+	TreeXmlParserStrategy* m_strategy;
 
 	virtual bool startDocument();
 	virtual bool endDocument();

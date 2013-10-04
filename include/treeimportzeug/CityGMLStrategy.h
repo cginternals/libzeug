@@ -24,7 +24,7 @@ public:
 
 	virtual bool characters(const QString& characters);
 protected:
-	int _id;
+	int m_id;
 	QString _label;
 	int _parentId;
 	int _size;

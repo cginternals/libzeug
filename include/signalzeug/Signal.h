@@ -32,3 +32,5 @@ protected:
 };
 
 } // namespace zeug
+
+#include <signalzeug/Signal.hpp>

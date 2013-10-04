@@ -28,9 +28,9 @@ bool SoftwareSystemStrategy::startElement(const QString& namespaceURI, const QSt
 			QString fileId = attributes.value("fileId");
 			QString value = attributes.value("value");
 
-			if (_nodes.count(fileId))
+			if (m_nodes.count(fileId))
 			{
-				_nodes[fileId]->setAttribute(_currentMetricName.toStdString(), value.toStdString());
+				m_nodes[fileId]->setAttribute(_currentMetricName.toStdString(), value.toStdString());
 			}
 		}
 		else if (name == "metric")
@@ -66,7 +66,7 @@ bool SoftwareSystemStrategy::startElement(const QString& namespaceURI, const QSt
 	_stack.top()->addChild(node);
 
 	node->setName(attributes.value("name").toStdString());
-	_nodes[attributes.value("id")] = node;
+	m_nodes[attributes.value("id")] = node;
 
 	_stack.push(node);
 

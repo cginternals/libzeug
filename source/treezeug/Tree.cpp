@@ -1,191 +1,183 @@
-#include <Tree.h>
 
 #include <algorithm>
 #include <queue>
 #include <iostream>
 #include <sstream>
 
-Tree::Tree(const std::string& name)
-: _name(name)
-, _root(new Node())
-, _nextId(0)
-, _depth(0)
+#include <treezeug/Tree.h>
+
+
+namespace zeug
 {
-    registerNode(_root, true);
+
+Tree::Tree(const std::string & name)
+:   m_name(name)
+,   m_root(new Node())
+,   m_nextId(0)
+,   m_depth(0)
+{
+    registerNode(m_root, true);
 }
 
 Tree::~Tree()
 {
-	delete _root;
+	delete m_root;
 
-	for (const std::pair<std::string, AttributeMap*>& pair : _attributeMaps)
+	for (const std::pair<std::string, AttributeMap*> & pair : m_attributeMaps)
 	{
 		delete pair.second;
 	}
 }
 
-Tree* Tree::copy() const
+Tree * Tree::copy() const
 {
-	Tree* newTree = new Tree(_name);
+	Tree * newTree = new Tree(m_name);
 
-	nodesDo([=](const Node* node) {
-		Node* newNode = new Node(node->id());
+	nodesDo([=](const Node * node) 
+    {
+		Node * newNode = new Node(node->id());
 		newNode->setName(node->name());
 
 		if (newNode->id() == 0)
-		{
 			newTree->setRoot(newNode);
-		}
 		else
-		{
 			newTree->getNode(node->parent()->id())->addChild(newNode);
-		}
 	});
 
-	for (const std::string& attribute : _attributes)
+	for (const std::string & attribute : m_attributes)
 	{
 		newTree->addAttributeMap(attribute, attributeMapType(attribute));
 
-		nodesDo([=](const Node* node) {
+		nodesDo([=](const Node * node) 
+        {
 			if (node->hasAttribute(attribute))
 			{
-				const Attribute* attr = node->attribute(attribute);
+				const Attribute * attr = node->attribute(attribute);
 
 				if (attr->isNumeric())
-				{
 					newTree->getNode(node->id())->setAttribute(attribute, attr->numericValue());
-				}
 				else
-				{
 					newTree->getNode(node->id())->setAttribute(attribute, attr->asNominal()->valueName());
-				}
 			}
 		});
 	}
-
 	return newTree;
 }
 
-Tree* Tree::restrictTo(Node* newRoot) const
+Tree * Tree::restrictTo(Node * newRoot) const
 {
-	Tree* newTree = new Tree(_name);
+	Tree* newTree = new Tree(m_name);
 	
 	newTree->deregisterNode(newTree->root());
 	
-	newRoot->withAllChildrenDo([=](const Node* node) {
-		Node* newNode = new Node(node->id());
+	newRoot->withAllChildrenDo([=](const Node * node) 
+    {
+		Node * newNode = new Node(node->id());
 		newNode->setName(node->name());
 
 		if (newNode->id() == newRoot->id())
-		{
 			newTree->setRoot(newNode, newRoot->id());
-		}
 		else
-		{
 			newTree->getNode(node->parent()->id())->addChild(newNode);
-		}
 	});
 
-	for (const std::string& attribute : _attributes)
+	for (const std::string & attribute : m_attributes)
 	{
 		newTree->addAttributeMap(attribute, attributeMapType(attribute));
 
-		newRoot->withAllChildrenDo([=](const Node* node) {
+		newRoot->withAllChildrenDo([=](const Node * node) 
+        {
 			if (node->hasAttribute(attribute))
 			{
-				const Attribute* attr = node->attribute(attribute);
+				const Attribute * attr = node->attribute(attribute);
 
 				if (attr->isNumeric())
-				{
 					newTree->getNode(node->id())->setAttribute(attribute, attr->numericValue());
-				}
 				else
-				{
 					newTree->getNode(node->id())->setAttribute(attribute, attr->asNominal()->valueName());
-				}
 			}
 		});
 	}
-
 	return newTree;
 }
 
-Tree* Tree::restrictTo(int id) const
+Tree * Tree::restrictTo(int id) const
 {
 	Node* newRoot = getNode(id);
 	
 	if (!newRoot)
-	{
 		return nullptr;
-	}
 	
 	return restrictTo(newRoot);
 }
 
-const std::string& Tree::name() const
+const std::string & Tree::name() const
 {
-    return _name;
+    return m_name;
 }
 
-void Tree::setName(const std::string& name)
+void Tree::setName(const std::string & name)
 {
-    _name = name;
+    m_name = name;
 }
 
-Node* Tree::root()
+Node * Tree::root()
 {
-	return _root;
+	return m_root;
 }
 
-const Node* Tree::root() const
+const Node * Tree::root() const
 {
-	return _root;
+	return m_root;
 }
 
-void Tree::setRoot(Node* node, int id)
+void Tree::setRoot(Node * node, int id)
 {
-	node->_id = id;
+	node->m_id = id;
 	registerNode(node, true);
-	node->_parent = nullptr;
-	_root = node;
+	node->m_parent = nullptr;
+	m_root = node;
 }
 
 unsigned Tree::size() const
 {
-	return _idMap.size();
+	return m_idMap.size();
 }
 
 int Tree::maxId() const
 {
-	return _nextId - 1;
+	return m_nextId - 1;
 }
 
 unsigned Tree::depth() const
 {
-	return _depth;
+	return m_depth;
 }
 
-Node* Tree::getNode(int id) const
+Node * Tree::getNode(int id) const
 {
-	if (!_idMap.count(id))
-	{
+	if (!m_idMap.count(id))
 		return nullptr;
-	}
 
-	return _idMap.at(id);
+	return m_idMap.at(id);
 }
 
-Node* Tree::getNodeByPath(const std::string& path, char separator)
+Node * Tree::getNodeByPath(const std::string & path, char separator)
 {
-	if (path.empty()) return nullptr;
-	if (path == std::to_string(separator)) return _root;
+	if (path.empty()) 
+        return nullptr;
+
+    if (path == std::to_string(separator)) 
+        return m_root;
 
     std::stringstream ss(path);
 	std::string item;
-    Node* node = _root;
+
+    Node * node = m_root;
 
 	std::getline(ss, item, separator);
-	if (!item.empty()) return nullptr;
+	if (!item.empty()) 
+        return nullptr;
 
     while (node && std::getline(ss, item, separator))
 	{
@@ -195,17 +187,17 @@ Node* Tree::getNodeByPath(const std::string& path, char separator)
     return node;
 }
 
-const std::vector<std::string>& Tree::attributes() const
+const std::vector<std::string> & Tree::attributes() const
 {
-	return _attributes;
+	return m_attributes;
 }
 
-bool Tree::hasAttributeMap(const std::string& name) const
+bool Tree::hasAttributeMap(const std::string & name) const
 {
-	return _attributeMaps.count(name) > 0;
+	return m_attributeMaps.count(name) > 0;
 }
 
-void Tree::addAttributeMap(const std::string& name, AttributeMap::Type type)
+void Tree::addAttributeMap(const std::string & name, AttributeMap::Type type)
 {
 	if (hasAttributeMap(name))
 	{
@@ -213,123 +205,114 @@ void Tree::addAttributeMap(const std::string& name, AttributeMap::Type type)
 		{
 			std::cout << "Try to overwrite AttributeMap " << name << " with differing type";
 		}
-
 		return;
 	}
 
-	_attributeMaps[name] = new AttributeMap(name, type);
-	_attributes.push_back(name);
+	m_attributeMaps[name] = new AttributeMap(name, type);
+	m_attributes.push_back(name);
 }
 
-AttributeMap::Type Tree::attributeMapType(const std::string& name) const
+AttributeMap::Type Tree::attributeMapType(const std::string & name) const
 {
 	if (!hasAttributeMap(name))
-	{
 		return AttributeMap::None;
-	}
 
-	return _attributeMaps.at(name)->type();
+	return m_attributeMaps.at(name)->type();
 }
 
-void Tree::setAttribute(const Node* node, const std::string& name, double value)
+void Tree::setAttribute(const Node * node, const std::string & name, double value)
 {
 	if (!hasAttributeMap(name))
-	{
 		return;
-	}
 
-	_attributeMaps[name]->addAttribute(node, value);
+	m_attributeMaps[name]->addAttribute(node, value);
 }
 
-void Tree::setAttribute(const Node* node, const std::string& name, const std::string& value)
+void Tree::setAttribute(const Node * node, const std::string & name, const std::string & value)
 {
-	if (!_attributeMaps.count(name))
-	{
+	if (!m_attributeMaps.count(name))
 		return;
-	}
 
-	AttributeMap* map = _attributeMaps[name];
+	AttributeMap * map = m_attributeMaps[name];
 	if (map)
-	{
 		map->addAttribute(node, value);
-	}
 }
 
-const Attribute* Tree::attribute(const Node* node, const std::string& name) const
+const Attribute * Tree::attribute(const Node * node, const std::string & name) const
 {
-	if (!_attributeMaps.count(name))
-	{
+	if (!m_attributeMaps.count(name))
 		return nullptr;
-	}
 
-	return _attributeMaps.at(name)->attributeFor(node);
+	return m_attributeMaps.at(name)->attributeFor(node);
 }
 
-void Tree::registerNode(Node* node, bool silent)
+void Tree::registerNode(Node * node, bool silent)
 {
-	node->_tree = this;
+	node->m_tree = this;
 
-	if (node->_id >= 0)
+	if (node->m_id >= 0)
 	{
-		_nextId = std::max(node->_id + 1, _nextId+1);
+		m_nextId = std::max(node->m_id + 1, m_nextId+1);
 	}
 	else
 	{
-		node->_id = _nextId;
+		node->m_id = m_nextId;
 
-		_nextId++;
+		m_nextId++;
 	}
 
-	if (_idMap.count(node->_id))
+	if (m_idMap.count(node->m_id))
 	{
 		if (!silent)
 		{
-			std::cout << "Replace node " << node->_id << std::endl;
+			std::cout << "Replace node " << node->m_id << std::endl;
 		}
 
-		_idMap[node->_id]->reparentChildrenTo(node);
+		m_idMap[node->m_id]->reparentChildrenTo(node);
 
-		delete _idMap[node->_id];
+		delete m_idMap[node->m_id];
 	}
 
-	_depth = std::max(_depth, node->depth());
+	m_depth = std::max(m_depth, node->depth());
 
-	_idMap[node->_id] = node;
+	m_idMap[node->m_id] = node;
 }
 
-void Tree::deregisterNode(Node* node)
+void Tree::deregisterNode(Node * node)
 {
-	if (_root == node)
-	{
-		_root = nullptr;
-	}
+	if (m_root == node)
+		m_root = nullptr;
 	
-	node->_tree = nullptr;
+	node->m_tree = nullptr;
 
-	_idMap.erase(node->_id);
+	m_idMap.erase(node->m_id);
 }
 
 void Tree::nodesDo(std::function<void(Node*)> action)
 {
-	_root->withAllChildrenDo(action);
+	m_root->withAllChildrenDo(action);
 }
 
 void Tree::nodesDo(std::function<void(const Node*)> action) const
 {
-	const_cast<const Node*>(_root)->withAllChildrenDo(action); // const cast to prevent unnecessary ambiguous warning (gcc compiler bug?)
+	const_cast<const Node*>(m_root)->withAllChildrenDo(action); // const cast to prevent unnecessary ambiguous warning (gcc compiler bug?)
 }
 
 void Tree::leavesDo(std::function<void(Node*)> action)
 {
-	nodesDo([&action](Node* node) {
-		if (node->isLeaf()) action(node);
+	nodesDo([&action](Node * node) 
+    {
+		if (node->isLeaf()) 
+            action(node);
 	});
 }
 
 void Tree::leavesDo(std::function<void(const Node*)> action) const
 {
-	nodesDo([&action](const Node* node) {
-		if (node->isLeaf()) action(node);
+	nodesDo([&action](const Node * node) 
+    {
+		if (node->isLeaf()) 
+            action(node);
 	});
 }
 
@@ -337,19 +320,17 @@ void Tree::nodesOrderedByDepthDo(std::function<void(Node*)> action)
 {
 	std::queue<Node*> queue;
 
-	queue.push(_root);
+	queue.push(m_root);
 
 	while (!queue.empty())
 	{
-		Node* current = queue.front();
+		Node * current = queue.front();
 		queue.pop();
 
 		action(current);
 
-		for (Node* child : current->children())
-		{
+		for (Node * child : current->children())
 			queue.push(child);
-		}
 	}
 }
 
@@ -357,7 +338,7 @@ void Tree::nodesOrderedByDepthDo(std::function<void(const Node*)> action) const
 {
 	std::queue<const Node*> queue;
 
-	queue.push(_root);
+	queue.push(m_root);
 
 	while (!queue.empty())
 	{
@@ -366,9 +347,9 @@ void Tree::nodesOrderedByDepthDo(std::function<void(const Node*)> action) const
 
 		action(current);
 
-		for (const Node* child : current->children())
-		{
+		for (const Node * child : current->children())
 			queue.push(child);
-		}
 	}
 }
+
+} // namespace zeug

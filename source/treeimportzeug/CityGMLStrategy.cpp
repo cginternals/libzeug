@@ -24,12 +24,12 @@ bool CityGMLStrategy::startElement(const QString& namespaceURI, const QString& l
 {
 	if (name == "node")
 	{
-		_id = -1;
+		m_id = -1;
 		_label = QString();
 		_parentId = -1;
 		_size = -1;
 
-		_id = QString(attributes.value("id")).toInt();
+		m_id = QString(attributes.value("id")).toInt();
 	}
 	else if (name == "label")
 	{
@@ -56,9 +56,9 @@ bool CityGMLStrategy::endElement(const QString& namespaceURI, const QString& loc
 		return true;
 	}
 
-	Node* node = new Node(_id);
+	Node* node = new Node(m_id);
 
-	if (_id > 0)
+	if (m_id > 0)
 	{
 		Node* parent = _parser.tree()->getNode(_parentId);
 		if (!parent)
@@ -68,7 +68,7 @@ bool CityGMLStrategy::endElement(const QString& namespaceURI, const QString& loc
 
 		parent->addChild(node);
 	}
-	else if (_id == 0)
+	else if (m_id == 0)
 	{
 		_parser.tree()->setRoot(node);
 	}
