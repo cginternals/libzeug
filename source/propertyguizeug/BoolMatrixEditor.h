@@ -22,7 +22,6 @@ public:
 
 protected:
     QString valueRegexString() const;
-    
     QStringList trueValues() const;
     QStringList falseValues() const;
     

@@ -1,7 +1,7 @@
 
 #include "FilePathEditor.h"
 
-#include <QDebug>
+#include <QHBoxLayout>
 #include <QSettings>
 #include <QApplication>
 #include <QFileDialog>
@@ -16,27 +16,34 @@ namespace zeug {
 const QString FilePathEditor::s_openFileDialog = "Open File Dialog …";
     
 FilePathEditor::FilePathEditor(Property<FilePath> * property, QWidget * parent)
-:   QLineEdit(parent)
-,   m_property(property)
+:   QWidget(parent)
+,   m_lineEdit(new QLineEdit(this))
 ,   m_dialogOpened(false)
 ,   m_filePathFromDialog("")
+,   m_property(property)
 {
-    this->setText(QString::fromStdString(m_property->value().string()));
+    QHBoxLayout * layout = new QHBoxLayout(this);
+    layout->setContentsMargins(3, 0, 3, 0);
+    layout->setSpacing(3);
+    layout->addWidget(m_lineEdit);
+    
+    this->setFocusProxy(m_lineEdit);
     
     QCompleter * completer = new QCompleter(this->recentlyUsedFilePaths() << s_openFileDialog, this);
     completer->setCompletionMode(QCompleter::UnfilteredPopupCompletion);
-    this->setCompleter(completer);
     
-    this->connect(this, &QLineEdit::editingFinished,
+    m_lineEdit->setCompleter(completer);
+    m_lineEdit->setText(QString::fromStdString(m_property->value().string()));
+    
+    this->connect(m_lineEdit, &QLineEdit::editingFinished,
                   this, &FilePathEditor::setFilePath);
     
     this->connect(completer, static_cast<void (QCompleter::*)(const QString &)>(&QCompleter::activated),
                   this, &FilePathEditor::handleItemActivated);
     
-    this->connect(this, &QLineEdit::selectionChanged, [this] () {
-        this->completer()->complete();
+    this->connect(m_lineEdit, &QLineEdit::selectionChanged, [this] () {
+        m_lineEdit->completer()->complete();
     });
-    
 }
 
 FilePathEditor::~FilePathEditor()
@@ -79,7 +86,7 @@ void FilePathEditor::handleItemActivated(const QString & text)
     
 void FilePathEditor::setFilePath()
 {
-    QString filePath = m_dialogOpened ? m_filePathFromDialog : this->text();
+    QString filePath = m_dialogOpened ? m_filePathFromDialog : m_lineEdit->text();
 
     if (filePath.isEmpty() || filePath == s_openFileDialog)
         return;
@@ -91,7 +98,7 @@ void FilePathEditor::setFilePath()
 void FilePathEditor::openFileDialog()
 {
     m_dialogOpened = true;
-    this->clear();
+    m_lineEdit->clear();
     QFileDialog * fileDialog = new QFileDialog(this);
     
     if (m_property->isFile()) {
@@ -104,7 +111,7 @@ void FilePathEditor::openFileDialog()
     this->connect(fileDialog, &QFileDialog::fileSelected,
                   [this] (const QString & file) {
                       m_filePathFromDialog = file;
-                      this->setText(file);
+                      m_lineEdit->setText(file);
                   });
     
     fileDialog->show();
