@@ -13,6 +13,7 @@ namespace zeug
 {
 
 class AbstractPropertyVisitor;
+class ValuePropertyBase;
 class PropertyGroup;
     
 /** @brief
@@ -44,10 +45,16 @@ public:
     std::string path() const;
 
     template <class Property>
-    Property * to();
+    Property * as();
     
     template <class Property>
-    const Property * to() const;
+    const Property * as() const;
+
+    ValuePropertyBase * asValueProperty();
+    const ValuePropertyBase * asValueProperty() const;
+
+    PropertyGroup * asGroup();
+    const PropertyGroup * asGroup() const;
 
     virtual bool isGroup() const;
     
@@ -61,7 +68,21 @@ protected:
 
     PropertyGroup * m_parent;
 };
+    
+template <class Property>
+Property * AbstractProperty::as()
+{
+    Property * property = dynamic_cast<Property *>(this);
+    assert(property);
+    return property;
+}
 
-} // namespace zeug
+template <class Property>
+const Property * AbstractProperty::as() const
+{
+    const Property * property = dynamic_cast<const Property *>(this);
+    assert(property);
+    return property;
+}
 
 #include "AbstractProperty.hpp"

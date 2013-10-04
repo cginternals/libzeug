@@ -90,7 +90,7 @@ AbstractProperty * PropertyGroup::findProperty(const std::string & path)
     
     std::smatch match;
     std::regex_search(path, match, std::regex("\\/"));
-    PropertyGroup * group = m_propertiesMap.at(match.prefix())->to<PropertyGroup>();
+    PropertyGroup * group = m_propertiesMap.at(match.prefix())->as<PropertyGroup>();
     return group ? group->property(match.suffix()) : nullptr;
 }
     
@@ -101,18 +101,18 @@ const AbstractProperty * PropertyGroup::findProperty(const std::string & path) c
     
     std::smatch match;
     std::regex_search(path, match, std::regex("\\/"));
-    PropertyGroup * group = m_propertiesMap.at(match.prefix())->to<PropertyGroup>();
+    PropertyGroup * group = m_propertiesMap.at(match.prefix())->as<PropertyGroup>();
     return group ? group->property(match.suffix()) : nullptr;
 }
 
 PropertyGroup * PropertyGroup::group(const std::string & path)
 {
-    return this->property(path)->to<PropertyGroup>();
+    return this->property(path)->as<PropertyGroup>();
 }
 
 const PropertyGroup * PropertyGroup::group(const std::string & path) const
 {
-    return this->property(path)->to<PropertyGroup>();
+    return this->property(path)->as<PropertyGroup>();
 }
     
 AbstractProperty * PropertyGroup::property(unsigned int index)
@@ -213,7 +213,7 @@ void PropertyGroup::forEachSubGroup(const std::function<void(PropertyGroup &)> f
 {
     for (AbstractProperty * property : m_properties) {
         if (property->isGroup())
-            functor(*property->to<PropertyGroup>());
+            functor(*property->as<PropertyGroup>());
     }
 }
 
@@ -221,7 +221,7 @@ void PropertyGroup::forEachSubGroup(const std::function<void(PropertyGroup &)> f
 {
     for (AbstractProperty * property : m_properties) {
         if (property->isGroup())
-            functor(*property->to<PropertyGroup>());
+            functor(*property->as<PropertyGroup>());
     }
 }
     
