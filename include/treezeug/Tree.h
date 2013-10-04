@@ -13,7 +13,7 @@
 namespace zeug
 {
 
-class Tree
+class TREEZEUG_API Tree
 {
 	friend class Node;
 public:
@@ -41,25 +41,33 @@ public:
 	void leavesDo(std::function<void(Node*)> action);
 	void leavesDo(std::function<void(const Node*)> action) const;
 
-	bool hasAttributeMap(const std::string& name) const;
-	void addAttributeMap(const std::string& name, AttributeMap::Type type);
-	AttributeMap::Type attributeMapType(const std::string& name) const;
-	const std::vector<std::string>& attributes() const;
+	bool hasAttributeMap(const std::string & name) const;
+	void addAttributeMap(const std::string & name, AttributeMap::Type type);
+
+    AttributeMap::Type attributeMapType(const std::string & name) const;
+	const std::vector<std::string> & attributes() const;
 
 	unsigned depth() const;
 
-	Tree* copy() const;
-	Tree* restrictTo(Node* newRoot) const;
-	Tree* restrictTo(int id) const;
+	Tree * copy() const;
+	Tree * restrictTo(Node * newRoot) const;
+	Tree * restrictTo(int id) const;
 
 protected:
     void registerNode(Node * node, bool silent = false);
 	void deregisterNode(Node * node);
 
-	void setAttribute(const Node * node, const std::string & name, double value);
-	void setAttribute(const Node * node, const std::string & name, const std::string & value);
-	
-    const Attribute* attribute(const Node * node, const std::string & name) const;
+	void setAttribute(
+        const Node * node
+    ,   const std::string & name
+    ,   double value);
+
+    void setAttribute(
+        const Node * node
+    ,   const std::string & name
+    ,   const std::string & value);
+
+    const Attribute * attribute(const Node * node, const std::string & name) const;
 
 protected:
 	std::string m_name;

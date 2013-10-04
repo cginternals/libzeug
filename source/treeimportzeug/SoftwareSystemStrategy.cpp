@@ -1,9 +1,14 @@
-#include <treeimportzeug/SoftwareSystemStrategy.h>
+
 
 #include <treeimportzeug/TreeXmlParser.h>
+#include <treeimportzeug/SoftwareSystemStrategy.h>
 
-SoftwareSystemStrategy::SoftwareSystemStrategy(TreeXmlParser& parser)
-: TreeXmlParserStrategy(parser)
+
+namespace zeug
+{
+
+SoftwareSystemStrategy::SoftwareSystemStrategy(TreeXmlParser & parser)
+:   TreeXmlParserStrategy(parser)
 {
 }
 
@@ -14,12 +19,16 @@ bool SoftwareSystemStrategy::startDocument()
 
 bool SoftwareSystemStrategy::endDocument()
 {
-	_parser.tree()->root()->setName("<root>");
+	m_parser.tree()->root()->setName("<root>");
 
 	return true;
 }
 
-bool SoftwareSystemStrategy::startElement(const QString& namespaceURI, const QString& localName, const QString& name, const QXmlAttributes& attributes)
+bool SoftwareSystemStrategy::startElement(
+    const QString & namespaceURI
+,   const QString & localName
+,   const QString & name
+,   const QXmlAttributes & attributes)
 {
 	if (name != "directory" && name != "file")
 	{
@@ -29,63 +38,58 @@ bool SoftwareSystemStrategy::startElement(const QString& namespaceURI, const QSt
 			QString value = attributes.value("value");
 
 			if (m_nodes.count(fileId))
-			{
-				m_nodes[fileId]->setAttribute(_currentMetricName.toStdString(), value.toStdString());
-			}
+				m_nodes[fileId]->setAttribute(m_currentMetricName.toStdString(), value.toStdString());
 		}
 		else if (name == "metric")
 		{
 			QString name = attributes.value("name");
 			QString valueType = attributes.value("valueType");
 
-			_currentMetricName = name;
+			m_currentMetricName = name;
 
 			if (valueType == "String")
-			{
-				_parser.tree()->addAttributeMap(_currentMetricName.toStdString(), AttributeMap::Nominal);
-			}
+				m_parser.tree()->addAttributeMap(m_currentMetricName.toStdString(), AttributeMap::Nominal);
 			else
-			{
-				_parser.tree()->addAttributeMap(_currentMetricName.toStdString(), AttributeMap::Numeric);
-			}
+				m_parser.tree()->addAttributeMap(m_currentMetricName.toStdString(), AttributeMap::Numeric);
 		}
 
 		return true;
 	}
 
-	if (_stack.size() == 0)
+	if (m_stack.size() == 0)
 	{
-		_stack.push(_parser.tree()->root());
-
+		m_stack.push(m_parser.tree()->root());
 		return true;
 	}
 
-	Q_ASSERT(_stack.top());
+	Q_ASSERT(m_stack.top());
 
-	Node* node = new Node();
-	_stack.top()->addChild(node);
+	Node * node = new Node();
+	m_stack.top()->addChild(node);
 
 	node->setName(attributes.value("name").toStdString());
 	m_nodes[attributes.value("id")] = node;
 
-	_stack.push(node);
+	m_stack.push(node);
 
 	return true;
 }
 
-bool SoftwareSystemStrategy::endElement(const QString& namespaceURI, const QString& localName, const QString& name)
+bool SoftwareSystemStrategy::endElement(
+    const QString & namespaceURI
+,   const QString & localName
+,   const QString & name)
 {
 	if (name != "directory" && name != "file")
-	{
 		return true;
-	}
 
-	_stack.pop();
-
+	m_stack.pop();
 	return true;
 }
 
-bool SoftwareSystemStrategy::characters(const QString& characters)
+bool SoftwareSystemStrategy::characters(const QString & characters)
 {
 	return true;
 }
+
+} // namespace zeug

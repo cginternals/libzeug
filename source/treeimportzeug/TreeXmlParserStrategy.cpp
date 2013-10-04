@@ -1,8 +1,14 @@
-#include <treeimportzeug/TreeXmlParserStrategy.h>
+
 
 #include <treeimportzeug/TreeXmlParser.h>
+#include <treeimportzeug/TreeXmlParserStrategy.h>
 
-TreeXmlParserStrategy::TreeXmlParserStrategy(TreeXmlParser& parser)
-: _parser(parser)
+namespace zeug
+{
+
+TreeXmlParserStrategy::TreeXmlParserStrategy(TreeXmlParser & parser)
+:   m_parser(parser)
 {
 }
+
+} // namespace zeug

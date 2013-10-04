@@ -1,35 +1,66 @@
 #pragma once
 
-#include <treeimportzeug/TreeSqliteParserStrategy.h>
+#include <QList>
 
 #include <treezeug/Tree.h>
 
-#include <QList>
+#include <treeimportzeug/treeimportzeug.h>
+#include <treeimportzeug/TreeSqliteParserStrategy.h>
 
-class ChangesStrategy : public TreeSqliteParserStrategy
+
+namespace zeug
+{
+
+class TREEIMPORTZEUG_API ChangesStrategy : public TreeSqliteParserStrategy
 {
 public:
-	ChangesStrategy(TreeSqliteParser& parser);
+	ChangesStrategy(TreeSqliteParser & parser);
 	
 	virtual void processOne();
 	virtual void processMultiple();
+
 protected:
     typedef int GeneratedId;
     typedef int DatabaseId;
     typedef int DatabaseHash;
-	enum NodeType {
-		NT_Directory = 1,
-		NT_File = 2
+
+    void loadAttributes();
+	
+    void processRevisions(const QList<QVariantMap> & revisions);
+
+    void createTreeForRevision(unsigned revisionId);
+	void transferTrees();
+
+    int idFor(long hash) const;
+    void insertIntoTree(
+        Node * node
+    ,   Tree * tree
+    ,   const QHash<GeneratedId, Node*> & nodes
+    ,   const QHash<GeneratedId, GeneratedId> & parentIds) const;
+
+protected:
+
+    enum NodeType 
+    {
+		NT_Directory    = 1
+    ,   NT_File         = 2
 	};
-	enum AttributeType {
-		AT_Text,
-		AT_Integer
+	
+    enum AttributeType 
+    {
+		AT_Text
+    ,   AT_Integer
 	};
-	struct Attribute {
-		Attribute(const QString& name, AttributeType type, unsigned index)
-		: name(name)
-		, type(type)
-		, index(index)
+
+	struct Attribute 
+    {
+	    Attribute(
+            const QString & name
+        ,   AttributeType type
+        ,   unsigned index)
+		:   name(name)
+		,   type(type)
+		,   index(index)
 		{
 		};
 		
@@ -37,17 +68,15 @@ protected:
 		AttributeType type;
 		unsigned index;
 	};
-	
-	QList<Tree*> _trees;
+
+protected:
+
+	QList<Tree*> m_trees;
 	QHash<NodeType, QList<Attribute>> m_attributes;
-	QHash<unsigned, QList<QVariantMap>> _attributeValues;
-    mutable QHash<DatabaseHash, GeneratedId> _ids;
+	QHash<unsigned, QList<QVariantMap>> m_attributeValues;
+
+    mutable QHash<DatabaseHash, GeneratedId> m_ids;
     mutable GeneratedId m_nextId;
-	
-	void loadAttributes();
-	void processRevisions(const QList<QVariantMap>& revisions);
-	void createTreeForRevision(unsigned revisionId);
-	void transferTrees();
-	int idFor(long hash) const;
-    void insertIntoTree(Node* node, Tree* tree, const QHash<GeneratedId, Node*>& nodes, const QHash<GeneratedId, GeneratedId>& parentIds) const;
 };
+
+} // namespace zeug

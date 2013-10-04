@@ -6,21 +6,31 @@
 
 #include <treezeug/Tree.h>
 
+#include <treeimportzeug/treeimportzeug.h>
+
+
+namespace zeug
+{
+
 class TreeSqliteParserStrategy;
 
-class TreeSqliteParser
+class TREEIMPORTZEUG_API TreeSqliteParser
 {
 public:
-	TreeSqliteParser(const QString& filename);
+	TreeSqliteParser(const QString & filename);
 	
-	static Tree* createTreeFromDatabase(const QString& filename);
-	static QList<Tree*> createTreesFromDatabase(const QString& filename);
+	static Tree* createTreeFromDatabase(const QString & filename);
+	static QList<Tree*> createTreesFromDatabase(const QString & filename);
 	
-	Tree* tree();
-	QList<Tree*>& trees();
-	QSqlDatabase& database();
+	Tree * tree();
+	QList<Tree*> & trees();
+	QSqlDatabase & database();
+
 protected:
-	QList<Tree*> _trees;
-	TreeSqliteParserStrategy* m_strategy;
-	QSqlDatabase _database;
+	QList<Tree*> m_trees;
+	TreeSqliteParserStrategy * m_strategy;
+
+	QSqlDatabase m_database;
 };
+
+} // namespace zeug
