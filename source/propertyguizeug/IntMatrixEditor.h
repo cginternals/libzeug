@@ -14,7 +14,7 @@ public:
     IntMatrixEditor(Property<std::vector<int>> * property, QWidget * parent = nullptr);
     virtual ~IntMatrixEditor();
     
-    void setMatrix();
+    virtual void setMatrix();
 
 protected:
     Property<std::vector<int>> * m_property;

@@ -1,18 +1,18 @@
 
 #include "BoolMatrixEditor.h"
 
+#include <QLineEdit>
 #include <propertyzeug/Property.h>
 
 namespace zeug {
     
 BoolMatrixEditor::BoolMatrixEditor(Property<std::vector<bool>> * property, QWidget * parent)
 :   MatrixEditor(property->fixedSize(),
-                 "(" + this->trueValues().join("|") + "|" + this->falseValues().join("|") + ")",
+                 this->valueRegexString(),
+                 QString::fromStdString(property->valueAsString()),
                  parent)
 ,   m_property(property)
 {
-    this->setText(QString::fromStdString(m_property->valueAsString()));
-    this->connect(this, &QLineEdit::editingFinished, this, &BoolMatrixEditor::setMatrix);
 }
 
 BoolMatrixEditor::~BoolMatrixEditor()
@@ -31,6 +31,11 @@ void BoolMatrixEditor::setMatrix()
 bool BoolMatrixEditor::stringToBool(const QString & string) const
 {
     return this->trueValues().contains(string, Qt::CaseInsensitive);
+}
+    
+QString BoolMatrixEditor::valueRegexString() const
+{
+    return "(" + this->trueValues().join("|") + "|" + this->falseValues().join("|") + ")";
 }
     
 QStringList BoolMatrixEditor::trueValues() const

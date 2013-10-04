@@ -14,7 +14,7 @@ public:
     DoubleMatrixEditor(Property<std::vector<double>> * property, QWidget * parent = nullptr);
     virtual ~DoubleMatrixEditor();
     
-    void setMatrix();
+    virtual void setMatrix();
 
 protected:
     Property<std::vector<double>> * m_property;

@@ -1,16 +1,18 @@
 
 #include "IntMatrixEditor.h"
 
+#include <QLineEdit>
 #include <propertyzeug/Property.h>
 
 namespace zeug {
     
 IntMatrixEditor::IntMatrixEditor(Property<std::vector<int>> * property, QWidget * parent)
-:   MatrixEditor(property->fixedSize(), "(\\d+)", parent)
+:   MatrixEditor(property->fixedSize(),
+                 "(\\d+)",
+                 QString::fromStdString(property->valueAsString()),
+                 parent)
 ,   m_property(property)
 {
-    this->setText(QString::fromStdString(m_property->valueAsString()));
-    this->connect(this, &QLineEdit::editingFinished, this, &IntMatrixEditor::setMatrix);
 }
 
 IntMatrixEditor::~IntMatrixEditor()

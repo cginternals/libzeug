@@ -1,6 +1,8 @@
 
 #include "MatrixEditor.h"
 
+#include <QHBoxLayout>
+#include <QLineEdit>
 #include <QRegExpValidator>
 #include <QRegularExpression>
 #include <QTextStream>
@@ -8,12 +10,25 @@
 namespace zeug {
     
 MatrixEditor::MatrixEditor(int matrixSize, const QString & valueRegexString,
-    QWidget * parent)
-:   QLineEdit(parent)
+    const QString & initialText, QWidget * parent)
+:   QWidget(parent)
+,   m_lineEdit(new QLineEdit(this))
 ,   m_valueRegexString(valueRegexString)
 {
-    QRegExpValidator * validator = new QRegExpValidator(this->matrixRegex(matrixSize, m_valueRegexString), this);
-    this->setValidator(validator);
+    QHBoxLayout * layout = new QHBoxLayout(this);
+    layout->setContentsMargins(3, 0, 3, 0);
+    layout->setSpacing(3);
+    layout->addWidget(m_lineEdit);
+    
+    this->setFocusProxy(m_lineEdit);
+    
+    QRegExpValidator * validator = new QRegExpValidator(this->matrixRegex(matrixSize,
+                                                                          m_valueRegexString),
+                                                        this);
+    m_lineEdit->setValidator(validator);
+    m_lineEdit->setText(initialText);
+    
+    this->connect(m_lineEdit, &QLineEdit::editingFinished, this, &MatrixEditor::setMatrix);
 }
 
 MatrixEditor::~MatrixEditor()
@@ -37,7 +52,7 @@ QRegExp MatrixEditor::matrixRegex(int matrixSize, const QString & valueRegexStri
     
 void MatrixEditor::valuesFromText(const std::function<void(const QString &)> & functor) const
 {
-    QString text = this->text().replace(" ", "");
+    QString text = m_lineEdit->text().replace(" ", "");
 
     QRegularExpression valueRegex(m_valueRegexString);
     QRegularExpressionMatchIterator matchIterator = valueRegex.globalMatch(text);

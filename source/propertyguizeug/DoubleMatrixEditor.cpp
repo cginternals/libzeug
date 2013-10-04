@@ -1,16 +1,18 @@
 
 #include "DoubleMatrixEditor.h"
 
+#include <QLineEdit>
 #include <propertyzeug/Property.h>
 
 namespace zeug {
     
 DoubleMatrixEditor::DoubleMatrixEditor(Property<std::vector<double>> * property, QWidget * parent)
-:   MatrixEditor(property->fixedSize(), "(\\d+\\.?\\d*)", parent)
+:   MatrixEditor(property->fixedSize(),
+                 "(\\d+\\.?\\d*)",
+                 QString::fromStdString(property->valueAsString()),
+                 parent)
 ,   m_property(property)
 {
-    this->setText(QString::fromStdString(m_property->valueAsString()));
-    this->connect(this, &QLineEdit::editingFinished, this, &DoubleMatrixEditor::setMatrix);
 }
 
 DoubleMatrixEditor::~DoubleMatrixEditor()

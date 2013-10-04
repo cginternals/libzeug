@@ -16,10 +16,13 @@ public:
     BoolMatrixEditor(Property<std::vector<bool>> * property, QWidget * parent = nullptr);
     virtual ~BoolMatrixEditor();
     
-    void setMatrix();
     bool stringToBool(const QString & string) const;
+    
+    virtual void setMatrix();
 
 protected:
+    QString valueRegexString() const;
+    
     QStringList trueValues() const;
     QStringList falseValues() const;
     
