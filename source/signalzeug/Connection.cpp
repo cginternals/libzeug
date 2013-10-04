@@ -1,38 +1,39 @@
-#include <Connection.h>
-#include <AbstractSignal.h>
 
-namespace signalzeug {
+#include <signalzeug/Connection.h>
+#include <signalzeug/AbstractSignal.h>
+
+namespace zeug
+{
 
 Connection::Connection()
 {
 }
 
-Connection::Connection(const AbstractSignal* signal, Id id)
-: _state(new State{signal, id})
+Connection::Connection(const AbstractSignal * signal, Id id)
+:   m_state(new State { signal, id })
 {
 }
 
 Connection::Id Connection::id() const
 {
-	return _state ? _state->id : 0;
+	return m_state ? m_state->id : 0;
 }
 
 void Connection::disconnect()
 {
-	const AbstractSignal* signal = _state ? _state->signal : nullptr;
-	if (signal)
+	if (m_state)
 	{
-		signal->disconnect(*this);
+		m_state->signal->disconnect(*this);
 		detach();
 	}
 }
 
 void Connection::detach()
 {
-	if (_state)
+	if (m_state)
 	{
-		_state->signal = nullptr;
+		m_state->signal = nullptr;
 	}
 }
 
-} // namespace signalzeug
+} // namespace zeug

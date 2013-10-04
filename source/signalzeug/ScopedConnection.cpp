@@ -1,26 +1,28 @@
-#include <ScopedConnection.h>
+
+#include <signalzeug/ScopedConnection.h>
 
 
-namespace signalzeug {
+namespace zeug
+{
 
 ScopedConnection::ScopedConnection()
 {
 }
 
-ScopedConnection::ScopedConnection(const Connection& connection)
-: _connection(connection)
+ScopedConnection::ScopedConnection(const Connection & connection)
+:   m_connection(connection)
 {
 }
 
 ScopedConnection::~ScopedConnection()
 {
-	_connection.disconnect();
+	m_connection.disconnect();
 }
 
-void ScopedConnection::operator=(const Connection& connection)
+void ScopedConnection::operator=(const Connection & connection)
 {
-	_connection.disconnect();
-	_connection = connection;
+	m_connection.disconnect();
+	m_connection = connection;
 }
 
-} // namespace signalzeug
+} // namespace zeug
