@@ -5,7 +5,7 @@
 
 #include "AbstractPropertyVisitor.h"
 
-namespace propertyzeug {
+namespace zeug {
     
 /** @brief
  * Loads property values from a given file.

@@ -3,7 +3,7 @@
 
 #include <propertyzeug/Property.h>
 
-namespace propertyguizeug {
+namespace zeug {
     
 DoubleMatrixEditor::DoubleMatrixEditor(Property<std::vector<double>> * property, QWidget * parent)
 :   MatrixEditor(property->fixedSize(), "(\\d+\\.?\\d*)", parent)

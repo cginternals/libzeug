@@ -7,7 +7,7 @@
 #include <propertyzeug/AbstractProperty.h>
 #include <propertyzeug/PropertyGroup.h>
 
-namespace propertyzeug {
+namespace zeug {
     
 PropertySerializer::PropertySerializer()
 {

@@ -5,14 +5,10 @@
 
 #include <QWidget>
 
-namespace propertyzeug {
-    template <typename Type>
-    class Property;
-}
+namespace zeug {
 
-namespace propertyguizeug {
-
-using namespace propertyzeug;
+template <typename Type>
+class Property;
 
 class PROPERTYGUIZEUG_API ChoiceEditor : public QWidget
 {

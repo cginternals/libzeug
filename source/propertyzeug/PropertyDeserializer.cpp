@@ -8,7 +8,7 @@
 #include <propertyzeug/Property.h>
 #include <propertyzeug/PropertyGroup.h>
 
-namespace propertyzeug {
+namespace zeug {
 
 PropertyDeserializer::PropertyDeserializer()
 :   m_rootGroup(nullptr)

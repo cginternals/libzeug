@@ -6,9 +6,7 @@
 #include <QAbstractTableModel>
 #include <propertyzeug/Property.h>
 
-namespace propertyguizeug {
-
-using namespace propertyzeug;
+namespace zeug {
 
 template <typename Type>
 class VectorModel : public QAbstractTableModel

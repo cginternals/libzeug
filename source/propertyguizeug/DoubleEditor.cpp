@@ -3,7 +3,7 @@
 
 #include <propertyzeug/Property.h>
 
-namespace propertyguizeug {
+namespace zeug {
     
 DoubleEditor::DoubleEditor(Property<double> * property, QWidget * parent)
 :   QDoubleSpinBox(parent)

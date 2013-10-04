@@ -4,7 +4,7 @@
 #include <regex>
 #include <propertyzeug/PropertyGroup.h>
 
-namespace propertyzeug {
+namespace zeug {
     
 const std::string AbstractProperty::s_nameRegexString("[a-zA-Z]\\w*");
 

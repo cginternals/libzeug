@@ -8,7 +8,7 @@
 
 #include <signalzeug/Signal.hpp>
 
-namespace propertyzeug {
+namespace zeug {
 
 class AbstractPropertyVisitor;
 class PropertyGroup;

@@ -7,19 +7,15 @@
 
 class QWidget;
 
-namespace propertyzeug {
-    template <typename Type>
-    class Property;
-    class AbstractProperty;
-    class PropertyGroup;
-    
-    class Color;
-    class FilePath;
-}
+namespace zeug {
 
-namespace propertyguizeug {
+template <typename Type>
+class Property;
+class AbstractProperty;
+class PropertyGroup;
 
-using namespace propertyzeug;
+class Color;
+class FilePath;
     
 class PROPERTYGUIZEUG_API PropertyEditorFactory : public AbstractPropertyVisitor
 {

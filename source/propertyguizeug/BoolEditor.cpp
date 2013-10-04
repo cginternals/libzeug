@@ -3,7 +3,7 @@
 
 #include <propertyzeug/Property.h>
 
-namespace propertyguizeug {
+namespace zeug {
     
 BoolEditor::BoolEditor(Property<bool> * property, QWidget * parent)
 :   QCheckBox(parent)

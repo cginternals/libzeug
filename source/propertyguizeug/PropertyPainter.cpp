@@ -8,7 +8,7 @@
 
 #include <propertyguizeug/TransparencyBackgroundBrush.hpp>
 
-namespace propertyguizeug {
+namespace zeug {
     
 PropertyPainter::PropertyPainter()
 :   m_drawn(false)

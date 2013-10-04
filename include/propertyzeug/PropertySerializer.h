@@ -5,7 +5,7 @@
 
 #include "AbstractPropertyVisitor.h"
 
-namespace propertyzeug {
+namespace zeug {
 
 class AbstractProperty;
 class PropertyGroup;

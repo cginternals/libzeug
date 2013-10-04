@@ -3,14 +3,10 @@
 
 #include "MatrixEditor.h"
 
-namespace propertyzeug {
-    template <typename Type>
-    class Property;
-}
-
-namespace propertyguizeug {
+namespace zeug {
     
-using namespace propertyzeug;
+template <typename Type>
+class Property;
 
 class PROPERTYGUIZEUG_API IntMatrixEditor : public MatrixEditor
 {

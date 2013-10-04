@@ -3,7 +3,7 @@
 #include <propertyzeug/PropertyGroup.h>
 #include <propertyzeug/Property.h>
 
-namespace propertyzeug {
+namespace zeug {
 
 AbstractPropertyVisitor::~AbstractPropertyVisitor()
 {

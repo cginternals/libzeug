@@ -5,7 +5,7 @@
 
 #include <string>
 
-namespace propertyzeug {
+namespace zeug {
     
 /** @brief
  * A simple RGBA color class for use as a property value.

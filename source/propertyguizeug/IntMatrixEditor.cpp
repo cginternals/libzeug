@@ -3,7 +3,7 @@
 
 #include <propertyzeug/Property.h>
 
-namespace propertyguizeug {
+namespace zeug {
     
 IntMatrixEditor::IntMatrixEditor(Property<std::vector<int>> * property, QWidget * parent)
 :   MatrixEditor(property->fixedSize(), "(\\d+)", parent)

@@ -6,7 +6,7 @@
 
 #include <propertyzeug/Property.h>
 
-namespace propertyguizeug {
+namespace zeug {
     
 ChoiceEditor::ChoiceEditor(Property<std::string> * property, QWidget * parent)
 :   QWidget(parent)

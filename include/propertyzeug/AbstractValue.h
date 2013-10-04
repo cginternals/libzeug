@@ -3,14 +3,14 @@
 
 #include "propertyzeug/propertyzeug.h"
 
-namespace propertyzeug {
+namespace zeug {
     
 /** @brief
  * The base class for value implementations of ValueProperty.
  */
 
 template <typename Type>
-class PROPERTYZEUG_API AbstractValue
+class AbstractValue
 {
 public:
     virtual ~AbstractValue() {};

@@ -10,7 +10,7 @@
 
 #include <propertyguizeug/ColorButton.h>
 
-namespace propertyguizeug {
+namespace zeug {
 
 ColorEditor::ColorEditor(Property<Color> * property, QWidget * parent)
 :   QWidget(parent)

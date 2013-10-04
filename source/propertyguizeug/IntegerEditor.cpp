@@ -3,7 +3,7 @@
 
 #include <propertyzeug/Property.h>
 
-namespace propertyguizeug {
+namespace zeug {
     
 IntegerEditor::IntegerEditor(Property<int> * property, QWidget * parent)
 :   QSpinBox(parent)

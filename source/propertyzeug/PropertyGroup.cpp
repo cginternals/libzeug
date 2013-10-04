@@ -6,7 +6,7 @@
 
 #include <propertyzeug/AbstractPropertyVisitor.h>
 
-namespace propertyzeug {
+namespace zeug {
     
 PropertyGroup::PropertyGroup(const std::string & name)
 :   AbstractProperty(name)

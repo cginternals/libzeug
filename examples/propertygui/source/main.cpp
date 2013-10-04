@@ -5,8 +5,7 @@
 #include <propertyzeug/PropertyGroup.h>
 #include <propertyguizeug/PropertyBrowser.h>
 
-using namespace propertyzeug;
-using namespace propertyguizeug;
+using namespace zeug;
 
 int main(int argc, char *argv[])
 {

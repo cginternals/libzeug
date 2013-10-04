@@ -5,14 +5,10 @@
 
 #include <QDoubleSpinBox>
 
-namespace propertyzeug {
-    template <typename Type>
-    class Property;
-}
+namespace zeug {
 
-namespace propertyguizeug {
-
-using propertyzeug::Property;
+template <typename Type>
+class Property;
 
 class PROPERTYGUIZEUG_API DoubleEditor : public QDoubleSpinBox
 {
