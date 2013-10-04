@@ -3,9 +3,7 @@
 
 #include <propertyzeug/PropertyGroup.h>
 
-namespace propertyguizeug {
-    
-using propertyzeug::AbstractProperty;
+namespace zeug {
     
 PropertyModel::PropertyModel(PropertyGroup * root, QObject * parent)
 :   QAbstractItemModel(parent)

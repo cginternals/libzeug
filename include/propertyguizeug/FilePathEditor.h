@@ -8,17 +8,11 @@
 class QFileDialog;
 class QHBoxLayout;
 
-namespace propertyzeug {
-    template <typename Type>
-    class Property;
-    
-    class FilePath;
-}
+namespace zeug {
 
-namespace propertyguizeug {
-
-using propertyzeug::Property;
-using propertyzeug::FilePath;
+template <typename Type>
+class Property;
+class FilePath;
     
 class PROPERTYGUIZEUG_API FilePathEditor : public QLineEdit
 {

@@ -6,7 +6,7 @@
 #include <functional>
 #include <QLineEdit>
 
-namespace propertyguizeug {
+namespace zeug {
 
 class PROPERTYGUIZEUG_API MatrixEditor : public QLineEdit
 {

@@ -3,7 +3,7 @@
 
 #include <propertyzeug/Property.h>
 
-namespace propertyguizeug {
+namespace zeug {
     
 StringEditor::StringEditor(Property<std::string> * property, QWidget * parent)
 :   QLineEdit(parent)

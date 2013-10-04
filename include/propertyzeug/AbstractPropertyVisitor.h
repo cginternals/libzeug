@@ -6,7 +6,7 @@
 #include <string>
 #include <vector>
 
-namespace propertyzeug {
+namespace zeug {
 
 template <typename Type>
 class Property;

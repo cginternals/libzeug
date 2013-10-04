@@ -4,7 +4,7 @@
 #include "ValueProperty.h"
 #include "FilePath.h"
 
-namespace propertyzeug {
+namespace zeug {
     
 /** @brief
  * Part of the property hierarchy.

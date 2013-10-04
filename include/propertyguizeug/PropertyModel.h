@@ -5,13 +5,9 @@
 
 #include <QAbstractItemModel>
 
-namespace propertyzeug {
-    class PropertyGroup;
-}
-
-namespace propertyguizeug {
+namespace zeug {
     
-using propertyzeug::PropertyGroup;
+class PropertyGroup;
 
 class PROPERTYGUIZEUG_API PropertyModel : public QAbstractItemModel
 {

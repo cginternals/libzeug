@@ -5,14 +5,10 @@
 
 #include <QLineEdit>
 
-namespace propertyzeug {
-    template <typename Type>
-    class Property;
-}
+namespace zeug {
 
-namespace propertyguizeug {
-
-using namespace propertyzeug;
+template <typename Type>
+class Property;
 
 class PROPERTYGUIZEUG_API StringEditor : public QLineEdit
 {

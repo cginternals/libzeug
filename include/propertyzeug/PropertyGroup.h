@@ -9,7 +9,7 @@
 
 #include "Property.h"
 
-namespace propertyzeug {
+namespace zeug {
     
 /** @brief
  * Part of the Property Hierarchy.

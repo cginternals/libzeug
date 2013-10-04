@@ -16,7 +16,7 @@
 #include <propertyguizeug/DoubleMatrixEditor.h>
 
 
-namespace propertyguizeug {
+namespace zeug {
     
 PropertyEditorFactory::PropertyEditorFactory()
 :   m_editor(nullptr)

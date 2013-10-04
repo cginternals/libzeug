@@ -5,7 +5,7 @@
 #include <sstream>
 #include <iomanip>
 
-namespace propertyzeug {
+namespace zeug {
 
 Color::Color()
 {

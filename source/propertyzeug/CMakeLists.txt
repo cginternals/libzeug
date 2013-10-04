@@ -24,9 +24,12 @@ set(headers
 
     ${header_path}/AbstractProperty.h
     ${header_path}/ValueProperty.h
+    ${header_path}/ValueProperty.hpp
     ${header_path}/NumberProperty.h
+    ${header_path}/NumberProperty.hpp
     ${header_path}/StringProperty.h
     ${header_path}/VectorProperty.h
+    ${header_path}/VectorProperty.hpp
     ${header_path}/FilePathProperty.h
     ${header_path}/Property.h
 
@@ -37,7 +40,9 @@ set(headers
 
     ${header_path}/AbstractValue.h
     ${header_path}/StoredValue.h
+    ${header_path}/StoredValue.hpp
     ${header_path}/AccessorValue.h
+    ${header_path}/AccessorValue.hpp
 
     ${header_path}/Color.h
     ${header_path}/FilePath.h

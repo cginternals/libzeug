@@ -7,9 +7,7 @@
 #include <QSpinBox>
 #include <propertyzeug/Property.h>
 
-namespace propertyguizeug {
-
-using namespace propertyzeug;
+namespace zeug {
 
 template <typename Type>
 class VectorDelegate : public QStyledItemDelegate

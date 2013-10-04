@@ -5,7 +5,7 @@
 #include <QRegularExpression>
 #include <QTextStream>
 
-namespace propertyguizeug {
+namespace zeug {
     
 MatrixEditor::MatrixEditor(int matrixSize, const QString & valueRegexString,
     QWidget * parent)

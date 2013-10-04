@@ -5,14 +5,9 @@
 
 #include <QTreeView>
 
-namespace propertyzeug {
-    class PropertyGroup;
-}
-
-namespace propertyguizeug {
+namespace zeug {
     
-using propertyzeug::PropertyGroup;
-
+class PropertyGroup;
 class PropertyModel;
 class PropertyDelegate;
 

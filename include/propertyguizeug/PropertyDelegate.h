@@ -8,13 +8,9 @@
 #include <propertyguizeug/PropertyEditorFactory.h>
 #include <propertyguizeug/PropertyPainter.h>
 
-namespace propertyzeug {
-    class AbstractProperty;
-}
-
-namespace propertyguizeug {
+namespace zeug {
     
-using propertyzeug::AbstractProperty;
+class AbstractProperty;
 
 class PropertyDelegate : public QStyledItemDelegate
 {

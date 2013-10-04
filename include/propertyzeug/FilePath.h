@@ -5,7 +5,7 @@
 
 #include <string>
 
-namespace propertyzeug {
+namespace zeug {
     
 /** @brief
  * A simple file path class for use as a property value.

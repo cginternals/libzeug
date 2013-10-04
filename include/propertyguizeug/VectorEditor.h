@@ -6,9 +6,7 @@
 #include "VectorModel.h"
 #include "VectorDelegate.h"
 
-namespace propertyguizeug {
-
-using namespace propertyzeug;
+namespace zeug {
 
 template <typename Type>
 class VectorEditor : public QTableView

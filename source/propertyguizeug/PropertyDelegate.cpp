@@ -3,7 +3,7 @@
 
 #include <propertyzeug/AbstractProperty.h>
 
-namespace propertyguizeug {
+namespace zeug {
     
 PropertyDelegate::PropertyDelegate(QWidget * parent)
 :   QStyledItemDelegate(parent)

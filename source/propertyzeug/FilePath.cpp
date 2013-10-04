@@ -1,7 +1,7 @@
 
 #include <propertyzeug/FilePath.h>
 
-namespace propertyzeug {
+namespace zeug {
 
 FilePath::FilePath()
 :   m_string("")

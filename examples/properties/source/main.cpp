@@ -5,7 +5,7 @@
 #include <propertyzeug/PropertySerializer.h>
 #include "SomeObject.h"
 
-using namespace propertyzeug;
+using namespace zeug;
 
 void createProperties()
 {

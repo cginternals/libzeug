@@ -2,7 +2,7 @@
 #include <propertyzeug/Announcer.h>
 #include <propertyzeug/AbstractProperty.h>
 
-namespace propertyzeug {
+namespace zeug {
 
 Announcer::Announcer(AbstractProperty * property)
 :   m_subscriptions(new std::unordered_map<int, 

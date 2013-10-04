@@ -8,17 +8,11 @@
 class QLineEdit;
 class ColorButton;
 
-namespace propertyzeug {
-    template <typename Type>
-    class Property;
-    
-    class Color;
-}
+namespace zeug {
 
-namespace propertyguizeug {
-
-using propertyzeug::Property;
-using propertyzeug::Color;
+template <typename Type>
+class Property;
+class Color;
 
 class PROPERTYGUIZEUG_API ColorEditor : public QWidget
 {
