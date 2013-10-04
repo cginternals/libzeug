@@ -14,14 +14,23 @@ int main(int argc, char *argv[])
     
     PropertyGroup settings("Settings");
     PropertyGroup constraints("Constraints");
-    constraints.addProperty<std::vector<int>>("Position", std::vector<int>({ 10, 20, 30 }));
+    
+    int position[] = {10, 20, 30};
+    int mat3x2[] = {1, 2, 3, 4, 5, 6};
+    double mat2x2[] = {1.1, 2.3, 6.1, 4};
+    bool boolMat[] = {true, false, true, false};
+
+    constraints.addProperty<std::vector<int>>("Position", std::vector<int>(std::begin(position),
+                                                                           std::end(position)));
     settings.addProperty(&constraints);
     constraints.addProperty("Height", 3);
     constraints.addProperty("Width", 12.3);
     settings.addProperty<std::string>("FilePath", "/Users/Horst/Desktop/");
-    settings.addProperty<std::vector<int>>("Mat3x2", {1,2,3,4,5,6});
+    settings.addProperty<std::vector<int>>("Mat3x2", std::vector<int>(std::begin(mat3x2),
+                                                                      std::end(mat3x2)));
     settings.property<std::vector<int>>("Mat3x2")->setDimensions(2,3);
-    settings.addProperty<std::vector<double>>("Mat2x2", {1.1, 2.3, 6.1, 4});
+    settings.addProperty<std::vector<double>>("Mat2x2", std::vector<double>(std::begin(mat2x2),
+                                                                            std::end(mat2x2)));
     settings.property<std::vector<double>>("Mat2x2")->setDimensions(2,2);
     settings.addProperty<bool>("Activate", true);
     settings.addProperty<int>("Count", 79);
@@ -34,14 +43,12 @@ int main(int argc, char *argv[])
     extras.property<std::string>("Animal")->setChoices({"Rabbit", "Duck", "Elephant"});
     PropertyGroup general("General");
     extras.addProperty(&general);
-    general.addProperty<std::vector<bool>>("BoolMat", {true, false, true, false});
+    general.addProperty<std::vector<bool>>("BoolMat", std::vector<bool>(std::begin(boolMat),
+                                                                        std::end(boolMat)));
     general.property<std::vector<bool>>("BoolMat")->setDimensions(2,2);
 
     PropertyBrowser browser1(&settings);
     browser1.show();
-    
-    PropertyBrowser browser2(&settings);
-    browser2.show();
     
     return a.exec();
 }
