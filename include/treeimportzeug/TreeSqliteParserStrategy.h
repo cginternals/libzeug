@@ -4,17 +4,25 @@
 #include <QString>
 #include <QVariantMap>
 
+
+namespace zeug
+{
+
 class TreeSqliteParser;
 
-class TreeSqliteParserStrategy
+class TREEIMPORTZEUG_API TreeSqliteParserStrategy
 {
 public:
-	TreeSqliteParserStrategy(TreeSqliteParser& parser);
-	
+	TreeSqliteParserStrategy(TreeSqliteParser & parser);
+
 	virtual void processOne() = 0;
 	virtual void processMultiple() = 0;
+
 protected:
-	TreeSqliteParser& _parser;
-	
-	QList<QVariantMap> executeQuery(const QString& statement) const;
+    QList<QVariantMap> executeQuery(const QString & statement) const;
+
+protected:
+	TreeSqliteParser & m_parser;
 };
+
+} // namespace zeug

@@ -18,16 +18,19 @@ include_directories(
 
 # Libraries
 set(libs
+    treezeug
 )
 
 # Definitions
-add_definitions("-Dtreeimportzeug_EXPORTS")
+add_definitions("-DTREEIMPORTZEUG_EXPORTS")
 
 # Sources
 set(header_path "${LIBZEUG_SOURCE_DIR}/include/treeimportzeug")
 set(source_path "${CMAKE_CURRENT_SOURCE_DIR}")
 
 set(headers
+    ${header_path}/treeimportzeug.h
+
     ${header_path}/ChangesStrategy.h
     ${header_path}/CityGMLStrategy.h
     ${header_path}/SDStrategy.h
@@ -65,8 +68,10 @@ if(OPTION_BUILD_STATIC)
 else()
     add_library(${target} SHARED ${headers} ${sources})
 endif()
-target_link_libraries(${target} ${libs})
+
 qt5_use_modules(${target} Core Xml Sql)
+target_link_libraries(${target} ${libs})
+
 set_target_properties(${target}
     PROPERTIES
     LINKER_LANGUAGE CXX

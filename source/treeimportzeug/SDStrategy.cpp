@@ -1,10 +1,14 @@
-#include <treeimportzeug/SDStrategy.h>
-
-#include <treeimportzeug/TreeSqliteParser.h>
 
 #include <QDateTime>
 
-SDStrategy::SDStrategy(TreeSqliteParser& parser)
+#include <treeimportzeug/TreeSqliteParser.h>
+#include <treeimportzeug/SDStrategy.h>
+
+
+namespace zeug
+{
+
+SDStrategy::SDStrategy(TreeSqliteParser & parser)
 : TreeSqliteParserStrategy(parser)
 , m_tree(new Tree(""))
 {
@@ -36,7 +40,7 @@ void SDStrategy::loadDirectories()
 		node->setName(directory["name"].toString().toStdString());
 		
 		m_nodes[directory["id"].toInt()] = node;
-		_parents[directory["id"].toInt()] = directory["parent"].toInt();
+		m_parents[directory["id"].toInt()] = directory["parent"].toInt();
 	}
 }
 
@@ -48,7 +52,7 @@ void SDStrategy::loadFiles()
 		node->setName(file["name"].toString().toStdString());
 		
 		m_nodes[file["id"].toInt()] = node;
-		_parents[file["id"].toInt()] = file["directory"].toInt();
+		m_parents[file["id"].toInt()] = file["directory"].toInt();
 	}
 }
 
@@ -67,12 +71,12 @@ void SDStrategy::insertIntoTree(Node* node)
 		return;
 	}
 	
-	if (!m_tree->getNode(_parents.value(node->id())))
+	if (!m_tree->getNode(m_parents.value(node->id())))
 	{
-		insertIntoTree(m_nodes.value(_parents.value(node->id())));
+		insertIntoTree(m_nodes.value(m_parents.value(node->id())));
 	}
 	
-	m_tree->getNode(_parents.value(node->id()))->addChild(node);
+	m_tree->getNode(m_parents.value(node->id()))->addChild(node);
 }
 
 void SDStrategy::addMetricsForOneTimestamp()
@@ -92,7 +96,7 @@ void SDStrategy::addMetricsForOneTimestamp()
 			metricMeta["type"].toInt() == 1 ? AttributeMap::Numeric : AttributeMap::Nominal
 		);
 		
-		_metrics[metricMeta["id"].toInt()] = metricMeta["name"].toString();
+		m_metrics[metricMeta["id"].toInt()] = metricMeta["name"].toString();
 	}
 	
 	for (const QVariantMap& metricSet : executeQuery("SELECT timestamp FROM metricssets WHERE 1 ORDER BY timestamp LIMIT 1"))
@@ -105,12 +109,12 @@ void SDStrategy::addMetricsForOneTimestamp()
 		for (const QVariantMap& metricData : executeQuery("SELECT itemId, metricId, value FROM metricsdata WHERE timestamp = " + metricSet["timestamp"].toString() + " ORDER BY itemId"))
 		{
 			m_tree->getNode(metricData["itemId"].toInt())->setAttribute(
-				_metrics[metricData["metricId"].toInt()].toStdString(),
+				m_metrics[metricData["metricId"].toInt()].toStdString(),
 				metricData["value"].toString().toStdString()
 			);
 		}
 		
-		_trees << m_tree;
+		m_trees << m_tree;
 		
 		return;
 	}
@@ -133,7 +137,7 @@ void SDStrategy::addMetricsForAllTimestamps()
 			metricMeta["type"].toInt() == 1 ? AttributeMap::Numeric : AttributeMap::Nominal
 		);
 		
-		_metrics[metricMeta["id"].toInt()] = metricMeta["name"].toString();
+		m_metrics[metricMeta["id"].toInt()] = metricMeta["name"].toString();
 	}
 	
 	for (const QVariantMap& metricSet : executeQuery("SELECT timestamp FROM metricssets WHERE 1 ORDER BY timestamp"))
@@ -148,12 +152,12 @@ void SDStrategy::addMetricsForAllTimestamps()
 		for (const QVariantMap& metricData : executeQuery("SELECT itemId, metricId, value FROM metricsdata WHERE timestamp = " + metricSet["timestamp"].toString() + " ORDER BY itemId"))
 		{
 			tree->getNode(metricData["itemId"].toInt())->setAttribute(
-				_metrics[metricData["metricId"].toInt()].toStdString(),
+				m_metrics[metricData["metricId"].toInt()].toStdString(),
 				metricData["value"].toString().toStdString()
 			);
 		}
 		
-		_trees << tree;
+		m_trees << tree;
 	}
 	
 	delete m_tree;
@@ -161,5 +165,7 @@ void SDStrategy::addMetricsForAllTimestamps()
 
 void SDStrategy::transferTrees()
 {
-	_parser.trees() = _trees;
+	m_parser.trees() = m_trees;
 }
+
+} // namespace zeug

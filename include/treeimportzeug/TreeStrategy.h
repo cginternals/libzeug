@@ -5,9 +5,12 @@
 #include <QStack>
 #include <QString>
 
+namespace zeug
+{
+
 class Node;
 
-class TreeStrategy : public TreeXmlParserStrategy
+class TREEIMPORTZEUG_API TreeStrategy : public TreeXmlParserStrategy
 {
 public:
 	TreeStrategy(TreeXmlParser& parser);
@@ -15,10 +18,21 @@ public:
 	virtual bool startDocument();
 	virtual bool endDocument();
 
-	virtual bool startElement(const QString& namespaceURI, const QString& localName, const QString& qName, const QXmlAttributes& attributes);
-	virtual bool endElement(const QString& namespaceURI, const QString& localName, const QString& qName);
+	virtual bool startElement(
+        const QString & namespaceURI
+    ,   const QString & localName
+    ,   const QString & qName
+    ,   const QXmlAttributes & attributes);
 
-	virtual bool characters(const QString& characters);
+    virtual bool endElement(
+        const QString & namespaceURI
+    ,   const QString & localName
+    ,   const QString & qName);
+
+	virtual bool characters(const QString & characters);
+
 protected:
-	QStack<Node*> _stack;
+	QStack<Node*> m_stack;
 };
+
+} // namespace zeug
