@@ -22,7 +22,7 @@ ChoiceEditor::ChoiceEditor(Property<std::string> * property, QWidget * parent)
     comboBox->setCurrentText(QString::fromStdString(m_property->value()));
     
     QHBoxLayout * layout = new QHBoxLayout(this);
-    layout->setMargin(0);
+    layout->setContentsMargins(3, 0, 3, 0);
     layout->addWidget(comboBox);
     
     this->connect(comboBox, &QComboBox::currentTextChanged, this, &ChoiceEditor::setString);

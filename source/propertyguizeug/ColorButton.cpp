@@ -14,7 +14,7 @@ const QSize ColorButton::s_fixedSize = QSize(20, 20);
 ColorButton::ColorButton(const QColor & initialColor, QWidget * parent)
 :	QLabel(parent)
 {
-    this->setFrameStyle(QFrame::StyledPanel | QFrame::Raised);
+    this->setFrameStyle(QFrame::NoFrame);
 	this->setAutoFillBackground(true);
     
     this->setFixedSize(s_fixedSize);

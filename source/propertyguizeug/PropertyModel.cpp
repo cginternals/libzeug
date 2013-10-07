@@ -53,13 +53,11 @@ QModelIndex PropertyModel::parent(const QModelIndex & index) const
         return QModelIndex();
     
     PropertyGroup * parent = property->parent();
-    
-    int row;
+
     if (parent == m_root)
-        row = 0;
-    else
-        row = parent->parent()->indexOfProperty(parent->name());
+        return QModelIndex();
     
+    int row = parent->parent()->indexOfProperty(parent->name());
     return this->createIndex(row, 0, parent);
 }
 

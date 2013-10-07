@@ -20,7 +20,7 @@ PropertyPainter::~PropertyPainter()
 {
 }
 
-bool PropertyPainter::drawValue(QPainter * painter, 
+void PropertyPainter::drawValue(QPainter * painter, 
     const QStyleOptionViewItem & option, AbstractProperty & property)
 {
     m_drawn = false;
@@ -29,19 +29,38 @@ bool PropertyPainter::drawValue(QPainter * painter,
 
     property.accept(*this);
 
-    return m_drawn;
+	if (!m_drawn)
+		this->drawString(QString::fromStdString(property.valueAsString()));
+}
+
+void PropertyPainter::drawString(const QString & string)
+{
+	const QWidget * widget = m_option.widget;
+	QStyle * style = widget ? widget->style() : QApplication::style();
+
+	m_option.text = string;
+	style->drawControl(QStyle::CE_ItemViewItem, &m_option, m_painter, widget);
+}
+
+void PropertyPainter::drawItemViewBackground()
+{
+	const QWidget * widget = m_option.widget;
+	QStyle * style = widget ? widget->style() : QApplication::style();
+	style->drawControl(QStyle::CE_ItemViewItem, &m_option, m_painter, widget);
 }
 
 void PropertyPainter::visit(Property<bool> & property)
 {
+	this->drawItemViewBackground();
+
     QStyleOptionButton opt;
     opt.state = property.value() ? QStyle::State_On : QStyle::State_Off;
     opt.state |= QStyle::State_Enabled;
     opt.rect = m_option.rect;
-    
-    if (m_option.state & QStyle::State_Selected)
-        m_painter->fillRect(m_option.rect, m_option.palette.highlight());
-    QApplication::style()->drawControl(QStyle::CE_CheckBox, &opt, m_painter);
+   
+	const QWidget * widget = m_option.widget;
+	QStyle * style = widget ? widget->style() : QApplication::style();
+    style->drawControl(QStyle::CE_CheckBox, &opt, m_painter, widget);
     
     m_drawn = true;
 }
@@ -63,18 +82,15 @@ void PropertyPainter::visit(Property<std::string> & property)
 
 void PropertyPainter::visit(Property<Color> & property)
 {
-    if (m_option.state & QStyle::State_Selected)
-        m_painter->fillRect(m_option.rect, m_option.palette.highlight());
+	this->drawItemViewBackground();
     
     const Color & color = property.value();
     
     QPixmap pixmap(20, 20);
-    pixmap.fill(QColor(
-                    color.red(),
-                    color.green(),
-                    color.blue(),
-                    color.alpha()
-                ));
+    pixmap.fill(QColor(color.red(),
+					   color.green(),
+                       color.blue(),
+                       color.alpha()));
     
     QRect pixmapRect = m_option.rect;
     pixmapRect.setLeft(pixmapRect.left() + 3);
@@ -87,14 +103,16 @@ void PropertyPainter::visit(Property<Color> & property)
     
     QRect rect = m_option.rect;
     rect.setLeft(pixmapRect.right() + 6);
-    
-    QApplication::style()->drawItemText(m_painter,
-                                        rect,
-                                        Qt::AlignVCenter,
-                                        m_option.palette,
-                                        true,
-                                        QString::fromStdString(property.valueAsString()),
-                                        QPalette::Text);
+
+    const QWidget * widget = m_option.widget;
+    QStyle * style = widget ? widget->style() : QApplication::style();
+    style->drawItemText(m_painter,
+                        rect,
+                        Qt::AlignVCenter,
+                        m_option.palette,
+                        true,
+                        QString::fromStdString(property.valueAsString()),
+                        QPalette::Text);
     
     m_drawn = true;
 }

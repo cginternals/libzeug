@@ -1,6 +1,7 @@
 
 #include <propertyguizeug/PropertyDelegate.h>
 
+#include <QApplication>
 #include <propertyzeug/AbstractProperty.h>
 
 namespace zeug {
@@ -22,14 +23,11 @@ void PropertyDelegate::paint(QPainter * painter,
     
     if (property->isGroup())
         return QStyledItemDelegate::paint(painter, option, index);
+
+	QStyleOptionViewItem opt = option;
+	this->initStyleOption(&opt, index);
     
-    if (m_propertyPainter.drawValue(painter, option, *property))
-        return;
-    
-    QStyleOptionViewItem myOption = option;
-    QString text = QString::fromStdString(property->valueAsString());
-    myOption.text = text;
-    QStyledItemDelegate::paint(painter, myOption, index);
+	m_propertyPainter.drawValue(painter, opt, *property);
 }
     
 QWidget * PropertyDelegate::createEditor(QWidget * parent,

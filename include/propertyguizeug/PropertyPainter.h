@@ -25,7 +25,7 @@ public:
     PropertyPainter();
     virtual ~PropertyPainter();
 
-    bool drawValue(QPainter * painter, 
+    void drawValue(QPainter * painter, 
                    const QStyleOptionViewItem & option,
                    AbstractProperty & property);
 
@@ -43,6 +43,9 @@ public:
     virtual void visit(PropertyGroup & property);
     
 protected:
+	void drawString(const QString & string);
+	void drawItemViewBackground();
+
     bool m_drawn;
     QPainter * m_painter;
     QStyleOptionViewItem m_option;
