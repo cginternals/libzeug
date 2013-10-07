@@ -10,6 +10,7 @@ using namespace zeug;
 int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);
+    QApplication::setOrganizationName("hpicgs_libzeug");
     
     PropertyGroup settings("Settings");
     PropertyGroup constraints("Constraints");
