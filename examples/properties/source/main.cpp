@@ -177,7 +177,7 @@ void serializeToFile()
     group2.addProperty<std::string>("city", "Potsdam");
     
     PropertySerializer serializer;
-    serializer.serialize(group, "examples/properties/data/groupOut.ini");
+    serializer.serialize(group, "./examples/properties/data/groupOut.ini");
 }
 
 void useVectorProperties()

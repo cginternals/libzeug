@@ -34,18 +34,33 @@ int main(int argc, char *argv[])
     settings.property<std::vector<double>>("Mat2x2")->setDimensions(2,2);
     settings.addProperty<bool>("Activate", true);
     settings.addProperty<int>("Count", 79);
-    PropertyGroup extras("Extras");
-    settings.addProperty(&extras);
-    extras.addProperty<Color>("Color", Color(255,122,0,190));
-    extras.addProperty<FilePath>("Path", FilePath("/Users/max/"));
-    // extras.property<FilePath>("Path")->setIsFile(false);
-    extras.addProperty<std::string>("Animal", "Rabbit");
-    extras.property<std::string>("Animal")->setChoices({"Rabbit", "Duck", "Elephant"});
+  
     PropertyGroup general("General");
-    extras.addProperty(&general);
+    settings.addProperty(&general);
     general.addProperty<std::vector<bool>>("BoolMat", std::vector<bool>(std::begin(boolMat),
-                                                                        std::end(boolMat)));
-    general.property<std::vector<bool>>("BoolMat")->setDimensions(2,2);
+        std::end(boolMat)));
+    general.property<std::vector<bool>>("BoolMat")->setDimensions(2, 2);
+
+    Property<bool> optionsTrigger("optionTrigger", true);
+    optionsTrigger.setTitle("Activate Color");
+
+    PropertyGroup additionalOptions("additional_options");
+    additionalOptions.setTitle("Additional Options");
+
+    additionalOptions.addProperty<Color>("Color", Color(255, 122, 0, 190));
+    additionalOptions.addProperty<FilePath>("Path", FilePath("/Users/max/"));
+    additionalOptions.addProperty<std::string>("Animal", "Rabbit");
+    additionalOptions.property<std::string>("Animal")->setChoices({ "Rabbit", "Duck", "Elephant" });
+
+    optionsTrigger.valueChanged.connect([&additionalOptions] (const bool &) {
+        auto color = additionalOptions.property<Color>("Color");
+        color->setActive(!color->isActive());
+    });
+
+    settings.addProperty(&optionsTrigger);
+    settings.addProperty(&additionalOptions);
+
+
 
     PropertyBrowser browser1(&settings);
     browser1.show();

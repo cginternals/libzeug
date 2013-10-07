@@ -41,6 +41,12 @@ public:
     void setParent(PropertyGroup * parent);
     void removeParent();
     bool hasParent() const;
+
+    bool isActive() const;
+    void setActive(bool active);
+    void activate();
+    void deactivate();
+    
     
     std::string path() const;
 
@@ -65,6 +71,8 @@ protected:
     std::string m_name;
     std::string m_title;
     std::string m_annotations;
+
+    bool m_active;
 
     PropertyGroup * m_parent;
 };

@@ -11,6 +11,7 @@ AbstractProperty::AbstractProperty(const std::string & name)
 :   m_name(name)
 ,   m_title(name)
 ,   m_parent(nullptr)
+,   m_active(true)
 {
     assert(std::regex_match(m_name, std::regex(s_nameRegexString)));
 }
@@ -62,6 +63,26 @@ bool AbstractProperty::hasParent() const
 void AbstractProperty::removeParent()
 {
     m_parent = nullptr;
+}
+
+bool AbstractProperty::isActive() const
+{
+    return m_active;
+}
+
+void AbstractProperty::setActive(bool active)
+{
+    m_active = active;
+}
+
+void AbstractProperty::activate()
+{
+    m_active = true;
+}
+
+void AbstractProperty::deactivate()
+{
+    m_active = false;
 }
     
 std::string AbstractProperty::path() const
