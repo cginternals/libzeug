@@ -11,7 +11,7 @@ AbstractProperty::AbstractProperty(const std::string & name)
 :   m_name(name)
 ,   m_title(name)
 ,   m_parent(nullptr)
-,   m_active(true)
+,   m_state(kNotSet)
 {
     assert(std::regex_match(m_name, std::regex(s_nameRegexString)));
 }
@@ -64,25 +64,21 @@ void AbstractProperty::removeParent()
 {
     m_parent = nullptr;
 }
-
-bool AbstractProperty::isActive() const
+    
+bool AbstractProperty::isEnabled() const
 {
-    return m_active;
+    if (m_state != kNotSet)
+        return m_state == kEnabled;
+    
+    if (!this->hasParent())
+        return true;
+
+    return this->parent()->isEnabled();
 }
-
-void AbstractProperty::setActive(bool active)
+    
+void AbstractProperty::setEnabled(bool enabled)
 {
-    m_active = active;
-}
-
-void AbstractProperty::activate()
-{
-    m_active = true;
-}
-
-void AbstractProperty::deactivate()
-{
-    m_active = false;
+    m_state = enabled ? kEnabled : kDisabled;
 }
     
 std::string AbstractProperty::path() const

@@ -112,7 +112,7 @@ Qt::ItemFlags PropertyModel::flags(const QModelIndex &index) const
     if (index.column() == 1 && !property->isGroup())
         flags |= Qt::ItemIsEditable;
 
-    if (property->isActive())
+    if (property->isEnabled())
         flags |= Qt::ItemIsEnabled;
     
     return flags;

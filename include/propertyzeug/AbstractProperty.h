@@ -41,12 +41,9 @@ public:
     void setParent(PropertyGroup * parent);
     void removeParent();
     bool hasParent() const;
-
-    bool isActive() const;
-    void setActive(bool active);
-    void activate();
-    void deactivate();
     
+    bool isEnabled() const;
+    void setEnabled(bool enabled);
     
     std::string path() const;
 
@@ -68,11 +65,15 @@ public:
     virtual std::string valueAsString() const = 0;
 
 protected:
+    enum {
+        kNotSet,
+        kEnabled,
+        kDisabled
+    } m_state;
+    
     std::string m_name;
     std::string m_title;
     std::string m_annotations;
-
-    bool m_active;
 
     PropertyGroup * m_parent;
 };

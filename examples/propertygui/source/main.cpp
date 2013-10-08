@@ -54,7 +54,7 @@ int main(int argc, char *argv[])
 
     optionsTrigger.valueChanged.connect([&additionalOptions] (const bool &) {
         auto color = additionalOptions.property<Color>("Color");
-        color->setActive(!color->isActive());
+        color->setEnabled(!color->isEnabled());
     });
 
     settings.addProperty(&optionsTrigger);
