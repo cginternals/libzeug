@@ -94,7 +94,7 @@ bool PropertyDeserializer::setPropertyValue(const std::string line)
     const std::string & path = match.prefix();
     m_currentValue = match.suffix();
     
-    AbstractProperty * property = m_currentGroup->property(path);
+    AbstractProperty * property = m_currentGroup->property(path)->asValueProperty();
     
     if (!property) {
         std::cerr << "Property path \"" << path << "\" ";
@@ -102,7 +102,13 @@ bool PropertyDeserializer::setPropertyValue(const std::string line)
         return false;
     }
 
-    property->accept(*this);
+    if (property->isGroup()) {
+        std::cerr << "Tried to assign value to group with name: ";
+        std::cerr << property->name() << std::endl;
+        return false;
+    }
+
+    property->asValueProperty()->accept(*this);
     return true;
 }
     
@@ -207,12 +213,6 @@ void PropertyDeserializer::visit(Property<std::vector<double>> & property)
                                       vector.push_back(this->convertString<double>(string));
                                   });
     property.setValue(vector);
-}
-
-void PropertyDeserializer::visit(PropertyGroup & property)
-{
-    std::cerr << "Tried to assign value to group with name: ";
-    std::cerr << property.name() << std::endl;
 }
 
 } // namespace

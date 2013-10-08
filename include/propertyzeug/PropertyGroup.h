@@ -23,7 +23,6 @@ public:
     virtual ~PropertyGroup();
     
     virtual bool isGroup() const;
-    virtual void accept(AbstractPropertyVisitor & visitor);
     
     /** @name Property Adding
      * @brief Methods for adding properties.

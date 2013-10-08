@@ -14,8 +14,6 @@ class Property;
     
 class Color;
 class FilePath;
-
-class PropertyGroup;
     
 /** @brief
  * Part of the Visitor Pattern implementation.
@@ -36,8 +34,6 @@ public:
     virtual void visit(Property<std::vector<bool>> & property) = 0;
     virtual void visit(Property<std::vector<int>> & property) = 0;
     virtual void visit(Property<std::vector<double>> & property) = 0;
-
-    virtual void visit(PropertyGroup & property) = 0;
 
 protected:
 

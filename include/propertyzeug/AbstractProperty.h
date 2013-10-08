@@ -60,8 +60,6 @@ public:
     const PropertyGroup * asGroup() const;
 
     virtual bool isGroup() const;
-    
-    virtual void accept(AbstractPropertyVisitor & visitor) = 0;
 
 protected:
     enum {

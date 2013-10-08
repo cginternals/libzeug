@@ -27,7 +27,7 @@ PropertyEditorFactory::~PropertyEditorFactory()
 {
 }
 
-QWidget * PropertyEditorFactory::createEditor(AbstractProperty & property)
+QWidget * PropertyEditorFactory::createEditor(ValuePropertyBase & property)
 {
     property.accept(*this);
     return m_editor;
@@ -88,10 +88,5 @@ void PropertyEditorFactory::visit(Property<std::vector<double>> & property)
     
     // TODO add DoubleVectorEditor
 }
-
-void PropertyEditorFactory::visit(PropertyGroup & property)
-{
-    // should not be called
-}
-    
+  
 } // namespace

@@ -21,7 +21,7 @@ PropertyPainter::~PropertyPainter()
 }
 
 void PropertyPainter::drawValue(QPainter * painter, 
-    const QStyleOptionViewItem & option, AbstractProperty & property)
+    const QStyleOptionViewItem & option, ValuePropertyBase & property)
 {
     m_drawn = false;
     m_painter = painter;
@@ -133,11 +133,6 @@ void PropertyPainter::visit(Property<std::vector<int>> & property)
 }
 
 void PropertyPainter::visit(Property<std::vector<double>> & property)
-{
-
-}
-
-void PropertyPainter::visit(PropertyGroup & property)
 {
 
 }

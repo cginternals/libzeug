@@ -23,11 +23,6 @@ bool PropertyGroup::isGroup() const
     return true;
 }
 
-void PropertyGroup::accept(AbstractPropertyVisitor & visitor)
-{
-    visitor.visit(*this);
-}
-
 bool PropertyGroup::addProperty(AbstractProperty * property)
 {
     if (this->property(property->name()) || property->hasParent())

@@ -7,6 +7,8 @@
 #include <propertyzeug/AbstractPropertyVisitor.h>
 
 namespace zeug {
+
+class PropertyGroup;
     
 /** @brief
  * Loads property values from a given file.
@@ -28,8 +30,6 @@ public:
     virtual void visit(Property<std::vector<bool>> & property);
     virtual void visit(Property<std::vector<int>> & property);
     virtual void visit(Property<std::vector<double>> & property);
-
-    virtual void visit(PropertyGroup & property);
 
     bool deserialize(PropertyGroup & group, std::string filePath);
     

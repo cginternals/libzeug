@@ -17,6 +17,7 @@ public:
     virtual ~ValuePropertyBase();
 
     virtual std::string valueAsString() const = 0;
+    virtual void accept(AbstractPropertyVisitor & visitor) = 0;
 };
 
 } // namespace zeug
