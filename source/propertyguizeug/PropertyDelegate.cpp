@@ -38,7 +38,7 @@ QWidget * PropertyDelegate::createEditor(QWidget * parent,
     if (property->isGroup())
         return QStyledItemDelegate::createEditor(parent, option, index);
     
-    return const_cast<PropertyDelegate *>(this)->createEditorForProperty(parent, property);
+    return const_cast<PropertyDelegate *>(this)->createValueEditor(parent, property->asValue());
 }
 
 void PropertyDelegate::setEditorData(QWidget *editor, const QModelIndex &index) const
@@ -62,9 +62,9 @@ QSize PropertyDelegate::sizeHint (const QStyleOptionViewItem & option,
     return QSize(100, 28);
 }
     
-QWidget * PropertyDelegate::createEditorForProperty(QWidget * parent, AbstractProperty * property)
+QWidget * PropertyDelegate::createValueEditor(QWidget * parent, ValueProperty * property)
 {
-    QWidget * editor = m_editorFactory.createEditor(*property->asValue());
+    QWidget * editor = m_editorFactory.createEditor(*property);
     editor->setParent(parent);
     return editor;
 }
