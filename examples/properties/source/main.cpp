@@ -95,7 +95,7 @@ void iterateOverProperties()
     group.addGroup("fourth");
     group.addProperty<Color>("fifth", Color(125, 125, 125));
     
-    group.forEachValueProperty([](AbstractProperty & property) {
+    group.forEachValuePropertyTemplate([](AbstractProperty & property) {
         std::cout << property.title() << std::endl;
     });
 

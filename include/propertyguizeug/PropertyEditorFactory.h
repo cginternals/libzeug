@@ -12,7 +12,7 @@ namespace zeug {
 
 template <typename Type>
 class Property;
-class ValuePropertyBase;
+class ValueProperty;
 class PropertyGroup;
 
 class Color;
@@ -24,7 +24,7 @@ public:
     PropertyEditorFactory();
     virtual ~PropertyEditorFactory();
 
-    QWidget * createEditor(ValuePropertyBase & property);
+    QWidget * createEditor(ValueProperty & property);
 
     virtual void visit(Property<bool> & property);
     virtual void visit(Property<int> & property);

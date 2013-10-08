@@ -27,7 +27,7 @@ PropertyEditorFactory::~PropertyEditorFactory()
 {
 }
 
-QWidget * PropertyEditorFactory::createEditor(ValuePropertyBase & property)
+QWidget * PropertyEditorFactory::createEditor(ValueProperty & property)
 {
     property.accept(*this);
     return m_editor;

@@ -23,9 +23,9 @@ set(headers
     ${header_path}/propertyzeug.h
 
     ${header_path}/AbstractProperty.h
-    ${header_path}/ValuePropertyBase.h
     ${header_path}/ValueProperty.h
-    ${header_path}/ValueProperty.hpp
+    ${header_path}/ValuePropertyTemplate.h
+    ${header_path}/ValuePropertyTemplate.hpp
     ${header_path}/NumberProperty.h
     ${header_path}/NumberProperty.hpp
     ${header_path}/StringProperty.h
@@ -51,7 +51,7 @@ set(headers
 
 set(sources
     ${source_path}/AbstractProperty.cpp
-    ${source_path}/ValuePropertyBase.cpp
+    ${source_path}/ValueProperty.cpp
     ${source_path}/StringProperty.cpp
     ${source_path}/FilePathProperty.cpp
 

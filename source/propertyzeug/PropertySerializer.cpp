@@ -4,7 +4,7 @@
 #include <iostream>
 #include <sstream>
 
-#include <propertyzeug/ValuePropertyBase.h>
+#include <propertyzeug/ValueProperty.h>
 #include <propertyzeug/PropertyGroup.h>
 
 namespace zeug {
@@ -30,7 +30,7 @@ bool PropertySerializer::serialize(PropertyGroup & group, std::string filePath)
     m_currentPath = "";
     
     m_fstream << "[" << group.name() << "]" << std::endl;
-    group.forEachValueProperty([this](ValuePropertyBase & property) {
+    group.forEachValuePropertyTemplate([this](ValueProperty & property) {
         this->serializeValue(property);
     });
     m_fstream << std::endl;
@@ -45,7 +45,7 @@ bool PropertySerializer::serialize(PropertyGroup & group, std::string filePath)
     return true;
 }
     
-void PropertySerializer::serializeValue(const ValuePropertyBase & property)
+void PropertySerializer::serializeValue(const ValueProperty & property)
 {
     m_fstream << m_currentPath << property.name();
     m_fstream << "=" << property.valueAsString() << std::endl;
@@ -60,7 +60,7 @@ void PropertySerializer::serializeGroup(const PropertyGroup & group)
             this->serializeGroup(subGroup);
             this->popGroupFromPath();
         } else { 
-            this->serializeValue(*property.asValueProperty());
+            this->serializeValue(*property.asValuePropertyTemplate());
         }
     });
 }

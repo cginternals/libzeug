@@ -13,7 +13,7 @@ namespace zeug {
 
 template <typename Type>
 class Property;
-class ValuePropertyBase;
+class ValueProperty;
 class PropertyGroup;
 
 class Color;
@@ -27,7 +27,7 @@ public:
 
     void drawValue(QPainter * painter, 
                    const QStyleOptionViewItem & option,
-                   ValuePropertyBase & property);
+                   ValueProperty & property);
 
     virtual void visit(Property<bool> & property);
     virtual void visit(Property<int> & property);

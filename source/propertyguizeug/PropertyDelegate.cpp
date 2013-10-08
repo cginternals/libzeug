@@ -27,7 +27,7 @@ void PropertyDelegate::paint(QPainter * painter,
 	QStyleOptionViewItem opt = option;
 	this->initStyleOption(&opt, index);
     
-	m_propertyPainter.drawValue(painter, opt, *property->asValueProperty());
+	m_propertyPainter.drawValue(painter, opt, *property->asValuePropertyTemplate());
 }
     
 QWidget * PropertyDelegate::createEditor(QWidget * parent,
@@ -64,7 +64,7 @@ QSize PropertyDelegate::sizeHint (const QStyleOptionViewItem & option,
     
 QWidget * PropertyDelegate::createEditorForProperty(QWidget * parent, AbstractProperty * property)
 {
-    QWidget * editor = m_editorFactory.createEditor(*property->asValueProperty());
+    QWidget * editor = m_editorFactory.createEditor(*property->asValuePropertyTemplate());
     editor->setParent(parent);
     return editor;
 }

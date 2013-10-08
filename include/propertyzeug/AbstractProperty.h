@@ -13,7 +13,7 @@ namespace zeug
 {
 
 class AbstractPropertyVisitor;
-class ValuePropertyBase;
+class ValueProperty;
 class PropertyGroup;
     
 /** @brief
@@ -53,8 +53,8 @@ public:
     template <class Property>
     const Property * as() const;
 
-    ValuePropertyBase * asValueProperty();
-    const ValuePropertyBase * asValueProperty() const;
+    ValueProperty * asValuePropertyTemplate();
+    const ValueProperty * asValuePropertyTemplate() const;
 
     PropertyGroup * asGroup();
     const PropertyGroup * asGroup() const;

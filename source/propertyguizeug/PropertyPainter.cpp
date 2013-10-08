@@ -21,7 +21,7 @@ PropertyPainter::~PropertyPainter()
 }
 
 void PropertyPainter::drawValue(QPainter * painter, 
-    const QStyleOptionViewItem & option, ValuePropertyBase & property)
+    const QStyleOptionViewItem & option, ValueProperty & property)
 {
     m_drawn = false;
     m_painter = painter;
@@ -30,7 +30,7 @@ void PropertyPainter::drawValue(QPainter * painter,
     property.accept(*this);
 
 	if (!m_drawn)
-		this->drawString(QString::fromStdString(property.asValueProperty()->valueAsString()));
+		this->drawString(QString::fromStdString(property.asValuePropertyTemplate()->valueAsString()));
 }
 
 void PropertyPainter::drawString(const QString & string)

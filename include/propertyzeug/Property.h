@@ -3,7 +3,7 @@
 
 #include <propertyzeug/propertyzeug.h>
 
-#include <propertyzeug/ValueProperty.h>
+#include <propertyzeug/ValuePropertyTemplate.h>
 #include <propertyzeug/NumberProperty.h>
 #include <propertyzeug/StringProperty.h>
 #include <propertyzeug/VectorProperty.h>
@@ -39,28 +39,28 @@ template <typename Type>
 class Property;
     
 template <>
-class Property<bool> : public ValueProperty<bool>
+class Property<bool> : public ValuePropertyTemplate<bool>
 {
 public:
     Property(const std::string & name, const bool & value)
-    :   ValueProperty<bool>(name, value) {};
+    :   ValuePropertyTemplate<bool>(name, value) {};
 
     Property(const std::string & name, 
               const std::function<const bool & ()> & getter,
               const std::function<void(const bool &)> & setter)
-    :   ValueProperty<bool>(name, getter, setter) {};
+    :   ValuePropertyTemplate<bool>(name, getter, setter) {};
     
     template <class Object>
     Property(const std::string & name,
               Object & object, const bool & (Object::*getter_pointer)() const,
               void (Object::*setter_pointer)(const bool &))
-    :   ValueProperty<bool>(name, object, getter_pointer, setter_pointer) {};
+    :   ValuePropertyTemplate<bool>(name, object, getter_pointer, setter_pointer) {};
     
     template <class Object>
     Property(const std::string & name,
               Object & object, bool (Object::*getter_pointer)() const,
               void (Object::*setter_pointer)(const bool &))
-    :   ValueProperty<bool>(name, object, getter_pointer, setter_pointer) {};
+    :   ValuePropertyTemplate<bool>(name, object, getter_pointer, setter_pointer) {};
 
     virtual void accept(AbstractPropertyVisitor & visitor) { visitor.visit(*this); };
     virtual std::string valueAsString() const { return this->value() ? "true" : "false"; };
@@ -148,28 +148,28 @@ public:
 };
     
 template <>
-class Property<Color> : public ValueProperty<Color>
+class Property<Color> : public ValuePropertyTemplate<Color>
 {
 public:
     Property(const std::string & name, const Color & value)
-    :   ValueProperty<Color>(name, value) {};
+    :   ValuePropertyTemplate<Color>(name, value) {};
     
     Property(const std::string & name,
               const std::function<const Color & ()> & getter,
               const std::function<void(const Color &)> & setter)
-    :   ValueProperty<Color>(name, getter, setter) {};
+    :   ValuePropertyTemplate<Color>(name, getter, setter) {};
     
     template <class Object>
     Property(const std::string & name,
               Object & object, const Color & (Object::*getter_pointer)() const,
               void (Object::*setter_pointer)(const Color &))
-    :   ValueProperty<Color>(name, object, getter_pointer, setter_pointer) {};
+    :   ValuePropertyTemplate<Color>(name, object, getter_pointer, setter_pointer) {};
     
     template <class Object>
     Property(const std::string & name,
               Object & object, Color (Object::*getter_pointer)() const,
               void (Object::*setter_pointer)(const Color &))
-    :   ValueProperty<Color>(name, object, getter_pointer, setter_pointer) {};
+    :   ValuePropertyTemplate<Color>(name, object, getter_pointer, setter_pointer) {};
 
     virtual void accept(AbstractPropertyVisitor & visitor) { visitor.visit(*this); };
     

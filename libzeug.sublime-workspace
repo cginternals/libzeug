@@ -1,0 +1,182 @@
+{
+	"auto_complete":
+	{
+		"selected_items":
+		[
+		]
+	},
+	"buffers":
+	[
+	],
+	"build_system": "",
+	"command_palette":
+	{
+		"height": 374.0,
+		"selected_items":
+		[
+			[
+				"",
+				"Package Control: Install Package"
+			],
+			[
+				"remoe",
+				"Package Control: Remove Package"
+			],
+			[
+				"inst",
+				"Package Control: Install Package"
+			],
+			[
+				"remove",
+				"Package Control: Remove Package"
+			],
+			[
+				"install",
+				"Package Control: Install Package"
+			]
+		],
+		"width": 368.0
+	},
+	"console":
+	{
+		"height": 251.0
+	},
+	"distraction_free":
+	{
+		"menu_visible": true,
+		"show_minimap": false,
+		"show_open_files": false,
+		"show_tabs": false,
+		"side_bar_visible": false,
+		"status_bar_visible": false
+	},
+	"file_history":
+	[
+		"/C/Users/Max/Entwicklung/libzeug/source/propertyguizeug/PropertyModel.cpp",
+		"/C/Users/Max/Entwicklung/libzeug/source/propertyzeug/AbstractProperty.cpp",
+		"/C/Users/Max/Entwicklung/libzeug/include/propertyzeug/AccessorValue.h",
+		"/C/Users/Max/Entwicklung/libzeug/include/propertyzeug/propertyzeug.h",
+		"/C/Users/Max/Entwicklung/libzeug/include/signalzeug/signalzeug.h",
+		"/C/Users/Max/Entwicklung/libzeug/include/propertyzeug/AbstractPropertyVisitor.h",
+		"/C/Users/Max/Entwicklung/libzeug/source/propertyzeug/CMakeLists.txt",
+		"/C/Users/Max/Entwicklung/libzeug/source/CMakeLists.txt",
+		"/C/Users/Max/Entwicklung/libzeug/source/treezeug/CMakeLists.txt",
+		"/C/Users/Max/Entwicklung/glow/source/CMakeLists.txt",
+		"/C/Users/Max/Entwicklung/libzeug/source/signalzeug/CMakeLists.txt",
+		"/C/Users/Max/Entwicklung/glow/include/glow/Program.h",
+		"/C/Users/Max/Entwicklung/libzeug/include/propertyzeug/AbstractProperty.h",
+		"/C/Users/Max/Entwicklung/libzeug/include/propertyzeug/AbstractValue.h",
+		"/C/Users/Max/Entwicklung/libzeug/include/propertyzeug/Announcer.h",
+		"/C/Users/Max/Entwicklung/libzeug/include/propertyzeug/Color.h",
+		"/C/Users/Max/Entwicklung/libzeug/include/propertyzeug/Events.h",
+		"/C/Users/Max/Entwicklung/libzeug/include/propertyzeug/FilePath.h",
+		"/C/Users/Max/Entwicklung/libzeug/examples/properties/source/main.cpp",
+		"/C/Users/Max/Entwicklung/libzeug/examples/properties/data/group.ini",
+		"/C/Users/Max/Entwicklung/qt5/qtbase/src/widgets/itemviews/qstyleditemdelegate.cpp",
+		"/D/XFORCE/Crack-Srv/install_server.txt",
+		"/C/Users/Max/Desktop/_configure.bat",
+		"/D/XFORCE/x-force.nfo",
+		"/D/XFORCE/Crack/install.txt",
+		"/F/Cinema 4D R14/autorun.inf",
+		"/C/Users/Max/AppData/Roaming/Sublime Text 2/Packages/User/Preferences.sublime-settings",
+		"/C/Users/Max/AppData/Roaming/Sublime Text 2/Packages/Default/Preferences.sublime-settings"
+	],
+	"find":
+	{
+		"height": 37.0
+	},
+	"find_in_files":
+	{
+		"height": 103.0,
+		"where_history":
+		[
+		]
+	},
+	"find_state":
+	{
+		"case_sensitive": false,
+		"find_history":
+		[
+			"paint",
+			"stringList"
+		],
+		"highlight": true,
+		"in_selection": false,
+		"preserve_case": false,
+		"regex": false,
+		"replace_history":
+		[
+		],
+		"reverse": false,
+		"show_context": true,
+		"use_buffer2": true,
+		"whole_word": false,
+		"wrap": true
+	},
+	"groups":
+	[
+		{
+			"sheets":
+			[
+			]
+		}
+	],
+	"incremental_find":
+	{
+		"height": 0.0
+	},
+	"input":
+	{
+		"height": 0.0
+	},
+	"layout":
+	{
+		"cells":
+		[
+			[
+				0,
+				0,
+				1,
+				1
+			]
+		],
+		"cols":
+		[
+			0.0,
+			1.0
+		],
+		"rows":
+		[
+			0.0,
+			1.0
+		]
+	},
+	"menu_visible": true,
+	"replace":
+	{
+		"height": 0.0
+	},
+	"save_all_on_build": true,
+	"select_file":
+	{
+		"height": 0.0,
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"select_project":
+	{
+		"height": 500.0,
+		"selected_items":
+		[
+		],
+		"width": 380.0
+	},
+	"show_minimap": true,
+	"show_open_files": true,
+	"show_tabs": true,
+	"side_bar_visible": true,
+	"side_bar_width": 332.0,
+	"status_bar_visible": true
+}

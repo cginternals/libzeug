@@ -6,7 +6,7 @@
 #include <signalzeug/Signal.h>
 
 #include <propertyzeug/propertyzeug.h>
-#include <propertyzeug/ValueProperty.h>
+#include <propertyzeug/ValuePropertyTemplate.h>
 
 namespace zeug 
 {
@@ -16,7 +16,7 @@ namespace zeug
  * Manages a string and can have choices.
  */
 
-class PROPERTYZEUG_API StringProperty : public ValueProperty<std::string>
+class PROPERTYZEUG_API StringProperty : public ValuePropertyTemplate<std::string>
 {
 public:
     StringProperty(const std::string & name, const std::string & value);

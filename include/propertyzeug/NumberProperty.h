@@ -3,18 +3,18 @@
 
 #include <sstream>
 
-#include <propertyzeug/ValueProperty.h>
+#include <propertyzeug/ValuePropertyTemplate.h>
 
 namespace zeug 
 {
     
 /** @brief
  * Part of the property hierarchy.
- * Extends the ValueProperty by adding a minimum and maximum.
+ * Extends the ValuePropertyTemplate by adding a minimum and maximum.
  */
 
 template <typename Type>
-class NumberProperty : public ValueProperty<Type>
+class NumberProperty : public ValuePropertyTemplate<Type>
 {
 public:
     NumberProperty(const std::string & name, const Type & value);

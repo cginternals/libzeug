@@ -106,8 +106,8 @@ public:
     void forEachProperty(const std::function<void(AbstractProperty &)> functor);
     void forEachProperty(const std::function<void(AbstractProperty &)> functor) const;
     
-    void forEachValueProperty(const std::function<void(ValuePropertyBase &)> functor);
-    void forEachValueProperty(const std::function<void(ValuePropertyBase &)> functor) const;
+    void forEachValuePropertyTemplate(const std::function<void(ValueProperty &)> functor);
+    void forEachValuePropertyTemplate(const std::function<void(ValueProperty &)> functor) const;
     
     void forEachSubGroup(const std::function<void(PropertyGroup &)> functor);
     void forEachSubGroup(const std::function<void(PropertyGroup &)> functor) const;

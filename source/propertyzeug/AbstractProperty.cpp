@@ -1,6 +1,6 @@
 
 #include <regex>
-#include <propertyzeug/ValuePropertyBase.h>
+#include <propertyzeug/ValueProperty.h>
 #include <propertyzeug/PropertyGroup.h>
 
 namespace zeug {
@@ -89,14 +89,14 @@ std::string AbstractProperty::path() const
     return this->parent()->path() + "/" + this->name();
 }
     
-ValuePropertyBase * AbstractProperty::asValueProperty()
+ValueProperty * AbstractProperty::asValuePropertyTemplate()
 {
-    return static_cast<ValuePropertyBase *>(this);
+    return static_cast<ValueProperty *>(this);
 }
 
-const ValuePropertyBase * AbstractProperty::asValueProperty() const
+const ValueProperty * AbstractProperty::asValuePropertyTemplate() const
 {
-    return static_cast<const ValuePropertyBase *>(this);
+    return static_cast<const ValueProperty *>(this);
 }
 
 PropertyGroup * AbstractProperty::asGroup()

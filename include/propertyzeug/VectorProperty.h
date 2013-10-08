@@ -4,7 +4,7 @@
 #include <sstream>
 #include <vector>
 
-#include <propertyzeug/ValueProperty.h>
+#include <propertyzeug/ValuePropertyTemplate.h>
 
 namespace zeug 
 {
@@ -17,7 +17,7 @@ namespace zeug
  */
     
 template <typename Vector>
-class VectorProperty : public ValueProperty<Vector>
+class VectorProperty : public ValuePropertyTemplate<Vector>
 {
 public:
     VectorProperty(const std::string & name, const Vector & value);

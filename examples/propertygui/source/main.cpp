@@ -63,6 +63,9 @@ int main(int argc, char *argv[])
 
     PropertyBrowser browser1(&settings);
     browser1.show();
+
+    PropertyBrowser browser2(&settings);
+    browser2.show();
     
     return a.exec();
 }

@@ -1,7 +1,7 @@
 
 #pragma once
 
-#include <propertyzeug/ValueProperty.h>
+#include <propertyzeug/ValuePropertyTemplate.h>
 #include <propertyzeug/FilePath.h>
 
 #include <propertyzeug/propertyzeug.h>
@@ -14,7 +14,7 @@ namespace zeug
  * Manages a FilePath.
  */
 
-class PROPERTYZEUG_API FilePathProperty : public ValueProperty<FilePath>
+class PROPERTYZEUG_API FilePathProperty : public ValuePropertyTemplate<FilePath>
 {
 public:
     FilePathProperty(const std::string & name, const FilePath & value);

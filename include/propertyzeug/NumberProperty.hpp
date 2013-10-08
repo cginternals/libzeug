@@ -5,7 +5,7 @@ namespace zeug {
 
 template <typename Type>
 NumberProperty<Type>::NumberProperty(const std::string & name, const Type & value)
-:   ValueProperty<Type>(name, value)
+:   ValuePropertyTemplate<Type>(name, value)
 ,   m_min(0)
 ,   m_max(0)
 {
@@ -15,7 +15,7 @@ template <typename Type>
 NumberProperty<Type>::NumberProperty(const std::string & name, 
     const std::function<const Type & ()> & getter,
     const std::function<void(const Type &)> & setter)
-:   ValueProperty<Type>(name, getter, setter)
+:   ValuePropertyTemplate<Type>(name, getter, setter)
 ,   m_min(0)
 ,   m_max(0)
 {
@@ -26,7 +26,7 @@ template <class Object>
 NumberProperty<Type>::NumberProperty(const std::string & name,
     Object & object, const Type & (Object::*getter_pointer)() const,
     void (Object::*setter_pointer)(const Type &))
-:   ValueProperty<Type>(name, object, getter_pointer, setter_pointer)
+:   ValuePropertyTemplate<Type>(name, object, getter_pointer, setter_pointer)
 ,   m_min(0)
 ,   m_max(0)
 {
@@ -37,7 +37,7 @@ template <class Object>
 NumberProperty<Type>::NumberProperty(const std::string & name,
     Object & object, Type (Object::*getter_pointer)() const,
     void (Object::*setter_pointer)(Type))
-:   ValueProperty<Type>(name, object, getter_pointer, setter_pointer)
+:   ValuePropertyTemplate<Type>(name, object, getter_pointer, setter_pointer)
 ,   m_min(0)
 ,   m_max(0)
 {

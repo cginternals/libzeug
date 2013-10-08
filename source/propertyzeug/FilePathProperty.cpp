@@ -5,7 +5,7 @@ namespace zeug {
 
 FilePathProperty::FilePathProperty(const std::string & name,
     const FilePath & value)
-:   ValueProperty<FilePath>(name, value)
+:   ValuePropertyTemplate<FilePath>(name, value)
 ,   m_shouldExist(true)
 ,   m_isFile(true)
 {
@@ -14,7 +14,7 @@ FilePathProperty::FilePathProperty(const std::string & name,
 FilePathProperty::FilePathProperty(const std::string & name, 
     const std::function<const FilePath & ()> & getter,
     const std::function<void(const FilePath &)> & setter)
-:   ValueProperty<FilePath>(name, getter, setter)
+:   ValuePropertyTemplate<FilePath>(name, getter, setter)
 ,   m_shouldExist(true)
 ,   m_isFile(true)
 {
@@ -24,7 +24,7 @@ template <class Object>
 FilePathProperty::FilePathProperty(const std::string & name,
     Object & object, const FilePath & (Object::*getter_pointer)() const,
     void (Object::*setter_pointer)(const FilePath &))
-:   ValueProperty<FilePath>(name, object, getter_pointer, setter_pointer)
+:   ValuePropertyTemplate<FilePath>(name, object, getter_pointer, setter_pointer)
 ,   m_shouldExist(true)
 ,   m_isFile(true)
 {
@@ -34,7 +34,7 @@ template <class Object>
 FilePathProperty::FilePathProperty(const std::string & name,
     Object & object, FilePath (Object::*getter_pointer)() const,
     void (Object::*setter_pointer)(FilePath))
-:   ValueProperty<FilePath>(name, object, getter_pointer, setter_pointer)
+:   ValuePropertyTemplate<FilePath>(name, object, getter_pointer, setter_pointer)
 ,   m_shouldExist(true)
 ,   m_isFile(true)
 {

@@ -6,7 +6,7 @@
 namespace zeug {
     
 /** @brief
- * The base class for value implementations of ValueProperty.
+ * The base class for value implementations of ValuePropertyTemplate.
  */
 
 template <typename Type>

@@ -8,7 +8,7 @@
 namespace zeug 
 {
 
-class ValuePropertyBase;
+class ValueProperty;
 class PropertyGroup;
     
 /** @brief
@@ -24,7 +24,7 @@ public:
     bool serialize(PropertyGroup & group, std::string filePath);
     
 protected:
-    void serializeValue(const ValuePropertyBase & property);
+    void serializeValue(const ValueProperty & property);
     void serializeGroup(const PropertyGroup & group);
     void pushGroupToPath(const PropertyGroup & group);
     void popGroupFromPath();

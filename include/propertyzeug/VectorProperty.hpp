@@ -6,7 +6,7 @@ namespace zeug {
 template <typename Vector>
 VectorProperty<Vector>::VectorProperty(const std::string & name,
     const Vector & value)
-:   ValueProperty<Vector>(name, value)
+:   ValuePropertyTemplate<Vector>(name, value)
 ,   m_fixedSize(this->m_value->get().size())
 ,   m_columns(m_fixedSize)
 ,   m_rows(1)
@@ -18,7 +18,7 @@ template <typename Vector>
 VectorProperty<Vector>::VectorProperty(const std::string & name,
     const std::function<const Vector & ()> & getter,
     const std::function<void(const Vector &)> & setter)
-:   ValueProperty<Vector>(name, getter, setter)
+:   ValuePropertyTemplate<Vector>(name, getter, setter)
 ,   m_fixedSize(this->m_value->get().size())
 ,   m_columns(m_fixedSize)
 ,   m_rows(1)
@@ -31,7 +31,7 @@ template <class Object>
 VectorProperty<Vector>::VectorProperty(const std::string & name,
     Object & object, const Vector & (Object::*getter_pointer)() const,
     void (Object::*setter_pointer)(const Vector &))
-:   ValueProperty<Vector>(name, object, getter_pointer, setter_pointer)
+:   ValuePropertyTemplate<Vector>(name, object, getter_pointer, setter_pointer)
 ,   m_fixedSize(this->m_value->get().size())
 ,   m_columns(m_fixedSize)
 ,   m_rows(1)
@@ -44,7 +44,7 @@ template <class Object>
 VectorProperty<Vector>::VectorProperty(const std::string & name,
     Object & object, Vector (Object::*getter_pointer)() const,
     void (Object::*setter_pointer)(Vector))
-:   ValueProperty<Vector>(name, object, getter_pointer, setter_pointer)
+:   ValuePropertyTemplate<Vector>(name, object, getter_pointer, setter_pointer)
 ,   m_fixedSize(this->m_value->get().size())
 ,   m_columns(m_fixedSize)
 ,   m_rows(1)
@@ -61,14 +61,14 @@ template <typename Vector>
 const Vector & VectorProperty<Vector>::value() const
 {
     assert(this->m_value->get().size() == m_fixedSize);
-    return ValueProperty<Vector>::value();
+    return ValuePropertyTemplate<Vector>::value();
 }
 
 template <typename Vector>
 void VectorProperty<Vector>::setValue(const Vector & value)
 {
     assert(value.size() == m_fixedSize);
-    ValueProperty<Vector>::setValue(value);
+    ValuePropertyTemplate<Vector>::setValue(value);
 }
     
 template <typename Vector>
