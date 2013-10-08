@@ -4,7 +4,7 @@
 #include <iostream>
 #include <sstream>
 
-#include <propertyzeug/AbstractProperty.h>
+#include <propertyzeug/ValuePropertyBase.h>
 #include <propertyzeug/PropertyGroup.h>
 
 namespace zeug {
@@ -30,8 +30,8 @@ bool PropertySerializer::serialize(PropertyGroup & group, std::string filePath)
     m_currentPath = "";
     
     m_fstream << "[" << group.name() << "]" << std::endl;
-    group.forEachValueProperty([this](AbstractProperty & property) {
-        this->serializeProperty(property);
+    group.forEachValueProperty([this](ValuePropertyBase & property) {
+        this->serializeValue(property);
     });
     m_fstream << std::endl;
     
@@ -45,7 +45,7 @@ bool PropertySerializer::serialize(PropertyGroup & group, std::string filePath)
     return true;
 }
     
-void PropertySerializer::serializeProperty(const AbstractProperty & property)
+void PropertySerializer::serializeValue(const ValuePropertyBase & property)
 {
     m_fstream << m_currentPath << property.name();
     m_fstream << "=" << property.valueAsString() << std::endl;
@@ -55,12 +55,12 @@ void PropertySerializer::serializeGroup(const PropertyGroup & group)
 {
     group.forEachProperty([this](AbstractProperty & property) {
         if (property.isGroup()) {
-            PropertyGroup & subGroup = *property.as<PropertyGroup>();
+            PropertyGroup & subGroup = *property.asGroup();
             this->pushGroupToPath(subGroup);
             this->serializeGroup(subGroup);
             this->popGroupFromPath();
         } else { 
-            this->serializeProperty(property);
+            this->serializeValue(*property.asValueProperty());
         }
     });
 }

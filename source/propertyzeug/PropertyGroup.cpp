@@ -27,11 +27,6 @@ void PropertyGroup::accept(AbstractPropertyVisitor & visitor)
 {
     visitor.visit(*this);
 }
-    
-std::string PropertyGroup::valueAsString() const
-{
-    return ""; // TODO how can I avoid this?
-}
 
 bool PropertyGroup::addProperty(AbstractProperty * property)
 {
@@ -193,19 +188,19 @@ void PropertyGroup::forEachProperty(const std::function<void(AbstractProperty &)
         functor(*property);
 }
 
-void PropertyGroup::forEachValueProperty(const std::function<void(AbstractProperty &)> functor)
+void PropertyGroup::forEachValueProperty(const std::function<void(ValuePropertyBase &)> functor)
 {
     for (AbstractProperty * property : m_properties) {
         if (!property->isGroup())
-            functor(*property);
+            functor(*property->asValueProperty());
     }
 }
 
-void PropertyGroup::forEachValueProperty(const std::function<void(AbstractProperty &)> functor) const
+void PropertyGroup::forEachValueProperty(const std::function<void(ValuePropertyBase &)> functor) const
 {
     for (AbstractProperty * property : m_properties) {
         if (!property->isGroup())
-            functor(*property);
+            functor(*property->asValueProperty());
     }
 }
 

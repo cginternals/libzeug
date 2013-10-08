@@ -42,7 +42,7 @@ int main(int argc, char *argv[])
     general.property<std::vector<bool>>("BoolMat")->setDimensions(2, 2);
 
     Property<bool> optionsTrigger("optionTrigger", true);
-    optionsTrigger.setTitle("Activate Color");
+    optionsTrigger.setTitle("Activate Options");
 
     PropertyGroup additionalOptions("additional_options");
     additionalOptions.setTitle("Additional Options");
@@ -53,8 +53,7 @@ int main(int argc, char *argv[])
     additionalOptions.property<std::string>("Animal")->setChoices({ "Rabbit", "Duck", "Elephant" });
 
     optionsTrigger.valueChanged.connect([&additionalOptions] (const bool &) {
-        auto color = additionalOptions.property<Color>("Color");
-        color->setEnabled(!color->isEnabled());
+        additionalOptions.setEnabled(!additionalOptions.isEnabled());
     });
 
     settings.addProperty(&optionsTrigger);
