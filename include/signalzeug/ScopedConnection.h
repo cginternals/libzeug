@@ -4,19 +4,20 @@
 
 #include <signalzeug/Connection.h>
 
-namespace signalzeug {
-
+namespace zeug 
+{
 
 class SIGNALZEUG_API ScopedConnection
 {
 public:
 	ScopedConnection();
-	ScopedConnection(const Connection& connection);
+	ScopedConnection(const Connection & connection);
 	~ScopedConnection();
 
-	void operator=(const Connection& connection);
+	void operator=(const Connection & connection);
+
 protected:
-	Connection _connection;
+	Connection m_connection;
 };
 
-} // namespace signalzeug
+} // namespace zeug

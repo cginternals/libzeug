@@ -1,26 +1,29 @@
-#include <treezeug/Node.h>
-
-#include <treezeug/Tree.h>
 
 #include <algorithm>
 
+#include <treezeug/Node.h>
+#include <treezeug/Tree.h>
+
+namespace zeug
+{
+
 Node::Node()
-: _tree(nullptr)
-, _id(-1)
-, _parent(nullptr)
+:   m_tree(nullptr)
+,   m_id(-1)
+,   m_parent(nullptr)
 {
 }
 
 Node::Node(int id)
-: _tree(nullptr)
-, _id(id)
-, _parent(nullptr)
+:   m_tree(nullptr)
+,   m_id(id)
+,   m_parent(nullptr)
 {
 }
 
 Node::~Node()
 {
-	for (Node* child : _children)
+	for (Node * child : m_children)
 	{
 		delete child;
 	}
@@ -28,27 +31,27 @@ Node::~Node()
 
 bool Node::isLeaf() const
 {
-	return _children.empty();
+	return m_children.empty();
 }
 
 bool Node::isRoot() const
 {
-	return !_parent;
+	return !m_parent;
 }
 
 int Node::id() const
 {
-	return _id;
+	return m_id;
 }
 
-const std::string& Node::name() const
+const std::string & Node::name() const
 {
-	return _name;
+	return m_name;
 }
 
 void Node::setName(const std::string& name)
 {
-	_name = name;
+	m_name = name;
 }
 
 std::string Node::path(char separator) const
@@ -64,9 +67,9 @@ std::string Node::path(char separator) const
 	return separator + path;
 }
 
-Node* Node::getChildByName(const std::string& name)
+Node * Node::getChildByName(const std::string & name)
 {
-	for (Node* node: _children)
+	for (Node * node: m_children)
 	{
 		if (node->name() == name)
 			return node;
@@ -75,157 +78,150 @@ Node* Node::getChildByName(const std::string& name)
 	return nullptr;
 }
 
-void Node::setAttribute(const std::string& name, double value)
+void Node::setAttribute(const std::string & name, double value)
 {
-	_tree->setAttribute(this, name, value);
+	m_tree->setAttribute(this, name, value);
 }
 
-void Node::setAttribute(const std::string& name, const std::string& value)
+void Node::setAttribute(const std::string & name, const std::string & value)
 {
-	_tree->setAttribute(this, name, value);
+	m_tree->setAttribute(this, name, value);
 }
 
-const Attribute* Node::attribute(const std::string& name) const
+const Attribute * Node::attribute(const std::string & name) const
 {
-	return _tree->attribute(this, name);
+	return m_tree->attribute(this, name);
 }
 
-bool Node::hasAttribute(const std::string& name) const
+bool Node::hasAttribute(const std::string & name) const
 {
 	return attribute(name) != nullptr;
 }
 
-const std::vector<Node*>& Node::children() const
+const std::vector<Node*> & Node::children() const
 {
-	return _children;
+	return m_children;
 }
 
-std::vector<Node*>& Node::children()
+std::vector<Node*> & Node::children()
 {
-    return _children;
+    return m_children;
 }
 
 void Node::childrenDo(std::function<void(Node*)> action)
 {
-	for (Node* child: _children)
-	{
+	for (Node * child: m_children)
 		action(child);
-	}
 }
 
 void Node::childrenDo(std::function<void(const Node*)> action) const
 {
-	for (const Node* child: _children)
-	{
+	for (const Node * child: m_children)
 		action(child);
-	}
 }
 
 void Node::withAllChildrenDo(std::function<void(Node*)> action)
 {
 	action(this);
 
-	for (Node* child: _children)
-	{
+	for (Node * child: m_children)
 		child->withAllChildrenDo(action);
-	}
 }
 
 void Node::withAllChildrenDo(std::function<void(const Node*)> action) const
 {
 	action(this);
 
-	for (const Node* child: _children)
-	{
+	for (const Node * child: m_children)
 		child->withAllChildrenDo(action);
-	}
 }
 
-void Node::addChild(Node* child)
+void Node::addChild(Node * child)
 {
-	_children.push_back(child);
-	child->_parent = this;
-	_tree->registerNode(child);
+	m_children.push_back(child);
+	child->m_parent = this;
+	m_tree->registerNode(child);
 }
 
-void Node::reparentChildrenTo(Node* newParent)
+void Node::reparentChildrenTo(Node * newParent)
 {
-	for (Node* child : _children)
+	for (Node * child : m_children)
 	{
-		newParent->_children.push_back(child);
-		child->_parent = newParent;
+		newParent->m_children.push_back(child);
+		child->m_parent = newParent;
 	}
 
-	_children.clear();
+	m_children.clear();
 }
 
 unsigned Node::depth() const
 {
-	if (!_parent) return 0;
-	return _parent->depth() + 1;
+	if (!m_parent) 
+        return 0;
+
+    return m_parent->depth() + 1;
 }
 
-const Node* Node::parent() const
+const Node * Node::parent() const
 {
-	return _parent;
+	return m_parent;
 }
 
 std::vector<Node*> Node::siblings() const
 {
 	std::vector<Node*> nodes;
 
-	if (_parent)
+	if (m_parent)
 	{
-		for (Node* sibling: _parent->children())
+		for (Node * sibling: m_parent->children())
 		{
-			if (sibling != this) nodes.push_back(sibling);
+			if (sibling != this) 
+                nodes.push_back(sibling);
 		}
 	}
-
 	return nodes;
 }
 
-const Node* Node::previousSibling() const
+const Node * Node::previousSibling() const
 {
-	if (!_parent) return nullptr;
+	if (!m_parent) return nullptr;
 
-	std::vector<Node*>::iterator current = std::find(_parent->_children.begin(), _parent->_children.end(), this);
+	std::vector<Node*>::iterator current = std::find(m_parent->m_children.begin(), m_parent->m_children.end(), this);
 
-	if (current == _parent->_children.begin() || current == _parent->_children.end())
-	{
+	if (current == m_parent->m_children.begin() || current == m_parent->m_children.end())
 		return nullptr;
-	}
 
-	return *(current-1);
+	return *(current - 1);
 }
 
-const Node* Node::nextSibling() const
+const Node * Node::nextSibling() const
 {
-	if (!_parent) return nullptr;
+	if (!m_parent) return nullptr;
 
-	std::vector<Node*>::iterator current = std::find(_parent->_children.begin(), _parent->_children.end(), this);
+	auto current = std::find(m_parent->m_children.begin(), m_parent->m_children.end(), this);
 
-	if (current == _parent->_children.end() || current+1 == _parent->_children.end())
-	{
+	if (current == m_parent->m_children.end() || current + 1 == m_parent->m_children.end())
 		return nullptr;
-	}
 
-	return *(current+1);
+	return *(current + 1);
 }
 
-const Node* Node::firstChild() const
+const Node * Node::firstChild() const
 {
-	if (_children.empty()) return nullptr;
+	if (m_children.empty()) 
+        return nullptr;
 
-	return _children.front();
+	return m_children.front();
 }
 
 bool Node::hasChildren() const
 {
-	return _children.size() > 0;
+	return m_children.size() > 0;
 }
 
-const Tree* Node::tree() const
+const Tree * Node::tree() const
 {
-	return _tree;
+	return m_tree;
 }
+
+} // namespace zeug

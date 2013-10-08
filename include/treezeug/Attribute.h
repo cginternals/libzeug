@@ -3,12 +3,17 @@
 #include <string>
 #include <vector>
 
+#include <treezeug/treezeug.h>
+
+namespace zeug
+{
+
 class NumericAttribute;
 class NominalAttribute;
 
 class AttributeMap;
 
-class Attribute
+class TREEZEUG_API Attribute
 {
 public:
 	Attribute();
@@ -16,21 +21,23 @@ public:
 	virtual bool isNumeric() const;
 	virtual bool isNominal() const;
 
-	NumericAttribute* asNumeric();
+	NumericAttribute * asNumeric();
 	const NumericAttribute* asNumeric() const;
-	NominalAttribute* asNominal();
-	const NominalAttribute* asNominal() const;
+	NominalAttribute * asNominal();
+	const NominalAttribute * asNominal() const;
 
 	virtual double numericValue() const = 0;
 
 	double normalizedValue() const;
 
-	void setAttributeMap(const AttributeMap* map);
+	void setAttributeMap(const AttributeMap * map);
+
 protected:
-	const AttributeMap* _map;
+	const AttributeMap * m_map;
 };
 
-class NumericAttribute : public Attribute
+
+class TREEZEUG_API NumericAttribute : public Attribute
 {
 public:
 	NumericAttribute();
@@ -40,35 +47,42 @@ public:
 
 	double value() const;
 	virtual double numericValue() const;
+
 protected:
-	double _value;
+	double m_value;
 };
 
-class NominalType
+
+class TREEZEUG_API NominalType
 {
 public:
-	int valueFor(const std::string& name);
-	const std::string& name(int value);
+	int valueFor(const std::string & name);
+	const std::string & name(int value);
 
-	NominalAttribute* newValue(const std::string& name);
+	NominalAttribute * newValue(const std::string & name);
+
+	void addName(const std::string & name);
+
 protected:
-	std::vector<std::string> _names;
-
-	void addName(const std::string& name);
+	std::vector<std::string> m_names;
 };
 
-class NominalAttribute : public Attribute
+
+class TREEZEUG_API NominalAttribute : public Attribute
 {
 public:
-	NominalAttribute(NominalType& type, int value);
+	NominalAttribute(NominalType & type, int value);
 
 	virtual bool isNominal() const;
 
 	int value() const;
-	const std::string& valueName() const;
+	const std::string & valueName() const;
 
 	virtual double numericValue() const;
+
 protected:
-	NominalType& _type;
-	int _value;
+	NominalType & m_type;
+	int m_value;
 };
+
+} // namespace zeug

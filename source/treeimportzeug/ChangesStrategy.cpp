@@ -4,9 +4,12 @@
 
 #include <QHash>
 
+namespace zeug
+{
+
 ChangesStrategy::ChangesStrategy(TreeSqliteParser& parser)
 : TreeSqliteParserStrategy(parser)
-, _nextId(0)
+, m_nextId(0)
 {
 }
 
@@ -26,13 +29,13 @@ void ChangesStrategy::loadAttributes()
 {
 	for (const QVariantMap& attributeType : executeQuery("SELECT id, type_id, name, type FROM schema_attrs WHERE 1"))
 	{
-		_attributes[NodeType(attributeType["type_id"].toInt())] << Attribute(
+		m_attributes[NodeType(attributeType["type_id"].toInt())] << Attribute(
 			attributeType["name"].toString(),
 			attributeType["type"].toString() == "TEXT" ? AT_Text : AT_Integer,
 			attributeType["id"].toUInt()
 		);
 		
-		_attributeValues[attributeType["id"].toUInt()] = executeQuery("SELECT node_id, value FROM attr_" + QString::number(attributeType["id"].toUInt()));
+		m_attributeValues[attributeType["id"].toUInt()] = executeQuery("SELECT node_id, value FROM attr_" + QString::number(attributeType["id"].toUInt()));
 	}
 }
 
@@ -53,7 +56,7 @@ void ChangesStrategy::createTreeForRevision(unsigned revisionId)
 	tree->addAttributeMap("id", AttributeMap::Numeric);
 	tree->addAttributeMap("depth", AttributeMap::Numeric);
 	
-	for (const QList<Attribute>& attributes : _attributes)
+	for (const QList<Attribute>& attributes : m_attributes)
 	{
 		for (const Attribute& attribute : attributes)
 		{
@@ -69,7 +72,7 @@ void ChangesStrategy::createTreeForRevision(unsigned revisionId)
 		}
 	}
 	
-	_trees << tree;
+	m_trees << tree;
 
     QHash<GeneratedId, Node*> nodes;
     QHash<DatabaseId, GeneratedId> ids;
@@ -99,11 +102,11 @@ void ChangesStrategy::createTreeForRevision(unsigned revisionId)
 		node->setAttribute("depth", node->depth());
 	}
 	
-	for (const QList<Attribute>& attributeList : _attributes)
+	for (const QList<Attribute>& attributeList : m_attributes)
 	{
 		for (const Attribute& attribute : attributeList)
 		{
-			for (const QVariantMap& attributeValue : _attributeValues[attribute.index])
+			for (const QVariantMap& attributeValue : m_attributeValues[attribute.index])
 			{
                 if (!ids.contains(attributeValue["node_id"].toInt()))
 				{
@@ -168,17 +171,19 @@ void ChangesStrategy::insertIntoTree(Node* node, Tree* tree, const QHash<Generat
 
 void ChangesStrategy::transferTrees()
 {
-	_parser.trees() = _trees;
+	m_parser.trees() = m_trees;
 }
 
 int ChangesStrategy::idFor(long hash) const
 {
-	if (!_ids.contains(hash))
+	if (!m_ids.contains(hash))
 	{
-		_ids[hash] = _nextId;
+		m_ids[hash] = m_nextId;
 		
-		++_nextId;
+		++m_nextId;
 	}
 	
-	return _ids[hash];
+	return m_ids[hash];
 }
+
+} // namespace zeug

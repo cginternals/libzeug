@@ -1,10 +1,13 @@
 #pragma once
 
-#include <signalzeug/Connection.h>
-
 #include <unordered_map>
 
-namespace signalzeug {
+#include <signalzeug/signalzeug.h>
+#include <signalzeug/Connection.h>
+
+
+namespace zeug
+{
 
 class ConnectionMap
 {
@@ -13,17 +16,15 @@ public:
 	~ConnectionMap();
 
 	template <typename T>
-	Connection& operator[](T* object);
-protected:
-	std::unordered_map<void*, Connection> _connections;
+	Connection & operator[](T * object);
 
-	Connection& get(void* ptr);
+protected:
+    Connection & get(void * ptr);
+
+protected:
+	std::unordered_map<void *, Connection> m_connections;
 };
 
-template <typename T>
-Connection& ConnectionMap::operator[](T* object)
-{
-	return get(static_cast<void*>(object));
-}
+} // namespace zeug
 
-} // namespace signalzeug
+#include "ConnectionMap.hpp"

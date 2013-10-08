@@ -1,36 +1,46 @@
 #pragma once
 
-#include <signalzeug/signalzeug.h>
-
 #include <memory>
 
-namespace signalzeug {
+#include <signalzeug/signalzeug.h>
+
+
+namespace zeug
+{
 
 class AbstractSignal;
 
 class SIGNALZEUG_API Connection
 {
-public:
 	friend class AbstractSignal;
-	typedef unsigned int Id;
 
+public:
+    typedef unsigned int Id;
+
+
+protected:
+    struct State
+	{
+		const AbstractSignal * signal;
+		Id id;
+	};
+
+public:
 	Connection();
 
 	void disconnect();
 
 	Id id() const;
+
 protected:
-	Connection(const AbstractSignal* signal, Id id);
+    Connection(
+        const AbstractSignal * signal
+    ,   Id id);
 
 	void detach();
-protected:
-	struct State
-	{
-		const AbstractSignal* signal;
-		Id id;
-	};
 
-	std::shared_ptr<State> _state;
+protected:
+	std::shared_ptr<State> m_state;
 };
 
-} // namespace signalzeug
+} // namespace zeug
