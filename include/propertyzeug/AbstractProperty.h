@@ -53,8 +53,8 @@ public:
     template <class Property>
     const Property * as() const;
 
-    ValueProperty * asValuePropertyTemplate();
-    const ValueProperty * asValuePropertyTemplate() const;
+    ValueProperty * asValue();
+    const ValueProperty * asValue() const;
 
     PropertyGroup * asGroup();
     const PropertyGroup * asGroup() const;

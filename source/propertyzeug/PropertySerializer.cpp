@@ -60,7 +60,7 @@ void PropertySerializer::serializeGroup(const PropertyGroup & group)
             this->serializeGroup(subGroup);
             this->popGroupFromPath();
         } else { 
-            this->serializeValue(*property.asValuePropertyTemplate());
+            this->serializeValue(*property.asValue());
         }
     });
 }

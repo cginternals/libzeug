@@ -89,12 +89,12 @@ std::string AbstractProperty::path() const
     return this->parent()->path() + "/" + this->name();
 }
     
-ValueProperty * AbstractProperty::asValuePropertyTemplate()
+ValueProperty * AbstractProperty::asValue()
 {
     return static_cast<ValueProperty *>(this);
 }
 
-const ValueProperty * AbstractProperty::asValuePropertyTemplate() const
+const ValueProperty * AbstractProperty::asValue() const
 {
     return static_cast<const ValueProperty *>(this);
 }

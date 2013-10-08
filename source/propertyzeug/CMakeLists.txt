@@ -23,6 +23,7 @@ set(headers
     ${header_path}/propertyzeug.h
 
     ${header_path}/AbstractProperty.h
+    ${header_path}/AbstractProperty.hpp
     ${header_path}/ValueProperty.h
     ${header_path}/ValuePropertyTemplate.h
     ${header_path}/ValuePropertyTemplate.hpp

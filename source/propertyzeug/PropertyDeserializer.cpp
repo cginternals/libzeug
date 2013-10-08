@@ -94,7 +94,7 @@ bool PropertyDeserializer::setPropertyValue(const std::string line)
     const std::string & path = match.prefix();
     m_currentValue = match.suffix();
     
-    AbstractProperty * property = m_currentGroup->property(path)->asValuePropertyTemplate();
+    AbstractProperty * property = m_currentGroup->property(path)->asValue();
     
     if (!property) {
         std::cerr << "Property path \"" << path << "\" ";
@@ -108,7 +108,7 @@ bool PropertyDeserializer::setPropertyValue(const std::string line)
         return false;
     }
 
-    property->asValuePropertyTemplate()->accept(*this);
+    property->asValue()->accept(*this);
     return true;
 }
     
