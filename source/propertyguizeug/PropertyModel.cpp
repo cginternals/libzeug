@@ -37,7 +37,7 @@ QModelIndex PropertyModel::index(int row, int column, const QModelIndex & parent
     if (!parent->isGroup())
         return QModelIndex();
     
-    PropertyGroup * group = parent->as<PropertyGroup>();
+    PropertyGroup * group = parent->asGroup();
     
     return this->createIndex(row, column, group->property(row));
 }
@@ -67,7 +67,7 @@ int PropertyModel::rowCount(const QModelIndex & parentIndex) const
         return m_root->propertyCount();
     
     AbstractProperty * property = static_cast<AbstractProperty *>(parentIndex.internalPointer());
-    return property->isGroup() ? property->as<PropertyGroup>()->propertyCount() : 0;
+    return property->isGroup() ? property->asGroup()->propertyCount() : 0;
 }
 
 int PropertyModel::columnCount(const QModelIndex & parentIndex) const
@@ -80,7 +80,8 @@ int PropertyModel::columnCount(const QModelIndex & parentIndex) const
     if (!property->isGroup())
         return 0;
     
-    PropertyGroup * group = property->as<PropertyGroup>();
+    PropertyGroup * group = property->asGroup
+    ();
     
     return group->hasProperties() ? 2 : 0;
 }
