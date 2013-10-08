@@ -1,21 +1,25 @@
-#include <treeimportzeug/TreeXmlParser.h>
-
-#include <treeimportzeug/CityGMLStrategy.h>
-#include <treeimportzeug/TreeStrategy.h>
-#include <treeimportzeug/SoftwareSystemStrategy.h>
 
 #include <iostream>
 
 #include <QFileInfo>
 
-TreeXmlParser::TreeXmlParser()
-: _tree(nullptr)
-, _strategy(nullptr)
+#include <treeimportzeug/CityGMLStrategy.h>
+#include <treeimportzeug/TreeStrategy.h>
+#include <treeimportzeug/SoftwareSystemStrategy.h>
+
+#include <treeimportzeug/TreeXmlParser.h>
+
+namespace zeug
 {
-    _tree = new Tree("");
+
+TreeXmlParser::TreeXmlParser()
+:   m_tree(nullptr)
+,   m_strategy(nullptr)
+{
+    m_tree = new Tree("");
 }
 
-Tree* TreeXmlParser::createTreeFromFile(const QString& filename)
+Tree * TreeXmlParser::createTreeFromFile(const QString & filename)
 {
 	QFile file(filename);
 
@@ -26,7 +30,7 @@ Tree* TreeXmlParser::createTreeFromFile(const QString& filename)
 	}
 
 	QXmlSimpleReader xmlReader;
-	QXmlInputSource* source = new QXmlInputSource(&file);
+	QXmlInputSource * source = new QXmlInputSource(&file);
 
 	TreeXmlParser parser;
 
@@ -34,18 +38,16 @@ Tree* TreeXmlParser::createTreeFromFile(const QString& filename)
 	xmlReader.setErrorHandler(&parser);
 
 	if (!xmlReader.parse(source))
-	{
 		return nullptr;
-	}
 
     parser.tree()->setName(QFileInfo(filename).baseName().toStdString());
 
 	return parser.tree();
 }
 
-Tree* TreeXmlParser::tree()
+Tree * TreeXmlParser::tree()
 {
-	return _tree;
+	return m_tree;
 }
 
 bool TreeXmlParser::startDocument()
@@ -55,15 +57,16 @@ bool TreeXmlParser::startDocument()
 
 bool TreeXmlParser::endDocument()
 {
-	if (_strategy)
+	if (m_strategy)
 	{
-		_strategy->endDocument();
+		m_strategy->endDocument();
 	}
 
-	_tree->addAttributeMap("id", AttributeMap::Numeric);
-	_tree->addAttributeMap("depth", AttributeMap::Numeric);
+	m_tree->addAttributeMap("id", AttributeMap::Numeric);
+	m_tree->addAttributeMap("depth", AttributeMap::Numeric);
 
-	_tree->nodesDo([](Node* node) {
+	m_tree->nodesDo([](Node * node) 
+    {
 		node->setAttribute("id", node->id());
 		node->setAttribute("depth", node->depth());
 	});
@@ -71,53 +74,54 @@ bool TreeXmlParser::endDocument()
 	return true;
 }
 
-bool TreeXmlParser::startElement(const QString& namespaceURI, const QString& localName, const QString& name, const QXmlAttributes& attributes)
+bool TreeXmlParser::startElement(
+    const QString & namespaceURI
+,   const QString & localName
+,   const QString & name
+,   const QXmlAttributes & attributes)
 {
-	if (_strategy)
+	if (m_strategy)
 	{
-		return _strategy->startElement(namespaceURI, localName, name, attributes);
+		return m_strategy->startElement(namespaceURI, localName, name, attributes);
 	}
 	else
 	{
 		if (name == "tree")
 		{
-			_strategy = new TreeStrategy(*this);
-
-			return _strategy->startDocument();
+			m_strategy = new TreeStrategy(*this);
+			return m_strategy->startDocument();
 		}
 		else if (name == "hpiSoftwareSystem")
 		{
-			_strategy = new SoftwareSystemStrategy(*this);
-
-			return _strategy->startDocument();
+			m_strategy = new SoftwareSystemStrategy(*this);
+			return m_strategy->startDocument();
 		}
 		else if (name == "hierarchy")
 		{
-			_strategy = new CityGMLStrategy(*this);
-
-			return _strategy->startDocument();
+			m_strategy = new CityGMLStrategy(*this);
+			return m_strategy->startDocument();
 		}
 	}
-
 	return false;
 }
 
-bool TreeXmlParser::endElement(const QString& namespaceURI, const QString& localName, const QString& qName)
+bool TreeXmlParser::endElement(
+    const QString & namespaceURI
+,   const QString & localName
+,   const QString & qName)
 {
-	if (_strategy)
-	{
-		return _strategy->endElement(namespaceURI, localName, qName);
-	}
+	if (m_strategy)
+		return m_strategy->endElement(namespaceURI, localName, qName);
 
 	return false;
 }
 
-bool TreeXmlParser::characters(const QString& characters)
+bool TreeXmlParser::characters(const QString & characters)
 {
-	if (_strategy)
-	{
-		return _strategy->characters(characters);
-	}
+	if (m_strategy)
+		return m_strategy->characters(characters);
 
 	return false;
 }
+
+} // namespace zeug

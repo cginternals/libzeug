@@ -2,10 +2,6 @@
 set(target propertyzeug)
 message(STATUS "lib ${target}")
 
-# Find externals
-find_package(Qt5Core)
-set(CMAKE_AUTOMOC ON)
-
 # Include directories
 include_directories(
     ${CMAKE_CURRENT_BINARY_DIR}/../../  # for Meta.h
@@ -13,6 +9,7 @@ include_directories(
 
 # Libraries
 set(libs
+    signalzeug
 )
 
 # Definitions
@@ -24,12 +21,47 @@ set(source_path "${CMAKE_CURRENT_SOURCE_DIR}")
 
 set(headers
     ${header_path}/propertyzeug.h
-    ${header_path}/Attribute.h
-    ${header_path}/DynObject.h
+
+    ${header_path}/AbstractProperty.h
+    ${header_path}/ValuePropertyBase.h
+    ${header_path}/ValueProperty.h
+    ${header_path}/ValueProperty.hpp
+    ${header_path}/NumberProperty.h
+    ${header_path}/NumberProperty.hpp
+    ${header_path}/StringProperty.h
+    ${header_path}/VectorProperty.h
+    ${header_path}/VectorProperty.hpp
+    ${header_path}/FilePathProperty.h
+    ${header_path}/Property.h
+
+    ${header_path}/PropertyGroup.h
+    ${header_path}/AbstractPropertyVisitor.h
+    ${header_path}/PropertyDeserializer.h
+    ${header_path}/PropertySerializer.h
+
+    ${header_path}/AbstractValue.h
+    ${header_path}/StoredValue.h
+    ${header_path}/StoredValue.hpp
+    ${header_path}/AccessorValue.h
+    ${header_path}/AccessorValue.hpp
+
+    ${header_path}/Color.h
+    ${header_path}/FilePath.h
 )
 
 set(sources
-    ${source_path}/DynObject.cpp
+    ${source_path}/AbstractProperty.cpp
+    ${source_path}/ValuePropertyBase.cpp
+    ${source_path}/StringProperty.cpp
+    ${source_path}/FilePathProperty.cpp
+
+    ${source_path}/PropertyGroup.cpp
+    ${source_path}/AbstractPropertyVisitor.cpp
+    ${source_path}/PropertyDeserializer.cpp
+    ${source_path}/PropertySerializer.cpp
+    
+    ${source_path}/Color.cpp
+    ${source_path}/FilePath.cpp
 )
 
 # Group source files
@@ -47,7 +79,6 @@ else()
     add_library(${target} SHARED ${headers} ${sources})
 endif()
 target_link_libraries(${target} ${libs})
-qt5_use_modules(${target} Core)
 set_target_properties(${target}
     PROPERTIES
     LINKER_LANGUAGE CXX

@@ -1,34 +1,36 @@
-#include <AbstractSignal.h>
 
-namespace signalzeug {
+#include <signalzeug/AbstractSignal.h>
+
+namespace zeug
+{
 
 AbstractSignal::AbstractSignal()
-: _nextId(1)
+: m_nextId(1)
 {
 }
 
 AbstractSignal::~AbstractSignal()
 {
-	for (std::pair<Connection::Id, Connection> pair: _connections)
+	for (std::pair<Connection::Id, Connection> pair: m_connections)
 	{
-		Connection& connection = pair.second;
+		Connection & connection = pair.second;
 		connection.detach();
 	}
 }
 
 Connection AbstractSignal::createConnection() const
 {
-	Connection::Id id = _nextId++;
+	Connection::Id id = m_nextId++;
 	Connection connection(this, id);
-	_connections[id] = connection;
+	m_connections[id] = connection;
 
 	return connection;
 }
 
-void AbstractSignal::disconnect(Connection& connection) const
+void AbstractSignal::disconnect(Connection & connection) const
 {
-	_connections.erase(connection.id());
+	m_connections.erase(connection.id());
 	disconnectId(connection.id());
 }
 
-} // namespace signalzeug
+} // namespace zeug

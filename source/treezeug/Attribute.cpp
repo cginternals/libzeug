@@ -1,10 +1,15 @@
-#include <Attribute.h>
-#include <AttributeMap.h>
 
 #include <algorithm>
 
+#include <treezeug/Attribute.h>
+#include <treezeug/AttributeMap.h>
+
+
+namespace zeug
+{
+
 Attribute::Attribute()
-: _map(nullptr)
+:   m_map(nullptr)
 {
 }
 
@@ -20,14 +25,14 @@ bool Attribute::isNominal() const
 
 void Attribute::setAttributeMap(const AttributeMap* map)
 {
-	_map = map;
+	m_map = map;
 }
 
 double Attribute::normalizedValue() const
 {
-	if (!_map) return 0;
+	if (!m_map) return 0;
 
-	return _map->normalize(this);
+	return m_map->normalize(this);
 }
 
 NumericAttribute* Attribute::asNumeric()
@@ -51,12 +56,12 @@ const NominalAttribute* Attribute::asNominal() const
 }
 
 NumericAttribute::NumericAttribute()
-: _value(0)
+: m_value(0)
 {
 }
 
 NumericAttribute::NumericAttribute(double value)
-: _value(value)
+: m_value(value)
 {
 }
 
@@ -67,46 +72,47 @@ bool NumericAttribute::isNumeric() const
 
 double NumericAttribute::value() const
 {
-	return _value;
+	return m_value;
 }
 
 double NumericAttribute::numericValue() const
 {
-	return _value;
+	return m_value;
 }
 
-void NominalType::addName(const std::string& name)
+void NominalType::addName(const std::string & name)
 {
-	_names.push_back(name);
+	m_names.push_back(name);
 }
 
-int NominalType::valueFor(const std::string& name)
+int NominalType::valueFor(const std::string & name)
 {
-	std::vector<std::string>::iterator current = std::find(_names.begin(), _names.end(), name);
+	std::vector<std::string>::iterator current = std::find(m_names.begin(), m_names.end(), name);
 	
-	if (current == _names.end())
-	{
+	if (current == m_names.end())
 		return -1;
-	}
 	
-	return std::distance(_names.begin(), current);
+	return static_cast<int>(std::distance(m_names.begin(), current));
 }
 
-const std::string& NominalType::name(int value)
+const std::string & NominalType::name(int value)
 {
-	return _names[value];
+	return m_names[value];
 }
 
-NominalAttribute* NominalType::newValue(const std::string& name)
+NominalAttribute * NominalType::newValue(const std::string & name)
 {
-	if (std::find(_names.begin(), _names.end(), name) == _names.end()) addName(name);
+	if (std::find(m_names.begin(), m_names.end(), name) == m_names.end()) addName(name);
 
 	return new NominalAttribute(*this, valueFor(name));
 }
 
-NominalAttribute::NominalAttribute(NominalType& type, int value)
-: _type(type)
-, _value(value)
+
+
+
+NominalAttribute::NominalAttribute(NominalType & type, int value)
+:  m_type(type)
+,  m_value(value)
 {
 }
 
@@ -117,16 +123,17 @@ bool NominalAttribute::isNominal() const
 
 int NominalAttribute::value() const
 {
-	return _value;
+	return m_value;
 }
 
 double NominalAttribute::numericValue() const
 {
-	return static_cast<double>(_value);
+	return static_cast<double>(m_value);
 }
 
-const std::string& NominalAttribute::valueName() const
+const std::string & NominalAttribute::valueName() const
 {
-	return _type.name(_value);
+	return m_type.name(m_value);
 }
 
+} // namespace zeug

@@ -1,7 +1,5 @@
 #pragma once
 
-#include <treezeug/Tree.h>
-
 #include <vector>
 #include <unordered_map>
 #include <utility>
@@ -9,19 +7,27 @@
 
 #include <signalzeug/ConnectionMap.h>
 
-class LinearizedTree
+#include <treezeug/treezeug.h>
+#include <treezeug/Tree.h>
+
+
+namespace zeug
+{
+
+class TREEZEUG_API LinearizedTree
 {
 public:
-	enum Algorithm
+    enum Algorithm
 	{
-		None,
-		DepthFirst,
-        BreadthFirst,
-        OptimizedBreadthFirst
+		None
+    ,   DepthFirst
+    ,   BreadthFirst
+    ,   OptimizedBreadthFirst
 	};
 
+public:
 	LinearizedTree();
-	LinearizedTree(const Tree* tree, Algorithm strategy);
+	LinearizedTree(const Tree * tree, Algorithm strategy);
 
 	void linearize();
 	void clear();
@@ -46,18 +52,22 @@ public:
 
     const std::vector<std::pair<int, int>>& thresholds() const;
 	void treeLayerRangesDo(std::function<void(int, int)> callback) const;
+
 protected:
-	const Tree* _tree;
-	Algorithm _strategy;
-	int _nextIndex;
-
-	std::vector<const Node*> _nodes;
-	std::unordered_map<const Node*, int> _indices;
-    std::vector<std::pair<int, int>> _treeDepthTresholds;
-
 	void linearizeDepthFirst();
 	void linearizeBreadthFirst();
     void linearizeOptimizedBreadthFirst();
 
 	void add(const Node* node);
+
+protected:
+	const Tree * m_tree;
+	Algorithm m_strategy;
+	int m_nextIndex;
+
+	std::vector<const Node*> m_nodes;
+	std::unordered_map<const Node*, int> m_indices;
+    std::vector<std::pair<int, int>> m_treeDepthTresholds;
 };
+
+} // namespace zeug

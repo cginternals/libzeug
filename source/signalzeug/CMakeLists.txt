@@ -26,7 +26,9 @@ set(headers
     ${header_path}/AbstractSignal.h
     ${header_path}/Connection.h
     ${header_path}/ConnectionMap.h
+    ${header_path}/ConnectionMap.hpp
     ${header_path}/ScopedConnection.h
+    ${header_path}/Signal.h
     ${header_path}/Signal.hpp
 )
 
