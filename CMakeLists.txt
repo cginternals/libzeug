@@ -189,7 +189,9 @@ set_property(GLOBAL PROPERTY AUTOMOC_FOLDER CMakeAutomocTargets)
 
 # http://qt-project.org/forums/viewthread/30006/
 
-cmake_policy(SET CMP0020 NEW)
+IF(MSVC)
+	cmake_policy(SET CMP0020 NEW)
+ENDIF()
 
 find_package(Qt5Core REQUIRED)
 find_package(Qt5Gui REQUIRED)
