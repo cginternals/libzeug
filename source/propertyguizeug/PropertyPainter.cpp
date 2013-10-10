@@ -98,6 +98,7 @@ void PropertyPainter::visit(Property<Color> & property)
     pixmapRect.setWidth(20);
     pixmapRect.setHeight(20);
     
+    m_painter->setBrushOrigin(pixmapRect.x(), pixmapRect.y());
     m_painter->fillRect(pixmapRect, TransparencyBackgroundBrush());
     m_painter->drawPixmap(pixmapRect, pixmap);
     

@@ -22,10 +22,12 @@ public:
     virtual ~ColorEditor();
     
     void openColorPicker();
+    void parseColor();
 
 protected:
     QColor qcolor() const;
     void setQColor(const QColor & qcolor);
+    void setColor(const Color & color);
     
     ColorButton * m_button;
     QLineEdit * m_lineEdit;

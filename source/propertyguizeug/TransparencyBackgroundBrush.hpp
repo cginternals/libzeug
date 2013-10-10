@@ -11,12 +11,9 @@ inline const QBrush TransparencyBackgroundBrush()
 
 	int color, i;
 	for(unsigned short x = 0; x < 16; ++x)
-		for(unsigned short y = 0; y < 16; ++y)
-		{
-			
+		for(unsigned short y = 0; y < 16; ++y) {		
 			i = x * 16 * 4 + y * 4;
 			color = (x < 8 && y < 8) || (x > 7 && y > 7) ? 255 : 224;
-			//color = 255 - rand() % 32; // ? 255 : 224;
 
 			bits[i + 2] = color;
 			bits[i + 1] = color;
