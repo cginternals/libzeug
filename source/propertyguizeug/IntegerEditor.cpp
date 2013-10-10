@@ -8,7 +8,7 @@
 namespace zeug {
     
 IntegerEditor::IntegerEditor(Property<int> * property, QWidget * parent)
-:   QWidget(parent)
+:   PropertyEditor(parent)
 ,   m_spinBox(new QSpinBox(this))
 ,   m_property(property)
 {

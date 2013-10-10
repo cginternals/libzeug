@@ -3,7 +3,7 @@
 
 #include <propertyguizeug/propertyguizeug.h>
 
-#include <QWidget>
+#include "PropertyEditor.h"
 
 class QDoubleSpinBox;
 
@@ -12,7 +12,7 @@ namespace zeug {
 template <typename Type>
 class Property;
 
-class PROPERTYGUIZEUG_API DoubleEditor : public QWidget
+class PROPERTYGUIZEUG_API DoubleEditor : public PropertyEditor
 {
 public:
     DoubleEditor(Property<double> * property, QWidget * parent = nullptr);

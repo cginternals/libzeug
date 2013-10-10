@@ -44,6 +44,8 @@ set(sources
     ${source_path}/PropertyPainter.cpp
     ${source_path}/PropertyEditorFactory.cpp
 
+    ${source_path}/PropertyEditor.h
+    ${source_path}/PropertyEditor.cpp
     ${source_path}/BoolEditor.h
     ${source_path}/BoolEditor.cpp
     ${source_path}/IntegerEditor.h

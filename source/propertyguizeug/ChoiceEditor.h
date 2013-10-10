@@ -3,14 +3,14 @@
 
 #include <propertyguizeug/propertyguizeug.h>
 
-#include <QWidget>
+#include "PropertyEditor.h"
 
 namespace zeug {
 
 template <typename Type>
 class Property;
 
-class PROPERTYGUIZEUG_API ChoiceEditor : public QWidget
+class PROPERTYGUIZEUG_API ChoiceEditor : public PropertyEditor
 {
 public:
     ChoiceEditor(Property<std::string> * property, QWidget * parent = nullptr);

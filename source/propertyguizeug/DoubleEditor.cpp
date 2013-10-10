@@ -8,7 +8,7 @@
 namespace zeug {
     
 DoubleEditor::DoubleEditor(Property<double> * property, QWidget * parent)
-:   QWidget(parent)
+:   PropertyEditor(parent)
 ,   m_spinBox(new QDoubleSpinBox(this))
 ,   m_property(property)
 {

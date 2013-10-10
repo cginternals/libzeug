@@ -9,7 +9,7 @@
 namespace zeug {
     
 ChoiceEditor::ChoiceEditor(Property<std::string> * property, QWidget * parent)
-:   QWidget(parent)
+:   PropertyEditor(parent)
 ,   m_property(property)
 {
     QStringList list;

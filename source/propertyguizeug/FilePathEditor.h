@@ -3,7 +3,7 @@
 
 #include <propertyguizeug/propertyguizeug.h>
 
-#include <QWidget>
+#include "PropertyEditor.h"
 
 class QLineEdit;
 class QFileDialog;
@@ -16,7 +16,7 @@ template <typename Type>
 class Property;
 class FilePath;
     
-class PROPERTYGUIZEUG_API FilePathEditor : public QWidget
+class PROPERTYGUIZEUG_API FilePathEditor : public PropertyEditor
 {
 public:
     FilePathEditor(Property<FilePath> * property, QWidget * parent = nullptr);

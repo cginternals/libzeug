@@ -1,7 +1,7 @@
 
 #pragma once
 
-#include <QWidget>
+#include "PropertyEditor.h"
 
 class QLineEdit;
 
@@ -15,7 +15,7 @@ class Property;
 class Color;
 
 
-class ColorEditor : public QWidget
+class ColorEditor : public PropertyEditor
 {
 public:
     ColorEditor(Property<Color> * property, QWidget * parent = nullptr);

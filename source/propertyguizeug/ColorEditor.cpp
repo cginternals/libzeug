@@ -14,7 +14,7 @@
 namespace zeug {
 
 ColorEditor::ColorEditor(Property<Color> * property, QWidget * parent)
-:   QWidget(parent)
+:   PropertyEditor(parent)
 ,   m_property(property)
 {
     const Color & color = m_property->value();

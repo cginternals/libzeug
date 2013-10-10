@@ -8,7 +8,7 @@
 namespace zeug {
     
 StringEditor::StringEditor(Property<std::string> * property, QWidget * parent)
-:   QWidget(parent)
+:   PropertyEditor(parent)
 ,   m_lineEdit(new QLineEdit(this))
 ,   m_property(property)
 {

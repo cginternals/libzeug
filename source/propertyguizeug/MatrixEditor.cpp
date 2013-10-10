@@ -3,15 +3,13 @@
 
 #include <QHBoxLayout>
 #include <QLineEdit>
-#include <QRegExpValidator>
 #include <QRegularExpression>
-#include <QTextStream>
 
 namespace zeug {
     
 MatrixEditor::MatrixEditor(int matrixSize, const QString & valueRegexString,
     const QString & initialText, QWidget * parent)
-:   QWidget(parent)
+:   PropertyEditor(parent)
 ,   m_lineEdit(new QLineEdit(this))
 ,   m_valueRegexString(valueRegexString)
 ,   m_matrixSize(matrixSize)
@@ -30,18 +28,17 @@ MatrixEditor::~MatrixEditor()
 {   
 }
 
-QRegExp MatrixEditor::matrixRegex() const
+QRegularExpression MatrixEditor::matrixRegex() const
 {
     QString matrixRegexString;
     
-    matrixRegexString += "\\s*\\(\\s*";
+    matrixRegexString += "\\A\\s*\\(\\s*";
     for (int i = 0; i < m_matrixSize - 1; i++) {
         matrixRegexString += m_valueRegexString + "\\s*,\\s*";
     }
-    matrixRegexString += m_valueRegexString + "\\s*\\)\\s*";
+    matrixRegexString += m_valueRegexString + "\\s*\\)\\s*\\z";
 
-    QRegExp regExp(matrixRegexString);
-    regExp.setCaseSensitivity(Qt::CaseInsensitive);
+    QRegularExpression regExp(matrixRegexString, QRegularExpression::CaseInsensitiveOption);
     return regExp;
 }
     
@@ -50,10 +47,10 @@ void MatrixEditor::valuesFromText(const std::function<void(const QString &)> & f
     QString text = m_lineEdit->text().replace(" ", "");
 
     QRegularExpression valueRegex(m_valueRegexString);
-    QRegularExpressionMatchIterator matchIterator = valueRegex.globalMatch(text);
+    QRegularExpressionMatchIterator matchIt = valueRegex.globalMatch(text);
 
-    while (matchIterator.hasNext()) {
-        QString value = matchIterator.next().captured();
+    while (matchIt.hasNext()) {
+        QString value = matchIt.next().captured();
         functor(value);
     }
 }
@@ -66,7 +63,8 @@ void MatrixEditor::parseString()
 
 bool MatrixEditor::textMatchesRegex()
 {
-    return this->matrixRegex().exactMatch(m_lineEdit->text());
+    QRegularExpressionMatch match = this->matrixRegex().match(m_lineEdit->text());
+    return match.hasMatch();
 }
 
 } // namespace

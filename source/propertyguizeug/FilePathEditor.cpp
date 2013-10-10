@@ -17,7 +17,7 @@ namespace zeug
 const QString FilePathEditor::s_openFileDialog = "Open File Dialog …";
     
 FilePathEditor::FilePathEditor(Property<FilePath> * property, QWidget * parent)
-:   QWidget(parent)
+:   PropertyEditor(parent)
 ,   m_lineEdit(new QLineEdit(this))
 ,   m_dialogOpened(false)
 ,   m_filePathFromDialog("")

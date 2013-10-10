@@ -4,13 +4,13 @@
 #include <propertyguizeug/propertyguizeug.h>
 
 #include <functional>
-#include <QWidget>
+#include "PropertyEditor.h"
 
 class QLineEdit;
 
 namespace zeug {
 
-class PROPERTYGUIZEUG_API MatrixEditor : public QWidget
+class PROPERTYGUIZEUG_API MatrixEditor : public PropertyEditor
 {
 public:
     MatrixEditor(int matrixSize,
@@ -19,8 +19,9 @@ public:
                  QWidget * parent = nullptr);
     
     virtual ~MatrixEditor();
+
     
-    QRegExp matrixRegex() const;
+    QRegularExpression matrixRegex() const;
     void valuesFromText(const std::function<void(const QString &)> & functor) const;
     
     virtual void setMatrix() = 0;
