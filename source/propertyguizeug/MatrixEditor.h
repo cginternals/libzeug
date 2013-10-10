@@ -20,15 +20,19 @@ public:
     
     virtual ~MatrixEditor();
     
-    QRegExp matrixRegex(int matrixSize, const QString & valueRegexString) const;
+    QRegExp matrixRegex() const;
     void valuesFromText(const std::function<void(const QString &)> & functor) const;
     
     virtual void setMatrix() = 0;
+    
+    void parseString();
+    bool textMatchesRegex();
     
 protected:
     QLineEdit * m_lineEdit;
     
     QString m_valueRegexString;
+    int m_matrixSize;
 };
 
 } // namespace

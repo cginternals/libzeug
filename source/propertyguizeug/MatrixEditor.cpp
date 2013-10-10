@@ -14,36 +14,31 @@ MatrixEditor::MatrixEditor(int matrixSize, const QString & valueRegexString,
 :   QWidget(parent)
 ,   m_lineEdit(new QLineEdit(this))
 ,   m_valueRegexString(valueRegexString)
+,   m_matrixSize(matrixSize)
 {
     QHBoxLayout * layout = new QHBoxLayout(this);
     layout->setContentsMargins(3, 0, 3, 0);
-    layout->setSpacing(3);
     layout->addWidget(m_lineEdit);
     
     this->setFocusProxy(m_lineEdit);
-    
-    QRegExpValidator * validator = new QRegExpValidator(this->matrixRegex(matrixSize,
-                                                                          m_valueRegexString),
-                                                        this);
-    m_lineEdit->setValidator(validator);
     m_lineEdit->setText(initialText);
     
-    this->connect(m_lineEdit, &QLineEdit::editingFinished, this, &MatrixEditor::setMatrix);
+    this->connect(m_lineEdit, &QLineEdit::editingFinished, this, &MatrixEditor::parseString);
 }
 
 MatrixEditor::~MatrixEditor()
 {   
 }
 
-QRegExp MatrixEditor::matrixRegex(int matrixSize, const QString & valueRegexString) const
+QRegExp MatrixEditor::matrixRegex() const
 {
     QString matrixRegexString;
     
     matrixRegexString += "\\s*\\(\\s*";
-    for (int i = 0; i < matrixSize - 1; i++) {
-        matrixRegexString += valueRegexString + "\\s*,\\s*";
+    for (int i = 0; i < m_matrixSize - 1; i++) {
+        matrixRegexString += m_valueRegexString + "\\s*,\\s*";
     }
-    matrixRegexString += valueRegexString + "\\s*\\)\\s*";
+    matrixRegexString += m_valueRegexString + "\\s*\\)\\s*";
 
     QRegExp regExp(matrixRegexString);
     regExp.setCaseSensitivity(Qt::CaseInsensitive);
@@ -61,6 +56,17 @@ void MatrixEditor::valuesFromText(const std::function<void(const QString &)> & f
         QString value = matchIterator.next().captured();
         functor(value);
     }
+}
+
+void MatrixEditor::parseString()
+{
+    if (this->textMatchesRegex())
+        this->setMatrix();
+}
+
+bool MatrixEditor::textMatchesRegex()
+{
+    return this->matrixRegex().exactMatch(m_lineEdit->text());
 }
 
 } // namespace
