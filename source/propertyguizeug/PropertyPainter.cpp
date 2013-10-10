@@ -6,6 +6,7 @@
 
 #include <propertyzeug/Property.h>
 
+#include "PropertyEditor.h"
 #include "TransparencyBackgroundBrush.hpp"
 
 namespace zeug {
@@ -57,7 +58,8 @@ void PropertyPainter::visit(Property<bool> & property)
     opt.state = property.value() ? QStyle::State_On : QStyle::State_Off;
     opt.state |= QStyle::State_Enabled;
     opt.rect = m_option.rect;
-   
+    opt.rect.setLeft(opt.rect.left() + PropertyEditor::s_horizontalMargin);
+
 	const QWidget * widget = m_option.widget;
 	QStyle * style = widget ? widget->style() : QApplication::style();
     style->drawControl(QStyle::CE_CheckBox, &opt, m_painter, widget);
@@ -93,7 +95,7 @@ void PropertyPainter::visit(Property<Color> & property)
                        color.alpha()));
     
     QRect pixmapRect = m_option.rect;
-    pixmapRect.setLeft(pixmapRect.left() + 3);
+    pixmapRect.setLeft(pixmapRect.left() + PropertyEditor::s_horizontalMargin);
     pixmapRect.setTop(pixmapRect.top() + 4);
     pixmapRect.setWidth(20);
     pixmapRect.setHeight(20);

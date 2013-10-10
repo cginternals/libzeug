@@ -21,9 +21,7 @@ ChoiceEditor::ChoiceEditor(Property<std::string> * property, QWidget * parent)
     this->setFocusProxy(comboBox);
     comboBox->setCurrentText(QString::fromStdString(m_property->value()));
     
-    QHBoxLayout * layout = new QHBoxLayout(this);
-    layout->setContentsMargins(3, 0, 3, 0);
-    layout->addWidget(comboBox);
+    this->boxLayout()->addWidget(comboBox);
     
     this->connect(comboBox, &QComboBox::currentTextChanged, this, &ChoiceEditor::setString);
 }

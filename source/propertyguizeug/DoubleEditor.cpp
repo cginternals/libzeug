@@ -12,15 +12,10 @@ DoubleEditor::DoubleEditor(Property<double> * property, QWidget * parent)
 ,   m_spinBox(new QDoubleSpinBox(this))
 ,   m_property(property)
 {
-    QHBoxLayout * layout = new QHBoxLayout(this);
-    layout->setContentsMargins(1, 0, 3, 0);
-    layout->setSpacing(3);
-    
-    layout->addWidget(m_spinBox);
-    
     m_spinBox->setValue(m_property->value());
     m_spinBox->setDecimals(4);
     
+    this->boxLayout()->addWidget(m_spinBox);
     this->setFocusProxy(m_spinBox);
 
     if (m_property->hasRanges())

@@ -14,10 +14,7 @@ MatrixEditor::MatrixEditor(int matrixSize, const QString & valueRegexString,
 ,   m_valueRegexString(valueRegexString)
 ,   m_matrixSize(matrixSize)
 {
-    QHBoxLayout * layout = new QHBoxLayout(this);
-    layout->setContentsMargins(3, 0, 3, 0);
-    layout->addWidget(m_lineEdit);
-    
+    this->boxLayout()->addWidget(m_lineEdit);
     this->setFocusProxy(m_lineEdit);
     m_lineEdit->setText(initialText);
     

@@ -12,14 +12,9 @@ IntegerEditor::IntegerEditor(Property<int> * property, QWidget * parent)
 ,   m_spinBox(new QSpinBox(this))
 ,   m_property(property)
 {
-    QHBoxLayout * layout = new QHBoxLayout(this);
-    layout->setContentsMargins(1, 0, 3, 0);
-    layout->setSpacing(3);
-    
-    layout->addWidget(m_spinBox);
-    
     m_spinBox->setValue(m_property->value());
-    
+
+    this->boxLayout()->addWidget(m_spinBox);
     this->setFocusProxy(m_spinBox);
 
     if (m_property->hasRanges())

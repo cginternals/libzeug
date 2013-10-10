@@ -3,14 +3,14 @@
 
 #include <propertyguizeug/propertyguizeug.h>
 
-#include <QCheckBox>
+#include "PropertyEditor.h"
 
 namespace zeug {
 
 template <typename Type>
 class Property;
     
-class PROPERTYGUIZEUG_API BoolEditor : public QCheckBox
+class BoolEditor : public PropertyEditor
 {
 public:
     BoolEditor(Property<bool> * property, QWidget * parent = nullptr);
@@ -18,6 +18,7 @@ public:
 
 protected:
     Property<bool> * m_property;
+
 };
 
 } // namespace

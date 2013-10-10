@@ -11,13 +11,8 @@ StringEditor::StringEditor(Property<std::string> * property, QWidget * parent)
 :   PropertyEditor(parent)
 ,   m_lineEdit(new QLineEdit(this))
 ,   m_property(property)
-{
-    QHBoxLayout * layout = new QHBoxLayout(this);
-    layout->setContentsMargins(3, 0, 3, 0);
-    layout->setSpacing(3);
-    
-    layout->addWidget(m_lineEdit);
-
+{   
+    this->boxLayout()->addWidget(m_lineEdit);
     this->setFocusProxy(m_lineEdit);
     
     m_lineEdit->setText(QString::fromStdString(m_property->value()));

@@ -23,11 +23,7 @@ FilePathEditor::FilePathEditor(Property<FilePath> * property, QWidget * parent)
 ,   m_filePathFromDialog("")
 ,   m_property(property)
 {
-    QHBoxLayout * layout = new QHBoxLayout(this);
-    layout->setContentsMargins(3, 0, 3, 0);
-    layout->setSpacing(3);
-    layout->addWidget(m_lineEdit);
-    
+    this->boxLayout()->addWidget(m_lineEdit);
     this->setFocusProxy(m_lineEdit);
     
     QCompleter * completer = new QCompleter(this->recentlyUsedFilePaths() << s_openFileDialog, this);
