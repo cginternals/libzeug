@@ -108,7 +108,7 @@ Qt::ItemFlags PropertyModel::flags(const QModelIndex &index) const
     
     AbstractProperty * property = static_cast<AbstractProperty *>(index.internalPointer());
 
-    Qt::ItemFlags flags;
+    Qt::ItemFlags flags = Qt::ItemIsSelectable;
 
     if (index.column() == 1 && !property->isGroup())
         flags |= Qt::ItemIsEditable;
