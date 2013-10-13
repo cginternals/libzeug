@@ -30,9 +30,6 @@ set(headers
     ${header_path}/PropertyDelegate.h
     ${header_path}/PropertyPainter.h
     ${header_path}/PropertyEditorFactory.h
-    ${header_path}/VectorEditor.h
-    ${header_path}/VectorModel.h
-    ${header_path}/VectorDelegate.h
     
 )
 

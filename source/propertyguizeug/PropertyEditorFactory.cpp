@@ -3,8 +3,6 @@
 
 #include <propertyzeug/Property.h>
 
-#include <propertyguizeug/VectorEditor.h>
-
 #include "IntegerEditor.h"
 #include "StringEditor.h"
 #include "ChoiceEditor.h"
@@ -68,25 +66,17 @@ void PropertyEditorFactory::visit(Property<FilePath> & property)
 
 void PropertyEditorFactory::visit(Property<std::vector<bool>> & property)
 {
-    if (property.rows() > 1)
-        m_editor = new BoolMatrixEditor(&property);
-    // TODO add BoolVectorEditor
+    m_editor = new BoolMatrixEditor(&property);
 }
 
 void PropertyEditorFactory::visit(Property<std::vector<int>> & property)
 {
-    if (property.rows() > 1)
-        m_editor = new IntMatrixEditor(&property);
-    else
-        m_editor = new VectorEditor<int>(&property);
+    m_editor = new IntMatrixEditor(&property);
 }
 
 void PropertyEditorFactory::visit(Property<std::vector<double>> & property)
 {
-    if (property.rows() > 1)
-        m_editor = new DoubleMatrixEditor(&property);
-    
-    // TODO add DoubleVectorEditor
+    m_editor = new DoubleMatrixEditor(&property);
 }
   
 } // namespace
