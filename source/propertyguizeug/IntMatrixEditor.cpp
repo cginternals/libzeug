@@ -8,7 +8,7 @@ namespace zeug {
     
 IntMatrixEditor::IntMatrixEditor(Property<std::vector<int>> * property, QWidget * parent)
 :   MatrixEditor(property->fixedSize(),
-                 "(\\d+)",
+                 "(-?\\d+)",
                  QString::fromStdString(property->valueAsString()),
                  parent)
 ,   m_property(property)

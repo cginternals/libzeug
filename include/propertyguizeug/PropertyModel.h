@@ -37,7 +37,6 @@ public:
     
 protected:
     PropertyGroup * m_root;
-    QList<ScopedConnection> m_connectionList;
 
 };
 

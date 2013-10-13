@@ -1,9 +1,8 @@
 
 #include <propertyguizeug/PropertyModel.h>
 
-#include <signalzeug/Signal.h>
-#include <signalzeug/ScopedConnection.h>
 #include <propertyzeug/PropertyGroup.h>
+#include <propertyzeug/Property.h>
 
 namespace zeug {
     
@@ -33,7 +32,12 @@ QModelIndex PropertyModel::index(int row, int column, const QModelIndex & parent
         parent = m_root;
     else
         parent = static_cast<AbstractProperty *>(parentIndex.internalPointer());
-        
+    
+    Property<std::vector<int>> * property = dynamic_cast<Property<std::vector<int >> *>(parent);
+    if (property) {
+        return this->createIndex(row, column, property);
+    }
+
     if (!parent->isGroup())
         return QModelIndex();
     
@@ -80,8 +84,7 @@ int PropertyModel::columnCount(const QModelIndex & parentIndex) const
     if (!property->isGroup())
         return 0;
     
-    PropertyGroup * group = property->asGroup
-    ();
+    PropertyGroup * group = property->asGroup();
     
     return group->hasProperties() ? 2 : 0;
 }

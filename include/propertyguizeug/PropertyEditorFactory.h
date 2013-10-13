@@ -13,7 +13,6 @@ namespace zeug {
 template <typename Type>
 class Property;
 class ValueProperty;
-class PropertyGroup;
 
 class Color;
 class FilePath;

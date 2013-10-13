@@ -86,7 +86,7 @@ template <typename Type>
 QSize VectorDelegate<Type>::sizeHint (const QStyleOptionViewItem & option,
     const QModelIndex & index) const
 {
-    return QSize(50, 26);
+    return QSize(50, 25);
 }
 
 } // namespace zeug

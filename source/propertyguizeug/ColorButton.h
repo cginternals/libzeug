@@ -17,14 +17,16 @@ public:
 
 	virtual const QColor color();
 	void setColor(const QColor &color);
-    
-signals:
-	void pressed();
 
-protected:
+signals:
+    void pressed();
+
+public:
+    static void paint(QPainter * painter, const QPoint & topLeft, const QColor & color);
     static const QSize s_fixedSize;
 
-	virtual void mousePressEvent(QMouseEvent *event);
+protected:
+	virtual void mousePressEvent(QMouseEvent * event);
     void updateColor();
     
     QColor m_color;

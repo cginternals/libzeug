@@ -7,7 +7,7 @@
 #include <propertyzeug/Property.h>
 
 #include "PropertyEditor.h"
-#include "TransparencyBackgroundBrush.hpp"
+#include "ColorButton.h"
 
 namespace zeug {
     
@@ -31,7 +31,7 @@ void PropertyPainter::drawValue(QPainter * painter,
     property.accept(*this);
 
 	if (!m_drawn)
-		this->drawString(QString::fromStdString(property.asValue()->valueAsString()));
+		this->drawString(QString::fromStdString(property.valueAsString()));
 }
 
 void PropertyPainter::drawString(const QString & string)
@@ -87,25 +87,21 @@ void PropertyPainter::visit(Property<Color> & property)
 	this->drawItemViewBackground();
     
     const Color & color = property.value();
-    
-    QPixmap pixmap(20, 20);
-    pixmap.fill(QColor(color.red(),
-					   color.green(),
-                       color.blue(),
-                       color.alpha()));
-    
-    QRect pixmapRect = m_option.rect;
-    pixmapRect.setLeft(pixmapRect.left() + PropertyEditor::s_horizontalMargin);
-    pixmapRect.setTop(pixmapRect.top() + 4);
-    pixmapRect.setWidth(20);
-    pixmapRect.setHeight(20);
-    
-    m_painter->setBrushOrigin(pixmapRect.x(), pixmapRect.y());
-    m_painter->fillRect(pixmapRect, TransparencyBackgroundBrush());
-    m_painter->drawPixmap(pixmapRect, pixmap);
+
+    QColor qcolor(color.red(),
+                  color.green(),
+                  color.blue(),
+                  color.alpha());
+    QPoint topLeft(m_option.rect.left() + PropertyEditor::s_horizontalMargin, 
+                   m_option.rect.top() + 4);
+
+    ColorButton::paint(m_painter, topLeft, qcolor);
     
     QRect rect = m_option.rect;
-    rect.setLeft(pixmapRect.right() + 6);
+    rect.setLeft(m_option.rect.left() + 
+                 PropertyEditor::s_horizontalMargin + 
+                 ColorButton::s_fixedSize.width() + 
+                 PropertyEditor::s_spacing * 2);
 
     const QWidget * widget = m_option.widget;
     QStyle * style = widget ? widget->style() : QApplication::style();

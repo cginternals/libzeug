@@ -198,7 +198,7 @@ void PropertyDeserializer::visit(Property<std::vector<bool>> & property)
 void PropertyDeserializer::visit(Property<std::vector<int>> & property)
 {
     std::vector<int> vector;
-    this->deserializeVectorValues("(\\d+)", property.fixedSize(),
+    this->deserializeVectorValues("(-?\\d+)", property.fixedSize(),
                                   [this, &vector](const std::string & string) {
                                       vector.push_back(this->convertString<int>(string));
                                   });
@@ -208,7 +208,7 @@ void PropertyDeserializer::visit(Property<std::vector<int>> & property)
 void PropertyDeserializer::visit(Property<std::vector<double>> & property)
 {
     std::vector<double> vector;
-    this->deserializeVectorValues("(\\d+\\.?\\d*)", property.fixedSize(),
+    this->deserializeVectorValues("(-?\\d+\\.?\\d*)", property.fixedSize(),
                                   [this, &vector](const std::string & string) {
                                       vector.push_back(this->convertString<double>(string));
                                   });
