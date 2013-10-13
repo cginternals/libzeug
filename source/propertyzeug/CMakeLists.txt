@@ -36,6 +36,7 @@ set(headers
     ${header_path}/Property.h
 
     ${header_path}/PropertyGroup.h
+    ${header_path}/PropertyGroup.hpp
     ${header_path}/AbstractPropertyVisitor.h
     ${header_path}/PropertyDeserializer.h
     ${header_path}/PropertySerializer.h

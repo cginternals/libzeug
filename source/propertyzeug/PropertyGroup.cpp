@@ -15,7 +15,8 @@ PropertyGroup::PropertyGroup(const std::string & name)
 
 PropertyGroup::~PropertyGroup()
 {
-    // TODO delete all properties?
+    for (AbstractProperty * property : m_properties)
+        delete property;
 }
     
 bool PropertyGroup::isGroup() const
@@ -34,16 +35,16 @@ bool PropertyGroup::addProperty(AbstractProperty * property)
     return true;
 }
     
-bool PropertyGroup::addGroup(const std::string & name)
+PropertyGroup * PropertyGroup::addGroup(const std::string & name)
 {
     PropertyGroup * group = new PropertyGroup(name);
     
     if (!this->addProperty(group)) {
         delete group;
-        return false;
+        return nullptr;
     }
     
-    return true;
+    return group;
 }
 
 AbstractProperty * PropertyGroup::property(const std::string & path)

@@ -32,25 +32,25 @@ public:
     bool addProperty(AbstractProperty * property);
     
     template <typename Type>
-    bool addProperty(const std::string & name,
+    Property<Type> * addProperty(const std::string & name,
                      const Type & value);
     
     template <typename Type>
-    bool addProperty(const std::string & name,
+    Property<Type> * addProperty(const std::string & name,
                  const std::function<const Type & ()> & getter,
                  const std::function<void(const Type &)> & setter);
     
     template <typename Type, class Object>
-    bool addProperty(const std::string & name,
+    Property<Type> * addProperty(const std::string & name,
                  Object & object, const Type & (Object::*getter_pointer)() const,
                  void (Object::*setter_pointer)(const Type &));
     
     template <typename Type, class Object>
-    bool addProperty(const std::string & name,
+    Property<Type> * addProperty(const std::string & name,
                  Object & object, Type (Object::*getter_pointer)() const,
                  void (Object::*setter_pointer)(Type));
     
-    bool addGroup(const std::string & name);
+    PropertyGroup * addGroup(const std::string & name);
     
     /** @} */
     
@@ -123,60 +123,6 @@ private:
     const AbstractProperty * findProperty(const std::string & path) const;
 };
 
-template <typename Type>
-bool PropertyGroup::addProperty(const std::string & name, const Type & value)
-{
-    return this->addProperty(new Property<Type>(name, value));
-}
-
-template <typename Type>
-bool PropertyGroup::addProperty(const std::string & name,
-    const std::function<const Type & ()> & getter,
-    const std::function<void(const Type &)> & setter)
-{
-    return this->addProperty(new Property<Type>(name, getter, setter));
-}
-
-template <typename Type, class Object>
-bool PropertyGroup::addProperty(const std::string & name,
-    Object & object, const Type & (Object::*getter_pointer)() const,
-    void (Object::*setter_pointer)(const Type &))
-{
-    return this->addProperty(new Property<Type>(name, object, getter_pointer, setter_pointer));
-}
-
-template <typename Type, class Object>
-bool PropertyGroup::addProperty(const std::string & name,
-    Object & object, Type (Object::*getter_pointer)() const,
-    void (Object::*setter_pointer)(Type))
-{
-    return this->addProperty(new Property<Type>(name, object, getter_pointer, setter_pointer));
-}
-
-template <typename Type>
-Property<Type> * PropertyGroup::property(const std::string & name)
-{
-    return this->property(name)->as<Property<Type>>();
-}
-    
-template <typename Type>
-const Property<Type> * PropertyGroup::property(const std::string & name) const
-{
-    return this->property(name)->as<Property<Type>>();
-}
-
-template <typename Type>
-const Type & PropertyGroup::value(const std::string & name) const
-{
-    /** TODO handle non-existence of property **/
-    return this->property(name)->as<Property<Type>>()->value();
-}
-
-template <typename Type>
-void PropertyGroup::setValue(const std::string & name, const Type & value)
-{
-    /** TODO handle non-existence of property **/
-    this->property(name)->as<Property<Type>>()->setValue(value);
-}
-
 } // namespace
+
+#include "PropertyGroup.hpp" 
