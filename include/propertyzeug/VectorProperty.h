@@ -23,18 +23,18 @@ public:
     VectorProperty(const std::string & name, const Vector & value);
     
     VectorProperty(const std::string & name,
-                  const std::function<const Vector & ()> & getter,
-                  const std::function<void(const Vector &)> & setter);
+                   const std::function<const Vector & ()> & getter,
+                   const std::function<void(const Vector &)> & setter);
     
     template <class Object>
     VectorProperty(const std::string & name,
-                  Object & object, const Vector & (Object::*getter_pointer)() const,
-                  void (Object::*setter_pointer)(const Vector &));
+                   Object & object, const Vector & (Object::*getter_pointer)() const,
+                   void (Object::*setter_pointer)(const Vector &));
     
     template <class Object>
     VectorProperty(const std::string & name,
-                  Object & object, Vector (Object::*getter_pointer)() const,
-                  void (Object::*setter_pointer)(Vector));
+                   Object & object, Vector (Object::*getter_pointer)() const,
+                   void (Object::*setter_pointer)(Vector));
 
     virtual ~VectorProperty();
     

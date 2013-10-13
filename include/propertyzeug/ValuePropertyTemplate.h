@@ -24,18 +24,18 @@ public:
     ValuePropertyTemplate(const std::string & name, const Type & value);
     
     ValuePropertyTemplate(const std::string & name, 
-                 const std::function<const Type & ()> & getter,
-                 const std::function<void(const Type &)> & setter);
+                          const std::function<const Type & ()> & getter,
+                          const std::function<void(const Type &)> & setter);
     
     template <class Object>
     ValuePropertyTemplate(const std::string & name,
-                 Object & object, const Type & (Object::*getter_pointer)() const,
-                 void (Object::*setter_pointer)(const Type &));
+                          Object & object, const Type & (Object::*getter_pointer)() const,
+                          void (Object::*setter_pointer)(const Type &));
     
     template <class Object>
     ValuePropertyTemplate(const std::string & name,
-                 Object & object, Type (Object::*getter_pointer)() const,
-                 void (Object::*setter_pointer)(const Type &));
+                          Object & object, Type (Object::*getter_pointer)() const,
+                          void (Object::*setter_pointer)(const Type &));
     
     virtual ~ValuePropertyTemplate();
 

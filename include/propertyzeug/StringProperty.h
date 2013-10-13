@@ -22,18 +22,18 @@ public:
     StringProperty(const std::string & name, const std::string & value);
     
     StringProperty(const std::string & name,
-                  const std::function<const std::string & ()> & getter,
-                  const std::function<void(const std::string &)> & setter);
+                   const std::function<const std::string & ()> & getter,
+                   const std::function<void(const std::string &)> & setter);
     
     template <class Object>
     StringProperty(const std::string & name,
-                  Object & object, const std::string & (Object::*getter_pointer)() const,
-                  void (Object::*setter_pointer)(const std::string &));
+                   Object & object, const std::string & (Object::*getter_pointer)() const,
+                   void (Object::*setter_pointer)(const std::string &));
     
     template <class Object>
     StringProperty(const std::string & name,
-                  Object & object, std::string (Object::*getter_pointer)() const,
-                  void (Object::*setter_pointer)(std::string));
+                   Object & object, std::string (Object::*getter_pointer)() const,
+                   void (Object::*setter_pointer)(std::string));
     
     bool hasChoices() const;
     const std::vector<std::string> & choices() const;

@@ -46,20 +46,20 @@ public:
     :   ValuePropertyTemplate<bool>(name, value) {};
 
     Property(const std::string & name, 
-              const std::function<const bool & ()> & getter,
-              const std::function<void(const bool &)> & setter)
+             const std::function<const bool & ()> & getter,
+             const std::function<void(const bool &)> & setter)
     :   ValuePropertyTemplate<bool>(name, getter, setter) {};
     
     template <class Object>
     Property(const std::string & name,
-              Object & object, const bool & (Object::*getter_pointer)() const,
-              void (Object::*setter_pointer)(const bool &))
+             Object & object, const bool & (Object::*getter_pointer)() const,
+             void (Object::*setter_pointer)(const bool &))
     :   ValuePropertyTemplate<bool>(name, object, getter_pointer, setter_pointer) {};
     
     template <class Object>
     Property(const std::string & name,
-              Object & object, bool (Object::*getter_pointer)() const,
-              void (Object::*setter_pointer)(const bool &))
+             Object & object, bool (Object::*getter_pointer)() const,
+             void (Object::*setter_pointer)(const bool &))
     :   ValuePropertyTemplate<bool>(name, object, getter_pointer, setter_pointer) {};
 
     virtual void accept(AbstractPropertyVisitor & visitor) { visitor.visit(*this); };
@@ -74,20 +74,20 @@ public:
     :   NumberProperty<int>(name, value) {};
     
     Property(const std::string & name,
-              const std::function<const int & ()> & getter,
-              const std::function<void(const int &)> & setter)
+             const std::function<const int & ()> & getter,
+             const std::function<void(const int &)> & setter)
     :   NumberProperty<int>(name, getter, setter) {};
     
     template <class Object>
     Property(const std::string & name,
-              Object & object, const int & (Object::*getter_pointer)() const,
-              void (Object::*setter_pointer)(const int &))
+             Object & object, const int & (Object::*getter_pointer)() const,
+             void (Object::*setter_pointer)(const int &))
     :   NumberProperty<int>(name, object, getter_pointer, setter_pointer) {};
     
     template <class Object>
     Property(const std::string & name,
-              Object & object, int (Object::*getter_pointer)() const,
-              void (Object::*setter_pointer)(const int &))
+             Object & object, int (Object::*getter_pointer)() const,
+             void (Object::*setter_pointer)(const int &))
     :   NumberProperty<int>(name, object, getter_pointer, setter_pointer) {};
 
     virtual void accept(AbstractPropertyVisitor & visitor) { visitor.visit(*this); };
@@ -101,20 +101,20 @@ public:
     :   NumberProperty<double>(name, value) {};
     
     Property(const std::string & name,
-              const std::function<const double & ()> & getter,
-              const std::function<void(const double &)> & setter)
+             const std::function<const double & ()> & getter,
+             const std::function<void(const double &)> & setter)
     :   NumberProperty<double>(name, getter, setter) {};
     
     template <class Object>
     Property(const std::string & name,
-              Object & object, const double & (Object::*getter_pointer)() const,
-              void (Object::*setter_pointer)(const double &))
+             Object & object, const double & (Object::*getter_pointer)() const,
+             void (Object::*setter_pointer)(const double &))
     :   NumberProperty<double>(name, object, getter_pointer, setter_pointer) {};
     
     template <class Object>
     Property(const std::string & name,
-              Object & object, double (Object::*getter_pointer)() const,
-              void (Object::*setter_pointer)(const double &))
+             Object & object, double (Object::*getter_pointer)() const,
+             void (Object::*setter_pointer)(const double &))
     :   NumberProperty<double>(name, object, getter_pointer, setter_pointer) {};
 
     virtual void accept(AbstractPropertyVisitor & visitor) { visitor.visit(*this); };
@@ -128,20 +128,20 @@ public:
     :   StringProperty(name, value) {};
     
     Property(const std::string & name,
-                  const std::function<const std::string & ()> & getter,
-                  const std::function<void(const std::string &)> & setter)
+             const std::function<const std::string & ()> & getter,
+             const std::function<void(const std::string &)> & setter)
     :   StringProperty(name, getter, setter) {};
     
     template <class Object>
     Property(const std::string & name,
-                  Object & object, const std::string & (Object::*getter_pointer)() const,
-                  void (Object::*setter_pointer)(const std::string &))
+             Object & object, const std::string & (Object::*getter_pointer)() const,
+             void (Object::*setter_pointer)(const std::string &))
     :   StringProperty(name, object, getter_pointer, setter_pointer) {};   
     
     template <class Object>
     Property(const std::string & name,
-                  Object & object, std::string (Object::*getter_pointer)() const,
-                  void (Object::*setter_pointer)(const std::string &))
+             Object & object, std::string (Object::*getter_pointer)() const,
+             void (Object::*setter_pointer)(const std::string &))
     :   StringProperty(name, object, getter_pointer, setter_pointer) {};
 
     virtual void accept(AbstractPropertyVisitor & visitor) { visitor.visit(*this); };
@@ -155,20 +155,20 @@ public:
     :   ValuePropertyTemplate<Color>(name, value) {};
     
     Property(const std::string & name,
-              const std::function<const Color & ()> & getter,
-              const std::function<void(const Color &)> & setter)
+             const std::function<const Color & ()> & getter,
+             const std::function<void(const Color &)> & setter)
     :   ValuePropertyTemplate<Color>(name, getter, setter) {};
     
     template <class Object>
     Property(const std::string & name,
-              Object & object, const Color & (Object::*getter_pointer)() const,
-              void (Object::*setter_pointer)(const Color &))
+             Object & object, const Color & (Object::*getter_pointer)() const,
+             void (Object::*setter_pointer)(const Color &))
     :   ValuePropertyTemplate<Color>(name, object, getter_pointer, setter_pointer) {};
     
     template <class Object>
     Property(const std::string & name,
-              Object & object, Color (Object::*getter_pointer)() const,
-              void (Object::*setter_pointer)(const Color &))
+             Object & object, Color (Object::*getter_pointer)() const,
+             void (Object::*setter_pointer)(const Color &))
     :   ValuePropertyTemplate<Color>(name, object, getter_pointer, setter_pointer) {};
 
     virtual void accept(AbstractPropertyVisitor & visitor) { visitor.visit(*this); };
@@ -184,20 +184,20 @@ public:
     :   FilePathProperty(name, value) {};
     
     Property(const std::string & name,
-              const std::function<const FilePath & ()> & getter,
-              const std::function<void(const FilePath &)> & setter)
+             const std::function<const FilePath & ()> & getter,
+             const std::function<void(const FilePath &)> & setter)
     :   FilePathProperty(name, getter, setter) {};
     
     template <class Object>
     Property(const std::string & name,
-              Object & object, const FilePath & (Object::*getter_pointer)() const,
-              void (Object::*setter_pointer)(const FilePath &))
+             Object & object, const FilePath & (Object::*getter_pointer)() const,
+             void (Object::*setter_pointer)(const FilePath &))
     :   FilePathProperty(name, object, getter_pointer, setter_pointer) {};
     
     template <class Object>
     Property(const std::string & name,
-              Object & object, FilePath (Object::*getter_pointer)() const,
-              void (Object::*setter_pointer)(const FilePath &))
+             Object & object, FilePath (Object::*getter_pointer)() const,
+             void (Object::*setter_pointer)(const FilePath &))
     :   FilePathProperty(name, object, getter_pointer, setter_pointer) {};
 
     virtual void accept(AbstractPropertyVisitor & visitor) { visitor.visit(*this); };
@@ -211,20 +211,20 @@ public:
     :   VectorProperty<std::vector<bool>>(name, value) {};
     
     Property(const std::string & name,
-              const std::function<const std::vector<bool> & ()> & getter,
-              const std::function<void(const std::vector<bool> &)> & setter)
+             const std::function<const std::vector<bool> & ()> & getter,
+             const std::function<void(const std::vector<bool> &)> & setter)
     :   VectorProperty<std::vector<bool>>(name, getter, setter) {};
     
     template <class Object>
     Property(const std::string & name,
-              Object & object, const std::vector<bool> & (Object::*getter_pointer)() const,
-              void (Object::*setter_pointer)(const std::vector<bool> &))
+             Object & object, const std::vector<bool> & (Object::*getter_pointer)() const,
+             void (Object::*setter_pointer)(const std::vector<bool> &))
     :   VectorProperty<std::vector<bool>>(name, object, getter_pointer, setter_pointer) {};
     
     template <class Object>
     Property(const std::string & name,
-              Object & object, std::vector<bool> (Object::*getter_pointer)() const,
-              void (Object::*setter_pointer)(const std::vector<bool> &))
+             Object & object, std::vector<bool> (Object::*getter_pointer)() const,
+             void (Object::*setter_pointer)(const std::vector<bool> &))
     :   VectorProperty<std::vector<bool>>(name, object, getter_pointer, setter_pointer) {};
 
     virtual void accept(AbstractPropertyVisitor & visitor) { visitor.visit(*this); };
@@ -251,20 +251,20 @@ public:
     :   VectorProperty<std::vector<int>>(name, value) {};
     
     Property(const std::string & name,
-              const std::function<const std::vector<int> & ()> & getter,
-              const std::function<void(const std::vector<int> &)> & setter)
+             const std::function<const std::vector<int> & ()> & getter,
+             const std::function<void(const std::vector<int> &)> & setter)
     :   VectorProperty<std::vector<int>>(name, getter, setter) {};
-    
+
     template <class Object>
     Property(const std::string & name,
-              Object & object, const std::vector<int> & (Object::*getter_pointer)() const,
-              void (Object::*setter_pointer)(const std::vector<int> &))
+             Object & object, const std::vector<int> & (Object::*getter_pointer)() const,
+             void (Object::*setter_pointer)(const std::vector<int> &))
     :   VectorProperty<std::vector<int>>(name, object, getter_pointer, setter_pointer) {};
     
     template <class Object>
     Property(const std::string & name,
-              Object & object, std::vector<int> (Object::*getter_pointer)() const,
-              void (Object::*setter_pointer)(const std::vector<int> &))
+             Object & object, std::vector<int> (Object::*getter_pointer)() const,
+             void (Object::*setter_pointer)(const std::vector<int> &))
     :   VectorProperty<std::vector<int>>(name, object, getter_pointer, setter_pointer) {};
 
     virtual void accept(AbstractPropertyVisitor & visitor) { visitor.visit(*this); };
@@ -278,20 +278,20 @@ public:
     :   VectorProperty<std::vector<double>>(name, value) {};
     
     Property(const std::string & name,
-              const std::function<const std::vector<double> & ()> & getter,
-              const std::function<void(const std::vector<double> &)> & setter)
+             const std::function<const std::vector<double> & ()> & getter,
+             const std::function<void(const std::vector<double> &)> & setter)
     :   VectorProperty<std::vector<double>>(name, getter, setter) {};
     
     template <class Object>
     Property(const std::string & name,
-              Object & object, const std::vector<double> & (Object::*getter_pointer)() const,
-              void (Object::*setter_pointer)(const std::vector<double> &))
+             Object & object, const std::vector<double> & (Object::*getter_pointer)() const,
+             void (Object::*setter_pointer)(const std::vector<double> &))
     :   VectorProperty<std::vector<double>>(name, object, getter_pointer, setter_pointer) {};
     
     template <class Object>
     Property(const std::string & name,
-              Object & object, std::vector<double> (Object::*getter_pointer)() const,
-              void (Object::*setter_pointer)(const std::vector<double> &))
+             Object & object, std::vector<double> (Object::*getter_pointer)() const,
+             void (Object::*setter_pointer)(const std::vector<double> &))
     :   VectorProperty<std::vector<double>>(name, object, getter_pointer, setter_pointer) {};
 
     virtual void accept(AbstractPropertyVisitor & visitor) { visitor.visit(*this); };

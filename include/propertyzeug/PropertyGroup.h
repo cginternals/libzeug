@@ -33,22 +33,24 @@ public:
     
     template <typename Type>
     Property<Type> * addProperty(const std::string & name,
-                     const Type & value);
+                                 const Type & value);
     
     template <typename Type>
     Property<Type> * addProperty(const std::string & name,
-                 const std::function<const Type & ()> & getter,
-                 const std::function<void(const Type &)> & setter);
+                                 const std::function<const Type & ()> & getter,
+                                 const std::function<void(const Type &)> & setter);
     
     template <typename Type, class Object>
     Property<Type> * addProperty(const std::string & name,
-                 Object & object, const Type & (Object::*getter_pointer)() const,
-                 void (Object::*setter_pointer)(const Type &));
+                                 Object & object, 
+                                 const Type & (Object::*getter_pointer)() const,
+                                 void (Object::*setter_pointer)(const Type &));
     
     template <typename Type, class Object>
     Property<Type> * addProperty(const std::string & name,
-                 Object & object, Type (Object::*getter_pointer)() const,
-                 void (Object::*setter_pointer)(Type));
+                                 Object & object, 
+                                 Type (Object::*getter_pointer)() const,
+                                 void (Object::*setter_pointer)(Type));
     
     PropertyGroup * addGroup(const std::string & name);
     

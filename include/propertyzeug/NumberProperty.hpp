@@ -9,7 +9,7 @@ NumberProperty<Type>::NumberProperty(const std::string & name, const Type & valu
 ,   m_min(0)
 ,   m_max(0)
 {
-};
+}
 
 template <typename Type>
 NumberProperty<Type>::NumberProperty(const std::string & name, 
@@ -19,7 +19,7 @@ NumberProperty<Type>::NumberProperty(const std::string & name,
 ,   m_min(0)
 ,   m_max(0)
 {
-};
+}
 
 template <typename Type>
 template <class Object>
@@ -30,7 +30,7 @@ NumberProperty<Type>::NumberProperty(const std::string & name,
 ,   m_min(0)
 ,   m_max(0)
 {
-};
+}
 
 template <typename Type>
 template <class Object>
@@ -41,7 +41,7 @@ NumberProperty<Type>::NumberProperty(const std::string & name,
 ,   m_min(0)
 ,   m_max(0)
 {
-};
+}
 
 template <typename Type>
 const Type & NumberProperty<Type>::minimum() const

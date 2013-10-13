@@ -20,18 +20,18 @@ public:
     FilePathProperty(const std::string & name, const FilePath & value);
     
     FilePathProperty(const std::string & name,
-                   const std::function<const FilePath & ()> & getter,
-                   const std::function<void(const FilePath &)> & setter);
+                     const std::function<const FilePath & ()> & getter,
+                     const std::function<void(const FilePath &)> & setter);
+
+    template <class Object>
+    FilePathProperty(const std::string & name,
+                     Object & object, const FilePath & (Object::*getter_pointer)() const,
+                     void (Object::*setter_pointer)(const FilePath &));
     
     template <class Object>
     FilePathProperty(const std::string & name,
-                   Object & object, const FilePath & (Object::*getter_pointer)() const,
-                   void (Object::*setter_pointer)(const FilePath &));
-    
-    template <class Object>
-    FilePathProperty(const std::string & name,
-                   Object & object, FilePath (Object::*getter_pointer)() const,
-                   void (Object::*setter_pointer)(FilePath));
+                     Object & object, FilePath (Object::*getter_pointer)() const,
+                     void (Object::*setter_pointer)(FilePath));
     
     bool shouldExist() const;
     void setShouldExist(bool shouldExist);
