@@ -17,7 +17,7 @@ Property<Type> * PropertyGroup::addProperty(const std::string & name, const Type
 
 template <typename Type>
 Property<Type> * PropertyGroup::addProperty(const std::string & name,
-    const std::function<const Type & ()> & getter,
+    const std::function<Type ()> & getter,
     const std::function<void(const Type &)> & setter)
 {
     auto property = new Property<Type>(name, getter, setter);
@@ -29,24 +29,24 @@ Property<Type> * PropertyGroup::addProperty(const std::string & name,
     return nullptr;
 }
 
-template <typename Type, class Object>
-Property<Type> * PropertyGroup::addProperty(const std::string & name,
-    Object & object, const Type & (Object::*getter_pointer)() const,
-    void (Object::*setter_pointer)(const Type &))
-{
-    auto property = new Property<Type>(name, object, getter_pointer, setter_pointer);
-
-    if (this->addProperty(property))
-        return property;
-    
-    delete property;
-    return nullptr;
-}
+//template <typename Type, class Object>
+//Property<Type> * PropertyGroup::addProperty(const std::string & name,
+//    Object & object, const Type & (Object::*getter_pointer)() const,
+//    void (Object::*setter_pointer)(const Type &))
+//{
+//    auto property = new Property<Type>(name, object, getter_pointer, setter_pointer);
+//
+//    if (this->addProperty(property))
+//        return property;
+//    
+//    delete property;
+//    return nullptr;
+//}
 
 template <typename Type, class Object>
 Property<Type> * PropertyGroup::addProperty(const std::string & name,
     Object & object, Type (Object::*getter_pointer)() const,
-    void (Object::*setter_pointer)(Type))
+    void (Object::*setter_pointer)(const Type &))
 {
     auto property = new Property<Type>(name, object, getter_pointer, setter_pointer);
 
@@ -70,7 +70,7 @@ const Property<Type> * PropertyGroup::property(const std::string & name) const
 }
 
 template <typename Type>
-const Type & PropertyGroup::value(const std::string & name) const
+Type PropertyGroup::value(const std::string & name) const
 {
     /** TODO handle non-existence of property **/
     return this->property(name)->as<Property<Type>>()->value();

@@ -13,7 +13,7 @@ ValuePropertyTemplate<Type>::ValuePropertyTemplate(const std::string & name,
 
 template <typename Type>
 ValuePropertyTemplate<Type>::ValuePropertyTemplate(const std::string & name, 
-    const std::function<const Type & ()> & getter,
+    const std::function<Type ()> & getter,
     const std::function<void(const Type &)> & setter)
 :   ValueProperty(name)
 ,   m_value(new AccessorValue<Type>(getter, setter))
@@ -46,7 +46,7 @@ ValuePropertyTemplate<Type>::~ValuePropertyTemplate()
 }
 
 template <typename Type>
-const Type & ValuePropertyTemplate<Type>::value() const
+Type ValuePropertyTemplate<Type>::value() const
 {
     return m_value->get();
 }

@@ -20,7 +20,7 @@ public:
     FilePathProperty(const std::string & name, const FilePath & value);
     
     FilePathProperty(const std::string & name,
-                     const std::function<const FilePath & ()> & getter,
+                     const std::function<FilePath ()> & getter,
                      const std::function<void(const FilePath &)> & setter);
 
     template <class Object>

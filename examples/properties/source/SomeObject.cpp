@@ -4,7 +4,7 @@
 #include <iostream>
 #include <propertyzeug/AbstractProperty.h>
 
-const int & SomeObject::count() const
+int SomeObject::count() const
 {
     return m_count;
 }

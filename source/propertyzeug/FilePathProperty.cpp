@@ -12,7 +12,7 @@ FilePathProperty::FilePathProperty(const std::string & name,
 }
 
 FilePathProperty::FilePathProperty(const std::string & name, 
-    const std::function<const FilePath & ()> & getter,
+    const std::function<FilePath ()> & getter,
     const std::function<void(const FilePath &)> & setter)
 :   ValuePropertyTemplate<FilePath>(name, getter, setter)
 ,   m_shouldExist(true)

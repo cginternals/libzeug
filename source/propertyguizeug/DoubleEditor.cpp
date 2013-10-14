@@ -12,14 +12,14 @@ DoubleEditor::DoubleEditor(Property<double> * property, QWidget * parent)
 ,   m_spinBox(new QDoubleSpinBox(this))
 ,   m_property(property)
 {
-    m_spinBox->setValue(m_property->value());
-    m_spinBox->setDecimals(4);
-    
     this->boxLayout()->addWidget(m_spinBox);
     this->setFocusProxy(m_spinBox);
 
     if (m_property->hasRanges())
         m_spinBox->setRange(m_property->minimum(), m_property->maximum());
+    
+    m_spinBox->setDecimals(3);
+    m_spinBox->setValue(m_property->value());
     
     this->connect(m_spinBox, static_cast<void (QDoubleSpinBox::*)(double)>(&QDoubleSpinBox::valueChanged),
                   [this](double d) {

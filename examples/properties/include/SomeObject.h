@@ -10,7 +10,7 @@ class SomeObject
 public:
     SomeObject() : m_count(0) {};
 
-    const int & count() const;
+    int count() const;
     void setCount(const int & count);
 
     void valueChanged(const int & value);

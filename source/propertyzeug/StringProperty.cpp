@@ -10,7 +10,7 @@ StringProperty::StringProperty(const std::string & name,
 }
 
 StringProperty::StringProperty(const std::string & name, 
-    const std::function<const std::string & ()> & getter,
+    const std::function<std::string ()> & getter,
     const std::function<void(const std::string &)> & setter)
 :   ValuePropertyTemplate<std::string>(name, getter, setter)
 {

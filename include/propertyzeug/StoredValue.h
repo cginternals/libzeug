@@ -13,10 +13,10 @@ template <typename Type>
 class StoredValue : public AbstractValue<Type>
 {
 public:
-    StoredValue(Type value);
+    StoredValue(const Type & value);
     virtual ~StoredValue();
 
-    virtual const Type & get() const;
+    virtual Type get() const;
     virtual void set(const Type & value);
 protected:
     Type m_value;

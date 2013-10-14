@@ -12,13 +12,13 @@ IntegerEditor::IntegerEditor(Property<int> * property, QWidget * parent)
 ,   m_spinBox(new QSpinBox(this))
 ,   m_property(property)
 {
-    m_spinBox->setValue(m_property->value());
-
     this->boxLayout()->addWidget(m_spinBox);
     this->setFocusProxy(m_spinBox);
 
     if (m_property->hasRanges())
         m_spinBox->setRange(m_property->minimum(), m_property->maximum());
+
+    m_spinBox->setValue(m_property->value());
     
     this->connect(m_spinBox, static_cast<void (QSpinBox::*)(int)>(&QSpinBox::valueChanged),
                   [this](int i) {

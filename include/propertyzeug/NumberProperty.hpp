@@ -13,7 +13,7 @@ NumberProperty<Type>::NumberProperty(const std::string & name, const Type & valu
 
 template <typename Type>
 NumberProperty<Type>::NumberProperty(const std::string & name, 
-    const std::function<const Type & ()> & getter,
+    const std::function<Type ()> & getter,
     const std::function<void(const Type &)> & setter)
 :   ValuePropertyTemplate<Type>(name, getter, setter)
 ,   m_min(0)
@@ -36,7 +36,7 @@ template <typename Type>
 template <class Object>
 NumberProperty<Type>::NumberProperty(const std::string & name,
     Object & object, Type (Object::*getter_pointer)() const,
-    void (Object::*setter_pointer)(Type))
+    void (Object::*setter_pointer)(const Type &))
 :   ValuePropertyTemplate<Type>(name, object, getter_pointer, setter_pointer)
 ,   m_min(0)
 ,   m_max(0)

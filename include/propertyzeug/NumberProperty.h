@@ -20,7 +20,7 @@ public:
     NumberProperty(const std::string & name, const Type & value);
 
     NumberProperty(const std::string & name, 
-                   const std::function<const Type & ()> & getter,
+                   const std::function<Type ()> & getter,
                    const std::function<void(const Type &)> & setter);
     
     template <class Object>
@@ -31,7 +31,7 @@ public:
     template <class Object>
     NumberProperty(const std::string & name,
                    Object & object, Type (Object::*getter_pointer)() const,
-                   void (Object::*setter_pointer)(Type));
+                   void (Object::*setter_pointer)(const Type &));
     
     const Type & minimum() const;
     void setMinimum(const Type & minimum);

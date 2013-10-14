@@ -46,7 +46,7 @@ public:
     :   ValuePropertyTemplate<bool>(name, value) {};
 
     Property(const std::string & name, 
-             const std::function<const bool & ()> & getter,
+             const std::function<bool ()> & getter,
              const std::function<void(const bool &)> & setter)
     :   ValuePropertyTemplate<bool>(name, getter, setter) {};
     
@@ -74,7 +74,7 @@ public:
     :   NumberProperty<int>(name, value) {};
     
     Property(const std::string & name,
-             const std::function<const int & ()> & getter,
+             const std::function<int ()> & getter,
              const std::function<void(const int &)> & setter)
     :   NumberProperty<int>(name, getter, setter) {};
     
@@ -101,7 +101,7 @@ public:
     :   NumberProperty<double>(name, value) {};
     
     Property(const std::string & name,
-             const std::function<const double & ()> & getter,
+             const std::function<double ()> & getter,
              const std::function<void(const double &)> & setter)
     :   NumberProperty<double>(name, getter, setter) {};
     
@@ -128,7 +128,7 @@ public:
     :   StringProperty(name, value) {};
     
     Property(const std::string & name,
-             const std::function<const std::string & ()> & getter,
+             const std::function<std::string ()> & getter,
              const std::function<void(const std::string &)> & setter)
     :   StringProperty(name, getter, setter) {};
     
@@ -155,7 +155,7 @@ public:
     :   ValuePropertyTemplate<Color>(name, value) {};
     
     Property(const std::string & name,
-             const std::function<const Color & ()> & getter,
+             const std::function<Color ()> & getter,
              const std::function<void(const Color &)> & setter)
     :   ValuePropertyTemplate<Color>(name, getter, setter) {};
     
@@ -184,7 +184,7 @@ public:
     :   FilePathProperty(name, value) {};
     
     Property(const std::string & name,
-             const std::function<const FilePath & ()> & getter,
+             const std::function<FilePath ()> & getter,
              const std::function<void(const FilePath &)> & setter)
     :   FilePathProperty(name, getter, setter) {};
     
@@ -211,7 +211,7 @@ public:
     :   VectorProperty<std::vector<bool>>(name, value) {};
     
     Property(const std::string & name,
-             const std::function<const std::vector<bool> & ()> & getter,
+             const std::function<std::vector<bool> ()> & getter,
              const std::function<void(const std::vector<bool> &)> & setter)
     :   VectorProperty<std::vector<bool>>(name, getter, setter) {};
     
@@ -251,7 +251,7 @@ public:
     :   VectorProperty<std::vector<int>>(name, value) {};
     
     Property(const std::string & name,
-             const std::function<const std::vector<int> & ()> & getter,
+             const std::function<std::vector<int> ()> & getter,
              const std::function<void(const std::vector<int> &)> & setter)
     :   VectorProperty<std::vector<int>>(name, getter, setter) {};
 
@@ -278,7 +278,7 @@ public:
     :   VectorProperty<std::vector<double>>(name, value) {};
     
     Property(const std::string & name,
-             const std::function<const std::vector<double> & ()> & getter,
+             const std::function<std::vector<double> ()> & getter,
              const std::function<void(const std::vector<double> &)> & setter)
     :   VectorProperty<std::vector<double>>(name, getter, setter) {};
     

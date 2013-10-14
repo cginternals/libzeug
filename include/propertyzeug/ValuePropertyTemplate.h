@@ -24,7 +24,7 @@ public:
     ValuePropertyTemplate(const std::string & name, const Type & value);
     
     ValuePropertyTemplate(const std::string & name, 
-                          const std::function<const Type & ()> & getter,
+                          const std::function<Type()> & getter,
                           const std::function<void(const Type &)> & setter);
     
     template <class Object>
@@ -39,7 +39,7 @@ public:
     
     virtual ~ValuePropertyTemplate();
 
-    virtual const Type & value() const;
+    virtual Type value() const;
     virtual void setValue(const Type & value);
     
     Signal<const Type &> valueChanged;

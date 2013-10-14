@@ -24,7 +24,6 @@ set(libs
 set(header_path "${CMAKE_CURRENT_SOURCE_DIR}/include")
 set(source_path "${CMAKE_CURRENT_SOURCE_DIR}/source")
 set(headers
-
 )
 set(sources
 	${source_path}/main.cpp

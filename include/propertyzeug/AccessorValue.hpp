@@ -5,7 +5,7 @@ namespace zeug
 {
 
 template <typename Type>
-AccessorValue<Type>::AccessorValue(std::function<const Type & ()> getter,
+AccessorValue<Type>::AccessorValue(std::function<Type ()> getter,
     std::function<void(const Type &)> setter)
 :   m_getter(getter)
 ,   m_setter(setter)
@@ -39,7 +39,7 @@ AccessorValue<Type>::~AccessorValue()
 }
 
 template <typename Type>
-const Type & AccessorValue<Type>::get() const
+Type AccessorValue<Type>::get() const
 {
     return m_getter();
 }

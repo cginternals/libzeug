@@ -37,20 +37,20 @@ public:
     
     template <typename Type>
     Property<Type> * addProperty(const std::string & name,
-                                 const std::function<const Type & ()> & getter,
+                                 const std::function<Type ()> & getter,
                                  const std::function<void(const Type &)> & setter);
     
-    template <typename Type, class Object>
+    /*template <typename Type, class Object>
     Property<Type> * addProperty(const std::string & name,
                                  Object & object, 
                                  const Type & (Object::*getter_pointer)() const,
-                                 void (Object::*setter_pointer)(const Type &));
+                                 void (Object::*setter_pointer)(const Type &));*/
     
     template <typename Type, class Object>
     Property<Type> * addProperty(const std::string & name,
                                  Object & object, 
                                  Type (Object::*getter_pointer)() const,
-                                 void (Object::*setter_pointer)(Type));
+                                 void (Object::*setter_pointer)(const Type &));
     
     PropertyGroup * addGroup(const std::string & name);
     
@@ -75,7 +75,7 @@ public:
     const PropertyGroup * group(const std::string & path) const;
 
     template <typename Type>
-    const Type & value(const std::string & path) const;
+    Type value(const std::string & path) const;
     
     template <typename Type>
     void setValue(const std::string & path, const Type & value);
@@ -108,8 +108,8 @@ public:
     void forEachProperty(const std::function<void(AbstractProperty &)> functor);
     void forEachProperty(const std::function<void(AbstractProperty &)> functor) const;
     
-    void forEachValuePropertyTemplate(const std::function<void(ValueProperty &)> functor);
-    void forEachValuePropertyTemplate(const std::function<void(ValueProperty &)> functor) const;
+    void forEachValueProperty(const std::function<void(ValueProperty &)> functor);
+    void forEachValueProperty(const std::function<void(ValueProperty &)> functor) const;
     
     void forEachSubGroup(const std::function<void(PropertyGroup &)> functor);
     void forEachSubGroup(const std::function<void(PropertyGroup &)> functor) const;

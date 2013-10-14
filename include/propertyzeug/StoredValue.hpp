@@ -5,7 +5,7 @@ namespace zeug
 {
 
 template <typename Type>
-StoredValue<Type>::StoredValue(Type value)
+StoredValue<Type>::StoredValue(const Type & value)
 :   m_value(value)
 {   
 }
@@ -16,7 +16,7 @@ StoredValue<Type>::~StoredValue()
 }
 
 template <typename Type>
-const Type &  StoredValue<Type>::get() const
+Type StoredValue<Type>::get() const
 {
     return m_value;
 }
