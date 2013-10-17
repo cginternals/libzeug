@@ -33,7 +33,7 @@ public:
     template <class Object>
     StringProperty(const std::string & name,
                    Object & object, std::string (Object::*getter_pointer)() const,
-                   void (Object::*setter_pointer)(std::string));
+                   void (Object::*setter_pointer)(const std::string &));
     
     bool hasChoices() const;
     const std::vector<std::string> & choices() const;
