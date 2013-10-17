@@ -8,62 +8,61 @@
 
 namespace zeug {
 
+class STAGEZEUG_API AbstractStage;
+
+class STAGEZEUG_API StageData
+{
+	friend class AbstractStage;
+public:
+    StageData();
+    virtual ~StageData();
+
+    const AbstractStage* owner() const;
+
+    bool isValid() const;
+    void invalidate();
+    void setToValid();
+public:
+    Signal<> invalidated;
+protected:
+    AbstractStage* _owner;
+    bool _valid;
+private:
+	void setOwner(AbstractStage* owner);
+};
+
 class STAGEZEUG_API AbstractStage
 {
 public:
-    enum ExecutionPolicy
-    {
-        WhenInvalid,
-        Always,
-        Never
-    };
-
-    AbstractStage(ExecutionPolicy policy = WhenInvalid);
+    AbstractStage(StageData* output);
 	virtual ~AbstractStage();
+
+    const StageData* output() const;
 
     bool execute();
 
-    void invalidate();
-    bool isValid() const;
-
-	template<typename T, typename... Args>
-    void require(T* stage, Args... stages);
-    bool requires(const AbstractStage* stage) const;
+    void requireInput(StageData* input);
 
     void setEnabled(bool enabled);
     bool isEnabled() const;
 
-    void setExecutionPolicy(ExecutionPolicy policy);
-    ExecutionPolicy policy() const;
-
     const std::string& name() const;
     void setName(const std::string& name);
+
+    bool dependsOn(const AbstractStage* stage) const;
 public:
 	Signal<> dependenciesChanged;
 protected:
-    ExecutionPolicy _policy;
     bool _enabled;
-    bool _valid;
     std::string _name;
+    StageData* _output;
+    std::set<StageData*> _inputs;
 
-	std::set<AbstractStage*> _requiredStages;
-    std::set<AbstractStage*> _dependentStages;
-
-	void require() {}
-	void addRequiredStage(AbstractStage* stage);
-	void addDependentStage(AbstractStage* stage);
-
-	virtual void invalidated();
-    bool needsToExecute() const;
+	void invalidateOutput();
+    virtual void inputAdded(StageData* input);
 
 	virtual void process() = 0;
 };
 
-template<typename T, typename... Args>
-void AbstractStage::require(T* stage, Args... stages)
-{
-    addRequiredStage(stage);
-    require(stages...);
-}
 
 } // namespace zeug

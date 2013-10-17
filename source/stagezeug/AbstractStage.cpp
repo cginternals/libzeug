@@ -2,63 +2,68 @@
 
 namespace zeug {
 
-AbstractStage::AbstractStage(ExecutionPolicy policy)
-: _policy(policy)
-, _enabled(true)
-, _valid(false)
+StageData::StageData()
+: _valid(false)
 {
+}
+
+StageData::~StageData()
+{
+}
+
+const AbstractStage* StageData::owner() const
+{
+    return _owner;
+}
+
+void StageData::setOwner(AbstractStage* owner)
+{
+	_owner = owner;
+}
+
+bool StageData::isValid() const
+{
+    return _valid;
+}
+
+void StageData::invalidate()
+{
+    _valid = false;
+    invalidated();
+}
+
+void StageData::setToValid()
+{
+    _valid = true;
+}
+
+
+AbstractStage::AbstractStage(StageData* output)
+: _output(output)
+, _enabled(true)
+{
+	if (_output)
+	{
+		_output->setOwner(this);
+	}
 }
 
 AbstractStage::~AbstractStage()
 {
 }
 
+const StageData* AbstractStage::output() const
+{
+    return _output;
+}
+
 bool AbstractStage::execute()
 {
-	if (needsToExecute())
-	{
-		process();
-		_valid = true;
-
-		return true;
-	}
-
-	return false;
-}
-
-bool AbstractStage::needsToExecute() const
-{
-    if (!_enabled)
+    if (!_enabled || (_output && _output->isValid()))
         return false;
 
-    switch (_policy)
-    {
-        case WhenInvalid:
-            return !_valid;
-        case Always:
-            return true;
-        case Never:
-            return false;
-        default:
-            return false;
-    }
-}
-
-void AbstractStage::invalidate()
-{
-	for (AbstractStage* dependentStage : _dependentStages)
-	{
-		dependentStage->invalidate();
-	}
-
-    _valid = false;
-
-	invalidated();
-}
-
-bool AbstractStage::isValid() const
-{
-    return _valid;
+    process();
+    return true;
 }
 
 void AbstractStage::setEnabled(bool enabled)
@@ -71,16 +76,6 @@ bool AbstractStage::isEnabled() const
     return _enabled;
 }
 
-void AbstractStage::setExecutionPolicy(ExecutionPolicy policy)
-{
-    _policy = policy;
-}
-
-AbstractStage::ExecutionPolicy AbstractStage::policy() const
-{
-    return _policy;
-}
-
 const std::string& AbstractStage::name() const
 {
     return _name;
@@ -91,32 +86,39 @@ void AbstractStage::setName(const std::string& name)
     _name = name;
 }
 
-void AbstractStage::invalidated()
+void AbstractStage::inputAdded(StageData* input)
 {
 }
 
-void AbstractStage::addRequiredStage(AbstractStage* stage)
+void AbstractStage::invalidateOutput()
 {
-	if (!stage) return;
+        if (_output)
+            _output->invalidate();
+}
 
-	_requiredStages.insert(stage);
-	stage->addDependentStage(this);
+void AbstractStage::requireInput(StageData* input)
+{
+    if (!input)
+        return;
 
+    _inputs.insert(input);
+    input->invalidated.connect([this]() {
+        invalidateOutput();
+    });
+
+    inputAdded(input);
     dependenciesChanged();
 }
 
-void AbstractStage::addDependentStage(AbstractStage* stage)
+bool AbstractStage::dependsOn(const AbstractStage* stage) const
 {
-	if (!stage) return;
-
-	_dependentStages.insert(stage);
-}
-
-bool AbstractStage::requires(const AbstractStage* stage) const
-{
-    for (const AbstractStage* requirement: _requiredStages)
+    for (const StageData* input: _inputs)
     {
-        if (requirement == stage || requirement->requires(stage))
+        const AbstractStage* inputOwner = input->owner();
+        if (!inputOwner)
+            continue;
+
+        if (inputOwner == stage || inputOwner->dependsOn(stage))
             return true;
     }
 
