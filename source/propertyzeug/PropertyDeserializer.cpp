@@ -1,9 +1,18 @@
 
 #include <propertyzeug/PropertyDeserializer.h>
 
+#ifdef USE_STD_REGEX
+    #include <regex>
+
+    namespace regex_namespace = std;
+#else
+    #include <boost/regex.hpp>
+
+    namespace regex_namespace = boost;
+#endif
+
 #include <iostream>
 #include <fstream>
-#include <regex>
 
 #include <propertyzeug/Property.h>
 #include <propertyzeug/PropertyGroup.h>
@@ -46,19 +55,19 @@ bool PropertyDeserializer::deserialize(PropertyGroup & group, std::string filePa
     
 bool PropertyDeserializer::isGroupDeclaration(const std::string line)
 {
-    static const std::regex groupRegex("\\[" + AbstractProperty::s_nameRegexString + "\\]");
+    static const regex_namespace::regex groupRegex("\\[" + AbstractProperty::s_nameRegexString + "\\]");
 
-    return std::regex_match(line, groupRegex);
+    return regex_namespace::regex_match(line, groupRegex);
 }
 
 bool PropertyDeserializer::isPropertyDeclaration(const std::string line)
 {
-    static const std::regex propertyRegex(AbstractProperty::s_nameRegexString +
+    static const regex_namespace::regex propertyRegex(AbstractProperty::s_nameRegexString +
                                           "(\\/" +
                                           AbstractProperty::s_nameRegexString +
                                           ")*=.+");
 
-    return std::regex_match(line, propertyRegex);
+    return regex_namespace::regex_match(line, propertyRegex);
 }
 
 bool PropertyDeserializer::updateCurrentGroup(const std::string line)
@@ -89,8 +98,8 @@ bool PropertyDeserializer::setPropertyValue(const std::string line)
         return false;
     }
 
-    std::smatch match;
-    std::regex_search(line, match, std::regex("="));
+    regex_namespace::smatch match;
+    regex_namespace::regex_search(line, match, regex_namespace::regex("="));
     const std::string & path = match.prefix();
     m_currentValue = match.suffix();
     
@@ -124,14 +133,14 @@ void PropertyDeserializer::deserializeVectorValues(const std::string & valueRege
     vectorRegexStream << valueRegexString << "\\)\\s*";
     
     std::string string(vectorRegexStream.str());
-    if (!std::regex_match(m_currentValue, std::regex(vectorRegexStream.str()))) {
+    if (!regex_namespace::regex_match(m_currentValue, regex_namespace::regex(vectorRegexStream.str()))) {
         std::cerr << "Vector values does not match format:";
         std::cerr << "\"" << valueRegexString << "\"" << std::endl;
         return;
     }
     
-    std::smatch match;
-    std::regex_search(m_currentValue, match, std::regex(vectorRegexStream.str()));
+    regex_namespace::smatch match;
+    regex_namespace::regex_search(m_currentValue, match, regex_namespace::regex(vectorRegexStream.str()));
     for (int i = 1; i < match.size(); ++i) {
         functor(match[i].str());
     }
@@ -140,12 +149,12 @@ void PropertyDeserializer::deserializeVectorValues(const std::string & valueRege
 
 void PropertyDeserializer::visit(Property<bool> & property)
 {
-    if (std::regex_match(m_currentValue, std::regex("\\s*true\\s*"))) {
+    if (regex_namespace::regex_match(m_currentValue, regex_namespace::regex("\\s*true\\s*"))) {
         property.setValue(true);
         return;
     }
     
-    if (std::regex_match(m_currentValue, std::regex("\\s*false\\s*"))) {
+    if (regex_namespace::regex_match(m_currentValue, regex_namespace::regex("\\s*false\\s*"))) {
         property.setValue(false);
     }
 }
@@ -167,8 +176,8 @@ void PropertyDeserializer::visit(Property<std::string> & property)
 
 void PropertyDeserializer::visit(Property<Color> & property)
 {
-    std::regex colorHexRegex("#[0-9A-F]{8}");
-    if (!std::regex_match(m_currentValue, colorHexRegex)) {
+    regex_namespace::regex colorHexRegex("#[0-9A-F]{8}");
+    if (!regex_namespace::regex_match(m_currentValue, colorHexRegex)) {
         std::cerr << "Color value does not match format: " << property.name() << std::endl;
         return;
     }

@@ -1,7 +1,16 @@
 
 #include <propertyzeug/PropertyGroup.h>
 
-#include <regex>
+#ifdef USE_STD_REGEX
+    #include <regex>
+
+    namespace regex_namespace = std;
+#else
+    #include <boost/regex.hpp>
+
+    namespace regex_namespace = boost;
+#endif
+
 #include <algorithm>
 
 #include <propertyzeug/AbstractPropertyVisitor.h>
@@ -49,12 +58,12 @@ PropertyGroup * PropertyGroup::addGroup(const std::string & name)
 
 AbstractProperty * PropertyGroup::property(const std::string & path)
 {
-    static const std::regex pathRegex(AbstractProperty::s_nameRegexString +
+    static const regex_namespace::regex pathRegex(AbstractProperty::s_nameRegexString +
                                       "(\\/" +
                                       AbstractProperty::s_nameRegexString +
                                       ")*");
     
-    if (std::regex_match(path, pathRegex))
+    if (regex_namespace::regex_match(path, pathRegex))
         return this->findProperty(path);
     else
         return nullptr;
@@ -62,12 +71,12 @@ AbstractProperty * PropertyGroup::property(const std::string & path)
     
 const AbstractProperty * PropertyGroup::property(const std::string & path) const
 {
-    static const std::regex pathRegex(AbstractProperty::s_nameRegexString +
+    static const regex_namespace::regex pathRegex(AbstractProperty::s_nameRegexString +
                                       "(\\/" +
                                       AbstractProperty::s_nameRegexString +
                                       ")*");
     
-    if (std::regex_match(path, pathRegex))
+    if (regex_namespace::regex_match(path, pathRegex))
         return this->findProperty(path);
     else
         return nullptr;
@@ -75,23 +84,23 @@ const AbstractProperty * PropertyGroup::property(const std::string & path) const
 
 AbstractProperty * PropertyGroup::findProperty(const std::string & path)
 {
-    if (std::regex_match(path, std::regex(AbstractProperty::s_nameRegexString)))
+    if (regex_namespace::regex_match(path, regex_namespace::regex(AbstractProperty::s_nameRegexString)))
         return this->propertyExists(path) ? m_propertiesMap.at(path) : nullptr;
     
     
-    std::smatch match;
-    std::regex_search(path, match, std::regex("\\/"));
+    regex_namespace::smatch match;
+    regex_namespace::regex_search(path, match, regex_namespace::regex("\\/"));
     PropertyGroup * group = m_propertiesMap.at(match.prefix())->as<PropertyGroup>();
     return group ? group->property(match.suffix()) : nullptr;
 }
     
 const AbstractProperty * PropertyGroup::findProperty(const std::string & path) const
 {
-    if (std::regex_match(path, std::regex(AbstractProperty::s_nameRegexString)))
+    if (regex_namespace::regex_match(path, regex_namespace::regex(AbstractProperty::s_nameRegexString)))
         return this->propertyExists(path) ? m_propertiesMap.at(path) : nullptr;
     
-    std::smatch match;
-    std::regex_search(path, match, std::regex("\\/"));
+    regex_namespace::smatch match;
+    regex_namespace::regex_search(path, match, regex_namespace::regex("\\/"));
     PropertyGroup * group = m_propertiesMap.at(match.prefix())->as<PropertyGroup>();
     return group ? group->property(match.suffix()) : nullptr;
 }

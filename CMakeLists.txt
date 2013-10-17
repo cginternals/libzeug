@@ -18,10 +18,11 @@ set(META_AUTHOR_DOMAIN       "https://github.com/hpicgs/libzeug")
 ## Options
 ##
 
-option(OPTION_LIMIT_CONFIGS  "Generate limited configs (Release; Debug)" ON)
-option(OPTION_LOCAL_INSTALL  "Install to a local directory instead of the system" OFF)
-option(OPTION_BUILD_STATIC   "Build static libraries" OFF)
-option(OPTION_BUILD_EXAMPLES "Build examples" ON)
+option(OPTION_LIMIT_CONFIGS        "Generate limited configs (Release; Debug)" ON)
+option(OPTION_LOCAL_INSTALL        "Install to a local directory instead of the system" OFF)
+option(OPTION_BUILD_STATIC         "Build static libraries" OFF)
+option(OPTION_BUILD_EXAMPLES       "Build examples" ON)
+option(OPTION_BUILD_WITH_STD_REGEX "Build with std lib regex classes" ON)
 
 
 ##
@@ -189,9 +190,9 @@ set_property(GLOBAL PROPERTY AUTOMOC_FOLDER CMakeAutomocTargets)
 
 # http://qt-project.org/forums/viewthread/30006/
 
-IF(MSVC)
+if(MSVC)
 	cmake_policy(SET CMP0020 NEW)
-ENDIF()
+endif()
 
 find_package(Qt5Core REQUIRED)
 find_package(Qt5Gui REQUIRED)

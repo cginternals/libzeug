@@ -15,7 +15,7 @@ endif()
 
 set(LINUX_COMPILE_DEFS
 	LINUX	                  # Linux system
-	PIC		                  # Position-independent code
+        PIC		                  # Position-independent code
 	_REENTRANT                # Reentrant code
 )
 set(DEFAULT_COMPILE_DEFS_DEBUG
@@ -29,7 +29,7 @@ set(DEFAULT_COMPILE_DEFS_RELEASE
 
 
 set(LINUX_COMPILE_FLAGS
-	"-pthread -fno-exceptions -pipe -fPIC -Wreturn-type -Werror=return-type"
+        "-pthread -pipe -fPIC -Wreturn-type -Werror=return-type"
 	# pthread       -> use pthread library
 	# no-rtti       -> disable c++ rtti
 	# no-exceptions -> disable exception handling
