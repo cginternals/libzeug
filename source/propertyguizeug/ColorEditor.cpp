@@ -46,7 +46,8 @@ void ColorEditor::openColorPicker()
                                            m_button,
                                            "Choose Color",
                                            QColorDialog::ShowAlphaChannel);
-    this->setQColor(qcolor);
+    if (qcolor.isValid())
+        this->setQColor(qcolor);
 }
 
 void ColorEditor::parseColor()
