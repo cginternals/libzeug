@@ -75,12 +75,27 @@ source_group_by_path(${source_path} "\\\\.cpp$|\\\\.c$|\\\\.h$|\\\\.hpp$"
     ${propertyzeug_source_group} ${sources})
 
 # Build library
+
+if(NOT OPTION_BUILD_WITH_STD_REGEX)
+    find_package(Boost COMPONENTS regex REQUIRED)
+
+    include_directories(AFTER ${Boost_INCLUDE_DIRS})
+    link_directories(${Boost_LIBRARY_DIR})
+endif()
+
 if(OPTION_BUILD_STATIC)
     add_library(${target} ${headers} ${sources})
 else()
     add_library(${target} SHARED ${headers} ${sources})
 endif()
-target_link_libraries(${target} ${libs})
+
+if(OPTION_BUILD_WITH_STD_REGEX)
+    set_target_properties(${target} PROPERTIES COMPILE_DEFINITIONS "USE_STD_REGEX")
+    target_link_libraries(${target} ${libs})
+else()
+    target_link_libraries(${target} ${libs} ${Boost_LIBRARIES})
+endif()
+
 set_target_properties(${target}
     PROPERTIES
     LINKER_LANGUAGE CXX

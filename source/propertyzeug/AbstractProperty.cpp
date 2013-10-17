@@ -1,5 +1,14 @@
 
-#include <regex>
+#ifdef USE_STD_REGEX
+    #include <regex>
+
+    namespace regex_namespace = std;
+#else
+    #include <boost/regex.hpp>
+
+    namespace regex_namespace = boost;
+#endif
+
 #include <propertyzeug/ValueProperty.h>
 #include <propertyzeug/PropertyGroup.h>
 
@@ -13,7 +22,7 @@ AbstractProperty::AbstractProperty(const std::string & name)
 ,   m_parent(nullptr)
 ,   m_state(kNotSet)
 {
-    assert(std::regex_match(m_name, std::regex(s_nameRegexString)));
+    assert(regex_namespace::regex_match(m_name, regex_namespace::regex(s_nameRegexString)));
 }
 
 AbstractProperty::~AbstractProperty()
