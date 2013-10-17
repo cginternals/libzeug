@@ -15,11 +15,13 @@ public:
 
     virtual void execute();
 
-    void addStage(AbstractStage* stage);
+    virtual void addStage(AbstractStage* stage);
+
     template<typename T, typename... Args>
     void addStages(T stage, Args... stages);
 protected:
     std::vector<AbstractStage*> _stages;
+    bool _dependenciesSorted;
 
     void sortDependencies();
     void addStages() {}
