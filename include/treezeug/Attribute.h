@@ -29,6 +29,7 @@ public:
 	virtual double numericValue() const = 0;
 
 	double normalizedValue() const;
+	double normalizedValue2() const;
 
 	void setAttributeMap(const AttributeMap * map);
 

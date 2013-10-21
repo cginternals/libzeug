@@ -35,6 +35,13 @@ double Attribute::normalizedValue() const
 	return m_map->normalize(this);
 }
 
+double Attribute::normalizedValue2() const
+{
+	if (!m_map) return 0;
+
+	return m_map->normalize2(this);
+}
+
 NumericAttribute* Attribute::asNumeric()
 {
 	return isNumeric() ? static_cast<NumericAttribute*>(this) : nullptr;
