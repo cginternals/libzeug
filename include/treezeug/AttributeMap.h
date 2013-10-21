@@ -39,7 +39,15 @@ public:
 	void addAttribute(const Node * node, double value);
 	void addAttribute(const Node * node, const std::string & value);
 
+    /**
+     * @brief Normalize between min_value and max_value.
+     */
 	double normalize(const Attribute * value) const;
+
+    /**
+     * @brief Normalize using the interval [ -max(abs(min_value), abs(max_value)), max(abs(min_value), abs(max_value)) ]
+     */
+    double normalize2(const Attribute * value) const;
 	
 	Type type() const;
 

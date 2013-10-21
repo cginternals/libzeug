@@ -110,6 +110,13 @@ double AttributeMap::normalize(const Attribute * value) const
 	return (value->numericValue() - m_min) / (m_max - m_min);
 }
 
+double AttributeMap::normalize2(const Attribute * value) const
+{
+    if (m_attributes.empty() || m_max - m_min == 0.0) return 0;
+
+    return value->numericValue() / std::max(std::abs(m_max), std::abs(m_min));
+}
+
 AttributeMap::Type AttributeMap::type() const
 {
 	return m_type;
