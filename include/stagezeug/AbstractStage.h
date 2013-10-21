@@ -26,7 +26,7 @@ public:
     Signal<> invalidated;
 protected:
     AbstractStage* _owner;
-    bool _valid;
+    mutable bool _valid;
 private:
 	void setOwner(AbstractStage* owner);
 };
@@ -41,7 +41,7 @@ public:
 
     bool execute();
 
-    void requireInput(StageData* input);
+    void require(AbstractStage* stage);
 
     void setEnabled(bool enabled);
     bool isEnabled() const;
@@ -50,16 +50,26 @@ public:
     void setName(const std::string& name);
 
     bool dependsOn(const AbstractStage* stage) const;
+
+	template <typename T, typename... Args>
+	void requireAll(T* stage, Args... rest)
+	{
+		require(stage);
+		requireAll(rest...);
+	}
 public:
 	Signal<> dependenciesChanged;
 protected:
     bool _enabled;
     std::string _name;
     StageData* _output;
-    std::set<StageData*> _inputs;
+    std::set<const StageData*> _inputs;
 
+	void requireAll() {}
+
+	void addInput(const StageData* input);
+	virtual void inputAdded(const StageData* input);
 	void invalidateOutput();
-    virtual void inputAdded(StageData* input);
 
 	virtual void process() = 0;
 };

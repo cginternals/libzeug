@@ -63,6 +63,10 @@ bool AbstractStage::execute()
         return false;
 
     process();
+    
+    if (_output)
+	    _output->setToValid();
+    
     return true;
 }
 
@@ -86,17 +90,15 @@ void AbstractStage::setName(const std::string& name)
     _name = name;
 }
 
-void AbstractStage::inputAdded(StageData* input)
+void AbstractStage::require(AbstractStage* stage)
 {
+	if (!stage)
+		return;
+	
+	addInput(stage->output());
 }
 
-void AbstractStage::invalidateOutput()
-{
-        if (_output)
-            _output->invalidate();
-}
-
-void AbstractStage::requireInput(StageData* input)
+void AbstractStage::addInput(const StageData* input)
 {
     if (!input)
         return;
@@ -108,6 +110,16 @@ void AbstractStage::requireInput(StageData* input)
 
     inputAdded(input);
     dependenciesChanged();
+}
+
+void AbstractStage::inputAdded(const StageData* input)
+{
+}
+
+void AbstractStage::invalidateOutput()
+{
+        if (_output)
+            _output->invalidate();
 }
 
 bool AbstractStage::dependsOn(const AbstractStage* stage) const
