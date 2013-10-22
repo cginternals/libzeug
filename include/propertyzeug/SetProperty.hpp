@@ -63,16 +63,18 @@ template <typename Set>
 std::string SetProperty<Set>::join(const Set & set,
     const std::string & separator)
 {
-    std::stringstream stream;
-    for (Set::iterator it = set.begin(); it != set.end(); ++it)
+    if (set.empty())
     {
-	stream << set.at(i);
-	
-	if (it+1 != set.end())
-	    stream << separator;
+	return "";
     }
     
-    return stream.str();
+    std::stringstream stream;
+    for (typename Set::iterator it = set.begin(); it != set.end(); ++it)
+    {
+	stream << *it << separator;
+    }
+    
+    return stream.str().substr(0, stream.str().size() - separator.size());
 }
 
 } // namespace

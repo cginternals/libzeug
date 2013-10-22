@@ -47,4 +47,4 @@ private:
 
 } // namespace zeug
 
-#include "VectorProperty.hpp"
+#include "SetProperty.hpp"
