@@ -39,9 +39,7 @@ public:
                             const QModelIndex & index) const;
 
 protected:
-    QWidget * createValueEditor(QWidget * parent, ValueProperty * property);
-    
-    PropertyEditorFactory m_editorFactory;
+    mutable PropertyEditorFactory m_editorFactory;
     mutable PropertyPainter m_propertyPainter;
 };
     

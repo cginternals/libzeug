@@ -31,6 +31,13 @@ QWidget * PropertyEditorFactory::createEditor(ValueProperty & property)
     return m_editor;
 }
 
+QWidget * PropertyEditorFactory::createEditorWithParent(ValueProperty & property, QWidget * parent)
+{
+	QWidget * editor = createEditor(property);
+	editor->setParent(parent);
+	return editor;
+}
+
 void PropertyEditorFactory::visit(Property<bool> & property)
 {
     m_editor = new BoolEditor(&property);

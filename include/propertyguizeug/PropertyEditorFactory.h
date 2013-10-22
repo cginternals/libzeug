@@ -24,6 +24,7 @@ public:
     virtual ~PropertyEditorFactory();
 
     QWidget * createEditor(ValueProperty & property);
+    QWidget * createEditorWithParent(ValueProperty & property, QWidget * parent);
 
     virtual void visit(Property<bool> & property);
     virtual void visit(Property<int> & property);

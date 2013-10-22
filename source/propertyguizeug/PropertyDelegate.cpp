@@ -5,7 +5,7 @@
 #include <propertyzeug/AbstractProperty.h>
 
 namespace zeug {
-    
+
 PropertyDelegate::PropertyDelegate(QWidget * parent)
 :   QStyledItemDelegate(parent)
 {
@@ -38,7 +38,7 @@ QWidget * PropertyDelegate::createEditor(QWidget * parent,
     if (property->isGroup())
         return QStyledItemDelegate::createEditor(parent, option, index);
     
-    return const_cast<PropertyDelegate *>(this)->createValueEditor(parent, property->asValue());
+    return m_editorFactory.createEditorWithParent(*property->asValue(), parent);
 }
 
 void PropertyDelegate::setEditorData(QWidget *editor, const QModelIndex &index) const
@@ -61,13 +61,5 @@ QSize PropertyDelegate::sizeHint (const QStyleOptionViewItem & option,
 {
     return QSize(100, 27);
 }
-    
-QWidget * PropertyDelegate::createValueEditor(QWidget * parent, ValueProperty * property)
-{
-    QWidget * editor = m_editorFactory.createEditor(*property);
-    editor->setParent(parent);
-    return editor;
-}
 
-    
 } // namespace
