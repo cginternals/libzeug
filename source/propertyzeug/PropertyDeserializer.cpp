@@ -146,6 +146,28 @@ void PropertyDeserializer::deserializeVectorValues(const std::string & valueRege
     }
 }
 
+void PropertyDeserializer::deserializeSetValues(const std::string & valueRegexString,
+    const std::function<void(const std::string &)> & functor)
+{
+    std::stringstream vectorRegexStream;
+    vectorRegexStream << "\\s*\\(";
+    vectorRegexStream << "("+valueRegexString+"|"+valueRegexString+"\\s*(,\\s*"+valueRegexString+")";
+    vectorRegexStream << "\\)\\s*";
+    
+    std::string string(vectorRegexStream.str());
+    if (!regex_namespace::regex_match(m_currentValue, regex_namespace::regex(vectorRegexStream.str()))) {
+        std::cerr << "Vector values does not match format:";
+        std::cerr << "\"" << valueRegexString << "\"" << std::endl;
+        return;
+    }
+    
+    regex_namespace::smatch match;
+    regex_namespace::regex_search(m_currentValue, match, regex_namespace::regex(vectorRegexStream.str()));
+    for (int i = 1; i < match.size(); ++i) {
+        functor(match[i].str());
+    }
+}
+
 
 void PropertyDeserializer::visit(Property<bool> & property)
 {
@@ -222,6 +244,15 @@ void PropertyDeserializer::visit(Property<std::vector<double>> & property)
                                       vector.push_back(this->convertString<double>(string));
                                   });
     property.setValue(vector);
+}
+
+void PropertyDeserializer::visit(Property<std::set<int>> & property)
+{
+    std::set<int> set;
+    this->deserializeSetValues("(-?\\d+)", [this, &set](const std::string & string) {
+	set.insert(this->convertString<int>(string));
+    });
+    property.setValue(set);
 }
 
 } // namespace

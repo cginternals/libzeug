@@ -7,6 +7,7 @@
 #include <propertyzeug/NumberProperty.h>
 #include <propertyzeug/StringProperty.h>
 #include <propertyzeug/VectorProperty.h>
+#include <propertyzeug/SetProperty.h>
 #include <propertyzeug/FilePathProperty.h>
 
 #include <propertyzeug/Color.h>
@@ -31,11 +32,12 @@ namespace zeug {
  *   - std::vector<bool>
  *   - std::vector<int>
  *   - std::vector<double>
+ *   - std::set<int>
  */
 
 template <typename Type>
 class Property;
-    
+
 template <>
 class Property<bool> : public ValuePropertyTemplate<bool>
 {
@@ -291,6 +293,33 @@ public:
              Object & object, std::vector<double> (Object::*getter_pointer)() const,
              void (Object::*setter_pointer)(const std::vector<double> &))
     :   VectorProperty<std::vector<double>>(name, object, getter_pointer, setter_pointer) {}
+
+    virtual void accept(AbstractPropertyVisitor & visitor) { visitor.visit(*this); }
+};
+
+template <>
+class Property<std::set<int>> : public SetProperty<std::set<int>>
+{
+public:
+    Property(const std::string & name, const std::set<int> & value)
+    :   SetProperty<std::set<int>>(name, value) {}
+    
+    Property(const std::string & name,
+             const std::function<std::set<int> ()> & getter,
+             const std::function<void(const std::set<int> &)> & setter)
+    :   SetProperty<std::set<int>>(name, getter, setter) {}
+    
+    template <class Object>
+    Property(const std::string & name,
+             Object & object, const std::set<int> & (Object::*getter_pointer)() const,
+             void (Object::*setter_pointer)(const std::set<int> &))
+    :   SetProperty<std::set<int>>(name, object, getter_pointer, setter_pointer) {}
+    
+    template <class Object>
+    Property(const std::string & name,
+             Object & object, std::set<int> (Object::*getter_pointer)() const,
+             void (Object::*setter_pointer)(const std::set<int> &))
+    :   SetProperty<std::set<int>>(name, object, getter_pointer, setter_pointer) {}
 
     virtual void accept(AbstractPropertyVisitor & visitor) { visitor.visit(*this); }
 };

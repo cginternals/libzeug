@@ -29,6 +29,8 @@ set(headers
     ${header_path}/ValuePropertyTemplate.hpp
     ${header_path}/NumberProperty.h
     ${header_path}/NumberProperty.hpp
+    ${header_path}/SetProperty.h
+    ${header_path}/SetProperty.hpp
     ${header_path}/StringProperty.h
     ${header_path}/VectorProperty.h
     ${header_path}/VectorProperty.hpp
