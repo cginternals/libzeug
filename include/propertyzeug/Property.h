@@ -64,6 +64,8 @@ public:
 
     virtual void accept(AbstractPropertyVisitor & visitor) { visitor.visit(*this); }
     virtual std::string valueAsString() const { return this->value() ? "true" : "false"; }
+    
+    void toggleValue() { setValue(!value()); }
 };
 
 template <>

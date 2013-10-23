@@ -111,7 +111,9 @@ void FilePathEditor::openFileDialog()
                       m_lineEdit->setText(file);
                   });
     
-    fileDialog->show();
+    fileDialog->exec();
+	
+	m_dialogOpened = false;  
 }
     
 } // namespace

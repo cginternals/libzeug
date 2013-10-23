@@ -53,7 +53,7 @@ void ColorEditor::openColorPicker()
 void ColorEditor::parseColor()
 {
     QString text = m_lineEdit->text();
-    text.remove(QChar('#'));
+    text.remove('#');
 
     Color color(text.toUInt(0, 16));
     this->setColor(color);
@@ -62,7 +62,7 @@ void ColorEditor::parseColor()
 QColor ColorEditor::qcolor() const
 {
     const Color & color = m_property->value();
-    return QColor(QColor(color.red(), color.green(), color.blue(), color.alpha()));
+    return QColor(color.red(), color.green(), color.blue(), color.alpha());
 }
     
 void ColorEditor::setQColor(const QColor & qcolor)
