@@ -37,7 +37,7 @@ template <class T>
 Connection Signal<Arguments...>::connect(T * object, void (T::*method)(Arguments...)) const
 {
 	return connect([object, method](Arguments... arguments) 
-    {
+	{
 		(object->*method)(arguments...);
 	});
 }
@@ -48,6 +48,15 @@ Connection Signal<Arguments...>::connect(Signal& signal) const
 	return connect([&signal](Arguments... arguments) 
 	{
 		signal.fire(arguments...);
+	});
+}
+
+template <typename... Arguments>
+Connection Signal<Arguments...>::onFire(std::function<void()> callback) const
+{
+	return connect([callback](Arguments... arguments) 
+	{
+		callback();
 	});
 }
 
