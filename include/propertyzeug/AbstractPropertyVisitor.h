@@ -3,6 +3,7 @@
 
 #include <string>
 #include <vector>
+#include <set>
 
 #include <propertyzeug/propertyzeug.h>
 
@@ -34,7 +35,7 @@ public:
     virtual void visit(Property<std::vector<bool>> & property) = 0;
     virtual void visit(Property<std::vector<int>> & property) = 0;
     virtual void visit(Property<std::vector<double>> & property) = 0;
-
+    virtual void visit(Property<std::set<int>> & property) = 0;
 protected:
 
 };

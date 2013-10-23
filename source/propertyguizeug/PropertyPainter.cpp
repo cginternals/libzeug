@@ -135,5 +135,10 @@ void PropertyPainter::visit(Property<std::vector<double>> & property)
 {
 
 }
+
+void PropertyPainter::visit(Property<std::set<int>> & property)
+{
+
+}
     
 } // namespace

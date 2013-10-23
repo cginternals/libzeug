@@ -12,6 +12,7 @@
 #include "BoolEditor.h"
 #include "BoolMatrixEditor.h"
 #include "IntMatrixEditor.h"
+#include "IntSetEditor.h"
 #include "DoubleMatrixEditor.h"
 
 namespace zeug {
@@ -85,5 +86,10 @@ void PropertyEditorFactory::visit(Property<std::vector<double>> & property)
 {
     m_editor = new DoubleMatrixEditor(&property);
 }
-  
+
+void PropertyEditorFactory::visit(Property<std::set<int>> & property)
+{
+    m_editor = new IntSetEditor(&property);
+}
+
 } // namespace

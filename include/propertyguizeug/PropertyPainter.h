@@ -38,6 +38,7 @@ public:
     virtual void visit(Property<std::vector<bool>> & property);
     virtual void visit(Property<std::vector<int>> & property);
     virtual void visit(Property<std::vector<double>> & property);
+    virtual void visit(Property<std::set<int>> & property);
     
 protected:
 	void drawString(const QString & string);
