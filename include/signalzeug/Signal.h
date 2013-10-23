@@ -24,6 +24,7 @@ public:
 	Connection connect(Callback callback) const;
 	template <class T>
 	Connection connect(T* object, void (T::*method)(Arguments...)) const;
+	Connection connect(Signal& signal) const;
 
 protected:
 	virtual void disconnectId(Connection::Id id) const override;

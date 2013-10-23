@@ -43,6 +43,15 @@ Connection Signal<Arguments...>::connect(T * object, void (T::*method)(Arguments
 }
 
 template <typename... Arguments>
+Connection Signal<Arguments...>::connect(Signal& signal) const
+{
+	return connect([&signal](Arguments... arguments) 
+	{
+		signal.fire(arguments...);
+	});
+}
+
+template <typename... Arguments>
 void Signal<Arguments...>::disconnectId(Connection::Id id) const
 {
 	m_callbacks.erase(id);
