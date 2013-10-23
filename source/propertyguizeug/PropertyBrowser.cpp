@@ -13,7 +13,7 @@ PropertyBrowser::PropertyBrowser(PropertyGroup * root, QWidget * parent)
 {
     this->setModel(m_model);
     this->setItemDelegateForColumn(1, m_delegate);
-    this->setEditTriggers(QAbstractItemView::DoubleClicked | QAbstractItemView::EditKeyPressed);
+    this->setEditTriggers(QAbstractItemView::DoubleClicked | QAbstractItemView::EditKeyPressed | QAbstractItemView::CurrentChanged);
     this->setAlternatingRowColors(true);
     this->setUniformRowHeights(true);
     this->setColumnWidth(0, 150);
