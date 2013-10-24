@@ -35,18 +35,25 @@ public:
     
     const Type & minimum() const;
     void setMinimum(const Type & minimum);
+    bool hasMinimum() const;
 
     const Type & maximum() const;
     void setMaximum(const Type & maximum);
-    
+    bool hasMaximum() const;
+
     void setRange(const Type & minimum, const Type & maximum);
-    bool hasRanges() const;
+    bool hasRange() const;
+
+    const Type & step() const;
+    void setStep(const Type & step);
+    bool hasStep() const;
     
     virtual std::string valueAsString() const;
     
 protected:
     Type m_min;
     Type m_max;
+    Type m_step;
 };
 
 } // namespace zeug

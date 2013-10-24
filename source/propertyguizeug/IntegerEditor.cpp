@@ -12,15 +12,17 @@ IntegerEditor::IntegerEditor(Property<int> * property, QWidget * parent)
 ,   m_spinBox(new QSpinBox(this))
 ,   m_property(property)
 {
-    this->boxLayout()->addWidget(m_spinBox);
-    this->setFocusProxy(m_spinBox);
+    boxLayout()->addWidget(m_spinBox);
+    setFocusProxy(m_spinBox);
 
-    if (m_property->hasRanges())
-        m_spinBox->setRange(m_property->minimum(), m_property->maximum());
+    m_spinBox->setRange(m_property->minimum(), m_property->maximum());
+	
+    if (m_property->hasStep())
+        m_spinBox->setSingleStep(m_property->step());
 
     m_spinBox->setValue(m_property->value());
     
-    this->connect(m_spinBox, static_cast<void (QSpinBox::*)(int)>(&QSpinBox::valueChanged),
+    connect(m_spinBox, static_cast<void (QSpinBox::*)(int)>(&QSpinBox::valueChanged),
                   [this](int i) {
                       m_property->setValue(i);
                   });
@@ -28,7 +30,6 @@ IntegerEditor::IntegerEditor(Property<int> * property, QWidget * parent)
     
 IntegerEditor::~IntegerEditor()
 {
-    
 }
 
 } // namespace

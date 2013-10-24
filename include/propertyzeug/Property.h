@@ -100,26 +100,40 @@ class Property<double> : public NumberProperty<double>
 {
 public:
     Property(const std::string & name, const double & value)
-    :   NumberProperty<double>(name, value) {}
+    :   NumberProperty<double>(name, value)
+    ,   m_precision(0)
+    {}
     
     Property(const std::string & name,
              const std::function<double ()> & getter,
              const std::function<void(const double &)> & setter)
-    :   NumberProperty<double>(name, getter, setter) {}
+    :   NumberProperty<double>(name, getter, setter)
+    ,   m_precision(0)
+    {}
     
     template <class Object>
     Property(const std::string & name,
              Object & object, const double & (Object::*getter_pointer)() const,
              void (Object::*setter_pointer)(const double &))
-    :   NumberProperty<double>(name, object, getter_pointer, setter_pointer) {}
+    :   NumberProperty<double>(name, object, getter_pointer, setter_pointer)
+    ,   m_precision(0)
+    {}
     
     template <class Object>
     Property(const std::string & name,
              Object & object, double (Object::*getter_pointer)() const,
              void (Object::*setter_pointer)(const double &))
-    :   NumberProperty<double>(name, object, getter_pointer, setter_pointer) {}
+    :   NumberProperty<double>(name, object, getter_pointer, setter_pointer)
+    ,   m_precision(0)
+    {}
 
     virtual void accept(AbstractPropertyVisitor & visitor) { visitor.visit(*this); }
+
+    void setPrecision(unsigned precision) { m_precision = precision; }
+    unsigned precision() const { return m_precision; }
+    bool hasPrecision() const { return m_precision != 0; }
+protected:
+    unsigned m_precision;
 };
 
 template <>

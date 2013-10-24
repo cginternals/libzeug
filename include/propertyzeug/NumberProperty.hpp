@@ -1,13 +1,16 @@
 
 #pragma once
 
+#include <limits>
+
 namespace zeug {
 
 template <typename Type>
 NumberProperty<Type>::NumberProperty(const std::string & name, const Type & value)
 :   ValuePropertyTemplate<Type>(name, value)
-,   m_min(0)
-,   m_max(0)
+,   m_min(std::numeric_limits<Type>::lowest())
+,   m_max(std::numeric_limits<Type>::max())
+,   m_step(0)
 {
 }
 
@@ -16,8 +19,9 @@ NumberProperty<Type>::NumberProperty(const std::string & name,
     const std::function<Type ()> & getter,
     const std::function<void(const Type &)> & setter)
 :   ValuePropertyTemplate<Type>(name, getter, setter)
-,   m_min(0)
-,   m_max(0)
+,   m_min(std::numeric_limits<Type>::lowest())
+,   m_max(std::numeric_limits<Type>::max())
+,   m_step(0)
 {
 }
 
@@ -27,8 +31,9 @@ NumberProperty<Type>::NumberProperty(const std::string & name,
     Object & object, const Type & (Object::*getter_pointer)() const,
     void (Object::*setter_pointer)(const Type &))
 :   ValuePropertyTemplate<Type>(name, object, getter_pointer, setter_pointer)
-,   m_min(0)
-,   m_max(0)
+,   m_min(std::numeric_limits<Type>::lowest())
+,   m_max(std::numeric_limits<Type>::max())
+,   m_step(0)
 {
 }
 
@@ -38,8 +43,9 @@ NumberProperty<Type>::NumberProperty(const std::string & name,
     Object & object, Type (Object::*getter_pointer)() const,
     void (Object::*setter_pointer)(const Type &))
 :   ValuePropertyTemplate<Type>(name, object, getter_pointer, setter_pointer)
-,   m_min(0)
-,   m_max(0)
+,   m_min(std::numeric_limits<Type>::lowest())
+,   m_max(std::numeric_limits<Type>::max())
+,   m_step(0)
 {
 }
 
@@ -57,6 +63,12 @@ void NumberProperty<Type>::setMinimum(const Type & minimum)
 }
 
 template <typename Type>
+bool NumberProperty<Type>::hasMinimum() const
+{
+    return m_min != std::numeric_limits<Type>::lowest();
+}
+
+template <typename Type>
 const Type & NumberProperty<Type>::maximum() const
 {
     return m_max;
@@ -70,6 +82,12 @@ void NumberProperty<Type>::setMaximum(const Type & maximum)
 }
     
 template <typename Type>
+bool NumberProperty<Type>::hasMaximum() const
+{
+    return m_max != std::numeric_limits<Type>::max();
+}
+
+template <typename Type>
 void NumberProperty<Type>::setRange(const Type & minimum, const Type & maximum)
 {
     m_min = minimum;
@@ -78,11 +96,29 @@ void NumberProperty<Type>::setRange(const Type & minimum, const Type & maximum)
 }
 
 template <typename Type>
-bool NumberProperty<Type>::hasRanges() const
+bool NumberProperty<Type>::hasRange() const
 {
-    return !(m_min == 0 && m_max == 0);
+    return hasMinimum() && hasMaximum();
 }
-    
+
+template <typename Type>
+const Type & NumberProperty<Type>::step() const
+{
+    return m_step;
+}
+
+template <typename Type>
+void NumberProperty<Type>::setStep(const Type & step)
+{
+    m_step = step;
+}
+
+template <typename Type>
+bool NumberProperty<Type>::hasStep() const
+{
+    return m_step != 0;
+}
+
 template <typename Type>
 std::string NumberProperty<Type>::valueAsString() const
 {
