@@ -1,6 +1,8 @@
+add_subdirectory(iozeug)
 add_subdirectory(propertyguizeug)
 add_subdirectory(propertyzeug)
 add_subdirectory(signalzeug)
 add_subdirectory(stagezeug)
+add_subdirectory(threadingzeug)
 add_subdirectory(treeimportzeug)
 add_subdirectory(treezeug)

@@ -7,6 +7,8 @@
 # LIBZEUG_TREEIMPORT_LIBRARY
 # LIBZEUG_PROPERTY_LIBRARY
 # LIBZEUG_PROPERTYGUI_LIBRARY
+# LIBZEUG_IO_LIBRARY
+# LIBZEUG_THREADING_LIBRARY
 
 find_path(LIBZEUG_INCLUDE_DIR signalzeug/Signal.h
 	$ENV{LIBZEUG_DIR}/include
@@ -60,6 +62,16 @@ find_library(LIBZEUG_PROPERTYGUI_LIBRARY
 	NAMES propertyguizeug
 	PATHS ${LIB_PATHS}
 	DOC "The propertyguizeug library")
+
+find_library(LIBZEUG_IO_LIBRARY
+	NAMES iozeug
+	PATHS ${LIB_PATHS}
+	DOC "The iozeug library")
+
+find_library(LIBZEUG_THREADING_LIBRARY
+	NAMES threadingzeug
+	PATHS ${LIB_PATHS}
+	DOC "The threadingzeug library")
 
 IF(LIBZEUG_INCLUDE_DIR AND LIBZEUG_SIGNAL_LIBRARY)
     SET(LIBZEUG_FOUND 1 CACHE STRING "Set to 1 if LIBZEUG is found, 0 otherwise")
