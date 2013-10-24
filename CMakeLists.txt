@@ -23,7 +23,7 @@ option(OPTION_LOCAL_INSTALL        "Install to a local directory instead of the 
 option(OPTION_BUILD_STATIC         "Build static libraries" OFF)
 option(OPTION_BUILD_EXAMPLES       "Build examples" ON)
 option(OPTION_BUILD_WITH_STD_REGEX "Build with std lib regex classes" ON)
-
+option(OPTION_USE_OPENMP "Use OpenMP in zeug::parallel_for" ON)
 
 ##
 ## CMake configuration
