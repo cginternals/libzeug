@@ -5,12 +5,16 @@ namespace zeug
 
 template <typename... Arguments>
 Signal<Arguments...>::Signal()
+: m_blocked(false)
 {
 }
 
 template <typename... Arguments>
 void Signal<Arguments...>::fire(Arguments... arguments)
 {
+	if (m_blocked)
+		return;
+	
 	for (auto & pair : m_callbacks)
 	{
 		Callback callback = pair.second;
@@ -58,6 +62,18 @@ Connection Signal<Arguments...>::onFire(std::function<void()> callback) const
 	{
 		callback();
 	});
+}
+
+template <typename... Arguments>
+void Signal<Arguments...>::block()
+{
+	m_blocked = true;
+}
+
+template <typename... Arguments>
+void Signal<Arguments...>::unblock()
+{
+	m_blocked = false;
 }
 
 template <typename... Arguments>
