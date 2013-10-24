@@ -5,6 +5,7 @@
 #include <cassert>
 
 #include <treezeug/AttributeMap.h>
+#include <treezeug/Node.h>
 
 
 namespace zeug
@@ -27,9 +28,8 @@ namespace
 AttributeMap::AttributeMap(const std::string & name, Type type)
 :   m_name(name)
 ,   m_type(type)
-,   m_sum(0.0)
 {
-	m_max = -std::numeric_limits<double>::max();
+    m_max = std::numeric_limits<double>::lowest();
 	m_min = std::numeric_limits<double>::max();
 }
 
@@ -89,8 +89,6 @@ void AttributeMap::addAttribute(const Node * node, Attribute * value)
 	
 	m_min = std::min(m_min, value->numericValue());
 	m_max = std::max(m_max, value->numericValue());
-
-    m_sum += value->numericValue();
 }
 
 Attribute * AttributeMap::createNumeric(double value)
@@ -120,6 +118,23 @@ double AttributeMap::normalize2(const Attribute * value) const
 AttributeMap::Type AttributeMap::type() const
 {
 	return m_type;
+}
+
+void AttributeMap::renormalizeForLeaves()
+{
+    m_max = std::numeric_limits<double>::lowest();
+    m_min = std::numeric_limits<double>::max();
+
+    for (const std::pair<const Node*, Attribute*>& pair : m_attributes)
+    {
+        const Node* node = pair.first;
+        if (!node->isLeaf())
+            continue;
+
+        const Attribute* value = pair.second;
+        m_min = std::min(m_min, value->numericValue());
+        m_max = std::max(m_max, value->numericValue());
+    }
 }
 
 } // namespace zeug

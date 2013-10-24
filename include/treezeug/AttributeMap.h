@@ -51,6 +51,8 @@ public:
 	
 	Type type() const;
 
+    void renormalizeForLeaves();
+
 protected:
     void addAttribute(const Node * node, Attribute * value);
 
@@ -65,8 +67,7 @@ protected:
 	NominalType m_nominalType;
 
 	double m_min;
-	double m_max;
-	double m_sum;
+    double m_max;
 };
 
 } // namespace zeug
