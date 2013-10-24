@@ -46,6 +46,7 @@ public:
 
     AttributeMap::Type attributeMapType(const std::string & name) const;
 	const std::vector<std::string> & attributes() const;
+    void renormalizeAttributeForLeaves(const std::string& attribute);
 
 	unsigned depth() const;
 

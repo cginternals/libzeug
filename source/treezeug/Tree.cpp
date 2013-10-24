@@ -220,6 +220,14 @@ AttributeMap::Type Tree::attributeMapType(const std::string & name) const
 	return m_attributeMaps.at(name)->type();
 }
 
+void Tree::renormalizeAttributeForLeaves(const std::string& attribute)
+{
+    if (!hasAttributeMap(attribute))
+        return;
+
+    m_attributeMaps.at(attribute)->renormalizeForLeaves();
+}
+
 void Tree::setAttribute(const Node * node, const std::string & name, double value)
 {
 	if (!hasAttributeMap(name))
