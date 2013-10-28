@@ -5,28 +5,37 @@
 namespace zeug {
 
 Pipeline::Pipeline()
-: _dependenciesSorted(false)
+: m_dependenciesSorted(false)
 {
 }
 
 Pipeline::~Pipeline()
 {
+	for (AbstractStage* stage: m_stages)
+	{
+		delete stage;
+	}
 }
 
 void Pipeline::addStage(AbstractStage* stage)
 {
-    _stages.push_back(stage);
-    stage->dependenciesChanged.connect([this]() { _dependenciesSorted = false; });
+    m_stages.push_back(stage);
+    stage->dependenciesChanged.connect([this]() { m_dependenciesSorted = false; });
+}
+
+const std::vector<AbstractStage*>& Pipeline::stages() const
+{
+	return m_stages;
 }
 
 void Pipeline::execute()
 {
-    if (!_dependenciesSorted)
+    if (!m_dependenciesSorted)
     {
         sortDependencies();
     }
 	
-    for (AbstractStage* stage: _stages)
+    for (AbstractStage* stage: m_stages)
     {
         stage->execute();
     }
@@ -34,10 +43,10 @@ void Pipeline::execute()
 
 void Pipeline::sortDependencies()
 {
-    std::sort(_stages.begin(), _stages.end(), [](AbstractStage* stage1, AbstractStage* stage2) {
+    std::sort(m_stages.begin(), m_stages.end(), [](AbstractStage* stage1, AbstractStage* stage2) {
         return stage2->dependsOn(stage1);
     });
-    _dependenciesSorted = true;
+    m_dependenciesSorted = true;
 }
 
 } // namespace zeug

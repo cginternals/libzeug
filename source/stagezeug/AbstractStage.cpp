@@ -1,4 +1,5 @@
 #include <stagezeug/AbstractStage.h>
+#include <iostream>
 
 namespace zeug {
 
@@ -94,6 +95,12 @@ void AbstractStage::require(AbstractStage* stage)
 {
 	if (!stage)
 		return;
+	
+	if (stage->dependsOn(this))
+	{
+		std::cout << "Circular dependency detected." << std::endl;
+		return;
+	}
 	
 	addInput(stage->output());
 }

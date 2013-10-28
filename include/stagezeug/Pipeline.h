@@ -19,9 +19,11 @@ public:
 
     template<typename T, typename... Args>
     void addStages(T stage, Args... stages);
+
+	const std::vector<AbstractStage*>& stages() const;
 protected:
-    std::vector<AbstractStage*> _stages;
-    bool _dependenciesSorted;
+    std::vector<AbstractStage*> m_stages;
+    bool m_dependenciesSorted;
 
     void sortDependencies();
     void addStages() {}
