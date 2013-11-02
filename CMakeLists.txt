@@ -1,9 +1,7 @@
 cmake_minimum_required(VERSION 2.8.9 FATAL_ERROR)
 
 
-##
-## Project description
-##
+# PROJECT DESCRIPTION
 
 set(META_PROJECT_NAME        "libzeug")
 set(META_VERSION_MAJOR       "0")
@@ -14,20 +12,17 @@ set(META_AUTHOR_ORGANIZATION "libzeug group")
 set(META_AUTHOR_DOMAIN       "https://github.com/hpicgs/libzeug")
 
 
-##
-## Options
-##
+# OPTIONS
 
 option(OPTION_LIMIT_CONFIGS        "Generate limited configs (Release; Debug)" ON)
 option(OPTION_LOCAL_INSTALL        "Install to a local directory instead of the system" OFF)
 option(OPTION_BUILD_STATIC         "Build static libraries" OFF)
 option(OPTION_BUILD_EXAMPLES       "Build examples" ON)
 option(OPTION_BUILD_WITH_STD_REGEX "Build with std lib regex classes" ON)
-option(OPTION_USE_OPENMP "Use OpenMP in zeug::parallel_for" ON)
+option(OPTION_USE_OPENMP           "Use OpenMP in zeug::parallel_for" ON)
 
-##
-## CMake configuration
-##
+# CMAKE CONFIGURATION
+
 set(LIBZEUG_INCLUDE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/include)
 set(LIBZEUG_SOURCE_DIR ${CMAKE_CURRENT_SOURCE_DIR})
 
@@ -54,9 +49,7 @@ set_property(GLOBAL PROPERTY USE_FOLDERS ON)
 include(cmake/Custom.cmake)
 
 
-##
-## Platform and architecture
-##
+# PLATFORM AND ARCHITECTURE
 
 # Architecture (32/64 bit)
 set(X64 OFF)
@@ -88,9 +81,12 @@ else()
 endif()
 
 
-##
-## Install locations
-##
+# INSTALL
+
+if(X64)
+    # http://public.kitware.com/Bug/view.php?id=9094
+    set(CPACK_NSIS_INSTALL_ROOT "$PROGRAMFILES64")
+endif()
 
 set(project ${META_PROJECT_NAME})
 if(WIN32)
@@ -104,34 +100,7 @@ if(WIN32)
     set(INSTALL_INIT          "")                       # Not available under Windows
     set(INSTALL_DATA          ".")                      # C:\Programme\<project>
     set(INSTALL_EXAMPLES      ".")                      # C:\Programme\<project>
-elseif(LINUX)
-    set(INSTALL_BIN           "bin")                    # /usr/[local]/bin
-    set(INSTALL_SHARED        "lib")                    # /usr/[local]/lib
-    set(INSTALL_LIB           "lib")                    # /usr/[local]/lib
-    set(INSTALL_INCLUDE       "include")                # /usr/[local]/include
-    set(INSTALL_DOC           "share/doc/${project}")   # /usr/[local]/share/doc/<project>
-    set(INSTALL_APPLICATIONS  "share/applications")     # /usr/[local]/share/applications
-    set(INSTALL_ICONS         "share/pixmaps")          # /usr/[local]/share/pixmaps
-    set(INSTALL_INIT          "/etc/init")              # /etc/init (upstart init scripts)
-    set(INSTALL_DATA          "share/${project}")       # /usr/[local]/share/<project>
-    set(INSTALL_EXAMPLES      "share/${project}")       # /usr/[local]/share/<project>
-
-    # Adjust target paths for Local installs
-    if(OPTION_LOCAL_INSTALL)
-        # Put binaries in root directory and keep data directory name
-        set(INSTALL_BIN                       ".")           # /<INSTALL_PREFIX>
-        set(INSTALL_DATA                      ".")           # /<INSTALL_PREFIX>
-
-        # We have to change the RPATH of binaries to achieve a usable local install.
-        # [TODO] For binaries, "$ORIGIN/lib" is right, so that libraries are found in ./lib.
-        #        However, I have not yet tested what happens when libraries use other libraries.
-        #        In that case, they might need the rpath $ORIGIN instead ...
-        set(CMAKE_SKIP_BUILD_RPATH            FALSE)         # Use automatic rpath for build
-        set(CMAKE_BUILD_WITH_INSTALL_RPATH    FALSE)         # Use specific rpath for INSTALL
-        set(CMAKE_INSTALL_RPATH_USE_LINK_PATH FALSE)         # NO automatic rpath for INSTALL
-        set(CMAKE_INSTALL_RPATH               "$ORIGIN/lib") # Libraries are relative to binary
-    endif()
-elseif(APPLE)
+else()
     set(INSTALL_BIN           "bin")                    # /usr/[local]/bin
     set(INSTALL_SHARED        "lib")                    # /usr/[local]/lib
     set(INSTALL_LIB           "lib")                    # /usr/[local]/lib
@@ -161,9 +130,7 @@ elseif(APPLE)
 endif()
 
 
-##
-## Get repository version
-##
+# GET REPOSITORY VERSION
 
 # Add a revision file containing the git-head tag for cpack and install
 include(GetGitRevisionDescription)
@@ -178,6 +145,13 @@ configure_file(${CMAKE_CURRENT_SOURCE_DIR}/source/meta.h.in ${CMAKE_CURRENT_BINA
 
 # Qt5
 
+# http://qt-project.org/forums/viewthread/30006/
+
+if(MSVC)
+    cmake_policy(SET CMP0020 NEW)
+endif()
+
+
 set(CMAKE_AUTOMOC ON)
 set(AUTOMOC_MOC_OPTIONS PROPERTIES FOLDER CMakeAutomocTargets)
 
@@ -188,34 +162,34 @@ set_property(GLOBAL PROPERTY AUTOMOC_FOLDER CMakeAutomocTargets)
 
 # good resource: http://www.kdab.com/using-cmake-with-qt-5/
 
-# http://qt-project.org/forums/viewthread/30006/
-
-if(MSVC)
-	cmake_policy(SET CMP0020 NEW)
-endif()
-
 find_package(Qt5Core REQUIRED)
 find_package(Qt5Gui REQUIRED)
 find_package(Qt5Widgets REQUIRED) # this is important in order to get uic working 
-find_package(Qt5OpenGL REQUIRED)
+#find_package(Qt5OpenGL REQUIRED)
 
-##
-## libzeug libraries
-##
+
+include_directories(
+    ${CMAKE_CURRENT_BINARY_DIR} # for Meta.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/include
+)
+
+
+# LIBRARIES
 
 add_subdirectory(source)
+install(FILES libzeug-config.cmake DESTINATION ".")
 
-##
-## libzeug examples
-##
+# EXAMPLES
 
 if(OPTION_BUILD_EXAMPLES)
     add_subdirectory(examples)
 endif()
 
 
-##
-## Packaging
-##
+# PACKAGING
 
 add_subdirectory(packages)
+
+# DOXYGEN
+
+add_subdirectory(docs)
