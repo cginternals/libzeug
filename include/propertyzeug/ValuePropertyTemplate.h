@@ -10,13 +10,11 @@
 #include <propertyzeug/StoredValue.h>
 #include <propertyzeug/AccessorValue.h>
 
-namespace zeug {
+namespace zeug 
+{
     
-/** @brief
- * Part of the property hierarchy.
- * The Template Class for all properties that have a value.
+/** \brief Part of the property hierarchy. The Template Class for all properties that have a value.
  */
-
 template <typename Type>
 class ValuePropertyTemplate : public ValueProperty
 {

@@ -8,7 +8,8 @@
 
 class QWidget;
 
-namespace zeug {
+namespace zeug 
+{
 
 template <typename Type>
 class Property;

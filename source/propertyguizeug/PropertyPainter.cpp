@@ -1,6 +1,4 @@
 
-#include <propertyguizeug/PropertyPainter.h>
-
 #include <QApplication>
 #include <QPainter>
 
@@ -9,7 +7,10 @@
 #include "PropertyEditor.h"
 #include "ColorButton.h"
 
-namespace zeug {
+#include <propertyguizeug/PropertyPainter.h>
+
+namespace zeug 
+{
     
 PropertyPainter::PropertyPainter()
 :   m_drawn(false)

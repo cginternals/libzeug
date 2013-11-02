@@ -1,9 +1,9 @@
 #pragma once
 
-#include <treeimportzeug/TreeXmlParserStrategy.h>
-
 #include <QStack>
 #include <QString>
+
+#include <treeimportzeug/TreeXmlParserStrategy.h>
 
 namespace zeug
 {

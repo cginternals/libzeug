@@ -12,6 +12,8 @@
 #include <propertyzeug/ValueProperty.h>
 #include <propertyzeug/PropertyGroup.h>
 
+#include <propertyzeug/AbstractProperty.h>
+
 namespace zeug {
     
 const std::string AbstractProperty::s_nameRegexString("[a-zA-Z]\\w*");

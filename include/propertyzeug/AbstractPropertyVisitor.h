@@ -16,10 +16,8 @@ class Property;
 class Color;
 class FilePath;
     
-/** @brief
- * Part of the Visitor Pattern implementation.
- */
-    
+/** \brief Part of the Visitor Pattern implementation.
+*/   
 class PROPERTYZEUG_API AbstractPropertyVisitor
 {
 public:

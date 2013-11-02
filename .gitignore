@@ -17,3 +17,7 @@ build/
 
 # QtCreator
 CMakeLists.txt.user
+/_configure.bat
+/_open-project.bat
+/_start-cmake-gui.bat
+/_start-depends.bat

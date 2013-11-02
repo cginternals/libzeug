@@ -1,12 +1,13 @@
 
-#include "PropertyEditor.h"
-
 #include <QChildEvent>
 #include <QKeyEvent>
 #include <QApplication>
 #include <QHBoxLayout>
 
-namespace zeug {
+#include "PropertyEditor.h"
+
+namespace zeug 
+{
 	
 PropertyEditor::PropertyEditor(QWidget * parent)
 :	QWidget(parent)

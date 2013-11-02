@@ -1,10 +1,12 @@
 
-#include <propertyguizeug/PropertyBrowser.h>
 
 #include <propertyguizeug/PropertyModel.h>
 #include <propertyguizeug/PropertyDelegate.h>
 
-namespace zeug {
+#include <propertyguizeug/PropertyBrowser.h>
+
+namespace zeug 
+{
     
 PropertyBrowser::PropertyBrowser(PropertyGroup * root, QWidget * parent)
 :   QTreeView(parent)

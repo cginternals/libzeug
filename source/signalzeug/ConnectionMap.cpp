@@ -1,5 +1,5 @@
 
-#include "ConnectionMap.h"
+#include <signalzeug/ConnectionMap.h>
 
 namespace zeug 
 {

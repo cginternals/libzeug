@@ -1,10 +1,11 @@
 
-#include <propertyguizeug/PropertyModel.h>
-
 #include <propertyzeug/PropertyGroup.h>
 #include <propertyzeug/Property.h>
 
-namespace zeug {
+#include <propertyguizeug/PropertyModel.h>
+
+namespace zeug 
+{
     
 PropertyModel::PropertyModel(PropertyGroup * root, QObject * parent)
 :   QAbstractItemModel(parent)

@@ -1,7 +1,8 @@
 
 #include <propertyzeug/ValueProperty.h>
 
-namespace zeug {
+namespace zeug 
+{
 
 ValueProperty::ValueProperty(const std::string & name)
 :   AbstractProperty(name)

@@ -1,7 +1,6 @@
 
 #pragma once
 
-
 #include <assert.h>
 #include <string>
 
@@ -16,11 +15,8 @@ class AbstractPropertyVisitor;
 class ValueProperty;
 class PropertyGroup;
     
-/** @brief
- * Part of the property hierarchy.
- * The base class of all properties.
- */
-
+/** \brief Part of the property hierarch (base class of all properties).
+*/
 class PROPERTYZEUG_API AbstractProperty 
 {
 public:
@@ -62,10 +58,12 @@ public:
     virtual bool isGroup() const;
 
 protected:
-    enum {
-        kNotSet,
-        kEnabled,
-        kDisabled
+
+    enum 
+    {
+        kNotSet
+    ,   kEnabled
+    ,   kDisabled
     } m_state;
     
     std::string m_name;

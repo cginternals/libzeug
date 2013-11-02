@@ -1,8 +1,8 @@
-#include <treeimportzeug/ChangesStrategy.h>
-
-#include <treeimportzeug/TreeSqliteParser.h>
 
 #include <QHash>
+
+#include <treeimportzeug/TreeSqliteParser.h>
+#include <treeimportzeug/ChangesStrategy.h>
 
 namespace zeug
 {
@@ -178,11 +178,9 @@ int ChangesStrategy::idFor(long hash) const
 {
 	if (!m_ids.contains(hash))
 	{
-		m_ids[hash] = m_nextId;
-		
+		m_ids[hash] = m_nextId;	
 		++m_nextId;
 	}
-	
 	return m_ids[hash];
 }
 

@@ -9,11 +9,8 @@
 namespace zeug 
 {
     
-/** @brief
- * Part of the property hierarchy.
- * Should only be instantiated with an std::set like container.
+/** \brief Part of the property hierarchy that should only be instantiated with an std::set like container.
  */
-    
 template <typename Set>
 class SetProperty : public ValuePropertyTemplate<Set>
 {

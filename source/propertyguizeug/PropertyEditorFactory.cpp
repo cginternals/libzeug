@@ -1,6 +1,4 @@
 
-#include <propertyguizeug/PropertyEditorFactory.h>
-
 #include <propertyzeug/Property.h>
 
 #include "IntegerEditor.h"
@@ -15,7 +13,11 @@
 #include "IntSetEditor.h"
 #include "DoubleMatrixEditor.h"
 
-namespace zeug {
+#include <propertyguizeug/PropertyEditorFactory.h>
+
+
+namespace zeug 
+{
     
 PropertyEditorFactory::PropertyEditorFactory()
 :   m_editor(nullptr)

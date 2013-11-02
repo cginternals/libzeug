@@ -1,10 +1,11 @@
 
-#include "BoolMatrixEditor.h"
-
 #include <QLineEdit>
 #include <propertyzeug/Property.h>
 
-namespace zeug {
+#include "BoolMatrixEditor.h"
+
+namespace zeug 
+{
     
 BoolMatrixEditor::BoolMatrixEditor(Property<std::vector<bool>> * property, QWidget * parent)
 :   MatrixEditor(property->fixedSize(),

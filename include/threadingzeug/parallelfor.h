@@ -5,7 +5,8 @@
 
 #include <threadingzeug/threadingzeug.h>
 
-namespace zeug {
+namespace zeug 
+{
 
 template<typename T>
 THREADINGZEUG_API void parallel_for(const std::vector<T>& elements, std::function<void(const T& element)> callback);

@@ -1,11 +1,14 @@
 
-#include "DoubleEditor.h"
 
 #include <QHBoxLayout>
 #include <QDoubleSpinBox>
+
 #include <propertyzeug/Property.h>
 
-namespace zeug {
+#include "DoubleEditor.h"
+
+namespace zeug 
+{
     
 DoubleEditor::DoubleEditor(Property<double> * property, QWidget * parent)
 :   PropertyEditor(parent)

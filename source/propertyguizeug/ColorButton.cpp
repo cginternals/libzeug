@@ -1,5 +1,4 @@
 
-
 #include <QColorDialog>
 #include <QGridLayout>
 #include <QPainter>

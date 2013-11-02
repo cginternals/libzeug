@@ -16,25 +16,24 @@
 #include <propertyzeug/AbstractPropertyVisitor.h>
 
 
-namespace zeug {
+namespace zeug 
+{
 
-/** @brief
- * Part of the property hierarchy
- * Has different implementation based on its template Type.
- * Only this class should be instantiated!
- * Supported Types:
- *   - bool
- *   - int
- *   - double
- *   - std::string
- *   - Color
- *   - FilePath
- *   - std::vector<bool>
- *   - std::vector<int>
- *   - std::vector<double>
- *   - std::set<int>
- */
+/** \brief Part of the property hierarchy, that has different implementation based on its template Type.
 
+    Only this class should be instantiated!
+    Supported Types:
+      - bool
+      - int
+      - double
+      - std::string
+      - Color
+      - FilePath
+      - std::vector<bool>
+      - std::vector<int>
+      - std::vector<double>
+      - std::set<int>
+*/
 template <typename Type>
 class Property;
 

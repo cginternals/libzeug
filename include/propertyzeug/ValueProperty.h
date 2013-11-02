@@ -3,13 +3,11 @@
 
 #include <propertyzeug/AbstractProperty.h>
 
-namespace zeug {
+namespace zeug 
+{
     
-/** @brief
- * Part of the property hierarchy.
- * The super class of all properties that have a value.
+/** \brief Part of the property hierarchy. The super class of all properties that have a value.
  */
-
 class PROPERTYZEUG_API ValueProperty : public AbstractProperty
 {
 public:

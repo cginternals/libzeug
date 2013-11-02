@@ -1,15 +1,7 @@
+
 # Target
 set(target treezeug)
 message(STATUS "lib ${target}")
-
-# Find externals
-
-# Include directories
-include_directories(
-    ${CMAKE_CURRENT_BINARY_DIR}/../../  # for Meta.h
-    ${CMAKE_CURRENT_SOURCE_DIR}/../../include
-    ${CMAKE_CURRENT_SOURCE_DIR}/../../include/signalzeug
-    ${CMAKE_CURRENT_SOURCE_DIR}/../../include/treezeug)
 
 # Libraries
 set(libs
@@ -63,7 +55,7 @@ set_target_properties(${target}
     LINK_FLAGS_DEBUG            "${DEFAULT_LINKER_FLAGS_DEBUG}"
     LINK_FLAGS_RELEASE          "${DEFAULT_LINKER_FLAGS_RELEASE}"
     DEBUG_POSTFIX               "d${DEBUG_POSTFIX}"
-    INCLUDE_PATH                "${CMAKE_CURRENT_SOURCE_DIR}/../../include")
+    INCLUDE_PATH                "${LIBZEUG_SOURCE_DIR}/include")
 
 # Deployment
 install(TARGETS ${target}
@@ -71,4 +63,4 @@ install(TARGETS ${target}
     LIBRARY DESTINATION ${INSTALL_SHARED}
     ARCHIVE DESTINATION ${INSTALL_LIB}
 )
-install(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/../../include/ DESTINATION ${INSTALL_INCLUDE})
+install(DIRECTORY ${LIBZEUG_SOURCE_DIR}/include DESTINATION ${INSTALL_INCLUDE})

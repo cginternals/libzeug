@@ -1,7 +1,8 @@
 
 #pragma once
 
-namespace zeug {
+namespace zeug 
+{
 
 template <typename Type>
 Property<Type> * PropertyGroup::addProperty(const std::string & name, const Type & value)

@@ -1,8 +1,8 @@
 
 #include <algorithm>
 
-#include <treezeug/Node.h>
 #include <treezeug/Tree.h>
+#include <treezeug/Node.h>
 
 namespace zeug
 {

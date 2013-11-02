@@ -1,11 +1,12 @@
 
-#include "SetEditor.h"
-
 #include <QHBoxLayout>
 #include <QLineEdit>
 #include <QRegularExpression>
 
-namespace zeug {
+#include "SetEditor.h"
+
+namespace zeug 
+{
     
 SetEditor::SetEditor(const QString & valueRegexString,
     const QString & initialText, QWidget * parent)

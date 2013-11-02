@@ -9,7 +9,8 @@
 #include <propertyguizeug/PropertyPainter.h>
 
 
-namespace zeug {
+namespace zeug 
+{
     
 class AbstractProperty;
 

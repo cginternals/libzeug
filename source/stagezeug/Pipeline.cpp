@@ -1,8 +1,10 @@
-#include <stagezeug/Pipeline.h>
 
 #include <algorithm>
 
-namespace zeug {
+#include <stagezeug/Pipeline.h>
+
+namespace zeug 
+{
 
 Pipeline::Pipeline()
 : m_dependenciesSorted(false)
@@ -15,6 +17,10 @@ Pipeline::~Pipeline()
 	{
 		delete stage;
 	}
+}
+
+void Pipeline::addStages()
+{
 }
 
 void Pipeline::addStage(AbstractStage* stage)

@@ -1,12 +1,13 @@
 
-#include "ChoiceEditor.h"
-
 #include <QHBoxLayout>
 #include <QComboBox>
 
 #include <propertyzeug/Property.h>
 
-namespace zeug {
+#include "ChoiceEditor.h"
+
+namespace zeug 
+{
     
 ChoiceEditor::ChoiceEditor(Property<std::string> * property, QWidget * parent)
 :   PropertyEditor(parent)

@@ -1,11 +1,14 @@
 
-#include "IntegerEditor.h"
 
 #include <QHBoxLayout>
 #include <QSpinBox>
+
 #include <propertyzeug/Property.h>
 
-namespace zeug {
+#include "IntegerEditor.h"
+
+namespace zeug 
+{
     
 IntegerEditor::IntegerEditor(Property<int> * property, QWidget * parent)
 :   PropertyEditor(parent)

@@ -1,7 +1,8 @@
 
 #include <propertyzeug/FilePathProperty.h>
 
-namespace zeug {
+namespace zeug 
+{
 
 FilePathProperty::FilePathProperty(const std::string & name,
     const FilePath & value)

@@ -9,11 +9,8 @@
 namespace zeug 
 {
     
-/** @brief
- * Part of the property hierarchy.
- * Manages a FilePath.
+/** \brief Part of the property hierarchy that  manages a file path.
  */
-
 class PROPERTYZEUG_API FilePathProperty : public ValuePropertyTemplate<FilePath>
 {
 public:

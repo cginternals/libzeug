@@ -8,10 +8,8 @@
 namespace zeug 
 {
     
-/** @brief
- * A simple RGBA color class for use as a property value.
+/** \brief A simple RGBA color class for use as a property value.
  */
-
 class PROPERTYZEUG_API Color
 {
 public:

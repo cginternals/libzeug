@@ -1,10 +1,12 @@
 
-#include "DoubleMatrixEditor.h"
-
 #include <QLineEdit>
+
 #include <propertyzeug/Property.h>
 
-namespace zeug {
+#include "DoubleMatrixEditor.h"
+
+namespace zeug 
+{
     
 DoubleMatrixEditor::DoubleMatrixEditor(Property<std::vector<double>> * property, QWidget * parent)
 :   MatrixEditor(property->fixedSize(),

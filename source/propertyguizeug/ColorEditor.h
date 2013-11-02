@@ -3,9 +3,11 @@
 
 #include "PropertyEditor.h"
 
+
 class QLineEdit;
 
-namespace zeug {
+namespace zeug 
+{
 
 class ColorButton;
 
@@ -29,6 +31,7 @@ protected:
     void setQColor(const QColor & qcolor);
     void setColor(const Color & color);
     
+protected:
     ColorButton * m_button;
     QLineEdit * m_lineEdit;
     

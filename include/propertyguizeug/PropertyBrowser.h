@@ -5,7 +5,8 @@
 
 #include <propertyguizeug/propertyguizeug.h>
 
-namespace zeug {
+namespace zeug 
+{
     
 class PropertyGroup;
 class PropertyModel;

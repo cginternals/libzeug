@@ -1,16 +1,18 @@
 
 #pragma once
 
-#include <propertyguizeug/propertyguizeug.h>
-
 #include <functional>
 #include <set>
 
+#include <propertyguizeug/propertyguizeug.h>
+
 #include "PropertyEditor.h"
+
 
 class QLineEdit;
 
-namespace zeug {
+namespace zeug 
+{
 
 class PROPERTYGUIZEUG_API SetEditor : public PropertyEditor
 {

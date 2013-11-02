@@ -5,13 +5,15 @@
 
 #include <treezeug/Attribute.h>
 
+#include <propertyzeug/propertyzeug.h>
+
 
 namespace zeug
 {
 
 class Node;
 
-class AttributeMap
+class PROPERTYZEUG_API AttributeMap
 {
 public:
 
@@ -39,14 +41,12 @@ public:
 	void addAttribute(const Node * node, double value);
 	void addAttribute(const Node * node, const std::string & value);
 
-    /**
-     * @brief Normalize between min_value and max_value.
-     */
+    /** Normalize between min_value and max_value.
+    */
 	double normalize(const Attribute * value) const;
 
-    /**
-     * @brief Normalize using the interval [ -max(abs(min_value), abs(max_value)), max(abs(min_value), abs(max_value)) ]
-     */
+    /** Normalize using the interval [ -max(abs(min_value), abs(max_value)), max(abs(min_value), abs(max_value)) ]
+    */
     double normalize2(const Attribute * value) const;
 	
 	Type type() const;
@@ -56,8 +56,8 @@ public:
 protected:
     void addAttribute(const Node * node, Attribute * value);
 
-	Attribute* createNumeric(double value);
-	Attribute* createNominal(const std::string & value);
+	Attribute * createNumeric(double value);
+	Attribute * createNominal(const std::string & value);
 
 protected:
 	std::string m_name;

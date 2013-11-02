@@ -1,11 +1,13 @@
 
-#include "StringEditor.h"
-
 #include <QLineEdit>
 #include <QHBoxLayout>
+
 #include <propertyzeug/Property.h>
 
-namespace zeug {
+#include "StringEditor.h"
+
+namespace zeug 
+{
     
 StringEditor::StringEditor(Property<std::string> * property, QWidget * parent)
 :   PropertyEditor(parent)

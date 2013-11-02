@@ -1,15 +1,17 @@
 
 #pragma once
 
-#include <propertyguizeug/propertyguizeug.h>
-
 #include <QStyleOptionViewItem>
+
+#include <propertyguizeug/propertyguizeug.h>
 
 #include <propertyzeug/AbstractPropertyVisitor.h>
 
+
 class QPainter;
 
-namespace zeug {
+namespace zeug 
+{
 
 template <typename Type>
 class Property;

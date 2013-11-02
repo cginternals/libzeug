@@ -1,13 +1,15 @@
 
 #pragma once
 
+#include <QWidget>
+
 #include <propertyguizeug/propertyguizeug.h>
 
-#include <QWidget>
 
 class QBoxLayout;
 
-namespace zeug {
+namespace zeug 
+{
 
 class PropertyEditor : public QWidget
 {

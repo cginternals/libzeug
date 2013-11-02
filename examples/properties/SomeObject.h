@@ -1,7 +1,8 @@
 
 #pragma once
 
-namespace propertyzeug {
+namespace propertyzeug 
+{
     class AbstractProperty;
 }
 

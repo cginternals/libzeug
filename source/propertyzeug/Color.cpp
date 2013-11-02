@@ -1,11 +1,13 @@
 
-#include <propertyzeug/Color.h>
 
 #include <assert.h>
 #include <sstream>
 #include <iomanip>
 
-namespace zeug {
+#include <propertyzeug/Color.h>
+
+namespace zeug 
+{
 
 Color::Color()
 {

@@ -1,5 +1,4 @@
 
-#include "FilePathEditor.h"
 
 #include <QHBoxLayout>
 #include <QSettings>
@@ -10,6 +9,8 @@
 #include <QLineEdit>
 
 #include <propertyzeug/Property.h>
+
+#include "FilePathEditor.h"
 
 namespace zeug 
 {

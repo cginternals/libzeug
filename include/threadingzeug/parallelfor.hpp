@@ -1,4 +1,7 @@
-namespace zeug {
+#pragma once
+
+namespace zeug 
+{
 
 template<typename T>
 void parallel_for(const std::vector<T>& elements, std::function<void(const T& element)> callback)

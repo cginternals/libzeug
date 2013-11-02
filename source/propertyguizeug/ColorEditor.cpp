@@ -7,10 +7,11 @@
 
 #include <propertyzeug/Property.h>
 
-#include "ColorEditor.h"
 #include "ColorButton.h"
+#include "ColorEditor.h"
 
-namespace zeug {
+namespace zeug 
+{
 
 ColorEditor::ColorEditor(Property<Color> * property, QWidget * parent)
 :   PropertyEditor(parent)

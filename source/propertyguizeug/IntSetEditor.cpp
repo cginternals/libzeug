@@ -1,15 +1,15 @@
 
-#include "IntSetEditor.h"
-
 #include <QLineEdit>
+
 #include <propertyzeug/Property.h>
 
-namespace zeug {
+#include "IntSetEditor.h"
+
+namespace zeug 
+{
     
 IntSetEditor::IntSetEditor(Property<std::set<int>> * property, QWidget * parent)
-:   SetEditor("(-?\\d+)",
-                 QString::fromStdString(property->valueAsString()),
-                 parent)
+:   SetEditor("(-?\\d+)", QString::fromStdString(property->valueAsString()), parent)
 ,   m_property(property)
 {
 }

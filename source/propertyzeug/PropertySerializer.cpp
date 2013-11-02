@@ -1,5 +1,4 @@
 
-#include <propertyzeug/PropertySerializer.h>
 
 #include <iostream>
 #include <sstream>
@@ -7,7 +6,10 @@
 #include <propertyzeug/ValueProperty.h>
 #include <propertyzeug/PropertyGroup.h>
 
-namespace zeug {
+#include <propertyzeug/PropertySerializer.h>
+
+namespace zeug 
+{
     
 PropertySerializer::PropertySerializer()
 {

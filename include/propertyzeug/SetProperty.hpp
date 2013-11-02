@@ -1,7 +1,8 @@
 
 #pragma once
 
-namespace zeug {
+namespace zeug 
+{
     
 template <typename Set>
 SetProperty<Set>::SetProperty(const std::string & name,

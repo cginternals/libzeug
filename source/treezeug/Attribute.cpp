@@ -1,8 +1,8 @@
 
 #include <algorithm>
 
-#include <treezeug/Attribute.h>
 #include <treezeug/AttributeMap.h>
+#include <treezeug/Attribute.h>
 
 
 namespace zeug

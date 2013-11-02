@@ -8,10 +8,8 @@
 namespace zeug 
 {
     
-/** @brief
- * Provides access to a value by accessors.
+/** \brief Provides access to a value by accessors.
  */
-    
 template <typename Type>
 class AccessorValue : public AbstractValue<Type>
 {
@@ -33,6 +31,7 @@ public:
 
     virtual Type get() const;
     virtual void set(const Type & value);
+
 protected:
     std::function<Type ()> m_getter;
     std::function<void(const Type &)> m_setter;

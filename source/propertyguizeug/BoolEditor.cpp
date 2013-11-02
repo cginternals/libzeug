@@ -1,11 +1,14 @@
 
-#include "BoolEditor.h"
 
 #include <QCheckBox>
 #include <QBoxLayout>
+
 #include <propertyzeug/Property.h>
 
-namespace zeug {
+#include "BoolEditor.h"
+
+namespace zeug 
+{
     
 BoolEditor::BoolEditor(Property<bool> * property, QWidget * parent)
 :   PropertyEditor(parent)

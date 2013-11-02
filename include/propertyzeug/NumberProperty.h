@@ -8,11 +8,8 @@
 namespace zeug 
 {
     
-/** @brief
- * Part of the property hierarchy.
- * Extends the ValuePropertyTemplate by adding a minimum and maximum.
+/** \brief Part of the property hierarchy that extends the ValuePropertyTemplate by adding a minimum and maximum.
  */
-
 template <typename Type>
 class NumberProperty : public ValuePropertyTemplate<Type>
 {

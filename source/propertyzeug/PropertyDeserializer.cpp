@@ -1,5 +1,4 @@
 
-#include <propertyzeug/PropertyDeserializer.h>
 
 #ifdef USE_STD_REGEX
     #include <regex>
@@ -17,7 +16,10 @@
 #include <propertyzeug/Property.h>
 #include <propertyzeug/PropertyGroup.h>
 
-namespace zeug {
+#include <propertyzeug/PropertyDeserializer.h>
+
+namespace zeug 
+{
 
 PropertyDeserializer::PropertyDeserializer()
 :   m_rootGroup(nullptr)

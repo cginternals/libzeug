@@ -5,9 +5,11 @@
 
 #include "PropertyEditor.h"
 
+
 class QSpinBox;
 
-namespace zeug {
+namespace zeug 
+{
 
 template <typename Type>
 class Property;

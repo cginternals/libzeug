@@ -9,13 +9,11 @@
 
 #include <propertyzeug/Property.h>
 
-namespace zeug {
+namespace zeug 
+{
     
-/** @brief
- * Part of the Property Hierarchy.
- * Manages properties while being a property itself.
- */
-
+/** \brief Part of the Property Hierarchy that manages properties while being a property itself.
+*/
 class PROPERTYZEUG_API PropertyGroup : public AbstractProperty
 {
 public:
@@ -24,10 +22,10 @@ public:
     
     virtual bool isGroup() const;
     
-    /** @name Property Adding
-     * @brief Methods for adding properties.
+    /** \name Property Adding
+        \brief Methods for adding properties.
      */
-    /** @{ */
+    /** \{ */
     
     bool addProperty(AbstractProperty * property);
     
@@ -54,13 +52,13 @@ public:
     
     PropertyGroup * addGroup(const std::string & name);
     
-    /** @} */
+    /** \} */
     
-    /** @name Property Accessing
-     * @brief Methods accessing properties, subgroups and values.
-     * Acces Properties in the hierachy with the separater '/'
-     */
-    /** @{ */
+    /** \name Property Accessing
+        \brief Methods accessing properties, subgroups and values.
+        Acces Properties in the hierachy with the separater '/'
+    */
+    /** \{ */
     
     AbstractProperty * property(const std::string & path);
     const AbstractProperty * property(const std::string & path) const;
@@ -83,10 +81,12 @@ public:
     AbstractProperty * property(unsigned int index);
     const AbstractProperty * property(unsigned int index) const;
     
-    /** @name Properties
-     * @brief Methods for manipulating properties
-     */
-    /** @{ */
+    /** \} */
+
+    /** \name Properties
+        \brief Methods for manipulating properties
+    */
+    /** \{ */
 
     bool propertyExists(const std::string & name) const;
     bool groupExists(const std::string & name) const;
@@ -97,13 +97,13 @@ public:
 
     AbstractProperty * obtainProperty(const std::string & name);
     bool removeProperty(AbstractProperty * property);
+
+    /** \} */
     
-    /** @} */
-    
-    /** @name Property Iterators
-     * @brief Methods for property iteration
+    /** \name Property Iterators
+        \brief Methods for property iteration
      */
-    /** @{ */
+    /** \{ */
     
     void forEachProperty(const std::function<void(AbstractProperty &)> functor);
     void forEachProperty(const std::function<void(AbstractProperty &)> functor) const;
@@ -114,7 +114,7 @@ public:
     void forEachSubGroup(const std::function<void(PropertyGroup &)> functor);
     void forEachSubGroup(const std::function<void(PropertyGroup &)> functor) const;
     
-    /** @} */
+    /** \} */
     
 protected:
     std::vector<AbstractProperty *> m_properties;

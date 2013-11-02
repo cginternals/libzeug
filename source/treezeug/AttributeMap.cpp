@@ -4,8 +4,8 @@
 #include <string>
 #include <cassert>
 
-#include <treezeug/AttributeMap.h>
 #include <treezeug/Node.h>
+#include <treezeug/AttributeMap.h>
 
 
 namespace zeug

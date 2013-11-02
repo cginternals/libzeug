@@ -1,10 +1,12 @@
 
-#include <propertyguizeug/PropertyDelegate.h>
 
 #include <QApplication>
-#include <propertyzeug/AbstractProperty.h>
 
-namespace zeug {
+#include <propertyzeug/AbstractProperty.h>
+#include <propertyguizeug/PropertyDelegate.h>
+
+namespace zeug 
+{
 
 PropertyDelegate::PropertyDelegate(QWidget * parent)
 :   QStyledItemDelegate(parent)

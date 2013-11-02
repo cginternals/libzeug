@@ -11,11 +11,8 @@
 namespace zeug 
 {
     
-/** @brief
- * Part of the property hierarchy.
- * Manages a string and can have choices.
+/** \brief Part of the property hierarchy that manages a string and can have choices.
  */
-
 class PROPERTYZEUG_API StringProperty : public ValuePropertyTemplate<std::string>
 {
 public:
@@ -51,8 +48,9 @@ protected:
 
 template <class Object>
 StringProperty::StringProperty(const std::string & name,
-    Object & object, const std::string & (Object::*getter_pointer)() const,
-    void (Object::*setter_pointer)(const std::string &))
+    Object & object
+,   const std::string & (Object::*getter_pointer)() const
+,   void (Object::*setter_pointer)(const std::string &))
 :   ValuePropertyTemplate<std::string>(name, object, getter_pointer, setter_pointer)
 {
 }

@@ -3,12 +3,11 @@
 
 #include <propertyzeug/AbstractValue.h>
 
-namespace zeug {
+namespace zeug 
+{
 
-/** @brief
- * Provides access to a stored value.
- */
-    
+/** \brief Provides access to a stored value.
+ */  
 template <typename Type>
 class StoredValue : public AbstractValue<Type>
 {
@@ -18,6 +17,7 @@ public:
 
     virtual Type get() const;
     virtual void set(const Type & value);
+
 protected:
     Type m_value;
 };

@@ -1,12 +1,12 @@
-
 #pragma once
-
-#include <propertyguizeug/propertyguizeug.h>
 
 #include <QList>
 #include <QAbstractItemModel>
 
-namespace zeug {
+#include <propertyguizeug/propertyguizeug.h>
+
+namespace zeug 
+{
     
 class ScopedConnection;
 class PropertyGroup;

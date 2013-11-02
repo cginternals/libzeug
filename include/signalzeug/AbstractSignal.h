@@ -1,9 +1,10 @@
 #pragma once
 
+#include <unordered_map>
+
 #include <signalzeug/signalzeug.h>
 #include <signalzeug/Connection.h>
 
-#include <unordered_map>
 
 namespace zeug
 {

@@ -9,12 +9,12 @@
 namespace zeug 
 {
     
-/** @brief
- * Part of the property hierarchy.
- * Should only be instantiated with an std::vector like container.
- * The size of the container must not change, therefore it makes no sense to pass
- * an empty container to the constructor.
- */
+/** \brief Part of the property hierarchy wrapping arbitrary n x m matrices/vectors.
+
+    Should only be instantiated with an std::vector like container.
+    The size of the container must not change, therefore it makes no sense to pass
+    an empty container to the constructor.
+*/
     
 template <typename Vector>
 class VectorProperty : public ValuePropertyTemplate<Vector>

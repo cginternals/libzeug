@@ -1,14 +1,17 @@
 
 #pragma once
 
+#include <functional>
+
 #include <propertyguizeug/propertyguizeug.h>
 
-#include <functional>
 #include "PropertyEditor.h"
+
 
 class QLineEdit;
 
-namespace zeug {
+namespace zeug 
+{
 
 class PROPERTYGUIZEUG_API MatrixEditor : public PropertyEditor
 {

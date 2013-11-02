@@ -1,51 +1,19 @@
-#include <stagezeug/AbstractStage.h>
+
 #include <iostream>
 
-namespace zeug {
+#include <stagezeug/StageData.h>
+#include <stagezeug/AbstractStage.h>
 
-StageData::StageData()
-: _valid(false)
+namespace zeug 
 {
-}
 
-StageData::~StageData()
+AbstractStage::AbstractStage(StageData * output)
+: m_output(output)
+, m_enabled(true)
 {
-}
-
-const AbstractStage* StageData::owner() const
-{
-    return _owner;
-}
-
-void StageData::setOwner(AbstractStage* owner)
-{
-	_owner = owner;
-}
-
-bool StageData::isValid() const
-{
-    return _valid;
-}
-
-void StageData::invalidate()
-{
-    _valid = false;
-    invalidated();
-}
-
-void StageData::setToValid()
-{
-    _valid = true;
-}
-
-
-AbstractStage::AbstractStage(StageData* output)
-: _output(output)
-, _enabled(true)
-{
-	if (_output)
+	if (m_output)
 	{
-		_output->setOwner(this);
+		m_output->setOwner(this);
 	}
 }
 
@@ -53,45 +21,49 @@ AbstractStage::~AbstractStage()
 {
 }
 
-const StageData* AbstractStage::output() const
+void AbstractStage::requireAll() 
 {
-    return _output;
+}
+
+const StageData * AbstractStage::output() const
+{
+    return m_output;
 }
 
 bool AbstractStage::execute()
 {
-    if (!_enabled || (_output && _output->isValid()))
+    if (!m_enabled || (m_output && m_output->isValid()))
         return false;
 
     process();
     
-    if (_output)
-	    _output->setToValid();
+    if (m_output)
+	    m_output->setToValid();
     
     return true;
 }
 
 void AbstractStage::setEnabled(bool enabled)
 {
-    _enabled = enabled;
+    m_enabled = enabled;
 }
 
 bool AbstractStage::isEnabled() const
 {
-    return _enabled;
+    return m_enabled;
 }
 
 const std::string& AbstractStage::name() const
 {
-    return _name;
+    return m_name;
 }
 
-void AbstractStage::setName(const std::string& name)
+void AbstractStage::setName(const std::string & name)
 {
-    _name = name;
+    m_name = name;
 }
 
-void AbstractStage::require(AbstractStage* stage)
+void AbstractStage::require(AbstractStage * stage)
 {
 	if (!stage)
 		return;
@@ -105,12 +77,12 @@ void AbstractStage::require(AbstractStage* stage)
 	addInput(stage->output());
 }
 
-void AbstractStage::addInput(const StageData* input)
+void AbstractStage::addInput(const StageData * input)
 {
     if (!input)
         return;
 
-    _inputs.insert(input);
+    m_inputs.insert(input);
     input->invalidated.connect([this]() {
         invalidateOutput();
     });
@@ -119,19 +91,19 @@ void AbstractStage::addInput(const StageData* input)
     dependenciesChanged();
 }
 
-void AbstractStage::inputAdded(const StageData* input)
+void AbstractStage::inputAdded(const StageData * input)
 {
 }
 
 void AbstractStage::invalidateOutput()
 {
-        if (_output)
-            _output->invalidate();
+        if (m_output)
+            m_output->invalidate();
 }
 
-bool AbstractStage::dependsOn(const AbstractStage* stage) const
+bool AbstractStage::dependsOn(const AbstractStage * stage) const
 {
-    for (const StageData* input: _inputs)
+    for (const StageData * input: m_inputs)
     {
         const AbstractStage* inputOwner = input->owner();
         if (!inputOwner)

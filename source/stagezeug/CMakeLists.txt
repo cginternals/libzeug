@@ -1,13 +1,7 @@
+
 # Target
 set(target stagezeug)
 message(STATUS "lib ${target}")
-
-# Find externals
-
-# Include directories
-include_directories(
-    ${CMAKE_CURRENT_BINARY_DIR}/../../  # for Meta.h
-    ${CMAKE_CURRENT_SOURCE_DIR}/../../include)
 
 # Libraries
 set(libs
@@ -24,12 +18,16 @@ set(source_path "${CMAKE_CURRENT_SOURCE_DIR}")
 set(headers
     ${header_path}/stagezeug.h
     ${header_path}/AbstractStage.h
+    ${header_path}/AbstractStage.hpp
     ${header_path}/Pipeline.h
+    ${header_path}/Pipeline.hpp
+    ${header_path}/StageData.h
 )
 
 set(sources
     ${source_path}/AbstractStage.cpp
     ${source_path}/Pipeline.cpp
+    ${source_path}/StageData.cpp
 )
 
 # Group source files
@@ -56,7 +54,7 @@ set_target_properties(${target}
     LINK_FLAGS_DEBUG            "${DEFAULT_LINKER_FLAGS_DEBUG}"
     LINK_FLAGS_RELEASE          "${DEFAULT_LINKER_FLAGS_RELEASE}"
     DEBUG_POSTFIX               "d${DEBUG_POSTFIX}"
-    INCLUDE_PATH                "${CMAKE_CURRENT_SOURCE_DIR}/../../include")
+    INCLUDE_PATH                "${LIBZEUG_SOURCE_DIR}/include")
 
 # Deployment
 install(TARGETS ${target}
@@ -64,4 +62,4 @@ install(TARGETS ${target}
     LIBRARY DESTINATION ${INSTALL_SHARED}
     ARCHIVE DESTINATION ${INSTALL_LIB}
 )
-install(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/../../include/ DESTINATION ${INSTALL_INCLUDE})
+install(DIRECTORY ${LIBZEUG_SOURCE_DIR}/include DESTINATION ${INSTALL_INCLUDE})

@@ -1,7 +1,8 @@
 
 #include <propertyzeug/StringProperty.h>
 
-namespace zeug {
+namespace zeug 
+{
 
 StringProperty::StringProperty(const std::string & name,
     const std::string & value)

@@ -6,14 +6,13 @@
 
 #include <propertyzeug/AbstractPropertyVisitor.h>
 
-namespace zeug {
+namespace zeug 
+{
 
 class PropertyGroup;
     
-/** @brief
- * Loads property values from a given file.
+/** \brief Loads property values from a given file.
  */
-    
 class PROPERTYZEUG_API PropertyDeserializer : public AbstractPropertyVisitor
 {
 public:

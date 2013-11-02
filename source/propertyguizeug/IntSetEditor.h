@@ -3,7 +3,8 @@
 
 #include "SetEditor.h"
 
-namespace zeug {
+namespace zeug 
+{
     
 template <typename Type>
 class Property;

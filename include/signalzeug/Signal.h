@@ -22,14 +22,16 @@ public:
 	void operator()(Arguments... arguments);
 
 	Connection connect(Callback callback) const;
-	template <class T>
-	Connection connect(T* object, void (T::*method)(Arguments...)) const;
-	Connection connect(Signal& signal) const;
+	Connection connect(Signal & signal) const;
+
+    template <class T>
+	Connection connect(T * object, void (T::*method)(Arguments...)) const;
 
 	void block();
 	void unblock();
 
 	Connection onFire(std::function<void()> callback) const;
+
 protected:
 	virtual void disconnectId(Connection::Id id) const override;
 

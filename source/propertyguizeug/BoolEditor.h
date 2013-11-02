@@ -5,7 +5,8 @@
 
 #include "PropertyEditor.h"
 
-namespace zeug {
+namespace zeug 
+{
 
 template <typename Type>
 class Property;
