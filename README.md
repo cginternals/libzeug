@@ -18,6 +18,9 @@ The current modules in libzeug are:
 The current pre-release is [libzeug-v0.1.0](https://github.com/hpicgs/libzeug/releases/tag/libzeug-v0.1).
 To find out more about libzeug and how to use it, check out our [wiki](https://github.com/hpicgs/libzeug/wiki).
 
+### Documentation
+
+A first basic libzeug documentation can be found [here](http://costumebrother.de/libzeug).
 
 ### Dependencies
 
