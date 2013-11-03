@@ -60,7 +60,7 @@ propertyzeug
 
 propertyzeug allows the definition of properties that can be used to parameterize a program.
 It supports saving and loading properties to and from a file.
-The currently implemented property types are `int`, `double`, fixed size `std::vector` for mathematical vectors and matrices, `bool`, `FilePath` and `Color`.
+The currently implemented property types are `int`, `double`, `std::string`, fixed size `std::vector` for mathematical vectors and matrices, `bool`, `FilePath` and `Color`.
 
 signalzeug
 ----------
