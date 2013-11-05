@@ -129,6 +129,7 @@ else()
     endif()
 endif()
 
+install(DIRECTORY ${LIBZEUG_SOURCE_DIR}/include/ DESTINATION ${INSTALL_INCLUDE})
 
 # GET REPOSITORY VERSION
 
