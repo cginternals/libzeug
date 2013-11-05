@@ -2,6 +2,8 @@
 set(target propertyguiexample)
 message(STATUS "example ${target}")
 
+find_library(Qt5Core REQUIRED)
+
 add_executable(${target}
     main.cpp
 )
@@ -9,6 +11,8 @@ add_executable(${target}
 target_link_libraries(${target} 
     propertyguizeug
 )
+
+qt5_use_modules(${target} Widgets)
 
 set_target_properties(${target}
     PROPERTIES
