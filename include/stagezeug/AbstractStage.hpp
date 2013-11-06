@@ -4,7 +4,7 @@ namespace zeug
 {
 
 template <typename T, typename... Args>
-void requireAll(T* stage, Args... rest)
+void AbstractStage::requireAll(T* stage, Args... rest)
 {
     require(stage);
     requireAll(rest...);
