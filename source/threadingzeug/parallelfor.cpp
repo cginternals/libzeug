@@ -18,7 +18,7 @@ void parallel_for(int start, int end, std::function<void(int i)> callback)
 #else
 
 
-    const int numberOfThreads = static_cast<int>(std::thread::hardware_concurrency());
+    const int numberOfThreads = std::max(2, static_cast<int>(std::thread::hardware_concurrency()));
 	std::vector<std::thread> threads(numberOfThreads);
 	
 	for (int i = 0; i < numberOfThreads; ++i)
@@ -34,6 +34,14 @@ void parallel_for(int start, int end, std::function<void(int i)> callback)
 		thread.join();
 
 #endif
+}
+
+void sequential_for(int start, int end, std::function<void(int i)> callback)
+{
+	for (int i = start; i < end; ++i)
+	{
+		callback(i);
+	}
 }
 
 } // namespace zeug
