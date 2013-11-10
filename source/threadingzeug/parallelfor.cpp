@@ -1,6 +1,7 @@
 
 #include <thread>
 #include <vector>
+#include <algorithm>
 
 #include <threadingzeug/parallelfor.h>
 
