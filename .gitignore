@@ -13,10 +13,15 @@
 *.a
 
 # Build
-build/
+build
+build.release
+build.debug
+release_build
+debug_build
 
 # QtCreator
 CMakeLists.txt.user
+
 /_configure.bat
 /_open-project.bat
 /_start-cmake-gui.bat
