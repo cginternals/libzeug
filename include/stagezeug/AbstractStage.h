@@ -9,19 +9,16 @@
 namespace zeug 
 {
 
-class StageData;
+class AbstractStageOutput;
+class AbstractStageInput;
 
 class STAGEZEUG_API AbstractStage
 {
 public:
-    AbstractStage(StageData * output);
+    AbstractStage();
 	virtual ~AbstractStage();
 
-    const StageData * output() const;
-
     bool execute();
-
-    void require(AbstractStage * stage);
 
     void setEnabled(bool enabled);
     bool isEnabled() const;
@@ -30,20 +27,16 @@ public:
     void setName(const std::string & name);
 
     bool dependsOn(const AbstractStage * stage) const;
-
-	template <typename T, typename... Args>
-    void requireAll(T * stage, Args... rest);
-
 public:
 	Signal<> dependenciesChanged;
 
 protected:
-    void requireAll();
+    void addOutput(AbstractStageOutput & output);
+    void addInput(AbstractStageInput & input);
 
-    void addInput(const StageData * input);
-    void invalidateOutput();
-
-    virtual void inputAdded(const StageData * input);
+    bool anyInputChanged() const;
+    void validateOutputs();
+    void validateInputs();
 
     virtual void process() = 0;
 
@@ -51,10 +44,9 @@ protected:
     bool m_enabled;
     std::string m_name;
     
-    StageData * m_output;
-    std::set<const StageData*> m_inputs;
+    std::set<AbstractStageOutput*> m_outputs;
+    std::set<AbstractStageInput*> m_inputs;
 };
 
 } // namespace zeug
 
-#include "AbstractStage.hpp"

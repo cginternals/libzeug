@@ -1,46 +1,54 @@
 
-#include <iostream>
+#include <algorithm>
 
-#include <stagezeug/StageData.h>
+#include <stagezeug/StageInput.h>
+#include <stagezeug/StageOutput.h>
 #include <stagezeug/AbstractStage.h>
 
 namespace zeug 
 {
 
-AbstractStage::AbstractStage(StageData * output)
-: m_output(output)
-, m_enabled(true)
+AbstractStage::AbstractStage()
+: m_enabled(true)
 {
-	if (m_output)
-	{
-		m_output->setOwner(this);
-	}
 }
 
 AbstractStage::~AbstractStage()
 {
 }
 
-void AbstractStage::requireAll() 
-{
-}
-
-const StageData * AbstractStage::output() const
-{
-    return m_output;
-}
-
 bool AbstractStage::execute()
 {
-    if (!m_enabled || (m_output && m_output->isValid()))
+    if (!m_enabled || !anyInputChanged())
         return false;
 
     process();
     
-    if (m_output)
-	    m_output->setToValid();
+    validateOutputs();
+    validateInputs();
     
     return true;
+}
+
+bool AbstractStage::anyInputChanged() const
+{
+    return std::any_of(m_inputs.begin(), m_inputs.end(), [](const AbstractStageInput * input) { return input->hasChanged(); });
+}
+
+void AbstractStage::validateOutputs()
+{
+    for (AbstractStageOutput * output : m_outputs)
+    {
+        output->validate();
+    }
+}
+
+void AbstractStage::validateInputs()
+{
+    for (AbstractStageInput * input : m_inputs)
+    {
+        input->processed();
+    }
 }
 
 void AbstractStage::setEnabled(bool enabled)
@@ -63,57 +71,31 @@ void AbstractStage::setName(const std::string & name)
     m_name = name;
 }
 
-void AbstractStage::require(AbstractStage * stage)
-{
-	if (!stage)
-		return;
-	
-	if (stage->dependsOn(this))
-	{
-		std::cout << "Circular dependency detected." << std::endl;
-		return;
-	}
-	
-	addInput(stage->output());
-}
-
-void AbstractStage::addInput(const StageData * input)
-{
-    if (!input)
-        return;
-
-    m_inputs.insert(input);
-    input->invalidated.connect([this]() {
-        invalidateOutput();
-    });
-
-    inputAdded(input);
-    dependenciesChanged();
-}
-
-void AbstractStage::inputAdded(const StageData * input)
-{
-}
-
-void AbstractStage::invalidateOutput()
-{
-        if (m_output)
-            m_output->invalidate();
-}
-
 bool AbstractStage::dependsOn(const AbstractStage * stage) const
 {
-    for (const StageData * input: m_inputs)
+    for (AbstractStageInput * input : m_inputs)
     {
-        const AbstractStage* inputOwner = input->owner();
-        if (!inputOwner)
+        const AbstractStage* owner = input->owner();
+        if (!owner)
             continue;
 
-        if (inputOwner == stage || inputOwner->dependsOn(stage))
+        if (owner == stage || owner->dependsOn(stage))
             return true;
     }
 
     return false;
+}
+
+void AbstractStage::addOutput(AbstractStageOutput & output)
+{
+    output.setOwner(this);
+    m_outputs.insert(&output);
+}
+
+void AbstractStage::addInput(AbstractStageInput & input)
+{
+    input.setOwner(this);
+    m_inputs.insert(&input);
 }
 
 } // namespace zeug

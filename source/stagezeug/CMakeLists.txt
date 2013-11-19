@@ -18,16 +18,17 @@ set(source_path "${CMAKE_CURRENT_SOURCE_DIR}")
 set(headers
     ${header_path}/stagezeug.h
     ${header_path}/AbstractStage.h
-    ${header_path}/AbstractStage.hpp
     ${header_path}/Pipeline.h
     ${header_path}/Pipeline.hpp
-    ${header_path}/StageData.h
+    ${header_path}/StageInput.h
+    ${header_path}/StageOutput.h
 )
 
 set(sources
     ${source_path}/AbstractStage.cpp
     ${source_path}/Pipeline.cpp
-    ${source_path}/StageData.cpp
+    ${source_path}/StageInput.cpp
+    ${source_path}/StageOutput.cpp
 )
 
 # Group source files
