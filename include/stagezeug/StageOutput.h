@@ -41,6 +41,8 @@ public:
 
     T & data();
     const T & data() const;
+
+    const T & operator=(const T & value);
 protected:
     T m_data;
 };
@@ -60,6 +62,13 @@ template <typename T>
 const T & StageOutput<T>::data() const
 {
     return m_data;
+}
+
+template <typename T>
+const T & StageOutput<T>::operator=(const T & value)
+{
+    m_data = value;
+    return value;
 }
 
 } // namespace zeug

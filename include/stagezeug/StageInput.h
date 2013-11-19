@@ -70,6 +70,8 @@ public:
     T & data();
     const T & data() const;
 
+    //const T & operator=(const T & value);
+
     virtual bool isUsable() const override;
 protected:
     T m_data;
