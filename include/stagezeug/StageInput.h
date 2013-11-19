@@ -29,6 +29,9 @@ public:
 
     virtual bool isConnected() const = 0;
 
+    bool isOptional() const;
+    void setOptional(bool optional);
+
 protected:
     void setOwner(AbstractStage * owner);
 
@@ -37,7 +40,7 @@ protected:
 protected:
     AbstractStage * m_owner;
     bool m_hasChanged;
-
+    bool m_optional;
 };
 
 template <typename T>

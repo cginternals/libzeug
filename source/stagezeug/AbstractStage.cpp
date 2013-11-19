@@ -1,4 +1,5 @@
 
+#include <iostream>
 #include <algorithm>
 
 #include <stagezeug/StageInput.h>
@@ -19,8 +20,14 @@ AbstractStage::~AbstractStage()
 
 bool AbstractStage::execute()
 {
-    if (!m_enabled || !anyInputChanged())
+    if (!m_enabled || !needsToProcess())
         return false;
+
+    if (!allInputsConnected())
+    {
+        std::cout << "Inputs are not connected." << std::endl;
+        return false;
+    }
 
     process();
     
@@ -30,9 +37,18 @@ bool AbstractStage::execute()
     return true;
 }
 
-bool AbstractStage::anyInputChanged() const
+bool AbstractStage::needsToProcess() const
 {
-    return std::any_of(m_inputs.begin(), m_inputs.end(), [](const AbstractStageInput * input) { return input->hasChanged(); });
+    return m_inputs.empty() || std::any_of(m_inputs.begin(), m_inputs.end(), [](const AbstractStageInput * input) {
+        return input->hasChanged();
+    });
+}
+
+bool AbstractStage::allInputsConnected() const
+{
+    return std::all_of(m_inputs.begin(), m_inputs.end(), [](const AbstractStageInput * input) {
+        return input->isOptional() || input->isConnected();
+    });
 }
 
 void AbstractStage::validateOutputs()

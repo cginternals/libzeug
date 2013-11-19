@@ -10,6 +10,7 @@ namespace zeug
 AbstractStageInput::AbstractStageInput()
 : m_hasChanged(false)
 , m_owner(nullptr)
+, m_optional(false)
 {
 }
 
@@ -25,6 +26,16 @@ const AbstractStage * AbstractStageInput::owner() const
 void AbstractStageInput::setOwner(AbstractStage * owner)
 {
     m_owner = owner;
+}
+
+bool AbstractStageInput::isOptional() const
+{
+    return m_optional;
+}
+
+void AbstractStageInput::setOptional(bool optional)
+{
+    m_optional = optional;
 }
 
 bool AbstractStageInput::hasChanged() const

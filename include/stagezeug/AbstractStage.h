@@ -34,7 +34,8 @@ protected:
     void addOutput(AbstractStageOutput & output);
     void addInput(AbstractStageInput & input);
 
-    bool anyInputChanged() const;
+    bool needsToProcess() const;
+    bool allInputsConnected() const;
     void validateOutputs();
     void validateInputs();
 
