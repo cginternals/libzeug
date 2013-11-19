@@ -41,6 +41,8 @@ protected:
     bool inputsUsable() const;
     void markInputsProcessed();
 
+    void invalidateOutputs();
+
     virtual void process() = 0;
 
 protected:

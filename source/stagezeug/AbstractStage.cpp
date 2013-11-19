@@ -61,6 +61,14 @@ void AbstractStage::markInputsProcessed()
     }
 }
 
+void AbstractStage::invalidateOutputs()
+{
+    for (AbstractStageOutput * output : m_outputs)
+    {
+        output->invalidate();
+    }
+}
+
 void AbstractStage::setEnabled(bool enabled)
 {
     m_enabled = enabled;
