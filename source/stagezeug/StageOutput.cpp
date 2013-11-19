@@ -6,8 +6,7 @@ namespace zeug
 {
 
 AbstractStageOutput::AbstractStageOutput()
-: m_valid(false)
-, m_owner(nullptr)
+: m_owner(nullptr)
 {
 }
 
@@ -25,20 +24,9 @@ void AbstractStageOutput::setOwner(AbstractStage * owner)
 	m_owner = owner;
 }
 
-bool AbstractStageOutput::isValid() const
-{
-    return m_valid;
-}
-
 void AbstractStageOutput::invalidate()
 {
-    m_valid = false;
     invalidated();
-}
-
-void AbstractStageOutput::validate()
-{
-    m_valid = true;
 }
 
 } // namespace zeug

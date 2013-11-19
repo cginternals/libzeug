@@ -50,7 +50,7 @@ void Pipeline::execute()
 void Pipeline::sortDependencies()
 {
     std::sort(m_stages.begin(), m_stages.end(), [](AbstractStage* stage1, AbstractStage* stage2) {
-        return stage2->dependsOn(stage1);
+        return stage2->requires(stage1);
     });
     m_dependenciesSorted = true;
 }

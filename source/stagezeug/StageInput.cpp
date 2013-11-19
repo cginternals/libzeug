@@ -53,5 +53,10 @@ void AbstractStageInput::processed()
     m_hasChanged = false;
 }
 
+void AbstractStageInput::requireStage(const AbstractStage * stage)
+{
+    m_owner->require(stage);
+}
+
 
 } // namespace zeug

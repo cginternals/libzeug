@@ -21,9 +21,7 @@ public:
 
     const AbstractStage * owner() const;
 
-    bool isValid() const;
     void invalidate();
-    void validate();
 
 public:
     Signal<> invalidated;
@@ -33,12 +31,10 @@ protected:
 
 protected:
     AbstractStage * m_owner;
-    bool m_valid;
-
 };
 
 template <typename T>
-class STAGEZEUG_API StageOutput
+class STAGEZEUG_API StageOutput : public AbstractStageOutput
 {
 public:
     StageOutput();

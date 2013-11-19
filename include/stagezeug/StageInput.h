@@ -25,9 +25,11 @@ public:
     const AbstractStage * owner() const;
 
     bool hasChanged() const;
+
+    void changed();
     void processed();
 
-    virtual bool isConnected() const = 0;
+    virtual bool isUsable() const = 0;
 
     bool isOptional() const;
     void setOptional(bool optional);
@@ -35,8 +37,7 @@ public:
 protected:
     void setOwner(AbstractStage * owner);
 
-    void changed();
-
+    void requireStage(const AbstractStage * stage);
 protected:
     AbstractStage * m_owner;
     bool m_hasChanged;
@@ -44,42 +45,68 @@ protected:
 };
 
 template <typename T>
-class STAGEZEUG_API StageInput
+class STAGEZEUG_API StageInputSlot : public AbstractStageInput
 {
 public:
-    StageInput();
+    StageInputSlot();
 
     const T & data() const;
 
     void connectTo(StageOutput<T> & output);
-    virtual bool isConnected() const override;
+    StageOutput<T> & operator=(StageOutput<T> & output);
+
+    virtual bool isUsable() const override;
 protected:
     StageOutput<T>* m_output;
     ScopedConnection m_connection;
 };
 
 template <typename T>
-StageInput<T>::StageInput()
+class STAGEZEUG_API StageInput : public AbstractStageInput
+{
+public:
+    StageInput();
+
+    T & data();
+    const T & data() const;
+
+    virtual bool isUsable() const override;
+protected:
+    T m_data;
+};
+
+template <typename T>
+StageInputSlot<T>::StageInputSlot()
 : m_output(nullptr)
 {
 }
 
 template <typename T>
-bool StageInput<T>::isConnected() const
+bool StageInputSlot<T>::isUsable() const
 {
     return m_output != nullptr;
 }
 
 template <typename T>
-const T & StageInput<T>::data() const
+const T & StageInputSlot<T>::data() const
 {
     return m_output->data();
 }
 
 template <typename T>
-void StageInput<T>::connectTo(StageOutput<T> & output)
+StageOutput<T> & StageInputSlot<T>::operator=(StageOutput<T> & output)
 {
-    if (output.owner()->dependsOn(this->owner()))
+    connectTo(output);
+    return output;
+}
+
+template <typename T>
+void StageInputSlot<T>::connectTo(StageOutput<T> & output)
+{
+    if (!this->owner())
+        return;
+
+    if (output.owner() && output.owner()->requires(this->owner()))
     {
         std::cout << "Circular dependency detected." << std::endl;
         return;
@@ -87,10 +114,37 @@ void StageInput<T>::connectTo(StageOutput<T> & output)
 
     m_output = &output;
 
+    requireStage(output.owner());
+
     m_connection = m_output->invalidated.connect([this]() {
         this->changed();
     });
     this->changed();
+}
+
+
+template <typename T>
+StageInput<T>::StageInput()
+{
+    changed();
+}
+
+template <typename T>
+bool StageInput<T>::isUsable() const
+{
+    return true;
+}
+
+template <typename T>
+T & StageInput<T>::data()
+{
+    return m_data;
+}
+
+template <typename T>
+const T & StageInput<T>::data() const
+{
+    return m_data;
 }
 
 } // namespace zeug

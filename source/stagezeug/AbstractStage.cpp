@@ -20,19 +20,21 @@ AbstractStage::~AbstractStage()
 
 bool AbstractStage::execute()
 {
-    if (!m_enabled || !needsToProcess())
+    if (!m_enabled)
         return false;
 
-    if (!allInputsConnected())
+    if (!inputsUsable())
     {
-        std::cout << "Inputs are not connected." << std::endl;
+        std::cout << "Some inputs might not be connected." << std::endl;
         return false;
     }
 
-    process();
+    if (needsToProcess())
+        process();
+    else
+        return false;
     
-    validateOutputs();
-    validateInputs();
+    markInputsProcessed();
     
     return true;
 }
@@ -44,22 +46,14 @@ bool AbstractStage::needsToProcess() const
     });
 }
 
-bool AbstractStage::allInputsConnected() const
+bool AbstractStage::inputsUsable() const
 {
     return std::all_of(m_inputs.begin(), m_inputs.end(), [](const AbstractStageInput * input) {
-        return input->isOptional() || input->isConnected();
+        return input->isUsable() || input->isOptional();
     });
 }
 
-void AbstractStage::validateOutputs()
-{
-    for (AbstractStageOutput * output : m_outputs)
-    {
-        output->validate();
-    }
-}
-
-void AbstractStage::validateInputs()
+void AbstractStage::markInputsProcessed()
 {
     for (AbstractStageInput * input : m_inputs)
     {
@@ -87,15 +81,17 @@ void AbstractStage::setName(const std::string & name)
     m_name = name;
 }
 
-bool AbstractStage::dependsOn(const AbstractStage * stage) const
+void AbstractStage::require(const AbstractStage * stage)
 {
-    for (AbstractStageInput * input : m_inputs)
-    {
-        const AbstractStage* owner = input->owner();
-        if (!owner)
-            continue;
+    m_required.insert(stage);
+    dependenciesChanged();
+}
 
-        if (owner == stage || owner->dependsOn(stage))
+bool AbstractStage::requires(const AbstractStage * stage) const
+{
+    for (const AbstractStage * requiredStage : m_required)
+    {
+        if (requiredStage == stage || requiredStage->requires(stage))
             return true;
     }
 
