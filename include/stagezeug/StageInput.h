@@ -127,6 +127,7 @@ void StageInputSlot<T>::connectTo(StageOutput<T> & output)
 
 template <typename T>
 StageInput<T>::StageInput()
+: m_data()
 {
     changed();
 }

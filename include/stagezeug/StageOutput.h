@@ -49,6 +49,7 @@ protected:
 
 template <typename T>
 StageOutput<T>::StageOutput()
+: m_data()
 {
 }
 
