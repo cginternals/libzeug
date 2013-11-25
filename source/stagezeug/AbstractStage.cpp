@@ -11,6 +11,7 @@ namespace zeug
 
 AbstractStage::AbstractStage()
 : m_enabled(true)
+, m_alwaysProcess(false)
 {
 }
 
@@ -41,7 +42,7 @@ bool AbstractStage::execute()
 
 bool AbstractStage::needsToProcess() const
 {
-    return m_inputs.empty() || std::any_of(m_inputs.begin(), m_inputs.end(), [](const AbstractStageInput * input) {
+    return m_alwaysProcess || m_inputs.empty() || std::any_of(m_inputs.begin(), m_inputs.end(), [](const AbstractStageInput * input) {
         return input->hasChanged();
     });
 }
@@ -77,6 +78,11 @@ void AbstractStage::setEnabled(bool enabled)
 bool AbstractStage::isEnabled() const
 {
     return m_enabled;
+}
+
+void AbstractStage::alwaysProcess(bool on)
+{
+    m_alwaysProcess = on;
 }
 
 const std::string& AbstractStage::name() const

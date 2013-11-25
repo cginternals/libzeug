@@ -37,6 +37,8 @@ protected:
 
     void require(const AbstractStage * stage);
 
+    void alwaysProcess(bool on);
+
     bool needsToProcess() const;
     bool inputsUsable() const;
     void markInputsProcessed();
@@ -47,6 +49,7 @@ protected:
 
 protected:
     bool m_enabled;
+    bool m_alwaysProcess;
     std::string m_name;
 
     std::set<const AbstractStage*> m_required;
