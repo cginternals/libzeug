@@ -40,9 +40,23 @@ Tree * TreeXmlParser::createTreeFromFile(const QString & filename)
 	if (!xmlReader.parse(source))
 		return nullptr;
 
-    parser.tree()->setName(QFileInfo(filename).baseName().toStdString());
+	parser.tree()->setName(QFileInfo(filename).baseName().toStdString());
 
 	return parser.tree();
+}
+
+QList<Tree*> TreeXmlParser::createTreesFromFile(const QString & filename)
+{
+	Tree* tree = createTreeFromFile(filename);
+	
+	if (tree)
+	{
+		return QList<Tree*>() << tree;
+	}
+	else
+	{
+		return QList<Tree*>();
+	}
 }
 
 Tree * TreeXmlParser::tree()

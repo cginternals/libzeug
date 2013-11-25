@@ -2,6 +2,7 @@
 
 #include <QtXml/QXmlDefaultHandler>
 #include <QString>
+#include <QList>
 
 #include <treezeug/Tree.h>
 #include <treeimportzeug/treeimportzeug.h>
@@ -17,6 +18,7 @@ public:
 	TreeXmlParser();
 	
 	static Tree * createTreeFromFile(const QString& filename);
+	static QList<Tree*> createTreesFromFile(const QString& filename);
 
 	Tree * tree();
 
