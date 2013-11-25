@@ -1,4 +1,3 @@
-
 # LIBZEUG_FOUND
 # LIBZEUG_INCLUDE_DIR
 # LIBZEUG_SIGNAL_LIBRARY
@@ -62,12 +61,12 @@ macro (find LIB_NAME HINT_PATHS)
 		DOC "The ${LIB_NAME} debug library")
 
 	if(${LIB_NAME_UPPER}_LIBRARY AND ${LIB_NAME_UPPER}_LIBRARY_DEBUG)
-		set(debug "debug")
-		set(optimized "optimized")
-	endif()
-
-	set(${LIB_NAME_UPPER}_LIBRARIES ${optimized} ${${LIB_NAME_UPPER}_LIBRARY} ${debug} ${${LIB_NAME_UPPER}_LIBRARY_DEBUG})
-
+                set(${LIB_NAME_UPPER}_LIBRARIES "optimized" ${${LIB_NAME_UPPER}_LIBRARY} "debug" ${${LIB_NAME_UPPER}_LIBRARY_DEBUG})
+        elseif(${LIB_NAME_UPPER}_LIBRARY)
+                set(${LIB_NAME_UPPER}_LIBRARIES ${${LIB_NAME_UPPER}_LIBRARY})
+        elseif(${LIB_NAME_UPPER}_LIBRARY_DEBUG)
+                set(${LIB_NAME_UPPER}_LIBRARIES ${${LIB_NAME_UPPER}_LIBRARY_DEBUG})
+        endif()
 endmacro()
 
 find(signal ${LIB_PATHS})
