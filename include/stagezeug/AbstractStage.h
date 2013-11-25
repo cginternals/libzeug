@@ -9,19 +9,17 @@
 namespace zeug 
 {
 
-class StageData;
+class AbstractStageOutput;
+class AbstractStageInput;
 
 class STAGEZEUG_API AbstractStage
 {
+    friend class AbstractStageInput;
 public:
-    AbstractStage(StageData * output);
+    AbstractStage();
 	virtual ~AbstractStage();
 
-    const StageData * output() const;
-
     bool execute();
-
-    void require(AbstractStage * stage);
 
     void setEnabled(bool enabled);
     bool isEnabled() const;
@@ -29,32 +27,36 @@ public:
     const std::string & name() const;
     void setName(const std::string & name);
 
-    bool dependsOn(const AbstractStage * stage) const;
-
-	template <typename T, typename... Args>
-    void requireAll(T * stage, Args... rest);
-
+    bool requires(const AbstractStage * stage) const;
 public:
 	Signal<> dependenciesChanged;
 
 protected:
-    void requireAll();
+    void addOutput(AbstractStageOutput & output);
+    void addInput(AbstractStageInput & input);
 
-    void addInput(const StageData * input);
-    void invalidateOutput();
+    void require(const AbstractStage * stage);
 
-    virtual void inputAdded(const StageData * input);
+    void alwaysProcess(bool on);
+
+    bool needsToProcess() const;
+    bool inputsUsable() const;
+    void markInputsProcessed();
+
+    void invalidateOutputs();
 
     virtual void process() = 0;
 
 protected:
     bool m_enabled;
+    bool m_alwaysProcess;
     std::string m_name;
+
+    std::set<const AbstractStage*> m_required;
     
-    StageData * m_output;
-    std::set<const StageData*> m_inputs;
+    std::set<AbstractStageOutput*> m_outputs;
+    std::set<AbstractStageInput*> m_inputs;
 };
 
 } // namespace zeug
 
-#include "AbstractStage.hpp"

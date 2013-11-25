@@ -21,7 +21,7 @@ Connection::Id Connection::id() const
 
 void Connection::disconnect()
 {
-	if (m_state)
+    if (m_state && m_state->signal)
 	{
 		m_state->signal->disconnect(*this);
 		detach();
