@@ -38,6 +38,8 @@ Tree * TreeSqliteParser::createTreeFromDatabase(const QString & filename)
 			parser.m_strategy = new ChangesStrategy(parser);
 		
 		parser.m_strategy->processOne();
+
+        parser.database().close();
 	}
 	else
 	{
@@ -59,6 +61,8 @@ QList<Tree*> TreeSqliteParser::createTreesFromDatabase(const QString & filename)
 			parser.m_strategy = new ChangesStrategy(parser);
 
 		parser.m_strategy->processMultiple();
+
+        parser.database().close();
 	}
 	else
 	{

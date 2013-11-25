@@ -20,17 +20,17 @@ public:
 	TreeSqliteParser(const QString & filename);
 	
 	static Tree* createTreeFromDatabase(const QString & filename);
-	static QList<Tree*> createTreesFromDatabase(const QString & filename);
-	
-	Tree * tree();
-	QList<Tree*> & trees();
-	QSqlDatabase & database();
+    static QList<Tree*> createTreesFromDatabase(const QString & filename);
+
+    Tree * tree();
+    QList<Tree*> & trees();
+    QSqlDatabase & database();
 
 protected:
 	QList<Tree*> m_trees;
 	TreeSqliteParserStrategy * m_strategy;
 
-	QSqlDatabase m_database;
+    QSqlDatabase m_database;
 };
 
 } // namespace zeug
