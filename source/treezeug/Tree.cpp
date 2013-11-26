@@ -13,16 +13,19 @@ namespace zeug
 
 Tree::Tree(const std::string & name)
 : m_data(new TreeData(name))
+, m_root(m_data->m_root)
 {
 }
 
 Tree::Tree(std::shared_ptr<TreeData> data)
 : m_data(data)
+, m_root(m_data->m_root)
 {
 }
 
 Tree::Tree(const Tree& other)
 : m_data(other.m_data)
+, m_root(other.m_root)
 {
 }
 
@@ -37,39 +40,9 @@ Tree * Tree::copy() const
 
 Tree * Tree::restrictTo(Node * newRoot) const
 {
-    Tree* newTree = new Tree(m_data->m_name);
-	
-    newTree->m_data->deregisterNode(newTree->root());
-	
-	newRoot->withAllChildrenDo([=](const Node * node) 
-    {
-		Node * newNode = new Node(node->id());
-		newNode->setName(node->name());
-
-		if (newNode->id() == newRoot->id())
-			newTree->setRoot(newNode, newRoot->id());
-		else
-			newTree->getNode(node->parent()->id())->addChild(newNode);
-	});
-
-    for (const std::string & attribute : m_data->m_attributes)
-	{
-		newTree->addAttributeMap(attribute, attributeMapType(attribute));
-
-		newRoot->withAllChildrenDo([=](const Node * node) 
-        {
-			if (node->hasAttribute(attribute))
-			{
-				const Attribute * attr = node->attribute(attribute);
-
-				if (attr->isNumeric())
-					newTree->getNode(node->id())->setAttribute(attribute, attr->numericValue());
-				else
-					newTree->getNode(node->id())->setAttribute(attribute, attr->asNominal()->valueName());
-			}
-		});
-	}
-	return newTree;
+    Tree* newTree = copy();
+    newTree->m_root = newRoot;
+    return newTree;
 }
 
 Tree * Tree::restrictTo(int id) const
