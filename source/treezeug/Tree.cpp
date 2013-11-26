@@ -16,43 +16,23 @@ Tree::Tree(const std::string & name)
 {
 }
 
+Tree::Tree(std::shared_ptr<TreeData> data)
+: m_data(data)
+{
+}
+
+Tree::Tree(const Tree& other)
+: m_data(other.m_data)
+{
+}
+
 Tree::~Tree()
 {
 }
 
 Tree * Tree::copy() const
 {
-    Tree * newTree = new Tree(m_data->m_name);
-
-	nodesDo([=](const Node * node) 
-    {
-		Node * newNode = new Node(node->id());
-		newNode->setName(node->name());
-
-		if (newNode->id() == 0)
-			newTree->setRoot(newNode);
-		else
-			newTree->getNode(node->parent()->id())->addChild(newNode);
-	});
-
-    for (const std::string & attribute : m_data->m_attributes)
-	{
-		newTree->addAttributeMap(attribute, attributeMapType(attribute));
-
-		nodesDo([=](const Node * node) 
-        {
-			if (node->hasAttribute(attribute))
-			{
-				const Attribute * attr = node->attribute(attribute);
-
-				if (attr->isNumeric())
-					newTree->getNode(node->id())->setAttribute(attribute, attr->numericValue());
-				else
-					newTree->getNode(node->id())->setAttribute(attribute, attr->asNominal()->valueName());
-			}
-		});
-	}
-	return newTree;
+    return new Tree(*this);
 }
 
 Tree * Tree::restrictTo(Node * newRoot) const

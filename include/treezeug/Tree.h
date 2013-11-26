@@ -59,6 +59,9 @@ public:
 
 protected:
     std::shared_ptr<TreeData> m_data;
+
+    Tree(const Tree& other);
+    Tree(std::shared_ptr<TreeData> data);
 };
 
 } // namespace zeug
