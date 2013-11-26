@@ -29,6 +29,8 @@ set(sources
     ${source_path}/LinearizedTree.cpp
     ${source_path}/Node.cpp
     ${source_path}/Tree.cpp
+    ${source_path}/TreeData.cpp
+    ${source_path}/TreeData.h
 )
 
 # Group source files
