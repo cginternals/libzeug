@@ -8,14 +8,14 @@ namespace zeug
 {
 
 Node::Node()
-:   m_tree(nullptr)
+:   m_data(nullptr)
 ,   m_id(-1)
 ,   m_parent(nullptr)
 {
 }
 
 Node::Node(int id)
-:   m_tree(nullptr)
+:   m_data(nullptr)
 ,   m_id(id)
 ,   m_parent(nullptr)
 {
@@ -80,17 +80,17 @@ Node * Node::getChildByName(const std::string & name)
 
 void Node::setAttribute(const std::string & name, double value)
 {
-	m_tree->setAttribute(this, name, value);
+    m_data->setAttribute(this, name, value);
 }
 
 void Node::setAttribute(const std::string & name, const std::string & value)
 {
-	m_tree->setAttribute(this, name, value);
+    m_data->setAttribute(this, name, value);
 }
 
 const Attribute * Node::attribute(const std::string & name) const
 {
-	return m_tree->attribute(this, name);
+    return m_data->attribute(this, name);
 }
 
 bool Node::hasAttribute(const std::string & name) const
@@ -140,7 +140,7 @@ void Node::addChild(Node * child)
 {
 	m_children.push_back(child);
 	child->m_parent = this;
-	m_tree->registerNode(child);
+    m_data->registerNode(child);
 }
 
 void Node::reparentChildrenTo(Node * newParent)
@@ -217,11 +217,6 @@ const Node * Node::firstChild() const
 bool Node::hasChildren() const
 {
 	return m_children.size() > 0;
-}
-
-const Tree * Node::tree() const
-{
-	return m_tree;
 }
 
 } // namespace zeug

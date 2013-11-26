@@ -166,7 +166,7 @@ void ChangesStrategy::insertIntoTree(Node* node, Tree* tree, const QHash<Generat
 	
 	tree->getNode(parentIds.value(node->id(), 0))->addChild(node);
 	
-	Q_ASSERT(node->tree() == tree);
+    //Q_ASSERT(node->tree() == tree);
 }
 
 void ChangesStrategy::transferTrees()

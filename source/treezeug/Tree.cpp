@@ -11,27 +11,17 @@ namespace zeug
 {
 
 Tree::Tree(const std::string & name)
-:   m_name(name)
-,   m_root(new Node())
-,   m_nextId(0)
-,   m_depth(0)
+: m_data(new TreeData(name))
 {
-    registerNode(m_root, true);
 }
 
 Tree::~Tree()
 {
-	delete m_root;
-
-	for (const std::pair<std::string, AttributeMap*> & pair : m_attributeMaps)
-	{
-		delete pair.second;
-	}
 }
 
 Tree * Tree::copy() const
 {
-	Tree * newTree = new Tree(m_name);
+    Tree * newTree = new Tree(m_data->m_name);
 
 	nodesDo([=](const Node * node) 
     {
@@ -44,7 +34,7 @@ Tree * Tree::copy() const
 			newTree->getNode(node->parent()->id())->addChild(newNode);
 	});
 
-	for (const std::string & attribute : m_attributes)
+    for (const std::string & attribute : m_data->m_attributes)
 	{
 		newTree->addAttributeMap(attribute, attributeMapType(attribute));
 
@@ -66,9 +56,9 @@ Tree * Tree::copy() const
 
 Tree * Tree::restrictTo(Node * newRoot) const
 {
-	Tree* newTree = new Tree(m_name);
+    Tree* newTree = new Tree(m_data->m_name);
 	
-	newTree->deregisterNode(newTree->root());
+    newTree->m_data->deregisterNode(newTree->root());
 	
 	newRoot->withAllChildrenDo([=](const Node * node) 
     {
@@ -81,7 +71,7 @@ Tree * Tree::restrictTo(Node * newRoot) const
 			newTree->getNode(node->parent()->id())->addChild(newNode);
 	});
 
-	for (const std::string & attribute : m_attributes)
+    for (const std::string & attribute : m_data->m_attributes)
 	{
 		newTree->addAttributeMap(attribute, attributeMapType(attribute));
 
@@ -113,53 +103,50 @@ Tree * Tree::restrictTo(int id) const
 
 const std::string & Tree::name() const
 {
-    return m_name;
+    return m_data->m_name;
 }
 
 void Tree::setName(const std::string & name)
 {
-    m_name = name;
+    m_data->m_name = name;
 }
 
 Node * Tree::root()
 {
-	return m_root;
+    return m_data->m_root;
 }
 
 const Node * Tree::root() const
 {
-	return m_root;
+    return m_data->m_root;
 }
 
 void Tree::setRoot(Node * node, int id)
 {
-	node->m_id = id;
-	registerNode(node, true);
-	node->m_parent = nullptr;
-	m_root = node;
+    m_data->setRoot(node, id);
 }
 
 unsigned Tree::size() const
 {
-	return m_idMap.size();
+    return m_data->m_idMap.size();
 }
 
 int Tree::maxId() const
 {
-	return m_nextId - 1;
+    return m_data->m_nextId - 1;
 }
 
 unsigned Tree::depth() const
 {
-	return m_depth;
+    return m_data->m_depth;
 }
 
 Node * Tree::getNode(int id) const
 {
-	if (!m_idMap.count(id))
+    if (!m_data->m_idMap.count(id))
 		return nullptr;
 
-	return m_idMap.at(id);
+    return m_data->m_idMap.at(id);
 }
 
 Node * Tree::getNodeByPath(const std::string & path, char separator)
@@ -168,12 +155,12 @@ Node * Tree::getNodeByPath(const std::string & path, char separator)
         return nullptr;
 
     if (path == std::to_string(separator)) 
-        return m_root;
+        return m_data->m_root;
 
     std::stringstream ss(path);
 	std::string item;
 
-    Node * node = m_root;
+    Node * node = m_data->m_root;
 
 	std::getline(ss, item, separator);
 	if (!item.empty()) 
@@ -189,12 +176,12 @@ Node * Tree::getNodeByPath(const std::string & path, char separator)
 
 const std::vector<std::string> & Tree::attributes() const
 {
-	return m_attributes;
+    return m_data->m_attributes;
 }
 
 bool Tree::hasAttributeMap(const std::string & name) const
 {
-	return m_attributeMaps.count(name) > 0;
+    return m_data->hasAttributeMap(name);
 }
 
 void Tree::addAttributeMap(const std::string & name, AttributeMap::Type type)
@@ -208,8 +195,8 @@ void Tree::addAttributeMap(const std::string & name, AttributeMap::Type type)
 		return;
 	}
 
-	m_attributeMaps[name] = new AttributeMap(name, type);
-	m_attributes.push_back(name);
+    m_data->m_attributeMaps[name] = new AttributeMap(name, type);
+    m_data->m_attributes.push_back(name);
 }
 
 AttributeMap::Type Tree::attributeMapType(const std::string & name) const
@@ -217,7 +204,7 @@ AttributeMap::Type Tree::attributeMapType(const std::string & name) const
 	if (!hasAttributeMap(name))
 		return AttributeMap::None;
 
-	return m_attributeMaps.at(name)->type();
+    return m_data->m_attributeMaps.at(name)->type();
 }
 
 void Tree::renormalizeAttributeForLeaves(const std::string& attribute)
@@ -225,85 +212,17 @@ void Tree::renormalizeAttributeForLeaves(const std::string& attribute)
     if (!hasAttributeMap(attribute))
         return;
 
-    m_attributeMaps.at(attribute)->renormalizeForLeaves();
-}
-
-void Tree::setAttribute(const Node * node, const std::string & name, double value)
-{
-	if (!hasAttributeMap(name))
-		return;
-
-	m_attributeMaps[name]->addAttribute(node, value);
-}
-
-void Tree::setAttribute(const Node * node, const std::string & name, const std::string & value)
-{
-	if (!m_attributeMaps.count(name))
-		return;
-
-	AttributeMap * map = m_attributeMaps[name];
-	if (map)
-		map->addAttribute(node, value);
-}
-
-const Attribute * Tree::attribute(const Node * node, const std::string & name) const
-{
-	if (!m_attributeMaps.count(name))
-		return nullptr;
-
-	return m_attributeMaps.at(name)->attributeFor(node);
-}
-
-void Tree::registerNode(Node * node, bool silent)
-{
-	node->m_tree = this;
-
-	if (node->m_id >= 0)
-	{
-		m_nextId = std::max(node->m_id + 1, m_nextId+1);
-	}
-	else
-	{
-		node->m_id = m_nextId;
-
-		m_nextId++;
-	}
-
-	if (m_idMap.count(node->m_id))
-	{
-		if (!silent)
-		{
-			std::cout << "Replace node " << node->m_id << std::endl;
-		}
-
-		m_idMap[node->m_id]->reparentChildrenTo(node);
-
-		delete m_idMap[node->m_id];
-	}
-
-	m_depth = std::max(m_depth, node->depth());
-
-	m_idMap[node->m_id] = node;
-}
-
-void Tree::deregisterNode(Node * node)
-{
-	if (m_root == node)
-		m_root = nullptr;
-	
-	node->m_tree = nullptr;
-
-	m_idMap.erase(node->m_id);
+    m_data->m_attributeMaps.at(attribute)->renormalizeForLeaves();
 }
 
 void Tree::nodesDo(std::function<void(Node*)> action)
 {
-	m_root->withAllChildrenDo(action);
+    m_data->m_root->withAllChildrenDo(action);
 }
 
 void Tree::nodesDo(std::function<void(const Node*)> action) const
 {
-	const_cast<const Node*>(m_root)->withAllChildrenDo(action); // const cast to prevent unnecessary ambiguous warning (gcc compiler bug?)
+    const_cast<const Node*>(m_data->m_root)->withAllChildrenDo(action); // const cast to prevent unnecessary ambiguous warning (gcc compiler bug?)
 }
 
 void Tree::leavesDo(std::function<void(Node*)> action)
@@ -328,7 +247,7 @@ void Tree::nodesOrderedByDepthDo(std::function<void(Node*)> action)
 {
 	std::queue<Node*> queue;
 
-	queue.push(m_root);
+    queue.push(m_data->m_root);
 
 	while (!queue.empty())
 	{
@@ -346,7 +265,7 @@ void Tree::nodesOrderedByDepthDo(std::function<void(const Node*)> action) const
 {
 	std::queue<const Node*> queue;
 
-	queue.push(m_root);
+    queue.push(m_data->m_root);
 
 	while (!queue.empty())
 	{
@@ -358,6 +277,107 @@ void Tree::nodesOrderedByDepthDo(std::function<void(const Node*)> action) const
 		for (const Node * child : current->children())
 			queue.push(child);
 	}
+}
+
+
+TreeData::TreeData(const std::string & name)
+:   m_name(name)
+,   m_root(new Node())
+,   m_nextId(0)
+,   m_depth(0)
+{
+    registerNode(m_root, true);
+}
+
+TreeData::~TreeData()
+{
+    delete m_root;
+
+    for (const std::pair<std::string, AttributeMap*> & pair : m_attributeMaps)
+    {
+        delete pair.second;
+    }
+}
+
+bool TreeData::hasAttributeMap(const std::string & name) const
+{
+    return m_attributeMaps.count(name) > 0;
+}
+
+void TreeData::setAttribute(const Node * node, const std::string & name, double value)
+{
+    if (!hasAttributeMap(name))
+        return;
+
+    m_attributeMaps[name]->addAttribute(node, value);
+}
+
+void TreeData::setAttribute(const Node * node, const std::string & name, const std::string & value)
+{
+    if (!m_attributeMaps.count(name))
+        return;
+
+    AttributeMap * map = m_attributeMaps[name];
+    if (map)
+        map->addAttribute(node, value);
+}
+
+const Attribute * TreeData::attribute(const Node * node, const std::string & name) const
+{
+    if (!m_attributeMaps.count(name))
+        return nullptr;
+
+    return m_attributeMaps.at(name)->attributeFor(node);
+}
+
+void TreeData::registerNode(Node * node, bool silent)
+{
+    node->m_data = this;
+
+    if (node->m_id >= 0)
+    {
+        m_nextId = std::max(node->m_id + 1, m_nextId+1);
+    }
+    else
+    {
+        node->m_id = m_nextId;
+
+        m_nextId++;
+    }
+
+    if (m_idMap.count(node->m_id))
+    {
+        if (!silent)
+        {
+            std::cout << "Replace node " << node->m_id << std::endl;
+        }
+
+        m_idMap[node->m_id]->reparentChildrenTo(node);
+
+        delete m_idMap[node->m_id];
+    }
+
+    m_depth = std::max(m_depth, node->depth());
+
+    m_idMap[node->m_id] = node;
+}
+
+void TreeData::deregisterNode(Node * node)
+{
+    if (m_root == node)
+        m_root = nullptr;
+
+    node->m_data = nullptr;
+
+    m_idMap.erase(node->m_id);
+}
+
+void TreeData::setRoot(Node * node, int id)
+{
+    node->m_id = id;
+    registerNode(node, true);
+    node->m_parent = nullptr;
+    m_root = node;
 }
 
 } // namespace zeug

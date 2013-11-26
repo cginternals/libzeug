@@ -11,11 +11,11 @@
 namespace zeug
 {
 
-class Tree;
+class TreeData;
 
 class TREEZEUG_API Node
 {
-	friend class Tree;
+    friend class TreeData;
 
 public:
 	Node();
@@ -57,15 +57,13 @@ public:
 	const Node * previousSibling() const;
 	const Node * nextSibling() const;
 	const Node * firstChild() const;
-	std::vector<Node*> siblings() const;
-
-	const Tree * tree() const;
+    std::vector<Node*> siblings() const;
 
 protected:
     void reparentChildrenTo(Node* newParent);
 
 protected:
-	Tree * m_tree;
+    TreeData* m_data;
 	int m_id;
 	Node * m_parent;
 	std::vector<Node*> m_children;
