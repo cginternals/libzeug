@@ -32,6 +32,7 @@ public:
 	Node * getChildByName(const std::string & name);
 
 	int id() const;
+    int size() const;
 
 	void setAttribute(const std::string & name, double value);
 	void setAttribute(const std::string & name, const std::string & value);
@@ -61,9 +62,11 @@ public:
 
 protected:
     void reparentChildrenTo(Node* newParent);
+    void manipulateCachedSize(int delta);
 
 protected:
     TreeData* m_data;
+    int m_size;
 	int m_id;
 	Node * m_parent;
 	std::vector<Node*> m_children;

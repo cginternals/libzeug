@@ -9,16 +9,18 @@ namespace zeug
 {
 
 Node::Node()
-:   m_data(nullptr)
-,   m_id(-1)
-,   m_parent(nullptr)
+: m_data(nullptr)
+, m_id(-1)
+, m_size(1)
+, m_parent(nullptr)
 {
 }
 
 Node::Node(int id)
-:   m_data(nullptr)
-,   m_id(id)
-,   m_parent(nullptr)
+: m_data(nullptr)
+, m_id(id)
+, m_size(1)
+, m_parent(nullptr)
 {
 }
 
@@ -43,6 +45,11 @@ bool Node::isRoot() const
 int Node::id() const
 {
 	return m_id;
+}
+
+int Node::size() const
+{
+    return m_size;
 }
 
 const std::string & Node::name() const
@@ -142,6 +149,7 @@ void Node::addChild(Node * child)
 	m_children.push_back(child);
 	child->m_parent = this;
     m_data->registerNode(child);
+    manipulateCachedSize(child->m_size);
 }
 
 void Node::reparentChildrenTo(Node * newParent)
@@ -149,10 +157,12 @@ void Node::reparentChildrenTo(Node * newParent)
 	for (Node * child : m_children)
 	{
 		newParent->m_children.push_back(child);
-		child->m_parent = newParent;
+        child->m_parent = newParent;
+        newParent->manipulateCachedSize(child->m_size);
+        manipulateCachedSize(-child->m_size);
 	}
 
-	m_children.clear();
+    m_children.clear();
 }
 
 unsigned Node::depth() const
@@ -218,6 +228,16 @@ const Node * Node::firstChild() const
 bool Node::hasChildren() const
 {
 	return m_children.size() > 0;
+}
+
+void Node::manipulateCachedSize(int delta)
+{
+    m_size += delta;
+
+    if (m_parent)
+    {
+        m_parent->manipulateCachedSize(delta);
+    }
 }
 
 } // namespace zeug

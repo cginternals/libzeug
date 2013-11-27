@@ -98,7 +98,7 @@ void Tree::setRoot(Node * node, int id)
 
 unsigned Tree::size() const
 {
-    return m_data->m_idMap.size();
+    return m_root->size();
 }
 
 int Tree::maxId() const
@@ -187,12 +187,12 @@ void Tree::renormalizeAttributeForLeaves(const std::string& attribute)
 
 void Tree::nodesDo(std::function<void(Node*)> action)
 {
-    m_data->m_root->withAllChildrenDo(action);
+    m_root->withAllChildrenDo(action);
 }
 
 void Tree::nodesDo(std::function<void(const Node*)> action) const
 {
-    const_cast<const Node*>(m_data->m_root)->withAllChildrenDo(action); // const cast to prevent unnecessary ambiguous warning (gcc compiler bug?)
+    const_cast<const Node*>(m_root)->withAllChildrenDo(action); // const cast to prevent unnecessary ambiguous warning (gcc compiler bug?)
 }
 
 void Tree::leavesDo(std::function<void(Node*)> action)
@@ -217,7 +217,7 @@ void Tree::nodesOrderedByDepthDo(std::function<void(Node*)> action)
 {
 	std::queue<Node*> queue;
 
-    queue.push(m_data->m_root);
+    queue.push(m_root);
 
 	while (!queue.empty())
 	{
@@ -235,7 +235,7 @@ void Tree::nodesOrderedByDepthDo(std::function<void(const Node*)> action) const
 {
 	std::queue<const Node*> queue;
 
-    queue.push(m_data->m_root);
+    queue.push(m_root);
 
 	while (!queue.empty())
 	{
