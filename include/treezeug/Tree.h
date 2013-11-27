@@ -58,8 +58,8 @@ public:
 	Tree * restrictTo(int id) const;
 
 protected:
-    Node* m_root;
     std::shared_ptr<TreeData> m_data;
+    mutable Node* m_root;
 
     Tree(const Tree& other);
     Tree(std::shared_ptr<TreeData> data);

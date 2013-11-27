@@ -67,16 +67,32 @@ void Tree::setName(const std::string & name)
 
 Node * Tree::root()
 {
-    return m_data->m_root;
+    if (m_root == nullptr)
+    {
+        m_root = m_data->m_root;
+    }
+
+    return m_root;
 }
 
 const Node * Tree::root() const
 {
-    return m_data->m_root;
+    if (m_root == nullptr)
+    {
+        m_root = m_data->m_root;
+    }
+
+    return m_root;
 }
 
 void Tree::setRoot(Node * node, int id)
 {
+    if (m_root == m_data->m_root)
+    {
+        std::cout << "#warning: replacing inner root while Trees have pointers to old root";
+        m_root = nullptr;
+    }
+
     m_data->setRoot(node, id);
 }
 
