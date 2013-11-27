@@ -27,7 +27,9 @@ public:
 
 public:
 	LinearizedTree();
-	LinearizedTree(const Tree * tree, Algorithm strategy);
+    LinearizedTree(const Tree * tree, Algorithm strategy);
+
+    LinearizedTree* copy();
 
 	void linearize();
 	void clear();
@@ -68,6 +70,8 @@ protected:
 	std::vector<const Node*> m_nodes;
 	std::unordered_map<const Node*, int> m_indices;
     std::vector<std::pair<int, int>> m_treeDepthTresholds;
+
+    LinearizedTree(const LinearizedTree& other);
 };
 
 } // namespace zeug

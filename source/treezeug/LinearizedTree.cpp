@@ -23,6 +23,21 @@ LinearizedTree::LinearizedTree(const Tree * tree, Algorithm strategy)
 	linearize();
 }
 
+LinearizedTree::LinearizedTree(const LinearizedTree& other)
+: m_tree(other.m_tree->copy())
+, m_strategy(other.m_strategy)
+, m_nextIndex(other.m_nextIndex)
+, m_nodes(other.m_nodes)
+, m_indices(other.m_indices)
+, m_treeDepthTresholds(other.m_treeDepthTresholds)
+{
+}
+
+LinearizedTree* LinearizedTree::copy()
+{
+    return new LinearizedTree(*this);
+}
+
 const Tree * LinearizedTree::tree() const
 {
 	return m_tree;
