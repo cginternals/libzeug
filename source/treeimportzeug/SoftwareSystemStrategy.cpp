@@ -1,34 +1,41 @@
-
-
-#include <treeimportzeug/TreeXmlParser.h>
 #include <treeimportzeug/SoftwareSystemStrategy.h>
 
+#include <treezeug/Tree.h>
 
 namespace zeug
 {
 
-SoftwareSystemStrategy::SoftwareSystemStrategy(TreeXmlParser & parser)
-:   TreeXmlParserStrategy(parser)
+SoftwareSystemStrategy::SoftwareSystemStrategy()
 {
 }
 
-bool SoftwareSystemStrategy::startDocument()
+QSet<QString> SoftwareSystemStrategy::wantedFileSuffixes() const
 {
-	return true;
+    return QSet<QString>() << "xml";
 }
 
-bool SoftwareSystemStrategy::endDocument()
+bool SoftwareSystemStrategy::wantsToProcess(const QString& tagName, const QXmlAttributes & attributes) const
 {
-	m_parser.tree()->root()->setName("<root>");
-
-	return true;
+	return tagName == "hpiSoftwareSystem";
 }
 
-bool SoftwareSystemStrategy::startElement(
-    const QString & namespaceURI
-,   const QString & localName
-,   const QString & name
-,   const QXmlAttributes & attributes)
+void SoftwareSystemStrategy::clear()
+{
+	m_currentMetricName = "";
+	m_stack.clear();
+	m_nodes.clear();
+}
+
+void SoftwareSystemStrategy::start()
+{
+}
+
+void SoftwareSystemStrategy::finish()
+{
+	m_tree->root()->setName("<root>");
+}
+
+bool SoftwareSystemStrategy::startElement(const QString & name, const QXmlAttributes & attributes)
 {
 	if (name != "directory" && name != "file")
 	{
@@ -48,9 +55,9 @@ bool SoftwareSystemStrategy::startElement(
 			m_currentMetricName = name;
 
 			if (valueType == "String")
-				m_parser.tree()->addAttributeMap(m_currentMetricName.toStdString(), AttributeMap::Nominal);
+				m_tree->addAttributeMap(m_currentMetricName.toStdString(), AttributeMap::Nominal);
 			else
-				m_parser.tree()->addAttributeMap(m_currentMetricName.toStdString(), AttributeMap::Numeric);
+				m_tree->addAttributeMap(m_currentMetricName.toStdString(), AttributeMap::Numeric);
 		}
 
 		return true;
@@ -58,7 +65,7 @@ bool SoftwareSystemStrategy::startElement(
 
 	if (m_stack.size() == 0)
 	{
-		m_stack.push(m_parser.tree()->root());
+		m_stack.push(m_tree->root());
 		return true;
 	}
 
@@ -75,10 +82,7 @@ bool SoftwareSystemStrategy::startElement(
 	return true;
 }
 
-bool SoftwareSystemStrategy::endElement(
-    const QString & namespaceURI
-,   const QString & localName
-,   const QString & name)
+bool SoftwareSystemStrategy::endElement(const QString & name)
 {
 	if (name != "directory" && name != "file")
 		return true;
@@ -87,7 +91,7 @@ bool SoftwareSystemStrategy::endElement(
 	return true;
 }
 
-bool SoftwareSystemStrategy::characters(const QString & characters)
+bool SoftwareSystemStrategy::handleCharacters(const QString & characters)
 {
 	return true;
 }

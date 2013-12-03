@@ -1,28 +1,39 @@
-
-#include <QHash>
-
-#include <treeimportzeug/TreeSqliteParser.h>
 #include <treeimportzeug/ChangesStrategy.h>
+
+#include <QSqlRecord>
+
+#include <treezeug/Tree.h>
 
 namespace zeug
 {
 
-ChangesStrategy::ChangesStrategy(TreeSqliteParser& parser)
-: TreeSqliteParserStrategy(parser)
-, m_nextId(0)
+ChangesStrategy::ChangesStrategy()
+: m_nextId(0)
 {
 }
 
-void ChangesStrategy::processOne()
+void ChangesStrategy::createTrees()
 {
-	loadAttributes();
-	processRevisions(executeQuery("SELECT id FROM revisions WHERE 1 ORDER BY id LIMIT 1"));
+    loadAttributes();
+    processRevisions(executeQuery("SELECT id FROM revisions WHERE 1 ORDER BY id"));
 }
 
-void ChangesStrategy::processMultiple()
+void ChangesStrategy::clear()
 {
-	loadAttributes();
-	processRevisions(executeQuery("SELECT id FROM revisions WHERE 1 ORDER BY id"));
+    m_attributes.clear();
+    m_attributeValues.clear();
+    m_ids.clear();
+    m_nextId = 0;
+}
+
+QSet<QString> ChangesStrategy::wantedFileSuffixes() const
+{
+    return QSet<QString>() << "sqlite" << "db";
+}
+
+bool ChangesStrategy::wantsToProcess(QSqlDatabase& database) const
+{
+    return !database.record("nodes").isEmpty();
 }
 
 void ChangesStrategy::loadAttributes()
@@ -45,8 +56,6 @@ void ChangesStrategy::processRevisions(const QList<QVariantMap>& revisions)
 	{
 		createTreeForRevision(revision["id"].toUInt());
 	}
-	
-	transferTrees();
 }
 
 void ChangesStrategy::createTreeForRevision(unsigned revisionId)
@@ -167,11 +176,6 @@ void ChangesStrategy::insertIntoTree(Node* node, Tree* tree, const QHash<Generat
 	tree->getNode(parentIds.value(node->id(), 0))->addChild(node);
 	
     //Q_ASSERT(node->tree() == tree);
-}
-
-void ChangesStrategy::transferTrees()
-{
-	m_parser.trees() = m_trees;
 }
 
 int ChangesStrategy::idFor(long hash) const

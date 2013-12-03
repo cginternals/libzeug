@@ -1,34 +1,44 @@
-
-#include <treeimportzeug/TreeXmlParser.h>
-
 #include <treeimportzeug/CityGMLStrategy.h>
+
+#include <treezeug/Tree.h>
 
 namespace zeug
 {
 
-CityGMLStrategy::CityGMLStrategy(TreeXmlParser& parser)
-: TreeXmlParserStrategy(parser)
-, m_nextInformation(None)
+CityGMLStrategy::CityGMLStrategy()
+: m_nextInformation(None)
 {
 }
 
-bool CityGMLStrategy::startDocument()
+QSet<QString> CityGMLStrategy::wantedFileSuffixes() const
 {
-	m_parser.tree()->addAttributeMap("size", AttributeMap::Numeric);
-
-	return true;
+    return QSet<QString>() << "xml";
 }
 
-bool CityGMLStrategy::endDocument()
+bool CityGMLStrategy::wantsToProcess(const QString& tagName, const QXmlAttributes & attributes) const
 {
-	return true;
+	return tagName == "hierarchy";
 }
 
-bool CityGMLStrategy::startElement(
-    const QString & namespaceURI
-,   const QString & localName
-,   const QString & name
-,   const QXmlAttributes & attributes)
+void CityGMLStrategy::clear()
+{
+	m_id = 0;
+	m_label = "";
+	m_parentId = 0;
+	m_size = 0;
+	m_nextInformation = None;
+}
+
+void CityGMLStrategy::start()
+{
+	m_tree->addAttributeMap("size", AttributeMap::Numeric);
+}
+
+void CityGMLStrategy::finish()
+{
+}
+
+bool CityGMLStrategy::startElement(const QString & name, const QXmlAttributes & attributes)
 {
 	if (name == "node")
 	{
@@ -55,10 +65,7 @@ bool CityGMLStrategy::startElement(
 	return true;
 }
 
-bool CityGMLStrategy::endElement(
-    const QString & namespaceURI
-,   const QString & localName
-,   const QString & name)
+bool CityGMLStrategy::endElement(const QString & name)
 {
 	m_nextInformation = None;
 
@@ -71,16 +78,16 @@ bool CityGMLStrategy::endElement(
 
 	if (m_id > 0)
 	{
-		Node* parent = m_parser.tree()->getNode(m_parentId);
+		Node* parent = m_tree->getNode(m_parentId);
 		if (!parent)
 		{
-			parent = m_parser.tree()->root();
+			parent = m_tree->root();
 		}
 
 		parent->addChild(node);
 	}
 	else if (m_id == 0)
-		m_parser.tree()->setRoot(node);
+		m_tree->setRoot(node);
 
 	if (!m_label.isEmpty())
 		node->setName(m_label.toStdString());
@@ -91,7 +98,7 @@ bool CityGMLStrategy::endElement(
 	return true;
 }
 
-bool CityGMLStrategy::characters(const QString & characters)
+bool CityGMLStrategy::handleCharacters(const QString & characters)
 {
 	switch (m_nextInformation)
 	{

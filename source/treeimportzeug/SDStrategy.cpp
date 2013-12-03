@@ -1,35 +1,44 @@
-
-#include <QDateTime>
-
-#include <treeimportzeug/TreeSqliteParser.h>
 #include <treeimportzeug/SDStrategy.h>
 
+#include <QDateTime>
+#include <QSqlRecord>
+
+#include <treezeug/Tree.h>
 
 namespace zeug
 {
 
-SDStrategy::SDStrategy(TreeSqliteParser & parser)
-: TreeSqliteParserStrategy(parser)
-, m_tree(new Tree(""))
+SDStrategy::SDStrategy()
+: m_tree(new Tree(""))
 {
 }
 
-void SDStrategy::processOne()
+void SDStrategy::createTrees()
 {
-	loadDirectories();
-	loadFiles();
-	insertNodesIntoTree();
-	addMetricsForOneTimestamp();
-	transferTrees();
+    loadDirectories();
+    loadFiles();
+    insertNodesIntoTree();
+    addMetrics();
 }
 
-void SDStrategy::processMultiple()
+void SDStrategy::clear()
 {
-	loadDirectories();
-	loadFiles();
-	insertNodesIntoTree();
-	addMetricsForAllTimestamps();
-	transferTrees();
+    delete m_tree;
+
+    m_tree = nullptr;
+    m_nodes.clear();
+    m_parents.clear();
+    m_metrics.clear();
+}
+
+QSet<QString> SDStrategy::wantedFileSuffixes() const
+{
+    return QSet<QString>() << "sqlite" << "db";
+}
+
+bool SDStrategy::wantsToProcess(QSqlDatabase& database) const
+{
+    return database.record("nodes").isEmpty();
 }
 
 void SDStrategy::loadDirectories()
@@ -79,48 +88,7 @@ void SDStrategy::insertIntoTree(Node* node)
 	m_tree->getNode(m_parents.value(node->id()))->addChild(node);
 }
 
-void SDStrategy::addMetricsForOneTimestamp()
-{
-	m_tree->addAttributeMap("id", AttributeMap::Numeric);
-	m_tree->addAttributeMap("depth", AttributeMap::Numeric);
-	
-	m_tree->nodesDo([](Node* node) {
-		node->setAttribute("id", node->id());
-		node->setAttribute("depth", node->depth());
-	});
-	
-	for (const QVariantMap& metricMeta : executeQuery("SELECT id, name, type FROM metricsmeta WHERE 1 ORDER BY id"))
-	{
-		m_tree->addAttributeMap(
-			metricMeta["name"].toString().toStdString(),
-			metricMeta["type"].toInt() == 1 ? AttributeMap::Numeric : AttributeMap::Nominal
-		);
-		
-		m_metrics[metricMeta["id"].toInt()] = metricMeta["name"].toString();
-	}
-	
-	for (const QVariantMap& metricSet : executeQuery("SELECT timestamp FROM metricssets WHERE 1 ORDER BY timestamp LIMIT 1"))
-	{
-        QDateTime time;
-        time.setMSecsSinceEpoch(metricSet["timestamp"].toULongLong());
-
-        m_tree->setName(time.toString("dd.MM.yyyy hh:mm").toStdString());
-
-		for (const QVariantMap& metricData : executeQuery("SELECT itemId, metricId, value FROM metricsdata WHERE timestamp = " + metricSet["timestamp"].toString() + " ORDER BY itemId"))
-		{
-			m_tree->getNode(metricData["itemId"].toInt())->setAttribute(
-				m_metrics[metricData["metricId"].toInt()].toStdString(),
-				metricData["value"].toString().toStdString()
-			);
-		}
-		
-		m_trees << m_tree;
-		
-		return;
-	}
-}
-
-void SDStrategy::addMetricsForAllTimestamps()
+void SDStrategy::addMetrics()
 {
 	m_tree->addAttributeMap("id", AttributeMap::Numeric);
 	m_tree->addAttributeMap("depth", AttributeMap::Numeric);
@@ -161,11 +129,6 @@ void SDStrategy::addMetricsForAllTimestamps()
 	}
 	
 	delete m_tree;
-}
-
-void SDStrategy::transferTrees()
-{
-	m_parser.trees() = m_trees;
 }
 
 } // namespace zeug
