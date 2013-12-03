@@ -23,7 +23,7 @@ void TreeXmlParserStrategy::initialize(const QString& filename)
 
 bool TreeXmlParserStrategy::wantsToProcess()
 {
-	if (!QFileInfo(m_filename).exists() || QFileInfo(m_filename).isFile())
+    if (!QFileInfo(m_filename).exists() || !QFileInfo(m_filename).isFile())
 	{
 		return false;
 	}
