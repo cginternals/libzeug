@@ -23,7 +23,8 @@ void TreeXmlParserStrategy::initialize(const QString& filename)
 
 bool TreeXmlParserStrategy::wantsToProcess()
 {
-    if (!QFileInfo(m_filename).exists() || !QFileInfo(m_filename).isFile())
+    QFileInfo info(m_filename);
+    if (!info.exists() || !info.isFile())
 	{
 		return false;
 	}
@@ -55,7 +56,7 @@ QList<Tree*> TreeXmlParserStrategy::process()
 	QXmlInputSource source(&file);
 	xmlReader.parse(&source);
 
-    return QList<Tree*>() << m_tree;
+    return QList<Tree*>() << m_tree->copy();
 }
 
 void TreeXmlParserStrategy::cleanup()
@@ -71,22 +72,30 @@ void TreeXmlParserStrategy::cleanup()
 
 bool TreeXmlParserStrategy::startDocument()
 {
-	start();
+    if (!m_inWantsToProcess)
+    {
+        m_tree = new Tree(QFileInfo(m_filename).baseName().toStdString());
+
+        start();
+    }
 	
 	return true;
 }
 
 bool TreeXmlParserStrategy::endDocument()
 {
-	m_tree->addAttributeMap("id", AttributeMap::Numeric);
-	m_tree->addAttributeMap("depth", AttributeMap::Numeric);
+    if (!m_inWantsToProcess)
+    {
+        m_tree->addAttributeMap("id", AttributeMap::Numeric);
+        m_tree->addAttributeMap("depth", AttributeMap::Numeric);
 
-	m_tree->nodesDo([](Node * node) {
-		node->setAttribute("id", node->id());
-		node->setAttribute("depth", node->depth());
-	});
-	
-	finish();
+        m_tree->nodesDo([](Node * node) {
+            node->setAttribute("id", node->id());
+            node->setAttribute("depth", node->depth());
+        });
+
+        finish();
+    }
 
     return true;
 }
