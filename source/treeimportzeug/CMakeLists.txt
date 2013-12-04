@@ -27,26 +27,22 @@ set(headers
 
     ${header_path}/ChangesStrategy.h
     ${header_path}/CityGMLStrategy.h
-    ${header_path}/SDStrategy.h
     ${header_path}/SoftwareSystemStrategy.h
     ${header_path}/TreeImport.h
-    ${header_path}/TreeSqliteParser.h
+    ${header_path}/TreeParserStrategy.h
     ${header_path}/TreeSqliteParserStrategy.h
     ${header_path}/TreeStrategy.h
-    ${header_path}/TreeXmlParser.h
     ${header_path}/TreeXmlParserStrategy.h
 )
 
 set(sources
     ${source_path}/ChangesStrategy.cpp
     ${source_path}/CityGMLStrategy.cpp
-    ${source_path}/SDStrategy.cpp
     ${source_path}/SoftwareSystemStrategy.cpp
     ${source_path}/TreeImport.cpp
-    ${source_path}/TreeSqliteParser.cpp
+    ${source_path}/TreeParserStrategy.cpp
     ${source_path}/TreeSqliteParserStrategy.cpp
     ${source_path}/TreeStrategy.cpp
-    ${source_path}/TreeXmlParser.cpp
     ${source_path}/TreeXmlParserStrategy.cpp
 )
 

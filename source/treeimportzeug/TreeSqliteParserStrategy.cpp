@@ -1,23 +1,53 @@
+#include <treeimportzeug/TreeSqliteParserStrategy.h>
 
 #include <QSqlRecord>
 #include <QSqlQuery>
 #include <QSqlError>
 #include <QDebug>
 
-#include <treeimportzeug/TreeSqliteParser.h>
-#include <treeimportzeug/TreeSqliteParserStrategy.h>
-
 namespace zeug
 {
 
-TreeSqliteParserStrategy::TreeSqliteParserStrategy(TreeSqliteParser & parser)
-:   m_parser(parser)
+TreeSqliteParserStrategy::TreeSqliteParserStrategy()
 {
+}
+
+void TreeSqliteParserStrategy::initialize(const QString& filename)
+{
+	if (QSqlDatabase::contains(filename))
+	{
+		m_database = QSqlDatabase::database(filename);
+	}
+	else
+	{
+		m_database = QSqlDatabase::addDatabase("QSQLITE", filename);
+		m_database.setDatabaseName(filename);
+	}
+}
+
+bool TreeSqliteParserStrategy::wantsToProcess()
+{
+	return m_database.open() && wantsToProcess(m_database);
+}
+
+QList<Tree*> TreeSqliteParserStrategy::process()
+{
+	createTrees();
+	
+	return m_trees;
+}
+
+void TreeSqliteParserStrategy::cleanup()
+{
+	clear();
+	
+	m_trees.clear();
+	m_database.close();
 }
 
 QList<QVariantMap> TreeSqliteParserStrategy::executeQuery(const QString & statement) const
 {
-	QSqlQuery query(statement, m_parser.database());
+    QSqlQuery query(statement, m_database);
 	
 	if (query.exec())
 	{

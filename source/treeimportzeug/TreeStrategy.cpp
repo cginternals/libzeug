@@ -1,25 +1,37 @@
-
-#include <treeimportzeug/TreeXmlParser.h>
 #include <treeimportzeug/TreeStrategy.h>
+
+#include <treezeug/Tree.h>
 
 namespace zeug
 {
 
-TreeStrategy::TreeStrategy(TreeXmlParser & parser)
-:   TreeXmlParserStrategy(parser)
+TreeStrategy::TreeStrategy()
 {
 }
 
-bool TreeStrategy::startDocument()
+QSet<QString> TreeStrategy::wantedFileSuffixes() const
 {
-	m_parser.tree()->addAttributeMap("size", AttributeMap::Numeric);
-
-	return true;
+    return QSet<QString>() << "xml";
 }
 
-bool TreeStrategy::endDocument()
+bool TreeStrategy::wantsToProcess(const QString& tagName, const QXmlAttributes & attributes) const
 {
-	Node * root = m_parser.tree()->root();
+	return tagName == "tree";
+}
+
+void TreeStrategy::clear()
+{
+	m_stack.clear();
+}
+
+void TreeStrategy::start()
+{
+	m_tree->addAttributeMap("size", AttributeMap::Numeric);
+}
+
+void TreeStrategy::finish()
+{
+	Node * root = m_tree->root();
 
 	float totalSize = 0;
 	root->childrenDo([&totalSize](Node * node) {
@@ -27,22 +39,16 @@ bool TreeStrategy::endDocument()
 
 	root->setName("<root>");
 	root->setAttribute("size", totalSize);
-
-	return true;
 }
 
-bool TreeStrategy::startElement(
-    const QString & namespaceURI
-,   const QString & localName
-,   const QString & name
-,   const QXmlAttributes & attributes)
+bool TreeStrategy::startElement(const QString & name, const QXmlAttributes & attributes)
 {
 	if (name != "directory" && name != "file")
 		return true;
 
 	if (m_stack.size() == 0)
 	{
-		m_stack.push(m_parser.tree()->root());
+		m_stack.push(m_tree->root());
 		return true;
 	}
 
@@ -57,10 +63,7 @@ bool TreeStrategy::startElement(
 	return true;
 }
 
-bool TreeStrategy::endElement(
-    const QString & namespaceURI
-,   const QString & localName
-,   const QString & name)
+bool TreeStrategy::endElement(const QString & name)
 {
 	if (name != "directory" && name != "file")
 		return true;
@@ -69,7 +72,7 @@ bool TreeStrategy::endElement(
 	return true;
 }
 
-bool TreeStrategy::characters(const QString & characters)
+bool TreeStrategy::handleCharacters(const QString & characters)
 {
 	return true;
 }
