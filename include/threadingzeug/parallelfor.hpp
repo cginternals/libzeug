@@ -1,5 +1,7 @@
 #pragma once
 
+#include <threadingzeug/parallelfor.h>
+
 namespace zeug 
 {
 
