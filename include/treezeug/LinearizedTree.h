@@ -54,6 +54,7 @@ public:
 
     const std::vector<std::pair<int, int>>& thresholds() const;
 	void treeLayerRangesDo(std::function<void(int, int)> callback) const;
+    void reverseTreeLayerRangesDo(std::function<void(int, int)> callback) const;
 
 protected:
 	void linearizeDepthFirst();

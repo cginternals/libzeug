@@ -118,6 +118,19 @@ void LinearizedTree::treeLayerRangesDo(std::function<void(int, int)> callback) c
     }
 }
 
+void LinearizedTree::reverseTreeLayerRangesDo(std::function<void(int, int)> callback) const
+{
+    if (m_strategy == BreadthFirst || m_strategy == OptimizedBreadthFirst)
+    {
+        std::vector<std::pair<int, int>> reverseThresholds;
+        std::reverse_copy(m_treeDepthTresholds.begin(), m_treeDepthTresholds.end(), reverseThresholds.begin());
+        for (const std::pair<int, int>& pair : reverseThresholds)
+        {
+            callback(pair.first, pair.second);
+        }
+    }
+}
+
 std::vector<const Node*>::const_iterator LinearizedTree::begin() const
 {
 	return m_nodes.begin();
