@@ -69,7 +69,6 @@ protected:
 		unsigned index;
 	};
 protected:
-	QList<Tree*> m_trees;
 	QHash<NodeType, QList<Attribute>> m_attributes;
 	QHash<unsigned, QList<QVariantMap>> m_attributeValues;
 

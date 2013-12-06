@@ -28,7 +28,7 @@ void ChangesStrategy::clear()
 
 QSet<QString> ChangesStrategy::wantedFileSuffixes() const
 {
-    return QSet<QString>() << "sqlite" << "db";
+    return QSet<QString>() << "sqlite" << "db" << "sqlite3";
 }
 
 bool ChangesStrategy::wantsToProcess(QSqlDatabase& database) const
