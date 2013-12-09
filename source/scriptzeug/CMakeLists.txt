@@ -1,7 +1,14 @@
+# Find externals
+find_package(V8)
+option(LIBZEUG_USE_V8 "Use V8 for JavaScript backend" ${V8_FOUND})
 
 # Target
 set(target scriptzeug)
 message(STATUS "lib ${target}")
+
+# Include directories
+set(includes
+)
 
 # Libraries
 set(libs
@@ -18,12 +25,31 @@ set(source_path "${CMAKE_CURRENT_SOURCE_DIR}")
 
 set(headers
     ${header_path}/scriptzeug.h
-    ${header_path}/TestClass.h
+    ${header_path}/Backend/AbstractScriptEnvironment.h
+    ${header_path}/ScriptEnvironment.h
 )
 
 set(sources
-    ${source_path}/TestClass.cpp
+    ${source_path}/Backend/AbstractScriptEnvironment.cpp
+    ${source_path}/ScriptEnvironment.cpp
 )
+
+# Backend: JavaScript (V8 engine)
+if (LIBZEUG_USE_V8)
+    add_definitions("-DLIBZEUG_USE_V8")
+    set(includes ${includes}
+        ${V8_INCLUDE_DIR}
+    )
+    set(libs ${libs}
+        ${V8_LIBRARY}
+    )
+    set(sources ${sources}
+        ${source_path}/BackendJavaScript/JSScriptEnvironment.cpp
+    )
+    set(headers ${headers}
+        ${header_path}/BackendJavaScript/JSScriptEnvironment.h
+    )
+endif()
 
 # Group source files
 set(propertyzeug_header_group "Header Files (API)")
@@ -34,6 +60,8 @@ source_group_by_path(${source_path} "\\\\.cpp$|\\\\.c$|\\\\.h$|\\\\.hpp$"
     ${propertyzeug_source_group} ${sources})
 
 # Build library
+
+include_directories(${includes})
 
 if(OPTION_BUILD_STATIC)
     add_library(${target} ${headers} ${sources})
