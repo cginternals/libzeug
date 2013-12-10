@@ -27,11 +27,16 @@ set(headers
     ${header_path}/scriptzeug.h
     ${header_path}/Backend/AbstractScriptEnvironment.h
     ${header_path}/ScriptEnvironment.h
+    ${header_path}/Scriptable.h
+    ${header_path}/Function.h
+    ${header_path}/Variant.h
 )
 
 set(sources
     ${source_path}/Backend/AbstractScriptEnvironment.cpp
     ${source_path}/ScriptEnvironment.cpp
+    ${source_path}/Scriptable.cpp
+    ${source_path}/Variant.cpp
 )
 
 # Backend: JavaScript (V8 engine)

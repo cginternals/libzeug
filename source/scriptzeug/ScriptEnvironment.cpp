@@ -25,11 +25,16 @@ ScriptEnvironment::~ScriptEnvironment()
         delete m_backend;
 }
 
+void ScriptEnvironment::registerObject(const std::string & name, Scriptable * obj)
+{
+    if (m_backend)
+        m_backend->registerObject(name, obj);
+}
+
 void ScriptEnvironment::evaluate(const std::string & code)
 {
-    if (m_backend) {
+    if (m_backend)
         m_backend->evaluate(code);
-    }
 }
 
 

@@ -17,6 +17,7 @@ public:
     JSScriptEnvironment();
     virtual ~JSScriptEnvironment();
 
+    virtual void registerObject(const std::string & name, Scriptable * obj);
     virtual void evaluate(const std::string & code);
 
 protected:

@@ -10,6 +10,7 @@ namespace scriptzeug
 
 
 class AbstractScriptEnvironment;
+class Scriptable;
 
 
 /** \brief The entry point to managing a scripting engine in your application
@@ -20,7 +21,8 @@ public:
     ScriptEnvironment(const std::string & backend = "javascript");
     virtual ~ScriptEnvironment();
 
-    void run();
+    void registerObject(const std::string & name, Scriptable * obj);
+
     void evaluate(const std::string & code);
 
 protected:

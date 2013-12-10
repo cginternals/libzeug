@@ -1,4 +1,5 @@
 #include <functional>
+#include <scriptzeug/Scriptable.h>
 #include <scriptzeug/BackendJavaScript/JSScriptEnvironment.h>
 
 
@@ -73,7 +74,8 @@ public:
 
 static void testFunction(const v8::FunctionCallbackInfo<v8::Value> & args)
 {
-    //printf("Hello World!\n");
+    printf("Test Function\n");
+    return;
 
     /*
     for (int i=0; i<args.Length(); i++) {
@@ -95,39 +97,73 @@ static void testFunction(const v8::FunctionCallbackInfo<v8::Value> & args)
     args.GetReturnValue().Set(source);
     */
 
-    ArgParser<int, float, float, float> argParser;
-    argParser.parse(args);
+//  ArgParser<int, float, float, float> argParser;
+//  argParser.parse(args);
 }
 
 
 JSScriptEnvironment::JSScriptEnvironment()
 {
-	// Get isolate
+    // Get isolate
     Isolate * isolate = Isolate::GetCurrent();
     HandleScope scope(isolate);
 
     // Create global object
     Handle<ObjectTemplate> global = ObjectTemplate::New();
-    global->Set(String::New("test"), FunctionTemplate::New(testFunction));
 
-	// Create global context
+    // Create global context
     Handle<Context> context = Context::New(isolate, nullptr, global);
     m_context.Reset(isolate, context);
 }
 
 JSScriptEnvironment::~JSScriptEnvironment()
 {
-	// Destroy global context
+    // Destroy global context
     m_context.Dispose();
+}
+
+void JSScriptEnvironment::registerObject(const std::string & name, Scriptable * obj)
+{
+    // Get isolate
+    Isolate * isolate = Isolate::GetCurrent();
+    HandleScope scope(isolate);
+
+    // Get global context
+    Local<Context> context = Local<Context>::New(isolate, m_context);
+    Context::Scope context_scope(context);
+
+    // Create class template
+    Handle<ObjectTemplate> templ = ObjectTemplate::New();
+    templ->SetInternalFieldCount(1);
+
+    // Register functions of the objects
+    const std::vector<AbstractFunction *> & funcs = obj->functions();
+    for (std::vector<AbstractFunction *>::const_iterator it = funcs.begin(); it != funcs.end(); ++it) {
+        AbstractFunction * func = *it;
+
+        templ->Set(String::New(func->name().c_str()), FunctionTemplate::New(testFunction));
+    }
+
+    // Make persistent template handle
+    Persistent<ObjectTemplate> class_template;
+    class_template.Reset(isolate, templ);
+
+    // Create new object
+    Handle<Object>   object  = templ->NewInstance();
+    Handle<External> obj_ptr = External::New(obj);
+    object->SetInternalField(0, obj_ptr);
+
+    // Register object in global variables
+    context->Global()->Set(String::New(name.c_str()), object, ReadOnly);
 }
 
 void JSScriptEnvironment::evaluate(const std::string & code)
 {
-	// Get isolate
+    // Get isolate
     Isolate * isolate = Isolate::GetCurrent();
     HandleScope scope(isolate);
 
-	// Get global context
+    // Get global context
     Local<Context> context = Local<Context>::New(isolate, m_context);
     Context::Scope context_scope(context);
 
