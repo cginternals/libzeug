@@ -1,5 +1,6 @@
 
 #include <algorithm>
+#include <utility>
 
 #include <treezeug/LinearizedTree.h>
 
@@ -122,13 +123,56 @@ void LinearizedTree::reverseTreeLayerRangesDo(std::function<void(int, int)> call
 {
     if (m_strategy == BreadthFirst || m_strategy == OptimizedBreadthFirst)
     {
-        std::vector<std::pair<int, int>> reverseThresholds;
+        std::vector<std::pair<int, int>> reverseThresholds(m_treeDepthTresholds.size());
         std::reverse_copy(m_treeDepthTresholds.begin(), m_treeDepthTresholds.end(), reverseThresholds.begin());
         for (const std::pair<int, int>& pair : reverseThresholds)
         {
             callback(pair.first, pair.second);
         }
     }
+}
+
+void LinearizedTree::fullTreeLayerRangesDo(std::function<void(int, int)> callback) const
+{
+    if (m_strategy == BreadthFirst || m_strategy == OptimizedBreadthFirst)
+    {
+        int last = -1;
+        for (const std::pair<int, int>& pair : m_treeDepthTresholds)
+        {
+            if (pair.first > last + 1)
+            {
+               callback(last+1, pair.first-1);
+            }
+
+            callback(pair.first, pair.second);
+
+            last = pair.second;
+        }
+
+        if (last + 1 < m_nodes.size())
+        {
+            callback(last+1, m_nodes.size()-1);
+        }
+    }
+}
+
+void LinearizedTree::fullReverseTreeLayerRangesDo(std::function<void(int, int)> callback) const
+{
+   if (m_strategy == BreadthFirst || m_strategy == OptimizedBreadthFirst)
+   {
+        std::vector<std::pair<int, int>> fullThresholds;
+
+        fullTreeLayerRangesDo([&fullThresholds](int start, int end){
+            fullThresholds.push_back(std::make_pair(start, end));
+        });
+
+       std::vector<std::pair<int, int>> reverseThresholds(fullThresholds.size());
+       std::reverse_copy(fullThresholds.begin(), fullThresholds.end(), reverseThresholds.begin());
+       for (const std::pair<int, int>& pair : reverseThresholds)
+       {
+           callback(pair.first, pair.second);
+       }
+   }
 }
 
 std::vector<const Node*>::const_iterator LinearizedTree::begin() const
