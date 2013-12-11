@@ -37,17 +37,75 @@ protected:
 };
 
 
+template <typename... Arguments>
+class Cascade
+{
+public:
+    typedef std::function<void(Arguments...)> Callback;
+
+    static void call(std::vector<Variant>::const_iterator it, Callback cb)
+    {
+        cb();
+    }
+};
+
+template <typename... Arguments>
+class Cascade<int, Arguments...>
+{
+public:
+    typedef std::function<void(int, Arguments...)> Callback;
+
+    static void call(std::vector<Variant>::const_iterator it, Callback cb)
+    {
+        int value = (*it).intValue();
+        Cascade<Arguments...>::call(it+1, [cb, value] (Arguments... arguments) {
+            cb(value, arguments...);
+        });
+    }
+};
+
+template <typename... Arguments>
+class Cascade<float, Arguments...>
+{
+public:
+    typedef std::function<void(float, Arguments...)> Callback;
+
+    static void call(std::vector<Variant>::const_iterator it, Callback cb)
+    {
+        float value = (*it).floatValue();
+        Cascade<Arguments...>::call(it+1, [cb, value] (Arguments... arguments) {
+            cb(value, arguments...);
+        });
+    }
+};
+
+template <typename... Arguments>
+class Cascade<std::string, Arguments...>
+{
+public:
+    typedef std::function<void(const std::string &, Arguments...)> Callback;
+
+    static void call(std::vector<Variant>::const_iterator it, Callback cb)
+    {
+        std::string value = (*it).stringValue();
+        Cascade<Arguments...>::call(it+1, [cb, value] (Arguments... arguments) {
+            cb(value, arguments...);
+        });
+    }
+};
+
 /** \brief Representation of a static function
  */
 template <typename... Arguments>
 class Function : public AbstractFunction
 {
 public:
-    typedef std::function<void(Arguments...)> FuncType;
+    typedef void (*FuncPtr) (Arguments...);
 
 public:
-    Function(const std::string & name, void (*fn)(Arguments...))
+    Function(const std::string & name, FuncPtr func)
     : AbstractFunction(name)
+    , m_func(func)
     {
     }
 
@@ -57,7 +115,13 @@ public:
 
     virtual void call(const std::vector<Variant> & args)
     {
+        Cascade< Arguments... >::call(args.begin(), [this] (Arguments... arguments) {
+            (*m_func)(arguments...);
+        });
     }
+
+protected:
+    FuncPtr m_func;
 };
 
 
@@ -67,11 +131,13 @@ template <class T, typename... Arguments>
 class Method : public AbstractFunction
 {
 public:
-    typedef std::function<void(Arguments...)> FuncType;
+    typedef void (T::*MethodPtr) (Arguments...);
 
 public:
-    Method(const std::string & name, T * object, void (T::*method)(Arguments...))
+    Method(const std::string & name, T * obj, MethodPtr method)
     : AbstractFunction(name)
+    , m_method(method)
+    , m_obj(obj)
     {
     }
 
@@ -81,7 +147,14 @@ public:
 
     virtual void call(const std::vector<Variant> & args)
     {
+        Cascade< Arguments... >::call(args.begin(), [this] (Arguments... arguments) {
+            (m_obj->*m_method)(arguments...);
+        });
     }
+
+protected:
+    MethodPtr   m_method;
+    T         * m_obj;
 };
 
 

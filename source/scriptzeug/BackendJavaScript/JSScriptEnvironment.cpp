@@ -10,68 +10,6 @@ namespace scriptzeug
 using namespace v8;
 
 
-template <typename... Arguments>
-class ArgParser
-{
-public:
-    ArgParser() {
-    }
-
-    ~ArgParser() {
-    }
-
-    void parse(const v8::FunctionCallbackInfo<v8::Value> & args, int index = 0) {
-    }
-};
-
-template<typename... Arguments>
-class ArgParser<int, Arguments...> : public ArgParser<Arguments...>
-{
-public:
-    ArgParser() {
-    }
-
-    ~ArgParser() {
-    }
-
-    void parse(const v8::FunctionCallbackInfo<v8::Value> & args, int index = 0) {
-        if (index < args.Length()) {
-            printf("int: %d\n", args[index]->Int32Value());
-        }
-
-        ArgParser<Arguments...>::parse(args, index+1);
-    }
-};
-
-template<typename... Arguments>
-class ArgParser<float, Arguments...> : public ArgParser<Arguments...>
-{
-public:
-    ArgParser() {
-    }
-
-    ~ArgParser() {
-    }
-
-    void parse(const v8::FunctionCallbackInfo<v8::Value> & args, int index = 0) {
-        if (index < args.Length()) {
-            printf("float: %.4f\n", args[index]->NumberValue());
-        }
-
-        ArgParser<Arguments...>::parse(args, index+1);
-    }
-};
-
-template<typename... Arguments>
-class ScriptFunc
-{
-public:
-    typedef std::function<void(Arguments...)> Function;
-
-    ArgParser<Arguments...> argParser;
-};
-
-
 static void testFunction(const v8::FunctionCallbackInfo<v8::Value> & args)
 {
     printf("Test Function\n");
@@ -96,9 +34,6 @@ static void testFunction(const v8::FunctionCallbackInfo<v8::Value> & args)
     v8::Handle<v8::String> source = ReadFile(args.GetIsolate(), *file);
     args.GetReturnValue().Set(source);
     */
-
-//  ArgParser<int, float, float, float> argParser;
-//  argParser.parse(args);
 }
 
 
