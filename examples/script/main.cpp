@@ -46,6 +46,8 @@ int main(int argc, char const *argv[])
     scripting.registerObject("testobj", &obj);
 //  scripting.evaluate("testobj.test(1, 2, '3', 23.42, 'asd');");
     scripting.evaluate("testobj.helloWorld();");
+    scripting.evaluate("testobj.test();");
+    scripting.evaluate("testobj.bottlseOfBeer(10);");
 
     return 0;
 }

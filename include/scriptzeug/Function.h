@@ -11,32 +11,6 @@ namespace scriptzeug
 {
 
 
-/** \brief Base class for representing functions
- */
-class AbstractFunction
-{
-public:
-    AbstractFunction(const std::string & name) :
-    m_name(name)
-    {
-    }
-
-    virtual ~AbstractFunction()
-    {
-    }
-
-    std::string name() const
-    {
-        return m_name;
-    }
-
-    virtual void call(const std::vector<Variant> & args) = 0;
-
-protected:
-    std::string m_name;
-};
-
-
 template <typename... Arguments>
 class Cascade
 {
@@ -93,6 +67,33 @@ public:
         });
     }
 };
+
+
+/** \brief Base class for representing functions
+ */
+class AbstractFunction
+{
+public:
+    AbstractFunction(const std::string & name) :
+    m_name(name)
+    {
+    }
+
+    virtual ~AbstractFunction()
+    {
+    }
+
+    std::string name() const
+    {
+        return m_name;
+    }
+
+    virtual void call(const std::vector<Variant> & args) = 0;
+
+protected:
+    std::string m_name;
+};
+
 
 /** \brief Representation of a static function
  */

@@ -10,24 +10,32 @@ namespace scriptzeug
 using namespace v8;
 
 
-static void testFunction(const v8::FunctionCallbackInfo<v8::Value> & args)
+static void wrapFunction(const v8::FunctionCallbackInfo<v8::Value> & args)
 {
-    printf("Test Function\n");
-    return;
+    // Get function pointer
+    Handle<External> data = Handle<External>::Cast(args.Data());
+    AbstractFunction * func = static_cast<AbstractFunction *>(data->Value());
 
-    /*
+    // Convert arguments to a list of scriptzeug::Variant
+    std::vector<Variant> arguments;
     for (int i=0; i<args.Length(); i++) {
         v8::HandleScope scope(args.GetIsolate());
 
-        // String argument
-//      v8::String::AsciiValue str(args[i]);
-//      printf("%s\n", *str);
+        // Int
+        if (args[i]->IsInt32()) {
+            int value = args[i]->Int32Value();
+            arguments.push_back(Variant(value));
+        }
 
-        // Int argument
-        int num = args[i]->Int32Value();
-        printf("%d\n", num);
+        // String argument
+        if (args[i]->IsString()) {
+            v8::String::AsciiValue str(args[i]);
+            arguments.push_back(Variant(std::string(*str)));
+        }
     }
-    */
+
+    // Call the function
+    func->call(arguments);
 
     // Set return value
     /*
@@ -71,12 +79,20 @@ void JSScriptEnvironment::registerObject(const std::string & name, Scriptable * 
     Handle<ObjectTemplate> templ = ObjectTemplate::New();
     templ->SetInternalFieldCount(1);
 
-    // Register functions of the objects
+    // Register object functions
     const std::vector<AbstractFunction *> & funcs = obj->functions();
     for (std::vector<AbstractFunction *>::const_iterator it = funcs.begin(); it != funcs.end(); ++it) {
         AbstractFunction * func = *it;
 
-        templ->Set(String::New(func->name().c_str()), FunctionTemplate::New(testFunction));
+        // Bind pointer to AbstractFunction as an external data object
+        // and set it in the function template
+        Handle<External> func_ptr = External::New(func);
+        v8::Handle<v8::FunctionTemplate> funcTempl =
+            FunctionTemplate::New(wrapFunction, func_ptr);
+
+        // Register function at object template
+        v8::Handle<v8::Function> funcObj = funcTempl->GetFunction();
+        templ->Set(String::New(func->name().c_str()), funcObj);
     }
 
     // Make persistent template handle
