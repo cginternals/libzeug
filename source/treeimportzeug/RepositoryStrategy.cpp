@@ -1,6 +1,7 @@
 #include <treeimportzeug/RepositoryStrategy.h>
 
 #include <QSqlRecord>
+#include <QStringList>
 
 #include <treezeug/Tree.h>
 
@@ -75,12 +76,14 @@ void RepositoryStrategy::createTreeForRevision(unsigned revisionId, const QStrin
     QHash<int, Node*> nodes;
 	
     QList<QVariantMap> rows = executeQuery("SELECT \"id\", \"index\", \"parent\", \"label\" FROM \"nodes\" WHERE revision = " + QString::number(revisionId) + " ORDER BY \"id\"");
+    QStringList ids;
     for (const QVariantMap& row : rows)
 	{
         zeug::Node* node = new Node(row["index"].toInt());
-        node->setName(row["label"].toString().toStdString());
 
         nodes[row["id"].toInt()] = node;
+
+        ids << QString::number(row["id"].toInt());
 
         if (node->id() == 0)
         {
@@ -95,17 +98,15 @@ void RepositoryStrategy::createTreeForRevision(unsigned revisionId, const QStrin
             nodes[row["parent"].toInt()]->addChild(node);
         }
 
-        QList<QVariantMap> metricValues = executeQuery("SELECT \"metric\", \"value\" FROM \"metricValues\" WHERE \"node\" = " + QString::number(row["id"].toInt()));
-        for (const QVariantMap& row : metricValues)
-        {
-            node->setAttribute(m_metrics[row["metric"].toInt()].name.toStdString(), row["value"].toString().toStdString());
-        }
+        node->setName(row["label"].toString().toStdString());
+        node->setAttribute("id", node->id());
+        node->setAttribute("depth", node->depth());
 	}
 
-	for (Node* node : nodes)
-	{
-		node->setAttribute("id", node->id());
-		node->setAttribute("depth", node->depth());
+    QList<QVariantMap> metricValues = executeQuery("SELECT \"node\", \"metric\", \"value\" FROM \"metricValues\" WHERE \"node\" IN (" + ids.join(", ") + ")");
+    for (const QVariantMap& row : metricValues)
+    {
+        nodes[row["node"].toInt()]->setAttribute(m_metrics[row["metric"].toInt()].name.toStdString(), row["value"].toString().toStdString());
     }
 
     tree->nodesOrderedByDepthDo([](Node* node) {
