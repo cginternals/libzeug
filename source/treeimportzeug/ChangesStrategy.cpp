@@ -33,7 +33,10 @@ QSet<QString> ChangesStrategy::wantedFileSuffixes() const
 
 bool ChangesStrategy::wantsToProcess(QSqlDatabase& database) const
 {
-    return !database.record("nodes").isEmpty();
+    return !database.record("nodes").isEmpty()
+            && !database.record("revisions").isEmpty()
+            && !database.record("schema").isEmpty()
+            && !database.record("schema_attrs").isEmpty();
 }
 
 void ChangesStrategy::loadAttributes()

@@ -217,7 +217,7 @@ void Tree::nodesOrderedByDepthDo(std::function<void(Node*)> action)
 {
 	std::queue<Node*> queue;
 
-    queue.push(m_root);
+    queue.push(root());
 
 	while (!queue.empty())
 	{
@@ -235,7 +235,7 @@ void Tree::nodesOrderedByDepthDo(std::function<void(const Node*)> action) const
 {
 	std::queue<const Node*> queue;
 
-    queue.push(m_root);
+    queue.push(root());
 
 	while (!queue.empty())
 	{
