@@ -9,7 +9,7 @@ class Node;
 class Attribute;
 class AttributeMap;
 
-struct TreeData
+class TreeData
 {
     friend class Tree;
 public:
