@@ -34,7 +34,7 @@ protected:
 };
 
 template <typename T>
-class STAGEZEUG_API StageOutput : public AbstractStageOutput
+class StageOutput : public AbstractStageOutput
 {
 public:
     StageOutput();
