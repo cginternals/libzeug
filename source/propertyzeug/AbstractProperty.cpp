@@ -16,7 +16,7 @@
 
 namespace zeug {
     
-const std::string AbstractProperty::s_nameRegexString("[a-zA-Z]\\w*");
+const std::string AbstractProperty::s_nameRegexString("[a-zA-Z]+[\\s,\\w]*");
 
 AbstractProperty::AbstractProperty(const std::string & name)
 :   m_name(name)
