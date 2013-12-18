@@ -89,7 +89,7 @@ void Tree::setRoot(Node * node, int id)
 {
     if (m_root == m_data->m_root)
     {
-        std::cout << "#warning: replacing inner root while Trees have pointers to old root";
+        std::cout << "#warning: replacing inner root while Trees have pointers to old root" << std::endl;
         m_root = nullptr;
     }
 
