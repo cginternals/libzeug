@@ -1,6 +1,6 @@
 #include <treeimportzeug/CityGMLStrategy.h>
 
-#include <treezeug/Tree.h>
+#include "MutableTree.h"
 
 namespace zeug
 {
@@ -36,6 +36,7 @@ void CityGMLStrategy::start()
 
 void CityGMLStrategy::finish()
 {
+    m_tree->renormalizeAttributesForLeaves();
 }
 
 bool CityGMLStrategy::startElement(const QString & name, const QXmlAttributes & attributes)

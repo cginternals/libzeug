@@ -3,7 +3,7 @@
 #include <QSqlRecord>
 #include <QStringList>
 
-#include <treezeug/Tree.h>
+#include "MutableTree.h"
 
 namespace zeug
 {
@@ -58,7 +58,7 @@ void RepositoryStrategy::processRevisions(const QList<QVariantMap>& revisions)
 
 void RepositoryStrategy::createTreeForRevision(unsigned revisionId, const QString& name)
 {
-    Tree* tree = new Tree(QString("Revision %1 (%2)").arg(revisionId).arg(name).toStdString());
+    MutableTree* tree = new MutableTree(QString("Revision %1 (%2)").arg(revisionId).arg(name).toStdString());
 	
 	tree->addAttributeMap("id", AttributeMap::Numeric);
 	tree->addAttributeMap("depth", AttributeMap::Numeric);
@@ -71,7 +71,7 @@ void RepositoryStrategy::createTreeForRevision(unsigned revisionId, const QStrin
         );
 	}
 	
-	m_trees << tree;
+    m_trees << tree->copy();
 
     QHash<int, Node*> nodes;
 	
@@ -114,6 +114,8 @@ void RepositoryStrategy::createTreeForRevision(unsigned revisionId, const QStrin
             return node1->id() < node2->id();
         });
     });
+
+    tree->renormalizeAttributesForLeaves();
 }
 
 } // namespace zeug

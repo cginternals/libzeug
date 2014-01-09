@@ -12,6 +12,7 @@ class AttributeMap;
 class TreeData
 {
     friend class Tree;
+    friend class MutableTree;
 public:
     TreeData(const std::string& name);
     ~TreeData();

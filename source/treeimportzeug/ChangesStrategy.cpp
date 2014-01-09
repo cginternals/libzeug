@@ -2,7 +2,7 @@
 
 #include <QSqlRecord>
 
-#include <treezeug/Tree.h>
+#include "MutableTree.h"
 
 namespace zeug
 {
@@ -63,7 +63,7 @@ void ChangesStrategy::processRevisions(const QList<QVariantMap>& revisions)
 
 void ChangesStrategy::createTreeForRevision(unsigned revisionId)
 {
-    Tree* tree = new Tree(QString("Revision %1").arg(revisionId).toStdString());
+    MutableTree* tree = new MutableTree(QString("Revision %1").arg(revisionId).toStdString());
 	
 	tree->addAttributeMap("id", AttributeMap::Numeric);
 	tree->addAttributeMap("depth", AttributeMap::Numeric);
@@ -84,7 +84,7 @@ void ChangesStrategy::createTreeForRevision(unsigned revisionId)
 		}
 	}
 	
-	m_trees << tree;
+    m_trees << tree->copy();
 
     QHash<GeneratedId, Node*> nodes;
     QHash<DatabaseId, GeneratedId> ids;
@@ -146,9 +146,11 @@ void ChangesStrategy::createTreeForRevision(unsigned revisionId)
             return node1->id() < node2->id();
         });
     });
+
+    tree->renormalizeAttributesForLeaves();
 }
 
-void ChangesStrategy::insertIntoTree(Node* node, Tree* tree, const QHash<GeneratedId, Node*>& nodes, const QHash<GeneratedId, GeneratedId>& parentIds) const
+void ChangesStrategy::insertIntoTree(Node* node, MutableTree* tree, const QHash<GeneratedId, Node*>& nodes, const QHash<GeneratedId, GeneratedId>& parentIds) const
 {
 	if (node->id() == 0)
 	{
@@ -176,9 +178,7 @@ void ChangesStrategy::insertIntoTree(Node* node, Tree* tree, const QHash<Generat
 		insertIntoTree(nodes.value(parentIds.value(node->id(), 0), nullptr), tree, nodes, parentIds);
 	}
 	
-	tree->getNode(parentIds.value(node->id(), 0))->addChild(node);
-	
-    //Q_ASSERT(node->tree() == tree);
+    tree->getNode(parentIds.value(node->id(), 0))->addChild(node);
 }
 
 int ChangesStrategy::idFor(long hash) const

@@ -10,7 +10,7 @@
 namespace zeug
 {
 
-class Tree;
+class MutableTree;
 
 class TREEIMPORTZEUG_API TreeXmlParserStrategy : public TreeParserStrategy, public QXmlDefaultHandler
 {
@@ -38,7 +38,7 @@ protected:
 	QString m_filename;
 	bool m_inWantsToProcess;
 	bool m_wantsToProcess;
-	Tree * m_tree;
+    MutableTree * m_tree;
 
 	virtual void clear() = 0;
 	virtual bool wantsToProcess(const QString& tagName, const QXmlAttributes & attributes) const = 0;

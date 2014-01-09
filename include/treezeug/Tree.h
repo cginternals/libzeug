@@ -18,48 +18,35 @@ class TreeData;
 
 class TREEZEUG_API Tree
 {
-	friend class Node;
 public:
 	Tree(const std::string& name);
 	virtual ~Tree();
 
-	Node* root();
-	const Node* root() const;
-	void setRoot(Node* node, int id = 0);
+    Tree * copy() const;
+    Tree * restrictTo(Node * newRoot) const;
+    Tree * restrictTo(int id) const;
 
-	const std::string& name() const;
-	void setName(const std::string& name);
+    const std::string& name() const;
 
 	unsigned size() const;
 	int maxId() const;
+    unsigned depth() const;
 
-	Node* getNode(int id) const;
+    const Node* root() const;
+    const Node* getNode(int id) const;
+    const Node* getNodeByPath(const std::string& path, char separator = '/') const;
 
-	Node* getNodeByPath(const std::string& path, char separator = '/');
-
-	void nodesDo(std::function<void(Node*)> action);
-	void nodesDo(std::function<void(const Node*)> action) const;
-	void nodesOrderedByDepthDo(std::function<void(Node*)> action);
-	void nodesOrderedByDepthDo(std::function<void(const Node*)> action) const;
-	void leavesDo(std::function<void(Node*)> action);
+    void nodesDo(std::function<void(const Node*)> action) const;
+    void nodesOrderedByDepthDo(std::function<void(const Node*)> action) const;
 	void leavesDo(std::function<void(const Node*)> action) const;
 
-	bool hasAttributeMap(const std::string & name) const;
-	void addAttributeMap(const std::string & name, AttributeMap::Type type);
+    bool hasAttributeMap(const std::string & name) const;
 
     AttributeMap::Type attributeMapType(const std::string & name) const;
-	const std::vector<std::string> & attributes() const;
-    void renormalizeAttributeForLeaves(const std::string& attribute);
-
-	unsigned depth() const;
-
-	Tree * copy() const;
-	Tree * restrictTo(Node * newRoot) const;
-	Tree * restrictTo(int id) const;
-
+    const std::vector<std::string> & attributes() const;
 protected:
     std::shared_ptr<TreeData> m_data;
-    mutable Node* m_root;
+    Node* m_root;
 
     Tree(const Tree& other);
     Tree(std::shared_ptr<TreeData> data);
