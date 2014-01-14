@@ -19,6 +19,7 @@ set(headers
     ${header_path}/Attribute.h
     ${header_path}/AttributeMap.h
     ${header_path}/LinearizedTree.h
+    ${header_path}/MutableTree.h
     ${header_path}/Node.h
     ${header_path}/Tree.h
 )
@@ -28,6 +29,7 @@ set(sources
     ${source_path}/AttributeMap.cpp
     ${source_path}/LinearizedTree.cpp
     ${source_path}/Node.cpp
+    ${source_path}/MutableTree.cpp
     ${source_path}/Tree.cpp
     ${source_path}/TreeData.cpp
     ${source_path}/TreeData.h

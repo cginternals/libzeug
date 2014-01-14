@@ -3,7 +3,7 @@
 #include <QSqlRecord>
 #include <QStringList>
 
-#include "MutableTree.h"
+#include <treezeug/MutableTree.h>
 
 namespace zeug
 {

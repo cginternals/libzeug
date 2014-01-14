@@ -41,8 +41,6 @@ set(sources
     ${source_path}/CityGMLStrategy.cpp
     ${source_path}/RepositoryStrategy.cpp
     ${source_path}/SoftwareSystemStrategy.cpp
-    ${source_path}/MutableTree.cpp
-    ${source_path}/MutableTree.h
     ${source_path}/TreeImport.cpp
     ${source_path}/TreeParserStrategy.cpp
     ${source_path}/TreeSqliteParserStrategy.cpp

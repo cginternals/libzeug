@@ -4,9 +4,9 @@
 #include <iostream>
 #include <sstream>
 
-#include "MutableTree.h"
+#include <treezeug/MutableTree.h>
 
-#include "../treezeug/TreeData.h"
+#include "TreeData.h"
 
 namespace zeug
 {

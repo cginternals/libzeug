@@ -1,6 +1,6 @@
 #include <treeimportzeug/CityGMLStrategy.h>
 
-#include "MutableTree.h"
+#include <treezeug/MutableTree.h>
 
 namespace zeug
 {
