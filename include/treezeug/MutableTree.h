@@ -4,14 +4,14 @@
 #include <string>
 #include <memory>
 
-#include <treeimportzeug/treeimportzeug.h>
+#include <treezeug/treezeug.h>
 
 #include <treezeug/Tree.h>
 
 namespace zeug
 {
 
-class TREEIMPORTZEUG_API MutableTree : public Tree
+class TREEZEUG_API MutableTree : public Tree
 {
 public:
     MutableTree(const std::string& name);
