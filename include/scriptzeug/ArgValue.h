@@ -13,12 +13,13 @@ namespace scriptzeug
 template<typename T>
 struct ArgValue {
     // Assume signed integral type by default
-    static T get(std::vector<Value>::const_reverse_iterator &it, std::vector<Value>::const_reverse_iterator &end) {
+    static T get(std::vector<Value>::const_reverse_iterator &it, std::vector<Value>::const_reverse_iterator &end, size_t & numEmpty) {
         T value = 0;
-        if (it != end) {
+        if (numEmpty == 0 && it != end) {
             value = (*it).toInt();
             ++it;
         }
+        if (numEmpty > 0) numEmpty--;
         return value;
     }
 };
@@ -27,12 +28,13 @@ struct ArgValue {
  */
 template<>
 struct ArgValue<float> {
-    static float get(std::vector<Value>::const_reverse_iterator &it, std::vector<Value>::const_reverse_iterator &end) {
+    static float get(std::vector<Value>::const_reverse_iterator &it, std::vector<Value>::const_reverse_iterator &end, size_t & numEmpty) {
         double value = 0.0f;
-        if (it != end) {
+        if (numEmpty == 0 && it != end) {
             value = (*it).toDouble();
             ++it;
         }
+        if (numEmpty > 0) numEmpty--;
         return value;
     }
 };
@@ -41,12 +43,13 @@ struct ArgValue<float> {
  */
 template<>
 struct ArgValue<double> {
-    static double get(std::vector<Value>::const_reverse_iterator &it, std::vector<Value>::const_reverse_iterator &end) {
+    static double get(std::vector<Value>::const_reverse_iterator &it, std::vector<Value>::const_reverse_iterator &end, size_t & numEmpty) {
         double value = 0.0f;
-        if (it != end) {
+        if (numEmpty == 0 && it != end) {
             value = (*it).toDouble();
             ++it;
         }
+        if (numEmpty > 0) numEmpty--;
         return value;
     }
 };
@@ -55,12 +58,13 @@ struct ArgValue<double> {
  */
 template<>
 struct ArgValue<bool> {
-    static bool get(std::vector<Value>::const_reverse_iterator &it, std::vector<Value>::const_reverse_iterator &end) {
+    static bool get(std::vector<Value>::const_reverse_iterator &it, std::vector<Value>::const_reverse_iterator &end, size_t & numEmpty) {
         bool value = false;
-        if (it != end) {
+        if (numEmpty == 0 && it != end) {
             value = (*it).toBool();
             ++it;
         }
+        if (numEmpty > 0) numEmpty--;
         return value;
     }
 };
@@ -69,12 +73,13 @@ struct ArgValue<bool> {
  */
 template<>
 struct ArgValue<std::string> {
-    static std::string get(std::vector<Value>::const_reverse_iterator &it, std::vector<Value>::const_reverse_iterator &end) {
+    static std::string get(std::vector<Value>::const_reverse_iterator &it, std::vector<Value>::const_reverse_iterator &end, size_t & numEmpty) {
         std::string value;
-        if (it != end) {
+        if (numEmpty == 0 && it != end) {
             value = (*it).toString();
             ++it;
         }
+        if (numEmpty > 0) numEmpty--;
         return value;
     }
 };

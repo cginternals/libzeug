@@ -58,9 +58,24 @@ public:
 
     virtual void call(const std::vector<Value> & args)
     {
+        // Get arguments
         std::vector<Value>::const_reverse_iterator it  = args.rbegin();
         std::vector<Value>::const_reverse_iterator end = args.rend();
-        (*m_func)(ArgValue<Arguments>::get(it, end)...);
+
+        // Check for wrong number of arguments
+        size_t numArgs  = sizeof...(Arguments);
+        size_t numFound = args.size();
+        size_t numEmpty = 0;
+        if (numFound > numArgs) {
+            // Skip additional arguments
+            for (size_t i=numArgs; i<numFound; i++)
+                it++;
+        } else if (numArgs > numFound) {
+            numEmpty = numArgs - numFound;
+        }
+
+        // Call function
+        (*m_func)(ArgValue<Arguments>::get(it, end, numEmpty)...);
     }
 
 protected:
@@ -90,9 +105,24 @@ public:
 
     virtual void call(const std::vector<Value> & args)
     {
+        // Get arguments
         std::vector<Value>::const_reverse_iterator it  = args.rbegin();
         std::vector<Value>::const_reverse_iterator end = args.rend();
-        (m_obj->*m_method) ( ArgValue<Arguments>::get(it, end)... );
+
+        // Check for wrong number of arguments
+        size_t numArgs  = sizeof...(Arguments);
+        size_t numFound = args.size();
+        size_t numEmpty = 0;
+        if (numFound > numArgs) {
+            // Skip additional arguments
+            for (size_t i=numArgs; i<numFound; i++)
+                it++;
+        } else if (numArgs > numFound) {
+            numEmpty = numArgs - numFound;
+        }
+
+        // Call function
+        (m_obj->*m_method) ( ArgValue<Arguments>::get(it, end, numEmpty)... );
     }
 
 protected:

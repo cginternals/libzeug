@@ -47,7 +47,8 @@ int main(int argc, char const *argv[])
 //  scripting.evaluate("testobj.test(1, 2, '3', 23.42, 'asd');");
     scripting.evaluate("testobj.helloWorld();");
     scripting.evaluate("testobj.test();");
-    scripting.evaluate("testobj.bottlesOfBeer(120, 3.5);");
+    scripting.evaluate("testobj.bottlesOfBeer(120, 3.5, 10);");
+    scripting.evaluate("testobj.bottlesOfBeer();");
 
     return 0;
 }
