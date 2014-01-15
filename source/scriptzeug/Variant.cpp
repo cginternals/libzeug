@@ -58,7 +58,12 @@ bool Variant::isInt() const
 
 int Variant::intValue() const
 {
-    return m_value.m_int;
+    switch (m_type) {
+        case Int:    return m_value.m_int;
+        case Float:  return (int)m_value.m_float;
+        case String:
+        default:     return 0;
+    }
 }
 
 bool Variant::isFloat() const
@@ -68,7 +73,12 @@ bool Variant::isFloat() const
 
 float Variant::floatValue() const
 {
-    return m_value.m_float;
+    switch (m_type) {
+        case Int:    return (float)m_value.m_int;
+        case Float:  return m_value.m_float;
+        case String:
+        default:     return 0.0f;
+    }
 }
 
 bool Variant::isString() const
@@ -78,7 +88,12 @@ bool Variant::isString() const
 
 std::string Variant::stringValue() const
 {
-    return m_string;
+    switch (m_type) {
+        case String: return m_string;
+        case Int:
+        case Float:
+        default:     return "";
+    }
 }
 
 

@@ -4,69 +4,11 @@
 #include <string>
 #include <vector>
 #include <functional>
-#include <scriptzeug/Variant.h>
+#include <scriptzeug/ArgValue.h>
 
 
 namespace scriptzeug
 {
-
-
-template <typename... Arguments>
-class Cascade
-{
-public:
-    typedef std::function<void(Arguments...)> Callback;
-
-    static void call(std::vector<Variant>::const_iterator it, Callback cb)
-    {
-        cb();
-    }
-};
-
-template <typename... Arguments>
-class Cascade<int, Arguments...>
-{
-public:
-    typedef std::function<void(int, Arguments...)> Callback;
-
-    static void call(std::vector<Variant>::const_iterator it, Callback cb)
-    {
-        int value = (*it).intValue();
-        Cascade<Arguments...>::call(it+1, [cb, value] (Arguments... arguments) {
-            cb(value, arguments...);
-        });
-    }
-};
-
-template <typename... Arguments>
-class Cascade<float, Arguments...>
-{
-public:
-    typedef std::function<void(float, Arguments...)> Callback;
-
-    static void call(std::vector<Variant>::const_iterator it, Callback cb)
-    {
-        float value = (*it).floatValue();
-        Cascade<Arguments...>::call(it+1, [cb, value] (Arguments... arguments) {
-            cb(value, arguments...);
-        });
-    }
-};
-
-template <typename... Arguments>
-class Cascade<std::string, Arguments...>
-{
-public:
-    typedef std::function<void(const std::string &, Arguments...)> Callback;
-
-    static void call(std::vector<Variant>::const_iterator it, Callback cb)
-    {
-        std::string value = (*it).stringValue();
-        Cascade<Arguments...>::call(it+1, [cb, value] (Arguments... arguments) {
-            cb(value, arguments...);
-        });
-    }
-};
 
 
 /** \brief Base class for representing functions
@@ -116,9 +58,9 @@ public:
 
     virtual void call(const std::vector<Variant> & args)
     {
-        Cascade< Arguments... >::call(args.begin(), [this] (Arguments... arguments) {
-            (*m_func)(arguments...);
-        });
+        std::vector<Variant>::const_iterator it  = args.begin();
+        std::vector<Variant>::const_iterator end = args.end();
+        (*m_func)(ArgValue<Arguments>::get(it, end)...);
     }
 
 protected:
@@ -148,9 +90,9 @@ public:
 
     virtual void call(const std::vector<Variant> & args)
     {
-        Cascade< Arguments... >::call(args.begin(), [this] (Arguments... arguments) {
-            (m_obj->*m_method)(arguments...);
-        });
+        std::vector<Variant>::const_iterator it  = args.begin();
+        std::vector<Variant>::const_iterator end = args.end();
+        (m_obj->*m_method) ( ArgValue<Arguments>::get(it, end)... );
     }
 
 protected:

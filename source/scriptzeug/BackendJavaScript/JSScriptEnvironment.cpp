@@ -27,10 +27,21 @@ static void wrapFunction(const v8::FunctionCallbackInfo<v8::Value> & args)
             arguments.push_back(Variant(value));
         }
 
+        // Float
+        else if (args[i]->IsNumber()) {
+            float value = args[i]->NumberValue();
+            arguments.push_back(Variant(value));
+        }
+
         // String argument
-        if (args[i]->IsString()) {
+        else if (args[i]->IsString()) {
             v8::String::AsciiValue str(args[i]);
             arguments.push_back(Variant(std::string(*str)));
+        }
+
+        // Undefined
+        else {
+            arguments.push_back(Variant());
         }
     }
 
