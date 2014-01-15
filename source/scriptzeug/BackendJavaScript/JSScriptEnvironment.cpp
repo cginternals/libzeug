@@ -1,6 +1,6 @@
 #include <functional>
-#include <scriptzeug/Scriptable.h>
-#include <scriptzeug/BackendJavaScript/JSScriptEnvironment.h>
+#include "scriptzeug/Scriptable.h"
+#include "scriptzeug/BackendJavaScript/JSScriptEnvironment.h"
 
 
 namespace scriptzeug
@@ -16,32 +16,32 @@ static void wrapFunction(const v8::FunctionCallbackInfo<v8::Value> & args)
     Handle<External> data = Handle<External>::Cast(args.Data());
     AbstractFunction * func = static_cast<AbstractFunction *>(data->Value());
 
-    // Convert arguments to a list of scriptzeug::Variant
-    std::vector<Variant> arguments;
+    // Convert arguments to a list of scriptzeug variants
+    std::vector<scriptzeug::Value> arguments;
     for (int i=0; i<args.Length(); i++) {
         v8::HandleScope scope(args.GetIsolate());
 
         // Int
         if (args[i]->IsInt32()) {
             int value = args[i]->Int32Value();
-            arguments.push_back(Variant(value));
+            arguments.push_back(scriptzeug::Value(value));
         }
 
         // Float
         else if (args[i]->IsNumber()) {
             float value = args[i]->NumberValue();
-            arguments.push_back(Variant(value));
+            arguments.push_back(scriptzeug::Value(value));
         }
 
         // String argument
         else if (args[i]->IsString()) {
             v8::String::AsciiValue str(args[i]);
-            arguments.push_back(Variant(std::string(*str)));
+            arguments.push_back(scriptzeug::Value(std::string(*str)));
         }
 
         // Undefined
         else {
-            arguments.push_back(Variant());
+            arguments.push_back(scriptzeug::Value());
         }
     }
 
@@ -134,7 +134,7 @@ void JSScriptEnvironment::evaluate(const std::string & code)
     Handle<Script> script = Script::Compile(source);
 
     // Run script
-    Handle<Value> result = script->Run();
+    Handle< v8::Value > result = script->Run();
 
     // Print result
     String::AsciiValue ascii(result);

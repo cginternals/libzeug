@@ -29,14 +29,14 @@ set(headers
     ${header_path}/ScriptEnvironment.h
     ${header_path}/Scriptable.h
     ${header_path}/Function.h
-    ${header_path}/Variant.h
+    ${header_path}/Value.h
 )
 
 set(sources
     ${source_path}/Backend/AbstractScriptEnvironment.cpp
     ${source_path}/ScriptEnvironment.cpp
     ${source_path}/Scriptable.cpp
-    ${source_path}/Variant.cpp
+    ${source_path}/Value.cpp
 )
 
 # Backend: JavaScript (V8 engine)

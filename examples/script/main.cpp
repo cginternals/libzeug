@@ -17,7 +17,7 @@ class MyInterface : public Scriptable
 public:
     MyInterface()
     {
-        addFunction("test", &testFunction);
+        addFunction("test",                &testFunction);
         addFunction("helloWorld",    this, &MyInterface::helloWorld);
         addFunction("bottlesOfBeer", this, &MyInterface::bottlesOfBeer);
     }
@@ -31,9 +31,9 @@ public:
         std::cout << "Hello World\n";
     }
 
-    void bottlesOfBeer(int count)
+    void bottlesOfBeer(int count, float a)
     {
-        std::cout << count << " bottles of beer.\n";
+        std::cout << count << " bottles of beer with a propability of " << a << "\%.\n";
     }
 };
 
@@ -47,7 +47,7 @@ int main(int argc, char const *argv[])
 //  scripting.evaluate("testobj.test(1, 2, '3', 23.42, 'asd');");
     scripting.evaluate("testobj.helloWorld();");
     scripting.evaluate("testobj.test();");
-    scripting.evaluate("testobj.bottlesOfBeer(120, 2.5, 'foo');");
+    scripting.evaluate("testobj.bottlesOfBeer(120, 3.5);");
 
     return 0;
 }

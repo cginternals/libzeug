@@ -30,7 +30,7 @@ public:
         return m_name;
     }
 
-    virtual void call(const std::vector<Variant> & args) = 0;
+    virtual void call(const std::vector<Value> & args) = 0;
 
 protected:
     std::string m_name;
@@ -56,10 +56,10 @@ public:
     {
     }
 
-    virtual void call(const std::vector<Variant> & args)
+    virtual void call(const std::vector<Value> & args)
     {
-        std::vector<Variant>::const_iterator it  = args.begin();
-        std::vector<Variant>::const_iterator end = args.end();
+        std::vector<Value>::const_reverse_iterator it  = args.rbegin();
+        std::vector<Value>::const_reverse_iterator end = args.rend();
         (*m_func)(ArgValue<Arguments>::get(it, end)...);
     }
 
@@ -88,10 +88,10 @@ public:
     {
     }
 
-    virtual void call(const std::vector<Variant> & args)
+    virtual void call(const std::vector<Value> & args)
     {
-        std::vector<Variant>::const_iterator it  = args.begin();
-        std::vector<Variant>::const_iterator end = args.end();
+        std::vector<Value>::const_reverse_iterator it  = args.rbegin();
+        std::vector<Value>::const_reverse_iterator end = args.rend();
         (m_obj->*m_method) ( ArgValue<Arguments>::get(it, end)... );
     }
 
