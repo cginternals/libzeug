@@ -20,6 +20,7 @@ public:
         addFunction("test",                &testFunction);
         addFunction("helloWorld",    this, &MyInterface::helloWorld);
         addFunction("bottlesOfBeer", this, &MyInterface::bottlesOfBeer);
+        addFunction("dynamicTest",   this, &MyInterface::dynamicTest);
     }
 
     ~MyInterface()
@@ -35,6 +36,13 @@ public:
     {
         std::cout << count << " bottles of beer with a propability of " << a << "\%.\n";
     }
+
+    void dynamicTest(const Value &a, const Value &b, const Value &c)
+    {
+        std::cout << "- a: " << a.toString() << "\n";
+        std::cout << "- b: " << b.toString() << "\n";
+        std::cout << "- c: " << c.toString() << "\n";
+    }
 };
 
 
@@ -49,6 +57,7 @@ int main(int argc, char const *argv[])
     scripting.evaluate("testobj.test();");
     scripting.evaluate("testobj.bottlesOfBeer(120, 3.5, 10);");
     scripting.evaluate("testobj.bottlesOfBeer();");
+    scripting.evaluate("testobj.dynamicTest(3.5, 100, \"asd\");");
 
     return 0;
 }

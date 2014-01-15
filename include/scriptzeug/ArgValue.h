@@ -84,5 +84,29 @@ struct ArgValue<std::string> {
     }
 };
 
+/** \brief ArgValue specialization for type scriptzeug::Value
+ */
+template<>
+struct ArgValue<scriptzeug::Value> {
+    static scriptzeug::Value get(std::vector<Value>::const_reverse_iterator &it, std::vector<Value>::const_reverse_iterator &end, size_t & numEmpty) {
+        scriptzeug::Value value;
+        if (numEmpty == 0 && it != end) {
+            value = *it;
+            ++it;
+        }
+        if (numEmpty > 0) numEmpty--;
+        return value;
+    }
+};
+
+/** \brief ArgValue specialization for type const scriptzeug::Value &
+ */
+template<>
+struct ArgValue<const scriptzeug::Value &> {
+    static scriptzeug::Value get(std::vector<Value>::const_reverse_iterator &it, std::vector<Value>::const_reverse_iterator &end, size_t & numEmpty) {
+        return ArgValue<scriptzeug::Value>::get(it, end, numEmpty);
+    }
+};
+
 
 } // namespace scriptzeug
