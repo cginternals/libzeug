@@ -27,9 +27,21 @@ static void wrapFunction(const v8::FunctionCallbackInfo<v8::Value> & args)
             arguments.push_back(scriptzeug::Value(value));
         }
 
-        // Float
+        // UInt
+        else if (args[i]->IsUint32()) {
+            unsigned int value = args[i]->Uint32Value();
+            arguments.push_back(scriptzeug::Value(value));
+        }
+
+        // Double
         else if (args[i]->IsNumber()) {
-            float value = args[i]->NumberValue();
+            double value = args[i]->NumberValue();
+            arguments.push_back(scriptzeug::Value(value));
+        }
+
+        // Bool
+        else if (args[i]->IsBoolean()) {
+            bool value = args[i]->BooleanValue();
             arguments.push_back(scriptzeug::Value(value));
         }
 
@@ -43,6 +55,10 @@ static void wrapFunction(const v8::FunctionCallbackInfo<v8::Value> & args)
         else {
             arguments.push_back(scriptzeug::Value());
         }
+
+        // TODO:
+        // - IsArray()
+        // - IsObject()
     }
 
     // Call the function
