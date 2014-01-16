@@ -74,12 +74,12 @@ struct ArgValue<std::string, POS> {
     }
 };
 
-/** \brief ArgValue specialization for type scriptzeug::Value
+/** \brief ArgValue specialization for type Value
  */
 template<size_t POS>
-struct ArgValue<scriptzeug::Value, POS> {
-    static scriptzeug::Value get(const std::vector<Value> & args) {
-        scriptzeug::Value value;
+struct ArgValue<Value, POS> {
+    static Value get(const std::vector<Value> & args) {
+        Value value;
         if (POS < args.size()) {
             value = args[POS];
         }
@@ -87,12 +87,25 @@ struct ArgValue<scriptzeug::Value, POS> {
     }
 };
 
-/** \brief ArgValue specialization for type const scriptzeug::Value &
+/** \brief ArgValue specialization for type const Value &
  */
 template<size_t POS>
-struct ArgValue<const scriptzeug::Value &, POS> {
-    static scriptzeug::Value get(const std::vector<Value> & args) {
-        return ArgValue<scriptzeug::Value, POS>::get(args);
+struct ArgValue<const Value &, POS> {
+    static Value get(const std::vector<Value> & args) {
+        return ArgValue<Value, POS>::get(args);
+    }
+};
+
+/** \brief ArgValue specialization for type const std::vector<Value> &
+ */
+template<size_t POS>
+struct ArgValue<const std::vector<Value> &, POS> {
+    static std::vector<Value> get(const std::vector<Value> & args) {
+        std::vector<Value> list;
+        for (size_t i=POS; i<args.size(); i++) {
+            list.push_back(args[i]);
+        }
+        return list;
     }
 };
 
