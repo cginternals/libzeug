@@ -6,7 +6,7 @@
 using namespace scriptzeug;
 
 
-void testFunction()
+void testFunction(std::string a)
 {
     std::cout << "Test function\n";
 }
