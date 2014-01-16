@@ -416,7 +416,6 @@ private:
         unsigned int             m_uint;      /**< Unsigned integer value */
         double                   m_double;    /**< Double value */
         bool                     m_bool;      /**< Boolean value */
-        Value                   *m_obj;       /**< Object pointer */
     };
     std::string                  m_string;    /**< String value */
     std::vector<Value>           m_array;     /**< Array value (ordered list of values) */
