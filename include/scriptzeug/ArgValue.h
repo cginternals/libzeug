@@ -10,102 +10,137 @@ namespace scriptzeug
 
 /** \brief Template for parsing typed arguments from a list of variants
  */
-template<typename T>
+template<typename T, size_t POS>
 struct ArgValue {
-    // Assume signed integral type by default
-    static T get(std::vector<Value>::const_reverse_iterator &it, std::vector<Value>::const_reverse_iterator &end, size_t & numEmpty) {
+    static T get(const std::vector<Value> & args) {
+        // Assume signed integral type by default
         T value = 0;
-        if (numEmpty == 0 && it != end) {
-            value = (*it).toInt();
-            ++it;
+        if (POS < args.size()) {
+            value = args[POS].toInt();
         }
-        if (numEmpty > 0) numEmpty--;
         return value;
     }
 };
 
 /** \brief ArgValue specialization for type float
  */
-template<>
-struct ArgValue<float> {
-    static float get(std::vector<Value>::const_reverse_iterator &it, std::vector<Value>::const_reverse_iterator &end, size_t & numEmpty) {
+template<size_t POS>
+struct ArgValue<float, POS> {
+    static float get(const std::vector<Value> & args) {
         double value = 0.0f;
-        if (numEmpty == 0 && it != end) {
-            value = (*it).toDouble();
-            ++it;
+        if (POS < args.size()) {
+            value = args[POS].toDouble();
         }
-        if (numEmpty > 0) numEmpty--;
         return value;
     }
 };
 
 /** \brief ArgValue specialization for type double
  */
-template<>
-struct ArgValue<double> {
-    static double get(std::vector<Value>::const_reverse_iterator &it, std::vector<Value>::const_reverse_iterator &end, size_t & numEmpty) {
+template<size_t POS>
+struct ArgValue<double, POS> {
+    static double get(const std::vector<Value> & args) {
         double value = 0.0f;
-        if (numEmpty == 0 && it != end) {
-            value = (*it).toDouble();
-            ++it;
+        if (POS < args.size()) {
+            value = args[POS].toDouble();
         }
-        if (numEmpty > 0) numEmpty--;
         return value;
     }
 };
 
 /** \brief ArgValue specialization for type bool
  */
-template<>
-struct ArgValue<bool> {
-    static bool get(std::vector<Value>::const_reverse_iterator &it, std::vector<Value>::const_reverse_iterator &end, size_t & numEmpty) {
+template<size_t POS>
+struct ArgValue<bool, POS> {
+    static bool get(const std::vector<Value> & args) {
         bool value = false;
-        if (numEmpty == 0 && it != end) {
-            value = (*it).toBool();
-            ++it;
+        if (POS < args.size()) {
+            value = args[POS].toBool();
         }
-        if (numEmpty > 0) numEmpty--;
         return value;
     }
 };
 
 /** \brief ArgValue specialization for type string
  */
-template<>
-struct ArgValue<std::string> {
-    static std::string get(std::vector<Value>::const_reverse_iterator &it, std::vector<Value>::const_reverse_iterator &end, size_t & numEmpty) {
+template<size_t POS>
+struct ArgValue<std::string, POS> {
+    static std::string get(const std::vector<Value> & args) {
         std::string value;
-        if (numEmpty == 0 && it != end) {
-            value = (*it).toString();
-            ++it;
+        if (POS < args.size()) {
+            value = args[POS].toString();
         }
-        if (numEmpty > 0) numEmpty--;
         return value;
     }
 };
 
-/** \brief ArgValue specialization for type scriptzeug::Value
+/** \brief ArgValue specialization for type Value
  */
-template<>
-struct ArgValue<scriptzeug::Value> {
-    static scriptzeug::Value get(std::vector<Value>::const_reverse_iterator &it, std::vector<Value>::const_reverse_iterator &end, size_t & numEmpty) {
-        scriptzeug::Value value;
-        if (numEmpty == 0 && it != end) {
-            value = *it;
-            ++it;
+template<size_t POS>
+struct ArgValue<Value, POS> {
+    static Value get(const std::vector<Value> & args) {
+        Value value;
+        if (POS < args.size()) {
+            value = args[POS];
         }
-        if (numEmpty > 0) numEmpty--;
         return value;
     }
 };
 
-/** \brief ArgValue specialization for type const scriptzeug::Value &
+/** \brief ArgValue specialization for type const Value &
  */
-template<>
-struct ArgValue<const scriptzeug::Value &> {
-    static scriptzeug::Value get(std::vector<Value>::const_reverse_iterator &it, std::vector<Value>::const_reverse_iterator &end, size_t & numEmpty) {
-        return ArgValue<scriptzeug::Value>::get(it, end, numEmpty);
+template<size_t POS>
+struct ArgValue<const Value &, POS> {
+    static Value get(const std::vector<Value> & args) {
+        return ArgValue<Value, POS>::get(args);
     }
+};
+
+/** \brief ArgValue specialization for type const std::vector<Value> &
+ */
+template<size_t POS>
+struct ArgValue<const std::vector<Value> &, POS> {
+    static std::vector<Value> get(const std::vector<Value> & args) {
+        std::vector<Value> list;
+        for (size_t i=POS; i<args.size(); i++) {
+            list.push_back(args[i]);
+        }
+        return list;
+    }
+};
+
+
+/** \brief Sequence of numbers
+ *         (e.g., Seq<0, 1, 2>)
+ */
+template<size_t... I>
+struct Seq {};
+
+/** \brief Sequence generator
+ *         (e.g., GenSec<3>::Type = Seq<0, 1, 2>)
+ */
+template<int N, size_t... I>
+struct GenSeq : GenSeq<N-1, N-1, I...> {};
+
+template<size_t... I>
+struct GenSeq<0, I...> { typedef Seq<I...> Type; };
+
+/** \brief Pick type by index
+ *         (e.g., PickType<1, void, int, float>::Type = int)
+ */
+template<size_t N, typename T, typename... Arguments>
+struct PickType : PickType<N-1, Arguments...> {};
+
+template<typename T, typename... Arguments>
+struct PickType<0, T, Arguments...> { typedef T Type; };
+
+/** \brief Generate ArgValue class for types and index
+ *         (e.g., ArgValueGen<2, float, int, double>::Type = ArgValue<int, 2>
+ */
+template<size_t I, typename... Arguments>
+struct ArgValueGen {
+    typedef typename PickType<I, Arguments...>::Type T;
+    typedef ArgValue<T, I>                           Type;
 };
 
 

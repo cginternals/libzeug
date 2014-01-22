@@ -58,24 +58,14 @@ public:
 
     virtual void call(const std::vector<Value> & args)
     {
-        // Get arguments
-        std::vector<Value>::const_reverse_iterator it  = args.rbegin();
-        std::vector<Value>::const_reverse_iterator end = args.rend();
+        callFunction(typename GenSeq<sizeof...(Arguments)>::Type(), args);
+    }
 
-        // Check for wrong number of arguments
-        size_t numArgs  = sizeof...(Arguments);
-        size_t numFound = args.size();
-        size_t numEmpty = 0;
-        if (numFound > numArgs) {
-            // Skip additional arguments
-            for (size_t i=numArgs; i<numFound; i++)
-                it++;
-        } else if (numArgs > numFound) {
-            numEmpty = numArgs - numFound;
-        }
-
-        // Call function
-        (*m_func)(ArgValue<Arguments>::get(it, end, numEmpty)...);
+protected:
+    template<size_t... I>
+    void callFunction(Seq<I...>, const std::vector<Value> & args)
+    {
+        (*m_func)(ArgValueGen<I, Arguments...>::Type::get(args)...);
     }
 
 protected:
@@ -105,24 +95,14 @@ public:
 
     virtual void call(const std::vector<Value> & args)
     {
-        // Get arguments
-        std::vector<Value>::const_reverse_iterator it  = args.rbegin();
-        std::vector<Value>::const_reverse_iterator end = args.rend();
+        callMethod(typename GenSeq<sizeof...(Arguments)>::Type(), args);
+    }
 
-        // Check for wrong number of arguments
-        size_t numArgs  = sizeof...(Arguments);
-        size_t numFound = args.size();
-        size_t numEmpty = 0;
-        if (numFound > numArgs) {
-            // Skip additional arguments
-            for (size_t i=numArgs; i<numFound; i++)
-                it++;
-        } else if (numArgs > numFound) {
-            numEmpty = numArgs - numFound;
-        }
-
-        // Call function
-        (m_obj->*m_method) ( ArgValue<Arguments>::get(it, end, numEmpty)... );
+protected:
+    template<size_t... I>
+    void callMethod(Seq<I...>, const std::vector<Value> & args)
+    {
+        (m_obj->*m_method)(ArgValueGen<I, Arguments...>::Type::get(args)...);
     }
 
 protected:
