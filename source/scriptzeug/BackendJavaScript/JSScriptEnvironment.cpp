@@ -1,3 +1,4 @@
+#include <iostream>
 #include <functional>
 #include "scriptzeug/Scriptable.h"
 #include "scriptzeug/BackendJavaScript/JSScriptEnvironment.h"
@@ -10,6 +11,68 @@ namespace scriptzeug
 using namespace v8;
 
 
+static scriptzeug::Value wrapVariable(v8::Local<v8::Value> arg)
+{
+    // Int
+    if (arg->IsInt32()) {
+        int value = arg->Int32Value();
+        return scriptzeug::Value(value);
+    }
+
+    // UInt
+    else if (arg->IsUint32()) {
+        unsigned int value = arg->Uint32Value();
+        return scriptzeug::Value(value);
+    }
+
+    // Double
+    else if (arg->IsNumber()) {
+        double value = arg->NumberValue();
+        return scriptzeug::Value(value);
+    }
+
+    // Bool
+    else if (arg->IsBoolean()) {
+        bool value = arg->BooleanValue();
+        return scriptzeug::Value(value);
+    }
+
+    // String argument
+    else if (arg->IsString()) {
+        v8::String::AsciiValue str(arg);
+        return scriptzeug::Value(std::string(*str));
+    }
+
+    // Array
+    else if (arg->IsArray()) {
+        scriptzeug::Value value(scriptzeug::Value::TypeArray);
+        v8::Handle<v8::Array> arr = v8::Handle<v8::Array>::Cast(arg);
+        for (int i=0; i<arr->Length(); i++) {
+            v8::Local<v8::Value> prop = arr->Get(i);
+            value.set(i, wrapVariable(prop));
+        }
+        return value;
+    }
+
+    // Object
+    else if (arg->IsObject()) {
+        scriptzeug::Value value(scriptzeug::Value::TypeObject);
+        v8::Local<v8::Object>  obj = arg->ToObject();
+        v8::Local<v8::Array> props = obj->GetPropertyNames();
+        for (int i=0; i<props->Length(); i++) {
+            v8::Local<v8::Value> name = props->Get(i);
+            v8::String::AsciiValue ascii(name);
+            std::string propName(*ascii);
+            v8::Local<v8::Value> prop = obj->Get(name);
+            value.set(propName, wrapVariable(prop));
+        }
+        return value;
+    }
+
+    // Undefined
+    return scriptzeug::Value();
+}
+
 static void wrapFunction(const v8::FunctionCallbackInfo<v8::Value> & args)
 {
     // Get function pointer
@@ -20,45 +83,8 @@ static void wrapFunction(const v8::FunctionCallbackInfo<v8::Value> & args)
     std::vector<scriptzeug::Value> arguments;
     for (int i=0; i<args.Length(); i++) {
         v8::HandleScope scope(args.GetIsolate());
-
-        // Int
-        if (args[i]->IsInt32()) {
-            int value = args[i]->Int32Value();
-            arguments.push_back(scriptzeug::Value(value));
-        }
-
-        // UInt
-        else if (args[i]->IsUint32()) {
-            unsigned int value = args[i]->Uint32Value();
-            arguments.push_back(scriptzeug::Value(value));
-        }
-
-        // Double
-        else if (args[i]->IsNumber()) {
-            double value = args[i]->NumberValue();
-            arguments.push_back(scriptzeug::Value(value));
-        }
-
-        // Bool
-        else if (args[i]->IsBoolean()) {
-            bool value = args[i]->BooleanValue();
-            arguments.push_back(scriptzeug::Value(value));
-        }
-
-        // String argument
-        else if (args[i]->IsString()) {
-            v8::String::AsciiValue str(args[i]);
-            arguments.push_back(scriptzeug::Value(std::string(*str)));
-        }
-
-        // Undefined
-        else {
-            arguments.push_back(scriptzeug::Value());
-        }
-
-        // TODO:
-        // - IsArray()
-        // - IsObject()
+        v8::Local<v8::Value> arg = args[i];
+        arguments.push_back(wrapVariable(arg));
     }
 
     // Call the function

@@ -57,7 +57,7 @@ int main(int argc, char const *argv[])
     scripting.evaluate("testobj.test();");
     scripting.evaluate("testobj.bottlesOfBeer(120, 3.5, 10);");
     scripting.evaluate("testobj.bottlesOfBeer();");
-    scripting.evaluate("testobj.dynamicTest(3.5, 100, \"asd\");");
+    scripting.evaluate("testobj.dynamicTest([3.5, {a: 100, b: 200}, 12], \"asd\");");
 
     return 0;
 }
