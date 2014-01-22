@@ -4,7 +4,8 @@
 #include <string>
 #include <vector>
 #include <functional>
-#include <scriptzeug/ArgValue.h>
+#include <scriptzeug/Value.h>
+#include <scriptzeug/TemplateHelper.h>
 
 
 namespace scriptzeug
@@ -30,7 +31,7 @@ public:
         return m_name;
     }
 
-    virtual void call(const std::vector<Value> & args) = 0;
+    virtual Value call(const std::vector<Value> & args) = 0;
 
 protected:
     std::string m_name;
@@ -39,11 +40,11 @@ protected:
 
 /** \brief Representation of a static function
  */
-template <typename... Arguments>
+template <typename RET, typename... Arguments>
 class Function : public AbstractFunction
 {
 public:
-    typedef void (*FuncPtr) (Arguments...);
+    typedef RET (*FuncPtr) (Arguments...);
 
 public:
     Function(const std::string & name, FuncPtr func)
@@ -56,16 +57,16 @@ public:
     {
     }
 
-    virtual void call(const std::vector<Value> & args)
+    virtual Value call(const std::vector<Value> & args)
     {
-        callFunction(typename GenSeq<sizeof...(Arguments)>::Type(), args);
+        return callFunction(typename GenSeq<sizeof...(Arguments)>::Type(), args);
     }
 
 protected:
     template<size_t... I>
-    void callFunction(Seq<I...>, const std::vector<Value> & args)
+    Value callFunction(Seq<I...>, const std::vector<Value> & args)
     {
-        (*m_func)(ArgValueGen<I, Arguments...>::Type::get(args)...);
+        return CallFunction<RET, Arguments...>::call(m_func, ArgValueGen<I, Arguments...>::Type::get(args)...);
     }
 
 protected:
@@ -75,11 +76,11 @@ protected:
 
 /** \brief Representation of a method
  */
-template <class T, typename... Arguments>
+template <class T, typename RET, typename... Arguments>
 class Method : public AbstractFunction
 {
 public:
-    typedef void (T::*MethodPtr) (Arguments...);
+    typedef RET (T::*MethodPtr) (Arguments...);
 
 public:
     Method(const std::string & name, T * obj, MethodPtr method)
@@ -93,16 +94,16 @@ public:
     {
     }
 
-    virtual void call(const std::vector<Value> & args)
+    virtual Value call(const std::vector<Value> & args)
     {
-        callMethod(typename GenSeq<sizeof...(Arguments)>::Type(), args);
+        return callMethod(typename GenSeq<sizeof...(Arguments)>::Type(), args);
     }
 
 protected:
     template<size_t... I>
-    void callMethod(Seq<I...>, const std::vector<Value> & args)
+    Value callMethod(Seq<I...>, const std::vector<Value> & args)
     {
-        (m_obj->*m_method)(ArgValueGen<I, Arguments...>::Type::get(args)...);
+        return CallMethod<T, RET, Arguments...>::call(m_obj, m_method, ArgValueGen<I, Arguments...>::Type::get(args)...);
     }
 
 protected:

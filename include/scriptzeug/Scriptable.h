@@ -20,17 +20,17 @@ public:
 
     const std::vector<AbstractFunction *> & functions() const;
 
-    template <typename... Arguments>
-    void addFunction(const std::string & name, void (*fn)(Arguments...))
+    template <typename RET, typename... Arguments>
+    void addFunction(const std::string & name, RET (*fn)(Arguments...))
     {
-        Function<Arguments...> * func = new Function<Arguments...>(name, fn);
+        Function<RET, Arguments...> * func = new Function<RET, Arguments...>(name, fn);
         m_functions.push_back(func);
     }
 
-    template <class T, typename... Arguments>
-    void addFunction(const std::string & name, T * obj, void (T::*member)(Arguments...))
+    template <class T, typename RET, typename... Arguments>
+    void addFunction(const std::string & name, T * obj, RET (T::*member)(Arguments...))
     {
-        Method<T, Arguments...> * method = new Method<T, Arguments...>(name, obj, member);
+        Method<T, RET, Arguments...> * method = new Method<T, RET, Arguments...>(name, obj, member);
         m_functions.push_back(method);
     }
 

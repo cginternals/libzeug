@@ -143,5 +143,59 @@ struct ArgValueGen {
     typedef ArgValue<T, I>                           Type;
 };
 
+/** \brief Template for calling a static function with a return value
+ */
+template <typename RET, typename... Arguments>
+class CallFunction
+{
+public:
+    typedef RET (*FuncPtr) (Arguments...);
+
+    static Value call(FuncPtr func, Arguments... args) {
+        return Value( (*func)(args...) );
+    }
+};
+
+/** \brief Template for calling a static function without a return value
+ */
+template <typename... Arguments>
+class CallFunction<void, Arguments...>
+{
+public:
+    typedef void (*FuncPtr) (Arguments...);
+
+    static Value call(FuncPtr func, Arguments... args) {
+        (*func)(args...);
+        return Value();
+    }
+};
+
+/** \brief Template for calling a member function with a return value
+ */
+template <typename T, typename RET, typename... Arguments>
+class CallMethod
+{
+public:
+    typedef RET (T::*MethodPtr) (Arguments...);
+
+    static Value call(T * obj, MethodPtr method, Arguments... args) {
+        return Value( (obj->*method)(args...) );
+    }
+};
+
+/** \brief Template for calling a member function without a return value
+ */
+template <typename T, typename... Arguments>
+class CallMethod<T, void, Arguments...>
+{
+public:
+    typedef void (T::*MethodPtr) (Arguments...);
+
+    static Value call(T * obj, MethodPtr method, Arguments... args) {
+        (obj->*method)(args...);
+        return Value();
+    }
+};
+
 
 } // namespace scriptzeug

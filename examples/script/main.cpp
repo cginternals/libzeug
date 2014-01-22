@@ -6,9 +6,16 @@
 using namespace scriptzeug;
 
 
-void testFunction(std::string a)
+Value testFunction(std::string a)
 {
     std::cout << "Test function\n";
+
+    Value value = Value::Object();
+    value.set("a", 1);
+    value.set("b", 2);
+    value.set("c", 3);
+    value.set("d", "end");
+    return value;
 }
 
 
@@ -27,14 +34,16 @@ public:
     {
     }
 
-    void helloWorld()
+    int helloWorld()
     {
         std::cout << "Hello World\n";
+        return 10;
     }
 
-    void bottlesOfBeer(int count, float a)
+    std::string bottlesOfBeer(int count, float a)
     {
         std::cout << count << " bottles of beer with a propability of " << a << "\%.\n";
+        return "hicks";
     }
 
     void dynamicTest(const std::vector<Value> &args)
@@ -61,7 +70,7 @@ int main(int argc, char const *argv[])
 //  scripting.evaluate("testobj.test(1, 2, '3', 23.42, 'asd');");
     value = scripting.evaluate("1 + 2");
     std::cout << "--> " << value.toString() << "\n";
-    value = scripting.evaluate("testobj.helloWorld();");
+    value = scripting.evaluate("testobj.helloWorld() + 1;");
     std::cout << "--> " << value.toString() << "\n";
     value = scripting.evaluate("testobj.test();");
     std::cout << "--> " << value.toString() << "\n";

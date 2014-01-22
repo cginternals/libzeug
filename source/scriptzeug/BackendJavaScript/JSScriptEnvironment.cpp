@@ -73,6 +73,57 @@ static scriptzeug::Value wrapValue(v8::Local<v8::Value> arg)
     return scriptzeug::Value();
 }
 
+static v8::Local<v8::Value> wrapValue(const scriptzeug::Value &arg)
+{
+    v8::Local<v8::Value> value;
+
+    if (arg.type() == scriptzeug::Value::TypeInt) {
+        v8::Local<v8::Integer> v = v8::Integer::New(arg.toInt());
+        value = v;
+    }
+
+    else if (arg.type() == scriptzeug::Value::TypeUInt) {
+        v8::Local<v8::Integer> v = v8::Integer::NewFromUnsigned(arg.toUInt());
+        value = v;
+    }
+
+    else if (arg.type() == scriptzeug::Value::TypeDouble) {
+        v8::Local<v8::Number> v = v8::Number::New(arg.toDouble());
+        value = v;
+    }
+
+    else if (arg.type() == scriptzeug::Value::TypeBool) {
+        v8::Local<v8::Boolean> v = v8::Boolean::New(arg.toBool());
+        value = v;
+    }
+
+    else if (arg.type() == scriptzeug::Value::TypeString) {
+        v8::Handle<v8::String> str = String::New(arg.toString().c_str());
+        value = str;
+    }
+
+    else if (arg.type() == scriptzeug::Value::TypeArray) {
+        v8::Handle<v8::Array> arr = Array::New(arg.size());
+        for (int i=0; i<arg.size(); i++) {
+            arr->Set(i, wrapValue(arg.get(i)));
+        }
+        value = arr;
+    }
+
+    else if (arg.type() == scriptzeug::Value::TypeObject) {
+        v8::Handle<v8::Object> obj = Object::New();
+        std::vector<std::string> args = arg.keys();
+        for (std::vector<std::string>::iterator it = args.begin(); it != args.end(); ++it) {
+            std::string name = *it;
+            v8::Handle<v8::String> n = String::New(name.c_str());
+            obj->Set(n, wrapValue(arg.get(name)));
+        }
+        value = obj;
+    }
+
+    return value;
+}
+
 static void wrapFunction(const v8::FunctionCallbackInfo<v8::Value> & args)
 {
     // Get function pointer
@@ -88,13 +139,8 @@ static void wrapFunction(const v8::FunctionCallbackInfo<v8::Value> & args)
     }
 
     // Call the function
-    func->call(arguments);
-
-    // Set return value
-    /*
-    v8::Handle<v8::String> source = ReadFile(args.GetIsolate(), *file);
-    args.GetReturnValue().Set(source);
-    */
+    scriptzeug::Value value = func->call(arguments);
+    args.GetReturnValue().Set( wrapValue(value) );
 }
 
 

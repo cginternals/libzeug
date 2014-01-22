@@ -30,6 +30,7 @@ set(headers
     ${header_path}/Scriptable.h
     ${header_path}/Function.h
     ${header_path}/Value.h
+    ${header_path}/TemplateHelper.h
 )
 
 set(sources
