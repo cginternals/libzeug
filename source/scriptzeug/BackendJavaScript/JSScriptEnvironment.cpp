@@ -11,7 +11,7 @@ namespace scriptzeug
 using namespace v8;
 
 
-static scriptzeug::Value wrapVariable(v8::Local<v8::Value> arg)
+static scriptzeug::Value wrapValue(v8::Local<v8::Value> arg)
 {
     // Int
     if (arg->IsInt32()) {
@@ -49,7 +49,7 @@ static scriptzeug::Value wrapVariable(v8::Local<v8::Value> arg)
         v8::Handle<v8::Array> arr = v8::Handle<v8::Array>::Cast(arg);
         for (int i=0; i<arr->Length(); i++) {
             v8::Local<v8::Value> prop = arr->Get(i);
-            value.set(i, wrapVariable(prop));
+            value.set(i, wrapValue(prop));
         }
         return value;
     }
@@ -64,7 +64,7 @@ static scriptzeug::Value wrapVariable(v8::Local<v8::Value> arg)
             v8::String::AsciiValue ascii(name);
             std::string propName(*ascii);
             v8::Local<v8::Value> prop = obj->Get(name);
-            value.set(propName, wrapVariable(prop));
+            value.set(propName, wrapValue(prop));
         }
         return value;
     }
@@ -84,7 +84,7 @@ static void wrapFunction(const v8::FunctionCallbackInfo<v8::Value> & args)
     for (int i=0; i<args.Length(); i++) {
         v8::HandleScope scope(args.GetIsolate());
         v8::Local<v8::Value> arg = args[i];
-        arguments.push_back(wrapVariable(arg));
+        arguments.push_back(wrapValue(arg));
     }
 
     // Call the function
@@ -161,7 +161,7 @@ void JSScriptEnvironment::registerObject(const std::string & name, Scriptable * 
     context->Global()->Set(String::New(name.c_str()), object, ReadOnly);
 }
 
-void JSScriptEnvironment::evaluate(const std::string & code)
+scriptzeug::Value JSScriptEnvironment::evaluate(const std::string & code)
 {
     // Get isolate
     Isolate * isolate = Isolate::GetCurrent();
@@ -176,11 +176,8 @@ void JSScriptEnvironment::evaluate(const std::string & code)
     Handle<Script> script = Script::Compile(source);
 
     // Run script
-    Handle< v8::Value > result = script->Run();
-
-    // Print result
-    String::AsciiValue ascii(result);
-    printf("%s\n", *ascii);
+    Handle<v8::Value> result = script->Run();
+    return wrapValue(result);
 }
 
 

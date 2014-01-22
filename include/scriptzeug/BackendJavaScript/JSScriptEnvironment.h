@@ -18,7 +18,7 @@ public:
     virtual ~JSScriptEnvironment();
 
     virtual void registerObject(const std::string & name, Scriptable * obj);
-    virtual void evaluate(const std::string & code);
+    virtual Value evaluate(const std::string & code);
 
 protected:
     v8::Persistent<v8::Context> m_context;

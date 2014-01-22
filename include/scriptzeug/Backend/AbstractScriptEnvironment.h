@@ -2,7 +2,7 @@
 
 
 #include <string>
-#include <scriptzeug/scriptzeug.h>
+#include <scriptzeug/Value.h>
 
 
 namespace scriptzeug
@@ -21,7 +21,7 @@ public:
     virtual ~AbstractScriptEnvironment();
 
     virtual void registerObject(const std::string & name, Scriptable * obj) = 0;
-    virtual void evaluate(const std::string & code) = 0;
+    virtual Value evaluate(const std::string & code) = 0;
 };
 
 

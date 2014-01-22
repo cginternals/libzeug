@@ -31,10 +31,12 @@ void ScriptEnvironment::registerObject(const std::string & name, Scriptable * ob
         m_backend->registerObject(name, obj);
 }
 
-void ScriptEnvironment::evaluate(const std::string & code)
+Value ScriptEnvironment::evaluate(const std::string & code)
 {
     if (m_backend)
-        m_backend->evaluate(code);
+        return m_backend->evaluate(code);
+    else
+        return Value();
 }
 
 

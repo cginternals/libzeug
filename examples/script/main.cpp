@@ -56,13 +56,23 @@ int main(int argc, char const *argv[])
 
     ScriptEnvironment scripting;
     scripting.registerObject("testobj", &obj);
+
+    Value value;
 //  scripting.evaluate("testobj.test(1, 2, '3', 23.42, 'asd');");
-    scripting.evaluate("testobj.helloWorld();");
-    scripting.evaluate("testobj.test();");
-    scripting.evaluate("testobj.bottlesOfBeer(120, 3.5, 10);");
-    scripting.evaluate("testobj.bottlesOfBeer();");
-    scripting.evaluate("testobj.dynamicTest([3.5, {a: 100, b: 200}, 12], \"asd\");");
-    scripting.evaluate("testobj.dynamicTest();");
+    value = scripting.evaluate("1 + 2");
+    std::cout << "--> " << value.toString() << "\n";
+    value = scripting.evaluate("testobj.helloWorld();");
+    std::cout << "--> " << value.toString() << "\n";
+    value = scripting.evaluate("testobj.test();");
+    std::cout << "--> " << value.toString() << "\n";
+    value = scripting.evaluate("testobj.bottlesOfBeer(120, 3.5, 10);");
+    std::cout << "--> " << value.toString() << "\n";
+    value = scripting.evaluate("testobj.bottlesOfBeer();");
+    std::cout << "--> " << value.toString() << "\n";
+    value = scripting.evaluate("testobj.dynamicTest([3.5, {a: 100, b: 200}, 12], \"asd\");");
+    std::cout << "--> " << value.toString() << "\n";
+    value = scripting.evaluate("testobj.dynamicTest();");
+    std::cout << "--> " << value.toString() << "\n";
 
     return 0;
 }

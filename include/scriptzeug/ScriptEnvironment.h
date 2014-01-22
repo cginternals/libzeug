@@ -2,7 +2,7 @@
 
 
 #include <string>
-#include <scriptzeug/scriptzeug.h>
+#include <scriptzeug/Value.h>
 
 
 namespace scriptzeug
@@ -23,7 +23,7 @@ public:
 
     void registerObject(const std::string & name, Scriptable * obj);
 
-    void evaluate(const std::string & code);
+    Value evaluate(const std::string & code);
 
 protected:
     AbstractScriptEnvironment * m_backend;
