@@ -83,8 +83,6 @@ void ChangesStrategy::createTreeForRevision(unsigned revisionId)
 			);
 		}
 	}
-	
-    m_trees << tree->copy();
 
     QHash<GeneratedId, Node*> nodes;
     QHash<DatabaseId, GeneratedId> ids;
@@ -148,6 +146,8 @@ void ChangesStrategy::createTreeForRevision(unsigned revisionId)
     });
 
     tree->renormalizeAttributesForLeaves();
+
+    m_trees << tree->copy();
 }
 
 void ChangesStrategy::insertIntoTree(Node* node, MutableTree* tree, const QHash<GeneratedId, Node*>& nodes, const QHash<GeneratedId, GeneratedId>& parentIds) const

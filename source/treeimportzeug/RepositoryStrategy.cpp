@@ -70,8 +70,6 @@ void RepositoryStrategy::createTreeForRevision(unsigned revisionId, const QStrin
             metric.type == MT_Integer ? AttributeMap::Numeric : AttributeMap::Nominal
         );
 	}
-	
-    m_trees << tree->copy();
 
     QHash<int, Node*> nodes;
 	
@@ -116,6 +114,8 @@ void RepositoryStrategy::createTreeForRevision(unsigned revisionId, const QStrin
     });
 
     tree->renormalizeAttributesForLeaves();
+
+    m_trees << tree->copy();
 }
 
 } // namespace zeug
