@@ -9,6 +9,7 @@ namespace scriptzeug
 
 
 using namespace v8;
+using namespace zeug;
 
 
 static scriptzeug::Value wrapValue(v8::Local<v8::Value> arg)
@@ -143,6 +144,52 @@ static void wrapFunction(const v8::FunctionCallbackInfo<v8::Value> & args)
     args.GetReturnValue().Set( wrapValue(value) );
 }
 
+static void getProperty(Local<String> property, const PropertyCallbackInfo<v8::Value> & info)
+{
+    // Get object
+    Local<Object> self = info.Holder();
+    Local<External> wrap = Local<External>::Cast(self->GetInternalField(0));
+    Scriptable * obj = static_cast<Scriptable*>(wrap->Value());
+    if (obj) {
+        // Get property name
+        v8::String::AsciiValue str(property);
+        std::string name(*str);
+
+        // Get property
+        AbstractProperty * property = obj->obtainProperty(name);
+        if (property) {
+            // Get value
+            // [TODO]
+
+            // [DEBUG]
+//          info.GetReturnValue().Set(v8::String::New("bla blub"));
+
+            // [DEBUG]
+            std::cout << "Access '" << name << "'\n";
+        }
+    }
+}
+
+static void setProperty(Local<String> property, Local<v8::Value> value, const PropertyCallbackInfo<void> & info)
+{
+    // Get object
+    Local<Object> self = info.Holder();
+    Local<External> wrap = Local<External>::Cast(self->GetInternalField(0));
+    Scriptable * obj = static_cast<Scriptable*>(wrap->Value());
+    if (obj) {
+        // Get property name
+        v8::String::AsciiValue str(property);
+        std::string name(*str);
+
+        // Get property
+        AbstractProperty * property = obj->obtainProperty(name);
+        if (property) {
+            // Set value
+            // [TODO]
+        }
+    }
+}
+
 
 JSScriptEnvironment::JSScriptEnvironment()
 {
@@ -177,6 +224,17 @@ void JSScriptEnvironment::registerObject(const std::string & name, Scriptable * 
     // Create class template
     Handle<ObjectTemplate> templ = ObjectTemplate::New();
     templ->SetInternalFieldCount(1);
+
+    // Register object properties
+    for (unsigned int i=0; i<obj->propertyCount(); i++) {
+        // Get property
+        AbstractProperty * prop = obj->property(i);
+        std::string name = prop->name();
+
+        // Add accessor for property
+        Local<v8::String> str = String::New(name.c_str());
+        templ->SetAccessor(str, getProperty, setProperty);
+    }
 
     // Register object functions
     const std::vector<AbstractFunction *> & funcs = obj->functions();

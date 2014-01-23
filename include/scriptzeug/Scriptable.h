@@ -3,7 +3,8 @@
 
 #include <string>
 #include <vector>
-#include <scriptzeug/Function.h>
+#include <propertyzeug/PropertyGroup.h>
+#include "scriptzeug/Function.h"
 
 
 namespace scriptzeug
@@ -12,7 +13,7 @@ namespace scriptzeug
 
 /** \brief Base class for classes that expose a scripting interface
  */
-class SCRIPTZEUG_API Scriptable
+class SCRIPTZEUG_API Scriptable : public zeug::PropertyGroup
 {
 public:
     Scriptable();

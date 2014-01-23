@@ -6,6 +6,7 @@ namespace scriptzeug
 
 
 Scriptable::Scriptable()
+: PropertyGroup("")
 {
 }
 

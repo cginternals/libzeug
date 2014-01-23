@@ -22,8 +22,12 @@ Value testFunction(std::string a)
 class MyInterface : public Scriptable
 {
 public:
-    MyInterface()
+    MyInterface() : m_prompt("Hello World")
     {
+        // Properties
+        addProperty<std::string>("prompt", *this, &MyInterface::prompt, &MyInterface::setPrompt);
+
+        // Functions
         addFunction("test",                &testFunction);
         addFunction("helloWorld",    this, &MyInterface::helloWorld);
         addFunction("bottlesOfBeer", this, &MyInterface::bottlesOfBeer);
@@ -36,7 +40,7 @@ public:
 
     int helloWorld()
     {
-        std::cout << "Hello World\n";
+        std::cout << m_prompt << "\n";
         return 10;
     }
 
@@ -56,6 +60,20 @@ public:
             i++;
         }
     }
+
+protected:
+    std::string prompt() const
+    {
+        return m_prompt;
+    }
+
+    void setPrompt(const std::string & prompt)
+    {
+        m_prompt = prompt;
+    }
+
+protected:
+    std::string m_prompt;
 };
 
 
@@ -67,19 +85,28 @@ int main(int argc, char const *argv[])
     scripting.registerObject("testobj", &obj);
 
     Value value;
-//  scripting.evaluate("testobj.test(1, 2, '3', 23.42, 'asd');");
+
     value = scripting.evaluate("1 + 2");
     std::cout << "--> " << value.toString() << "\n";
+
+    value = scripting.evaluate("testobj.prompt;");
+    std::cout << "--> " << value.toString() << "\n";
+
     value = scripting.evaluate("testobj.helloWorld() + 1;");
     std::cout << "--> " << value.toString() << "\n";
+
     value = scripting.evaluate("testobj.test();");
     std::cout << "--> " << value.toString() << "\n";
+
     value = scripting.evaluate("testobj.bottlesOfBeer(120, 3.5, 10);");
     std::cout << "--> " << value.toString() << "\n";
+
     value = scripting.evaluate("testobj.bottlesOfBeer();");
     std::cout << "--> " << value.toString() << "\n";
+
     value = scripting.evaluate("testobj.dynamicTest([3.5, {a: 100, b: 200}, 12], \"asd\");");
     std::cout << "--> " << value.toString() << "\n";
+
     value = scripting.evaluate("testobj.dynamicTest();");
     std::cout << "--> " << value.toString() << "\n";
 
