@@ -1,6 +1,6 @@
 #include <treeimportzeug/SoftwareSystemStrategy.h>
 
-#include <treezeug/Tree.h>
+#include <treezeug/MutableTree.h>
 
 namespace zeug
 {
@@ -33,6 +33,7 @@ void SoftwareSystemStrategy::start()
 void SoftwareSystemStrategy::finish()
 {
 	m_tree->root()->setName("<root>");
+    m_tree->renormalizeAttributesForLeaves();
 }
 
 bool SoftwareSystemStrategy::startElement(const QString & name, const QXmlAttributes & attributes)

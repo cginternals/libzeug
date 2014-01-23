@@ -11,6 +11,7 @@ namespace zeug
 
 class Tree;
 class Node;
+class MutableTree;
 
 class TREEIMPORTZEUG_API ChangesStrategy : public TreeSqliteParserStrategy
 {
@@ -36,7 +37,7 @@ protected:
 	int idFor(long hash) const;
 	void insertIntoTree(
 	Node * node
-	,   Tree * tree
+    ,   MutableTree * tree
 	,   const QHash<GeneratedId, Node*> & nodes
 	,   const QHash<GeneratedId, GeneratedId> & parentIds) const;
 protected:

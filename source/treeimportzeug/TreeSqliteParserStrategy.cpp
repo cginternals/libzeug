@@ -66,7 +66,7 @@ QList<QVariantMap> TreeSqliteParserStrategy::executeQuery(const QString & statem
 				row[fieldName] = query.value(indices[fieldName]);
 			
 			rows << row;
-		}		
+        }
 		return rows;
 	}
 	else

@@ -26,3 +26,5 @@ CMakeLists.txt.user
 /_open-project.bat
 /_start-cmake-gui.bat
 /_start-depends.bat
+
+/install

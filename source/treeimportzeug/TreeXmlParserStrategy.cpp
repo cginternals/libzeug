@@ -4,7 +4,7 @@
 #include <QFile>
 #include <QFileInfo>
 
-#include <treezeug/Tree.h>
+#include <treezeug/MutableTree.h>
 
 namespace zeug
 {
@@ -74,7 +74,7 @@ bool TreeXmlParserStrategy::startDocument()
 {
     if (!m_inWantsToProcess)
     {
-        m_tree = new Tree(QFileInfo(m_filename).baseName().toStdString());
+        m_tree = new MutableTree(QFileInfo(m_filename).baseName().toStdString());
 
         start();
     }

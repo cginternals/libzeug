@@ -4,6 +4,7 @@
 
 #include <treeimportzeug/ChangesStrategy.h>
 #include <treeimportzeug/CityGMLStrategy.h>
+#include <treeimportzeug/RepositoryStrategy.h>
 #include <treeimportzeug/SoftwareSystemStrategy.h>
 #include <treeimportzeug/TreeStrategy.h>
 
@@ -38,6 +39,7 @@ void TreeImport::registerStandardStrategies()
 	registerStrategy(new CityGMLStrategy());
 	registerStrategy(new SoftwareSystemStrategy());
 	registerStrategy(new TreeStrategy());
+    registerStrategy(new RepositoryStrategy());
 }
 
 QList<Tree*> TreeImport::loadFromFile(const QString& filename)

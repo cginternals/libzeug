@@ -9,9 +9,10 @@ class Node;
 class Attribute;
 class AttributeMap;
 
-struct TreeData
+class TreeData
 {
     friend class Tree;
+    friend class MutableTree;
 public:
     TreeData(const std::string& name);
     ~TreeData();

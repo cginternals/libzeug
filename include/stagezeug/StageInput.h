@@ -45,7 +45,7 @@ protected:
 };
 
 template <typename T>
-class STAGEZEUG_API StageInputSlot : public AbstractStageInput
+class StageInputSlot : public AbstractStageInput
 {
 public:
     StageInputSlot();
@@ -62,7 +62,7 @@ protected:
 };
 
 template <typename T>
-class STAGEZEUG_API StageInput : public AbstractStageInput
+class StageInput : public AbstractStageInput
 {
 public:
     StageInput();

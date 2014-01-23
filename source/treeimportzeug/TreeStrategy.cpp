@@ -1,6 +1,6 @@
 #include <treeimportzeug/TreeStrategy.h>
 
-#include <treezeug/Tree.h>
+#include <treezeug/MutableTree.h>
 
 namespace zeug
 {
@@ -39,6 +39,8 @@ void TreeStrategy::finish()
 
 	root->setName("<root>");
 	root->setAttribute("size", totalSize);
+
+    m_tree->renormalizeAttributesForLeaves();
 }
 
 bool TreeStrategy::startElement(const QString & name, const QXmlAttributes & attributes)
