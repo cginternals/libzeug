@@ -4,6 +4,7 @@
     #include <scriptzeug/BackendJavaScript/JSScriptEnvironment.h>
 #endif
 
+
 namespace scriptzeug
 {
 
@@ -25,7 +26,7 @@ ScriptEnvironment::~ScriptEnvironment()
         delete m_backend;
 }
 
-void ScriptEnvironment::registerObject(Scriptable * obj)
+void ScriptEnvironment::registerObject(zeug::PropertyGroup * obj)
 {
     if (m_backend)
         m_backend->registerObject(obj);

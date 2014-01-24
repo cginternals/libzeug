@@ -17,11 +17,11 @@ public:
     JSScriptEnvironment();
     virtual ~JSScriptEnvironment();
 
-    virtual void registerObject(Scriptable * obj);
+    virtual void registerObject(zeug::PropertyGroup * obj);
     virtual Value evaluate(const std::string & code);
 
 protected:
-    void registerObj(v8::Handle<v8::Object> parent, Scriptable * obj);
+    void registerObj(v8::Handle<v8::Object> parent, zeug::PropertyGroup * obj);
 
 protected:
     v8::Persistent<v8::Context>  m_context;

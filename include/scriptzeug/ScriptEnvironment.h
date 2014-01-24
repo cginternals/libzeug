@@ -5,12 +5,16 @@
 #include <scriptzeug/Value.h>
 
 
+namespace zeug {
+    class PropertyGroup;
+}
+
+
 namespace scriptzeug
 {
 
 
 class AbstractScriptEnvironment;
-class Scriptable;
 
 
 /** \brief The entry point to managing a scripting engine in your application
@@ -21,7 +25,7 @@ public:
     ScriptEnvironment(const std::string & backend = "javascript");
     virtual ~ScriptEnvironment();
 
-    void registerObject(Scriptable * obj);
+    void registerObject(zeug::PropertyGroup * obj);
 
     Value evaluate(const std::string & code);
 

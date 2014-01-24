@@ -5,11 +5,13 @@
 #include <scriptzeug/Value.h>
 
 
+namespace zeug {
+    class PropertyGroup;
+}
+
+
 namespace scriptzeug
 {
-
-
-class Scriptable;
 
 
 /** \brief Base class for backend specific script environments
@@ -20,7 +22,7 @@ public:
     AbstractScriptEnvironment();
     virtual ~AbstractScriptEnvironment();
 
-    virtual void registerObject(Scriptable * obj) = 0;
+    virtual void registerObject(zeug::PropertyGroup * obj) = 0;
     virtual Value evaluate(const std::string & code) = 0;
 };
 

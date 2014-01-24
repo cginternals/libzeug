@@ -220,7 +220,7 @@ JSScriptEnvironment::~JSScriptEnvironment()
     m_context.Reset();
 }
 
-void JSScriptEnvironment::registerObject(Scriptable * obj)
+void JSScriptEnvironment::registerObject(PropertyGroup * obj)
 {
     // Get isolate
     HandleScope scope(m_isolate);
@@ -251,7 +251,7 @@ scriptzeug::Value JSScriptEnvironment::evaluate(const std::string & code)
     return wrapValue(result);
 }
 
-void JSScriptEnvironment::registerObj(Handle<Object> parent, Scriptable * obj)
+void JSScriptEnvironment::registerObj(Handle<Object> parent, PropertyGroup * obj)
 {
     // Create object template
     Handle<ObjectTemplate> templ = ObjectTemplate::New();
@@ -270,19 +270,22 @@ void JSScriptEnvironment::registerObj(Handle<Object> parent, Scriptable * obj)
     }
 
     // Register object functions
-    const std::vector<AbstractFunction *> & funcs = obj->functions();
-    for (std::vector<AbstractFunction *>::const_iterator it = funcs.begin(); it != funcs.end(); ++it) {
-        AbstractFunction * func = *it;
+    Scriptable *scriptable = dynamic_cast<Scriptable *>(obj);
+    if (scriptable) {
+        const std::vector<AbstractFunction *> & funcs = scriptable->functions();
+        for (std::vector<AbstractFunction *>::const_iterator it = funcs.begin(); it != funcs.end(); ++it) {
+            AbstractFunction * func = *it;
 
-        // Bind pointer to AbstractFunction as an external data object
-        // and set it in the function template
-        Handle<External> func_ptr = External::New(m_isolate, func);
-        v8::Handle<v8::FunctionTemplate> funcTempl =
-            FunctionTemplate::New(m_isolate, wrapFunction, func_ptr);
+            // Bind pointer to AbstractFunction as an external data object
+            // and set it in the function template
+            Handle<External> func_ptr = External::New(m_isolate, func);
+            v8::Handle<v8::FunctionTemplate> funcTempl =
+                FunctionTemplate::New(m_isolate, wrapFunction, func_ptr);
 
-        // Register function at object template
-        v8::Handle<v8::Function> funcObj = funcTempl->GetFunction();
-        templ->Set(String::NewFromUtf8(m_isolate, func->name().c_str()), funcObj);
+            // Register function at object template
+            v8::Handle<v8::Function> funcObj = funcTempl->GetFunction();
+            templ->Set(String::NewFromUtf8(m_isolate, func->name().c_str()), funcObj);
+        }
     }
 
     // Make persistent template handle
