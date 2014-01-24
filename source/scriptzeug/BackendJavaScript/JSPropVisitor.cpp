@@ -75,22 +75,70 @@ void JSPropVisitor::visit(Property<FilePath> & property)
 
 void JSPropVisitor::visit(Property<std::vector<bool>> & property)
 {
-    // [TODO]
+    if (m_operation == GetOperation) {
+        m_value = scriptzeug::Value::Array();
+        const std::vector<bool> &arr = property.value();
+        for (std::vector<bool>::const_iterator it = arr.begin(); it != arr.end(); ++it) {
+            m_value.append(scriptzeug::Value(*it));
+        }
+    } else {
+        std::vector<bool> arr;
+        for (int i=0; i<m_value.size(); i++) {
+            arr.push_back(m_value[i].toBool());
+        }
+        property.setValue(arr);
+    }
 }
 
 void JSPropVisitor::visit(Property<std::vector<int>> & property)
 {
-    // [TODO]
+    if (m_operation == GetOperation) {
+        m_value = scriptzeug::Value::Array();
+        const std::vector<int> &arr = property.value();
+        for (std::vector<int>::const_iterator it = arr.begin(); it != arr.end(); ++it) {
+            m_value.append(scriptzeug::Value(*it));
+        }
+    } else {
+        std::vector<int> arr;
+        for (int i=0; i<m_value.size(); i++) {
+            arr.push_back(m_value[i].toInt());
+        }
+        property.setValue(arr);
+    }
 }
 
 void JSPropVisitor::visit(Property<std::vector<double>> & property)
 {
-    // [TODO]
+    if (m_operation == GetOperation) {
+        m_value = scriptzeug::Value::Array();
+        const std::vector<double> &arr = property.value();
+        for (std::vector<double>::const_iterator it = arr.begin(); it != arr.end(); ++it) {
+            m_value.append(scriptzeug::Value(*it));
+        }
+    } else {
+        std::vector<double> arr;
+        for (double i=0; i<m_value.size(); i++) {
+            arr.push_back(m_value[i].toDouble());
+        }
+        property.setValue(arr);
+    }
 }
 
 void JSPropVisitor::visit(Property<std::set<int>> & property)
 {
-    // [TODO]
+    if (m_operation == GetOperation) {
+        m_value = scriptzeug::Value::Array();
+        const std::set<int> &set = property.value();
+        for (std::set<int>::const_iterator it = set.begin(); it != set.end(); ++it) {
+            m_value.append(scriptzeug::Value(*it));
+        }
+    } else {
+        std::set<int> set;
+        for (int i=0; i<m_value.size(); i++) {
+            set.insert(m_value[i].toInt());
+        }
+        property.setValue(set);
+    }
 }
 
 
