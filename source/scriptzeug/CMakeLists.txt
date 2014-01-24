@@ -8,6 +8,7 @@ message(STATUS "lib ${target}")
 
 # Include directories
 set(includes
+    ${CMAKE_CURRENT_SOURCE_DIR}
 )
 
 # Libraries
@@ -51,6 +52,7 @@ if (LIBZEUG_USE_V8)
     )
     set(sources ${sources}
         ${source_path}/BackendJavaScript/JSScriptEnvironment.cpp
+        ${source_path}/BackendJavaScript/JSPropVisitor.cpp
     )
     set(headers ${headers}
         ${header_path}/BackendJavaScript/JSScriptEnvironment.h

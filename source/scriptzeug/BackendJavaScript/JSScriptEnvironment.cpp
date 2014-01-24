@@ -1,7 +1,7 @@
-#include <iostream>
 #include <functional>
 #include "scriptzeug/Scriptable.h"
 #include "scriptzeug/BackendJavaScript/JSScriptEnvironment.h"
+#include "BackendJavaScript/JSPropVisitor.h"
 
 
 namespace scriptzeug
@@ -40,7 +40,7 @@ static scriptzeug::Value wrapValue(v8::Local<v8::Value> arg)
 
     // String argument
     else if (arg->IsString()) {
-        v8::String::AsciiValue str(arg);
+        v8::String::Utf8Value str(arg);
         return scriptzeug::Value(std::string(*str));
     }
 
@@ -62,7 +62,7 @@ static scriptzeug::Value wrapValue(v8::Local<v8::Value> arg)
         v8::Local<v8::Array> props = obj->GetPropertyNames();
         for (int i=0; i<props->Length(); i++) {
             v8::Local<v8::Value> name = props->Get(i);
-            v8::String::AsciiValue ascii(name);
+            v8::String::Utf8Value ascii(name);
             std::string propName(*ascii);
             v8::Local<v8::Value> prop = obj->Get(name);
             value.set(propName, wrapValue(prop));
@@ -76,35 +76,37 @@ static scriptzeug::Value wrapValue(v8::Local<v8::Value> arg)
 
 static v8::Local<v8::Value> wrapValue(const scriptzeug::Value &arg)
 {
+    v8::Isolate * isolate = Isolate::GetCurrent(); 
+
     v8::Local<v8::Value> value;
 
     if (arg.type() == scriptzeug::Value::TypeInt) {
-        v8::Local<v8::Integer> v = v8::Integer::New(arg.toInt());
+        v8::Local<v8::Integer> v = v8::Integer::New(isolate, arg.toInt());
         value = v;
     }
 
     else if (arg.type() == scriptzeug::Value::TypeUInt) {
-        v8::Local<v8::Integer> v = v8::Integer::NewFromUnsigned(arg.toUInt());
+        v8::Local<v8::Integer> v = v8::Integer::NewFromUnsigned(isolate, arg.toUInt());
         value = v;
     }
 
     else if (arg.type() == scriptzeug::Value::TypeDouble) {
-        v8::Local<v8::Number> v = v8::Number::New(arg.toDouble());
+        v8::Local<v8::Number> v = v8::Number::New(isolate, arg.toDouble());
         value = v;
     }
 
     else if (arg.type() == scriptzeug::Value::TypeBool) {
-        v8::Local<v8::Boolean> v = v8::Boolean::New(arg.toBool());
+        v8::Local<v8::Boolean> v = v8::Boolean::New(isolate, arg.toBool());
         value = v;
     }
 
     else if (arg.type() == scriptzeug::Value::TypeString) {
-        v8::Handle<v8::String> str = String::New(arg.toString().c_str());
+        v8::Handle<v8::String> str = String::NewFromUtf8(isolate, arg.toString().c_str());
         value = str;
     }
 
     else if (arg.type() == scriptzeug::Value::TypeArray) {
-        v8::Handle<v8::Array> arr = Array::New(arg.size());
+        v8::Handle<v8::Array> arr = Array::New(isolate, arg.size());
         for (int i=0; i<arg.size(); i++) {
             arr->Set(i, wrapValue(arg.get(i)));
         }
@@ -112,11 +114,11 @@ static v8::Local<v8::Value> wrapValue(const scriptzeug::Value &arg)
     }
 
     else if (arg.type() == scriptzeug::Value::TypeObject) {
-        v8::Handle<v8::Object> obj = Object::New();
+        v8::Handle<v8::Object> obj = Object::New(isolate);
         std::vector<std::string> args = arg.keys();
         for (std::vector<std::string>::iterator it = args.begin(); it != args.end(); ++it) {
             std::string name = *it;
-            v8::Handle<v8::String> n = String::New(name.c_str());
+            v8::Handle<v8::String> n = String::NewFromUtf8(isolate, name.c_str());
             obj->Set(n, wrapValue(arg.get(name)));
         }
         value = obj;
@@ -134,7 +136,7 @@ static void wrapFunction(const v8::FunctionCallbackInfo<v8::Value> & args)
     // Convert arguments to a list of scriptzeug variants
     std::vector<scriptzeug::Value> arguments;
     for (int i=0; i<args.Length(); i++) {
-        v8::HandleScope scope(args.GetIsolate());
+        v8::HandleScope scope(Isolate::GetCurrent());
         v8::Local<v8::Value> arg = args[i];
         arguments.push_back(wrapValue(arg));
     }
@@ -152,20 +154,21 @@ static void getProperty(Local<String> property, const PropertyCallbackInfo<v8::V
     Scriptable * obj = static_cast<Scriptable*>(wrap->Value());
     if (obj) {
         // Get property name
-        v8::String::AsciiValue str(property);
+        v8::String::Utf8Value str(property);
         std::string name(*str);
 
         // Get property
         AbstractProperty * property = obj->obtainProperty(name);
         if (property) {
-            // Get value
-            // [TODO]
+            ValueProperty * vp = property->asValue();
+            if (vp) {
+                // Convert property value into scriptzeug::Value
+                JSPropVisitor visitor(JSPropVisitor::GetOperation);
+                vp->accept(visitor);
 
-            // [DEBUG]
-//          info.GetReturnValue().Set(v8::String::New("bla blub"));
-
-            // [DEBUG]
-            std::cout << "Access '" << name << "'\n";
+                // [TODO]
+                info.GetReturnValue().Set(wrapValue(visitor.value()));
+            }
         }
     }
 }
@@ -178,47 +181,52 @@ static void setProperty(Local<String> property, Local<v8::Value> value, const Pr
     Scriptable * obj = static_cast<Scriptable*>(wrap->Value());
     if (obj) {
         // Get property name
-        v8::String::AsciiValue str(property);
+        v8::String::Utf8Value str(property);
         std::string name(*str);
 
         // Get property
         AbstractProperty * property = obj->obtainProperty(name);
         if (property) {
-            // Set value
-            // [TODO]
+            ValueProperty * vp = property->asValue();
+            if (vp) {
+                // Set property value
+                JSPropVisitor visitor(JSPropVisitor::SetOperation);
+                visitor.setValue(wrapValue(value));
+                vp->accept(visitor);
+            }
         }
     }
 }
 
 
 JSScriptEnvironment::JSScriptEnvironment()
+: m_isolate(nullptr)
 {
     // Get isolate
-    Isolate * isolate = Isolate::GetCurrent();
-    HandleScope scope(isolate);
+    m_isolate = Isolate::GetCurrent();
+    HandleScope scope(m_isolate);
 
     // Create global object
     Handle<ObjectTemplate> global = ObjectTemplate::New();
 
     // Create global context
-    Handle<Context> context = Context::New(isolate, nullptr, global);
-    m_context.Reset(isolate, context);
+    Handle<Context> context = Context::New(m_isolate, nullptr, global);
+    m_context.Reset(m_isolate, context);
 }
 
 JSScriptEnvironment::~JSScriptEnvironment()
 {
     // Destroy global context
-    m_context.Dispose();
+    m_context.Reset();
 }
 
 void JSScriptEnvironment::registerObject(const std::string & name, Scriptable * obj)
 {
     // Get isolate
-    Isolate * isolate = Isolate::GetCurrent();
-    HandleScope scope(isolate);
+    HandleScope scope(m_isolate);
 
     // Get global context
-    Local<Context> context = Local<Context>::New(isolate, m_context);
+    Local<Context> context = Local<Context>::New(m_isolate, m_context);
     Context::Scope context_scope(context);
 
     // Create class template
@@ -232,7 +240,7 @@ void JSScriptEnvironment::registerObject(const std::string & name, Scriptable * 
         std::string name = prop->name();
 
         // Add accessor for property
-        Local<v8::String> str = String::New(name.c_str());
+        Local<v8::String> str = String::NewFromUtf8(m_isolate, name.c_str());
         templ->SetAccessor(str, getProperty, setProperty);
     }
 
@@ -243,40 +251,38 @@ void JSScriptEnvironment::registerObject(const std::string & name, Scriptable * 
 
         // Bind pointer to AbstractFunction as an external data object
         // and set it in the function template
-        Handle<External> func_ptr = External::New(func);
+        Handle<External> func_ptr = External::New(m_isolate, func);
         v8::Handle<v8::FunctionTemplate> funcTempl =
-            FunctionTemplate::New(wrapFunction, func_ptr);
+            FunctionTemplate::New(m_isolate, wrapFunction, func_ptr);
 
         // Register function at object template
         v8::Handle<v8::Function> funcObj = funcTempl->GetFunction();
-        templ->Set(String::New(func->name().c_str()), funcObj);
+        templ->Set(String::NewFromUtf8(m_isolate, func->name().c_str()), funcObj);
     }
 
     // Make persistent template handle
     Persistent<ObjectTemplate> class_template;
-    class_template.Reset(isolate, templ);
+    class_template.Reset(m_isolate, templ);
 
     // Create new object
     Handle<Object>   object  = templ->NewInstance();
-    Handle<External> obj_ptr = External::New(obj);
+    Handle<External> obj_ptr = External::New(m_isolate, obj);
     object->SetInternalField(0, obj_ptr);
 
     // Register object in global variables
-    context->Global()->Set(String::New(name.c_str()), object, ReadOnly);
+    context->Global()->Set(String::NewFromUtf8(m_isolate, name.c_str()), object, ReadOnly);
 }
 
 scriptzeug::Value JSScriptEnvironment::evaluate(const std::string & code)
 {
-    // Get isolate
-    Isolate * isolate = Isolate::GetCurrent();
-    HandleScope scope(isolate);
+    HandleScope scope(m_isolate);
 
     // Get global context
-    Local<Context> context = Local<Context>::New(isolate, m_context);
+    Local<Context> context = Local<Context>::New(m_isolate, m_context);
     Context::Scope context_scope(context);
 
     // Create and compile script
-    Handle<String> source = String::New(code.c_str());
+    Handle<String> source = String::NewFromUtf8(m_isolate, code.c_str());
     Handle<Script> script = Script::Compile(source);
 
     // Run script

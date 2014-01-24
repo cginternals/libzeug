@@ -21,7 +21,8 @@ public:
     virtual Value evaluate(const std::string & code);
 
 protected:
-    v8::Persistent<v8::Context> m_context;
+    v8::Persistent<v8::Context>  m_context;
+	v8::Isolate 				*m_isolate;
 };
 
 

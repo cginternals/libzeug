@@ -89,7 +89,7 @@ int main(int argc, char const *argv[])
     value = scripting.evaluate("1 + 2");
     std::cout << "--> " << value.toString() << "\n";
 
-    value = scripting.evaluate("testobj.prompt;");
+    value = scripting.evaluate("testobj.prompt = 'Welcome!';");
     std::cout << "--> " << value.toString() << "\n";
 
     value = scripting.evaluate("testobj.helloWorld() + 1;");
