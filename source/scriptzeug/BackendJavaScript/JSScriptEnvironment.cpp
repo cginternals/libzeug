@@ -158,7 +158,7 @@ static void getProperty(Local<String> property, const PropertyCallbackInfo<v8::V
         std::string name(*str);
 
         // Get property
-        AbstractProperty * property = obj->obtainProperty(name);
+        AbstractProperty * property = obj->property(name);
         if (property) {
             ValueProperty * vp = property->asValue();
             if (vp) {
@@ -185,7 +185,7 @@ static void setProperty(Local<String> property, Local<v8::Value> value, const Pr
         std::string name(*str);
 
         // Get property
-        AbstractProperty * property = obj->obtainProperty(name);
+        AbstractProperty * property = obj->property(name);
         if (property) {
             ValueProperty * vp = property->asValue();
             if (vp) {
@@ -229,7 +229,31 @@ void JSScriptEnvironment::registerObject(const std::string & name, Scriptable * 
     Local<Context> context = Local<Context>::New(m_isolate, m_context);
     Context::Scope context_scope(context);
 
-    // Create class template
+    // Get global object
+    Handle<Object> global = context->Global();
+    registerObj(global, name, obj);
+}
+
+scriptzeug::Value JSScriptEnvironment::evaluate(const std::string & code)
+{
+    HandleScope scope(m_isolate);
+
+    // Get global context
+    Local<Context> context = Local<Context>::New(m_isolate, m_context);
+    Context::Scope context_scope(context);
+
+    // Create and compile script
+    Handle<String> source = String::NewFromUtf8(m_isolate, code.c_str());
+    Handle<Script> script = Script::Compile(source);
+
+    // Run script
+    Handle<v8::Value> result = script->Run();
+    return wrapValue(result);
+}
+
+void JSScriptEnvironment::registerObj(Handle<Object> parent, const std::string & name, Scriptable * obj)
+{
+    // Create object template
     Handle<ObjectTemplate> templ = ObjectTemplate::New();
     templ->SetInternalFieldCount(1);
 
@@ -238,10 +262,11 @@ void JSScriptEnvironment::registerObject(const std::string & name, Scriptable * 
         // Get property
         AbstractProperty * prop = obj->property(i);
         std::string name = prop->name();
-
-        // Add accessor for property
-        Local<v8::String> str = String::NewFromUtf8(m_isolate, name.c_str());
-        templ->SetAccessor(str, getProperty, setProperty);
+        if (!prop->isGroup()) {
+            // Add accessor for property
+            Local<v8::String> str = String::NewFromUtf8(m_isolate, name.c_str());
+            templ->SetAccessor(str, getProperty, setProperty);
+        }
     }
 
     // Register object functions
@@ -269,25 +294,20 @@ void JSScriptEnvironment::registerObject(const std::string & name, Scriptable * 
     Handle<External> obj_ptr = External::New(m_isolate, obj);
     object->SetInternalField(0, obj_ptr);
 
-    // Register object in global variables
-    context->Global()->Set(String::NewFromUtf8(m_isolate, name.c_str()), object, ReadOnly);
-}
+    // Register sub-objects
+    for (unsigned int i=0; i<obj->propertyCount(); i++) {
+        // Get property
+        AbstractProperty * prop = obj->property(i);
+        std::string name = prop->name();
+        if (prop->isGroup()) {
+            // Add sub object
+            Scriptable * subobj = dynamic_cast<Scriptable *>(prop);
+            registerObj(object, subobj->name(), subobj);
+        }
+    }
 
-scriptzeug::Value JSScriptEnvironment::evaluate(const std::string & code)
-{
-    HandleScope scope(m_isolate);
-
-    // Get global context
-    Local<Context> context = Local<Context>::New(m_isolate, m_context);
-    Context::Scope context_scope(context);
-
-    // Create and compile script
-    Handle<String> source = String::NewFromUtf8(m_isolate, code.c_str());
-    Handle<Script> script = Script::Compile(source);
-
-    // Run script
-    Handle<v8::Value> result = script->Run();
-    return wrapValue(result);
+    // Register object at parent
+    parent->Set(String::NewFromUtf8(m_isolate, name.c_str()), object, ReadOnly);
 }
 
 

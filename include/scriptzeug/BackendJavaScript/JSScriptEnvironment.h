@@ -21,8 +21,11 @@ public:
     virtual Value evaluate(const std::string & code);
 
 protected:
+    void registerObj(v8::Handle<v8::Object> parent, const std::string & name, Scriptable * obj);
+
+protected:
     v8::Persistent<v8::Context>  m_context;
-	v8::Isolate 				*m_isolate;
+    v8::Isolate                 *m_isolate;
 };
 
 

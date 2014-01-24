@@ -19,13 +19,45 @@ Value testFunction(std::string a)
 }
 
 
+class Counting : public Scriptable
+{
+public:
+    Counting() : Scriptable("counting"), m_min(0), m_max(2)
+    {
+        addProperty<int>("min", *this, &Counting::getMin, &Counting::setMin);
+        addProperty<int>("max", *this, &Counting::getMax, &Counting::setMax);
+        addFunction("count", this, &Counting::count);
+    }
+
+    ~Counting()
+    {
+    }
+
+    void count()
+    {
+        for (int i=m_min; i<=m_max; i++) {
+            std::cout << "Counting " << i << " ...\n";
+        }
+    }
+
+    int getMin() const { return m_min; }
+    void setMin(const int &min) { m_min = min; }
+    int getMax() const { return m_max; }
+    void setMax(const int & max) { m_max = max; }
+
+protected:
+    int m_min, m_max;
+};
+
+
 class MyInterface : public Scriptable
 {
 public:
-    MyInterface() : m_prompt("Hello World")
+    MyInterface() : Scriptable("testobj"), m_prompt("Hello World")
     {
         // Properties
         addProperty<std::string>("prompt", *this, &MyInterface::prompt, &MyInterface::setPrompt);
+        addGroup(new Counting);
 
         // Functions
         addFunction("test",                &testFunction);
@@ -108,6 +140,17 @@ int main(int argc, char const *argv[])
     std::cout << "--> " << value.toString() << "\n";
 
     value = scripting.evaluate("testobj.dynamicTest();");
+    std::cout << "--> " << value.toString() << "\n";
+
+    value = scripting.evaluate("testobj.counting.min;");
+    std::cout << "--> " << value.toString() << "\n";
+
+    value = scripting.evaluate("testobj.counting.max;");
+    std::cout << "--> " << value.toString() << "\n";
+
+    value = scripting.evaluate("testobj.counting.min = 5;");
+    value = scripting.evaluate("testobj.counting.max = 10;");
+    value = scripting.evaluate("testobj.counting.count();");
     std::cout << "--> " << value.toString() << "\n";
 
     return 0;

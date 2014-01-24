@@ -16,7 +16,7 @@ namespace scriptzeug
 class SCRIPTZEUG_API Scriptable : public zeug::PropertyGroup
 {
 public:
-    Scriptable();
+    Scriptable(const std::string & name);
     virtual ~Scriptable();
 
     const std::vector<AbstractFunction *> & functions() const;

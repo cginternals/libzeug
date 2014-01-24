@@ -5,8 +5,8 @@ namespace scriptzeug
 {
 
 
-Scriptable::Scriptable()
-: PropertyGroup("")
+Scriptable::Scriptable(const std::string & name)
+: PropertyGroup(name)
 {
 }
 
