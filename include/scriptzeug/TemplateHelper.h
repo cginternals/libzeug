@@ -27,9 +27,9 @@ struct ArgValue {
 template<size_t POS>
 struct ArgValue<float, POS> {
     static float get(const std::vector<Value> & args) {
-        double value = 0.0f;
+        float value = 0.0f;
         if (POS < args.size()) {
-            value = args[POS].toDouble();
+            value = (float)args[POS].toDouble();
         }
         return value;
     }
