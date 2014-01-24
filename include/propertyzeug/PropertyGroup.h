@@ -51,7 +51,9 @@ public:
                                  void (Object::*setter_pointer)(const Type &));
     
     PropertyGroup * addGroup(const std::string & name);
-    
+
+    bool addGroup(PropertyGroup * group);
+
     /** \} */
     
     /** \name Property Accessing
