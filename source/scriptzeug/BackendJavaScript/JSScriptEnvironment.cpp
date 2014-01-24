@@ -220,7 +220,7 @@ JSScriptEnvironment::~JSScriptEnvironment()
     m_context.Reset();
 }
 
-void JSScriptEnvironment::registerObject(const std::string & name, Scriptable * obj)
+void JSScriptEnvironment::registerObject(Scriptable * obj)
 {
     // Get isolate
     HandleScope scope(m_isolate);
@@ -231,7 +231,7 @@ void JSScriptEnvironment::registerObject(const std::string & name, Scriptable * 
 
     // Get global object
     Handle<Object> global = context->Global();
-    registerObj(global, name, obj);
+    registerObj(global, obj);
 }
 
 scriptzeug::Value JSScriptEnvironment::evaluate(const std::string & code)
@@ -251,7 +251,7 @@ scriptzeug::Value JSScriptEnvironment::evaluate(const std::string & code)
     return wrapValue(result);
 }
 
-void JSScriptEnvironment::registerObj(Handle<Object> parent, const std::string & name, Scriptable * obj)
+void JSScriptEnvironment::registerObj(Handle<Object> parent, Scriptable * obj)
 {
     // Create object template
     Handle<ObjectTemplate> templ = ObjectTemplate::New();
@@ -302,12 +302,12 @@ void JSScriptEnvironment::registerObj(Handle<Object> parent, const std::string &
         if (prop->isGroup()) {
             // Add sub object
             Scriptable * subobj = dynamic_cast<Scriptable *>(prop);
-            registerObj(object, subobj->name(), subobj);
+            registerObj(object, subobj);
         }
     }
 
     // Register object at parent
-    parent->Set(String::NewFromUtf8(m_isolate, name.c_str()), object, ReadOnly);
+    parent->Set(String::NewFromUtf8(m_isolate, obj->name().c_str()), object, ReadOnly);
 }
 
 

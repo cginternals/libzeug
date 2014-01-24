@@ -53,7 +53,7 @@ protected:
 class MyInterface : public Scriptable
 {
 public:
-    MyInterface() : Scriptable("testobj"), m_prompt("Hello World")
+    MyInterface() : Scriptable("api"), m_prompt("Hello World")
     {
         // Properties
         addProperty<std::string>("prompt", *this, &MyInterface::prompt, &MyInterface::setPrompt);
@@ -114,43 +114,43 @@ int main(int argc, char const *argv[])
     MyInterface obj;
 
     ScriptEnvironment scripting;
-    scripting.registerObject("testobj", &obj);
+    scripting.registerObject(&obj);
 
     Value value;
 
     value = scripting.evaluate("1 + 2");
     std::cout << "--> " << value.toString() << "\n";
 
-    value = scripting.evaluate("testobj.prompt = 'Welcome!';");
+    value = scripting.evaluate("api.prompt = 'Welcome!';");
     std::cout << "--> " << value.toString() << "\n";
 
-    value = scripting.evaluate("testobj.helloWorld() + 1;");
+    value = scripting.evaluate("api.helloWorld() + 1;");
     std::cout << "--> " << value.toString() << "\n";
 
-    value = scripting.evaluate("testobj.test();");
+    value = scripting.evaluate("api.test();");
     std::cout << "--> " << value.toString() << "\n";
 
-    value = scripting.evaluate("testobj.bottlesOfBeer(120, 3.5, 10);");
+    value = scripting.evaluate("api.bottlesOfBeer(120, 3.5, 10);");
     std::cout << "--> " << value.toString() << "\n";
 
-    value = scripting.evaluate("testobj.bottlesOfBeer();");
+    value = scripting.evaluate("api.bottlesOfBeer();");
     std::cout << "--> " << value.toString() << "\n";
 
-    value = scripting.evaluate("testobj.dynamicTest([3.5, {a: 100, b: 200}, 12], \"asd\");");
+    value = scripting.evaluate("api.dynamicTest([3.5, {a: 100, b: 200}, 12], \"asd\");");
     std::cout << "--> " << value.toString() << "\n";
 
-    value = scripting.evaluate("testobj.dynamicTest();");
+    value = scripting.evaluate("api.dynamicTest();");
     std::cout << "--> " << value.toString() << "\n";
 
-    value = scripting.evaluate("testobj.counting.min;");
+    value = scripting.evaluate("api.counting.min;");
     std::cout << "--> " << value.toString() << "\n";
 
-    value = scripting.evaluate("testobj.counting.max;");
+    value = scripting.evaluate("api.counting.max;");
     std::cout << "--> " << value.toString() << "\n";
 
-    value = scripting.evaluate("testobj.counting.min = 5;");
-    value = scripting.evaluate("testobj.counting.max = 10;");
-    value = scripting.evaluate("testobj.counting.count();");
+    value = scripting.evaluate("api.counting.min = 5;");
+    value = scripting.evaluate("api.counting.max = 10;");
+    value = scripting.evaluate("api.counting.count();");
     std::cout << "--> " << value.toString() << "\n";
 
     return 0;

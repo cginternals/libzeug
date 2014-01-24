@@ -20,7 +20,7 @@ public:
     AbstractScriptEnvironment();
     virtual ~AbstractScriptEnvironment();
 
-    virtual void registerObject(const std::string & name, Scriptable * obj) = 0;
+    virtual void registerObject(Scriptable * obj) = 0;
     virtual Value evaluate(const std::string & code) = 0;
 };
 

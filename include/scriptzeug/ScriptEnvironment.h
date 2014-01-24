@@ -21,7 +21,7 @@ public:
     ScriptEnvironment(const std::string & backend = "javascript");
     virtual ~ScriptEnvironment();
 
-    void registerObject(const std::string & name, Scriptable * obj);
+    void registerObject(Scriptable * obj);
 
     Value evaluate(const std::string & code);
 
