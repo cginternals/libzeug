@@ -2,7 +2,7 @@
 
 
 #include <string>
-#include <scriptzeug/Value.h>
+#include <scriptzeug/Variant.h>
 
 
 namespace zeug {
@@ -23,7 +23,7 @@ public:
     virtual ~AbstractScriptEnvironment();
 
     virtual void registerObject(zeug::PropertyGroup * obj) = 0;
-    virtual Value evaluate(const std::string & code) = 0;
+    virtual Variant evaluate(const std::string & code) = 0;
 };
 
 

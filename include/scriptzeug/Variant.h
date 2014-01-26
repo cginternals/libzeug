@@ -13,9 +13,9 @@ namespace scriptzeug {
 typedef std::vector<std::string> StringList;
 
 
-/** \brief A value, object or array
+/** \brief A primitive value, object or array
  */
-class SCRIPTZEUG_API Value {
+class SCRIPTZEUG_API Variant {
 
 
 public:
@@ -23,7 +23,7 @@ public:
     *  @brief
     *    Empty, read-only value
     */
-    static Value Null;
+    static Variant Null;
 
     /**
     *  @brief
@@ -32,7 +32,7 @@ public:
     *  @return
     *    Object
     */
-    static Value Object();
+    static Variant Object();
 
     /**
     *  @brief
@@ -41,13 +41,13 @@ public:
     *  @return
     *    Array value
     */
-    static Value Array();
+    static Variant Array();
 
 
 public:
     /**
     *  @brief
-    *    Value type
+    *    Variant type
     */
     enum Type
     {
@@ -67,14 +67,14 @@ public:
     *  @brief
     *    Constructor
     */
-    Value(Type type = TypeNull);
-    Value(int value);
-    Value(unsigned int value);
-    Value(double value);
-    Value(bool value);
-    Value(const std::string &value);
-    Value(const std::vector<std::string> &values);
-    Value(const char *value);
+    Variant(Type type = TypeNull);
+    Variant(int value);
+    Variant(unsigned int value);
+    Variant(double value);
+    Variant(bool value);
+    Variant(const std::string &value);
+    Variant(const std::vector<std::string> &values);
+    Variant(const char *value);
 
     /**
     *  @brief
@@ -83,13 +83,13 @@ public:
     *  @param[in] rh
     *    Right-handed value
     */
-    Value(const Value &rh);
+    Variant(const Variant &rh);
 
     /**
     *  @brief
     *    Destructor
     */
-    ~Value();
+    ~Variant();
 
     /**
     *  @brief
@@ -98,7 +98,7 @@ public:
     *  @param[in] rh
     *    Right-hand value
     */
-    Value &operator =(const Value &rh);
+    Variant &operator =(const Variant &rh);
 
     /**
     *  @brief
@@ -237,9 +237,9 @@ public:
     *    Attribute name
     *
     *  @return
-    *    Value
+    *    Attribute value
     */
-    const Value &get(const std::string &name) const;
+    const Variant &get(const std::string &name) const;
 
     /**
     *  @brief
@@ -249,9 +249,9 @@ public:
     *    Attribute name
     *
     *  @return
-    *    Value
+    *    Attribute value
     */
-    Value &get(const std::string &name);
+    Variant &get(const std::string &name);
 
     /**
     *  @brief
@@ -261,9 +261,9 @@ public:
     *    Attribute name
     *
     *  @return
-    *    Value
+    *    Attribute value
     */
-    const Value &operator [](const std::string &name) const;
+    const Variant &operator [](const std::string &name) const;
 
     /**
     *  @brief
@@ -273,13 +273,13 @@ public:
     *    Attribute name
     *
     *  @return
-    *    Value
+    *    Attribute value
     *
     *  @remarks
     *    If the given key does not exist, an empty attribute is appended
     *    to the object.
     */
-    Value &operator [](const std::string &name);
+    Variant &operator [](const std::string &name);
 
     /**
     *  @brief
@@ -288,9 +288,12 @@ public:
     *  @param[in] name
     *    Attribute name
     *  @param[in] value
-    *    Value
+    *    Attribute value
+    *
+    *  @return
+    *    Reference to the new value
     */
-    Value &set(const std::string &name, const Value &value);
+    Variant &set(const std::string &name, const Variant &value);
 
     /**
     *  @brief
@@ -330,9 +333,9 @@ public:
     *    Index
     *
     *  @return
-    *    Value
+    *    Element value
     */
-    const Value &get(unsigned int index) const;
+    const Variant &get(unsigned int index) const;
 
     /**
     *  @brief
@@ -342,9 +345,9 @@ public:
     *    Index
     *
     *  @return
-    *    Value
+    *    Element value
     */
-    Value &get(unsigned int index);
+    Variant &get(unsigned int index);
 
     /**
     *  @brief
@@ -354,9 +357,9 @@ public:
     *    Index
     *
     *  @return
-    *    Value
+    *    Element value
     */
-    const Value &operator [](unsigned int index) const;
+    const Variant &operator [](unsigned int index) const;
 
     /**
     *  @brief
@@ -366,9 +369,9 @@ public:
     *    Index
     *
     *  @return
-    *    Value
+    *    Element value
     */
-    Value &operator [](unsigned int index);
+    Variant &operator [](unsigned int index);
 
     /**
     *  @brief
@@ -377,27 +380,30 @@ public:
     *  @param[in] index
     *    Index
     *  @param[in] value
-    *    Value
+    *    Element value
     */
-    Value &set(unsigned int index, const Value &value);
+    Variant &set(unsigned int index, const Variant &value);
 
     /**
     *  @brief
     *    Append element to array
     *
     *  @param[in] value
-    *    Value
+    *    Element value
+    *
+    *  @return
+    *    Reference to the new value
     */
-    Value &append(const Value &value);
+    Variant &append(const Variant &value);
 
     /**
     *  @brief
     *    Append new element to array
     *
     *  @return
-    *    New value
+    *    Reference to the new value
     */
-    Value &append();
+    Variant &append();
 
     /**
     *  @brief
@@ -410,16 +416,16 @@ public:
 
 
 private:
-    Type                         m_type;      /**< Type of value */
+    Type                           m_type;      /**< Type of value */
     union {
-        int                      m_int;       /**< Signed integer value */
-        unsigned int             m_uint;      /**< Unsigned integer value */
-        double                   m_double;    /**< Double value */
-        bool                     m_bool;      /**< Boolean value */
+        int                        m_int;       /**< Signed integer value */
+        unsigned int               m_uint;      /**< Unsigned integer value */
+        double                     m_double;    /**< Double value */
+        bool                       m_bool;      /**< Boolean value */
     };
-    std::string                  m_string;    /**< String value */
-    std::vector<Value>           m_array;     /**< Array value (ordered list of values) */
-    std::map<std::string, Value> m_object;    /**< Object values */
+    std::string                    m_string;    /**< String value */
+    std::vector<Variant>           m_array;     /**< Array elements (ordered list of values) */
+    std::map<std::string, Variant> m_object;    /**< Object attributes */
 
 
 };

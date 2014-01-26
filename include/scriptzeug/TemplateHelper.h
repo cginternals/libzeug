@@ -1,7 +1,7 @@
 #pragma once
 
 
-#include <scriptzeug/Value.h>
+#include <scriptzeug/Variant.h>
 
 
 namespace scriptzeug
@@ -12,7 +12,7 @@ namespace scriptzeug
  */
 template<typename T, size_t POS>
 struct ArgValue {
-    static T get(const std::vector<Value> & args) {
+    static T get(const std::vector<Variant> & args) {
         // Assume signed integral type by default
         T value = 0;
         if (POS < args.size()) {
@@ -26,7 +26,7 @@ struct ArgValue {
  */
 template<size_t POS>
 struct ArgValue<float, POS> {
-    static float get(const std::vector<Value> & args) {
+    static float get(const std::vector<Variant> & args) {
         float value = 0.0f;
         if (POS < args.size()) {
             value = (float)args[POS].toDouble();
@@ -39,7 +39,7 @@ struct ArgValue<float, POS> {
  */
 template<size_t POS>
 struct ArgValue<double, POS> {
-    static double get(const std::vector<Value> & args) {
+    static double get(const std::vector<Variant> & args) {
         double value = 0.0f;
         if (POS < args.size()) {
             value = args[POS].toDouble();
@@ -52,7 +52,7 @@ struct ArgValue<double, POS> {
  */
 template<size_t POS>
 struct ArgValue<bool, POS> {
-    static bool get(const std::vector<Value> & args) {
+    static bool get(const std::vector<Variant> & args) {
         bool value = false;
         if (POS < args.size()) {
             value = args[POS].toBool();
@@ -65,7 +65,7 @@ struct ArgValue<bool, POS> {
  */
 template<size_t POS>
 struct ArgValue<std::string, POS> {
-    static std::string get(const std::vector<Value> & args) {
+    static std::string get(const std::vector<Variant> & args) {
         std::string value;
         if (POS < args.size()) {
             value = args[POS].toString();
@@ -74,12 +74,12 @@ struct ArgValue<std::string, POS> {
     }
 };
 
-/** \brief ArgValue specialization for type Value
+/** \brief ArgValue specialization for type Variant
  */
 template<size_t POS>
-struct ArgValue<Value, POS> {
-    static Value get(const std::vector<Value> & args) {
-        Value value;
+struct ArgValue<Variant, POS> {
+    static Variant get(const std::vector<Variant> & args) {
+        Variant value;
         if (POS < args.size()) {
             value = args[POS];
         }
@@ -87,21 +87,21 @@ struct ArgValue<Value, POS> {
     }
 };
 
-/** \brief ArgValue specialization for type const Value &
+/** \brief ArgValue specialization for type const Variant &
  */
 template<size_t POS>
-struct ArgValue<const Value &, POS> {
-    static Value get(const std::vector<Value> & args) {
-        return ArgValue<Value, POS>::get(args);
+struct ArgValue<const Variant &, POS> {
+    static Variant get(const std::vector<Variant> & args) {
+        return ArgValue<Variant, POS>::get(args);
     }
 };
 
-/** \brief ArgValue specialization for type const std::vector<Value> &
+/** \brief ArgValue specialization for type const std::vector<Variant> &
  */
 template<size_t POS>
-struct ArgValue<const std::vector<Value> &, POS> {
-    static std::vector<Value> get(const std::vector<Value> & args) {
-        std::vector<Value> list;
+struct ArgValue<const std::vector<Variant> &, POS> {
+    static std::vector<Variant> get(const std::vector<Variant> & args) {
+        std::vector<Variant> list;
         for (size_t i=POS; i<args.size(); i++) {
             list.push_back(args[i]);
         }
@@ -151,8 +151,8 @@ class CallFunction
 public:
     typedef RET (*FuncPtr) (Arguments...);
 
-    static Value call(FuncPtr func, Arguments... args) {
-        return Value( (*func)(args...) );
+    static Variant call(FuncPtr func, Arguments... args) {
+        return Variant( (*func)(args...) );
     }
 };
 
@@ -164,9 +164,9 @@ class CallFunction<void, Arguments...>
 public:
     typedef void (*FuncPtr) (Arguments...);
 
-    static Value call(FuncPtr func, Arguments... args) {
+    static Variant call(FuncPtr func, Arguments... args) {
         (*func)(args...);
-        return Value();
+        return Variant();
     }
 };
 
@@ -178,8 +178,8 @@ class CallMethod
 public:
     typedef RET (T::*MethodPtr) (Arguments...);
 
-    static Value call(T * obj, MethodPtr method, Arguments... args) {
-        return Value( (obj->*method)(args...) );
+    static Variant call(T * obj, MethodPtr method, Arguments... args) {
+        return Variant( (obj->*method)(args...) );
     }
 };
 
@@ -191,9 +191,9 @@ class CallMethod<T, void, Arguments...>
 public:
     typedef void (T::*MethodPtr) (Arguments...);
 
-    static Value call(T * obj, MethodPtr method, Arguments... args) {
+    static Variant call(T * obj, MethodPtr method, Arguments... args) {
         (obj->*method)(args...);
-        return Value();
+        return Variant();
     }
 };
 

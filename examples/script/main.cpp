@@ -6,11 +6,11 @@
 using namespace scriptzeug;
 
 
-Value testFunction(std::string a)
+Variant testFunction(std::string a)
 {
     std::cout << "Test function\n";
 
-    Value value = Value::Object();
+    Variant value = Variant::Object();
     value.set("a", 1);
     value.set("b", 2);
     value.set("c", 3);
@@ -82,12 +82,12 @@ public:
         return "hicks";
     }
 
-    void dynamicTest(const std::vector<Value> &args)
+    void dynamicTest(const std::vector<Variant> &args)
     {
         std::cout << "Number of arguments: " << args.size() << "\n";
 
         int i=0;
-        for (std::vector<Value>::const_iterator it = args.begin(); it != args.end(); ++it) {
+        for (std::vector<Variant>::const_iterator it = args.begin(); it != args.end(); ++it) {
             std::cout << "- " << i << ": " << (*it).toString() << "\n";
             i++;
         }
@@ -116,7 +116,7 @@ int main(int argc, char const *argv[])
     ScriptEnvironment scripting;
     scripting.registerObject(&obj);
 
-    Value value;
+    Variant value;
 
     value = scripting.evaluate("1 + 2");
     std::cout << "--> " << value.toString() << "\n";

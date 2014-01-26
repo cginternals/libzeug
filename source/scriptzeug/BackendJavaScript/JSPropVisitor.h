@@ -2,7 +2,7 @@
 
 
 #include <propertyzeug/AbstractPropertyVisitor.h>
-#include "scriptzeug/Value.h"
+#include "scriptzeug/Variant.h"
 
 
 namespace scriptzeug
@@ -23,8 +23,8 @@ public:
     JSPropVisitor(Operation operation);
     virtual ~JSPropVisitor();
 
-    scriptzeug::Value & value();
-    void setValue(const scriptzeug::Value & value);
+    Variant & value();
+    void setValue(const Variant & value);
     virtual void visit(zeug::Property<bool> & property);
     virtual void visit(zeug::Property<int> & property);
     virtual void visit(zeug::Property<double> & property);
@@ -37,8 +37,8 @@ public:
     virtual void visit(zeug::Property<std::set<int>> & property);
 
 protected:
-    Operation         m_operation;
-    scriptzeug::Value m_value;
+    Operation m_operation;
+    Variant   m_value;
 };
 
 

@@ -32,12 +32,12 @@ void ScriptEnvironment::registerObject(zeug::PropertyGroup * obj)
         m_backend->registerObject(obj);
 }
 
-Value ScriptEnvironment::evaluate(const std::string & code)
+Variant ScriptEnvironment::evaluate(const std::string & code)
 {
     if (m_backend)
         return m_backend->evaluate(code);
     else
-        return Value();
+        return Variant();
 }
 
 

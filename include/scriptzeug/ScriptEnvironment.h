@@ -2,7 +2,7 @@
 
 
 #include <string>
-#include <scriptzeug/Value.h>
+#include <scriptzeug/Variant.h>
 
 
 namespace zeug {
@@ -27,7 +27,7 @@ public:
 
     void registerObject(zeug::PropertyGroup * obj);
 
-    Value evaluate(const std::string & code);
+    Variant evaluate(const std::string & code);
 
 protected:
     AbstractScriptEnvironment * m_backend;

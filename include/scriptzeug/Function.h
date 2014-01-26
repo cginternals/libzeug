@@ -4,7 +4,7 @@
 #include <string>
 #include <vector>
 #include <functional>
-#include <scriptzeug/Value.h>
+#include <scriptzeug/Variant.h>
 #include <scriptzeug/TemplateHelper.h>
 
 
@@ -31,7 +31,7 @@ public:
         return m_name;
     }
 
-    virtual Value call(const std::vector<Value> & args) = 0;
+    virtual Variant call(const std::vector<Variant> & args) = 0;
 
 protected:
     std::string m_name;
@@ -57,14 +57,14 @@ public:
     {
     }
 
-    virtual Value call(const std::vector<Value> & args)
+    virtual Variant call(const std::vector<Variant> & args)
     {
         return callFunction(typename GenSeq<sizeof...(Arguments)>::Type(), args);
     }
 
 protected:
     template<size_t... I>
-    Value callFunction(Seq<I...>, const std::vector<Value> & args)
+    Variant callFunction(Seq<I...>, const std::vector<Variant> & args)
     {
         return CallFunction<RET, Arguments...>::call(m_func, ArgValueGen<I, Arguments...>::Type::get(args)...);
     }
@@ -94,14 +94,14 @@ public:
     {
     }
 
-    virtual Value call(const std::vector<Value> & args)
+    virtual Variant call(const std::vector<Variant> & args)
     {
         return callMethod(typename GenSeq<sizeof...(Arguments)>::Type(), args);
     }
 
 protected:
     template<size_t... I>
-    Value callMethod(Seq<I...>, const std::vector<Value> & args)
+    Variant callMethod(Seq<I...>, const std::vector<Variant> & args)
     {
         return CallMethod<T, RET, Arguments...>::call(m_obj, m_method, ArgValueGen<I, Arguments...>::Type::get(args)...);
     }

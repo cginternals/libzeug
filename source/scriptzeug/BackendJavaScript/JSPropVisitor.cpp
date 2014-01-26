@@ -18,12 +18,12 @@ JSPropVisitor::~JSPropVisitor()
 {
 }
 
-scriptzeug::Value & JSPropVisitor::value()
+Variant & JSPropVisitor::value()
 {
     return m_value;
 }
 
-void JSPropVisitor::setValue(const scriptzeug::Value & value)
+void JSPropVisitor::setValue(const Variant & value)
 {
     m_value = value;
 }
@@ -76,10 +76,10 @@ void JSPropVisitor::visit(Property<FilePath> & property)
 void JSPropVisitor::visit(Property<std::vector<bool>> & property)
 {
     if (m_operation == GetOperation) {
-        m_value = scriptzeug::Value::Array();
+        m_value = Variant::Array();
         const std::vector<bool> &arr = property.value();
         for (std::vector<bool>::const_iterator it = arr.begin(); it != arr.end(); ++it) {
-            m_value.append(scriptzeug::Value(*it));
+            m_value.append(Variant(*it));
         }
     } else {
         std::vector<bool> arr;
@@ -93,10 +93,10 @@ void JSPropVisitor::visit(Property<std::vector<bool>> & property)
 void JSPropVisitor::visit(Property<std::vector<int>> & property)
 {
     if (m_operation == GetOperation) {
-        m_value = scriptzeug::Value::Array();
+        m_value = Variant::Array();
         const std::vector<int> &arr = property.value();
         for (std::vector<int>::const_iterator it = arr.begin(); it != arr.end(); ++it) {
-            m_value.append(scriptzeug::Value(*it));
+            m_value.append(Variant(*it));
         }
     } else {
         std::vector<int> arr;
@@ -110,10 +110,10 @@ void JSPropVisitor::visit(Property<std::vector<int>> & property)
 void JSPropVisitor::visit(Property<std::vector<double>> & property)
 {
     if (m_operation == GetOperation) {
-        m_value = scriptzeug::Value::Array();
+        m_value = Variant::Array();
         const std::vector<double> &arr = property.value();
         for (std::vector<double>::const_iterator it = arr.begin(); it != arr.end(); ++it) {
-            m_value.append(scriptzeug::Value(*it));
+            m_value.append(Variant(*it));
         }
     } else {
         std::vector<double> arr;
@@ -127,10 +127,10 @@ void JSPropVisitor::visit(Property<std::vector<double>> & property)
 void JSPropVisitor::visit(Property<std::set<int>> & property)
 {
     if (m_operation == GetOperation) {
-        m_value = scriptzeug::Value::Array();
+        m_value = Variant::Array();
         const std::set<int> &set = property.value();
         for (std::set<int>::const_iterator it = set.begin(); it != set.end(); ++it) {
-            m_value.append(scriptzeug::Value(*it));
+            m_value.append(Variant(*it));
         }
     } else {
         std::set<int> set;

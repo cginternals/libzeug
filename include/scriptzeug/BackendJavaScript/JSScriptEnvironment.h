@@ -18,7 +18,7 @@ public:
     virtual ~JSScriptEnvironment();
 
     virtual void registerObject(zeug::PropertyGroup * obj);
-    virtual Value evaluate(const std::string & code);
+    virtual Variant evaluate(const std::string & code);
 
 protected:
     void registerObj(v8::Handle<v8::Object> parent, zeug::PropertyGroup * obj);

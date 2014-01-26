@@ -12,44 +12,44 @@ using namespace v8;
 using namespace zeug;
 
 
-static scriptzeug::Value wrapValue(v8::Local<v8::Value> arg)
+static Variant wrapValue(Local<Value> arg)
 {
     // Int
     if (arg->IsInt32()) {
         int value = arg->Int32Value();
-        return scriptzeug::Value(value);
+        return Variant(value);
     }
 
     // UInt
     else if (arg->IsUint32()) {
         unsigned int value = arg->Uint32Value();
-        return scriptzeug::Value(value);
+        return Variant(value);
     }
 
     // Double
     else if (arg->IsNumber()) {
         double value = arg->NumberValue();
-        return scriptzeug::Value(value);
+        return Variant(value);
     }
 
     // Bool
     else if (arg->IsBoolean()) {
         bool value = arg->BooleanValue();
-        return scriptzeug::Value(value);
+        return Variant(value);
     }
 
     // String argument
     else if (arg->IsString()) {
-        v8::String::Utf8Value str(arg);
-        return scriptzeug::Value(std::string(*str));
+        String::Utf8Value str(arg);
+        return Variant(std::string(*str));
     }
 
     // Array
     else if (arg->IsArray()) {
-        scriptzeug::Value value(scriptzeug::Value::TypeArray);
-        v8::Handle<v8::Array> arr = v8::Handle<v8::Array>::Cast(arg);
+        Variant value(Variant::TypeArray);
+        Handle<Array> arr = Handle<Array>::Cast(arg);
         for (int i=0; i<arr->Length(); i++) {
-            v8::Local<v8::Value> prop = arr->Get(i);
+            Local<Value> prop = arr->Get(i);
             value.set(i, wrapValue(prop));
         }
         return value;
@@ -57,68 +57,68 @@ static scriptzeug::Value wrapValue(v8::Local<v8::Value> arg)
 
     // Object
     else if (arg->IsObject()) {
-        scriptzeug::Value value(scriptzeug::Value::TypeObject);
-        v8::Local<v8::Object>  obj = arg->ToObject();
-        v8::Local<v8::Array> props = obj->GetPropertyNames();
+        Variant value(Variant::TypeObject);
+        Local<Object>  obj = arg->ToObject();
+        Local<Array> props = obj->GetPropertyNames();
         for (int i=0; i<props->Length(); i++) {
-            v8::Local<v8::Value> name = props->Get(i);
-            v8::String::Utf8Value ascii(name);
+            Local<Value> name = props->Get(i);
+            String::Utf8Value ascii(name);
             std::string propName(*ascii);
-            v8::Local<v8::Value> prop = obj->Get(name);
+            Local<Value> prop = obj->Get(name);
             value.set(propName, wrapValue(prop));
         }
         return value;
     }
 
     // Undefined
-    return scriptzeug::Value();
+    return Variant();
 }
 
-static v8::Local<v8::Value> wrapValue(const scriptzeug::Value &arg)
+static Local<Value> wrapValue(const Variant &arg)
 {
-    v8::Isolate * isolate = Isolate::GetCurrent(); 
+    Isolate * isolate = Isolate::GetCurrent(); 
 
-    v8::Local<v8::Value> value;
+    Local<Value> value;
 
-    if (arg.type() == scriptzeug::Value::TypeInt) {
-        v8::Local<v8::Integer> v = v8::Integer::New(isolate, arg.toInt());
+    if (arg.type() == Variant::TypeInt) {
+        Local<Integer> v = Integer::New(isolate, arg.toInt());
         value = v;
     }
 
-    else if (arg.type() == scriptzeug::Value::TypeUInt) {
-        v8::Local<v8::Integer> v = v8::Integer::NewFromUnsigned(isolate, arg.toUInt());
+    else if (arg.type() == Variant::TypeUInt) {
+        Local<Integer> v = Integer::NewFromUnsigned(isolate, arg.toUInt());
         value = v;
     }
 
-    else if (arg.type() == scriptzeug::Value::TypeDouble) {
-        v8::Local<v8::Number> v = v8::Number::New(isolate, arg.toDouble());
+    else if (arg.type() == Variant::TypeDouble) {
+        Local<Number> v = Number::New(isolate, arg.toDouble());
         value = v;
     }
 
-    else if (arg.type() == scriptzeug::Value::TypeBool) {
-        v8::Local<v8::Boolean> v = v8::Boolean::New(isolate, arg.toBool());
+    else if (arg.type() == Variant::TypeBool) {
+        Local<Boolean> v = Boolean::New(isolate, arg.toBool());
         value = v;
     }
 
-    else if (arg.type() == scriptzeug::Value::TypeString) {
-        v8::Handle<v8::String> str = String::NewFromUtf8(isolate, arg.toString().c_str());
+    else if (arg.type() == Variant::TypeString) {
+        Handle<String> str = String::NewFromUtf8(isolate, arg.toString().c_str());
         value = str;
     }
 
-    else if (arg.type() == scriptzeug::Value::TypeArray) {
-        v8::Handle<v8::Array> arr = Array::New(isolate, arg.size());
+    else if (arg.type() == Variant::TypeArray) {
+        Handle<Array> arr = Array::New(isolate, arg.size());
         for (int i=0; i<arg.size(); i++) {
             arr->Set(i, wrapValue(arg.get(i)));
         }
         value = arr;
     }
 
-    else if (arg.type() == scriptzeug::Value::TypeObject) {
-        v8::Handle<v8::Object> obj = Object::New(isolate);
+    else if (arg.type() == Variant::TypeObject) {
+        Handle<Object> obj = Object::New(isolate);
         std::vector<std::string> args = arg.keys();
         for (std::vector<std::string>::iterator it = args.begin(); it != args.end(); ++it) {
             std::string name = *it;
-            v8::Handle<v8::String> n = String::NewFromUtf8(isolate, name.c_str());
+            Handle<String> n = String::NewFromUtf8(isolate, name.c_str());
             obj->Set(n, wrapValue(arg.get(name)));
         }
         value = obj;
@@ -127,26 +127,26 @@ static v8::Local<v8::Value> wrapValue(const scriptzeug::Value &arg)
     return value;
 }
 
-static void wrapFunction(const v8::FunctionCallbackInfo<v8::Value> & args)
+static void wrapFunction(const v8::FunctionCallbackInfo<Value> & args)
 {
     // Get function pointer
     Handle<External> data = Handle<External>::Cast(args.Data());
     AbstractFunction * func = static_cast<AbstractFunction *>(data->Value());
 
     // Convert arguments to a list of scriptzeug variants
-    std::vector<scriptzeug::Value> arguments;
+    std::vector<Variant> arguments;
     for (int i=0; i<args.Length(); i++) {
-        v8::HandleScope scope(Isolate::GetCurrent());
-        v8::Local<v8::Value> arg = args[i];
+        HandleScope scope(Isolate::GetCurrent());
+        Local<Value> arg = args[i];
         arguments.push_back(wrapValue(arg));
     }
 
     // Call the function
-    scriptzeug::Value value = func->call(arguments);
+    Variant value = func->call(arguments);
     args.GetReturnValue().Set( wrapValue(value) );
 }
 
-static void getProperty(Local<String> property, const PropertyCallbackInfo<v8::Value> & info)
+static void getProperty(Local<String> property, const PropertyCallbackInfo<Value> & info)
 {
     // Get object
     Local<Object> self = info.Holder();
@@ -154,7 +154,7 @@ static void getProperty(Local<String> property, const PropertyCallbackInfo<v8::V
     Scriptable * obj = static_cast<Scriptable*>(wrap->Value());
     if (obj) {
         // Get property name
-        v8::String::Utf8Value str(property);
+        String::Utf8Value str(property);
         std::string name(*str);
 
         // Get property
@@ -162,7 +162,7 @@ static void getProperty(Local<String> property, const PropertyCallbackInfo<v8::V
         if (property) {
             ValueProperty * vp = property->asValue();
             if (vp) {
-                // Convert property value into scriptzeug::Value
+                // Convert property value into Variant
                 JSPropVisitor visitor(JSPropVisitor::GetOperation);
                 vp->accept(visitor);
 
@@ -173,7 +173,7 @@ static void getProperty(Local<String> property, const PropertyCallbackInfo<v8::V
     }
 }
 
-static void setProperty(Local<String> property, Local<v8::Value> value, const PropertyCallbackInfo<void> & info)
+static void setProperty(Local<String> property, Local<Value> value, const PropertyCallbackInfo<void> & info)
 {
     // Get object
     Local<Object> self = info.Holder();
@@ -181,7 +181,7 @@ static void setProperty(Local<String> property, Local<v8::Value> value, const Pr
     Scriptable * obj = static_cast<Scriptable*>(wrap->Value());
     if (obj) {
         // Get property name
-        v8::String::Utf8Value str(property);
+        String::Utf8Value str(property);
         std::string name(*str);
 
         // Get property
@@ -234,7 +234,7 @@ void JSScriptEnvironment::registerObject(PropertyGroup * obj)
     registerObj(global, obj);
 }
 
-scriptzeug::Value JSScriptEnvironment::evaluate(const std::string & code)
+Variant JSScriptEnvironment::evaluate(const std::string & code)
 {
     HandleScope scope(m_isolate);
 
@@ -247,7 +247,7 @@ scriptzeug::Value JSScriptEnvironment::evaluate(const std::string & code)
     Handle<Script> script = Script::Compile(source);
 
     // Run script
-    Handle<v8::Value> result = script->Run();
+    Handle<Value> result = script->Run();
     return wrapValue(result);
 }
 
@@ -264,7 +264,7 @@ void JSScriptEnvironment::registerObj(Handle<Object> parent, PropertyGroup * obj
         std::string name = prop->name();
         if (!prop->isGroup()) {
             // Add accessor for property
-            Local<v8::String> str = String::NewFromUtf8(m_isolate, name.c_str());
+            Local<String> str = String::NewFromUtf8(m_isolate, name.c_str());
             templ->SetAccessor(str, getProperty, setProperty);
         }
     }
@@ -279,11 +279,11 @@ void JSScriptEnvironment::registerObj(Handle<Object> parent, PropertyGroup * obj
             // Bind pointer to AbstractFunction as an external data object
             // and set it in the function template
             Handle<External> func_ptr = External::New(m_isolate, func);
-            v8::Handle<v8::FunctionTemplate> funcTempl =
+            Handle<FunctionTemplate> funcTempl =
                 FunctionTemplate::New(m_isolate, wrapFunction, func_ptr);
 
             // Register function at object template
-            v8::Handle<v8::Function> funcObj = funcTempl->GetFunction();
+            Handle<v8::Function> funcObj = funcTempl->GetFunction();
             templ->Set(String::NewFromUtf8(m_isolate, func->name().c_str()), funcObj);
         }
     }

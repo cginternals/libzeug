@@ -1,6 +1,6 @@
 #include <stdlib.h>
 #include <sstream>
-#include "scriptzeug/Value.h"
+#include "scriptzeug/Variant.h"
 
 
 namespace scriptzeug {
@@ -11,25 +11,25 @@ static const int           MAX_INT  = int(  (unsigned(-1)/2) );
 static const unsigned int  MAX_UINT = unsigned(-1);
 
 
-Value Value::Null(Value::TypeNull);
+Variant Variant::Null(Variant::TypeNull);
 
 
 /**
 *  @brief
 *    Create an empty object
 */
-Value Value::Object()
+Variant Variant::Object()
 {
-    return Value(TypeObject);
+    return Variant(TypeObject);
 }
 
 /**
 *  @brief
 *    Create an empty array
 */
-Value Value::Array()
+Variant Variant::Array()
 {
-    return Value(TypeArray);
+    return Variant(TypeArray);
 }
 
 
@@ -37,7 +37,7 @@ Value Value::Array()
 *  @brief
 *    Constructor
 */
-Value::Value(Type type) :
+Variant::Variant(Type type) :
     m_type(type),
     m_string("")
 {
@@ -50,7 +50,7 @@ Value::Value(Type type) :
     }
 }
 
-Value::Value(int value) :
+Variant::Variant(int value) :
     m_type(TypeInt),
     m_string("")
 {
@@ -58,7 +58,7 @@ Value::Value(int value) :
     m_int = value;
 }
 
-Value::Value(unsigned int value) :
+Variant::Variant(unsigned int value) :
     m_type(TypeUInt),
     m_string("")
 {
@@ -66,7 +66,7 @@ Value::Value(unsigned int value) :
     m_uint = value;
 }
 
-Value::Value(double value) :
+Variant::Variant(double value) :
     m_type(TypeDouble),
     m_string("")
 {
@@ -74,7 +74,7 @@ Value::Value(double value) :
     m_double = value;
 }
 
-Value::Value(bool value) :
+Variant::Variant(bool value) :
     m_type(TypeBool),
     m_string("")
 {
@@ -82,13 +82,13 @@ Value::Value(bool value) :
     m_bool = value;
 }
 
-Value::Value(const std::string &value) :
+Variant::Variant(const std::string &value) :
     m_type(TypeString),
     m_string(value)
 {
 }
 
-Value::Value(const std::vector<std::string> &values) :
+Variant::Variant(const std::vector<std::string> &values) :
     m_type(TypeArray),
     m_string("")
 {
@@ -98,7 +98,7 @@ Value::Value(const std::vector<std::string> &values) :
     }
 }
 
-Value::Value(const char *value) :
+Variant::Variant(const char *value) :
     m_type(TypeString),
     m_string(value)
 {
@@ -108,7 +108,7 @@ Value::Value(const char *value) :
 *  @brief
 *    Copy constructor
 */
-Value::Value(const Value &rh)
+Variant::Variant(const Variant &rh)
 {
     *this = rh;
 }
@@ -117,7 +117,7 @@ Value::Value(const Value &rh)
 *  @brief
 *    Destructor
 */
-Value::~Value()
+Variant::~Variant()
 {
     m_array .clear();
     m_object.clear();
@@ -127,7 +127,7 @@ Value::~Value()
 *  @brief
 *    Copy operator
 */
-Value &Value::operator =(const Value &rh)
+Variant &Variant::operator =(const Variant &rh)
 {
     if (this != &Null && this != &rh) {
         // Clear old data
@@ -156,7 +156,7 @@ Value &Value::operator =(const Value &rh)
 *  @brief
 *    Clear all data
 */
-void Value::clear()
+void Variant::clear()
 {
     if (this != &Null) {
         m_type   = TypeNull;
@@ -171,7 +171,7 @@ void Value::clear()
 *  @brief
 *    Get type of value
 */
-Value::Type Value::type() const
+Variant::Type Variant::type() const
 {
     return m_type;
 }
@@ -180,7 +180,7 @@ Value::Type Value::type() const
 *  @brief
 *    Check if value is empty
 */
-bool Value::empty() const
+bool Variant::empty() const
 {
     return (  m_type == TypeNull ||
              (m_type == TypeObject    && m_object.empty()) ||
@@ -191,7 +191,7 @@ bool Value::empty() const
 *  @brief
 *    Convert value into integer
 */
-int Value::toInt() const
+int Variant::toInt() const
 {
     switch (m_type) {
         case TypeNull:      return 0;
@@ -210,7 +210,7 @@ int Value::toInt() const
 *  @brief
 *    Convert value into unsigned integer
 */
-unsigned int Value::toUInt() const
+unsigned int Variant::toUInt() const
 {
     switch (m_type) {
         case TypeNull:      return 0;
@@ -229,7 +229,7 @@ unsigned int Value::toUInt() const
 *  @brief
 *    Convert value into double
 */
-double Value::toDouble() const
+double Variant::toDouble() const
 {
     switch (m_type) {
         case TypeNull:      return 0.0;
@@ -248,7 +248,7 @@ double Value::toDouble() const
 *  @brief
 *    Convert value into boolean
 */
-bool Value::toBool() const
+bool Variant::toBool() const
 {
     switch (m_type) {
         case TypeNull:      return false;
@@ -267,7 +267,7 @@ bool Value::toBool() const
 *  @brief
 *    Convert value into string
 */
-std::string Value::toString() const
+std::string Variant::toString() const
 {
     switch (m_type) {
         case TypeNull:      return "";
@@ -289,14 +289,14 @@ std::string Value::toString() const
 *  @return
 *    String list
 */
-StringList Value::toStringList() const
+StringList Variant::toStringList() const
 {
     StringList list;
 
     // Array
     if (m_type == TypeArray) {
         // Convert each value into a string
-        for (std::vector<Value>::const_iterator it = m_array.begin(); it != m_array.end(); ++it) {
+        for (std::vector<Variant>::const_iterator it = m_array.begin(); it != m_array.end(); ++it) {
             list.push_back((*it).toString());
         }
     }
@@ -314,9 +314,9 @@ StringList Value::toStringList() const
 *  @brief
 *    Convert value to JSON notation
 */
-std::string Value::toJSON(bool nice, const std::string &indent) const
+std::string Variant::toJSON(bool nice, const std::string &indent) const
 {
-    // Value is an object
+    // Variant is an object
     if (m_type == TypeObject) {
         // Quick output: {} if empty
         if (empty()) return "{}";
@@ -327,13 +327,13 @@ std::string Value::toJSON(bool nice, const std::string &indent) const
 
         // Add all variables
         bool first = true;
-        for (std::map<std::string, Value>::const_iterator it = m_object.begin(); it != m_object.end(); ++it) {
+        for (std::map<std::string, Variant>::const_iterator it = m_object.begin(); it != m_object.end(); ++it) {
             // Add separator (",")
             if (!first) json += nice ? ",\n" : ","; else first = false;
 
             // Get variable
             std::string name = it->first;
-            const Value &var = it->second;
+            const Variant &var = it->second;
 
             // Get value
             std::string value;
@@ -352,7 +352,7 @@ std::string Value::toJSON(bool nice, const std::string &indent) const
         return json;
     }
 
-    // Value is an array
+    // Variant is an array
     else if (m_type == TypeArray) {
         // Quick output: [] if empty
         if (empty()) return "[]";
@@ -363,12 +363,12 @@ std::string Value::toJSON(bool nice, const std::string &indent) const
 
         // Add all elements
         bool first = true;
-        for (std::vector<Value>::const_iterator it = m_array.begin(); it != m_array.end(); ++it) {
+        for (std::vector<Variant>::const_iterator it = m_array.begin(); it != m_array.end(); ++it) {
             // Add separator (",")
             if (!first) json += nice ? ",\n" : ","; else first = false;
 
             // Get variable
-            const Value &var = *it;
+            const Variant &var = *it;
 
             // Get value
             std::string value;
@@ -397,7 +397,7 @@ std::string Value::toJSON(bool nice, const std::string &indent) const
 *  @brief
 *    Check if value is an object
 */
-bool Value::isObject() const
+bool Variant::isObject() const
 {
     return (m_type == TypeObject);
 }
@@ -406,10 +406,10 @@ bool Value::isObject() const
 *  @brief
 *    Get list of object keys
 */
-StringList Value::keys() const
+StringList Variant::keys() const
 {
     StringList keys;
-    for (std::map<std::string, Value>::const_iterator it = m_object.begin(); it != m_object.end(); ++it)
+    for (std::map<std::string, Variant>::const_iterator it = m_object.begin(); it != m_object.end(); ++it)
         keys.push_back(it->first);
     return keys;
 }
@@ -418,7 +418,7 @@ StringList Value::keys() const
 *  @brief
 *    Check if object contains an attribute
 */
-bool Value::contains(const std::string &name) const
+bool Variant::contains(const std::string &name) const
 {
     // Only works on objects
     if (m_type == TypeObject) {
@@ -432,7 +432,7 @@ bool Value::contains(const std::string &name) const
 *  @brief
 *    Get object attribute
 */
-const Value &Value::get(const std::string &name) const
+const Variant &Variant::get(const std::string &name) const
 {
     // Only works on objects
     if (m_type == TypeObject && contains(name)) {
@@ -440,14 +440,14 @@ const Value &Value::get(const std::string &name) const
     }
 
     // Error, return empty value
-    return Value::Null;
+    return Variant::Null;
 }
 
 /**
 *  @brief
 *    Get object attribute
 */
-Value &Value::get(const std::string &name)
+Variant &Variant::get(const std::string &name)
 {
     // Only works on objects
     if (m_type == TypeObject && contains(name)) {
@@ -455,14 +455,14 @@ Value &Value::get(const std::string &name)
     }
 
     // Error, return empty value
-    return Value::Null;
+    return Variant::Null;
 }
 
 /**
 *  @brief
 *    Get object attribute
 */
-const Value &Value::operator [](const std::string &name) const
+const Variant &Variant::operator [](const std::string &name) const
 {
     return get(name);
 }
@@ -471,14 +471,14 @@ const Value &Value::operator [](const std::string &name) const
 *  @brief
 *    Get object attribute
 */
-Value &Value::operator [](const std::string &name)
+Variant &Variant::operator [](const std::string &name)
 {
     // Only works on objects
     if (m_type == TypeObject && this != &Null) {
         // Check if attribute is present
         if (m_object.count(name) < 1) {
             // Append empty value
-            Value v;
+            Variant v;
             set(name, v);
         }
 
@@ -494,7 +494,7 @@ Value &Value::operator [](const std::string &name)
 *  @brief
 *    Set object attribute
 */
-Value &Value::set(const std::string &name, const Value &value)
+Variant &Variant::set(const std::string &name, const Variant &value)
 {
     // Only works on objects
     if (m_type == TypeObject && this != &Null) {
@@ -509,7 +509,7 @@ Value &Value::set(const std::string &name, const Value &value)
 *  @brief
 *    Remove object attribute
 */
-void Value::remove(const std::string &name)
+void Variant::remove(const std::string &name)
 {
     // Only works on objects
     if (m_type == TypeObject && this != &Null) {
@@ -522,7 +522,7 @@ void Value::remove(const std::string &name)
 *  @brief
 *    Check if value is an array
 */
-bool Value::isArray() const
+bool Variant::isArray() const
 {
     return (m_type == TypeArray);
 }
@@ -531,7 +531,7 @@ bool Value::isArray() const
 *  @brief
 *    Get size of array
 */
-unsigned int Value::size() const
+unsigned int Variant::size() const
 {
     // Only works on arrays
     if (m_type == TypeArray) {
@@ -545,7 +545,7 @@ unsigned int Value::size() const
 *  @brief
 *    Get array element
 */
-const Value &Value::get(unsigned int index) const
+const Variant &Variant::get(unsigned int index) const
 {
     // Only works on arrays
     if (m_type == TypeArray) {
@@ -556,14 +556,14 @@ const Value &Value::get(unsigned int index) const
     }
 
     // Error, return empty value
-    return Value::Null;
+    return Variant::Null;
 }
 
 /**
 *  @brief
 *    Get array element
 */
-Value &Value::get(unsigned int index)
+Variant &Variant::get(unsigned int index)
 {
     // Only works on arrays
     if (m_type == TypeArray) {
@@ -574,14 +574,14 @@ Value &Value::get(unsigned int index)
     }
 
     // Error, return empty value
-    return Value::Null;
+    return Variant::Null;
 }
 
 /**
 *  @brief
 *    Get array element
 */
-const Value &Value::operator [](unsigned int index) const
+const Variant &Variant::operator [](unsigned int index) const
 {
     return get(index);
 }
@@ -590,7 +590,7 @@ const Value &Value::operator [](unsigned int index) const
 *  @brief
 *    Get array element
 */
-Value &Value::operator [](unsigned int index)
+Variant &Variant::operator [](unsigned int index)
 {
     return get(index);
 }
@@ -599,13 +599,13 @@ Value &Value::operator [](unsigned int index)
 *  @brief
 *    Set array element
 */
-Value &Value::set(unsigned int index, const Value &value)
+Variant &Variant::set(unsigned int index, const Variant &value)
 {
     // Only works on arrays
     if (m_type == TypeArray && this != &Null) {
         // Resize container if necessary
         if (index >= m_array.size())
-            m_array.resize(index+1, Value::Null);
+            m_array.resize(index+1, Variant::Null);
 
         // Set value
         m_array[index] = value;
@@ -618,7 +618,7 @@ Value &Value::set(unsigned int index, const Value &value)
 *  @brief
 *    Append element to array
 */
-Value &Value::append(const Value &value)
+Variant &Variant::append(const Variant &value)
 {
     // Only works on arrays
     if (m_type == TypeArray && this != &Null) {
@@ -633,12 +633,12 @@ Value &Value::append(const Value &value)
 *  @brief
 *    Append new element to array
 */
-Value &Value::append()
+Variant &Variant::append()
 {
     // Only works on arrays
     if (m_type == TypeArray && this != &Null) {
         // Append empty value
-        Value v;
+        Variant v;
         append(v);
 
         // Return reference to new value
@@ -653,7 +653,7 @@ Value &Value::append()
 *  @brief
 *    Remove array element
 */
-void Value::remove(unsigned int index)
+void Variant::remove(unsigned int index)
 {
     // Only works on arrays
     if (m_type == TypeArray && this != &Null) {
