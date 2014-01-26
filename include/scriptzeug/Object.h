@@ -11,13 +11,13 @@ namespace scriptzeug
 {
 
 
-/** \brief Base class for classes that expose a scripting interface
+/** \brief Base class for reflectable classes that can expose properties and functions
  */
-class SCRIPTZEUG_API Scriptable : public zeug::PropertyGroup
+class SCRIPTZEUG_API Object : public zeug::PropertyGroup
 {
 public:
-    Scriptable(const std::string & name);
-    virtual ~Scriptable();
+    Object(const std::string & name);
+    virtual ~Object();
 
     const std::vector<AbstractFunction *> & functions() const;
 

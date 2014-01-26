@@ -2,20 +2,20 @@
 
 
 #include <v8.h>
-#include <scriptzeug/Backend/AbstractScriptEnvironment.h>
+#include <scriptzeug/Backend/AbstractScriptContext.h>
 
 
 namespace scriptzeug
 {
 
 
-/** \brief JavaScript script environment
+/** \brief JavaScript scripting context
  */
-class SCRIPTZEUG_API JSScriptEnvironment : public AbstractScriptEnvironment
+class SCRIPTZEUG_API JSScriptContext : public AbstractScriptContext
 {
 public:
-    JSScriptEnvironment();
-    virtual ~JSScriptEnvironment();
+    JSScriptContext();
+    virtual ~JSScriptContext();
 
     virtual void registerObject(zeug::PropertyGroup * obj);
     virtual Variant evaluate(const std::string & code);

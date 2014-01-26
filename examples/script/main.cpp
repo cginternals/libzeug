@@ -1,6 +1,6 @@
 #include <iostream>
-#include <scriptzeug/ScriptEnvironment.h>
-#include <scriptzeug/Scriptable.h>
+#include <scriptzeug/ScriptContext.h>
+#include <scriptzeug/Object.h>
 
 
 using namespace scriptzeug;
@@ -19,10 +19,10 @@ Variant testFunction(std::string a)
 }
 
 
-class Counting : public Scriptable
+class Counting : public Object
 {
 public:
-    Counting() : Scriptable("counting"), m_min(0), m_max(2)
+    Counting() : Object("counting"), m_min(0), m_max(2)
     {
         addProperty<int>("min", *this, &Counting::getMin, &Counting::setMin);
         addProperty<int>("max", *this, &Counting::getMax, &Counting::setMax);
@@ -50,10 +50,10 @@ protected:
 };
 
 
-class MyInterface : public Scriptable
+class MyInterface : public Object
 {
 public:
-    MyInterface() : Scriptable("api"), m_prompt("Hello World")
+    MyInterface() : Object("api"), m_prompt("Hello World")
     {
         // Properties
         addProperty<std::string>("prompt", *this, &MyInterface::prompt, &MyInterface::setPrompt);
@@ -113,7 +113,7 @@ int main(int argc, char const *argv[])
 {
     MyInterface obj;
 
-    ScriptEnvironment scripting;
+    ScriptContext scripting;
     scripting.registerObject(&obj);
 
     Variant value;

@@ -14,13 +14,13 @@ namespace scriptzeug
 {
 
 
-/** \brief Base class for backend specific script environments
+/** \brief Base class for backend specific scripting contexts
  */
-class SCRIPTZEUG_API AbstractScriptEnvironment
+class SCRIPTZEUG_API AbstractScriptContext
 {
 public:
-    AbstractScriptEnvironment();
-    virtual ~AbstractScriptEnvironment();
+    AbstractScriptContext();
+    virtual ~AbstractScriptContext();
 
     virtual void registerObject(zeug::PropertyGroup * obj) = 0;
     virtual Variant evaluate(const std::string & code) = 0;

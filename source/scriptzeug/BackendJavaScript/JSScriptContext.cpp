@@ -1,6 +1,6 @@
 #include <functional>
-#include "scriptzeug/Scriptable.h"
-#include "scriptzeug/BackendJavaScript/JSScriptEnvironment.h"
+#include "scriptzeug/Object.h"
+#include "scriptzeug/BackendJavaScript/JSScriptContext.h"
 #include "BackendJavaScript/JSPropVisitor.h"
 
 
@@ -58,7 +58,7 @@ static Variant wrapValue(Local<Value> arg)
     // Object
     else if (arg->IsObject()) {
         Variant value(Variant::TypeObject);
-        Local<Object>  obj = arg->ToObject();
+        Local<v8::Object> obj = arg->ToObject();
         Local<Array> props = obj->GetPropertyNames();
         for (int i=0; i<props->Length(); i++) {
             Local<Value> name = props->Get(i);
@@ -114,7 +114,7 @@ static Local<Value> wrapValue(const Variant &arg)
     }
 
     else if (arg.type() == Variant::TypeObject) {
-        Handle<Object> obj = Object::New(isolate);
+        Handle<v8::Object> obj = v8::Object::New(isolate);
         std::vector<std::string> args = arg.keys();
         for (std::vector<std::string>::iterator it = args.begin(); it != args.end(); ++it) {
             std::string name = *it;
@@ -149,9 +149,9 @@ static void wrapFunction(const v8::FunctionCallbackInfo<Value> & args)
 static void getProperty(Local<String> property, const PropertyCallbackInfo<Value> & info)
 {
     // Get object
-    Local<Object> self = info.Holder();
+    Local<v8::Object> self = info.Holder();
     Local<External> wrap = Local<External>::Cast(self->GetInternalField(0));
-    Scriptable * obj = static_cast<Scriptable*>(wrap->Value());
+    scriptzeug::Object * obj = static_cast<scriptzeug::Object *>(wrap->Value());
     if (obj) {
         // Get property name
         String::Utf8Value str(property);
@@ -176,9 +176,9 @@ static void getProperty(Local<String> property, const PropertyCallbackInfo<Value
 static void setProperty(Local<String> property, Local<Value> value, const PropertyCallbackInfo<void> & info)
 {
     // Get object
-    Local<Object> self = info.Holder();
+    Local<v8::Object> self = info.Holder();
     Local<External> wrap = Local<External>::Cast(self->GetInternalField(0));
-    Scriptable * obj = static_cast<Scriptable*>(wrap->Value());
+    scriptzeug::Object * obj = static_cast<scriptzeug::Object *>(wrap->Value());
     if (obj) {
         // Get property name
         String::Utf8Value str(property);
@@ -199,7 +199,7 @@ static void setProperty(Local<String> property, Local<Value> value, const Proper
 }
 
 
-JSScriptEnvironment::JSScriptEnvironment()
+JSScriptContext::JSScriptContext()
 : m_isolate(nullptr)
 {
     // Get isolate
@@ -214,13 +214,13 @@ JSScriptEnvironment::JSScriptEnvironment()
     m_context.Reset(m_isolate, context);
 }
 
-JSScriptEnvironment::~JSScriptEnvironment()
+JSScriptContext::~JSScriptContext()
 {
     // Destroy global context
     m_context.Reset();
 }
 
-void JSScriptEnvironment::registerObject(PropertyGroup * obj)
+void JSScriptContext::registerObject(PropertyGroup * obj)
 {
     // Get isolate
     HandleScope scope(m_isolate);
@@ -230,11 +230,11 @@ void JSScriptEnvironment::registerObject(PropertyGroup * obj)
     Context::Scope context_scope(context);
 
     // Get global object
-    Handle<Object> global = context->Global();
+    Handle<v8::Object> global = context->Global();
     registerObj(global, obj);
 }
 
-Variant JSScriptEnvironment::evaluate(const std::string & code)
+Variant JSScriptContext::evaluate(const std::string & code)
 {
     HandleScope scope(m_isolate);
 
@@ -251,7 +251,7 @@ Variant JSScriptEnvironment::evaluate(const std::string & code)
     return wrapValue(result);
 }
 
-void JSScriptEnvironment::registerObj(Handle<Object> parent, PropertyGroup * obj)
+void JSScriptContext::registerObj(Handle<v8::Object> parent, PropertyGroup * obj)
 {
     // Create object template
     Handle<ObjectTemplate> templ = ObjectTemplate::New();
@@ -270,7 +270,7 @@ void JSScriptEnvironment::registerObj(Handle<Object> parent, PropertyGroup * obj
     }
 
     // Register object functions
-    Scriptable *scriptable = dynamic_cast<Scriptable *>(obj);
+    scriptzeug::Object * scriptable = dynamic_cast<scriptzeug::Object *>(obj);
     if (scriptable) {
         const std::vector<AbstractFunction *> & funcs = scriptable->functions();
         for (std::vector<AbstractFunction *>::const_iterator it = funcs.begin(); it != funcs.end(); ++it) {
@@ -293,8 +293,8 @@ void JSScriptEnvironment::registerObj(Handle<Object> parent, PropertyGroup * obj
     class_template.Reset(m_isolate, templ);
 
     // Create new object
-    Handle<Object>   object  = templ->NewInstance();
-    Handle<External> obj_ptr = External::New(m_isolate, obj);
+    Handle<v8::Object> object  = templ->NewInstance();
+    Handle<External>   obj_ptr = External::New(m_isolate, obj);
     object->SetInternalField(0, obj_ptr);
 
     // Register sub-objects
@@ -304,7 +304,7 @@ void JSScriptEnvironment::registerObj(Handle<Object> parent, PropertyGroup * obj
         std::string name = prop->name();
         if (prop->isGroup()) {
             // Add sub object
-            Scriptable * subobj = dynamic_cast<Scriptable *>(prop);
+            scriptzeug::Object * subobj = dynamic_cast<scriptzeug::Object *>(prop);
             registerObj(object, subobj);
         }
     }

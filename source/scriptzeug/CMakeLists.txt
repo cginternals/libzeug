@@ -26,18 +26,18 @@ set(source_path "${CMAKE_CURRENT_SOURCE_DIR}")
 
 set(headers
     ${header_path}/scriptzeug.h
-    ${header_path}/Backend/AbstractScriptEnvironment.h
-    ${header_path}/ScriptEnvironment.h
-    ${header_path}/Scriptable.h
+    ${header_path}/Backend/AbstractScriptContext.h
+    ${header_path}/ScriptContext.h
+    ${header_path}/Object.h
     ${header_path}/Function.h
     ${header_path}/Variant.h
     ${header_path}/TemplateHelper.h
 )
 
 set(sources
-    ${source_path}/Backend/AbstractScriptEnvironment.cpp
-    ${source_path}/ScriptEnvironment.cpp
-    ${source_path}/Scriptable.cpp
+    ${source_path}/Backend/AbstractScriptContext.cpp
+    ${source_path}/ScriptContext.cpp
+    ${source_path}/Object.cpp
     ${source_path}/Variant.cpp
 )
 
@@ -51,11 +51,11 @@ if (LIBZEUG_USE_V8)
         ${V8_LIBRARY}
     )
     set(sources ${sources}
-        ${source_path}/BackendJavaScript/JSScriptEnvironment.cpp
+        ${source_path}/BackendJavaScript/JSScriptContext.cpp
         ${source_path}/BackendJavaScript/JSPropVisitor.cpp
     )
     set(headers ${headers}
-        ${header_path}/BackendJavaScript/JSScriptEnvironment.h
+        ${header_path}/BackendJavaScript/JSScriptContext.h
     )
 endif()
 
