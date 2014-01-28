@@ -70,7 +70,7 @@ public:
     T & data();
     const T & data() const;
 
-    //const T & operator=(const T & value);
+    const T & operator=(const T & value);
 
     virtual bool isUsable() const override;
 protected:
@@ -147,6 +147,14 @@ T & StageInput<T>::data()
 template <typename T>
 const T & StageInput<T>::data() const
 {
+    return m_data;
+}
+
+template <typename T>
+const T & StageInput<T>::operator=(const T & value)
+{
+    m_data = value;
+    changed();
     return m_data;
 }
 
