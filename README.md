@@ -62,6 +62,15 @@ propertyzeug allows the definition of properties that can be used to parameteriz
 It supports saving and loading properties to and from a file.
 The currently implemented property types are `int`, `double`, `std::string`, fixed size `std::vector` for mathematical vectors and matrices, `bool`, `FilePath` and `Color`.
 
+scriptzeug
+----------
+
+configure V8 in Win with x64 and no i18n:
+`python build\gyp_v8 -Dtarget_arch=x64 -Dv8_enable_i18n_support=0 -Dcomponent=shared_library`
+build:
+`msbuild /p:Configuration=Release tools\gyp\v8.sln`
+
+
 signalzeug
 ----------
 
