@@ -16,7 +16,7 @@ LinearizedTree::LinearizedTree()
 }
 
 LinearizedTree::LinearizedTree(const Tree * tree, Algorithm strategy)
-: m_tree(tree)
+: m_tree(tree->copy())
 , m_strategy(strategy)
 , m_nodes(tree ? tree->size() : 0)
 , m_nextIndex(0)
@@ -34,6 +34,11 @@ LinearizedTree::LinearizedTree(const LinearizedTree& other)
 {
 }
 
+LinearizedTree::~LinearizedTree()
+{
+    delete m_tree;
+}
+
 LinearizedTree* LinearizedTree::copy()
 {
     return new LinearizedTree(*this);
@@ -46,9 +51,9 @@ const Tree * LinearizedTree::tree() const
 
 void LinearizedTree::setTree(const Tree * tree)
 {
-	if (m_tree == tree) return;
+    delete m_tree;
 
-	m_tree = tree;
+    m_tree = tree ? tree->copy() : nullptr;
 }
 
 void LinearizedTree::setAlgorithm(Algorithm strategy)

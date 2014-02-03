@@ -28,6 +28,7 @@ public:
 public:
 	LinearizedTree();
     LinearizedTree(const Tree * tree, Algorithm strategy);
+    ~LinearizedTree();
 
     LinearizedTree* copy();
 
