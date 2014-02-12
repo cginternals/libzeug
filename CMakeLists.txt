@@ -180,11 +180,6 @@ include_directories(
 set(LIBZEUG_INCLUDE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/include)
 set(LIBZEUG_SOURCE_DIR ${CMAKE_CURRENT_SOURCE_DIR})
 
-if(X64)
-    # http://public.kitware.com/Bug/view.php?id=9094
-    set(CPACK_NSIS_INSTALL_ROOT "$PROGRAMFILES64")
-endif()
-
 install(DIRECTORY ${LIBZEUG_SOURCE_DIR}/include/ DESTINATION ${INSTALL_INCLUDE})
 
 
