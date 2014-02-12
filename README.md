@@ -9,6 +9,7 @@ The current modules in libzeug are:
  * [iozeug](#iozeug)
  * [propertyguizeug](#propertyguizeug)
  * [propertyzeug](#propertyzeug)
+ * [scriptzeug](#scriptzeug)
  * [signalzeug](#signalzeug)
  * [threadingzeug](#threadingzeug)
 
