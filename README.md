@@ -10,10 +10,7 @@ The current modules in libzeug are:
  * [propertyguizeug](#propertyguizeug)
  * [propertyzeug](#propertyzeug)
  * [signalzeug](#signalzeug)
- * [stagezeug](#stagezeug)
  * [threadingzeug](#threadingzeug)
- * [treeimportzeug](#treeimportzeug)
- * [treezeug](#treezeug)
 
 The current pre-release is [libzeug-v0.1.0](https://github.com/hpicgs/libzeug/releases/tag/libzeug-v0.1).
 To find out more about libzeug and how to use it, check out our [wiki](https://github.com/hpicgs/libzeug/wiki).
@@ -78,25 +75,7 @@ signalzeug is a small library that provides classes for a simple signal system.
 Objects can define signals they can fire and other objects can register on those signals.
 Arbitrary parameters and even signal chaining are allowed.
 
-stagezeug
----------
-
-stagezeug allows the definition of `Pipelines` that consist of `Stages` which builds a dependency graph.
-This library ensures that each stage is only executed once when the pipeline is executed and it determines an order in which the stages can be executed regarding their dependencies.
-
 threadingzeug
 -------------
 
 threadingzeug provides a `parallel_for` function that uses either OpenMP or the `std::thread` classes to execute a for loop concurrently.
-
-treeimportzeug
---------------
-
-treeimportzeug handles several tree data file types and creates `Trees` from [treezeug](#treezeug).
-
-treezeug
---------
-
-treezeug provides classes that build a `Tree` that consists of `Nodes`.
-Each tree has an arbitrary number of attributes and each node may have a value for each registered attribute.
-An additional class helps with the linearization of such a tree (e.g. optimized for concurrent traversal).
