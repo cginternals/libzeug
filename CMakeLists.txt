@@ -144,9 +144,6 @@ create_revision_file(${CMAKE_BINARY_DIR}/revision ${INSTALL_ROOT})
 # [TODO]
 #
 
-# Generate meta-header
-configure_file(${CMAKE_CURRENT_SOURCE_DIR}/source/meta.h.in ${CMAKE_CURRENT_BINARY_DIR}/meta.h)
-
 # Qt5
 
 # http://qt-project.org/forums/viewthread/30006/
@@ -188,8 +185,5 @@ install(DIRECTORY ${LIBZEUG_SOURCE_DIR}/include/ DESTINATION ${INSTALL_INCLUDE})
 #
 
 add_subdirectory(source)
-if(OPTION_BUILD_EXAMPLES)
-    add_subdirectory(examples)
-endif()
 add_subdirectory(packages)
 add_subdirectory(docs)
