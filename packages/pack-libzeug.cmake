@@ -32,8 +32,8 @@ if(EXISTS "${CMAKE_ROOT}/Modules/CPack.cmake")
 
     # Package project
 
-    set(project_name "libzeug")   # Name of package project
-    set(project_root "libzeug")   # Name of root project that is to be installed
+    set(project_name ${META_PROJECT_NAME})   # Name of package project
+    set(project_root ${META_PROJECT_NAME})   # Name of root project that is to be installed
 
 
     # Package information
@@ -46,7 +46,7 @@ if(EXISTS "${CMAKE_ROOT}/Modules/CPack.cmake")
 
     # Package specific options
 
-    set(CMAKE_MODULE_PATH                   ${LIBZEUG_SOURCE_DIR}/packages/${project_name})
+    set(CMAKE_MODULE_PATH                   ${CMAKE_SOURCE_DIR}/packages/${project_name})
 
 
     # Package information
@@ -58,10 +58,10 @@ if(EXISTS "${CMAKE_ROOT}/Modules/CPack.cmake")
     set(CPACK_PACKAGE_VERSION_MAJOR         "${META_VERSION_MAJOR}")
     set(CPACK_PACKAGE_VERSION_MINOR         "${META_VERSION_MINOR}")
     set(CPACK_PACKAGE_VERSION_PATCH         "${META_VERSION_PATCH}")
-    set(CPACK_RESOURCE_FILE_LICENSE         "${LIBZEUG_SOURCE_DIR}/LICENSE")
-    set(CPACK_RESOURCE_FILE_README          "${LIBZEUG_SOURCE_DIR}/README.md")
-    set(CPACK_RESOURCE_FILE_WELCOME         "${LIBZEUG_SOURCE_DIR}/README.md")
-    set(CPACK_PACKAGE_DESCRIPTION_FILE      "${LIBZEUG_SOURCE_DIR}/README.md")
+    set(CPACK_RESOURCE_FILE_LICENSE         "${CMAKE_SOURCE_DIR}/LICENSE")
+    set(CPACK_RESOURCE_FILE_README          "${CMAKE_SOURCE_DIR}/README.md")
+    set(CPACK_RESOURCE_FILE_WELCOME         "${CMAKE_SOURCE_DIR}/README.md")
+    set(CPACK_PACKAGE_DESCRIPTION_FILE      "${CMAKE_SOURCE_DIR}/README.md")
     set(CPACK_PACKAGE_ICON                  "")
     set(CPACK_PACKAGE_RELOCATABLE           OFF)
 
@@ -142,11 +142,7 @@ if(EXISTS "${CMAKE_ROOT}/Modules/CPack.cmake")
 
     # Install files
 
-    if(APPLE)
-        set(CPACK_INSTALL_CMAKE_PROJECTS        "${CMAKE_BINARY_DIR};libzeug;/")
-    else()
-        set(CPACK_INSTALL_CMAKE_PROJECTS        "${CMAKE_BINARY_DIR};libzeug;ALL;/")
-    endif()
+    set(CPACK_INSTALL_CMAKE_PROJECTS        "${CMAKE_BINARY_DIR};${project_root};ALL;/")
     set(CPACK_PACKAGE_INSTALL_DIRECTORY     "${package_name}")
     set(CPACK_PACKAGE_INSTALL_REGISTRY_KEY  "${package_name}")
     if(NOT WIN32)
@@ -184,5 +180,7 @@ set_target_properties(pack-${project_name} PROPERTIES EXCLUDE_FROM_DEFAULT_BUILD
 
 # Dependencies
 
-add_dependencies(pack-${project_name}   ${project_root})
-add_dependencies(pack                   pack-${project_name})
+if(MSVC)
+    add_dependencies(pack-${project_name} ALL_BUILD)
+endif()
+add_dependencies(pack pack-${project_name})

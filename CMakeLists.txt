@@ -141,49 +141,9 @@ create_revision_file(${CMAKE_BINARY_DIR}/revision ${INSTALL_ROOT})
 
 
 #
-# [TODO]
-#
-
-# Qt5
-
-# http://qt-project.org/forums/viewthread/30006/
-
-if(MSVC)
-    cmake_policy(SET CMP0020 NEW)
-endif()
-
-
-set(CMAKE_AUTOMOC ON)
-set(AUTOMOC_MOC_OPTIONS PROPERTIES FOLDER CMakeAutomocTargets)
-
-# Probably works in the next cmake release -> http://www.cmake.org/Bug/view.php?id=13788
-# What we do not want is automocs beside the project -> http://www.cmake.org/Bug/view.php?id=13688
-
-set_property(GLOBAL PROPERTY AUTOMOC_FOLDER CMakeAutomocTargets)
-
-# good resource: http://www.kdab.com/using-cmake-with-qt-5/
-
-find_package(Qt5Core REQUIRED)
-find_package(Qt5Gui REQUIRED)
-find_package(Qt5Widgets REQUIRED) # this is important in order to get uic working 
-#find_package(Qt5OpenGL REQUIRED)
-
-
-include_directories(
-    ${CMAKE_CURRENT_BINARY_DIR} # for Meta.h
-    ${CMAKE_CURRENT_SOURCE_DIR}/include
-)
-
-set(LIBZEUG_INCLUDE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/include)
-set(LIBZEUG_SOURCE_DIR ${CMAKE_CURRENT_SOURCE_DIR})
-
-install(DIRECTORY ${LIBZEUG_SOURCE_DIR}/include/ DESTINATION ${INSTALL_INCLUDE})
-
-
-#
 # Include projects
 #
 
 add_subdirectory(source)
-add_subdirectory(packages)
 add_subdirectory(docs)
+add_subdirectory(packages)
