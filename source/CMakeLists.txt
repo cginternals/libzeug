@@ -20,10 +20,7 @@ add_subdirectory(threadingzeug)
 add_subdirectory(scriptzeug)
 
 # Examples
-if(OPTION_BUILD_EXAMPLES)
-    set(IDE_FOLDER "Examples")
-#   add_subdirectory(examples)
-endif()
+add_subdirectory(examples)
 
 # Tests
 #add_subdirectory(tests)
