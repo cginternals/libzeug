@@ -65,15 +65,29 @@ if(EXISTS "${CMAKE_ROOT}/Modules/CPack.cmake")
     set(CPACK_PACKAGE_ICON                  "")
     set(CPACK_PACKAGE_RELOCATABLE           OFF)
 
-
     # NSIS package information
+
+    if(WIN32)
+        # NOTE: for using MUI (UN)WELCOME images we suggest to replace nsis defaults,
+        # since there is currently no way to do so without manipulating the installer template (which we won't).
+        # http://public.kitware.com/pipermail/cmake-developers/2013-January/006243.html
+
+        # SO the following only works for the installer icon, not for the welcome image.
+
+        # NSIS requires "\\" - escaped backslash to work properly. We probably won't rely on this feature, 
+        # so just replacing / with \\ manually.
+
+        #file(TO_NATIVE_PATH "${CPACK_PACKAGE_ICON}" CPACK_PACKAGE_ICON) 
+        string(REGEX REPLACE "/" "\\\\\\\\" CPACK_PACKAGE_ICON ${CPACK_PACKAGE_ICON})
+    endif()
 
     if(X64)
         # http://public.kitware.com/Bug/view.php?id=9094
         set(CPACK_NSIS_INSTALL_ROOT "$PROGRAMFILES64")
     endif()
-    #set(CPACK_NSIS_DISPLAY_NAME             "${package_name}-${META_VERSION}")
-
+#   set(CPACK_NSIS_DISPLAY_NAME "${package_name}-${META_VERSION}")
+    set(CPACK_NSIS_MUI_ICON     "${CMAKE_SOURCE_DIR}/packages/logo.ico")
+    set(CPACK_NSIS_MUI_UNIICON  "${CMAKE_SOURCE_DIR}/packages/logo.ico")
 
     # Debian package information
 
@@ -88,7 +102,6 @@ if(EXISTS "${CMAKE_ROOT}/Modules/CPack.cmake")
 #   set(CPACK_DEBIAN_PACKAGE_RECOMMENDS     "")
 #   set(CPACK_DEBIAN_PACKAGE_SUGGESTS       "")
     set(CPACK_DEBIAN_PACKAGE_CONTROL_EXTRA  "")
-
 
     # RPM package information
 
@@ -111,16 +124,9 @@ if(EXISTS "${CMAKE_ROOT}/Modules/CPack.cmake")
 #   set(CPACK_RPM_PACKAGE_DEBUG                          1)
     set(CPACK_RPM_PACKAGE_RELOCATABLE                    OFF)
 
-
     # Package name
 
     set(CPACK_PACKAGE_FILE_NAME "${package_name}-${CPACK_PACKAGE_VERSION}")
-
-    # NOTE: for using MUI (UN)WELCOME images and installer icon we suggest to replace nsis defaults,
-    # since there is currently no way to do so without manipulating the installer template (which we won't).
-
-    #string(REGEX REPLACE "/" "\\\\\\\\" CPACK_PACKAGE_ICON ${CPACK_PACKAGE_ICON})
-
 
     # Optional Preliminaries (i.e., silent Visual Studio Redistributable install)
 
@@ -139,7 +145,6 @@ if(EXISTS "${CMAKE_ROOT}/Modules/CPack.cmake")
             ")
     endif()
 
-
     # Install files
 
     set(CPACK_INSTALL_CMAKE_PROJECTS        "${CMAKE_BINARY_DIR};${project_root};ALL;/")
@@ -149,12 +154,10 @@ if(EXISTS "${CMAKE_ROOT}/Modules/CPack.cmake")
         set(CPACK_INSTALL_PREFIX            "/usr/")
     endif()
 
-
     # Set generator
 
     set(CPACK_OUTPUT_CONFIG_FILE "${CMAKE_BINARY_DIR}/CPackConfig-${project_name}.cmake")
     set(CPACK_GENERATOR ${OPTION_PACK_GENERATOR})
-
 
     # CPack
 
