@@ -47,6 +47,7 @@ Variant::Variant(Type type) :
         case TypeUInt:    m_uint   = 0;     break;
         case TypeDouble:  m_double = 0.0;   break;
         case TypeBool:    m_bool   = false; break;
+        default:          break;
     }
 }
 
@@ -145,6 +146,7 @@ Variant &Variant::operator =(const Variant &rh)
             case TypeString:    m_string = rh.m_string; break;
             case TypeArray:     m_array  = rh.m_array;  break;
             case TypeObject:    m_object = rh.m_object; break;
+            default:            break;
         }
     }
 
@@ -658,7 +660,7 @@ void Variant::remove(unsigned int index)
     // Only works on arrays
     if (m_type == TypeArray && this != &Null) {
         // Remove value
-        if (index >= 0 && index < m_array.size())
+        if (index < m_array.size())
             m_array.erase(m_array.begin() + index);
     }
 }

@@ -83,7 +83,7 @@ void JSPropVisitor::visit(Property<std::vector<bool>> & property)
         }
     } else {
         std::vector<bool> arr;
-        for (int i=0; i<m_value.size(); i++) {
+        for (unsigned int i=0; i<m_value.size(); i++) {
             arr.push_back(m_value[i].toBool());
         }
         property.setValue(arr);
@@ -100,7 +100,7 @@ void JSPropVisitor::visit(Property<std::vector<int>> & property)
         }
     } else {
         std::vector<int> arr;
-        for (int i=0; i<m_value.size(); i++) {
+        for (unsigned int i=0; i<m_value.size(); i++) {
             arr.push_back(m_value[i].toInt());
         }
         property.setValue(arr);
@@ -134,7 +134,7 @@ void JSPropVisitor::visit(Property<std::set<int>> & property)
         }
     } else {
         std::set<int> set;
-        for (int i=0; i<m_value.size(); i++) {
+        for (unsigned int i=0; i<m_value.size(); i++) {
             set.insert(m_value[i].toInt());
         }
         property.setValue(set);

@@ -19,10 +19,10 @@ namespace zeug {
 const std::string AbstractProperty::s_nameRegexString("[a-zA-Z]+\\w*");
 
 AbstractProperty::AbstractProperty(const std::string & name)
-:   m_name(name)
+:   m_state(kNotSet)
+,   m_name(name)
 ,   m_title(name)
 ,   m_parent(nullptr)
-,   m_state(kNotSet)
 {
     assert(regex_namespace::regex_match(m_name, regex_namespace::regex(s_nameRegexString)));
 }
