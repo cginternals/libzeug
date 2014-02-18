@@ -109,7 +109,7 @@ std::string VectorProperty<Vector>::join(const Vector & vector,
     const std::string & separator) const
 {
     std::stringstream stream;
-    for (int i = 0; i < vector.size() - 1; i++)
+    for (unsigned int i = 0; i < vector.size() - 1; i++)
         stream << vector.at(i) << separator;
     stream << vector.back();
     return stream.str();

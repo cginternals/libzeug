@@ -198,7 +198,7 @@ int Variant::toInt() const
     switch (m_type) {
         case TypeNull:      return 0;
         case TypeInt:       return m_int;
-        case TypeUInt:      return (m_uint < MAX_INT) ? (int)m_uint : 0;
+        case TypeUInt:      return (m_uint < (unsigned int)MAX_INT) ? (int)m_uint : 0;
         case TypeDouble:    return (int)m_double;
         case TypeBool:      return (m_bool ? 1 : 0);
         case TypeString:    return atoi(m_string.c_str());
