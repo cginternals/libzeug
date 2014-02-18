@@ -15,14 +15,15 @@ endif()
 # Includes
 #
 
+if(NOT OPTION_BUILD_WITH_STD_REGEX)
+    include_directories(${Boost_INCLUDE_DIRS})
+endif()
+
 include_directories(
+    BEFORE
     ${CMAKE_SOURCE_DIR}/source/signalzeug/include
     ${CMAKE_CURRENT_SOURCE_DIR}/include
 )
-
-if(NOT OPTION_BUILD_WITH_STD_REGEX)
-    include_directories(AFTER ${Boost_INCLUDE_DIRS})
-endif()
 
 #
 # Libraries

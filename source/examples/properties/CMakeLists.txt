@@ -11,6 +11,10 @@ message(STATUS "Example ${target}")
 #
 
 include_directories(
+)
+
+include_directories(
+    BEFORE
     ${CMAKE_SOURCE_DIR}/source/signalzeug/include
     ${CMAKE_SOURCE_DIR}/source/propertyzeug/include
 )

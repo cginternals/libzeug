@@ -28,11 +28,12 @@ if(DOXYGEN_FOUND)
         WORKING_DIRECTORY   ${path}
         COMMAND             ${CMAKE_COMMAND} -E copy_directory ${path} ${CMAKE_CURRENT_BINARY_DIR}/html # ToDO, configure doxygen to use source as is
         COMMAND             ${DOXYGEN} \"${doxyfile}\"
-        COMMENT             "Creating doxygen documentation for template."
+        COMMENT             "Creating doxygen documentation for libzeug."
     )
 
     # Declare target
     add_custom_target(docs-doxygen DEPENDS ${doxyfile_hhp})
+    set_target_properties(docs-doxygen PROPERTIES EXCLUDE_FROM_DEFAULT_BUILD 1)
     add_dependencies(docs docs-doxygen)
 
 else()

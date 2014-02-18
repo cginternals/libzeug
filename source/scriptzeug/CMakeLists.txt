@@ -13,18 +13,19 @@ option(LIBZEUG_USE_V8 "Use V8 for JavaScript backend" ${V8_FOUND})
 # Includes
 #
 
-include_directories(
-    ${CMAKE_SOURCE_DIR}/source/signalzeug/include
-    ${CMAKE_SOURCE_DIR}/source/propertyzeug/include
-    ${CMAKE_CURRENT_SOURCE_DIR}/include
-    ${CMAKE_CURRENT_SOURCE_DIR}/source
-)
-
 if (LIBZEUG_USE_V8 AND V8_FOUND)
     include_directories(
         ${V8_INCLUDE_DIR}
     )
 endif()
+
+include_directories(
+    BEFORE
+    ${CMAKE_SOURCE_DIR}/source/signalzeug/include
+    ${CMAKE_SOURCE_DIR}/source/propertyzeug/include
+    ${CMAKE_CURRENT_SOURCE_DIR}/include
+    ${CMAKE_CURRENT_SOURCE_DIR}/source
+)
 
 #
 # Libraries
