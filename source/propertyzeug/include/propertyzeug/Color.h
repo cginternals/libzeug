@@ -41,9 +41,9 @@ protected:
             unsigned char g;
             unsigned char r;
             unsigned char a;
-        };
+        } m_rgba;
         unsigned int v;
-    } m_rgba;
+    };
 };
 
 } // namespace zeug

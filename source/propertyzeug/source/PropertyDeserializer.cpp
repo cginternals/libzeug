@@ -143,7 +143,7 @@ void PropertyDeserializer::deserializeVectorValues(const std::string & valueRege
     
     regex_namespace::smatch match;
     regex_namespace::regex_search(m_currentValue, match, regex_namespace::regex(vectorRegexStream.str()));
-    for (int i = 1; i < match.size(); ++i) {
+    for (unsigned int i = 1; i < match.size(); ++i) {
         functor(match[i].str());
     }
 }
@@ -165,7 +165,7 @@ void PropertyDeserializer::deserializeSetValues(const std::string & valueRegexSt
     
     regex_namespace::smatch match;
     regex_namespace::regex_search(m_currentValue, match, regex_namespace::regex(vectorRegexStream.str()));
-    for (int i = 1; i < match.size(); ++i) {
+    for (unsigned int i = 1; i < match.size(); ++i) {
         functor(match[i].str());
     }
 }

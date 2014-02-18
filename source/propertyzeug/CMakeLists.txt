@@ -1,19 +1,65 @@
 
-# Target
 set(target propertyzeug)
-message(STATUS "lib ${target}")
+message(STATUS "Lib ${target}")
 
+#
+# External libraries
+#
+
+# Fallback: Use boost regex
+if(NOT OPTION_BUILD_WITH_STD_REGEX)
+    find_package(Boost COMPONENTS regex REQUIRED)
+endif()
+
+#
+# Includes
+#
+
+if(NOT OPTION_BUILD_WITH_STD_REGEX)
+    include_directories(${Boost_INCLUDE_DIRS})
+endif()
+
+include_directories(
+    BEFORE
+    ${CMAKE_SOURCE_DIR}/source/signalzeug/include
+    ${CMAKE_CURRENT_SOURCE_DIR}/include
+)
+
+#
 # Libraries
+#
+
 set(libs
     signalzeug
 )
 
-# Definitions
-add_definitions("-DPROPERTYZEUG_EXPORTS")
+if(NOT OPTION_BUILD_WITH_STD_REGEX)
+    link_directories(${Boost_LIBRARY_DIR})
+    set(libs ${libs}
+        ${Boost_LIBRARIES}
+    )
+endif()
 
+#
+# Compiler definitions
+#
+
+if (OPTION_BUILD_STATIC)
+    add_definitions("-DPROPERTYZEUG_STATIC")
+else()
+    add_definitions("-DPROPERTYZEUG_EXPORTS")
+endif()
+
+if(OPTION_BUILD_WITH_STD_REGEX)
+    add_definitions("-DUSE_STD_REGEX")
+endif()
+
+#
 # Sources
-set(header_path "${LIBZEUG_SOURCE_DIR}/include/propertyzeug")
-set(source_path "${CMAKE_CURRENT_SOURCE_DIR}")
+#
+
+set(header_path "${CMAKE_CURRENT_SOURCE_DIR}/include/${target}")
+set(source_path "${CMAKE_CURRENT_SOURCE_DIR}/source")
 
 set(headers
     ${header_path}/propertyzeug.h
@@ -59,27 +105,22 @@ set(sources
     ${source_path}/AbstractPropertyVisitor.cpp
     ${source_path}/PropertyDeserializer.cpp
     ${source_path}/PropertySerializer.cpp
-    
+
     ${source_path}/Color.cpp
     ${source_path}/FilePath.cpp
 )
 
 # Group source files
-set(propertyzeug_header_group "Header Files (API)")
-set(propertyzeug_source_group "Source Files")
+set(header_group "Header Files (API)")
+set(source_group "Source Files")
 source_group_by_path(${header_path} "\\\\.h$|\\\\.hpp$" 
-    ${propertyzeug_header_group} ${headers})
+    ${header_group} ${headers})
 source_group_by_path(${source_path} "\\\\.cpp$|\\\\.c$|\\\\.h$|\\\\.hpp$" 
-    ${propertyzeug_source_group} ${sources})
+    ${source_group} ${sources})
 
+#
 # Build library
-
-if(NOT OPTION_BUILD_WITH_STD_REGEX)
-    find_package(Boost COMPONENTS regex REQUIRED)
-
-    include_directories(AFTER ${Boost_INCLUDE_DIRS})
-    link_directories(${Boost_LIBRARY_DIR})
-endif()
+#
 
 if(OPTION_BUILD_STATIC)
     add_library(${target} ${headers} ${sources})
@@ -87,27 +128,30 @@ else()
     add_library(${target} SHARED ${headers} ${sources})
 endif()
 
-if(OPTION_BUILD_WITH_STD_REGEX)
-    set_target_properties(${target} PROPERTIES COMPILE_DEFINITIONS "USE_STD_REGEX")
-    target_link_libraries(${target} ${libs})
-else()
-    target_link_libraries(${target} ${libs} ${Boost_LIBRARIES})
-endif()
+target_link_libraries(${target} ${libs})
 
 set_target_properties(${target}
     PROPERTIES
-    LINKER_LANGUAGE CXX
+    LINKER_LANGUAGE              CXX
+    FOLDER                      "${IDE_FOLDER}"
     COMPILE_DEFINITIONS_DEBUG   "${DEFAULT_COMPILE_DEFS_DEBUG}"
     COMPILE_DEFINITIONS_RELEASE "${DEFAULT_COMPILE_DEFS_RELEASE}"
     COMPILE_FLAGS               "${DEFAULT_COMPILE_FLAGS}"
     LINK_FLAGS_DEBUG            "${DEFAULT_LINKER_FLAGS_DEBUG}"
     LINK_FLAGS_RELEASE          "${DEFAULT_LINKER_FLAGS_RELEASE}"
     DEBUG_POSTFIX               "d${DEBUG_POSTFIX}"
-    INCLUDE_PATH                "${LIBZEUG_SOURCE_DIR}/include")
+    INCLUDE_PATH                "${header_path}")
 
+#
 # Deployment
+#
+
+# Library
 install(TARGETS ${target}
     RUNTIME DESTINATION ${INSTALL_BIN}
     LIBRARY DESTINATION ${INSTALL_SHARED}
     ARCHIVE DESTINATION ${INSTALL_LIB}
 )
+
+# Header files
+install(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/include/${target} DESTINATION ${INSTALL_INCLUDE})

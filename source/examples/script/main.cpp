@@ -78,7 +78,7 @@ public:
 
     std::string bottlesOfBeer(int count, float a)
     {
-        std::cout << count << " bottles of beer with a propability of " << a << "\%.\n";
+        std::cout << count << " bottles of beer with " << a << "% volume.\n";
         return "hicks";
     }
 

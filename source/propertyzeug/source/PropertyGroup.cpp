@@ -168,7 +168,7 @@ AbstractProperty * PropertyGroup::obtainProperty(const std::string & name)
 
 unsigned int PropertyGroup::propertyCount() const
 {
-    return m_properties.size();
+    return (unsigned int)m_properties.size();
 }
     
 int PropertyGroup::indexOfProperty(const std::string & name) const

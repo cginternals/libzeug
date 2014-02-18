@@ -48,7 +48,7 @@ static Variant wrapValue(Local<Value> arg)
     else if (arg->IsArray()) {
         Variant value(Variant::TypeArray);
         Handle<Array> arr = Handle<Array>::Cast(arg);
-        for (int i=0; i<arr->Length(); i++) {
+        for (unsigned int i=0; i<arr->Length(); i++) {
             Local<Value> prop = arr->Get(i);
             value.set(i, wrapValue(prop));
         }
@@ -60,7 +60,7 @@ static Variant wrapValue(Local<Value> arg)
         Variant value(Variant::TypeObject);
         Local<v8::Object> obj = arg->ToObject();
         Local<Array> props = obj->GetPropertyNames();
-        for (int i=0; i<props->Length(); i++) {
+        for (unsigned int i=0; i<props->Length(); i++) {
             Local<Value> name = props->Get(i);
             String::Utf8Value ascii(name);
             std::string propName(*ascii);
@@ -107,7 +107,7 @@ static Local<Value> wrapValue(const Variant &arg)
 
     else if (arg.type() == Variant::TypeArray) {
         Handle<Array> arr = Array::New(isolate, arg.size());
-        for (int i=0; i<arg.size(); i++) {
+        for (unsigned int i=0; i<arg.size(); i++) {
             arr->Set(i, wrapValue(arg.get(i)));
         }
         value = arr;

@@ -9,9 +9,9 @@
 #include <propertyguizeug/PropertyBrowser.h>
 
 #ifdef WIN32
-#define SETTINGS_PATH ".\\examples\\propertygui\\data\\settings.ini"
+#define SETTINGS_PATH ".\\data\\propertygui.ini"
 #else
-#define SETTINGS_PATH "./examples/propertygui/data/settings.ini"
+#define SETTINGS_PATH "./data/propertygui.ini"
 #endif
 
 

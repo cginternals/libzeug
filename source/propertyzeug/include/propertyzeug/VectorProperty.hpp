@@ -7,7 +7,7 @@ template <typename Vector>
 VectorProperty<Vector>::VectorProperty(const std::string & name,
     const Vector & value)
 :   ValuePropertyTemplate<Vector>(name, value)
-,   m_fixedSize(this->m_value->get().size())
+,   m_fixedSize((unsigned int)this->m_value->get().size())
 ,   m_columns(m_fixedSize)
 ,   m_rows(1)
 {
@@ -19,7 +19,7 @@ VectorProperty<Vector>::VectorProperty(const std::string & name,
     const std::function<Vector ()> & getter,
     const std::function<void(const Vector &)> & setter)
 :   ValuePropertyTemplate<Vector>(name, getter, setter)
-,   m_fixedSize(this->m_value->get().size())
+,   m_fixedSize((unsigned int)this->m_value->get().size())
 ,   m_columns(m_fixedSize)
 ,   m_rows(1)
 {
@@ -32,7 +32,7 @@ VectorProperty<Vector>::VectorProperty(const std::string & name,
     Object & object, const Vector & (Object::*getter_pointer)() const,
     void (Object::*setter_pointer)(const Vector &))
 :   ValuePropertyTemplate<Vector>(name, object, getter_pointer, setter_pointer)
-,   m_fixedSize(this->m_value->get().size())
+,   m_fixedSize((unsigned int)this->m_value->get().size())
 ,   m_columns(m_fixedSize)
 ,   m_rows(1)
 {
@@ -45,7 +45,7 @@ VectorProperty<Vector>::VectorProperty(const std::string & name,
     Object & object, Vector (Object::*getter_pointer)() const,
     void (Object::*setter_pointer)(const Vector &))
 :   ValuePropertyTemplate<Vector>(name, object, getter_pointer, setter_pointer)
-,   m_fixedSize(this->m_value->get().size())
+,   m_fixedSize((unsigned int)this->m_value->get().size())
 ,   m_columns(m_fixedSize)
 ,   m_rows(1)
 {
@@ -109,7 +109,7 @@ std::string VectorProperty<Vector>::join(const Vector & vector,
     const std::string & separator) const
 {
     std::stringstream stream;
-    for (int i = 0; i < vector.size() - 1; i++)
+    for (unsigned int i = 0; i < vector.size() - 1; i++)
         stream << vector.at(i) << separator;
     stream << vector.back();
     return stream.str();
