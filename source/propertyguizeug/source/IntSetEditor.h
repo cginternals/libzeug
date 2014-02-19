@@ -3,23 +3,25 @@
 
 #include "SetEditor.h"
 
-namespace zeug 
+namespace reflectionzeug {
+    template <typename Type>
+    class Property;
+}
+
+namespace propertyguizeug
 {
     
-template <typename Type>
-class Property;
-
 class PROPERTYGUIZEUG_API IntSetEditor : public SetEditor
 {
 public:
-    IntSetEditor(Property<std::set<int>> * property, QWidget * parent = nullptr);
+    IntSetEditor(reflectionzeug::Property<std::set<int>> * property, QWidget * parent = nullptr);
     virtual ~IntSetEditor();
     
     virtual void setSet();
 
 protected:
-    Property<std::set<int>> * m_property;
+    reflectionzeug::Property<std::set<int>> * m_property;
     
 };
 
-} // namespace
+} // namespace propertyguizeug

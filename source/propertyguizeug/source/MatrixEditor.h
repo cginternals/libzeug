@@ -10,7 +10,7 @@
 
 class QLineEdit;
 
-namespace zeug 
+namespace propertyguizeug
 {
 
 class PROPERTYGUIZEUG_API MatrixEditor : public PropertyEditor
@@ -39,4 +39,4 @@ protected:
     int m_matrixSize;
 };
 
-} // namespace
+} // namespace propertyguizeug

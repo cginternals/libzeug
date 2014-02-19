@@ -22,4 +22,4 @@ const std::vector<AbstractFunction *> & Object::functions() const
 }
 
 
-} // namespace
+} // namespace scriptzeug

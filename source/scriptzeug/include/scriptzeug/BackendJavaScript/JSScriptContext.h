@@ -17,11 +17,11 @@ public:
     JSScriptContext();
     virtual ~JSScriptContext();
 
-    virtual void registerObject(zeug::PropertyGroup * obj);
+    virtual void registerObject(reflectionzeug::PropertyGroup * obj);
     virtual Variant evaluate(const std::string & code);
 
 protected:
-    void registerObj(v8::Handle<v8::Object> parent, zeug::PropertyGroup * obj);
+    void registerObj(v8::Handle<v8::Object> parent, reflectionzeug::PropertyGroup * obj);
 
 protected:
     v8::Persistent<v8::Context>  m_context;
@@ -29,4 +29,4 @@ protected:
 };
 
 
-} // namespace zeug
+} // namespace scriptzeug

@@ -5,7 +5,7 @@
 #include <signalzeug/signalzeug.h>
 
 
-namespace zeug
+namespace signalzeug
 {
 
 class AbstractSignal;
@@ -43,4 +43,4 @@ protected:
 	std::shared_ptr<State> m_state;
 };
 
-} // namespace zeug
+} // namespace signalzeug

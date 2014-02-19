@@ -3,23 +3,25 @@
 
 #include "MatrixEditor.h"
 
-namespace zeug 
+namespace reflectionzeug {
+    template <typename Type>
+    class Property;
+}
+
+namespace propertyguizeug
 {
     
-template <typename Type>
-class Property;
-
 class PROPERTYGUIZEUG_API IntMatrixEditor : public MatrixEditor
 {
 public:
-    IntMatrixEditor(Property<std::vector<int>> * property, QWidget * parent = nullptr);
+    IntMatrixEditor(reflectionzeug::Property<std::vector<int>> * property, QWidget * parent = nullptr);
     virtual ~IntMatrixEditor();
     
     virtual void setMatrix();
 
 protected:
-    Property<std::vector<int>> * m_property;
+    reflectionzeug::Property<std::vector<int>> * m_property;
     
 };
 
-} // namespace
+} // namespace propertyguizeug

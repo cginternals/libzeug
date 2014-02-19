@@ -1,13 +1,13 @@
 #include <iostream>
 
-#include <propertyzeug/Property.h>
-#include <propertyzeug/PropertyGroup.h>
-#include <propertyzeug/PropertyDeserializer.h>
-#include <propertyzeug/PropertySerializer.h>
+#include <reflectionzeug/Property.h>
+#include <reflectionzeug/PropertyGroup.h>
+#include <reflectionzeug/PropertyDeserializer.h>
+#include <reflectionzeug/PropertySerializer.h>
 
 #include "SomeObject.h"
 
-using namespace zeug;
+using namespace reflectionzeug;
 
 void subscribeToChanges()
 {

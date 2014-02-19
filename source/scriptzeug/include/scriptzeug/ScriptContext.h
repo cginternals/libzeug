@@ -5,7 +5,7 @@
 #include <scriptzeug/Variant.h>
 
 
-namespace zeug {
+namespace reflectionzeug {
     class PropertyGroup;
 }
 
@@ -25,7 +25,7 @@ public:
     ScriptContext(const std::string & backend = "javascript");
     virtual ~ScriptContext();
 
-    void registerObject(zeug::PropertyGroup * obj);
+    void registerObject(reflectionzeug::PropertyGroup * obj);
 
     Variant evaluate(const std::string & code);
 
@@ -34,4 +34,4 @@ protected:
 };
 
 
-} // namespace zeug
+} // namespace scriptzeug

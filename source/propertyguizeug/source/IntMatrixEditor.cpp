@@ -2,11 +2,12 @@
 
 #include <QLineEdit>
 
-#include <propertyzeug/Property.h>
+#include <reflectionzeug/Property.h>
 
 #include "IntMatrixEditor.h"
 
-namespace zeug 
+using namespace reflectionzeug;
+namespace propertyguizeug
 {
     
 IntMatrixEditor::IntMatrixEditor(Property<std::vector<int>> * property, QWidget * parent)
@@ -29,4 +30,4 @@ void IntMatrixEditor::setMatrix()
     m_property->setValue(matrix);
 }
 
-} // namespace
+} // namespace propertyguizeug

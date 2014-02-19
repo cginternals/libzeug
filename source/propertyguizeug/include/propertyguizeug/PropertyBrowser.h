@@ -5,17 +5,21 @@
 
 #include <propertyguizeug/propertyguizeug.h>
 
-namespace zeug 
+namespace reflectionzeug {
+    class PropertyGroup;
+}
+
+
+namespace propertyguizeug
 {
-    
-class PropertyGroup;
+
 class PropertyModel;
 class PropertyDelegate;
 
 class PROPERTYGUIZEUG_API PropertyBrowser : public QTreeView
 {
 public:
-    PropertyBrowser(PropertyGroup * root, QWidget * parent = nullptr);
+    PropertyBrowser(reflectionzeug::PropertyGroup * root, QWidget * parent = nullptr);
     ~PropertyBrowser();
 
 protected:
@@ -24,4 +28,4 @@ protected:
     
 };
     
-} // namespace zeug
+} // namespace propertyguizeug

@@ -2,11 +2,12 @@
 #include <QLineEdit>
 #include <QHBoxLayout>
 
-#include <propertyzeug/Property.h>
+#include <reflectionzeug/Property.h>
 
 #include "StringEditor.h"
 
-namespace zeug 
+using namespace reflectionzeug;
+namespace propertyguizeug
 {
     
 StringEditor::StringEditor(Property<std::string> * property, QWidget * parent)
@@ -30,4 +31,4 @@ void StringEditor::editingFinished()
     m_property->setValue(m_lineEdit->text().toStdString());
 }
 
-} // namespace
+} // namespace propertyguizeug

@@ -4,7 +4,7 @@
 #include <QLabel>
 #include <QColor>
 
-namespace zeug
+namespace propertyguizeug
 {
 
 class ColorButton : public QLabel
@@ -33,4 +33,4 @@ protected:
 
 };
 
-} // namespace zeug
+} // namespace propertyguizeug

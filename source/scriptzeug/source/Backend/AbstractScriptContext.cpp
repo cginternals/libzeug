@@ -14,4 +14,4 @@ AbstractScriptContext::~AbstractScriptContext()
 }
 
 
-} // namespace
+} // namespace scriptzeug

@@ -3,7 +3,7 @@
 
 #include <string>
 #include <vector>
-#include <propertyzeug/PropertyGroup.h>
+#include <reflectionzeug/PropertyGroup.h>
 #include "scriptzeug/Function.h"
 
 
@@ -13,7 +13,7 @@ namespace scriptzeug
 
 /** \brief Base class for reflectable classes that can expose properties and functions
  */
-class SCRIPTZEUG_API Object : public zeug::PropertyGroup
+class SCRIPTZEUG_API Object : public reflectionzeug::PropertyGroup
 {
 public:
     Object(const std::string & name);

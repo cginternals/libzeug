@@ -20,7 +20,7 @@ include_directories(
 include_directories(
     BEFORE
     ${CMAKE_SOURCE_DIR}/source/signalzeug/include
-    ${CMAKE_SOURCE_DIR}/source/propertyzeug/include
+    ${CMAKE_SOURCE_DIR}/source/reflectionzeug/include
     ${CMAKE_SOURCE_DIR}/source/propertyguizeug/include
 )
 

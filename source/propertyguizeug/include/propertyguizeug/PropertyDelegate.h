@@ -9,10 +9,8 @@
 #include <propertyguizeug/PropertyPainter.h>
 
 
-namespace zeug 
+namespace propertyguizeug
 {
-    
-class AbstractProperty;
 
 class PROPERTYGUIZEUG_API PropertyDelegate : public QStyledItemDelegate
 {
@@ -44,4 +42,4 @@ protected:
     mutable PropertyPainter m_propertyPainter;
 };
     
-} // namespace zeug
+} // namespace propertyguizeug

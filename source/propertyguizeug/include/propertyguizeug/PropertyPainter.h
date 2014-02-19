@@ -5,22 +5,23 @@
 
 #include <propertyguizeug/propertyguizeug.h>
 
-#include <propertyzeug/AbstractPropertyVisitor.h>
+#include <reflectionzeug/AbstractPropertyVisitor.h>
 
 
 class QPainter;
+namespace reflectionzeug {
+    template <typename Type>
+    class Property;
+    class ValueProperty;
+    class Color;
+    class FilePath;
+}
 
-namespace zeug 
+
+namespace propertyguizeug
 {
-
-template <typename Type>
-class Property;
-class ValueProperty;
-
-class Color;
-class FilePath;
-    
-class PROPERTYGUIZEUG_API PropertyPainter : public AbstractPropertyVisitor
+   
+class PROPERTYGUIZEUG_API PropertyPainter : public reflectionzeug::AbstractPropertyVisitor
 {
 public:
     PropertyPainter();
@@ -28,19 +29,19 @@ public:
 
     void drawValue(QPainter * painter, 
                    const QStyleOptionViewItem & option,
-                   ValueProperty & property);
+                   reflectionzeug::ValueProperty & property);
 
-    virtual void visit(Property<bool> & property);
-    virtual void visit(Property<int> & property);
-    virtual void visit(Property<double> & property);
-    virtual void visit(Property<std::string> & property);
-    virtual void visit(Property<Color> & property);
-    virtual void visit(Property<FilePath> & property);
+    virtual void visit(reflectionzeug::Property<bool> & property);
+    virtual void visit(reflectionzeug::Property<int> & property);
+    virtual void visit(reflectionzeug::Property<double> & property);
+    virtual void visit(reflectionzeug::Property<std::string> & property);
+    virtual void visit(reflectionzeug::Property<reflectionzeug::Color> & property);
+    virtual void visit(reflectionzeug::Property<reflectionzeug::FilePath> & property);
     
-    virtual void visit(Property<std::vector<bool>> & property);
-    virtual void visit(Property<std::vector<int>> & property);
-    virtual void visit(Property<std::vector<double>> & property);
-    virtual void visit(Property<std::set<int>> & property);
+    virtual void visit(reflectionzeug::Property<std::vector<bool>> & property);
+    virtual void visit(reflectionzeug::Property<std::vector<int>> & property);
+    virtual void visit(reflectionzeug::Property<std::vector<double>> & property);
+    virtual void visit(reflectionzeug::Property<std::set<int>> & property);
     
 protected:
 	void drawString(const QString & string);
@@ -52,4 +53,4 @@ protected:
     
 };
 
-} // namespace zeug
+} // namespace propertyguizeug

@@ -1,10 +1,6 @@
 
 #pragma once
 
-namespace propertyzeug 
-{
-    class AbstractProperty;
-}
 
 class SomeObject
 {

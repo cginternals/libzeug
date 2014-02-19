@@ -6,7 +6,7 @@
 
 #include "PropertyEditor.h"
 
-namespace zeug 
+namespace propertyguizeug
 {
 	
 PropertyEditor::PropertyEditor(QWidget * parent)
@@ -45,4 +45,4 @@ QBoxLayout * PropertyEditor::boxLayout() const
 	return m_layout;
 }
 
-} // namespace zeug
+} // namespace propertyguizeug

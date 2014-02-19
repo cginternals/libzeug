@@ -5,12 +5,13 @@
 #include <QHBoxLayout>
 #include <QRegExpValidator>
 
-#include <propertyzeug/Property.h>
+#include <reflectionzeug/Property.h>
 
 #include "ColorButton.h"
 #include "ColorEditor.h"
 
-namespace zeug 
+using namespace reflectionzeug;
+namespace propertyguizeug
 {
 
 ColorEditor::ColorEditor(Property<Color> * property, QWidget * parent)
@@ -84,4 +85,4 @@ void ColorEditor::setColor(const Color & color)
     m_lineEdit->setText(QString::fromStdString(m_property->valueAsString()));
 }
 
-} // namespace
+} // namespace propertyguizeug

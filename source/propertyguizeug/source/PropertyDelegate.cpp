@@ -2,10 +2,11 @@
 
 #include <QApplication>
 
-#include <propertyzeug/AbstractProperty.h>
+#include <reflectionzeug/AbstractProperty.h>
 #include <propertyguizeug/PropertyDelegate.h>
 
-namespace zeug 
+using namespace reflectionzeug;
+namespace propertyguizeug
 {
 
 PropertyDelegate::PropertyDelegate(QWidget * parent)
@@ -64,4 +65,4 @@ QSize PropertyDelegate::sizeHint (const QStyleOptionViewItem & option,
     return QSize(100, 27);
 }
 
-} // namespace
+} // namespace propertyguizeug

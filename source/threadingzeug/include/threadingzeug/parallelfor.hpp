@@ -2,7 +2,7 @@
 
 #include <threadingzeug/parallelfor.h>
 
-namespace zeug 
+namespace threadingzeug
 {
 
 template<typename T>
@@ -38,4 +38,4 @@ void sequential_for(std::vector<T>& elements, std::function<void(T& element)> ca
 	});
 }
 
-} // namespace zeug
+} // namespace threadingzeug

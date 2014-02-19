@@ -8,7 +8,7 @@
 
 class QBoxLayout;
 
-namespace zeug 
+namespace propertyguizeug
 {
 
 class PropertyEditor : public QWidget
@@ -31,4 +31,4 @@ protected:
 
 };
 
-} // namespace zeug
+} // namespace propertyguizeug

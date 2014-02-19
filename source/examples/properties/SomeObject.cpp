@@ -1,8 +1,5 @@
 
-
 #include <iostream>
-
-#include <propertyzeug/AbstractProperty.h>
 
 #include "SomeObject.h"
 

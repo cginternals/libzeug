@@ -11,7 +11,7 @@
 
 class QLineEdit;
 
-namespace zeug 
+namespace propertyguizeug
 {
 
 class PROPERTYGUIZEUG_API SetEditor : public PropertyEditor
@@ -38,4 +38,4 @@ protected:
     QString m_valueRegexString;
 };
 
-} // namespace
+} // namespace propertyguizeug

@@ -1,7 +1,7 @@
 
 #include <signalzeug/ConnectionMap.h>
 
-namespace zeug 
+namespace signalzeug
 {
 
 ConnectionMap::ConnectionMap()
@@ -21,4 +21,4 @@ Connection & ConnectionMap::get(void * ptr)
 	return m_connections[ptr];
 }
 
-} // namespace zeug
+} // namespace signalzeug

@@ -4,7 +4,7 @@
 
 #include <signalzeug/Connection.h>
 
-namespace zeug 
+namespace signalzeug 
 {
 
 class SIGNALZEUG_API ScopedConnection
@@ -20,4 +20,4 @@ protected:
 	Connection m_connection;
 };
 
-} // namespace zeug
+} // namespace signalzeug

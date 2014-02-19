@@ -6,7 +6,7 @@
 
 #include "MatrixEditor.h"
 
-namespace zeug 
+namespace propertyguizeug
 {
     
 MatrixEditor::MatrixEditor(int matrixSize, const QString & valueRegexString,
@@ -66,4 +66,4 @@ bool MatrixEditor::textMatchesRegex()
     return match.hasMatch();
 }
 
-} // namespace
+} // namespace propertyguizeug

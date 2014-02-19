@@ -1,4 +1,4 @@
-#include <propertyzeug/PropertyGroup.h>
+#include <reflectionzeug/PropertyGroup.h>
 #include "BackendJavaScript/JSPropVisitor.h"
 
 
@@ -6,7 +6,7 @@ namespace scriptzeug
 {
 
 
-using namespace zeug;
+using namespace reflectionzeug;
 
 
 JSPropVisitor::JSPropVisitor(Operation operation)
@@ -142,4 +142,4 @@ void JSPropVisitor::visit(Property<std::set<int>> & property)
 }
 
 
-} // namespace
+} // namespace scriptzeug

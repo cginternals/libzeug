@@ -5,7 +5,7 @@
 
 #include <threadingzeug/threadingzeug.h>
 
-namespace zeug 
+namespace threadingzeug
 {
 
 template<typename T>
@@ -25,6 +25,6 @@ THREADINGZEUG_API void sequential_for(std::vector<T>& elements, std::function<vo
 
 THREADINGZEUG_API void sequential_for(int start, int end, std::function<void(int i)> callback);
 
-} // namespace zeug
+} // namespace threadingzeug
 
 #include <threadingzeug/parallelfor.hpp>

@@ -5,7 +5,7 @@
 #include <scriptzeug/Variant.h>
 
 
-namespace zeug {
+namespace reflectionzeug {
     class PropertyGroup;
 }
 
@@ -22,9 +22,9 @@ public:
     AbstractScriptContext();
     virtual ~AbstractScriptContext();
 
-    virtual void registerObject(zeug::PropertyGroup * obj) = 0;
+    virtual void registerObject(reflectionzeug::PropertyGroup * obj) = 0;
     virtual Variant evaluate(const std::string & code) = 0;
 };
 
 
-} // namespace zeug
+} // namespace scriptzeug

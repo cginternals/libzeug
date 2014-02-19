@@ -6,7 +6,7 @@
 #include <signalzeug/Connection.h>
 
 
-namespace zeug
+namespace signalzeug
 {
 
 class SIGNALZEUG_API AbstractSignal
@@ -29,4 +29,4 @@ protected:
 	mutable std::unordered_map<Connection::Id, Connection> m_connections;
 };
 
-} // namespace zeug
+} // namespace signalzeug

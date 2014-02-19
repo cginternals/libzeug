@@ -7,23 +7,24 @@
 
 
 class QDoubleSpinBox;
+namespace reflectionzeug {
+    template <typename Type>
+    class Property;
+}
 
-namespace zeug 
+namespace propertyguizeug
 {
-
-template <typename Type>
-class Property;
 
 class PROPERTYGUIZEUG_API DoubleEditor : public PropertyEditor
 {
 public:
-    DoubleEditor(Property<double> * property, QWidget * parent = nullptr);
+    DoubleEditor(reflectionzeug::Property<double> * property, QWidget * parent = nullptr);
     virtual ~DoubleEditor();
 
 protected:
     QDoubleSpinBox * m_spinBox;
     
-    Property<double> * m_property;
+    reflectionzeug::Property<double> * m_property;
 };
 
-} // namespace
+} // namespace propertyguizeug

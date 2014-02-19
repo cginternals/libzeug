@@ -8,11 +8,12 @@
 #include <QCompleter>
 #include <QLineEdit>
 
-#include <propertyzeug/Property.h>
+#include <reflectionzeug/Property.h>
 
 #include "FilePathEditor.h"
 
-namespace zeug 
+using namespace reflectionzeug;
+namespace propertyguizeug
 {
     
 const QString FilePathEditor::s_openFileDialog = "Open File Dialog …";
@@ -117,4 +118,4 @@ void FilePathEditor::openFileDialog()
 	m_dialogOpened = false;  
 }
     
-} // namespace
+} // namespace propertyguizeug

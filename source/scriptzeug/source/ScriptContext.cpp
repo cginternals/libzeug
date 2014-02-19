@@ -26,7 +26,7 @@ ScriptContext::~ScriptContext()
         delete m_backend;
 }
 
-void ScriptContext::registerObject(zeug::PropertyGroup * obj)
+void ScriptContext::registerObject(reflectionzeug::PropertyGroup * obj)
 {
     if (m_backend)
         m_backend->registerObject(obj);
@@ -41,4 +41,4 @@ Variant ScriptContext::evaluate(const std::string & code)
 }
 
 
-} // namespace
+} // namespace scriptzeug

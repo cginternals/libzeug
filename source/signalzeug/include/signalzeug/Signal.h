@@ -7,7 +7,7 @@
 #include <signalzeug/AbstractSignal.h>
 
 
-namespace zeug
+namespace signalzeug
 {
 
 template <typename... Arguments>
@@ -40,6 +40,6 @@ protected:
 	bool m_blocked;
 };
 
-} // namespace zeug
+} // namespace signalzeug
 
 #include "Signal.hpp"

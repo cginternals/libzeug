@@ -7,23 +7,24 @@
 
 
 class QSpinBox;
+namespace reflectionzeug {
+    template <typename Type>
+    class Property;
+}
 
-namespace zeug 
+namespace propertyguizeug
 {
-
-template <typename Type>
-class Property;
 
 class PROPERTYGUIZEUG_API IntegerEditor : public PropertyEditor
 {
 public:
-    IntegerEditor(Property<int> * property, QWidget * parent = nullptr);
+    IntegerEditor(reflectionzeug::Property<int> * property, QWidget * parent = nullptr);
     virtual ~IntegerEditor();
 
 protected:
     QSpinBox * m_spinBox;
     
-    Property<int> * m_property;
+    reflectionzeug::Property<int> * m_property;
 };
 
-} // namespace
+} // namespace propertyguizeug

@@ -5,7 +5,7 @@
 
 #include "SetEditor.h"
 
-namespace zeug 
+namespace propertyguizeug
 {
     
 SetEditor::SetEditor(const QString & valueRegexString,
@@ -57,4 +57,4 @@ bool SetEditor::textMatchesRegex()
     return match.hasMatch();
 }
 
-} // namespace
+} // namespace propertyguizeug

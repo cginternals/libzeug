@@ -2,10 +2,10 @@
 #include <iostream>
 #include <QApplication>
 #include <QWidget>
-#include <propertyzeug/Property.h>
-#include <propertyzeug/PropertyGroup.h>
-#include <propertyzeug/PropertySerializer.h>
-#include <propertyzeug/PropertyDeserializer.h>
+#include <reflectionzeug/Property.h>
+#include <reflectionzeug/PropertyGroup.h>
+#include <reflectionzeug/PropertySerializer.h>
+#include <reflectionzeug/PropertyDeserializer.h>
 #include <propertyguizeug/PropertyBrowser.h>
 
 #ifdef WIN32
@@ -15,7 +15,9 @@
 #endif
 
 
-using namespace zeug;
+using namespace reflectionzeug;
+using namespace propertyguizeug;
+
 
 int main(int argc, char *argv[])
 {

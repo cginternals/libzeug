@@ -9,7 +9,7 @@ namespace scriptzeug
 
 
 using namespace v8;
-using namespace zeug;
+using namespace reflectionzeug;
 
 
 static Variant wrapValue(Local<Value> arg)
@@ -314,4 +314,4 @@ void JSScriptContext::registerObj(Handle<v8::Object> parent, PropertyGroup * obj
 }
 
 
-} // namespace
+} // namespace scriptzeug

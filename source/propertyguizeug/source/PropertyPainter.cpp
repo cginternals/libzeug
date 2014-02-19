@@ -2,14 +2,15 @@
 #include <QApplication>
 #include <QPainter>
 
-#include <propertyzeug/Property.h>
+#include <reflectionzeug/Property.h>
 
 #include "PropertyEditor.h"
 #include "ColorButton.h"
 
 #include <propertyguizeug/PropertyPainter.h>
 
-namespace zeug 
+using namespace reflectionzeug;
+namespace propertyguizeug
 {
     
 PropertyPainter::PropertyPainter()
@@ -142,4 +143,4 @@ void PropertyPainter::visit(Property<std::set<int>> & property)
 
 }
     
-} // namespace
+} // namespace propertyguizeug

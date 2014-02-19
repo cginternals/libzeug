@@ -1,10 +1,11 @@
 
-#include <propertyzeug/PropertyGroup.h>
-#include <propertyzeug/Property.h>
+#include <reflectionzeug/PropertyGroup.h>
+#include <reflectionzeug/Property.h>
 
 #include <propertyguizeug/PropertyModel.h>
 
-namespace zeug 
+using namespace reflectionzeug;
+namespace propertyguizeug
 {
     
 PropertyModel::PropertyModel(PropertyGroup * root, QObject * parent)
@@ -136,5 +137,4 @@ QVariant PropertyModel::headerData(int section, Qt::Orientation orientation, int
     return QVariant();
 }
 
-} // namespace
-
+} // namespace propertyguizeug
