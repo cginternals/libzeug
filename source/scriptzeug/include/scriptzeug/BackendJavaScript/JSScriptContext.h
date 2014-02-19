@@ -18,7 +18,7 @@ public:
     virtual ~JSScriptContext();
 
     virtual void registerObject(reflectionzeug::PropertyGroup * obj);
-    virtual Variant evaluate(const std::string & code);
+    virtual reflectionzeug::Variant evaluate(const std::string & code);
 
 protected:
     void registerObj(v8::Handle<v8::Object> parent, reflectionzeug::PropertyGroup * obj);

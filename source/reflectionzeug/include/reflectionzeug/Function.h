@@ -4,11 +4,11 @@
 #include <string>
 #include <vector>
 #include <functional>
-#include <scriptzeug/Variant.h>
-#include <scriptzeug/TemplateHelper.h>
+#include "reflectionzeug/Variant.h"
+#include "reflectionzeug/TemplateHelper.h"
 
 
-namespace scriptzeug
+namespace reflectionzeug
 {
 
 
@@ -112,4 +112,4 @@ protected:
 };
 
 
-} // namespace scriptzeug
+} // namespace reflectionzeug

@@ -1,9 +1,9 @@
 #include <stdlib.h>
 #include <sstream>
-#include "scriptzeug/Variant.h"
+#include "reflectionzeug/Variant.h"
 
 
-namespace scriptzeug {
+namespace reflectionzeug {
 
 
 static const int           MIN_INT  = int( ~(unsigned(-1)/2) );
@@ -666,4 +666,4 @@ void Variant::remove(unsigned int index)
 }
 
 
-} // namespace scriptzeug
+} // namespace reflectionzeug

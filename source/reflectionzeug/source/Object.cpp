@@ -1,7 +1,7 @@
-#include <scriptzeug/Object.h>
+#include "reflectionzeug/Object.h"
 
 
-namespace scriptzeug
+namespace reflectionzeug
 {
 
 
@@ -22,4 +22,4 @@ const std::vector<AbstractFunction *> & Object::functions() const
 }
 
 
-} // namespace scriptzeug
+} // namespace reflectionzeug

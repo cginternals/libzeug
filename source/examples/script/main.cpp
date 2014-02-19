@@ -1,8 +1,9 @@
 #include <iostream>
+#include <reflectionzeug/Object.h>
 #include <scriptzeug/ScriptContext.h>
-#include <scriptzeug/Object.h>
 
 
+using namespace reflectionzeug;
 using namespace scriptzeug;
 
 

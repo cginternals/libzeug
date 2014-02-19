@@ -5,6 +5,7 @@
 #endif
 
 
+using namespace reflectionzeug;
 namespace scriptzeug
 {
 

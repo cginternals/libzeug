@@ -2,11 +2,9 @@
 #include "BackendJavaScript/JSPropVisitor.h"
 
 
+using namespace reflectionzeug;
 namespace scriptzeug
 {
-
-
-using namespace reflectionzeug;
 
 
 JSPropVisitor::JSPropVisitor(Operation operation)

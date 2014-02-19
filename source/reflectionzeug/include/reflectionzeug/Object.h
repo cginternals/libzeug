@@ -3,17 +3,17 @@
 
 #include <string>
 #include <vector>
-#include <reflectionzeug/PropertyGroup.h>
-#include "scriptzeug/Function.h"
+#include "reflectionzeug/PropertyGroup.h"
+#include "reflectionzeug/Function.h"
 
 
-namespace scriptzeug
+namespace reflectionzeug
 {
 
 
 /** \brief Base class for reflectable classes that can expose properties and functions
  */
-class SCRIPTZEUG_API Object : public reflectionzeug::PropertyGroup
+class REFLECTIONZEUG_API Object : public PropertyGroup
 {
 public:
     Object(const std::string & name);
@@ -40,4 +40,4 @@ protected:
 };
 
 
-} // namespace scriptzeug
+} // namespace reflectionzeug

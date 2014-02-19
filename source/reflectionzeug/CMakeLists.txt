@@ -93,6 +93,11 @@ set(headers
 
     ${header_path}/Color.h
     ${header_path}/FilePath.h
+
+    ${header_path}/Object.h
+    ${header_path}/Function.h
+    ${header_path}/Variant.h
+    ${header_path}/TemplateHelper.h
 )
 
 set(sources
@@ -108,6 +113,9 @@ set(sources
 
     ${source_path}/Color.cpp
     ${source_path}/FilePath.cpp
+
+    ${source_path}/Object.cpp
+    ${source_path}/Variant.cpp
 )
 
 # Group source files

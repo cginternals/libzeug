@@ -4,10 +4,10 @@
 #include <string>
 #include <vector>
 #include <map>
-#include <scriptzeug/scriptzeug.h>
+#include "reflectionzeug/reflectionzeug.h"
 
 
-namespace scriptzeug {
+namespace reflectionzeug {
 
 
 typedef std::vector<std::string> StringList;
@@ -15,7 +15,7 @@ typedef std::vector<std::string> StringList;
 
 /** \brief A primitive value, object or array
  */
-class SCRIPTZEUG_API Variant {
+class REFLECTIONZEUG_API Variant {
 
 
 public:
@@ -431,4 +431,4 @@ private:
 };
 
 
-} // namespace scriptzeug
+} // namespace reflectionzeug

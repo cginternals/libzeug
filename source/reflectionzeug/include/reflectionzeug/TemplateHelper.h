@@ -1,10 +1,10 @@
 #pragma once
 
 
-#include <scriptzeug/Variant.h>
+#include "reflectionzeug/Variant.h"
 
 
-namespace scriptzeug
+namespace reflectionzeug
 {
 
 
@@ -198,4 +198,4 @@ public:
 };
 
 
-} // namespace scriptzeug
+} // namespace reflectionzeug

@@ -2,7 +2,8 @@
 
 
 #include <string>
-#include <scriptzeug/Variant.h>
+#include <reflectionzeug/Variant.h>
+#include "scriptzeug/scriptzeug.h"
 
 
 namespace reflectionzeug {
@@ -27,7 +28,7 @@ public:
 
     void registerObject(reflectionzeug::PropertyGroup * obj);
 
-    Variant evaluate(const std::string & code);
+    reflectionzeug::Variant evaluate(const std::string & code);
 
 protected:
     AbstractScriptContext * m_backend;
