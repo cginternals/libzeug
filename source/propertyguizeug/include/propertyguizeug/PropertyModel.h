@@ -5,16 +5,19 @@
 
 #include <propertyguizeug/propertyguizeug.h>
 
-namespace zeug 
-{
-    
-class ScopedConnection;
-class PropertyGroup;
+
+namespace reflectionzeug {
+    class PropertyGroup;
+}
+
+
+namespace propertyguizeug
+{  
 
 class PROPERTYGUIZEUG_API PropertyModel : public QAbstractItemModel
 {
 public:
-    PropertyModel(PropertyGroup * root, QObject * parent = nullptr);
+    PropertyModel(reflectionzeug::PropertyGroup * root, QObject * parent = nullptr);
     virtual ~PropertyModel();
     
     void subscribeToValueChanges();
@@ -36,8 +39,8 @@ public:
                                 int role = Qt::DisplayRole) const;
     
 protected:
-    PropertyGroup * m_root;
+    reflectionzeug::PropertyGroup * m_root;
 
 };
 
-} // namespace zeug
+} // namespace propertyguizeug

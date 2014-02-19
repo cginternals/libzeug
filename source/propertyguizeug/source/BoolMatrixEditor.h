@@ -5,16 +5,18 @@
 
 #include "MatrixEditor.h"
 
-namespace zeug 
-{
+namespace reflectionzeug {
+    template <typename Type>
+    class Property;
+}
 
-template <typename Type>
-class Property;
+namespace propertyguizeug
+{
 
 class PROPERTYGUIZEUG_API BoolMatrixEditor : public MatrixEditor
 {
 public:
-    BoolMatrixEditor(Property<std::vector<bool>> * property, QWidget * parent = nullptr);
+    BoolMatrixEditor(reflectionzeug::Property<std::vector<bool>> * property, QWidget * parent = nullptr);
     virtual ~BoolMatrixEditor();
     
     bool stringToBool(const QString & string) const;
@@ -26,8 +28,8 @@ protected:
     QStringList trueValues() const;
     QStringList falseValues() const;
     
-    Property<std::vector<bool>> * m_property;
+    reflectionzeug::Property<std::vector<bool>> * m_property;
     
 };
 
-} // namespace
+} // namespace propertyguizeug

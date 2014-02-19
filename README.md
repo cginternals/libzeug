@@ -8,7 +8,7 @@ Libzeug is a cross-platform library licenced under the [MIT license](http://open
 The current modules in libzeug are:
  * [iozeug](#iozeug)
  * [propertyguizeug](#propertyguizeug)
- * [propertyzeug](#propertyzeug)
+ * [reflectionzeug](#reflectionzeug)
  * [scriptzeug](#scriptzeug)
  * [signalzeug](#signalzeug)
  * [threadingzeug](#threadingzeug)
@@ -51,12 +51,12 @@ iozeug contains a function to read a file into an std::string.
 propertyguizeug
 ---------------
 
-propertyguizeug contains the automatic generation of a GUI from a set of properties from [propertyzeug](#propertyzeug).
+propertyguizeug contains the automatic generation of a GUI from a set of properties from [reflectionzeug](#reflectionzeug).
 
-propertyzeug
+reflectionzeug
 ------------
 
-propertyzeug allows the definition of properties that can be used to parameterize a program.
+reflectionzeug allows the definition of properties that can be used to parameterize a program.
 It supports saving and loading properties to and from a file.
 The currently implemented property types are `int`, `double`, `std::string`, fixed size `std::vector` for mathematical vectors and matrices, `bool`, `FilePath` and `Color`.
 

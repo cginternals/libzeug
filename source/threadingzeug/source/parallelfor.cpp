@@ -5,7 +5,7 @@
 
 #include <threadingzeug/parallelfor.h>
 
-namespace zeug 
+namespace threadingzeug
 {
 
 void parallel_for(int start, int end, std::function<void(int i)> callback)
@@ -45,4 +45,4 @@ void sequential_for(int start, int end, std::function<void(int i)> callback)
 	}
 }
 
-} // namespace zeug
+} // namespace threadingzeug

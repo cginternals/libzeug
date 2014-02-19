@@ -9,10 +9,10 @@
 # LIBZEUG_SIGNAL_LIBRARY_DEBUG
 # LIBZEUG_SIGNAL_INCLUDE_DIR
 
-# LIBZEUG_PROPERTY_LIBRARY
-# LIBZEUG_PROPERTY_LIBRARY_RELEASE
-# LIBZEUG_PROPERTY_LIBRARY_DEBUG
-# LIBZEUG_PROPERTY_INCLUDE_DIR
+# LIBZEUG_REFLECTION_LIBRARY
+# LIBZEUG_REFLECTION_LIBRARY_RELEASE
+# LIBZEUG_REFLECTION_LIBRARY_DEBUG
+# LIBZEUG_REFLECTION_INCLUDE_DIR
 
 # LIBZEUG_PROPERTYGUI_LIBRARY
 # LIBZEUG_PROPERTYGUI_LIBRARY_RELEASE
@@ -111,7 +111,7 @@ macro (find LIB_NAME HEADER)
 endmacro()
 
 find(signal      signalzeug/signalzeug.h ${LIB_PATHS})
-find(property    propertyzeug/propertyzeug.h ${LIB_PATHS})
+find(reflection  reflectionzeug/reflectionzeug.h ${LIB_PATHS})
 find(propertygui propertyguizeug/propertyguizeug.h ${LIB_PATHS})
 find(io          iozeug/iozeug.h ${LIB_PATHS})
 find(threading   threadingzeug/threadingzeug.h ${LIB_PATHS})

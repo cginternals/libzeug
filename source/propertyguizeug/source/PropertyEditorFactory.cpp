@@ -1,5 +1,5 @@
 
-#include <propertyzeug/Property.h>
+#include <reflectionzeug/Property.h>
 
 #include "IntegerEditor.h"
 #include "StringEditor.h"
@@ -16,7 +16,8 @@
 #include <propertyguizeug/PropertyEditorFactory.h>
 
 
-namespace zeug 
+using namespace reflectionzeug;
+namespace propertyguizeug
 {
     
 PropertyEditorFactory::PropertyEditorFactory()
@@ -94,4 +95,4 @@ void PropertyEditorFactory::visit(Property<std::set<int>> & property)
     m_editor = new IntSetEditor(&property);
 }
 
-} // namespace
+} // namespace propertyguizeug

@@ -6,7 +6,7 @@
 #include "TransparencyBackgroundBrush.hpp"
 #include "ColorButton.h"
 
-namespace zeug
+namespace propertyguizeug
 {
 
 const QSize ColorButton::s_fixedSize = QSize(19, 19);
@@ -67,4 +67,4 @@ void ColorButton::updateColor()
 	setPixmap(pixmap);
 }
 
-} // namespace zeug
+} // namespace propertyguizeug

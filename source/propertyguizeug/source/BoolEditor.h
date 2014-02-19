@@ -5,21 +5,23 @@
 
 #include "PropertyEditor.h"
 
-namespace zeug 
-{
+namespace reflectionzeug {
+    template <typename Type>
+    class Property;
+}
 
-template <typename Type>
-class Property;
+namespace propertyguizeug
+{
     
 class BoolEditor : public PropertyEditor
 {
 public:
-    BoolEditor(Property<bool> * property, QWidget * parent = nullptr);
+    BoolEditor(reflectionzeug::Property<bool> * property, QWidget * parent = nullptr);
     virtual ~BoolEditor();
 
 protected:
-    Property<bool> * m_property;
+    reflectionzeug::Property<bool> * m_property;
 
 };
 
-} // namespace
+} // namespace propertyguizeug

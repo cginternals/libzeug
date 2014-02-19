@@ -3,11 +3,12 @@
 #include <QCheckBox>
 #include <QBoxLayout>
 
-#include <propertyzeug/Property.h>
+#include <reflectionzeug/Property.h>
 
 #include "BoolEditor.h"
 
-namespace zeug 
+using namespace reflectionzeug;
+namespace propertyguizeug
 {
     
 BoolEditor::BoolEditor(Property<bool> * property, QWidget * parent)
@@ -32,4 +33,4 @@ BoolEditor::~BoolEditor()
     
 }
 
-} // namespace
+} // namespace propertyguizeug

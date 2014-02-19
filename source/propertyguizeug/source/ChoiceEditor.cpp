@@ -2,11 +2,12 @@
 #include <QHBoxLayout>
 #include <QComboBox>
 
-#include <propertyzeug/Property.h>
+#include <reflectionzeug/Property.h>
 
 #include "ChoiceEditor.h"
 
-namespace zeug 
+using namespace reflectionzeug;
+namespace propertyguizeug
 {
     
 ChoiceEditor::ChoiceEditor(Property<std::string> * property, QWidget * parent)
@@ -36,4 +37,4 @@ void ChoiceEditor::setString(const QString & text)
     m_property->setValue(text.toStdString());
 }
 
-} // namespace
+} // namespace propertyguizeug

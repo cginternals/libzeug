@@ -3,11 +3,12 @@
 #include <QHBoxLayout>
 #include <QSpinBox>
 
-#include <propertyzeug/Property.h>
+#include <reflectionzeug/Property.h>
 
 #include "IntegerEditor.h"
 
-namespace zeug 
+using namespace reflectionzeug;
+namespace propertyguizeug
 {
     
 IntegerEditor::IntegerEditor(Property<int> * property, QWidget * parent)
@@ -35,4 +36,4 @@ IntegerEditor::~IntegerEditor()
 {
 }
 
-} // namespace
+} // namespace propertyguizeug

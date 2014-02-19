@@ -1,8 +1,9 @@
 #pragma once
 
 
-#include <propertyzeug/AbstractPropertyVisitor.h>
-#include "scriptzeug/Variant.h"
+#include <reflectionzeug/AbstractPropertyVisitor.h>
+#include <reflectionzeug/Variant.h>
+#include "scriptzeug/scriptzeug.h"
 
 
 namespace scriptzeug
@@ -11,7 +12,7 @@ namespace scriptzeug
 
 /** \brief Helper class for setting and getting properties
  */
-class JSPropVisitor : public zeug::AbstractPropertyVisitor
+class JSPropVisitor : public reflectionzeug::AbstractPropertyVisitor
 {
 public:
     enum Operation {
@@ -23,23 +24,23 @@ public:
     JSPropVisitor(Operation operation);
     virtual ~JSPropVisitor();
 
-    Variant & value();
-    void setValue(const Variant & value);
-    virtual void visit(zeug::Property<bool> & property);
-    virtual void visit(zeug::Property<int> & property);
-    virtual void visit(zeug::Property<double> & property);
-    virtual void visit(zeug::Property<std::string> & property);
-    virtual void visit(zeug::Property<zeug::Color> & property);
-    virtual void visit(zeug::Property<zeug::FilePath> & property);
-    virtual void visit(zeug::Property<std::vector<bool>> & property);
-    virtual void visit(zeug::Property<std::vector<int>> & property);
-    virtual void visit(zeug::Property<std::vector<double>> & property);
-    virtual void visit(zeug::Property<std::set<int>> & property);
+    reflectionzeug::Variant & value();
+    void setValue(const reflectionzeug::Variant & value);
+    virtual void visit(reflectionzeug::Property<bool> & property);
+    virtual void visit(reflectionzeug::Property<int> & property);
+    virtual void visit(reflectionzeug::Property<double> & property);
+    virtual void visit(reflectionzeug::Property<std::string> & property);
+    virtual void visit(reflectionzeug::Property<reflectionzeug::Color> & property);
+    virtual void visit(reflectionzeug::Property<reflectionzeug::FilePath> & property);
+    virtual void visit(reflectionzeug::Property<std::vector<bool>> & property);
+    virtual void visit(reflectionzeug::Property<std::vector<int>> & property);
+    virtual void visit(reflectionzeug::Property<std::vector<double>> & property);
+    virtual void visit(reflectionzeug::Property<std::set<int>> & property);
 
 protected:
-    Operation m_operation;
-    Variant   m_value;
+    Operation               m_operation;
+    reflectionzeug::Variant m_value;
 };
 
 
-} // namespace
+} // namespace scriptzeug

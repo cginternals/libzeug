@@ -1,6 +1,6 @@
 #pragma once
 
-namespace zeug 
+namespace signalzeug
 {
 
 template <typename... Arguments>
@@ -82,4 +82,4 @@ void Signal<Arguments...>::disconnectId(Connection::Id id) const
 	m_callbacks.erase(id);
 }
 
-} // namespace zeug
+} // namespace signalzeug

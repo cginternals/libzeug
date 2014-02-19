@@ -5,22 +5,24 @@
 
 #include "PropertyEditor.h"
 
-namespace zeug 
-{
+namespace reflectionzeug {
+    template <typename Type>
+    class Property;
+}
 
-template <typename Type>
-class Property;
+namespace propertyguizeug
+{
 
 class PROPERTYGUIZEUG_API ChoiceEditor : public PropertyEditor
 {
 public:
-    ChoiceEditor(Property<std::string> * property, QWidget * parent = nullptr);
+    ChoiceEditor(reflectionzeug::Property<std::string> * property, QWidget * parent = nullptr);
     virtual ~ChoiceEditor();
     
     void setString(const QString & text);
 
 protected:
-    Property<std::string> * m_property;
+    reflectionzeug::Property<std::string> * m_property;
 };
 
-} // namespace
+} // namespace propertyguizeug

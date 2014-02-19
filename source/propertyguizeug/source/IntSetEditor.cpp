@@ -1,11 +1,12 @@
 
 #include <QLineEdit>
 
-#include <propertyzeug/Property.h>
+#include <reflectionzeug/Property.h>
 
 #include "IntSetEditor.h"
 
-namespace zeug 
+using namespace reflectionzeug;
+namespace propertyguizeug
 {
     
 IntSetEditor::IntSetEditor(Property<std::set<int>> * property, QWidget * parent)
@@ -27,4 +28,4 @@ void IntSetEditor::setSet()
     m_property->setValue(set);
 }
 
-} // namespace
+} // namespace propertyguizeug

@@ -4,7 +4,7 @@
 #include <iozeug/readfile.h>
 
 
-namespace zeug 
+namespace iozeug
 {
 
 bool readFile(const std::string & filePath, std::string & content)
@@ -29,4 +29,4 @@ std::string readFile(const std::string & filePath)
 	return content;
 }
 
-} // namespace zeug
+} // namespace iozeug

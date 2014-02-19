@@ -2,10 +2,11 @@
 
 
 #include <string>
-#include <scriptzeug/Variant.h>
+#include <reflectionzeug/Variant.h>
+#include "scriptzeug/scriptzeug.h"
 
 
-namespace zeug {
+namespace reflectionzeug {
     class PropertyGroup;
 }
 
@@ -25,13 +26,13 @@ public:
     ScriptContext(const std::string & backend = "javascript");
     virtual ~ScriptContext();
 
-    void registerObject(zeug::PropertyGroup * obj);
+    void registerObject(reflectionzeug::PropertyGroup * obj);
 
-    Variant evaluate(const std::string & code);
+    reflectionzeug::Variant evaluate(const std::string & code);
 
 protected:
     AbstractScriptContext * m_backend;
 };
 
 
-} // namespace zeug
+} // namespace scriptzeug

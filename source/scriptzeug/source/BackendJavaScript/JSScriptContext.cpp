@@ -1,15 +1,14 @@
 #include <functional>
-#include "scriptzeug/Object.h"
+#include <reflectionzeug/Object.h>
+#include <reflectionzeug/Variant.h>
 #include "scriptzeug/BackendJavaScript/JSScriptContext.h"
 #include "BackendJavaScript/JSPropVisitor.h"
 
 
+using namespace v8;
+using namespace reflectionzeug;
 namespace scriptzeug
 {
-
-
-using namespace v8;
-using namespace zeug;
 
 
 static Variant wrapValue(Local<Value> arg)
@@ -133,7 +132,7 @@ static void wrapFunction(const v8::FunctionCallbackInfo<Value> & args)
     Handle<External> data = Handle<External>::Cast(args.Data());
     AbstractFunction * func = static_cast<AbstractFunction *>(data->Value());
 
-    // Convert arguments to a list of scriptzeug variants
+    // Convert arguments to a list of reflectionzeug variants
     std::vector<Variant> arguments;
     for (int i=0; i<args.Length(); i++) {
         HandleScope scope(Isolate::GetCurrent());
@@ -151,7 +150,7 @@ static void getProperty(Local<String> property, const PropertyCallbackInfo<Value
     // Get object
     Local<v8::Object> self = info.Holder();
     Local<External> wrap = Local<External>::Cast(self->GetInternalField(0));
-    scriptzeug::Object * obj = static_cast<scriptzeug::Object *>(wrap->Value());
+    reflectionzeug::Object * obj = static_cast<reflectionzeug::Object *>(wrap->Value());
     if (obj) {
         // Get property name
         String::Utf8Value str(property);
@@ -178,7 +177,7 @@ static void setProperty(Local<String> property, Local<Value> value, const Proper
     // Get object
     Local<v8::Object> self = info.Holder();
     Local<External> wrap = Local<External>::Cast(self->GetInternalField(0));
-    scriptzeug::Object * obj = static_cast<scriptzeug::Object *>(wrap->Value());
+    reflectionzeug::Object * obj = static_cast<reflectionzeug::Object *>(wrap->Value());
     if (obj) {
         // Get property name
         String::Utf8Value str(property);
@@ -270,7 +269,7 @@ void JSScriptContext::registerObj(Handle<v8::Object> parent, PropertyGroup * obj
     }
 
     // Register object functions
-    scriptzeug::Object * scriptable = dynamic_cast<scriptzeug::Object *>(obj);
+    reflectionzeug::Object * scriptable = dynamic_cast<reflectionzeug::Object *>(obj);
     if (scriptable) {
         const std::vector<AbstractFunction *> & funcs = scriptable->functions();
         for (std::vector<AbstractFunction *>::const_iterator it = funcs.begin(); it != funcs.end(); ++it) {
@@ -304,7 +303,7 @@ void JSScriptContext::registerObj(Handle<v8::Object> parent, PropertyGroup * obj
         std::string name = prop->name();
         if (prop->isGroup()) {
             // Add sub object
-            scriptzeug::Object * subobj = dynamic_cast<scriptzeug::Object *>(prop);
+            reflectionzeug::Object * subobj = dynamic_cast<reflectionzeug::Object *>(prop);
             registerObj(object, subobj);
         }
     }
@@ -314,4 +313,4 @@ void JSScriptContext::registerObj(Handle<v8::Object> parent, PropertyGroup * obj
 }
 
 
-} // namespace
+} // namespace scriptzeug

@@ -6,7 +6,7 @@
 #include <signalzeug/Connection.h>
 
 
-namespace zeug
+namespace signalzeug
 {
 
 class ConnectionMap
@@ -25,6 +25,6 @@ protected:
 	std::unordered_map<void *, Connection> m_connections;
 };
 
-} // namespace zeug
+} // namespace signalzeug
 
 #include "ConnectionMap.hpp"

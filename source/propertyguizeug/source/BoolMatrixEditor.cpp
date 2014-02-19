@@ -1,10 +1,11 @@
 
 #include <QLineEdit>
-#include <propertyzeug/Property.h>
+#include <reflectionzeug/Property.h>
 
 #include "BoolMatrixEditor.h"
 
-namespace zeug 
+using namespace reflectionzeug;
+namespace propertyguizeug
 {
     
 BoolMatrixEditor::BoolMatrixEditor(Property<std::vector<bool>> * property, QWidget * parent)
@@ -49,4 +50,4 @@ QStringList BoolMatrixEditor::falseValues() const
     return QStringList() << "false" << "0" << "no" << "off" << "f";
 }
 
-} // namespace
+} // namespace propertyguizeug

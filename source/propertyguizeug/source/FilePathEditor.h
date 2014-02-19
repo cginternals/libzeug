@@ -9,17 +9,19 @@ class QLineEdit;
 class QFileDialog;
 class QHBoxLayout;
 
-namespace zeug 
-{
+namespace reflectionzeug {
+    template <typename Type>
+    class Property;
+    class FilePath;
+}
 
-template <typename Type>
-class Property;
-class FilePath;
+namespace propertyguizeug
+{
     
 class PROPERTYGUIZEUG_API FilePathEditor : public PropertyEditor
 {
 public:
-    FilePathEditor(Property<FilePath> * property, QWidget * parent = nullptr);
+    FilePathEditor(reflectionzeug::Property<reflectionzeug::FilePath> * property, QWidget * parent = nullptr);
     virtual ~FilePathEditor();
     
     void setFilePath();
@@ -40,7 +42,7 @@ protected:
 
     QString m_filePathFromDialog;
     
-    Property<FilePath> * m_property;
+    reflectionzeug::Property<reflectionzeug::FilePath> * m_property;
 };
 
-} // namespace
+} // namespace propertyguizeug

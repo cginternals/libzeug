@@ -22,7 +22,7 @@ endif()
 include_directories(
     BEFORE
     ${CMAKE_SOURCE_DIR}/source/signalzeug/include
-    ${CMAKE_SOURCE_DIR}/source/propertyzeug/include
+    ${CMAKE_SOURCE_DIR}/source/reflectionzeug/include
     ${CMAKE_CURRENT_SOURCE_DIR}/include
     ${CMAKE_CURRENT_SOURCE_DIR}/source
 )
@@ -32,7 +32,7 @@ include_directories(
 #
 
 set(libs
-    propertyzeug
+    reflectionzeug
     signalzeug
 )
 
@@ -65,19 +65,13 @@ set(source_path "${CMAKE_CURRENT_SOURCE_DIR}/source")
 
 set(headers
     ${header_path}/scriptzeug.h
-    ${header_path}/Backend/AbstractScriptContext.h
     ${header_path}/ScriptContext.h
-    ${header_path}/Object.h
-    ${header_path}/Function.h
-    ${header_path}/Variant.h
-    ${header_path}/TemplateHelper.h
+    ${header_path}/Backend/AbstractScriptContext.h
 )
 
 set(sources
-    ${source_path}/Backend/AbstractScriptContext.cpp
     ${source_path}/ScriptContext.cpp
-    ${source_path}/Object.cpp
-    ${source_path}/Variant.cpp
+    ${source_path}/Backend/AbstractScriptContext.cpp
 )
 
 if (LIBZEUG_USE_V8 AND V8_FOUND)

@@ -1,7 +1,7 @@
 
 #pragma once
 
-namespace zeug
+namespace signalzeug
 {
 
 template <typename T>
@@ -10,4 +10,4 @@ Connection & ConnectionMap::operator[](T * object)
 	return get(static_cast<void *>(object));
 }
 
-} // namespace zeug
+} // namespace signalzeug

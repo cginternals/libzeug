@@ -2,7 +2,7 @@
 #include <signalzeug/ScopedConnection.h>
 
 
-namespace zeug
+namespace signalzeug
 {
 
 ScopedConnection::ScopedConnection()
@@ -25,4 +25,4 @@ void ScopedConnection::operator=(const Connection & connection)
 	m_connection = connection;
 }
 
-} // namespace zeug
+} // namespace signalzeug

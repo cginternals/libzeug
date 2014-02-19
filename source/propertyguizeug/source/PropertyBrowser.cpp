@@ -5,7 +5,8 @@
 
 #include <propertyguizeug/PropertyBrowser.h>
 
-namespace zeug 
+using namespace reflectionzeug;
+namespace propertyguizeug
 {
     
 PropertyBrowser::PropertyBrowser(PropertyGroup * root, QWidget * parent)
@@ -27,4 +28,4 @@ PropertyBrowser::~PropertyBrowser()
 {
 }
 
-} // namespace
+} // namespace propertyguizeug

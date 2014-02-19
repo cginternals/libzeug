@@ -3,11 +3,12 @@
 #include <QHBoxLayout>
 #include <QDoubleSpinBox>
 
-#include <propertyzeug/Property.h>
+#include <reflectionzeug/Property.h>
 
 #include "DoubleEditor.h"
 
-namespace zeug 
+using namespace reflectionzeug;
+namespace propertyguizeug
 {
     
 DoubleEditor::DoubleEditor(Property<double> * property, QWidget * parent)
@@ -36,4 +37,4 @@ DoubleEditor::~DoubleEditor()
 {
 }
 
-} // namespace
+} // namespace propertyguizeug

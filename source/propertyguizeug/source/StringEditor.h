@@ -7,17 +7,18 @@
 
 
 class QLineEdit;
+namespace reflectionzeug {
+    template <typename Type>
+    class Property;
+}
 
-namespace zeug 
+namespace propertyguizeug
 {
-
-template <typename Type>
-class Property;
 
 class PROPERTYGUIZEUG_API StringEditor : public PropertyEditor
 {
 public:
-    StringEditor(Property<std::string> * property, QWidget * parent = nullptr);
+    StringEditor(reflectionzeug::Property<std::string> * property, QWidget * parent = nullptr);
     virtual ~StringEditor();
     
     void editingFinished();
@@ -25,7 +26,7 @@ public:
 protected:
     QLineEdit * m_lineEdit;
     
-    Property<std::string> * m_property;
+    reflectionzeug::Property<std::string> * m_property;
 };
 
-} // namespace
+} // namespace propertyguizeug

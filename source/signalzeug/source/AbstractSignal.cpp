@@ -1,7 +1,7 @@
 
 #include <signalzeug/AbstractSignal.h>
 
-namespace zeug
+namespace signalzeug
 {
 
 AbstractSignal::AbstractSignal()
@@ -33,4 +33,4 @@ void AbstractSignal::disconnect(Connection & connection) const
 	disconnectId(connection.id());
 }
 
-} // namespace zeug
+} // namespace signalzeug
