@@ -10,18 +10,18 @@ template <typename Type>
 NumberProperty<Type>::NumberProperty(const std::string & name, const Type & value)
 :   ValuePropertyTemplate<Type>(name, value)
 ,   m_min(std::numeric_limits<Type>::lowest())
-,   m_max(std::numeric_limits<Type>::max())
+,   m_max((std::numeric_limits<Type>::max)())
 ,   m_step(0)
 {
 }
 
 template <typename Type>
-NumberProperty<Type>::NumberProperty(const std::string & name, 
+NumberProperty<Type>::NumberProperty(const std::string & name,
     const std::function<Type ()> & getter,
     const std::function<void(const Type &)> & setter)
 :   ValuePropertyTemplate<Type>(name, getter, setter)
 ,   m_min(std::numeric_limits<Type>::lowest())
-,   m_max(std::numeric_limits<Type>::max())
+,   m_max((std::numeric_limits<Type>::max)())
 ,   m_step(0)
 {
 }
@@ -33,7 +33,7 @@ NumberProperty<Type>::NumberProperty(const std::string & name,
     void (Object::*setter_pointer)(const Type &))
 :   ValuePropertyTemplate<Type>(name, object, getter_pointer, setter_pointer)
 ,   m_min(std::numeric_limits<Type>::lowest())
-,   m_max(std::numeric_limits<Type>::max())
+,   m_max((std::numeric_limits<Type>::max)())
 ,   m_step(0)
 {
 }
@@ -45,7 +45,7 @@ NumberProperty<Type>::NumberProperty(const std::string & name,
     void (Object::*setter_pointer)(const Type &))
 :   ValuePropertyTemplate<Type>(name, object, getter_pointer, setter_pointer)
 ,   m_min(std::numeric_limits<Type>::lowest())
-,   m_max(std::numeric_limits<Type>::max())
+,   m_max((std::numeric_limits<Type>::max)())
 ,   m_step(0)
 {
 }
@@ -81,11 +81,11 @@ void NumberProperty<Type>::setMaximum(const Type & maximum)
     m_max = maximum;
     // this->m_announcer.notify(events::kRangeChanged);
 }
-    
+
 template <typename Type>
 bool NumberProperty<Type>::hasMaximum() const
 {
-    return m_max != std::numeric_limits<Type>::max();
+    return m_max != (std::numeric_limits<Type>::max)();
 }
 
 template <typename Type>
