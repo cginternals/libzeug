@@ -73,10 +73,8 @@ static Variant wrapValue(Local<Value> arg)
     return Variant();
 }
 
-static Local<Value> wrapValue(const Variant &arg)
+static Local<Value> wrapValue(Isolate *isolate, const Variant &arg)
 {
-    Isolate * isolate = Isolate::GetCurrent(); 
-
     Local<Value> value;
 
     if (arg.type() == Variant::TypeInt) {
@@ -107,7 +105,7 @@ static Local<Value> wrapValue(const Variant &arg)
     else if (arg.type() == Variant::TypeArray) {
         Handle<Array> arr = Array::New(isolate, arg.size());
         for (unsigned int i=0; i<arg.size(); i++) {
-            arr->Set(i, wrapValue(arg.get(i)));
+            arr->Set(i, wrapValue(isolate, arg.get(i)));
         }
         value = arr;
     }
@@ -118,7 +116,7 @@ static Local<Value> wrapValue(const Variant &arg)
         for (std::vector<std::string>::iterator it = args.begin(); it != args.end(); ++it) {
             std::string name = *it;
             Handle<String> n = String::NewFromUtf8(isolate, name.c_str());
-            obj->Set(n, wrapValue(arg.get(name)));
+            obj->Set(n, wrapValue(isolate, arg.get(name)));
         }
         value = obj;
     }
@@ -128,6 +126,8 @@ static Local<Value> wrapValue(const Variant &arg)
 
 static void wrapFunction(const v8::FunctionCallbackInfo<Value> & args)
 {
+    Isolate *isolate = Isolate::GetCurrent();
+
     // Get function pointer
     Handle<External> data = Handle<External>::Cast(args.Data());
     AbstractFunction * func = static_cast<AbstractFunction *>(data->Value());
@@ -135,18 +135,20 @@ static void wrapFunction(const v8::FunctionCallbackInfo<Value> & args)
     // Convert arguments to a list of reflectionzeug variants
     std::vector<Variant> arguments;
     for (int i=0; i<args.Length(); i++) {
-        HandleScope scope(Isolate::GetCurrent());
+        HandleScope scope(isolate);
         Local<Value> arg = args[i];
         arguments.push_back(wrapValue(arg));
     }
 
     // Call the function
     Variant value = func->call(arguments);
-    args.GetReturnValue().Set( wrapValue(value) );
+    args.GetReturnValue().Set( wrapValue(isolate, value) );
 }
 
 static void getProperty(Local<String> property, const PropertyCallbackInfo<Value> & info)
 {
+    Isolate *isolate = Isolate::GetCurrent();
+
     // Get object
     Local<v8::Object> self = info.Holder();
     Local<External> wrap = Local<External>::Cast(self->GetInternalField(0));
@@ -166,7 +168,7 @@ static void getProperty(Local<String> property, const PropertyCallbackInfo<Value
                 vp->accept(visitor);
 
                 // [TODO]
-                info.GetReturnValue().Set(wrapValue(visitor.value()));
+                info.GetReturnValue().Set(wrapValue(isolate, visitor.value()));
             }
         }
     }
@@ -201,8 +203,12 @@ static void setProperty(Local<String> property, Local<Value> value, const Proper
 JSScriptContext::JSScriptContext()
 : m_isolate(nullptr)
 {
-    // Get isolate
-    m_isolate = Isolate::GetCurrent();
+    // Create isolate for this context
+    m_isolate = Isolate::New();
+    m_isolate->Enter();
+
+    // Enter scope
+    Locker locker(m_isolate);
     HandleScope scope(m_isolate);
 
     // Create global object
@@ -217,11 +223,15 @@ JSScriptContext::~JSScriptContext()
 {
     // Destroy global context
     m_context.Reset();
+    m_isolate->Exit();
+    m_isolate->Dispose();
+
 }
 
 void JSScriptContext::registerObject(PropertyGroup * obj)
 {
-    // Get isolate
+    // Enter scope
+    Locker locker(m_isolate);
     HandleScope scope(m_isolate);
 
     // Get global context
@@ -235,6 +245,8 @@ void JSScriptContext::registerObject(PropertyGroup * obj)
 
 Variant JSScriptContext::evaluate(const std::string & code)
 {
+    // Enter scope
+    Locker locker(m_isolate);
     HandleScope scope(m_isolate);
 
     // Get global context
