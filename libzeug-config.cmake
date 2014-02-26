@@ -72,9 +72,9 @@ macro (find LIB_NAME HEADER)
 
     find_path(${LIB_NAME_UPPER}_INCLUDE_DIR ${HEADER}
         ${ENVLIBZEUG_DIR}/include
-        ${ENVLIBZEUG_DIR}/source/${LIB_NAME}/include
+        ${ENVLIBZEUG_DIR}/source/${LIBNAME}/include
         ${LIBZEUG_DIR}/include
-        ${LIBZEUG_DIR}/source/${LIB_NAME}/include
+        ${LIBZEUG_DIR}/source/${LIBNAME}/include
         ${ENVPROGRAMFILES}/libzeug/include
         /usr/include
         /usr/local/include
