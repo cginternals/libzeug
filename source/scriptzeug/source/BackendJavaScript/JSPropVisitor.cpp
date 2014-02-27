@@ -115,7 +115,7 @@ void JSPropVisitor::visit(Property<std::vector<double>> & property)
         }
     } else {
         std::vector<double> arr;
-        for (double i=0; i<m_value.size(); i++) {
+        for (unsigned int i=0; i<m_value.size(); i++) {
             arr.push_back(m_value[i].toDouble());
         }
         property.setValue(arr);
