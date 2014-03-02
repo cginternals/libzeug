@@ -2,6 +2,7 @@
 
 
 #include <string>
+#include <signalzeug/Signal.h>
 #include <reflectionzeug/Variant.h>
 #include "scriptzeug/scriptzeug.h"
 
@@ -22,6 +23,9 @@ class AbstractScriptContext;
  */
 class SCRIPTZEUG_API ScriptContext
 {
+public:
+    signalzeug::Signal<const std::string &> scriptException;
+
 public:
     ScriptContext(const std::string & backend = "javascript");
     virtual ~ScriptContext();

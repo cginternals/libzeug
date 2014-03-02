@@ -14,7 +14,7 @@ namespace scriptzeug
 class SCRIPTZEUG_API JSScriptContext : public AbstractScriptContext
 {
 public:
-    JSScriptContext();
+    JSScriptContext(ScriptContext * scriptContext);
     virtual ~JSScriptContext();
 
     virtual void registerObject(reflectionzeug::PropertyGroup * obj);

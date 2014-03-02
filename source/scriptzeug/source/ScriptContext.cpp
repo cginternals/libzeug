@@ -16,7 +16,7 @@ ScriptContext::ScriptContext(const std::string & backend)
     // Create backend
 #ifdef LIBZEUG_USE_V8
     if (backend == "javascript")
-        m_backend = new JSScriptContext();
+        m_backend = new JSScriptContext(this);
 #endif
 }
 
