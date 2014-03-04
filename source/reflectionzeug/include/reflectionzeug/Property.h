@@ -61,7 +61,6 @@ public:
              void (Object::*setter_pointer)(const bool &))
     :   ValuePropertyTemplate<bool>(name, object, getter_pointer, setter_pointer) {}
 
-    virtual void accept(AbstractPropertyVisitor & visitor) { visitor.visit(*this); }
     virtual std::string valueAsString() const { return this->value() ? "true" : "false"; }
     
     void toggleValue() { setValue(!value()); }
@@ -91,7 +90,6 @@ public:
              void (Object::*setter_pointer)(const int &))
     :   NumberProperty<int>(name, object, getter_pointer, setter_pointer) {}
 
-    virtual void accept(AbstractPropertyVisitor & visitor) { visitor.visit(*this); }
 };
 
 template <>
@@ -126,7 +124,6 @@ public:
     ,   m_precision(0)
     {}
 
-    virtual void accept(AbstractPropertyVisitor & visitor) { visitor.visit(*this); }
 
     void setPrecision(unsigned precision) { m_precision = precision; }
     unsigned precision() const { return m_precision; }
@@ -159,7 +156,6 @@ public:
              void (Object::*setter_pointer)(const std::string &))
     :   StringProperty(name, object, getter_pointer, setter_pointer) {}
 
-    virtual void accept(AbstractPropertyVisitor & visitor) { visitor.visit(*this); }
 };
     
 template <>
@@ -186,7 +182,6 @@ public:
              void (Object::*setter_pointer)(const Color &))
     :   ValuePropertyTemplate<Color>(name, object, getter_pointer, setter_pointer) {}
 
-    virtual void accept(AbstractPropertyVisitor & visitor) { visitor.visit(*this); }
     
     virtual std::string valueAsString() const { return this->value().asHex(); }
 };
@@ -215,7 +210,6 @@ public:
              void (Object::*setter_pointer)(const FilePath &))
     :   FilePathProperty(name, object, getter_pointer, setter_pointer) {}
 
-    virtual void accept(AbstractPropertyVisitor & visitor) { visitor.visit(*this); }
 };
 
 template <>
@@ -242,7 +236,6 @@ public:
              void (Object::*setter_pointer)(const std::vector<bool> &))
     :   VectorProperty<std::vector<bool>>(name, object, getter_pointer, setter_pointer) {}
 
-    virtual void accept(AbstractPropertyVisitor & visitor) { visitor.visit(*this); }
     
     virtual std::string valueAsString() const
     {
@@ -282,7 +275,6 @@ public:
              void (Object::*setter_pointer)(const std::vector<int> &))
     :   VectorProperty<std::vector<int>>(name, object, getter_pointer, setter_pointer) {}
 
-    virtual void accept(AbstractPropertyVisitor & visitor) { visitor.visit(*this); }
 };
 
 template <>
@@ -309,7 +301,6 @@ public:
              void (Object::*setter_pointer)(const std::vector<double> &))
     :   VectorProperty<std::vector<double>>(name, object, getter_pointer, setter_pointer) {}
 
-    virtual void accept(AbstractPropertyVisitor & visitor) { visitor.visit(*this); }
 };
 
 template <>
@@ -336,7 +327,6 @@ public:
              void (Object::*setter_pointer)(const std::set<int> &))
     :   SetProperty<std::set<int>>(name, object, getter_pointer, setter_pointer) {}
 
-    virtual void accept(AbstractPropertyVisitor & visitor) { visitor.visit(*this); }
 };
 
 } // namespace reflectionzeug

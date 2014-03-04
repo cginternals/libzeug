@@ -119,7 +119,7 @@ bool PropertyDeserializer::setPropertyValue(const std::string line)
         return false;
     }
 
-    property->asValue()->accept(*this);
+    visit(*property->asValue());
     return true;
 }
     
@@ -171,7 +171,7 @@ void PropertyDeserializer::deserializeSetValues(const std::string & valueRegexSt
 }
 
 
-void PropertyDeserializer::visit(Property<bool> & property)
+void PropertyDeserializer::visitBool(Property<bool> & property)
 {
     if (regex_namespace::regex_match(m_currentValue, regex_namespace::regex("\\s*true\\s*"))) {
         property.setValue(true);
@@ -183,22 +183,22 @@ void PropertyDeserializer::visit(Property<bool> & property)
     }
 }
 
-void PropertyDeserializer::visit(Property<int> & property)
+void PropertyDeserializer::visitInt(Property<int> & property)
 {
     property.setValue(this->convertString<int>(m_currentValue));
 }
 
-void PropertyDeserializer::visit(Property<double> & property)
+void PropertyDeserializer::visitDouble(Property<double> & property)
 {
     property.setValue(this->convertString<double>(m_currentValue));
 }
 
-void PropertyDeserializer::visit(Property<std::string> & property)
+void PropertyDeserializer::visitString(Property<std::string> & property)
 {
     property.setValue(m_currentValue);
 }
 
-void PropertyDeserializer::visit(Property<Color> & property)
+void PropertyDeserializer::visitColor(Property<Color> & property)
 {
     regex_namespace::regex colorHexRegex("#[0-9A-F]{8}");
     if (!regex_namespace::regex_match(m_currentValue, colorHexRegex)) {
@@ -213,12 +213,12 @@ void PropertyDeserializer::visit(Property<Color> & property)
     property.setValue(Color(colorHex));
 }
 
-void PropertyDeserializer::visit(Property<FilePath> & property)
+void PropertyDeserializer::visitFilePath(Property<FilePath> & property)
 {
     property.setValue(m_currentValue);
 }
 
-void PropertyDeserializer::visit(Property<std::vector<bool>> & property)
+void PropertyDeserializer::visitBoolVector(Property<std::vector<bool>> & property)
 {
     std::vector<bool> vector;
     this->deserializeVectorValues("(true|false)", property.fixedSize(),
@@ -228,7 +228,7 @@ void PropertyDeserializer::visit(Property<std::vector<bool>> & property)
     property.setValue(vector);
 }
 
-void PropertyDeserializer::visit(Property<std::vector<int>> & property)
+void PropertyDeserializer::visitIntVector(Property<std::vector<int>> & property)
 {
     std::vector<int> vector;
     this->deserializeVectorValues("(-?\\d+)", property.fixedSize(),
@@ -238,7 +238,7 @@ void PropertyDeserializer::visit(Property<std::vector<int>> & property)
     property.setValue(vector);
 }
 
-void PropertyDeserializer::visit(Property<std::vector<double>> & property)
+void PropertyDeserializer::visitDoubleVector(Property<std::vector<double>> & property)
 {
     std::vector<double> vector;
     this->deserializeVectorValues("(-?\\d+\\.?\\d*)", property.fixedSize(),
@@ -248,7 +248,7 @@ void PropertyDeserializer::visit(Property<std::vector<double>> & property)
     property.setValue(vector);
 }
 
-void PropertyDeserializer::visit(Property<std::set<int>> & property)
+void PropertyDeserializer::visitIntSet(Property<std::set<int>> & property)
 {
     std::set<int> set;
     this->deserializeSetValues("(-?\\d+)", [this, &set](const std::string & string) {

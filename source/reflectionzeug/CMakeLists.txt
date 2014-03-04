@@ -82,6 +82,7 @@ set(headers
     ${header_path}/PropertyGroup.h
     ${header_path}/PropertyGroup.hpp
     ${header_path}/AbstractPropertyVisitor.h
+    ${header_path}/AbstractPropertyVisitor.hpp
     ${header_path}/PropertyDeserializer.h
     ${header_path}/PropertySerializer.h
 

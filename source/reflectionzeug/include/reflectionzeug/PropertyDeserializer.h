@@ -19,17 +19,17 @@ public:
     PropertyDeserializer();
     virtual ~PropertyDeserializer();
 
-    virtual void visit(Property<bool> & property);
-    virtual void visit(Property<int> & property);
-    virtual void visit(Property<double> & property);
-    virtual void visit(Property<std::string> & property);
-    virtual void visit(Property<Color> & property);
-    virtual void visit(Property<FilePath> & property);
+    virtual void visitBool(Property<bool> & property);
+    virtual void visitInt(Property<int> & property);
+    virtual void visitDouble(Property<double> & property);
+    virtual void visitString(Property<std::string> & property);
+    virtual void visitColor(Property<Color> & property);
+    virtual void visitFilePath(Property<FilePath> & property);
 
-    virtual void visit(Property<std::vector<bool>> & property);
-    virtual void visit(Property<std::vector<int>> & property);
-    virtual void visit(Property<std::vector<double>> & property);
-    virtual void visit(Property<std::set<int>> & property);
+    virtual void visitBoolVector(Property<std::vector<bool>> & property);
+    virtual void visitIntVector(Property<std::vector<int>> & property);
+    virtual void visitDoubleVector(Property<std::vector<double>> & property);
+    virtual void visitIntSet(Property<std::set<int>> & property);
 
     bool deserialize(PropertyGroup & group, std::string filePath);
     

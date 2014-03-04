@@ -11,7 +11,6 @@
 namespace reflectionzeug
 {
 
-class AbstractPropertyVisitor;
 class ValueProperty;
 class PropertyGroup;
     

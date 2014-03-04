@@ -5,6 +5,7 @@
 #include <reflectionzeug/PropertyDeserializer.h>
 #include <reflectionzeug/PropertySerializer.h>
 
+#include "PropertyExtension.h"
 #include "SomeObject.h"
 
 using namespace reflectionzeug;
@@ -38,11 +39,12 @@ void iterateOverProperties()
     
     PropertyGroup * group = new PropertyGroup("group");
     
-    group->addProperty<double>("first", 0.3f);
+    group->addProperty<double>("first", 0.3);
     group->addGroup("second");
     group->addProperty<int>("third", 7);
     group->addGroup("fourth");
     group->addProperty<Color>("fifth", Color(125, 125, 125));
+    group->addProperty<float>("sixth", 12.32f);
     
     group->forEachValueProperty([](AbstractProperty & property) {
         std::cout << property.title() << std::endl;
@@ -51,6 +53,17 @@ void iterateOverProperties()
     group->forEachSubGroup([](PropertyGroup & subGroup) {
         std::cout << subGroup.title() << std::endl;
     });
+    
+    PropertyDeserializer deserializer;
+    deserializer.registerTypeHandler<float>([] (Property<float> & property)
+    {
+        property.setValue(42.0f);
+    });
+
+    deserializer.deserialize(*group, "/Users/maxjendruk/Development/hpicgs/libzeug/data/property.ini");
+    
+    std::cout << group->property<int>("third")->valueAsString() << std::endl;
+    std::cout << group->property<float>("sixth")->valueAsString() << std::endl;
 
     delete group;
 }
@@ -72,6 +85,8 @@ int main(int argc, char const *argv[])
     subscribeToChanges();
     iterateOverProperties();
     accessProperties();
+
+    Property<float> floatProperty("Float", 12.5f);
     
     return 0;
 }
