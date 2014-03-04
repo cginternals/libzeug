@@ -1,6 +1,7 @@
 #include <functional>
 #include <reflectionzeug/Object.h>
 #include <reflectionzeug/Variant.h>
+#include "scriptzeug/ScriptContext.h"
 #include "scriptzeug/BackendJavaScript/JSScriptContext.h"
 #include "BackendJavaScript/JSPropVisitor.h"
 
@@ -200,8 +201,9 @@ static void setProperty(Local<String> property, Local<Value> value, const Proper
 }
 
 
-JSScriptContext::JSScriptContext()
-: m_isolate(nullptr)
+JSScriptContext::JSScriptContext(ScriptContext *scriptContext)
+: AbstractScriptContext(scriptContext)
+, m_isolate(nullptr)
 {
     // Create isolate for this context
     m_isolate = Isolate::New();
@@ -258,8 +260,14 @@ Variant JSScriptContext::evaluate(const std::string & code)
     Handle<Script> script = Script::Compile(source);
 
     // Run script
+    TryCatch trycatch;
     Handle<Value> result = script->Run();
-    return wrapValue(result);
+    if (result.IsEmpty()) {
+        Handle<Value> ex = trycatch.Exception();
+        String::Utf8Value str(ex);
+        m_scriptContext->scriptException(std::string(*str));
+        return Variant();
+    } else return wrapValue(result);
 }
 
 void JSScriptContext::registerObj(Handle<v8::Object> parent, PropertyGroup * obj)

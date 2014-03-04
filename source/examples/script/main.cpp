@@ -115,6 +115,12 @@ int main(int argc, char const *argv[])
     MyInterface obj;
 
     ScriptContext scripting;
+    scripting.scriptException.connect( [] (const std::string & error) -> void {
+        std::cout << "-- EXCEPTION --\n";
+        std::cout << error << "\n";
+        std::cout << "-- EXCEPTION --\n";
+    });
+
     scripting.registerObject(&obj);
 
     Variant value;
@@ -152,6 +158,12 @@ int main(int argc, char const *argv[])
     value = scripting.evaluate("api.counting.min = 5;");
     value = scripting.evaluate("api.counting.max = 10;");
     value = scripting.evaluate("api.counting.count();");
+    std::cout << "--> " << value.toString() << "\n";
+
+    value = scripting.evaluate("api.noFunction();");
+    std::cout << "--> " << value.toString() << "\n";
+
+    value = scripting.evaluate("asd");
     std::cout << "--> " << value.toString() << "\n";
 
     return 0;

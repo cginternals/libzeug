@@ -5,7 +5,8 @@ namespace scriptzeug
 {
 
 
-AbstractScriptContext::AbstractScriptContext()
+AbstractScriptContext::AbstractScriptContext(ScriptContext * scriptContext)
+: m_scriptContext(scriptContext)
 {
 }
 
