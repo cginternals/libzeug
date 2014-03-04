@@ -9,23 +9,39 @@ namespace reflectionzeug
 
 AbstractPropertyVisitor::AbstractPropertyVisitor()
 {
-    registerTypeHandler(&AbstractPropertyVisitor::visitBool, this);
-    registerTypeHandler(&AbstractPropertyVisitor::visitInt, this);
-    registerTypeHandler(&AbstractPropertyVisitor::visitDouble, this);
-    registerTypeHandler(&AbstractPropertyVisitor::visitString, this);
-    registerTypeHandler(&AbstractPropertyVisitor::visitColor, this);
-    registerTypeHandler(&AbstractPropertyVisitor::visitFilePath, this);
-    registerTypeHandler(&AbstractPropertyVisitor::visitBoolVector, this);
-    registerTypeHandler(&AbstractPropertyVisitor::visitIntVector, this);
-    registerTypeHandler(&AbstractPropertyVisitor::visitDoubleVector, this);
-    registerTypeHandler(&AbstractPropertyVisitor::visitIntSet, this);
-}
+    registerTypeHandler(
+        static_cast<void(AbstractPropertyVisitor::*)(Property<bool> &)>(&AbstractPropertyVisitor::visit), this);
+    
+    registerTypeHandler(
+        static_cast<void(AbstractPropertyVisitor::*)(Property<int> &)>(&AbstractPropertyVisitor::visit), this);
 
-AbstractPropertyVisitor::~AbstractPropertyVisitor()
-{
+    registerTypeHandler(
+        static_cast<void(AbstractPropertyVisitor::*)(Property<double> &)>(&AbstractPropertyVisitor::visit), this);
+
+    registerTypeHandler(
+        static_cast<void(AbstractPropertyVisitor::*)(Property<std::string> &)>(&AbstractPropertyVisitor::visit), this);
+
+    registerTypeHandler(
+        static_cast<void(AbstractPropertyVisitor::*)(Property<Color> &)>(&AbstractPropertyVisitor::visit), this);
+
+    registerTypeHandler(
+        static_cast<void(AbstractPropertyVisitor::*)(Property<FilePath> &)>(&AbstractPropertyVisitor::visit), this);
+
+    registerTypeHandler(
+        static_cast<void(AbstractPropertyVisitor::*)(Property<std::vector<bool>> &)>(&AbstractPropertyVisitor::visit), this);
+
+    registerTypeHandler(
+        static_cast<void(AbstractPropertyVisitor::*)(Property<std::vector<int>> &)>(&AbstractPropertyVisitor::visit), this);
+
+    registerTypeHandler(
+        static_cast<void(AbstractPropertyVisitor::*)(Property<std::vector<double>> &)>(&AbstractPropertyVisitor::visit), this);
+
+    registerTypeHandler(
+        static_cast<void(AbstractPropertyVisitor::*)(Property<std::set<int>> &)>(&AbstractPropertyVisitor::visit), this);
+
 }
     
-void AbstractPropertyVisitor::visit(ValueProperty & property)
+void AbstractPropertyVisitor::handle(ValueProperty & property)
 {
     const std::type_index type(typeid(property));
     

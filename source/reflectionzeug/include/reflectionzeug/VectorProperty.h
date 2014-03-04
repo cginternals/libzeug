@@ -55,9 +55,6 @@ protected:
     unsigned int m_columns;
     unsigned int m_rows;
     
-private:
-    std::string join(const Vector & vector, const std::string & separator) const;
-    
 };
 
 } // namespace reflectionzeug

@@ -27,28 +27,29 @@ class REFLECTIONZEUG_API AbstractPropertyVisitor
 {
 public:
     AbstractPropertyVisitor();
-    virtual ~AbstractPropertyVisitor();
-
-    virtual void visitBool(Property<bool> & property) = 0;
-    virtual void visitInt(Property<int> & property) = 0;
-    virtual void visitDouble(Property<double> & property) = 0;
-    virtual void visitString(Property<std::string> & property) = 0;
-    virtual void visitColor(Property<Color> & property) = 0;
-    virtual void visitFilePath(Property<FilePath> & property) = 0;
+    virtual ~AbstractPropertyVisitor() = default;
     
-    virtual void visitBoolVector(Property<std::vector<bool>> & property) = 0;
-    virtual void visitIntVector(Property<std::vector<int>> & property) = 0;
-    virtual void visitDoubleVector(Property<std::vector<double>> & property) = 0;
-    virtual void visitIntSet(Property<std::set<int>> & property) = 0;
-
-    void visit(ValueProperty & property);
-
+    void handle(ValueProperty & property);
+    
     template <typename Type, class Object>
     void registerTypeHandler(void (Object::*visitMethod)(Property<Type> &),
                              Object * object);
-
+    
     template <typename Type>
     void registerTypeHandler(const std::function<void(Property<Type> &)> & functor);
+
+protected:
+    virtual void visit(Property<bool> & property) = 0;
+    virtual void visit(Property<int> & property) = 0;
+    virtual void visit(Property<double> & property) = 0;
+    virtual void visit(Property<std::string> & property) = 0;
+    virtual void visit(Property<Color> & property) = 0;
+    virtual void visit(Property<FilePath> & property) = 0;
+    
+    virtual void visit(Property<std::vector<bool>> & property) = 0;
+    virtual void visit(Property<std::vector<int>> & property) = 0;
+    virtual void visit(Property<std::vector<double>> & property) = 0;
+    virtual void visit(Property<std::set<int>> & property) = 0;
 
 private:
     template <typename Type>

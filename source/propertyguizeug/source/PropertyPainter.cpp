@@ -30,7 +30,7 @@ void PropertyPainter::drawValue(QPainter * painter,
     m_painter = painter;
     m_option = option;
 
-    property.accept(*this);
+    handle(property);
 
 	if (!m_drawn)
 		this->drawString(QString::fromStdString(property.valueAsString()));

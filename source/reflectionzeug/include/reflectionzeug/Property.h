@@ -1,19 +1,20 @@
 
 #pragma once
 
+#include <set>
+
 #include <reflectionzeug/reflectionzeug.h>
 
 #include <reflectionzeug/ValuePropertyTemplate.h>
 #include <reflectionzeug/NumberProperty.h>
 #include <reflectionzeug/StringProperty.h>
 #include <reflectionzeug/VectorProperty.h>
-#include <reflectionzeug/SetProperty.h>
 #include <reflectionzeug/FilePathProperty.h>
 
 #include <reflectionzeug/Color.h>
 #include <reflectionzeug/FilePath.h>
 
-#include <reflectionzeug/AbstractPropertyVisitor.h>
+#include <reflectionzeug/Utility.h>
 
 
 namespace reflectionzeug
@@ -64,6 +65,7 @@ public:
     virtual std::string valueAsString() const { return this->value() ? "true" : "false"; }
     
     void toggleValue() { setValue(!value()); }
+    
 };
 
 template <>
@@ -125,11 +127,13 @@ public:
     {}
 
 
-    void setPrecision(unsigned precision) { m_precision = precision; }
-    unsigned precision() const { return m_precision; }
+    void setPrecision(unsigned int precision) { m_precision = precision; }
+    unsigned int precision() const { return m_precision; }
     bool hasPrecision() const { return m_precision != 0; }
+
 protected:
-    unsigned m_precision;
+    unsigned int m_precision;
+
 };
 
 template <>
@@ -240,14 +244,15 @@ public:
     virtual std::string valueAsString() const
     {
         std::stringstream stream;
-        stream << "(";
-        for(auto e = this->value().begin(); e < --this->value().end(); e++) {
-            stream << (*e ? "true" : "false") << ", ";
+
+        for(auto it = this->value().begin(); it != this->value().end(); ++it) {
+            stream << (*it ? "true" : "false");
+
+            if (it != --this->value().end())
+                stream << ", ";
         }
-        stream << (this->value().back() ? "true" : "false");
-        stream << ")";
         
-        return stream.str();
+        return "(" + stream.str() + ")";
     }
 };
 
@@ -304,29 +309,30 @@ public:
 };
 
 template <>
-class Property<std::set<int>> : public SetProperty<std::set<int>>
+class Property<std::set<int>> : public ValuePropertyTemplate<std::set<int>>
 {
 public:
     Property(const std::string & name, const std::set<int> & value)
-    :   SetProperty<std::set<int>>(name, value) {}
+    :   ValuePropertyTemplate<std::set<int>>(name, value) {}
     
     Property(const std::string & name,
              const std::function<std::set<int> ()> & getter,
              const std::function<void(const std::set<int> &)> & setter)
-    :   SetProperty<std::set<int>>(name, getter, setter) {}
+    :   ValuePropertyTemplate<std::set<int>>(name, getter, setter) {}
     
     template <class Object>
     Property(const std::string & name,
              Object & object, const std::set<int> & (Object::*getter_pointer)() const,
              void (Object::*setter_pointer)(const std::set<int> &))
-    :   SetProperty<std::set<int>>(name, object, getter_pointer, setter_pointer) {}
+    :   ValuePropertyTemplate<std::set<int>>(name, object, getter_pointer, setter_pointer) {}
     
     template <class Object>
     Property(const std::string & name,
              Object & object, std::set<int> (Object::*getter_pointer)() const,
              void (Object::*setter_pointer)(const std::set<int> &))
-    :   SetProperty<std::set<int>>(name, object, getter_pointer, setter_pointer) {}
+    :   ValuePropertyTemplate<std::set<int>>(name, object, getter_pointer, setter_pointer) {}
 
+    virtual std::string valueAsString() const { return "(" + join(this->value(), ", ") + ")"; }
 };
 
 } // namespace reflectionzeug

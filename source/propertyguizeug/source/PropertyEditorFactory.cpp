@@ -31,7 +31,7 @@ PropertyEditorFactory::~PropertyEditorFactory()
 
 QWidget * PropertyEditorFactory::createEditor(ValueProperty & property)
 {
-    property.accept(*this);
+    handle(property);
     return m_editor;
 }
 

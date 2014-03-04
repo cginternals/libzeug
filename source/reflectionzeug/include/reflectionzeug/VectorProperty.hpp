@@ -1,6 +1,8 @@
 
 #pragma once
 
+#include <reflectionzeug/Utility.h>
+
 namespace reflectionzeug
 {
     
@@ -103,17 +105,6 @@ template <typename Vector>
 std::string VectorProperty<Vector>::valueAsString() const
 {
     return "(" + join(this->value(), ", ") + ")";
-}
-    
-template <typename Vector>
-std::string VectorProperty<Vector>::join(const Vector & vector,
-    const std::string & separator) const
-{
-    std::stringstream stream;
-    for (unsigned int i = 0; i < vector.size() - 1; i++)
-        stream << vector.at(i) << separator;
-    stream << vector.back();
-    return stream.str();
 }
     
 } // namespace reflectionzeug

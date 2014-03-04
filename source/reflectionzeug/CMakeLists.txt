@@ -71,8 +71,6 @@ set(headers
     ${header_path}/ValuePropertyTemplate.hpp
     ${header_path}/NumberProperty.h
     ${header_path}/NumberProperty.hpp
-    ${header_path}/SetProperty.h
-    ${header_path}/SetProperty.hpp
     ${header_path}/StringProperty.h
     ${header_path}/VectorProperty.h
     ${header_path}/VectorProperty.hpp
@@ -84,6 +82,7 @@ set(headers
     ${header_path}/AbstractPropertyVisitor.h
     ${header_path}/AbstractPropertyVisitor.hpp
     ${header_path}/PropertyDeserializer.h
+    ${header_path}/PropertyDeserializer.hpp
     ${header_path}/PropertySerializer.h
 
     ${header_path}/AbstractValue.h
@@ -99,6 +98,9 @@ set(headers
     ${header_path}/Function.h
     ${header_path}/Variant.h
     ${header_path}/TemplateHelper.h
+
+    ${header_path}/Utility.h
+    ${header_path}/Utility.hpp
 )
 
 set(sources

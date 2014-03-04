@@ -31,6 +31,7 @@ public:
                    const QStyleOptionViewItem & option,
                    reflectionzeug::ValueProperty & property);
 
+protected:
     virtual void visit(reflectionzeug::Property<bool> & property);
     virtual void visit(reflectionzeug::Property<int> & property);
     virtual void visit(reflectionzeug::Property<double> & property);
