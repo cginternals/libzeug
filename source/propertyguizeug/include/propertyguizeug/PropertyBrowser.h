@@ -19,10 +19,18 @@ class PropertyDelegate;
 class PROPERTYGUIZEUG_API PropertyBrowser : public QTreeView
 {
 public:
-    PropertyBrowser(reflectionzeug::PropertyGroup * root, QWidget * parent = nullptr);
+    PropertyBrowser(QWidget * parent = nullptr);
+    PropertyBrowser(reflectionzeug::PropertyGroup * root,
+                    QWidget * parent = nullptr);
+    
     ~PropertyBrowser();
+    
+    void setRoot(reflectionzeug::PropertyGroup * root);
 
 protected:
+    void initView();
+    
+protected:    
     PropertyModel * m_model;
     PropertyDelegate * m_delegate;
     
