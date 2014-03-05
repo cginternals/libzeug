@@ -56,6 +56,19 @@ VectorProperty<Vector>::VectorProperty(const std::string & name,
 }
 
 template <typename Vector>
+template <class Object>
+VectorProperty<Vector>::VectorProperty(const std::string & name,
+    Object & object, Vector (Object::*getter_pointer)() const,
+    void (Object::*setter_pointer)(Vector))
+:   ValuePropertyTemplate<Vector>(name, object, getter_pointer, setter_pointer)
+,   m_fixedSize((unsigned int)this->m_value->get().size())
+,   m_columns(m_fixedSize)
+,   m_rows(1)
+{
+    assert(m_fixedSize != 0);
+}
+
+template <typename Vector>
 VectorProperty<Vector>::~VectorProperty()
 {
 }

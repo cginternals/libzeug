@@ -36,6 +36,11 @@ public:
                    Object & object, Vector (Object::*getter_pointer)() const,
                    void (Object::*setter_pointer)(const Vector &));
 
+    template <class Object>
+    VectorProperty(const std::string & name,
+                   Object & object, Vector (Object::*getter_pointer)() const,
+                   void (Object::*setter_pointer)(Vector));
+
     virtual ~VectorProperty();
     
     virtual Vector value() const;

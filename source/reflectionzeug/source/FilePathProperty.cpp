@@ -30,6 +30,16 @@ FilePathProperty::FilePathProperty(const std::string & name,
 ,   m_isFile(true)
 {
 }
+
+template <class Object>
+FilePathProperty::FilePathProperty(const std::string & name,
+    Object & object, FilePath (Object::*getter_pointer)() const,
+    void (Object::*setter_pointer)(const FilePath &))
+:   ValuePropertyTemplate<FilePath>(name, object, getter_pointer, setter_pointer)
+,   m_shouldExist(true)
+,   m_isFile(true)
+{
+}
     
 template <class Object>
 FilePathProperty::FilePathProperty(const std::string & name,

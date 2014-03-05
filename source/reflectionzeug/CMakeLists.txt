@@ -72,6 +72,7 @@ set(headers
     ${header_path}/NumberProperty.h
     ${header_path}/NumberProperty.hpp
     ${header_path}/StringProperty.h
+    ${header_path}/StringProperty.hpp
     ${header_path}/VectorProperty.h
     ${header_path}/VectorProperty.hpp
     ${header_path}/FilePathProperty.h

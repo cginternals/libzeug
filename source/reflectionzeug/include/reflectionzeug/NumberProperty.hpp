@@ -51,6 +51,18 @@ NumberProperty<Type>::NumberProperty(const std::string & name,
 }
 
 template <typename Type>
+template <class Object>
+NumberProperty<Type>::NumberProperty(const std::string & name,
+    Object & object, Type (Object::*getter_pointer)() const,
+    void (Object::*setter_pointer)(Type))
+:   ValuePropertyTemplate<Type>(name, object, getter_pointer, setter_pointer)
+,   m_min(std::numeric_limits<Type>::lowest())
+,   m_max(std::numeric_limits<Type>::max())
+,   m_step(0)
+{
+}
+
+template <typename Type>
 const Type & NumberProperty<Type>::minimum() const
 {
     return m_min;

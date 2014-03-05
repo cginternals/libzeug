@@ -24,6 +24,11 @@ public:
     FilePathProperty(const std::string & name,
                      Object & object, const FilePath & (Object::*getter_pointer)() const,
                      void (Object::*setter_pointer)(const FilePath &));
+
+    template <class Object>
+    FilePathProperty(const std::string & name,
+                     Object & object, FilePath (Object::*getter_pointer)() const,
+                     void (Object::*setter_pointer)(const FilePath &));
     
     template <class Object>
     FilePathProperty(const std::string & name,
