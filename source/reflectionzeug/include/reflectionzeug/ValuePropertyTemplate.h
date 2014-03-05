@@ -35,6 +35,11 @@ public:
                           Object & object, Type (Object::*getter_pointer)() const,
                           void (Object::*setter_pointer)(const Type &));
     
+    template <class Object>
+    ValuePropertyTemplate(const std::string & name,
+                          Object & object, Type (Object::*getter_pointer)() const,
+                          void (Object::*setter_pointer)(Type));
+    
     virtual ~ValuePropertyTemplate();
 
     virtual Type value() const;

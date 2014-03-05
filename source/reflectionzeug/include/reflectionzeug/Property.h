@@ -61,6 +61,12 @@ public:
              Object & object, bool (Object::*getter_pointer)() const,
              void (Object::*setter_pointer)(const bool &))
     :   ValuePropertyTemplate<bool>(name, object, getter_pointer, setter_pointer) {}
+    
+    template <class Object>
+    Property(const std::string & name,
+             Object & object, bool (Object::*getter_pointer)() const,
+             void (Object::*setter_pointer)(bool))
+    :   ValuePropertyTemplate<bool>(name, object, getter_pointer, setter_pointer) {}
 
     virtual std::string valueAsString() const { return this->value() ? "true" : "false"; }
     
@@ -90,6 +96,12 @@ public:
     Property(const std::string & name,
              Object & object, int (Object::*getter_pointer)() const,
              void (Object::*setter_pointer)(const int &))
+    :   NumberProperty<int>(name, object, getter_pointer, setter_pointer) {}
+    
+    template <class Object>
+    Property(const std::string & name,
+             Object & object, int (Object::*getter_pointer)() const,
+             void (Object::*setter_pointer)(int))
     :   NumberProperty<int>(name, object, getter_pointer, setter_pointer) {}
 
 };
@@ -122,6 +134,14 @@ public:
     Property(const std::string & name,
              Object & object, double (Object::*getter_pointer)() const,
              void (Object::*setter_pointer)(const double &))
+    :   NumberProperty<double>(name, object, getter_pointer, setter_pointer)
+    ,   m_precision(0)
+    {}
+    
+    template <class Object>
+    Property(const std::string & name,
+             Object & object, double (Object::*getter_pointer)() const,
+             void (Object::*setter_pointer)(double))
     :   NumberProperty<double>(name, object, getter_pointer, setter_pointer)
     ,   m_precision(0)
     {}
@@ -159,6 +179,12 @@ public:
              Object & object, std::string (Object::*getter_pointer)() const,
              void (Object::*setter_pointer)(const std::string &))
     :   StringProperty(name, object, getter_pointer, setter_pointer) {}
+    
+    template <class Object>
+    Property(const std::string & name,
+             Object & object, std::string (Object::*getter_pointer)() const,
+             void (Object::*setter_pointer)(std::string))
+    :   StringProperty(name, object, getter_pointer, setter_pointer) {}
 
 };
     
@@ -185,7 +211,12 @@ public:
              Object & object, Color (Object::*getter_pointer)() const,
              void (Object::*setter_pointer)(const Color &))
     :   ValuePropertyTemplate<Color>(name, object, getter_pointer, setter_pointer) {}
-
+    
+    template <class Object>
+    Property(const std::string & name,
+             Object & object, Color (Object::*getter_pointer)() const,
+             void (Object::*setter_pointer)(Color))
+    :   ValuePropertyTemplate<Color>(name, object, getter_pointer, setter_pointer) {}
     
     virtual std::string valueAsString() const { return this->value().asHex(); }
 };
@@ -213,6 +244,12 @@ public:
              Object & object, FilePath (Object::*getter_pointer)() const,
              void (Object::*setter_pointer)(const FilePath &))
     :   FilePathProperty(name, object, getter_pointer, setter_pointer) {}
+    
+    template <class Object>
+    Property(const std::string & name,
+             Object & object, FilePath (Object::*getter_pointer)() const,
+             void (Object::*setter_pointer)(FilePath))
+    :   FilePathProperty(name, object, getter_pointer, setter_pointer) {}
 
 };
 
@@ -239,8 +276,14 @@ public:
              Object & object, std::vector<bool> (Object::*getter_pointer)() const,
              void (Object::*setter_pointer)(const std::vector<bool> &))
     :   VectorProperty<std::vector<bool>>(name, object, getter_pointer, setter_pointer) {}
-
     
+    template <class Object>
+    Property(const std::string & name,
+             Object & object, std::vector<bool> (Object::*getter_pointer)() const,
+             void (Object::*setter_pointer)(std::vector<bool>))
+    :   VectorProperty<std::vector<bool>>(name, object, getter_pointer, setter_pointer) {}
+
+
     virtual std::string valueAsString() const
     {
         std::stringstream stream;
@@ -279,6 +322,12 @@ public:
              Object & object, std::vector<int> (Object::*getter_pointer)() const,
              void (Object::*setter_pointer)(const std::vector<int> &))
     :   VectorProperty<std::vector<int>>(name, object, getter_pointer, setter_pointer) {}
+    
+    template <class Object>
+    Property(const std::string & name,
+             Object & object, std::vector<int> (Object::*getter_pointer)() const,
+             void (Object::*setter_pointer)(std::vector<int>))
+    :   VectorProperty<std::vector<int>>(name, object, getter_pointer, setter_pointer) {}
 
 };
 
@@ -305,6 +354,12 @@ public:
              Object & object, std::vector<double> (Object::*getter_pointer)() const,
              void (Object::*setter_pointer)(const std::vector<double> &))
     :   VectorProperty<std::vector<double>>(name, object, getter_pointer, setter_pointer) {}
+    
+    template <class Object>
+    Property(const std::string & name,
+             Object & object, std::vector<double> (Object::*getter_pointer)() const,
+             void (Object::*setter_pointer)(std::vector<double>))
+    :   VectorProperty<std::vector<double>>(name, object, getter_pointer, setter_pointer) {}
 
 };
 
@@ -330,6 +385,12 @@ public:
     Property(const std::string & name,
              Object & object, std::set<int> (Object::*getter_pointer)() const,
              void (Object::*setter_pointer)(const std::set<int> &))
+    :   ValuePropertyTemplate<std::set<int>>(name, object, getter_pointer, setter_pointer) {}
+    
+    template <class Object>
+    Property(const std::string & name,
+             Object & object, std::set<int> (Object::*getter_pointer)() const,
+             void (Object::*setter_pointer)(std::set<int>))
     :   ValuePropertyTemplate<std::set<int>>(name, object, getter_pointer, setter_pointer) {}
 
     virtual std::string valueAsString() const { return "(" + join(this->value(), ", ") + ")"; }

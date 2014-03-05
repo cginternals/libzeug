@@ -40,6 +40,16 @@ ValuePropertyTemplate<Type>::ValuePropertyTemplate(const std::string & name,
 ,   m_value(new AccessorValue<Type>(object, getter_pointer, setter_pointer))
 {
 }
+    
+template <typename Type>
+template <class Object>
+ValuePropertyTemplate<Type>::ValuePropertyTemplate(const std::string & name,
+    Object & object, Type (Object::*getter_pointer)() const,
+    void (Object::*setter_pointer)(Type))
+:   ValueProperty(name)
+,   m_value(new AccessorValue<Type>(object, getter_pointer, setter_pointer))
+{
+}
 
 template <typename Type>
 ValuePropertyTemplate<Type>::~ValuePropertyTemplate()
