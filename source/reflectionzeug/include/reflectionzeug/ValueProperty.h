@@ -6,7 +6,7 @@
 
 namespace reflectionzeug
 {
-    
+
 /** \brief Part of the property hierarchy. The super class of all properties that have a value.
  */
 class REFLECTIONZEUG_API ValueProperty : public AbstractProperty
@@ -15,7 +15,9 @@ public:
     ValueProperty(const std::string & name);
 
     virtual void accept(AbstractPropertyVisitor * visitor, bool warn = true) = 0;
+
     virtual std::string toString() const = 0;
+    virtual bool fromString(const std::string & string) = 0;
 
 };
 

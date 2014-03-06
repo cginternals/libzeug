@@ -45,23 +45,23 @@ public:
     Property(const std::string & name, const bool & value)
     :   ValuePropertyTemplate<bool>(name, value) {}
 
-    Property(const std::string & name, 
+    Property(const std::string & name,
              const std::function<bool ()> & getter,
              const std::function<void(const bool &)> & setter)
     :   ValuePropertyTemplate<bool>(name, getter, setter) {}
-    
+
     template <class Object>
     Property(const std::string & name,
              Object & object, const bool & (Object::*getter_pointer)() const,
              void (Object::*setter_pointer)(const bool &))
     :   ValuePropertyTemplate<bool>(name, object, getter_pointer, setter_pointer) {}
-    
+
     template <class Object>
     Property(const std::string & name,
              Object & object, bool (Object::*getter_pointer)() const,
              void (Object::*setter_pointer)(const bool &))
     :   ValuePropertyTemplate<bool>(name, object, getter_pointer, setter_pointer) {}
-    
+
     template <class Object>
     Property(const std::string & name,
              Object & object, bool (Object::*getter_pointer)() const,
@@ -69,9 +69,9 @@ public:
     :   ValuePropertyTemplate<bool>(name, object, getter_pointer, setter_pointer) {}
 
     virtual std::string toString() const { return this->value() ? "true" : "false"; }
-    
+
     void toggleValue() { setValue(!value()); }
-    
+
 };
 
 template <>
@@ -80,24 +80,24 @@ class Property<int> : public NumberProperty<int>
 public:
     Property(const std::string & name, const int & value)
     :   NumberProperty<int>(name, value) {}
-    
+
     Property(const std::string & name,
              const std::function<int ()> & getter,
              const std::function<void(const int &)> & setter)
     :   NumberProperty<int>(name, getter, setter) {}
-    
+
     template <class Object>
     Property(const std::string & name,
              Object & object, const int & (Object::*getter_pointer)() const,
              void (Object::*setter_pointer)(const int &))
     :   NumberProperty<int>(name, object, getter_pointer, setter_pointer) {}
-    
+
     template <class Object>
     Property(const std::string & name,
              Object & object, int (Object::*getter_pointer)() const,
              void (Object::*setter_pointer)(const int &))
     :   NumberProperty<int>(name, object, getter_pointer, setter_pointer) {}
-    
+
     template <class Object>
     Property(const std::string & name,
              Object & object, int (Object::*getter_pointer)() const,
@@ -114,14 +114,14 @@ public:
     :   NumberProperty<double>(name, value)
     ,   m_precision(0)
     {}
-    
+
     Property(const std::string & name,
              const std::function<double ()> & getter,
              const std::function<void(const double &)> & setter)
     :   NumberProperty<double>(name, getter, setter)
     ,   m_precision(0)
     {}
-    
+
     template <class Object>
     Property(const std::string & name,
              Object & object, const double & (Object::*getter_pointer)() const,
@@ -129,7 +129,7 @@ public:
     :   NumberProperty<double>(name, object, getter_pointer, setter_pointer)
     ,   m_precision(0)
     {}
-    
+
     template <class Object>
     Property(const std::string & name,
              Object & object, double (Object::*getter_pointer)() const,
@@ -137,7 +137,7 @@ public:
     :   NumberProperty<double>(name, object, getter_pointer, setter_pointer)
     ,   m_precision(0)
     {}
-    
+
     template <class Object>
     Property(const std::string & name,
              Object & object, double (Object::*getter_pointer)() const,
@@ -162,24 +162,24 @@ class Property<std::string> : public StringProperty
 public:
     Property(const std::string & name, const std::string & value)
     :   StringProperty(name, value) {}
-    
+
     Property(const std::string & name,
              const std::function<std::string ()> & getter,
              const std::function<void(const std::string &)> & setter)
     :   StringProperty(name, getter, setter) {}
-    
+
     template <class Object>
     Property(const std::string & name,
              Object & object, const std::string & (Object::*getter_pointer)() const,
              void (Object::*setter_pointer)(const std::string &))
     :   StringProperty(name, object, getter_pointer, setter_pointer) {}
-    
+
     template <class Object>
     Property(const std::string & name,
              Object & object, std::string (Object::*getter_pointer)() const,
              void (Object::*setter_pointer)(const std::string &))
     :   StringProperty(name, object, getter_pointer, setter_pointer) {}
-    
+
     template <class Object>
     Property(const std::string & name,
              Object & object, std::string (Object::*getter_pointer)() const,
@@ -187,38 +187,37 @@ public:
     :   StringProperty(name, object, getter_pointer, setter_pointer) {}
 
 };
-    
+
 template <>
 class Property<Color> : public ValuePropertyTemplate<Color>
 {
 public:
     Property(const std::string & name, const Color & value)
     :   ValuePropertyTemplate<Color>(name, value) {}
-    
+
     Property(const std::string & name,
              const std::function<Color ()> & getter,
              const std::function<void(const Color &)> & setter)
     :   ValuePropertyTemplate<Color>(name, getter, setter) {}
-    
+
     template <class Object>
     Property(const std::string & name,
              Object & object, const Color & (Object::*getter_pointer)() const,
              void (Object::*setter_pointer)(const Color &))
     :   ValuePropertyTemplate<Color>(name, object, getter_pointer, setter_pointer) {}
-    
+
     template <class Object>
     Property(const std::string & name,
              Object & object, Color (Object::*getter_pointer)() const,
              void (Object::*setter_pointer)(const Color &))
     :   ValuePropertyTemplate<Color>(name, object, getter_pointer, setter_pointer) {}
-    
+
     template <class Object>
     Property(const std::string & name,
              Object & object, Color (Object::*getter_pointer)() const,
              void (Object::*setter_pointer)(Color))
     :   ValuePropertyTemplate<Color>(name, object, getter_pointer, setter_pointer) {}
-    
-    virtual std::string toString() const { return this->value().asHex(); }
+
 };
 
 template <>
@@ -227,24 +226,24 @@ class Property<FilePath> : public FilePathProperty
 public:
     Property(const std::string & name, const FilePath & value)
     :   FilePathProperty(name, value) {}
-    
+
     Property(const std::string & name,
              const std::function<FilePath ()> & getter,
              const std::function<void(const FilePath &)> & setter)
     :   FilePathProperty(name, getter, setter) {}
-    
+
     template <class Object>
     Property(const std::string & name,
              Object & object, const FilePath & (Object::*getter_pointer)() const,
              void (Object::*setter_pointer)(const FilePath &))
     :   FilePathProperty(name, object, getter_pointer, setter_pointer) {}
-    
+
     template <class Object>
     Property(const std::string & name,
              Object & object, FilePath (Object::*getter_pointer)() const,
              void (Object::*setter_pointer)(const FilePath &))
     :   FilePathProperty(name, object, getter_pointer, setter_pointer) {}
-    
+
     template <class Object>
     Property(const std::string & name,
              Object & object, FilePath (Object::*getter_pointer)() const,
@@ -254,58 +253,44 @@ public:
 };
 
 template <>
-class Property<std::vector<bool>> : public VectorProperty<std::vector<bool>>
+class Property<std::vector<bool>> : public VectorProperty<bool>
 {
 public:
     Property(const std::string & name, const std::vector<bool> & value)
     :   VectorProperty<std::vector<bool>>(name, value) {}
-    
+
     Property(const std::string & name,
              const std::function<std::vector<bool> ()> & getter,
              const std::function<void(const std::vector<bool> &)> & setter)
     :   VectorProperty<std::vector<bool>>(name, getter, setter) {}
-    
+
     template <class Object>
     Property(const std::string & name,
              Object & object, const std::vector<bool> & (Object::*getter_pointer)() const,
              void (Object::*setter_pointer)(const std::vector<bool> &))
     :   VectorProperty<std::vector<bool>>(name, object, getter_pointer, setter_pointer) {}
-    
+
     template <class Object>
     Property(const std::string & name,
              Object & object, std::vector<bool> (Object::*getter_pointer)() const,
              void (Object::*setter_pointer)(const std::vector<bool> &))
     :   VectorProperty<std::vector<bool>>(name, object, getter_pointer, setter_pointer) {}
-    
+
     template <class Object>
     Property(const std::string & name,
              Object & object, std::vector<bool> (Object::*getter_pointer)() const,
              void (Object::*setter_pointer)(std::vector<bool>))
     :   VectorProperty<std::vector<bool>>(name, object, getter_pointer, setter_pointer) {}
 
-
-    virtual std::string toString() const
-    {
-        std::stringstream stream;
-
-        for(auto it = this->value().begin(); it != this->value().end(); ++it) {
-            stream << (*it ? "true" : "false");
-
-            if (it != --this->value().end())
-                stream << ", ";
-        }
-        
-        return "(" + stream.str() + ")";
-    }
 };
 
 template <>
-class Property<std::vector<int>> : public VectorProperty<std::vector<int>>
+class Property<std::vector<int>> : public VectorProperty<int>
 {
 public:
     Property(const std::string & name, const std::vector<int> & value)
     :   VectorProperty<std::vector<int>>(name, value) {}
-    
+
     Property(const std::string & name,
              const std::function<std::vector<int> ()> & getter,
              const std::function<void(const std::vector<int> &)> & setter)
@@ -316,13 +301,13 @@ public:
              Object & object, const std::vector<int> & (Object::*getter_pointer)() const,
              void (Object::*setter_pointer)(const std::vector<int> &))
     :   VectorProperty<std::vector<int>>(name, object, getter_pointer, setter_pointer) {}
-    
+
     template <class Object>
     Property(const std::string & name,
              Object & object, std::vector<int> (Object::*getter_pointer)() const,
              void (Object::*setter_pointer)(const std::vector<int> &))
     :   VectorProperty<std::vector<int>>(name, object, getter_pointer, setter_pointer) {}
-    
+
     template <class Object>
     Property(const std::string & name,
              Object & object, std::vector<int> (Object::*getter_pointer)() const,
@@ -332,29 +317,29 @@ public:
 };
 
 template <>
-class Property<std::vector<double>> : public VectorProperty<std::vector<double>>
+class Property<std::vector<double>> : public VectorProperty<double>
 {
 public:
     Property(const std::string & name, const std::vector<double> & value)
     :   VectorProperty<std::vector<double>>(name, value) {}
-    
+
     Property(const std::string & name,
              const std::function<std::vector<double> ()> & getter,
              const std::function<void(const std::vector<double> &)> & setter)
     :   VectorProperty<std::vector<double>>(name, getter, setter) {}
-    
+
     template <class Object>
     Property(const std::string & name,
              Object & object, const std::vector<double> & (Object::*getter_pointer)() const,
              void (Object::*setter_pointer)(const std::vector<double> &))
     :   VectorProperty<std::vector<double>>(name, object, getter_pointer, setter_pointer) {}
-    
+
     template <class Object>
     Property(const std::string & name,
              Object & object, std::vector<double> (Object::*getter_pointer)() const,
              void (Object::*setter_pointer)(const std::vector<double> &))
     :   VectorProperty<std::vector<double>>(name, object, getter_pointer, setter_pointer) {}
-    
+
     template <class Object>
     Property(const std::string & name,
              Object & object, std::vector<double> (Object::*getter_pointer)() const,

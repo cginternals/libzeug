@@ -2,6 +2,9 @@
 #pragma once
 
 #include <limits>
+#include <sstream>
+
+#include <reflectionzeug/Utility.h>
 
 namespace reflectionzeug
 {
@@ -138,6 +141,20 @@ std::string NumberProperty<Type>::toString() const
     std::stringstream stream;
     stream << this->value();
     return stream.str();
+}
+
+template <typename Type>
+bool NumberProperty<Type>::fromString(const std::string & string)
+{
+    if (!matchesRegex(string, matchRegex()))
+        return false;
+    
+    std::stringstream stream(string);
+    Type value;
+    stream >> value;
+    
+    this->setValue(value);
+    return true;
 }
 
 } // namespace reflectionzeug

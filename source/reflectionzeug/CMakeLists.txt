@@ -69,6 +69,8 @@ set(headers
     ${header_path}/ValueProperty.h
     ${header_path}/ValuePropertyTemplate.h
     ${header_path}/ValuePropertyTemplate.hpp
+    ${header_path}/ClassProperty.h
+    ${header_path}/ClassProperty.hpp
     ${header_path}/NumberProperty.h
     ${header_path}/NumberProperty.hpp
     ${header_path}/StringProperty.h
@@ -120,6 +122,8 @@ set(sources
 
     ${source_path}/Object.cpp
     ${source_path}/Variant.cpp
+
+    ${source_path}/Utility.cpp
 )
 
 # Group source files

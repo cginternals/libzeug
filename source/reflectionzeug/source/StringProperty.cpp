@@ -46,5 +46,11 @@ std::string StringProperty::toString() const
 {
     return this->value();
 }
+
+bool StringProperty::fromString(const std::string & string)
+{
+    this->setValue(string);
+    return true;
+}
     
 } // namespace reflectionzeug
