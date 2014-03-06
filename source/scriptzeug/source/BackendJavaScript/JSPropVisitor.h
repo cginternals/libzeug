@@ -1,7 +1,7 @@
 #pragma once
 
 
-#include <reflectionzeug/AbstractPropertyVisitor.h>
+#include <reflectionzeug/StandardPropertyVisitor.h>
 #include <reflectionzeug/Variant.h>
 #include "scriptzeug/scriptzeug.h"
 
@@ -12,7 +12,7 @@ namespace scriptzeug
 
 /** \brief Helper class for setting and getting properties
  */
-class JSPropVisitor : public reflectionzeug::AbstractPropertyVisitor
+class JSPropVisitor : public reflectionzeug::StandardPropertyVisitor
 {
 public:
     enum Operation {

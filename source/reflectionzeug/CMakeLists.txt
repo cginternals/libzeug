@@ -81,7 +81,8 @@ set(headers
     ${header_path}/PropertyGroup.h
     ${header_path}/PropertyGroup.hpp
     ${header_path}/AbstractPropertyVisitor.h
-    ${header_path}/AbstractPropertyVisitor.hpp
+    ${header_path}/PropertyVisitor.h
+    ${header_path}/StandardPropertyVisitor.h
     ${header_path}/PropertyDeserializer.h
     ${header_path}/PropertyDeserializer.hpp
     ${header_path}/PropertySerializer.h
@@ -111,7 +112,6 @@ set(sources
     ${source_path}/FilePathProperty.cpp
 
     ${source_path}/PropertyGroup.cpp
-    ${source_path}/AbstractPropertyVisitor.cpp
     ${source_path}/PropertyDeserializer.cpp
     ${source_path}/PropertySerializer.cpp
 

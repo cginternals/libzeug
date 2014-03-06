@@ -119,7 +119,7 @@ bool PropertyDeserializer::setPropertyValue(const std::string line)
         return false;
     }
 
-    handle(*property->asValue());
+    property->asValue()->accept(this);
     return true;
 }
     
@@ -171,38 +171,38 @@ void PropertyDeserializer::deserializeSetValues(const std::string & valueRegexSt
 }
 
 
-void PropertyDeserializer::visit(Property<bool> & property)
+void PropertyDeserializer::visit(Property<bool> * property)
 {
     if (regex_namespace::regex_match(m_currentValue, regex_namespace::regex("\\s*true\\s*"))) {
-        property.setValue(true);
+        property->setValue(true);
         return;
     }
     
     if (regex_namespace::regex_match(m_currentValue, regex_namespace::regex("\\s*false\\s*"))) {
-        property.setValue(false);
+        property->setValue(false);
     }
 }
 
-void PropertyDeserializer::visit(Property<int> & property)
+void PropertyDeserializer::visit(Property<int> * property)
 {
-    property.setValue(this->convertString<int>(m_currentValue));
+    property->setValue(this->convertString<int>(m_currentValue));
 }
 
-void PropertyDeserializer::visit(Property<double> & property)
+void PropertyDeserializer::visit(Property<double> * property)
 {
-    property.setValue(this->convertString<double>(m_currentValue));
+    property->setValue(this->convertString<double>(m_currentValue));
 }
 
-void PropertyDeserializer::visit(Property<std::string> & property)
+void PropertyDeserializer::visit(Property<std::string> * property)
 {
-    property.setValue(m_currentValue);
+    property->setValue(m_currentValue);
 }
 
-void PropertyDeserializer::visit(Property<Color> & property)
+void PropertyDeserializer::visit(Property<Color> * property)
 {
     regex_namespace::regex colorHexRegex("#[0-9A-F]{8}");
     if (!regex_namespace::regex_match(m_currentValue, colorHexRegex)) {
-        std::cerr << "Color value does not match format: " << property.name() << std::endl;
+        std::cerr << "Color value does not match format: " << property->name() << std::endl;
         return;
     }
     
@@ -210,51 +210,51 @@ void PropertyDeserializer::visit(Property<Color> & property)
     unsigned int colorHex;
     stream >> std::hex >> std::uppercase;
     stream >> colorHex;
-    property.setValue(Color(colorHex));
+    property->setValue(Color(colorHex));
 }
 
-void PropertyDeserializer::visit(Property<FilePath> & property)
+void PropertyDeserializer::visit(Property<FilePath> * property)
 {
-    property.setValue(m_currentValue);
+    property->setValue(m_currentValue);
 }
 
-void PropertyDeserializer::visit(Property<std::vector<bool>> & property)
+void PropertyDeserializer::visit(Property<std::vector<bool>> * property)
 {
     std::vector<bool> vector;
-    this->deserializeVectorValues("(true|false)", property.fixedSize(),
+    this->deserializeVectorValues("(true|false)", property->fixedSize(),
                                   [this, &vector](const std::string & string) {
                                       vector.push_back(string == "true" ? true : false);
                                   });
-    property.setValue(vector);
+    property->setValue(vector);
 }
 
-void PropertyDeserializer::visit(Property<std::vector<int>> & property)
+void PropertyDeserializer::visit(Property<std::vector<int>> * property)
 {
     std::vector<int> vector;
-    this->deserializeVectorValues("(-?\\d+)", property.fixedSize(),
+    this->deserializeVectorValues("(-?\\d+)", property->fixedSize(),
                                   [this, &vector](const std::string & string) {
                                       vector.push_back(this->convertString<int>(string));
                                   });
-    property.setValue(vector);
+    property->setValue(vector);
 }
 
-void PropertyDeserializer::visit(Property<std::vector<double>> & property)
+void PropertyDeserializer::visit(Property<std::vector<double>> * property)
 {
     std::vector<double> vector;
-    this->deserializeVectorValues("(-?\\d+\\.?\\d*)", property.fixedSize(),
+    this->deserializeVectorValues("(-?\\d+\\.?\\d*)", property->fixedSize(),
                                   [this, &vector](const std::string & string) {
                                       vector.push_back(this->convertString<double>(string));
                                   });
-    property.setValue(vector);
+    property->setValue(vector);
 }
 
-void PropertyDeserializer::visit(Property<std::set<int>> & property)
+void PropertyDeserializer::visit(Property<std::set<int>> * property)
 {
     std::set<int> set;
     this->deserializeSetValues("(-?\\d+)", [this, &set](const std::string & string) {
         set.insert(this->convertString<int>(string));
     });
-    property.setValue(set);
+    property->setValue(set);
 }
 
 } // namespace reflectionzeug

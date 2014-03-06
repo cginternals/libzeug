@@ -2,6 +2,7 @@
 #pragma once
 
 #include <reflectionzeug/AbstractProperty.h>
+#include <reflectionzeug/AbstractPropertyVisitor.h>
 
 namespace reflectionzeug
 {
@@ -12,8 +13,8 @@ class REFLECTIONZEUG_API ValueProperty : public AbstractProperty
 {
 public:
     ValueProperty(const std::string & name);
-    virtual ~ValueProperty();
 
+    virtual void accept(AbstractPropertyVisitor * visitor) = 0;
     virtual std::string valueAsString() const = 0;
 
 };

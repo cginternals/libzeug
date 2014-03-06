@@ -1,6 +1,11 @@
 
 #pragma once
 
+#include <typeinfo>
+#include <iostream>
+
+#include <reflectionzeug/PropertyVisitor.h>
+
 namespace reflectionzeug
 {
 
@@ -67,6 +72,20 @@ void ValuePropertyTemplate<Type>::setValue(const Type & value)
 {
     m_value->set(value);
     this->valueChanged(value);
+}
+
+template <typename Type>
+void ValuePropertyTemplate<Type>::accept(AbstractPropertyVisitor * visitor)
+{
+    auto * typedVisitor = dynamic_cast<PropertyVisitor<Type> *>(visitor);
+
+    if (typedVisitor == nullptr)
+    {
+        std::cout << "\"" << typeid(Type).name() << "\"" << "not supported by the visitor." << std::endl;
+        return;
+    }
+
+    typedVisitor->visit(reinterpret_cast<Property<Type> *>(this));
 }
 
 } // namespace reflectionzeug

@@ -44,6 +44,8 @@ public:
 
     virtual Type value() const;
     virtual void setValue(const Type & value);
+
+    virtual void accept(AbstractPropertyVisitor * visitor);
     
     signalzeug::Signal<const Type &> valueChanged;
 

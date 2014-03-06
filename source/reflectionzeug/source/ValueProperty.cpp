@@ -9,8 +9,4 @@ ValueProperty::ValueProperty(const std::string & name)
 {
 }
 
-ValueProperty::~ValueProperty()
-{
-}
-
 } // namespace reflectionzeug

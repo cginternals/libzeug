@@ -4,7 +4,7 @@
 #include <functional>
 #include <sstream>
 
-#include <reflectionzeug/AbstractPropertyVisitor.h>
+#include <reflectionzeug/StandardPropertyVisitor.h>
 
 namespace reflectionzeug
 {
@@ -13,7 +13,7 @@ class PropertyGroup;
     
 /** \brief Loads property values from a given file.
  */
-class REFLECTIONZEUG_API PropertyDeserializer : public AbstractPropertyVisitor
+class REFLECTIONZEUG_API PropertyDeserializer : public StandardPropertyVisitor
 {
 public:
     PropertyDeserializer();
@@ -22,17 +22,17 @@ public:
     bool deserialize(PropertyGroup & group, std::string filePath);
     
 protected:
-    virtual void visit(Property<bool> & property);
-    virtual void visit(Property<int> & property);
-    virtual void visit(Property<double> & property);
-    virtual void visit(Property<std::string> & property);
-    virtual void visit(Property<Color> & property);
-    virtual void visit(Property<FilePath> & property);
+    virtual void visit(Property<bool> * property);
+    virtual void visit(Property<int> * property);
+    virtual void visit(Property<double> * property);
+    virtual void visit(Property<std::string> * property);
+    virtual void visit(Property<Color> * property);
+    virtual void visit(Property<FilePath> * property);
     
-    virtual void visit(Property<std::vector<bool>> & property);
-    virtual void visit(Property<std::vector<int>> & property);
-    virtual void visit(Property<std::vector<double>> & property);
-    virtual void visit(Property<std::set<int>> & property);
+    virtual void visit(Property<std::vector<bool>> * property);
+    virtual void visit(Property<std::vector<int>> * property);
+    virtual void visit(Property<std::vector<double>> * property);
+    virtual void visit(Property<std::set<int>> * property);
 
 protected:
     void deserializeVectorValues(const std::string & valueRegexString, int size,

@@ -30,7 +30,7 @@ void PropertyPainter::drawValue(QPainter * painter,
     m_painter = painter;
     m_option = option;
 
-    handle(property);
+    property.accept(this);
 
 	if (!m_drawn)
 		this->drawString(QString::fromStdString(property.valueAsString()));
@@ -52,12 +52,12 @@ void PropertyPainter::drawItemViewBackground()
 	style->drawControl(QStyle::CE_ItemViewItem, &m_option, m_painter, widget);
 }
 
-void PropertyPainter::visit(Property<bool> & property)
+void PropertyPainter::visit(Property<bool> * property)
 {
 	this->drawItemViewBackground();
 
     QStyleOptionButton opt;
-    opt.state = property.value() ? QStyle::State_On : QStyle::State_Off;
+    opt.state = property->value() ? QStyle::State_On : QStyle::State_Off;
     opt.state |= QStyle::State_Enabled;
     opt.rect = m_option.rect;
     opt.rect.setLeft(opt.rect.left() + PropertyEditor::s_horizontalMargin);
@@ -69,26 +69,26 @@ void PropertyPainter::visit(Property<bool> & property)
     m_drawn = true;
 }
     
-void PropertyPainter::visit(Property<int> & property)
+void PropertyPainter::visit(Property<int> * property)
 {
 
 }
     
-void PropertyPainter::visit(Property<double> & property)
+void PropertyPainter::visit(Property<double> * property)
 {
 
 }
     
-void PropertyPainter::visit(Property<std::string> & property)
+void PropertyPainter::visit(Property<std::string> * property)
 {
 
 }
 
-void PropertyPainter::visit(Property<Color> & property)
+void PropertyPainter::visit(Property<Color> * property)
 {
 	this->drawItemViewBackground();
     
-    const Color & color = property.value();
+    const Color & color = property->value();
 
     QColor qcolor(color.red(),
                   color.green(),
@@ -112,33 +112,33 @@ void PropertyPainter::visit(Property<Color> & property)
                         Qt::AlignVCenter,
                         m_option.palette,
                         true,
-                        QString::fromStdString(property.valueAsString()),
+                        QString::fromStdString(property->valueAsString()),
                         QPalette::Text);
     
     m_drawn = true;
 }
 
-void PropertyPainter::visit(Property<FilePath> & property)
+void PropertyPainter::visit(Property<FilePath> * property)
 {
 
 }
 
-void PropertyPainter::visit(Property<std::vector<bool>> & property)
+void PropertyPainter::visit(Property<std::vector<bool>> * property)
 {
 
 }
 
-void PropertyPainter::visit(Property<std::vector<int>> & property)
+void PropertyPainter::visit(Property<std::vector<int>> * property)
 {
 
 }
 
-void PropertyPainter::visit(Property<std::vector<double>> & property)
+void PropertyPainter::visit(Property<std::vector<double>> * property)
 {
 
 }
 
-void PropertyPainter::visit(Property<std::set<int>> & property)
+void PropertyPainter::visit(Property<std::set<int>> * property)
 {
 
 }

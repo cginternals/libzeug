@@ -3,7 +3,7 @@
 
 #include <fstream>
 
-#include <reflectionzeug/AbstractPropertyVisitor.h>
+#include <reflectionzeug/StandardPropertyVisitor.h>
 
 namespace reflectionzeug
 {

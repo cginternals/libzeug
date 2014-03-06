@@ -31,7 +31,7 @@ PropertyEditorFactory::~PropertyEditorFactory()
 
 QWidget * PropertyEditorFactory::createEditor(ValueProperty & property)
 {
-    handle(property);
+    property.accept(this);
     return m_editor;
 }
 
@@ -42,57 +42,57 @@ QWidget * PropertyEditorFactory::createEditorWithParent(ValueProperty & property
 	return editor;
 }
 
-void PropertyEditorFactory::visit(Property<bool> & property)
+void PropertyEditorFactory::visit(Property<bool> * property)
 {
-    m_editor = new BoolEditor(&property);
+    m_editor = new BoolEditor(property);
 }
     
-void PropertyEditorFactory::visit(Property<int> & property)
+void PropertyEditorFactory::visit(Property<int> * property)
 {
-    m_editor = new IntegerEditor(&property);
+    m_editor = new IntegerEditor(property);
 }
     
-void PropertyEditorFactory::visit(Property<double> & property)
+void PropertyEditorFactory::visit(Property<double> * property)
 {
-    m_editor = new DoubleEditor(&property);
+    m_editor = new DoubleEditor(property);
 }
     
-void PropertyEditorFactory::visit(Property<std::string> & property)
+void PropertyEditorFactory::visit(Property<std::string> * property)
 {
-    if (property.hasChoices())
-        m_editor = new ChoiceEditor(&property);
+    if (property->hasChoices())
+        m_editor = new ChoiceEditor(property);
     else
-        m_editor = new StringEditor(&property);
+        m_editor = new StringEditor(property);
 }
 
-void PropertyEditorFactory::visit(Property<Color> & property)
+void PropertyEditorFactory::visit(Property<Color> * property)
 {
-    m_editor = new ColorEditor(&property);
+    m_editor = new ColorEditor(property);
 }
 
-void PropertyEditorFactory::visit(Property<FilePath> & property)
+void PropertyEditorFactory::visit(Property<FilePath> * property)
 {
-    m_editor = new FilePathEditor(&property);
+    m_editor = new FilePathEditor(property);
 }
 
-void PropertyEditorFactory::visit(Property<std::vector<bool>> & property)
+void PropertyEditorFactory::visit(Property<std::vector<bool>> * property)
 {
-    m_editor = new BoolMatrixEditor(&property);
+    m_editor = new BoolMatrixEditor(property);
 }
 
-void PropertyEditorFactory::visit(Property<std::vector<int>> & property)
+void PropertyEditorFactory::visit(Property<std::vector<int>> * property)
 {
-    m_editor = new IntMatrixEditor(&property);
+    m_editor = new IntMatrixEditor(property);
 }
 
-void PropertyEditorFactory::visit(Property<std::vector<double>> & property)
+void PropertyEditorFactory::visit(Property<std::vector<double>> * property)
 {
-    m_editor = new DoubleMatrixEditor(&property);
+    m_editor = new DoubleMatrixEditor(property);
 }
 
-void PropertyEditorFactory::visit(Property<std::set<int>> & property)
+void PropertyEditorFactory::visit(Property<std::set<int>> * property)
 {
-    m_editor = new IntSetEditor(&property);
+    m_editor = new IntSetEditor(property);
 }
 
 } // namespace propertyguizeug
