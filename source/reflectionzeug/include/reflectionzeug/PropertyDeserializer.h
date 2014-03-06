@@ -21,7 +21,6 @@ public:
 
     bool deserialize(PropertyGroup & group, std::string filePath);
     
-protected:
     virtual void visit(Property<bool> * property);
     virtual void visit(Property<int> * property);
     virtual void visit(Property<double> * property);

@@ -75,13 +75,15 @@ void ValuePropertyTemplate<Type>::setValue(const Type & value)
 }
 
 template <typename Type>
-void ValuePropertyTemplate<Type>::accept(AbstractPropertyVisitor * visitor)
+void ValuePropertyTemplate<Type>::accept(AbstractPropertyVisitor * visitor, bool warn)
 {
     auto * typedVisitor = dynamic_cast<PropertyVisitor<Type> *>(visitor);
 
     if (typedVisitor == nullptr)
     {
-        std::cout << "\"" << typeid(Type).name() << "\"" << "not supported by the visitor." << std::endl;
+        if (warn)
+            std::cout << "\"" << typeid(Type).name() << "\"" << "not supported by the visitor." << std::endl;
+        
         return;
     }
 

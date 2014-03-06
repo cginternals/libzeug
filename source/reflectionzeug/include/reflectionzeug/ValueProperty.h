@@ -14,7 +14,7 @@ class REFLECTIONZEUG_API ValueProperty : public AbstractProperty
 public:
     ValueProperty(const std::string & name);
 
-    virtual void accept(AbstractPropertyVisitor * visitor) = 0;
+    virtual void accept(AbstractPropertyVisitor * visitor, bool warn = true) = 0;
     virtual std::string valueAsString() const = 0;
 
 };

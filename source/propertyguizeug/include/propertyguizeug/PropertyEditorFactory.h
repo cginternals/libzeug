@@ -29,7 +29,6 @@ public:
     QWidget * createEditor(reflectionzeug::ValueProperty & property);
     QWidget * createEditorWithParent(reflectionzeug::ValueProperty & property, QWidget * parent);
 
-protected:
     virtual void visit(reflectionzeug::Property<bool> * property);
     virtual void visit(reflectionzeug::Property<int> * property);
     virtual void visit(reflectionzeug::Property<double> * property);

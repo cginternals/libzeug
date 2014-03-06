@@ -30,7 +30,7 @@ void PropertyPainter::drawValue(QPainter * painter,
     m_painter = painter;
     m_option = option;
 
-    property.accept(this);
+    property.accept(this, false);
 
 	if (!m_drawn)
 		this->drawString(QString::fromStdString(property.valueAsString()));
@@ -68,21 +68,6 @@ void PropertyPainter::visit(Property<bool> * property)
     
     m_drawn = true;
 }
-    
-void PropertyPainter::visit(Property<int> * property)
-{
-
-}
-    
-void PropertyPainter::visit(Property<double> * property)
-{
-
-}
-    
-void PropertyPainter::visit(Property<std::string> * property)
-{
-
-}
 
 void PropertyPainter::visit(Property<Color> * property)
 {
@@ -116,31 +101,6 @@ void PropertyPainter::visit(Property<Color> * property)
                         QPalette::Text);
     
     m_drawn = true;
-}
-
-void PropertyPainter::visit(Property<FilePath> * property)
-{
-
-}
-
-void PropertyPainter::visit(Property<std::vector<bool>> * property)
-{
-
-}
-
-void PropertyPainter::visit(Property<std::vector<int>> * property)
-{
-
-}
-
-void PropertyPainter::visit(Property<std::vector<double>> * property)
-{
-
-}
-
-void PropertyPainter::visit(Property<std::set<int>> * property)
-{
-
 }
     
 } // namespace propertyguizeug

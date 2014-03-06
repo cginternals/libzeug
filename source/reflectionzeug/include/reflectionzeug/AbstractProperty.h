@@ -14,7 +14,7 @@ namespace reflectionzeug
 class ValueProperty;
 class PropertyGroup;
     
-/** \brief Part of the property hierarch (base class of all properties).
+/** \brief Part of the property hierarchy (base class of all properties).
 */
 class REFLECTIONZEUG_API AbstractProperty 
 {
