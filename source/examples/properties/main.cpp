@@ -62,8 +62,8 @@ void iterateOverProperties()
 
     deserializer.deserialize(*group, "/Users/maxjendruk/Development/hpicgs/libzeug/data/property.ini");
     
-    std::cout << group->property<int>("third")->valueAsString() << std::endl;
-    std::cout << group->property<float>("sixth")->valueAsString() << std::endl;
+    std::cout << group->property<int>("third")->toString() << std::endl;
+    std::cout << group->property<float>("sixth")->toString() << std::endl;
 
     delete group;
 }

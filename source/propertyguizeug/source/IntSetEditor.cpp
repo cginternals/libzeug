@@ -10,7 +10,7 @@ namespace propertyguizeug
 {
     
 IntSetEditor::IntSetEditor(Property<std::set<int>> * property, QWidget * parent)
-:   SetEditor("(-?\\d+)", QString::fromStdString(property->valueAsString()), parent)
+:   SetEditor("(-?\\d+)", QString::fromStdString(property->toString()), parent)
 ,   m_property(property)
 {
 }

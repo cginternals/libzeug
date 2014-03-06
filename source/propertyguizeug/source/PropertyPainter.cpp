@@ -33,7 +33,7 @@ void PropertyPainter::drawValue(QPainter * painter,
     property.accept(this, false);
 
 	if (!m_drawn)
-		this->drawString(QString::fromStdString(property.valueAsString()));
+		this->drawString(QString::fromStdString(property.toString()));
 }
 
 void PropertyPainter::drawString(const QString & string)
@@ -97,7 +97,7 @@ void PropertyPainter::visit(Property<Color> * property)
                         Qt::AlignVCenter,
                         m_option.palette,
                         true,
-                        QString::fromStdString(property->valueAsString()),
+                        QString::fromStdString(property->toString()),
                         QPalette::Text);
     
     m_drawn = true;

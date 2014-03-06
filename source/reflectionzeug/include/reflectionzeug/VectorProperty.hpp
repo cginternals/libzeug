@@ -115,7 +115,7 @@ void VectorProperty<Vector>::setDimensions(unsigned int columns, unsigned int ro
 }
 
 template <typename Vector>
-std::string VectorProperty<Vector>::valueAsString() const
+std::string VectorProperty<Vector>::toString() const
 {
     return "(" + join(this->value(), ", ") + ")";
 }

@@ -41,7 +41,7 @@ public:
     bool isFile() const;
     void setIsFile(bool isFile);
 
-    virtual std::string valueAsString() const;
+    virtual std::string toString() const;
   
 protected:
     bool m_shouldExist;

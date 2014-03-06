@@ -53,7 +53,7 @@ public:
 
     void setDimensions(unsigned int columns, unsigned int rows);
     
-    virtual std::string valueAsString() const;
+    virtual std::string toString() const;
 
 protected:
     unsigned int m_fixedSize;

@@ -42,7 +42,7 @@ void StringProperty::addChoice(const std::string & string)
     m_choices.push_back(string);
 }
     
-std::string StringProperty::valueAsString() const
+std::string StringProperty::toString() const
 {
     return this->value();
 }

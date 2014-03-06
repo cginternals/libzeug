@@ -50,7 +50,7 @@ public:
     void setStep(const Type & step);
     bool hasStep() const;
     
-    virtual std::string valueAsString() const;
+    virtual std::string toString() const;
     
 protected:
     Type m_min;

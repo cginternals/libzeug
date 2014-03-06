@@ -12,7 +12,7 @@ namespace propertyguizeug
     
 IntMatrixEditor::IntMatrixEditor(Property<std::vector<int>> * property, QWidget * parent)
 :   MatrixEditor(property->fixedSize(), "(-?\\d+)"
-        , QString::fromStdString(property->valueAsString()), parent)
+        , QString::fromStdString(property->toString()), parent)
 ,   m_property(property)
 {
 }

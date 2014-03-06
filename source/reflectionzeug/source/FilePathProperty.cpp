@@ -71,7 +71,7 @@ void FilePathProperty::setIsFile(bool isFile)
     m_isFile = isFile;
 }
 
-std::string FilePathProperty::valueAsString() const
+std::string FilePathProperty::toString() const
 {
     return this->value().string();
 }

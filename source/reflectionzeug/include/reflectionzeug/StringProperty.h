@@ -43,7 +43,7 @@ public:
     void setChoices(const std::vector<std::string> & choices);
     void addChoice(const std::string & string);
     
-    virtual std::string valueAsString() const;
+    virtual std::string toString() const;
     
     signalzeug::Signal<const std::vector<std::string> &> choicesChanged;
     

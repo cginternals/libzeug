@@ -50,7 +50,7 @@ bool PropertySerializer::serialize(PropertyGroup & group, std::string filePath)
 void PropertySerializer::serializeValue(const ValueProperty & property)
 {
     m_fstream << m_currentPath << property.name();
-    m_fstream << "=" << property.valueAsString() << std::endl;
+    m_fstream << "=" << property.toString() << std::endl;
 }
 
 void PropertySerializer::serializeGroup(const PropertyGroup & group)

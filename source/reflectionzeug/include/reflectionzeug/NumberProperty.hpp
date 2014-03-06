@@ -133,7 +133,7 @@ bool NumberProperty<Type>::hasStep() const
 }
 
 template <typename Type>
-std::string NumberProperty<Type>::valueAsString() const
+std::string NumberProperty<Type>::toString() const
 {
     std::stringstream stream;
     stream << this->value();

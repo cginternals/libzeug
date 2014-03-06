@@ -68,7 +68,7 @@ public:
              void (Object::*setter_pointer)(bool))
     :   ValuePropertyTemplate<bool>(name, object, getter_pointer, setter_pointer) {}
 
-    virtual std::string valueAsString() const { return this->value() ? "true" : "false"; }
+    virtual std::string toString() const { return this->value() ? "true" : "false"; }
     
     void toggleValue() { setValue(!value()); }
     
@@ -218,7 +218,7 @@ public:
              void (Object::*setter_pointer)(Color))
     :   ValuePropertyTemplate<Color>(name, object, getter_pointer, setter_pointer) {}
     
-    virtual std::string valueAsString() const { return this->value().asHex(); }
+    virtual std::string toString() const { return this->value().asHex(); }
 };
 
 template <>
@@ -284,7 +284,7 @@ public:
     :   VectorProperty<std::vector<bool>>(name, object, getter_pointer, setter_pointer) {}
 
 
-    virtual std::string valueAsString() const
+    virtual std::string toString() const
     {
         std::stringstream stream;
 
@@ -393,7 +393,7 @@ public:
              void (Object::*setter_pointer)(std::set<int>))
     :   ValuePropertyTemplate<std::set<int>>(name, object, getter_pointer, setter_pointer) {}
 
-    virtual std::string valueAsString() const { return "(" + join(this->value(), ", ") + ")"; }
+    virtual std::string toString() const { return "(" + join(this->value(), ", ") + ")"; }
 };
 
 } // namespace reflectionzeug
