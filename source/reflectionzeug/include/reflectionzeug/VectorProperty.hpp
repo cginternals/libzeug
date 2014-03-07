@@ -79,14 +79,14 @@ template <typename Type>
 std::vector<Type> VectorProperty<Type>::value() const
 {
     assert(this->m_value->get().size() == m_fixedSize);
-    return ValuePropertyTemplate<Vector>::value();
+    return this->value();
 }
 
 template <typename Type>
 void VectorProperty<Type>::setValue(const std::vector<Type> & value)
 {
     assert(value.size() == m_fixedSize);
-    ValuePropertyTemplate<std::vector<Type>>::setValue(value);
+    this->setValue(value);
 }
 
 template <typename Type>
@@ -121,12 +121,12 @@ std::string VectorProperty<Type>::toString() const
 {
     std::vector<std::string> stringVector;
 
-    for (Type & element : this->value())
+    for (const Type & element : this->value())
     {
-        stringVector.append(elementToString(element));
+        stringVector.push_back(elementToString(element));
     }
 
-    return "(" + join(stringVector, ", ") + ")";
+    return "(" + util::join(stringVector, ", ") + ")";
 }
 
 template <typename Type>
@@ -135,12 +135,12 @@ bool VectorProperty<Type>::fromString(const std::string & string)
     if (!matchesVectorRegex(string))
         return false;
 
-    std::vector<std::string> values = extract(string, elementRegex());
+    std::vector<std::string> values = util::extract(string, elementRegex());
 
     std::vector<Type> vector;
     for (std::string & value : values)
     {
-        vector.append(elementFromString(value));
+        vector.push_back(elementFromString(value));
     }
 
     return true;
@@ -158,7 +158,7 @@ bool VectorProperty<Type>::matchesVectorRegex(const std::string & string)
     }
     vectorRegexStream << elementRegex() << "\\)\\s*";
 
-    return matchesRegex(string, vectorRegexStream.str());
+    return util::matchesRegex(string, vectorRegexStream.str());
 }
 
 } // namespace reflectionzeug

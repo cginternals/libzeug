@@ -52,7 +52,7 @@ public:
     virtual bool fromString(const std::string & string);
 
 protected:
-    virtual std::string stringMatch() = 0;
+    virtual std::string matchRegex() = 0;
 
 protected:
     Type m_min;

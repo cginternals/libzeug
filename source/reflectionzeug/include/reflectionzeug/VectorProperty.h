@@ -58,9 +58,9 @@ public:
 protected:
     bool matchesVectorRegex(const std::string & string);
 
-    virtual std::string elementRegex() = 0;
-    virtual std::string elementToString(const Type * element) = 0;
-    virtual Type elementFromString(const std::string & string) = 0;
+    virtual std::string elementRegex() const = 0;
+    virtual std::string elementToString(const Type & element) const = 0;
+    virtual Type elementFromString(const std::string & string) const = 0;
 
 protected:
     unsigned int m_fixedSize;

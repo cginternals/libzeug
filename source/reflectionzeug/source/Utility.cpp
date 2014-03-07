@@ -14,6 +14,9 @@
 namespace reflectionzeug
 {
 
+namespace util
+{
+
 bool matchesRegex(const std::string & string, const std::string & regex)
 {
     return regex_namespace::regex_match(string, regex_namespace::regex(regex));
@@ -26,12 +29,14 @@ std::vector<std::string> extract(const std::string & string, const std::string &
     regex_namespace::smatch matchResults;
     regex_namespace::regex_search(string, matchResults, regex_namespace::regex(regex));
 
-    for (std::string & match : matchResults)
+    for (const std::string & match : matchResults)
     {
-        values.append(match);
+        values.push_back(match);
     }
 
     return values;
 }
+
+} // namespace util
 
 } // namespace reflectionzeug

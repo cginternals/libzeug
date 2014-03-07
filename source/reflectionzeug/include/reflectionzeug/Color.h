@@ -7,11 +7,14 @@
 
 namespace reflectionzeug
 {
-    
+
 /** \brief A simple RGBA color class for use as a property value.
  */
 class REFLECTIONZEUG_API Color
 {
+public:
+    static Color fromString(const std::string & string, bool * ok);
+
 public:
     Color();
     Color(const Color & color);
@@ -28,12 +31,14 @@ public:
     void setBlue(int value);
     int alpha() const;
     void setAlpha(int value);
-    
+
     unsigned int rgba() const;
     void setRgba(unsigned int rgba);
-    
+
     std::string asHex() const;
-    
+
+    std::string toString() const;
+
 protected:
     union {
         struct {

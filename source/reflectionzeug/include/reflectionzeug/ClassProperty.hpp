@@ -48,7 +48,7 @@ ClassProperty<Type>::ClassProperty(const std::string & name,
 }
 
 template <typename Type>
-std::string ClassProperty<Type>::valueToString() const
+std::string ClassProperty<Type>::toString() const
 {
     return this->value().toString();
 }

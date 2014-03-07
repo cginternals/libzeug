@@ -248,13 +248,13 @@ void PropertyDeserializer::visit(Property<std::vector<double>> * property)
     property->setValue(vector);
 }
 
-void PropertyDeserializer::visit(Property<std::set<int>> * property)
-{
-    std::set<int> set;
-    this->deserializeSetValues("(-?\\d+)", [this, &set](const std::string & string) {
-        set.insert(this->convertString<int>(string));
-    });
-    property->setValue(set);
-}
+//void PropertyDeserializer::visit(Property<std::set<int>> * property)
+//{
+//    std::set<int> set;
+//    this->deserializeSetValues("(-?\\d+)", [this, &set](const std::string & string) {
+//        set.insert(this->convertString<int>(string));
+//    });
+//    property->setValue(set);
+//}
 
 } // namespace reflectionzeug

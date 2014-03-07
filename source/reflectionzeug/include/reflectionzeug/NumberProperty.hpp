@@ -19,7 +19,7 @@ NumberProperty<Type>::NumberProperty(const std::string & name, const Type & valu
 }
 
 template <typename Type>
-NumberProperty<Type>::NumberProperty(const std::string & name, 
+NumberProperty<Type>::NumberProperty(const std::string & name,
     const std::function<Type ()> & getter,
     const std::function<void(const Type &)> & setter)
 :   ValuePropertyTemplate<Type>(name, getter, setter)
@@ -75,7 +75,6 @@ template <typename Type>
 void NumberProperty<Type>::setMinimum(const Type & minimum)
 {
     m_min = minimum;
-    // this->m_announcer.notify(events::kRangeChanged);
 }
 
 template <typename Type>
@@ -94,9 +93,8 @@ template <typename Type>
 void NumberProperty<Type>::setMaximum(const Type & maximum)
 {
     m_max = maximum;
-    // this->m_announcer.notify(events::kRangeChanged);
 }
-    
+
 template <typename Type>
 bool NumberProperty<Type>::hasMaximum() const
 {
@@ -108,7 +106,6 @@ void NumberProperty<Type>::setRange(const Type & minimum, const Type & maximum)
 {
     m_min = minimum;
     m_max = maximum;
-    // this->m_announcer.notify(events::kRangeChanged);
 }
 
 template <typename Type>
@@ -138,22 +135,16 @@ bool NumberProperty<Type>::hasStep() const
 template <typename Type>
 std::string NumberProperty<Type>::toString() const
 {
-    std::stringstream stream;
-    stream << this->value();
-    return stream.str();
+    return util::toString(this->value());
 }
 
 template <typename Type>
 bool NumberProperty<Type>::fromString(const std::string & string)
 {
-    if (!matchesRegex(string, matchRegex()))
+    if (!util::matchesRegex(string, matchRegex()))
         return false;
-    
-    std::stringstream stream(string);
-    Type value;
-    stream >> value;
-    
-    this->setValue(value);
+
+    this->setValue(fromString(string));
     return true;
 }
 

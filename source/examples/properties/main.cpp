@@ -44,7 +44,7 @@ void iterateOverProperties()
     group->addProperty<int>("third", 7);
     group->addGroup("fourth");
     group->addProperty<Color>("fifth", Color(125, 125, 125));
-    group->addProperty<float>("sixth", 12.32f);
+    group->addProperty<std::vector<int>>("sixth", { 1, 2, 3 });
     
     group->forEachValueProperty([](AbstractProperty & property) {
         std::cout << property.title() << std::endl;
@@ -53,17 +53,6 @@ void iterateOverProperties()
     group->forEachSubGroup([](PropertyGroup & subGroup) {
         std::cout << subGroup.title() << std::endl;
     });
-    
-    PropertyDeserializer deserializer;
-    deserializer.registerTypeHandler<float>([] (Property<float> & property)
-    {
-        property.setValue(42.0f);
-    });
-
-    deserializer.deserialize(*group, "/Users/maxjendruk/Development/hpicgs/libzeug/data/property.ini");
-    
-    std::cout << group->property<int>("third")->toString() << std::endl;
-    std::cout << group->property<float>("sixth")->toString() << std::endl;
 
     delete group;
 }
@@ -85,8 +74,6 @@ int main(int argc, char const *argv[])
     subscribeToChanges();
     iterateOverProperties();
     accessProperties();
-
-    Property<float> floatProperty("Float", 12.5f);
     
     return 0;
 }

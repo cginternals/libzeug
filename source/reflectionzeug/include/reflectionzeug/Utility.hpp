@@ -6,10 +6,30 @@
 
 namespace reflectionzeug
 {
+    
+namespace util
+{
+
+template <typename Type>
+Type fromString(const std::string & string)
+{
+    std::stringstream stream(string);
+    Type value;
+    stream >> value;
+    return value;
+}
+
+template <typename Type>
+std::string toString(const Type & value)
+{
+    std::stringstream stream;
+    stream << value;
+    return stream.str();
+}
 
 template <class Iterable>
 std::string join(const Iterable & iterable, const std::string & separator)
-{    
+{
     std::stringstream stream;
 
     for (auto it = iterable.begin(); it != iterable.end(); ++it)
@@ -19,8 +39,10 @@ std::string join(const Iterable & iterable, const std::string & separator)
         if (it != --iterable.end())
             stream << separator;
     }
-    
+
     return stream.str();
 }
+    
+} // namespace util
 
 } // namespace reflectionzeug
