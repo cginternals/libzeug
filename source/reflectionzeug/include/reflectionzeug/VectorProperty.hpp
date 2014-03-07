@@ -3,7 +3,7 @@
 
 #include <sstream>
 
-#include <reflectionzeug/Utility.h>
+#include <reflectionzeug/util.h>
 
 namespace reflectionzeug
 {

@@ -103,8 +103,8 @@ set(headers
     ${header_path}/Variant.h
     ${header_path}/TemplateHelper.h
 
-    ${header_path}/Utility.h
-    ${header_path}/Utility.hpp
+    ${header_path}/util.h
+    ${header_path}/util.hpp
 )
 
 set(sources
@@ -123,15 +123,15 @@ set(sources
     ${source_path}/Object.cpp
     ${source_path}/Variant.cpp
 
-    ${source_path}/Utility.cpp
+    ${source_path}/util.cpp
 )
 
 # Group source files
 set(header_group "Header Files (API)")
 set(source_group "Source Files")
-source_group_by_path(${header_path} "\\\\.h$|\\\\.hpp$" 
+source_group_by_path(${header_path} "\\\\.h$|\\\\.hpp$"
     ${header_group} ${headers})
-source_group_by_path(${source_path} "\\\\.cpp$|\\\\.c$|\\\\.h$|\\\\.hpp$" 
+source_group_by_path(${source_path} "\\\\.cpp$|\\\\.c$|\\\\.h$|\\\\.hpp$"
     ${source_group} ${sources})
 
 #

@@ -14,7 +14,7 @@
 #include <reflectionzeug/Color.h>
 #include <reflectionzeug/FilePath.h>
 
-#include <reflectionzeug/Utility.h>
+#include <reflectionzeug/util.h>
 
 
 namespace reflectionzeug
