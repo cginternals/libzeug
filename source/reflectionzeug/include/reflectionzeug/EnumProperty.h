@@ -5,13 +5,14 @@
 #include <map>
 #include <vector>
 
+#include <reflectionzeug/EnumPropertyInterface.h>
 #include <reflectionzeug/ValuePropertyTemplate.h>
 
 namespace reflectionzeug
 {
 
 template <typename Enum>
-class EnumProperty : public ValuePropertyTemplate<Enum>
+class EnumProperty : public ValuePropertyTemplate<Enum>, public EnumPropertyInterface
 {
 public:
     EnumProperty(const std::string & name, const Enum & value);
@@ -38,7 +39,7 @@ public:
     virtual std::string toString() const;
     virtual bool fromString(const std::string & string);
 
-    const std::vector<std::string> & stringList() const;
+    virtual const std::vector<std::string> & stringList() const;
 
 protected:
     virtual std::vector<std::pair<Enum, std::string>> pairs() const = 0;
