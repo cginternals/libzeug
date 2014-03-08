@@ -92,7 +92,7 @@ void PropertyEditorFactory::visit(Property<std::vector<double>> * property)
 
 void PropertyEditorFactory::visit(Property<std::set<int>> * property)
 {
-    m_editor = new IntSetEditor(property);
+//    m_editor = new IntSetEditor(property);
 }
 
 } // namespace propertyguizeug
