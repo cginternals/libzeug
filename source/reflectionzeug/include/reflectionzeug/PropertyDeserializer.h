@@ -16,8 +16,6 @@ public:
 
     bool deserialize(PropertyGroup & group, std::string filePath);
 
-//    virtual void visit(Property<std::set<int>> * property);
-
 protected:
     bool isGroupDeclaration(const std::string line);
     bool isPropertyDeclaration(const std::string line);
