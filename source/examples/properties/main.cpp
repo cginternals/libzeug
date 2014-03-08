@@ -77,6 +77,17 @@ void accessProperties()
     std::cout << root->value<int>("subGroup/value") << std::endl;
 }
 
+void enumProperty()
+{
+    std::cout << ">> enumProperty()" << std::endl;
+    
+    PropertyGroup root("root");
+    
+    root.addProperty<NormalMode>("normal_mode", NormalMode::LookAt);
+    
+    std::cout << root.property<NormalMode>("normal_mode")->asValue()->toString() << std::endl;
+}
+
 bool saveProperties()
 {
     std::cout << ">> saveProperties()" << std::endl;
@@ -134,6 +145,7 @@ int main(int argc, char const *argv[])
     subscribeToChanges();
     iterateOverProperties();
     accessProperties();
+    enumProperty();
     
     if (saveProperties() && loadProperties());
         std::remove(INI_PATH);

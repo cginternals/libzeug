@@ -71,6 +71,8 @@ set(headers
     ${header_path}/ValuePropertyTemplate.hpp
     ${header_path}/ClassProperty.h
     ${header_path}/ClassProperty.hpp
+    ${header_path}/EnumProperty.h
+    ${header_path}/EnumProperty.hpp
     ${header_path}/NumberProperty.h
     ${header_path}/NumberProperty.hpp
     ${header_path}/StringProperty.h
