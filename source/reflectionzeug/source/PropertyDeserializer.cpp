@@ -120,7 +120,7 @@ bool PropertyDeserializer::setPropertyValue(const std::string line)
         return false;
     }
 
-    if (!property->asValue()->fromString(util::trim(valueString))) {
+    if (!property->asValue()->fromString(util::trim(valueString, false))) {
         std::cerr << "Could not convert \"" << valueString << "\" to property.";
         return false;
     }

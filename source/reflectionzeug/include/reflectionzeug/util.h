@@ -26,7 +26,7 @@ REFLECTIONZEUG_API bool matchesRegex(const std::string & string, const std::stri
 
 REFLECTIONZEUG_API std::vector<std::string> extract(const std::string & string, const std::string & regex);
 
-REFLECTIONZEUG_API std::string trim(const std::string & string);
+REFLECTIONZEUG_API std::string trim(const std::string & string, bool enclosed = true);
 
 } // namespace util
 

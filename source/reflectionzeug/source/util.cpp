@@ -30,7 +30,7 @@ std::vector<std::string> extract(const std::string & string, const std::string &
     std::vector<std::string> values;
 
     regex_namespace::smatch matchResults;
-    
+
     std::string s = string;
     while (regex_namespace::regex_search(s, matchResults, regex_namespace::regex(regex)))
     {
@@ -41,14 +41,11 @@ std::vector<std::string> extract(const std::string & string, const std::string &
     return values;
 }
 
-std::string trim(const std::string & string)
+std::string trim(const std::string & string, bool enclosed)
 {
-    std::string result = string;
-    result.erase(std::remove_if(result.begin(),
-                                result.end(),
-                                [] (char x) { return std::isspace(x); }),
-                 result.end());
-    return result;
+    const regex_namespace::regex regex(enclosed ? "\\s+" : "(^\\s+|\\s+$)");
+    
+    return regex_namespace::regex_replace(string, regex, "");
 }
 
 } // namespace util
