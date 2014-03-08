@@ -32,7 +32,7 @@ bool PropertySerializer::serialize(PropertyGroup & group, std::string filePath)
     m_currentPath = "";
     
     m_fstream << "[" << group.name() << "]" << std::endl;
-    group.forEachValueProperty([this](ValueProperty & property) {
+    group.forEachValueProperty([this] (ValueProperty & property) {
         this->serializeValue(property);
     });
     m_fstream << std::endl;

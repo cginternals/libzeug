@@ -79,14 +79,14 @@ template <typename Type>
 std::vector<Type> VectorProperty<Type>::value() const
 {
     assert(this->m_value->get().size() == m_fixedSize);
-    return this->value();
+    return ValuePropertyTemplate<std::vector<Type>>::value();
 }
 
 template <typename Type>
 void VectorProperty<Type>::setValue(const std::vector<Type> & value)
 {
     assert(value.size() == m_fixedSize);
-    this->setValue(value);
+    ValuePropertyTemplate<std::vector<Type>>::setValue(value);
 }
 
 template <typename Type>
@@ -142,6 +142,7 @@ bool VectorProperty<Type>::fromString(const std::string & string)
     {
         vector.push_back(elementFromString(value));
     }
+    this->setValue(vector);
 
     return true;
 }

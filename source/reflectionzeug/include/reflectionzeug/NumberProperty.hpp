@@ -144,7 +144,7 @@ bool NumberProperty<Type>::fromString(const std::string & string)
     if (!util::matchesRegex(string, matchRegex()))
         return false;
 
-    this->setValue(fromString(string));
+    this->setValue(util::fromString<Type>(string));
     return true;
 }
 

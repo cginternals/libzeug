@@ -9,6 +9,9 @@
     namespace regex_namespace = boost;
 #endif
 
+#include <algorithm>
+#include <cctype>
+
 #include <reflectionzeug/util.h>
 
 namespace reflectionzeug
@@ -27,14 +30,25 @@ std::vector<std::string> extract(const std::string & string, const std::string &
     std::vector<std::string> values;
 
     regex_namespace::smatch matchResults;
-    regex_namespace::regex_search(string, matchResults, regex_namespace::regex(regex));
-
-    for (const std::string & match : matchResults)
+    
+    std::string s = string;
+    while (regex_namespace::regex_search(s, matchResults, regex_namespace::regex(regex)))
     {
-        values.push_back(match);
-    }
+        values.push_back(matchResults[0]);
+        s = matchResults.suffix().str();
+    };
 
     return values;
+}
+
+std::string trim(const std::string & string)
+{
+    std::string result = string;
+    result.erase(std::remove_if(result.begin(),
+                                result.end(),
+                                [] (char x) { return std::isspace(x); }),
+                 result.end());
+    return result;
 }
 
 } // namespace util

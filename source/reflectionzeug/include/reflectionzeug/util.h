@@ -24,6 +24,8 @@ bool matchesRegex(const std::string & string, const std::string & regex);
 
 std::vector<std::string> extract(const std::string & string, const std::string & regex);
 
+std::string trim(const std::string & string);
+
 } // namespace util
 
 } // namespace reflectionzeug

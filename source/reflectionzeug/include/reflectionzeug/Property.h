@@ -69,6 +69,16 @@ public:
     :   ValuePropertyTemplate<bool>(name, object, getter_pointer, setter_pointer) {}
 
     virtual std::string toString() const { return this->value() ? "true" : "false"; }
+    
+    virtual bool fromString(const std::string & string)
+    {
+        if (!util::matchesRegex(string, "(true|false)"))
+            return false;
+        
+        this->setValue(string == "true");
+        
+        return true;
+    }
 
     void toggleValue() { setValue(!value()); }
 

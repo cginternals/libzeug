@@ -86,7 +86,6 @@ set(headers
     ${header_path}/PropertyVisitor.h
     ${header_path}/StandardPropertyVisitor.h
     ${header_path}/PropertyDeserializer.h
-    ${header_path}/PropertyDeserializer.hpp
     ${header_path}/PropertySerializer.h
 
     ${header_path}/AbstractValue.h

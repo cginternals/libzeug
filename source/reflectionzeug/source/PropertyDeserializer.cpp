@@ -16,6 +16,7 @@
 #include <reflectionzeug/Property.h>
 #include <reflectionzeug/PropertyGroup.h>
 
+#include <reflectionzeug/util.h>
 #include <reflectionzeug/PropertyDeserializer.h>
 
 namespace reflectionzeug
@@ -40,10 +41,10 @@ bool PropertyDeserializer::deserialize(PropertyGroup & group, std::string filePa
         std::cerr << "Could not open file \"" << filePath << "\"" << std::endl;
         return false;
     }
-    
+
     bool noErrorsOccured = true;
     m_rootGroup = &group;
-    
+
     for (std::string line; std::getline(fstream, line);) {
         if (this->isGroupDeclaration(line))
             noErrorsOccured = this->updateCurrentGroup(line) && noErrorsOccured;
@@ -54,7 +55,7 @@ bool PropertyDeserializer::deserialize(PropertyGroup & group, std::string filePa
     fstream.close();
     return noErrorsOccured;
 }
-    
+
 bool PropertyDeserializer::isGroupDeclaration(const std::string line)
 {
     static const regex_namespace::regex groupRegex("\\[" + AbstractProperty::s_nameRegexString + "\\]");
@@ -75,18 +76,18 @@ bool PropertyDeserializer::isPropertyDeclaration(const std::string line)
 bool PropertyDeserializer::updateCurrentGroup(const std::string line)
 {
     std::string groupName = line.substr(1, line.length() - 2);
-    
+
     assert(m_rootGroup);
     if (m_rootGroup->name() == groupName) {
         m_currentGroup = m_rootGroup;
         return true;
     }
-    
+
     if (m_rootGroup->groupExists(groupName)) {
         m_currentGroup = m_rootGroup->group(groupName);
         return true;
     }
-    
+
     m_currentGroup = nullptr;
     std::cerr << "Group with name \"" << groupName << "\" does not exist" << std::endl;
     return false;
@@ -103,10 +104,10 @@ bool PropertyDeserializer::setPropertyValue(const std::string line)
     regex_namespace::smatch match;
     regex_namespace::regex_search(line, match, regex_namespace::regex("="));
     const std::string & path = match.prefix();
-    m_currentValue = match.suffix();
-    
-    AbstractProperty * property = m_currentGroup->property(path)->asValue();
-    
+    std::string valueString = match.suffix();
+
+    AbstractProperty * property = m_currentGroup->property(path);
+
     if (!property) {
         std::cerr << "Property path \"" << path << "\" ";
         std::cerr << "is invalid" << std::endl;
@@ -119,135 +120,15 @@ bool PropertyDeserializer::setPropertyValue(const std::string line)
         return false;
     }
 
-    property->asValue()->accept(this);
+    if (!property->asValue()->fromString(util::trim(valueString))) {
+        std::cerr << "Could not convert \"" << valueString << "\" to property.";
+        return false;
+    }
+
     return true;
 }
-    
-void PropertyDeserializer::deserializeVectorValues(const std::string & valueRegexString,
-    int size, const std::function<void(const std::string &)> & functor)
-{
-    std::stringstream vectorRegexStream;
-    
-    vectorRegexStream << "\\s*\\(";
-    for (int i = 0; i < size - 1; i++) {
-        vectorRegexStream << valueRegexString << ",\\s?";
-    }
-    vectorRegexStream << valueRegexString << "\\)\\s*";
-    
-    std::string string(vectorRegexStream.str());
-    if (!regex_namespace::regex_match(m_currentValue, regex_namespace::regex(vectorRegexStream.str()))) {
-        std::cerr << "Vector values does not match format:";
-        std::cerr << "\"" << valueRegexString << "\"" << std::endl;
-        return;
-    }
-    
-    regex_namespace::smatch match;
-    regex_namespace::regex_search(m_currentValue, match, regex_namespace::regex(vectorRegexStream.str()));
-    for (unsigned int i = 1; i < match.size(); ++i) {
-        functor(match[i].str());
-    }
-}
 
-void PropertyDeserializer::deserializeSetValues(const std::string & valueRegexString,
-    const std::function<void(const std::string &)> & functor)
-{
-    std::stringstream vectorRegexStream;
-    vectorRegexStream << "\\s*\\(";
-    vectorRegexStream << "("+valueRegexString+"|"+valueRegexString+"\\s*(,\\s*"+valueRegexString+")";
-    vectorRegexStream << "\\)\\s*";
-    
-    std::string string(vectorRegexStream.str());
-    if (!regex_namespace::regex_match(m_currentValue, regex_namespace::regex(vectorRegexStream.str()))) {
-        std::cerr << "Vector values does not match format:";
-        std::cerr << "\"" << valueRegexString << "\"" << std::endl;
-        return;
-    }
-    
-    regex_namespace::smatch match;
-    regex_namespace::regex_search(m_currentValue, match, regex_namespace::regex(vectorRegexStream.str()));
-    for (unsigned int i = 1; i < match.size(); ++i) {
-        functor(match[i].str());
-    }
-}
-
-
-void PropertyDeserializer::visit(Property<bool> * property)
-{
-    if (regex_namespace::regex_match(m_currentValue, regex_namespace::regex("\\s*true\\s*"))) {
-        property->setValue(true);
-        return;
-    }
-    
-    if (regex_namespace::regex_match(m_currentValue, regex_namespace::regex("\\s*false\\s*"))) {
-        property->setValue(false);
-    }
-}
-
-void PropertyDeserializer::visit(Property<int> * property)
-{
-    property->setValue(this->convertString<int>(m_currentValue));
-}
-
-void PropertyDeserializer::visit(Property<double> * property)
-{
-    property->setValue(this->convertString<double>(m_currentValue));
-}
-
-void PropertyDeserializer::visit(Property<std::string> * property)
-{
-    property->setValue(m_currentValue);
-}
-
-void PropertyDeserializer::visit(Property<Color> * property)
-{
-    regex_namespace::regex colorHexRegex("#[0-9A-F]{8}");
-    if (!regex_namespace::regex_match(m_currentValue, colorHexRegex)) {
-        std::cerr << "Color value does not match format: " << property->name() << std::endl;
-        return;
-    }
-    
-    std::stringstream stream(m_currentValue.substr(1, m_currentValue.length()));
-    unsigned int colorHex;
-    stream >> std::hex >> std::uppercase;
-    stream >> colorHex;
-    property->setValue(Color(colorHex));
-}
-
-void PropertyDeserializer::visit(Property<FilePath> * property)
-{
-    property->setValue(m_currentValue);
-}
-
-void PropertyDeserializer::visit(Property<std::vector<bool>> * property)
-{
-    std::vector<bool> vector;
-    this->deserializeVectorValues("(true|false)", property->fixedSize(),
-                                  [this, &vector](const std::string & string) {
-                                      vector.push_back(string == "true" ? true : false);
-                                  });
-    property->setValue(vector);
-}
-
-void PropertyDeserializer::visit(Property<std::vector<int>> * property)
-{
-    std::vector<int> vector;
-    this->deserializeVectorValues("(-?\\d+)", property->fixedSize(),
-                                  [this, &vector](const std::string & string) {
-                                      vector.push_back(this->convertString<int>(string));
-                                  });
-    property->setValue(vector);
-}
-
-void PropertyDeserializer::visit(Property<std::vector<double>> * property)
-{
-    std::vector<double> vector;
-    this->deserializeVectorValues("(-?\\d+\\.?\\d*)", property->fixedSize(),
-                                  [this, &vector](const std::string & string) {
-                                      vector.push_back(this->convertString<double>(string));
-                                  });
-    property->setValue(vector);
-}
-
+// TODO: Who uses this?
 //void PropertyDeserializer::visit(Property<std::set<int>> * property)
 //{
 //    std::set<int> set;
