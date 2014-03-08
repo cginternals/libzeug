@@ -22,7 +22,7 @@ namespace reflectionzeug
 
 /** \brief Part of the property hierarchy, that has different implementation based on its template Type.
 
-    Only this class should be instantiated!
+    Only this class may be instantiated!
     Supported Types:
       - bool
       - int
