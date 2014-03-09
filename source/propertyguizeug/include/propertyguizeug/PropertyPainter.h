@@ -12,7 +12,7 @@ class QPainter;
 namespace reflectionzeug {
     template <typename Type>
     class Property;
-    class ValueProperty;
+    class ValuePropertyInterface;
     class Color;
     class FilePath;
 }
@@ -29,7 +29,7 @@ public:
 
     void drawValue(QPainter * painter, 
                    const QStyleOptionViewItem & option,
-                   reflectionzeug::ValueProperty & property);
+                   reflectionzeug::ValuePropertyInterface & property);
 
     virtual void visit(reflectionzeug::Property<bool> * property);
     virtual void visit(reflectionzeug::Property<reflectionzeug::Color> * property);

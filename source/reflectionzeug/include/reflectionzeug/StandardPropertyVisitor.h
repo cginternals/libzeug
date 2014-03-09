@@ -28,8 +28,7 @@ class StandardPropertyVisitor :
         FilePath,
         std::vector<bool>,
         std::vector<int>,
-        std::vector<double> /*,
-        std::set<int> */>
+        std::vector<double>>
 {
 
 };

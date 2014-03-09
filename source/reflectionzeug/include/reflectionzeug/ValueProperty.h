@@ -1,24 +1,56 @@
 
 #pragma once
 
-#include <reflectionzeug/AbstractProperty.h>
-#include <reflectionzeug/AbstractPropertyVisitor.h>
+#include <memory>
+
+#include <signalzeug/Signal.h>
+
+#include <reflectionzeug/reflectionzeug.h>
+#include <reflectionzeug/ValuePropertyInterface.h>
+#include <reflectionzeug/StoredValue.h>
+#include <reflectionzeug/AccessorValue.h>
 
 namespace reflectionzeug
 {
 
-/** \brief Part of the property hierarchy. The super class of all properties that have a value.
+/** \brief Part of the property hierarchy. The Template Class for all properties that have a value.
  */
-class REFLECTIONZEUG_API ValueProperty : public AbstractProperty
+template <typename Type>
+class ValueProperty : public virtual ValuePropertyInterface
 {
 public:
-    ValueProperty(const std::string & name);
+    ValueProperty(const std::string & name, const Type & value);
+    
+    ValueProperty(const std::string & name, 
+                          const std::function<Type()> & getter,
+                          const std::function<void(const Type &)> & setter);
+    
+    template <class Object>
+    ValueProperty(const std::string & name,
+                          Object & object, const Type & (Object::*getter_pointer)() const,
+                          void (Object::*setter_pointer)(const Type &));
+    
+    template <class Object>
+    ValueProperty(const std::string & name,
+                          Object & object, Type (Object::*getter_pointer)() const,
+                          void (Object::*setter_pointer)(const Type &));
+    
+    template <class Object>
+    ValueProperty(const std::string & name,
+                          Object & object, Type (Object::*getter_pointer)() const,
+                          void (Object::*setter_pointer)(Type));
 
-    virtual void accept(AbstractPropertyVisitor * visitor, bool warn = true) = 0;
+    virtual Type value() const;
+    virtual void setValue(const Type & value);
 
-    virtual std::string toString() const = 0;
-    virtual bool fromString(const std::string & string) = 0;
+    virtual void accept(AbstractPropertyVisitor * visitor, bool warn = true);
+    
+    signalzeug::Signal<const Type &> valueChanged;
 
+protected:
+    std::unique_ptr<AbstractValue<Type>> m_value;
 };
 
 } // namespace reflectionzeug
+
+#include "ValueProperty.hpp"

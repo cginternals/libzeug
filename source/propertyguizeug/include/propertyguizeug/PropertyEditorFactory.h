@@ -11,7 +11,7 @@ namespace reflectionzeug
 {
     template <typename Type>
     class Property;
-    class ValueProperty;
+    class ValuePropertyInterface;
     class Color;
     class FilePath;
 }
@@ -25,8 +25,8 @@ public:
     PropertyEditorFactory();
     virtual ~PropertyEditorFactory();
 
-    QWidget * createEditor(reflectionzeug::ValueProperty & property);
-    QWidget * createEditorWithParent(reflectionzeug::ValueProperty & property, QWidget * parent);
+    QWidget * createEditor(reflectionzeug::ValuePropertyInterface & property);
+    QWidget * createEditorWithParent(reflectionzeug::ValuePropertyInterface & property, QWidget * parent);
 
     virtual void visit(reflectionzeug::Property<bool> * property);
     virtual void visit(reflectionzeug::Property<int> * property);

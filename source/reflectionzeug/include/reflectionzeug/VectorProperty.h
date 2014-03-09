@@ -3,7 +3,7 @@
 
 #include <vector>
 
-#include <reflectionzeug/ValuePropertyTemplate.h>
+#include <reflectionzeug/ValueProperty.h>
 
 namespace reflectionzeug
 {
@@ -16,7 +16,7 @@ namespace reflectionzeug
 */
 
 template <typename Type>
-class VectorProperty : public ValuePropertyTemplate<std::vector<Type>>
+class VectorProperty : public ValueProperty<std::vector<Type>>
 {
 public:
     VectorProperty(const std::string & name, const std::vector<Type> & value);
@@ -39,8 +39,6 @@ public:
     VectorProperty(const std::string & name,
                    Object & object, std::vector<Type> (Object::*getter_pointer)() const,
                    void (Object::*setter_pointer)(std::vector<Type>));
-
-    virtual ~VectorProperty();
 
     virtual std::vector<Type> value() const;
     virtual void setValue(const std::vector<Type> & value);

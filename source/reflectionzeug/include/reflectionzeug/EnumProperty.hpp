@@ -8,7 +8,7 @@ namespace reflectionzeug
 
 template <typename Enum>
 EnumProperty<Enum>::EnumProperty(const std::string & name, const Enum & value)
-:   ValuePropertyTemplate<Enum>(name, value)
+:   ValueProperty<Enum>(name, value)
 ,   m_isInitialized(false)
 {
 }
@@ -17,7 +17,7 @@ template <typename Enum>
 EnumProperty<Enum>::EnumProperty(const std::string & name,
     const std::function<Enum ()> & getter,
     const std::function<void(const Enum &)> & setter)
-:   ValuePropertyTemplate<Enum>(name, getter, setter)
+:   ValueProperty<Enum>(name, getter, setter)
 ,   m_isInitialized(false)
 {
 }
@@ -27,7 +27,7 @@ template <class Object>
 EnumProperty<Enum>::EnumProperty(const std::string & name,
     Object & object, const Enum & (Object::*getter_pointer)() const,
     void (Object::*setter_pointer)(const Enum &))
-:   ValuePropertyTemplate<Enum>(name, object, getter_pointer, setter_pointer)
+:   ValueProperty<Enum>(name, object, getter_pointer, setter_pointer)
 ,   m_isInitialized(false)
 {
 }
@@ -37,7 +37,7 @@ template <class Object>
 EnumProperty<Enum>::EnumProperty(const std::string & name,
     Object & object, Enum (Object::*getter_pointer)() const,
     void (Object::*setter_pointer)(const Enum &))
-:   ValuePropertyTemplate<Enum>(name, object, getter_pointer, setter_pointer)
+:   ValueProperty<Enum>(name, object, getter_pointer, setter_pointer)
 ,   m_isInitialized(false)
 {
 }
@@ -47,7 +47,7 @@ template <class Object>
 EnumProperty<Enum>::EnumProperty(const std::string & name,
     Object & object, Enum (Object::*getter_pointer)() const,
     void (Object::*setter_pointer)(Enum))
-:   ValuePropertyTemplate<Enum>(name, object, getter_pointer, setter_pointer)
+:   ValueProperty<Enum>(name, object, getter_pointer, setter_pointer)
 ,   m_isInitialized(false)
 {
 }

@@ -6,13 +6,13 @@
 #include <vector>
 
 #include <reflectionzeug/EnumPropertyInterface.h>
-#include <reflectionzeug/ValuePropertyTemplate.h>
+#include <reflectionzeug/ValueProperty.h>
 
 namespace reflectionzeug
 {
 
 template <typename Enum>
-class EnumProperty : public ValuePropertyTemplate<Enum>, public EnumPropertyInterface
+class EnumProperty : public ValueProperty<Enum>, public EnumPropertyInterface
 {
 public:
     EnumProperty(const std::string & name, const Enum & value);

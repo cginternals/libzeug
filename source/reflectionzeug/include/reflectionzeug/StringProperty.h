@@ -6,14 +6,14 @@
 #include <signalzeug/Signal.h>
 
 #include <reflectionzeug/reflectionzeug.h>
-#include <reflectionzeug/ValuePropertyTemplate.h>
+#include <reflectionzeug/ValueProperty.h>
 
 namespace reflectionzeug
 {
     
 /** \brief Part of the property hierarchy that manages a string and can have choices.
  */
-class REFLECTIONZEUG_API StringProperty : public ValuePropertyTemplate<std::string>
+class REFLECTIONZEUG_API StringProperty : public ValueProperty<std::string>
 {
 public:
     StringProperty(const std::string & name, const std::string & value);

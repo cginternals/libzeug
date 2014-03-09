@@ -5,7 +5,7 @@
 
 #include <reflectionzeug/reflectionzeug.h>
 
-#include <reflectionzeug/ValuePropertyTemplate.h>
+#include <reflectionzeug/ValueProperty.h>
 #include <reflectionzeug/NumberProperty.h>
 #include <reflectionzeug/StringProperty.h>
 #include <reflectionzeug/VectorProperty.h>
@@ -39,13 +39,13 @@ template <typename Type>
 class Property;
 
 template <>
-class Property<bool> : public ValuePropertyTemplate<bool>
+class Property<bool> : public ValueProperty<bool>
 {
 public:
     template <typename... Args>
     Property(const std::string & name, Args&&... args) : 
-        ValueProperty(name),
-        ValuePropertyTemplate<bool>(name, std::forward<Args>(args)...) {}
+        ValuePropertyInterface(name),
+        ValueProperty<bool>(name, std::forward<Args>(args)...) {}
 
     virtual std::string toString() const { return this->value() ? "true" : "false"; }
 
@@ -69,7 +69,7 @@ class Property<int> : public NumberProperty<int>
 public:
     template <typename... Args>
     Property(const std::string & name, Args&&... args) : 
-        ValueProperty(name),
+        ValuePropertyInterface(name),
         NumberProperty<int>(name, std::forward<Args>(args)...) {}
 
 protected:
@@ -83,7 +83,7 @@ class Property<double> : public NumberProperty<double>
 public:
     template <typename... Args>
     Property(const std::string & name, Args&&... args) : 
-        ValueProperty(name), 
+        ValuePropertyInterface(name), 
         NumberProperty<double>(name, std::forward<Args>(args)...),
         m_precision(0) {}
 
@@ -105,7 +105,7 @@ class Property<std::string> : public StringProperty
 public:
     template <typename... Args>
     Property(const std::string & name, Args&&... args) : 
-        ValueProperty(name),
+        ValuePropertyInterface(name),
         StringProperty(name, std::forward<Args>(args)...) {}
 
 };
@@ -116,7 +116,7 @@ class Property<Color> : public ClassProperty<Color>
 public:
     template <typename... Args>
     Property(const std::string & name, Args&&... args) : 
-        ValueProperty(name),
+        ValuePropertyInterface(name),
         ClassProperty<Color>(name, std::forward<Args>(args)...) {}
 
 };
@@ -127,7 +127,7 @@ class Property<FilePath> : public FilePathProperty
 public:
     template <typename... Args>
     Property(const std::string & name, Args&&... args) : 
-        ValueProperty(name),
+        ValuePropertyInterface(name),
         FilePathProperty(name, std::forward<Args>(args)...) {}
 
 };
@@ -138,7 +138,7 @@ class Property<std::vector<bool>> : public VectorProperty<bool>
 public:
     template <typename... Args>
     Property(const std::string & name, Args&&... args) : 
-        ValueProperty(name),
+        ValuePropertyInterface(name),
         VectorProperty<bool>(name, std::forward<Args>(args)...) {}
 
 protected:
@@ -154,7 +154,7 @@ class Property<std::vector<int>> : public VectorProperty<int>
 public:
     template <typename... Args>
     Property(const std::string & name, Args&&... args) : 
-        ValueProperty(name),
+        ValuePropertyInterface(name),
         VectorProperty<int>(name, std::forward<Args>(args)...) {}
 
 protected:
@@ -170,7 +170,7 @@ class Property<std::vector<double>> : public VectorProperty<double>
 public:
     template <typename... Args>
     Property(const std::string & name, Args&&... args) : 
-        ValueProperty(name),
+        ValuePropertyInterface(name),
         VectorProperty<double>(name, std::forward<Args>(args)...) {}
 
 protected:
@@ -182,34 +182,34 @@ protected:
 
 // TODO: Who uses this?
 // template <>
-// class Property<std::set<int>> : public ValuePropertyTemplate<std::set<int>>
+// class Property<std::set<int>> : public ValueProperty<std::set<int>>
 // {
 // public:
 //     Property(const std::string & name, const std::set<int> & value)
-//     :   ValuePropertyTemplate<std::set<int>>(name, value) {}
+//     :   ValueProperty<std::set<int>>(name, value) {}
 
 //     Property(const std::string & name,
 //              const std::function<std::set<int> ()> & getter,
 //              const std::function<void(const std::set<int> &)> & setter)
-//     :   ValuePropertyTemplate<std::set<int>>(name, getter, setter) {}
+//     :   ValueProperty<std::set<int>>(name, getter, setter) {}
 
 //     template <class Object>
 //     Property(const std::string & name,
 //              Object & object, const std::set<int> & (Object::*getter_pointer)() const,
 //              void (Object::*setter_pointer)(const std::set<int> &))
-//     :   ValuePropertyTemplate<std::set<int>>(name, object, getter_pointer, setter_pointer) {}
+//     :   ValueProperty<std::set<int>>(name, object, getter_pointer, setter_pointer) {}
 
 //     template <class Object>
 //     Property(const std::string & name,
 //              Object & object, std::set<int> (Object::*getter_pointer)() const,
 //              void (Object::*setter_pointer)(const std::set<int> &))
-//     :   ValuePropertyTemplate<std::set<int>>(name, object, getter_pointer, setter_pointer) {}
+//     :   ValueProperty<std::set<int>>(name, object, getter_pointer, setter_pointer) {}
 
 //     template <class Object>
 //     Property(const std::string & name,
 //              Object & object, std::set<int> (Object::*getter_pointer)() const,
 //              void (Object::*setter_pointer)(std::set<int>))
-//     :   ValuePropertyTemplate<std::set<int>>(name, object, getter_pointer, setter_pointer) {}
+//     :   ValueProperty<std::set<int>>(name, object, getter_pointer, setter_pointer) {}
 
 //     virtual std::string toString() const { return "(" + join(this->value(), ", ") + ")"; }
 // };

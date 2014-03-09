@@ -29,13 +29,13 @@ PropertyEditorFactory::~PropertyEditorFactory()
 {
 }
 
-QWidget * PropertyEditorFactory::createEditor(ValueProperty & property)
+QWidget * PropertyEditorFactory::createEditor(ValuePropertyInterface & property)
 {
     property.accept(this);
     return m_editor;
 }
 
-QWidget * PropertyEditorFactory::createEditorWithParent(ValueProperty & property, QWidget * parent)
+QWidget * PropertyEditorFactory::createEditorWithParent(ValuePropertyInterface & property, QWidget * parent)
 {
 	QWidget * editor = createEditor(property);
 	editor->setParent(parent);

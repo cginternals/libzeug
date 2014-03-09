@@ -22,7 +22,7 @@ void printGroup(const PropertyGroup & group)
 {
     std::cout << group.path() << std::endl;
 
-    group.forEachValueProperty([] (const ValueProperty & property)
+    group.forEachValuePropertyInterface([] (const ValuePropertyInterface & property)
     {
         std::cout << property.path() << " = " << property.toString() << std::endl;
     });
@@ -66,7 +66,7 @@ void iterateOverProperties()
     group->addProperty<Color>("fifth", Color(125, 125, 125));
     group->addProperty<std::vector<int>>("sixth", { 1, 2, 3 });
 
-    group->forEachValueProperty([](AbstractProperty & property) {
+    group->forEachValuePropertyInterface([](AbstractProperty & property) {
         std::cout << property.title() << std::endl;
     });
 

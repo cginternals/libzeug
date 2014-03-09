@@ -1,15 +1,15 @@
 
 #pragma once
 
-#include <reflectionzeug/ValuePropertyTemplate.h>
+#include <reflectionzeug/ValueProperty.h>
 
 namespace reflectionzeug
 {
 
-/** \brief Part of the property hierarchy that extends the ValuePropertyTemplate by adding a minimum and maximum.
+/** \brief Part of the property hierarchy that extends the ValueProperty by adding a minimum and maximum.
  */
 template <typename Type>
-class NumberProperty : public ValuePropertyTemplate<Type>
+class NumberProperty : public ValueProperty<Type>
 {
 public:
     NumberProperty(const std::string & name, const Type & value);

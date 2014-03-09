@@ -3,15 +3,15 @@
 
 #include <sstream>
 
-#include <reflectionzeug/ValuePropertyTemplate.h>
+#include <reflectionzeug/ValueProperty.h>
 
 namespace reflectionzeug
 {
     
-/** \brief Part of the property hierarchy that extends the ValuePropertyTemplate.
+/** \brief Part of the property hierarchy that extends the ValueProperty.
  */
 template <typename Type>
-class ClassProperty : public ValuePropertyTemplate<Type>
+class ClassProperty : public ValueProperty<Type>
 {
 public:
     ClassProperty(const std::string & name, const Type & value);

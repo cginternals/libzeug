@@ -66,9 +66,9 @@ set(headers
 
     ${header_path}/AbstractProperty.h
     ${header_path}/AbstractProperty.hpp
+    ${header_path}/ValuePropertyInterface.h
     ${header_path}/ValueProperty.h
-    ${header_path}/ValuePropertyTemplate.h
-    ${header_path}/ValuePropertyTemplate.hpp
+    ${header_path}/ValueProperty.hpp
     ${header_path}/ClassProperty.h
     ${header_path}/ClassProperty.hpp
     ${header_path}/EnumProperty.h
@@ -88,6 +88,7 @@ set(headers
     ${header_path}/PropertyGroup.hpp
     ${header_path}/AbstractPropertyVisitor.h
     ${header_path}/PropertyVisitor.h
+    ${header_path}/PropertyCategoryVisitor.h
     ${header_path}/StandardPropertyVisitor.h
     ${header_path}/PropertyDeserializer.h
     ${header_path}/PropertySerializer.h
@@ -112,9 +113,11 @@ set(headers
 
 set(sources
     ${source_path}/AbstractProperty.cpp
-    ${source_path}/ValueProperty.cpp
+    ${source_path}/ValuePropertyInterface.cpp
     ${source_path}/StringProperty.cpp
     ${source_path}/FilePathProperty.cpp
+
+    ${source_path}/AbstractPropertyVisitor.cpp
 
     ${source_path}/PropertyGroup.cpp
     ${source_path}/PropertyDeserializer.cpp

@@ -7,7 +7,7 @@ namespace reflectionzeug
 class AbstractPropertyVisitor
 {
 public:
-    virtual ~AbstractPropertyVisitor() = default;
+    virtual ~AbstractPropertyVisitor() = 0;
 
 };
 
