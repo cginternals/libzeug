@@ -5,8 +5,8 @@
 
 #include <propertyguizeug/propertyguizeug.h>
 
-
 class QWidget;
+
 namespace reflectionzeug
 {
     template <typename Type>
@@ -15,7 +15,6 @@ namespace reflectionzeug
     class Color;
     class FilePath;
 }
-
 
 namespace propertyguizeug
 {

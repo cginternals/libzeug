@@ -42,41 +42,18 @@ template <>
 class Property<bool> : public ValuePropertyTemplate<bool>
 {
 public:
-    Property(const std::string & name, const bool & value)
-    :   ValuePropertyTemplate<bool>(name, value) {}
-
-    Property(const std::string & name,
-             const std::function<bool ()> & getter,
-             const std::function<void(const bool &)> & setter)
-    :   ValuePropertyTemplate<bool>(name, getter, setter) {}
-
-    template <class Object>
-    Property(const std::string & name,
-             Object & object, const bool & (Object::*getter_pointer)() const,
-             void (Object::*setter_pointer)(const bool &))
-    :   ValuePropertyTemplate<bool>(name, object, getter_pointer, setter_pointer) {}
-
-    template <class Object>
-    Property(const std::string & name,
-             Object & object, bool (Object::*getter_pointer)() const,
-             void (Object::*setter_pointer)(const bool &))
-    :   ValuePropertyTemplate<bool>(name, object, getter_pointer, setter_pointer) {}
-
-    template <class Object>
-    Property(const std::string & name,
-             Object & object, bool (Object::*getter_pointer)() const,
-             void (Object::*setter_pointer)(bool))
-    :   ValuePropertyTemplate<bool>(name, object, getter_pointer, setter_pointer) {}
+    template <typename... Args>
+    Property(Args&&... args) : ValuePropertyTemplate<bool>(std::forward<Args>(args)...) {}
 
     virtual std::string toString() const { return this->value() ? "true" : "false"; }
-    
+
     virtual bool fromString(const std::string & string)
     {
         if (!util::matchesRegex(string, "(true|false)"))
             return false;
-        
+
         this->setValue(string == "true");
-        
+
         return true;
     }
 
@@ -88,31 +65,8 @@ template <>
 class Property<int> : public NumberProperty<int>
 {
 public:
-    Property(const std::string & name, const int & value)
-    :   NumberProperty<int>(name, value) {}
-
-    Property(const std::string & name,
-             const std::function<int ()> & getter,
-             const std::function<void(const int &)> & setter)
-    :   NumberProperty<int>(name, getter, setter) {}
-
-    template <class Object>
-    Property(const std::string & name,
-             Object & object, const int & (Object::*getter_pointer)() const,
-             void (Object::*setter_pointer)(const int &))
-    :   NumberProperty<int>(name, object, getter_pointer, setter_pointer) {}
-
-    template <class Object>
-    Property(const std::string & name,
-             Object & object, int (Object::*getter_pointer)() const,
-             void (Object::*setter_pointer)(const int &))
-    :   NumberProperty<int>(name, object, getter_pointer, setter_pointer) {}
-
-    template <class Object>
-    Property(const std::string & name,
-             Object & object, int (Object::*getter_pointer)() const,
-             void (Object::*setter_pointer)(int))
-    :   NumberProperty<int>(name, object, getter_pointer, setter_pointer) {}
+    template <typename... Args>
+    Property(Args&&... args) : NumberProperty<int>(std::forward<Args>(args)...) {}
 
 protected:
     virtual std::string matchRegex() { return "(-|\\+)?\\d+"; }
@@ -123,48 +77,17 @@ template <>
 class Property<double> : public NumberProperty<double>
 {
 public:
-    Property(const std::string & name, const double & value)
-    :   NumberProperty<double>(name, value)
-    ,   m_precision(0)
-    {}
-
-    Property(const std::string & name,
-             const std::function<double ()> & getter,
-             const std::function<void(const double &)> & setter)
-    :   NumberProperty<double>(name, getter, setter)
-    ,   m_precision(0)
-    {}
-
-    template <class Object>
-    Property(const std::string & name,
-             Object & object, const double & (Object::*getter_pointer)() const,
-             void (Object::*setter_pointer)(const double &))
-    :   NumberProperty<double>(name, object, getter_pointer, setter_pointer)
-    ,   m_precision(0)
-    {}
-
-    template <class Object>
-    Property(const std::string & name,
-             Object & object, double (Object::*getter_pointer)() const,
-             void (Object::*setter_pointer)(const double &))
-    :   NumberProperty<double>(name, object, getter_pointer, setter_pointer)
-    ,   m_precision(0)
-    {}
-
-    template <class Object>
-    Property(const std::string & name,
-             Object & object, double (Object::*getter_pointer)() const,
-             void (Object::*setter_pointer)(double))
-    :   NumberProperty<double>(name, object, getter_pointer, setter_pointer)
-    ,   m_precision(0)
-    {}
-
-    virtual std::string matchRegex() { return "(-|\\+)?\\d+\\.?\\d*"; }
-
+    template <typename... Args>
+    Property(Args&&... args) :
+        NumberProperty<double>(std::forward<Args>(args)...),
+        m_precision(0) {}
 
     unsigned int precision() const { return m_precision; }
     void setPrecision(unsigned int precision) { m_precision = precision; }
     bool hasPrecision() const { return m_precision != 0; }
+
+protected:
+    virtual std::string matchRegex() { return "(-|\\+)?\\d+\\.?\\d*"; }
 
 protected:
     unsigned int m_precision;
@@ -175,31 +98,8 @@ template <>
 class Property<std::string> : public StringProperty
 {
 public:
-    Property(const std::string & name, const std::string & value)
-    :   StringProperty(name, value) {}
-
-    Property(const std::string & name,
-             const std::function<std::string ()> & getter,
-             const std::function<void(const std::string &)> & setter)
-    :   StringProperty(name, getter, setter) {}
-
-    template <class Object>
-    Property(const std::string & name,
-             Object & object, const std::string & (Object::*getter_pointer)() const,
-             void (Object::*setter_pointer)(const std::string &))
-    :   StringProperty(name, object, getter_pointer, setter_pointer) {}
-
-    template <class Object>
-    Property(const std::string & name,
-             Object & object, std::string (Object::*getter_pointer)() const,
-             void (Object::*setter_pointer)(const std::string &))
-    :   StringProperty(name, object, getter_pointer, setter_pointer) {}
-
-    template <class Object>
-    Property(const std::string & name,
-             Object & object, std::string (Object::*getter_pointer)() const,
-             void (Object::*setter_pointer)(std::string))
-    :   StringProperty(name, object, getter_pointer, setter_pointer) {}
+    template <typename... Args>
+    Property(Args&&... args) : StringProperty(std::forward<Args>(args)...) {}
 
 };
 
@@ -207,31 +107,8 @@ template <>
 class Property<Color> : public ClassProperty<Color>
 {
 public:
-    Property(const std::string & name, const Color & value)
-    :   ClassProperty<Color>(name, value) {}
-
-    Property(const std::string & name,
-             const std::function<Color ()> & getter,
-             const std::function<void(const Color &)> & setter)
-    :   ClassProperty<Color>(name, getter, setter) {}
-
-    template <class Object>
-    Property(const std::string & name,
-             Object & object, const Color & (Object::*getter_pointer)() const,
-             void (Object::*setter_pointer)(const Color &))
-    :   ClassProperty<Color>(name, object, getter_pointer, setter_pointer) {}
-
-    template <class Object>
-    Property(const std::string & name,
-             Object & object, Color (Object::*getter_pointer)() const,
-             void (Object::*setter_pointer)(const Color &))
-    :   ClassProperty<Color>(name, object, getter_pointer, setter_pointer) {}
-
-    template <class Object>
-    Property(const std::string & name,
-             Object & object, Color (Object::*getter_pointer)() const,
-             void (Object::*setter_pointer)(Color))
-    :   ClassProperty<Color>(name, object, getter_pointer, setter_pointer) {}
+    template <typename... Args>
+    Property(Args&&... args) : ClassProperty<Color>(std::forward<Args>(args)...) {}
 
 };
 
@@ -239,31 +116,8 @@ template <>
 class Property<FilePath> : public FilePathProperty
 {
 public:
-    Property(const std::string & name, const FilePath & value)
-    :   FilePathProperty(name, value) {}
-
-    Property(const std::string & name,
-             const std::function<FilePath ()> & getter,
-             const std::function<void(const FilePath &)> & setter)
-    :   FilePathProperty(name, getter, setter) {}
-
-    template <class Object>
-    Property(const std::string & name,
-             Object & object, const FilePath & (Object::*getter_pointer)() const,
-             void (Object::*setter_pointer)(const FilePath &))
-    :   FilePathProperty(name, object, getter_pointer, setter_pointer) {}
-
-    template <class Object>
-    Property(const std::string & name,
-             Object & object, FilePath (Object::*getter_pointer)() const,
-             void (Object::*setter_pointer)(const FilePath &))
-    :   FilePathProperty(name, object, getter_pointer, setter_pointer) {}
-
-    template <class Object>
-    Property(const std::string & name,
-             Object & object, FilePath (Object::*getter_pointer)() const,
-             void (Object::*setter_pointer)(FilePath))
-    :   FilePathProperty(name, object, getter_pointer, setter_pointer) {}
+    template <typename... Args>
+    Property(Args&&... args) : FilePathProperty(std::forward<Args>(args)...) {}
 
 };
 
@@ -271,31 +125,8 @@ template <>
 class Property<std::vector<bool>> : public VectorProperty<bool>
 {
 public:
-    Property(const std::string & name, const std::vector<bool> & value)
-    :   VectorProperty<bool>(name, value) {}
-
-    Property(const std::string & name,
-             const std::function<std::vector<bool> ()> & getter,
-             const std::function<void(const std::vector<bool> &)> & setter)
-    :   VectorProperty<bool>(name, getter, setter) {}
-
-    template <class Object>
-    Property(const std::string & name,
-             Object & object, const std::vector<bool> & (Object::*getter_pointer)() const,
-             void (Object::*setter_pointer)(const std::vector<bool> &))
-    :   VectorProperty<bool>(name, object, getter_pointer, setter_pointer) {}
-
-    template <class Object>
-    Property(const std::string & name,
-             Object & object, std::vector<bool> (Object::*getter_pointer)() const,
-             void (Object::*setter_pointer)(const std::vector<bool> &))
-    :   VectorProperty<bool>(name, object, getter_pointer, setter_pointer) {}
-
-    template <class Object>
-    Property(const std::string & name,
-             Object & object, std::vector<bool> (Object::*getter_pointer)() const,
-             void (Object::*setter_pointer)(std::vector<bool>))
-    :   VectorProperty<bool>(name, object, getter_pointer, setter_pointer) {}
+    template <typename... Args>
+    Property(Args&&... args) : VectorProperty<bool>(std::forward<Args>(args)...) {}
 
 protected:
     virtual std::string elementRegex() const { return "true|false"; }
@@ -308,31 +139,8 @@ template <>
 class Property<std::vector<int>> : public VectorProperty<int>
 {
 public:
-    Property(const std::string & name, const std::vector<int> & value)
-    :   VectorProperty<int>(name, value) {}
-
-    Property(const std::string & name,
-             const std::function<std::vector<int> ()> & getter,
-             const std::function<void(const std::vector<int> &)> & setter)
-    :   VectorProperty<int>(name, getter, setter) {}
-
-    template <class Object>
-    Property(const std::string & name,
-             Object & object, const std::vector<int> & (Object::*getter_pointer)() const,
-             void (Object::*setter_pointer)(const std::vector<int> &))
-    :   VectorProperty<int>(name, object, getter_pointer, setter_pointer) {}
-
-    template <class Object>
-    Property(const std::string & name,
-             Object & object, std::vector<int> (Object::*getter_pointer)() const,
-             void (Object::*setter_pointer)(const std::vector<int> &))
-    :   VectorProperty<int>(name, object, getter_pointer, setter_pointer) {}
-
-    template <class Object>
-    Property(const std::string & name,
-             Object & object, std::vector<int> (Object::*getter_pointer)() const,
-             void (Object::*setter_pointer)(std::vector<int>))
-    :   VectorProperty<int>(name, object, getter_pointer, setter_pointer) {}
+    template <typename... Args>
+    Property(Args&&... args) : VectorProperty<int>(std::forward<Args>(args)...) {}
 
 protected:
     virtual std::string elementRegex() const { return "(-|\\+)?\\d+"; }
@@ -345,31 +153,8 @@ template <>
 class Property<std::vector<double>> : public VectorProperty<double>
 {
 public:
-    Property(const std::string & name, const std::vector<double> & value)
-    :   VectorProperty<double>(name, value) {}
-
-    Property(const std::string & name,
-             const std::function<std::vector<double> ()> & getter,
-             const std::function<void(const std::vector<double> &)> & setter)
-    :   VectorProperty<double>(name, getter, setter) {}
-
-    template <class Object>
-    Property(const std::string & name,
-             Object & object, const std::vector<double> & (Object::*getter_pointer)() const,
-             void (Object::*setter_pointer)(const std::vector<double> &))
-    :   VectorProperty<double>(name, object, getter_pointer, setter_pointer) {}
-
-    template <class Object>
-    Property(const std::string & name,
-             Object & object, std::vector<double> (Object::*getter_pointer)() const,
-             void (Object::*setter_pointer)(const std::vector<double> &))
-    :   VectorProperty<double>(name, object, getter_pointer, setter_pointer) {}
-
-    template <class Object>
-    Property(const std::string & name,
-             Object & object, std::vector<double> (Object::*getter_pointer)() const,
-             void (Object::*setter_pointer)(std::vector<double>))
-    :   VectorProperty<double>(name, object, getter_pointer, setter_pointer) {}
+    template <typename... Args>
+    Property(Args&&... args) : VectorProperty<double>(std::forward<Args>(args)...) {}
 
 protected:
     virtual std::string elementRegex() const { return "(-|\\+)?\\d+\\.?\\d*"; }

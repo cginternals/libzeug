@@ -94,8 +94,12 @@ void enumProperty()
     std::cout << ">> enumProperty()" << std::endl;
 
     PropertyGroup root("root");
+    SomeObject object;
 
     root.addProperty<NormalMode>("normal_mode", NormalMode::LookAt);
+    root.addProperty<NormalMode>("normal_mode2", object, &SomeObject::normalMode, &SomeObject::setNormalMode);
+    
+    object.setNormalMode(NormalMode::Custom);
 
     printGroup(root);
 }
