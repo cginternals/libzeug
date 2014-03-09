@@ -4,17 +4,14 @@
 #include <string>
 #include <vector>
 
+#include <reflectionzeug/ValueProperty.h>
+
 namespace reflectionzeug
 {
 
-class EnumPropertyInterface
+class EnumPropertyInterface : public virtual ValueProperty
 {
 public:
-    virtual ~EnumPropertyInterface() = default;
-
-    virtual std::string toString() const = 0;
-    virtual bool fromString(const std::string & string) = 0;
-
     virtual const std::vector<std::string> & stringList() const = 0;
 
 };

@@ -48,3 +48,5 @@ protected:
 };
 
 } // namespace reflectionzeug
+
+#include "FilePathProperty.hpp"

@@ -43,7 +43,9 @@ class Property<bool> : public ValuePropertyTemplate<bool>
 {
 public:
     template <typename... Args>
-    Property(Args&&... args) : ValuePropertyTemplate<bool>(std::forward<Args>(args)...) {}
+    Property(const std::string & name, Args&&... args) : 
+        ValueProperty(name),
+        ValuePropertyTemplate<bool>(name, std::forward<Args>(args)...) {}
 
     virtual std::string toString() const { return this->value() ? "true" : "false"; }
 
@@ -66,7 +68,9 @@ class Property<int> : public NumberProperty<int>
 {
 public:
     template <typename... Args>
-    Property(Args&&... args) : NumberProperty<int>(std::forward<Args>(args)...) {}
+    Property(const std::string & name, Args&&... args) : 
+        ValueProperty(name),
+        NumberProperty<int>(name, std::forward<Args>(args)...) {}
 
 protected:
     virtual std::string matchRegex() { return "(-|\\+)?\\d+"; }
@@ -78,8 +82,9 @@ class Property<double> : public NumberProperty<double>
 {
 public:
     template <typename... Args>
-    Property(Args&&... args) :
-        NumberProperty<double>(std::forward<Args>(args)...),
+    Property(const std::string & name, Args&&... args) : 
+        ValueProperty(name), 
+        NumberProperty<double>(name, std::forward<Args>(args)...),
         m_precision(0) {}
 
     unsigned int precision() const { return m_precision; }
@@ -99,7 +104,9 @@ class Property<std::string> : public StringProperty
 {
 public:
     template <typename... Args>
-    Property(Args&&... args) : StringProperty(std::forward<Args>(args)...) {}
+    Property(const std::string & name, Args&&... args) : 
+        ValueProperty(name),
+        StringProperty(name, std::forward<Args>(args)...) {}
 
 };
 
@@ -108,7 +115,9 @@ class Property<Color> : public ClassProperty<Color>
 {
 public:
     template <typename... Args>
-    Property(Args&&... args) : ClassProperty<Color>(std::forward<Args>(args)...) {}
+    Property(const std::string & name, Args&&... args) : 
+        ValueProperty(name),
+        ClassProperty<Color>(name, std::forward<Args>(args)...) {}
 
 };
 
@@ -117,7 +126,9 @@ class Property<FilePath> : public FilePathProperty
 {
 public:
     template <typename... Args>
-    Property(Args&&... args) : FilePathProperty(std::forward<Args>(args)...) {}
+    Property(const std::string & name, Args&&... args) : 
+        ValueProperty(name),
+        FilePathProperty(name, std::forward<Args>(args)...) {}
 
 };
 
@@ -126,7 +137,9 @@ class Property<std::vector<bool>> : public VectorProperty<bool>
 {
 public:
     template <typename... Args>
-    Property(Args&&... args) : VectorProperty<bool>(std::forward<Args>(args)...) {}
+    Property(const std::string & name, Args&&... args) : 
+        ValueProperty(name),
+        VectorProperty<bool>(name, std::forward<Args>(args)...) {}
 
 protected:
     virtual std::string elementRegex() const { return "true|false"; }
@@ -140,7 +153,9 @@ class Property<std::vector<int>> : public VectorProperty<int>
 {
 public:
     template <typename... Args>
-    Property(Args&&... args) : VectorProperty<int>(std::forward<Args>(args)...) {}
+    Property(const std::string & name, Args&&... args) : 
+        ValueProperty(name),
+        VectorProperty<int>(name, std::forward<Args>(args)...) {}
 
 protected:
     virtual std::string elementRegex() const { return "(-|\\+)?\\d+"; }
@@ -154,7 +169,9 @@ class Property<std::vector<double>> : public VectorProperty<double>
 {
 public:
     template <typename... Args>
-    Property(Args&&... args) : VectorProperty<double>(std::forward<Args>(args)...) {}
+    Property(const std::string & name, Args&&... args) : 
+        ValueProperty(name),
+        VectorProperty<double>(name, std::forward<Args>(args)...) {}
 
 protected:
     virtual std::string elementRegex() const { return "(-|\\+)?\\d+\\.?\\d*"; }

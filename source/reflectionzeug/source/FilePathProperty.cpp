@@ -6,7 +6,8 @@ namespace reflectionzeug
 
 FilePathProperty::FilePathProperty(const std::string & name,
     const FilePath & value)
-:   ClassProperty<FilePath>(name, value)
+:   ValueProperty(name)
+,   ClassProperty<FilePath>(name, value)
 ,   m_shouldExist(true)
 ,   m_isFile(true)
 {
@@ -15,37 +16,8 @@ FilePathProperty::FilePathProperty(const std::string & name,
 FilePathProperty::FilePathProperty(const std::string & name, 
     const std::function<FilePath ()> & getter,
     const std::function<void(const FilePath &)> & setter)
-:   ClassProperty<FilePath>(name, getter, setter)
-,   m_shouldExist(true)
-,   m_isFile(true)
-{
-}
-
-template <class Object>
-FilePathProperty::FilePathProperty(const std::string & name,
-    Object & object, const FilePath & (Object::*getter_pointer)() const,
-    void (Object::*setter_pointer)(const FilePath &))
-:   ClassProperty<FilePath>(name, object, getter_pointer, setter_pointer)
-,   m_shouldExist(true)
-,   m_isFile(true)
-{
-}
-
-template <class Object>
-FilePathProperty::FilePathProperty(const std::string & name,
-    Object & object, FilePath (Object::*getter_pointer)() const,
-    void (Object::*setter_pointer)(const FilePath &))
-:   ClassProperty<FilePath>(name, object, getter_pointer, setter_pointer)
-,   m_shouldExist(true)
-,   m_isFile(true)
-{
-}
-    
-template <class Object>
-FilePathProperty::FilePathProperty(const std::string & name,
-    Object & object, FilePath (Object::*getter_pointer)() const,
-    void (Object::*setter_pointer)(FilePath))
-:   ClassProperty<FilePath>(name, object, getter_pointer, setter_pointer)
+:   ValueProperty(name)
+,   ClassProperty<FilePath>(name, getter, setter)
 ,   m_shouldExist(true)
 ,   m_isFile(true)
 {

@@ -11,7 +11,8 @@ namespace reflectionzeug
 template <typename Type>
 VectorProperty<Type>::VectorProperty(const std::string & name,
     const std::vector<Type> & value)
-:   ValuePropertyTemplate<std::vector<Type>>(name, value)
+:   ValueProperty(name)
+,   ValuePropertyTemplate<std::vector<Type>>(name, value)
 ,   m_fixedSize((unsigned int)this->m_value->get().size())
 ,   m_columns(m_fixedSize)
 ,   m_rows(1)
@@ -23,7 +24,8 @@ template <typename Type>
 VectorProperty<Type>::VectorProperty(const std::string & name,
     const std::function<std::vector<Type> ()> & getter,
     const std::function<void(const std::vector<Type> &)> & setter)
-:   ValuePropertyTemplate<std::vector<Type>>(name, getter, setter)
+:   ValueProperty(name)
+,   ValuePropertyTemplate<std::vector<Type>>(name, getter, setter)
 ,   m_fixedSize((unsigned int)this->m_value->get().size())
 ,   m_columns(m_fixedSize)
 ,   m_rows(1)
@@ -36,7 +38,8 @@ template <class Object>
 VectorProperty<Type>::VectorProperty(const std::string & name,
     Object & object, const std::vector<Type> & (Object::*getter_pointer)() const,
     void (Object::*setter_pointer)(const std::vector<Type> &))
-:   ValuePropertyTemplate<std::vector<Type>>(name, object, getter_pointer, setter_pointer)
+:   ValueProperty(name)
+,   ValuePropertyTemplate<std::vector<Type>>(name, object, getter_pointer, setter_pointer)
 ,   m_fixedSize((unsigned int)this->m_value->get().size())
 ,   m_columns(m_fixedSize)
 ,   m_rows(1)
@@ -49,7 +52,8 @@ template <class Object>
 VectorProperty<Type>::VectorProperty(const std::string & name,
     Object & object, std::vector<Type> (Object::*getter_pointer)() const,
     void (Object::*setter_pointer)(const std::vector<Type> &))
-:   ValuePropertyTemplate<std::vector<Type>>(name, object, getter_pointer, setter_pointer)
+:   ValueProperty(name)
+,   ValuePropertyTemplate<std::vector<Type>>(name, object, getter_pointer, setter_pointer)
 ,   m_fixedSize((unsigned int)this->m_value->get().size())
 ,   m_columns(m_fixedSize)
 ,   m_rows(1)
@@ -62,7 +66,8 @@ template <class Object>
 VectorProperty<Type>::VectorProperty(const std::string & name,
     Object & object, std::vector<Type> (Object::*getter_pointer)() const,
     void (Object::*setter_pointer)(std::vector<Type>))
-:   ValuePropertyTemplate<std::vector<Type>>(name, object, getter_pointer, setter_pointer)
+:   ValueProperty(name)
+,   ValuePropertyTemplate<std::vector<Type>>(name, object, getter_pointer, setter_pointer)
 ,   m_fixedSize((unsigned int)this->m_value->get().size())
 ,   m_columns(m_fixedSize)
 ,   m_rows(1)

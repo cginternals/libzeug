@@ -81,6 +81,7 @@ set(headers
     ${header_path}/VectorProperty.h
     ${header_path}/VectorProperty.hpp
     ${header_path}/FilePathProperty.h
+    ${header_path}/FilePathProperty.hpp
     ${header_path}/Property.h
 
     ${header_path}/PropertyGroup.h

@@ -6,14 +6,16 @@ namespace reflectionzeug
 
 StringProperty::StringProperty(const std::string & name,
     const std::string & value)
-:   ValuePropertyTemplate<std::string>(name, value)
+:   ValueProperty(name)
+,   ValuePropertyTemplate<std::string>(name, value)
 {
 }
 
 StringProperty::StringProperty(const std::string & name, 
     const std::function<std::string ()> & getter,
     const std::function<void(const std::string &)> & setter)
-:   ValuePropertyTemplate<std::string>(name, getter, setter)
+:   ValueProperty(name)
+,   ValuePropertyTemplate<std::string>(name, getter, setter)
 {
 }
     
