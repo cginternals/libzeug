@@ -41,6 +41,8 @@ public:
 
     virtual const std::vector<std::string> & stringList() const;
 
+    virtual void accept(AbstractPropertyVisitor * visitor, bool warn = true);
+
 protected:
     virtual std::vector<std::pair<Enum, std::string>> pairs() const = 0;
 

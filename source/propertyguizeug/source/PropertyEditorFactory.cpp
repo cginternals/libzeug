@@ -7,11 +7,13 @@
 #include "ColorEditor.h"
 #include "FilePathEditor.h"
 #include "DoubleEditor.h"
+#include "EnumEditor.h"
 #include "BoolEditor.h"
 #include "BoolMatrixEditor.h"
 #include "IntMatrixEditor.h"
 #include "IntSetEditor.h"
 #include "DoubleMatrixEditor.h"
+#include "ValueEditor.h"
 
 #include <propertyguizeug/PropertyEditorFactory.h>
 
@@ -90,9 +92,19 @@ void PropertyEditorFactory::visit(Property<std::vector<double>> * property)
     m_editor = new DoubleMatrixEditor(property);
 }
 
-void PropertyEditorFactory::visit(Property<std::set<int>> * property)
+void PropertyEditorFactory::visit(reflectionzeug::ValuePropertyInterface * property)
 {
-//    m_editor = new IntSetEditor(property);
+    m_editor = new ValueEditor(property);
 }
+
+void PropertyEditorFactory::visit(reflectionzeug::EnumPropertyInterface * property)
+{
+    m_editor = new EnumEditor(property);
+}
+
+// void PropertyEditorFactory::visit(Property<std::set<int>> * property)
+// {
+// //    m_editor = new IntSetEditor(property);
+// }
 
 } // namespace propertyguizeug

@@ -38,7 +38,11 @@ public:
     virtual void visit(reflectionzeug::Property<std::vector<bool>> * property);
     virtual void visit(reflectionzeug::Property<std::vector<int>> * property);
     virtual void visit(reflectionzeug::Property<std::vector<double>> * property);
-    virtual void visit(reflectionzeug::Property<std::set<int>> * property);
+
+    virtual void visit(reflectionzeug::ValuePropertyInterface * property);
+    virtual void visit(reflectionzeug::EnumPropertyInterface * property);
+
+    // virtual void visit(reflectionzeug::Property<std::set<int>> * property);
 
 protected:
     QWidget * m_editor;

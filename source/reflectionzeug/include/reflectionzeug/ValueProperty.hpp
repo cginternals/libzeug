@@ -1,9 +1,6 @@
 
 #pragma once
 
-#include <typeinfo>
-#include <iostream>
-
 #include <reflectionzeug/PropertyVisitor.h>
 
 namespace reflectionzeug
@@ -76,9 +73,7 @@ void ValueProperty<Type>::accept(AbstractPropertyVisitor * visitor, bool warn)
 
     if (typedVisitor == nullptr)
     {
-        if (warn)
-            std::cout << "\"" << typeid(Type).name() << "\"" << "not supported by the visitor." << std::endl;
-        
+        ValuePropertyInterface::accept(visitor, warn);
         return;
     }
 

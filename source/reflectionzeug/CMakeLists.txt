@@ -114,8 +114,10 @@ set(headers
 set(sources
     ${source_path}/AbstractProperty.cpp
     ${source_path}/ValuePropertyInterface.cpp
+    ${source_path}/EnumPropertyInterface.cpp
     ${source_path}/StringProperty.cpp
     ${source_path}/FilePathProperty.cpp
+
 
     ${source_path}/AbstractPropertyVisitor.cpp
 

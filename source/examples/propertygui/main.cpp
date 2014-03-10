@@ -8,6 +8,8 @@
 #include <reflectionzeug/PropertyDeserializer.h>
 #include <propertyguizeug/PropertyBrowser.h>
 
+#include "PropertyExtension.h"
+
 #ifdef WIN32
 #define SETTINGS_PATH ".\\data\\propertygui.ini"
 #else
@@ -137,6 +139,9 @@ int main(int argc, char *argv[])
             else
                 widget->setCursor(Qt::ArrowCursor);
         });
+
+    settings->addProperty<NormalMode>("normalMode", NormalMode::Vertex);
+    settings->addProperty<Switch>("switch", Switch(true));
 
     std::vector<std::string> choices;
     choices.push_back("Arrow Cursor");

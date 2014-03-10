@@ -6,9 +6,13 @@
 #include <vector>
 
 #include <reflectionzeug/PropertyVisitor.h>
+#include <reflectionzeug/PropertyCategoryVisitor.h>
 
 namespace reflectionzeug
 {
+
+class ValuePropertyInterface;
+class EnumPropertyInterface;
 
 template <typename Type>
 class Property;
@@ -28,7 +32,10 @@ class StandardPropertyVisitor :
         FilePath,
         std::vector<bool>,
         std::vector<int>,
-        std::vector<double>>
+        std::vector<double>>,
+    public PropertyCategoryVisitor<
+        ValuePropertyInterface,
+        EnumPropertyInterface>
 {
 
 };

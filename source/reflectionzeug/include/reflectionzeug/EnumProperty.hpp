@@ -8,7 +8,9 @@ namespace reflectionzeug
 
 template <typename Enum>
 EnumProperty<Enum>::EnumProperty(const std::string & name, const Enum & value)
-:   ValueProperty<Enum>(name, value)
+:   ValuePropertyInterface(name)
+,   EnumPropertyInterface(name)
+,   ValueProperty<Enum>(name, value)
 ,   m_isInitialized(false)
 {
 }
@@ -17,7 +19,9 @@ template <typename Enum>
 EnumProperty<Enum>::EnumProperty(const std::string & name,
     const std::function<Enum ()> & getter,
     const std::function<void(const Enum &)> & setter)
-:   ValueProperty<Enum>(name, getter, setter)
+:   ValuePropertyInterface(name)
+,   EnumPropertyInterface(name)
+,   ValueProperty<Enum>(name, getter, setter)
 ,   m_isInitialized(false)
 {
 }
@@ -27,7 +31,9 @@ template <class Object>
 EnumProperty<Enum>::EnumProperty(const std::string & name,
     Object & object, const Enum & (Object::*getter_pointer)() const,
     void (Object::*setter_pointer)(const Enum &))
-:   ValueProperty<Enum>(name, object, getter_pointer, setter_pointer)
+:   ValuePropertyInterface(name)
+,   EnumPropertyInterface(name)
+,   ValueProperty<Enum>(name, object, getter_pointer, setter_pointer)
 ,   m_isInitialized(false)
 {
 }
@@ -37,7 +43,9 @@ template <class Object>
 EnumProperty<Enum>::EnumProperty(const std::string & name,
     Object & object, Enum (Object::*getter_pointer)() const,
     void (Object::*setter_pointer)(const Enum &))
-:   ValueProperty<Enum>(name, object, getter_pointer, setter_pointer)
+:   ValuePropertyInterface(name)
+,   EnumPropertyInterface(name)
+,   ValueProperty<Enum>(name, object, getter_pointer, setter_pointer)
 ,   m_isInitialized(false)
 {
 }
@@ -47,7 +55,9 @@ template <class Object>
 EnumProperty<Enum>::EnumProperty(const std::string & name,
     Object & object, Enum (Object::*getter_pointer)() const,
     void (Object::*setter_pointer)(Enum))
-:   ValueProperty<Enum>(name, object, getter_pointer, setter_pointer)
+:   ValuePropertyInterface(name)
+,   EnumPropertyInterface(name)
+,   ValueProperty<Enum>(name, object, getter_pointer, setter_pointer)
 ,   m_isInitialized(false)
 {
 }
@@ -104,6 +114,20 @@ void EnumProperty<Enum>::init() const
     }
 
     that->m_isInitialized = true;
+}
+
+template <typename Type>
+void EnumProperty<Type>::accept(AbstractPropertyVisitor * visitor, bool warn)
+{
+    auto * typedVisitor = dynamic_cast<PropertyVisitor<Type> *>(visitor);
+
+    if (typedVisitor == nullptr)
+    {
+        EnumPropertyInterface::accept(visitor, warn);
+        return;
+    }
+
+    typedVisitor->visit(reinterpret_cast<Property<Type> *>(this));
 }
 
 } // namespace reflectionzeug

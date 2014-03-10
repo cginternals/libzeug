@@ -1,4 +1,8 @@
 
+#include <typeinfo>
+#include <iostream>
+
+#include <reflectionzeug/PropertyCategoryVisitor.h>
 #include <reflectionzeug/ValuePropertyInterface.h>
 
 namespace reflectionzeug
@@ -7,6 +11,20 @@ namespace reflectionzeug
 ValuePropertyInterface::ValuePropertyInterface(const std::string & name)
 :   AbstractProperty(name)
 {
+}
+
+void ValuePropertyInterface::accept(AbstractPropertyVisitor * visitor, bool warn)
+{
+    auto * typedVisitor = dynamic_cast<PropertyCategoryVisitor<ValuePropertyInterface> *>(visitor);
+
+    if (typedVisitor == nullptr)
+    {
+        if (warn)
+            std::cout << "No method found for \"" << typeid(this).name() << "\"" << std::endl;
+        return;
+    }
+
+    typedVisitor->visit(this);
 }
 
 } // namespace reflectionzeug
