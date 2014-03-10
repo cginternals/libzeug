@@ -1,4 +1,6 @@
 
+#include <cassert>
+
 #include <propertyguizeug/PropertyModel.h>
 #include <propertyguizeug/PropertyDelegate.h>
 #include <propertyguizeug/PropertyEditorFactory.h>
@@ -11,7 +13,8 @@ namespace propertyguizeug
 {
     
 PropertyBrowser::PropertyBrowser(QWidget * parent)
-:   PropertyBrowser(nullptr,
+:   PropertyBrowser(new PropertyEditorFactory(),
+                    new PropertyPainter(),
                     parent)
 {
     
@@ -25,17 +28,15 @@ PropertyBrowser::PropertyBrowser(
                     new PropertyPainter(),
                     parent)
 {
-    
 }
     
 PropertyBrowser::PropertyBrowser(
     PropertyEditorFactory * editorFactory,
     PropertyPainter * painter,
     QWidget * parent)
-:   PropertyBrowser(nullptr,
-                    editorFactory,
-                    painter,
-                    parent)
+:   QTreeView(parent)
+,   m_model(nullptr)
+,   m_delegate(new PropertyDelegate(editorFactory, painter, this))
 {
     this->setItemDelegateForColumn(1, m_delegate);
     
@@ -64,6 +65,7 @@ PropertyBrowser::~PropertyBrowser()
     
 void PropertyBrowser::setRoot(reflectionzeug::PropertyGroup * root)
 {
+    assert(root);
     PropertyModel * newModel = new PropertyModel(root);
     this->setModel(newModel);
     
