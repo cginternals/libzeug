@@ -1,11 +1,11 @@
 
 #pragma once
 
+#include <Qt>
+
 #include <reflectionzeug/Property.h>
 #include <reflectionzeug/EnumProperty.h>
 #include <reflectionzeug/ClassProperty.h>
-
-enum class NormalMode : char { Vertex, LookAt, Custom };
 
 class Switch
 {
@@ -46,21 +46,22 @@ namespace reflectionzeug
 {
 
 template <>
-class Property<NormalMode> : public EnumProperty<NormalMode>
+class Property<Qt::CursorShape> : public EnumProperty<Qt::CursorShape>
 {
 public:
     template <typename... Args>
     Property(const std::string & name, Args&&... args) : 
         ValuePropertyInterface(name),
-        EnumProperty<NormalMode>(name, std::forward<Args>(args)...) {}
+        EnumProperty<Qt::CursorShape>(name, std::forward<Args>(args)...) {}
     
 protected:
-    virtual std::vector<std::pair<NormalMode, std::string>> pairs() const
+    virtual std::vector<std::pair<Qt::CursorShape, std::string>> pairs() const
     {
         return {
-            { NormalMode::Vertex, "Vertex" },
-            { NormalMode::LookAt, "LookAt" },
-            { NormalMode::Custom, "Custom" }
+            { Qt::PointingHandCursor, "Pointing Hand Cursor" },
+            { Qt::BusyCursor, "Busy Cursor" },
+            { Qt::ArrowCursor, "Arrow Cursor" },
+            { Qt::WaitCursor, "Wait Cursor" }
         };
     }
 

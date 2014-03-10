@@ -120,34 +120,17 @@ int main(int argc, char *argv[])
 
     backgroundColor->setTitle("Background Color");
 
-    auto * cursor = settings->addProperty<std::string>("Cursor",
-        [widget]() {
-            switch (widget->cursor().shape()) {
-                case Qt::PointingHandCursor:
-                    return "Pointing Hand Cursor";
-                case Qt::BusyCursor:
-                    return "Busy Cursor";
-                default:
-                    return "Arrow Cursor";
-            }
+    settings->addProperty<Qt::CursorShape>("Cursor",
+        [widget] () 
+        {
+            return widget->cursor().shape();
         },
-        [widget](const std::string & string) {
-            if (string == "Pointing Hand Cursor")
-                widget->setCursor(Qt::PointingHandCursor);
-            else if (string == "Busy Cursor")
-                widget->setCursor(Qt::BusyCursor);
-            else
-                widget->setCursor(Qt::ArrowCursor);
+        [widget] (const Qt::CursorShape & shape) 
+        {
+            widget->setCursor(QCursor(shape));
         });
 
-    settings->addProperty<NormalMode>("normalMode", NormalMode::Vertex);
     settings->addProperty<Switch>("switch", Switch(true));
-
-    std::vector<std::string> choices;
-    choices.push_back("Arrow Cursor");
-    choices.push_back("Pointing Hand Cursor");
-    choices.push_back("Busy Cursor");
-    cursor->setChoices(choices);
 
     PropertyDeserializer deserializer;
     deserializer.deserialize(*settings, SETTINGS_PATH);
