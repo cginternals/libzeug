@@ -104,6 +104,18 @@ void enumProperty()
     printGroup(root);
 }
 
+void typeUsage()
+{
+    std::cout << ">> typeUsage()" << std::endl;
+    
+    ValuePropertyInterface * property = new Property<int>("property", 12);
+    
+    if (property->type() == Property<int>::stype())
+    {
+        std::cout << property->name() << " is of type int." << std::endl;
+    }
+}
+
 bool saveProperties()
 {
     std::cout << ">> saveProperties()" << std::endl;
@@ -150,6 +162,7 @@ int main(int argc, char const *argv[])
     iterateOverProperties();
     accessProperties();
     enumProperty();
+    typeUsage();
 
     if (saveProperties() && loadProperties());
         std::remove(INI_PATH);

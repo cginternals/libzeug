@@ -19,6 +19,9 @@ template <typename Type>
 class ValueProperty : public virtual ValuePropertyInterface
 {
 public:
+    static size_t stype();
+
+public:
     ValueProperty(const std::string & name, const Type & value);
     
     ValueProperty(const std::string & name, 
@@ -44,6 +47,8 @@ public:
     virtual void setValue(const Type & value);
 
     virtual void accept(AbstractPropertyVisitor * visitor, bool warn = true);
+
+    virtual size_t type();
     
     signalzeug::Signal<const Type &> valueChanged;
 

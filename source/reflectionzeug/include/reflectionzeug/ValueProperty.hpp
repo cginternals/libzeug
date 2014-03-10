@@ -1,6 +1,8 @@
 
 #pragma once
 
+#include <typeinfo>
+
 #include <reflectionzeug/PropertyVisitor.h>
 
 namespace reflectionzeug
@@ -78,6 +80,20 @@ void ValueProperty<Type>::accept(AbstractPropertyVisitor * visitor, bool warn)
     }
 
     typedVisitor->visit(reinterpret_cast<Property<Type> *>(this));
+}
+
+template <typename Type>
+size_t ValueProperty<Type>::stype()
+{
+    static size_t type = typeid(Type).hash_code();
+    return type;
+}
+
+template <typename Type>
+size_t ValueProperty<Type>::type()
+{
+    static size_t type = typeid(Type).hash_code();
+    return type;
 }
 
 } // namespace reflectionzeug

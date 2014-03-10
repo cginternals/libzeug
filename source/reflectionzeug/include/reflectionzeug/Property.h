@@ -2,6 +2,7 @@
 #pragma once
 
 #include <set>
+#include <typeinfo>
 
 #include <reflectionzeug/reflectionzeug.h>
 
@@ -190,6 +191,15 @@ public:
         ClassProperty<Type>(name, std::forward<Args>(args)...) {}
 
 };
+
+template <typename Type>
+struct type
+{
+    static const int value;
+};
+    
+template <typename Type>
+const int type<Type>::value = typeid(Type).hash_code();
 
 // TODO: Who uses this?
 // template <>

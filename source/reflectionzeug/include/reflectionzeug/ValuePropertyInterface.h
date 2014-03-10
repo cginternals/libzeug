@@ -16,6 +16,8 @@ public:
 
     virtual void accept(AbstractPropertyVisitor * visitor, bool warn = true);
 
+    virtual size_t type() = 0;
+
     virtual std::string toString() const = 0;
     virtual bool fromString(const std::string & string) = 0;
 

@@ -14,7 +14,9 @@ class Property<NormalMode> : public EnumProperty<NormalMode>
 {
 public:
     template <typename... Args>
-    Property(Args&&... args) : EnumProperty<NormalMode>(std::forward<Args>(args)...) {}
+    Property(const std::string & name, Args&&... args) :
+        ValuePropertyInterface(name),
+        EnumProperty<NormalMode>(name, std::forward<Args>(args)...) {}
     
 protected:
     virtual std::vector<std::pair<NormalMode, std::string>> pairs() const
