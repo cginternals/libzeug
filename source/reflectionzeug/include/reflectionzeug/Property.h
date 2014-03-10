@@ -180,6 +180,17 @@ protected:
 
 };
 
+template <typename Type>
+class Property : public ClassProperty<Type>
+{
+public:
+    template <typename... Args>
+    Property(const std::string & name, Args&&... args) : 
+        ValuePropertyInterface(name),
+        ClassProperty<Type>(name, std::forward<Args>(args)...) {}
+
+};
+
 // TODO: Who uses this?
 // template <>
 // class Property<std::set<int>> : public ValueProperty<std::set<int>>

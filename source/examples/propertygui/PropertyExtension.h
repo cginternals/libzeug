@@ -67,15 +67,4 @@ protected:
 
 };
 
-template <>
-class Property<Switch> : public ClassProperty<Switch>
-{
-public:
-    template <typename... Args>
-    Property(const std::string & name, Args&&... args) : 
-        ValuePropertyInterface(name),
-        ClassProperty<Switch>(name, std::forward<Args>(args)...) {}
-
-};
-
 } // namespace reflectionzeug
