@@ -11,7 +11,6 @@
 #include "BoolEditor.h"
 #include "BoolMatrixEditor.h"
 #include "IntMatrixEditor.h"
-#include "IntSetEditor.h"
 #include "DoubleMatrixEditor.h"
 #include "ValueEditor.h"
 
@@ -101,10 +100,5 @@ void PropertyEditorFactory::visit(reflectionzeug::EnumPropertyInterface * proper
 {
     m_editor = new EnumEditor(property);
 }
-
-// void PropertyEditorFactory::visit(Property<std::set<int>> * property)
-// {
-// //    m_editor = new IntSetEditor(property);
-// }
 
 } // namespace propertyguizeug

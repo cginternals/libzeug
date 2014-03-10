@@ -88,12 +88,8 @@ set(sources
     ${source_path}/BoolMatrixEditor.cpp
     ${source_path}/IntMatrixEditor.h
     ${source_path}/IntMatrixEditor.cpp
-    ${source_path}/IntSetEditor.h
-    ${source_path}/IntSetEditor.cpp
     ${source_path}/DoubleMatrixEditor.h
     ${source_path}/DoubleMatrixEditor.cpp
-    ${source_path}/SetEditor.h
-    ${source_path}/SetEditor.cpp
     ${source_path}/ColorButton.h
     ${source_path}/ColorButton.cpp
     ${source_path}/ValueEditor.cpp

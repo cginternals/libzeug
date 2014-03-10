@@ -34,7 +34,6 @@ namespace reflectionzeug
       - std::vector<bool>
       - std::vector<int>
       - std::vector<double>
-      - std::set<int>
 */
 template <typename Type>
 class Property;
@@ -191,48 +190,5 @@ public:
         ClassProperty<Type>(name, std::forward<Args>(args)...) {}
 
 };
-
-template <typename Type>
-struct type
-{
-    static const int value;
-};
-    
-template <typename Type>
-const int type<Type>::value = typeid(Type).hash_code();
-
-// TODO: Who uses this?
-// template <>
-// class Property<std::set<int>> : public ValueProperty<std::set<int>>
-// {
-// public:
-//     Property(const std::string & name, const std::set<int> & value)
-//     :   ValueProperty<std::set<int>>(name, value) {}
-
-//     Property(const std::string & name,
-//              const std::function<std::set<int> ()> & getter,
-//              const std::function<void(const std::set<int> &)> & setter)
-//     :   ValueProperty<std::set<int>>(name, getter, setter) {}
-
-//     template <class Object>
-//     Property(const std::string & name,
-//              Object & object, const std::set<int> & (Object::*getter_pointer)() const,
-//              void (Object::*setter_pointer)(const std::set<int> &))
-//     :   ValueProperty<std::set<int>>(name, object, getter_pointer, setter_pointer) {}
-
-//     template <class Object>
-//     Property(const std::string & name,
-//              Object & object, std::set<int> (Object::*getter_pointer)() const,
-//              void (Object::*setter_pointer)(const std::set<int> &))
-//     :   ValueProperty<std::set<int>>(name, object, getter_pointer, setter_pointer) {}
-
-//     template <class Object>
-//     Property(const std::string & name,
-//              Object & object, std::set<int> (Object::*getter_pointer)() const,
-//              void (Object::*setter_pointer)(std::set<int>))
-//     :   ValueProperty<std::set<int>>(name, object, getter_pointer, setter_pointer) {}
-
-//     virtual std::string toString() const { return "(" + join(this->value(), ", ") + ")"; }
-// };
 
 } // namespace reflectionzeug

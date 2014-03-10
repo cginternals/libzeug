@@ -35,7 +35,6 @@ public:
     virtual void visit(reflectionzeug::Property<std::vector<bool>> & property);
     virtual void visit(reflectionzeug::Property<std::vector<int>> & property);
     virtual void visit(reflectionzeug::Property<std::vector<double>> & property);
-    virtual void visit(reflectionzeug::Property<std::set<int>> & property);
 
 protected:
     Operation               m_operation;

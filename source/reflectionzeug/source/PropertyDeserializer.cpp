@@ -128,14 +128,4 @@ bool PropertyDeserializer::setPropertyValue(const std::string line)
     return true;
 }
 
-// TODO: Who uses this?
-//void PropertyDeserializer::visit(Property<std::set<int>> * property)
-//{
-//    std::set<int> set;
-//    this->deserializeSetValues("(-?\\d+)", [this, &set](const std::string & string) {
-//        set.insert(this->convertString<int>(string));
-//    });
-//    property->setValue(set);
-//}
-
 } // namespace reflectionzeug
