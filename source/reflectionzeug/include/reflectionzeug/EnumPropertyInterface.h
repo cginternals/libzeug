@@ -4,12 +4,13 @@
 #include <string>
 #include <vector>
 
+#include <reflectionzeug/reflectionzeug.h>
 #include <reflectionzeug/ValuePropertyInterface.h>
 
 namespace reflectionzeug
 {
 
-class EnumPropertyInterface : public virtual ValuePropertyInterface
+class REFLECTIONZEUG_API EnumPropertyInterface : public virtual ValuePropertyInterface
 {
 public:
     EnumPropertyInterface(const std::string & name);

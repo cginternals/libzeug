@@ -1,10 +1,12 @@
 
 #pragma once
 
+#include <reflectionzeug/reflectionzeug.h>
+
 namespace reflectionzeug
 {
 
-class AbstractPropertyVisitor
+class REFLECTIONZEUG_API AbstractPropertyVisitor
 {
 public:
     virtual ~AbstractPropertyVisitor() = 0;
