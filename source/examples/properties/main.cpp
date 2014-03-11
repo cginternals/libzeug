@@ -164,7 +164,7 @@ int main(int argc, char const *argv[])
     enumProperty();
     typeUsage();
 
-    if (saveProperties() && loadProperties());
+    if (saveProperties() && loadProperties())
         std::remove(INI_PATH);
 
     return 0;
