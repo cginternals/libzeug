@@ -153,7 +153,7 @@ bool VectorProperty<Type>::matchesVectorRegex(const std::string & string)
     std::stringstream vectorRegexStream;
 
     vectorRegexStream << "\\s*\\(";
-    for (int i = 0; i < fixedSize() - 1; i++) {
+    for (unsigned int i = 0; i < fixedSize() - 1; i++) {
         vectorRegexStream << "(" << elementRegex() << ")";
         vectorRegexStream << "\\s*,\\s*";
     }
