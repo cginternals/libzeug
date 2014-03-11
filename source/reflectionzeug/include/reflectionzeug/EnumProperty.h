@@ -12,7 +12,7 @@ namespace reflectionzeug
 {
 
 template <typename Enum>
-class EnumProperty : public ValueProperty<Enum>, public EnumPropertyInterface
+class EnumProperty : public EnumPropertyInterface, public ValueProperty<Enum>
 {
 public:
     EnumProperty(const std::string & name, const Enum & value);

@@ -83,7 +83,7 @@ void accessProperties()
 
     PropertyGroup * root = new PropertyGroup("root");
     auto * subGroup = root->addGroup("subGroup");
-    auto * property = subGroup->addProperty<int>("value", 12);
+    subGroup->addProperty<int>("value", 12);
 
     std::cout << "Value of root/subGroup/value: ";
     std::cout << root->value<int>("subGroup/value") << std::endl;
