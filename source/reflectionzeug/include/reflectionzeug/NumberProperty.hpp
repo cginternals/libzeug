@@ -2,13 +2,17 @@
 #pragma once
 
 #include <limits>
+#include <sstream>
+
+#include <reflectionzeug/util.h>
 
 namespace reflectionzeug
 {
 
 template <typename Type>
 NumberProperty<Type>::NumberProperty(const std::string & name, const Type & value)
-:   ValuePropertyTemplate<Type>(name, value)
+:   ValuePropertyInterface(name)
+,   ValueProperty<Type>(name, value)
 ,   m_min(std::numeric_limits<Type>::lowest())
 ,   m_max(std::numeric_limits<Type>::max())
 ,   m_step(0)
@@ -16,10 +20,11 @@ NumberProperty<Type>::NumberProperty(const std::string & name, const Type & valu
 }
 
 template <typename Type>
-NumberProperty<Type>::NumberProperty(const std::string & name, 
+NumberProperty<Type>::NumberProperty(const std::string & name,
     const std::function<Type ()> & getter,
     const std::function<void(const Type &)> & setter)
-:   ValuePropertyTemplate<Type>(name, getter, setter)
+:   ValuePropertyInterface(name)
+,   ValueProperty<Type>(name, getter, setter)
 ,   m_min(std::numeric_limits<Type>::lowest())
 ,   m_max(std::numeric_limits<Type>::max())
 ,   m_step(0)
@@ -31,7 +36,8 @@ template <class Object>
 NumberProperty<Type>::NumberProperty(const std::string & name,
     Object & object, const Type & (Object::*getter_pointer)() const,
     void (Object::*setter_pointer)(const Type &))
-:   ValuePropertyTemplate<Type>(name, object, getter_pointer, setter_pointer)
+:   ValuePropertyInterface(name)
+,   ValueProperty<Type>(name, object, getter_pointer, setter_pointer)
 ,   m_min(std::numeric_limits<Type>::lowest())
 ,   m_max(std::numeric_limits<Type>::max())
 ,   m_step(0)
@@ -43,7 +49,21 @@ template <class Object>
 NumberProperty<Type>::NumberProperty(const std::string & name,
     Object & object, Type (Object::*getter_pointer)() const,
     void (Object::*setter_pointer)(const Type &))
-:   ValuePropertyTemplate<Type>(name, object, getter_pointer, setter_pointer)
+:   ValuePropertyInterface(name)
+,   ValueProperty<Type>(name, object, getter_pointer, setter_pointer)
+,   m_min(std::numeric_limits<Type>::lowest())
+,   m_max(std::numeric_limits<Type>::max())
+,   m_step(0)
+{
+}
+
+template <typename Type>
+template <class Object>
+NumberProperty<Type>::NumberProperty(const std::string & name,
+    Object & object, Type (Object::*getter_pointer)() const,
+    void (Object::*setter_pointer)(Type))
+:   ValuePropertyInterface(name)
+,   ValueProperty<Type>(name, object, getter_pointer, setter_pointer)
 ,   m_min(std::numeric_limits<Type>::lowest())
 ,   m_max(std::numeric_limits<Type>::max())
 ,   m_step(0)
@@ -60,7 +80,6 @@ template <typename Type>
 void NumberProperty<Type>::setMinimum(const Type & minimum)
 {
     m_min = minimum;
-    // this->m_announcer.notify(events::kRangeChanged);
 }
 
 template <typename Type>
@@ -79,9 +98,8 @@ template <typename Type>
 void NumberProperty<Type>::setMaximum(const Type & maximum)
 {
     m_max = maximum;
-    // this->m_announcer.notify(events::kRangeChanged);
 }
-    
+
 template <typename Type>
 bool NumberProperty<Type>::hasMaximum() const
 {
@@ -93,7 +111,6 @@ void NumberProperty<Type>::setRange(const Type & minimum, const Type & maximum)
 {
     m_min = minimum;
     m_max = maximum;
-    // this->m_announcer.notify(events::kRangeChanged);
 }
 
 template <typename Type>
@@ -121,11 +138,19 @@ bool NumberProperty<Type>::hasStep() const
 }
 
 template <typename Type>
-std::string NumberProperty<Type>::valueAsString() const
+std::string NumberProperty<Type>::toString() const
 {
-    std::stringstream stream;
-    stream << this->value();
-    return stream.str();
+    return util::toString(this->value());
+}
+
+template <typename Type>
+bool NumberProperty<Type>::fromString(const std::string & string)
+{
+    if (!util::matchesRegex(string, matchRegex()))
+        return false;
+
+    this->setValue(util::fromString<Type>(string));
+    return true;
 }
 
 } // namespace reflectionzeug

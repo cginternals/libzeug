@@ -11,11 +11,10 @@
 namespace reflectionzeug
 {
 
-class AbstractPropertyVisitor;
-class ValueProperty;
+class ValuePropertyInterface;
 class PropertyGroup;
     
-/** \brief Part of the property hierarch (base class of all properties).
+/** \brief Part of the property hierarchy (base class of all properties).
 */
 class REFLECTIONZEUG_API AbstractProperty 
 {
@@ -23,7 +22,7 @@ public:
     static const std::string s_nameRegexString;
     
     AbstractProperty(const std::string & name);
-    virtual ~AbstractProperty();
+    virtual ~AbstractProperty() = 0;
 
     const std::string & name() const;
     
@@ -49,8 +48,8 @@ public:
     template <class Property>
     const Property * as() const;
 
-    ValueProperty * asValue();
-    const ValueProperty * asValue() const;
+    ValuePropertyInterface * asValue();
+    const ValuePropertyInterface * asValue() const;
 
     PropertyGroup * asGroup();
     const PropertyGroup * asGroup() const;

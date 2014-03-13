@@ -11,7 +11,7 @@ namespace propertyguizeug
 BoolMatrixEditor::BoolMatrixEditor(Property<std::vector<bool>> * property, QWidget * parent)
 :   MatrixEditor(property->fixedSize(),
                  this->valueRegexString(),
-                 QString::fromStdString(property->valueAsString()),
+                 QString::fromStdString(property->toString()),
                  parent)
 ,   m_property(property)
 {

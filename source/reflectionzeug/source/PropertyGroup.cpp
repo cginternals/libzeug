@@ -13,7 +13,7 @@
 
 #include <algorithm>
 
-#include <reflectionzeug/AbstractPropertyVisitor.h>
+#include <reflectionzeug/StandardPropertyVisitor.h>
 
 namespace reflectionzeug
 {
@@ -199,7 +199,7 @@ void PropertyGroup::forEachProperty(const std::function<void(AbstractProperty &)
         functor(*property);
 }
 
-void PropertyGroup::forEachValueProperty(const std::function<void(ValueProperty &)> functor)
+void PropertyGroup::forEachValuePropertyInterface(const std::function<void(ValuePropertyInterface &)> functor)
 {
     for (AbstractProperty * property : m_properties) {
         if (!property->isGroup())
@@ -207,7 +207,7 @@ void PropertyGroup::forEachValueProperty(const std::function<void(ValueProperty 
     }
 }
 
-void PropertyGroup::forEachValueProperty(const std::function<void(ValueProperty &)> functor) const
+void PropertyGroup::forEachValuePropertyInterface(const std::function<void(ValuePropertyInterface &)> functor) const
 {
     for (AbstractProperty * property : m_properties) {
         if (!property->isGroup())

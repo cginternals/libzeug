@@ -6,14 +6,16 @@ namespace reflectionzeug
 
 StringProperty::StringProperty(const std::string & name,
     const std::string & value)
-:   ValuePropertyTemplate<std::string>(name, value)
+:   ValuePropertyInterface(name)
+,   ValueProperty<std::string>(name, value)
 {
 }
 
 StringProperty::StringProperty(const std::string & name, 
     const std::function<std::string ()> & getter,
     const std::function<void(const std::string &)> & setter)
-:   ValuePropertyTemplate<std::string>(name, getter, setter)
+:   ValuePropertyInterface(name)
+,   ValueProperty<std::string>(name, getter, setter)
 {
 }
     
@@ -42,9 +44,15 @@ void StringProperty::addChoice(const std::string & string)
     m_choices.push_back(string);
 }
     
-std::string StringProperty::valueAsString() const
+std::string StringProperty::toString() const
 {
     return this->value();
+}
+
+bool StringProperty::fromString(const std::string & string)
+{
+    this->setValue(string);
+    return true;
 }
     
 } // namespace reflectionzeug

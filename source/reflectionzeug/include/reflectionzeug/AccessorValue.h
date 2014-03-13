@@ -26,6 +26,11 @@ public:
     AccessorValue(Object & object,
                   Type (Object::*getter_pointer)() const,
                   void (Object::*setter_pointer)(const Type &));
+
+    template <class Object>
+    AccessorValue(Object & object,
+                  Type (Object::*getter_pointer)() const,
+                  void (Object::*setter_pointer)(Type));
   
     virtual ~AccessorValue();
 

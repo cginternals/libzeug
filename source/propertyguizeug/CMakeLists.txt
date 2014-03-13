@@ -72,6 +72,8 @@ set(sources
     ${source_path}/IntegerEditor.cpp
     ${source_path}/DoubleEditor.h
     ${source_path}/DoubleEditor.cpp
+    ${source_path}/EnumEditor.cpp
+    ${source_path}/EnumEditor.h
     ${source_path}/StringEditor.h
     ${source_path}/StringEditor.cpp
     ${source_path}/ChoiceEditor.h
@@ -86,14 +88,12 @@ set(sources
     ${source_path}/BoolMatrixEditor.cpp
     ${source_path}/IntMatrixEditor.h
     ${source_path}/IntMatrixEditor.cpp
-    ${source_path}/IntSetEditor.h
-    ${source_path}/IntSetEditor.cpp
     ${source_path}/DoubleMatrixEditor.h
     ${source_path}/DoubleMatrixEditor.cpp
-    ${source_path}/SetEditor.h
-    ${source_path}/SetEditor.cpp
     ${source_path}/ColorButton.h
     ${source_path}/ColorButton.cpp
+    ${source_path}/ValueEditor.cpp
+    ${source_path}/ValueEditor.h
     ${source_path}/TransparencyBackgroundBrush.hpp
 )
 

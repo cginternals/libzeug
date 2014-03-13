@@ -3,7 +3,7 @@
 #include <iostream>
 #include <sstream>
 
-#include <reflectionzeug/ValueProperty.h>
+#include <reflectionzeug/ValuePropertyInterface.h>
 #include <reflectionzeug/PropertyGroup.h>
 
 #include <reflectionzeug/PropertySerializer.h>
@@ -32,7 +32,7 @@ bool PropertySerializer::serialize(PropertyGroup & group, std::string filePath)
     m_currentPath = "";
     
     m_fstream << "[" << group.name() << "]" << std::endl;
-    group.forEachValueProperty([this](ValueProperty & property) {
+    group.forEachValuePropertyInterface([this] (ValuePropertyInterface & property) {
         this->serializeValue(property);
     });
     m_fstream << std::endl;
@@ -47,10 +47,10 @@ bool PropertySerializer::serialize(PropertyGroup & group, std::string filePath)
     return true;
 }
     
-void PropertySerializer::serializeValue(const ValueProperty & property)
+void PropertySerializer::serializeValue(const ValuePropertyInterface & property)
 {
     m_fstream << m_currentPath << property.name();
-    m_fstream << "=" << property.valueAsString() << std::endl;
+    m_fstream << "=" << property.toString() << std::endl;
 }
 
 void PropertySerializer::serializeGroup(const PropertyGroup & group)

@@ -22,7 +22,7 @@ ColorEditor::ColorEditor(Property<Color> * property, QWidget * parent)
     QColor qcolor(color.red(), color.green(), color.blue(), color.alpha());
     
     m_lineEdit = new QLineEdit(this);
-    m_lineEdit->setText(QString::fromStdString(m_property->valueAsString()));
+    m_lineEdit->setText(QString::fromStdString(m_property->toString()));
     
     m_button = new ColorButton(qcolor, this);
     
@@ -73,7 +73,7 @@ void ColorEditor::setQColor(const QColor & qcolor)
     m_property->setValue(color);
     
     m_button->setColor(qcolor);
-    m_lineEdit->setText(QString::fromStdString(m_property->valueAsString()));
+    m_lineEdit->setText(QString::fromStdString(m_property->toString()));
 }
 
 void ColorEditor::setColor(const Color & color)
@@ -82,7 +82,7 @@ void ColorEditor::setColor(const Color & color)
     m_property->setValue(color);
 
     m_button->setColor(qcolor);
-    m_lineEdit->setText(QString::fromStdString(m_property->valueAsString()));
+    m_lineEdit->setText(QString::fromStdString(m_property->toString()));
 }
 
 } // namespace propertyguizeug

@@ -1,7 +1,7 @@
 #pragma once
 
 
-#include <reflectionzeug/AbstractPropertyVisitor.h>
+#include <reflectionzeug/StandardPropertyVisitor.h>
 #include <reflectionzeug/Variant.h>
 #include "scriptzeug/scriptzeug.h"
 
@@ -12,7 +12,7 @@ namespace scriptzeug
 
 /** \brief Helper class for setting and getting properties
  */
-class JSPropVisitor : public reflectionzeug::AbstractPropertyVisitor
+class JSPropVisitor : public reflectionzeug::StandardPropertyVisitor
 {
 public:
     enum Operation {
@@ -35,7 +35,6 @@ public:
     virtual void visit(reflectionzeug::Property<std::vector<bool>> & property);
     virtual void visit(reflectionzeug::Property<std::vector<int>> & property);
     virtual void visit(reflectionzeug::Property<std::vector<double>> & property);
-    virtual void visit(reflectionzeug::Property<std::set<int>> & property);
 
 protected:
     Operation               m_operation;

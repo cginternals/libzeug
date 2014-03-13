@@ -88,23 +88,6 @@ void JSPropVisitor::visit(Property<std::vector<bool>> & property)
     }
 }
 
-void JSPropVisitor::visit(Property<std::vector<int>> & property)
-{
-    if (m_operation == GetOperation) {
-        m_value = Variant::Array();
-        const std::vector<int> &arr = property.value();
-        for (std::vector<int>::const_iterator it = arr.begin(); it != arr.end(); ++it) {
-            m_value.append(Variant(*it));
-        }
-    } else {
-        std::vector<int> arr;
-        for (unsigned int i=0; i<m_value.size(); i++) {
-            arr.push_back(m_value[i].toInt());
-        }
-        property.setValue(arr);
-    }
-}
-
 void JSPropVisitor::visit(Property<std::vector<double>> & property)
 {
     if (m_operation == GetOperation) {
@@ -121,23 +104,5 @@ void JSPropVisitor::visit(Property<std::vector<double>> & property)
         property.setValue(arr);
     }
 }
-
-void JSPropVisitor::visit(Property<std::set<int>> & property)
-{
-    if (m_operation == GetOperation) {
-        m_value = Variant::Array();
-        const std::set<int> &set = property.value();
-        for (std::set<int>::const_iterator it = set.begin(); it != set.end(); ++it) {
-            m_value.append(Variant(*it));
-        }
-    } else {
-        std::set<int> set;
-        for (unsigned int i=0; i<m_value.size(); i++) {
-            set.insert(m_value[i].toInt());
-        }
-        property.setValue(set);
-    }
-}
-
 
 } // namespace scriptzeug

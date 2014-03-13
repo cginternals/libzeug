@@ -38,17 +38,23 @@ public:
                                  const std::function<Type ()> & getter,
                                  const std::function<void(const Type &)> & setter);
     
-    /*template <typename Type, class Object>
+    template <typename Type, class Object>
     Property<Type> * addProperty(const std::string & name,
                                  Object & object, 
                                  const Type & (Object::*getter_pointer)() const,
-                                 void (Object::*setter_pointer)(const Type &));*/
+                                 void (Object::*setter_pointer)(const Type &));
     
     template <typename Type, class Object>
     Property<Type> * addProperty(const std::string & name,
                                  Object & object, 
                                  Type (Object::*getter_pointer)() const,
                                  void (Object::*setter_pointer)(const Type &));
+    
+    template <typename Type, class Object>
+    Property<Type> * addProperty(const std::string & name,
+                                 Object & object,
+                                 Type (Object::*getter_pointer)() const,
+                                 void (Object::*setter_pointer)(Type));
     
     PropertyGroup * addGroup(const std::string & name);
 
@@ -110,8 +116,8 @@ public:
     void forEachProperty(const std::function<void(AbstractProperty &)> functor);
     void forEachProperty(const std::function<void(AbstractProperty &)> functor) const;
     
-    void forEachValueProperty(const std::function<void(ValueProperty &)> functor);
-    void forEachValueProperty(const std::function<void(ValueProperty &)> functor) const;
+    void forEachValuePropertyInterface(const std::function<void(ValuePropertyInterface &)> functor);
+    void forEachValuePropertyInterface(const std::function<void(ValuePropertyInterface &)> functor) const;
     
     void forEachSubGroup(const std::function<void(PropertyGroup &)> functor);
     void forEachSubGroup(const std::function<void(PropertyGroup &)> functor) const;

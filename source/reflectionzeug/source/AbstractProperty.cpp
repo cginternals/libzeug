@@ -9,7 +9,7 @@
     namespace regex_namespace = boost;
 #endif
 
-#include <reflectionzeug/ValueProperty.h>
+#include <reflectionzeug/ValuePropertyInterface.h>
 #include <reflectionzeug/PropertyGroup.h>
 
 #include <reflectionzeug/AbstractProperty.h>
@@ -100,14 +100,14 @@ std::string AbstractProperty::path() const
     return this->parent()->path() + "/" + this->name();
 }
     
-ValueProperty * AbstractProperty::asValue()
+ValuePropertyInterface * AbstractProperty::asValue()
 {
-    return static_cast<ValueProperty *>(this);
+    return static_cast<ValuePropertyInterface *>(this);
 }
 
-const ValueProperty * AbstractProperty::asValue() const
+const ValuePropertyInterface * AbstractProperty::asValue() const
 {
-    return static_cast<const ValueProperty *>(this);
+    return static_cast<const ValuePropertyInterface *>(this);
 }
 
 PropertyGroup * AbstractProperty::asGroup()

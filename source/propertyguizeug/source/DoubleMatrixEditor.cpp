@@ -12,7 +12,7 @@ namespace propertyguizeug
 DoubleMatrixEditor::DoubleMatrixEditor(Property<std::vector<double>> * property, QWidget * parent)
 :   MatrixEditor(property->fixedSize(),
                  "(-?\\d+\\.?\\d*)",
-                 QString::fromStdString(property->valueAsString()),
+                 QString::fromStdString(property->toString()),
                  parent)
 ,   m_property(property)
 {

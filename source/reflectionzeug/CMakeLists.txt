@@ -66,22 +66,30 @@ set(headers
 
     ${header_path}/AbstractProperty.h
     ${header_path}/AbstractProperty.hpp
+    ${header_path}/ValuePropertyInterface.h
     ${header_path}/ValueProperty.h
-    ${header_path}/ValuePropertyTemplate.h
-    ${header_path}/ValuePropertyTemplate.hpp
+    ${header_path}/ValueProperty.hpp
+    ${header_path}/ClassProperty.h
+    ${header_path}/ClassProperty.hpp
+    ${header_path}/EnumProperty.h
+    ${header_path}/EnumProperty.hpp
+    ${header_path}/EnumPropertyInterface.h
     ${header_path}/NumberProperty.h
     ${header_path}/NumberProperty.hpp
-    ${header_path}/SetProperty.h
-    ${header_path}/SetProperty.hpp
     ${header_path}/StringProperty.h
+    ${header_path}/StringProperty.hpp
     ${header_path}/VectorProperty.h
     ${header_path}/VectorProperty.hpp
     ${header_path}/FilePathProperty.h
+    ${header_path}/FilePathProperty.hpp
     ${header_path}/Property.h
 
     ${header_path}/PropertyGroup.h
     ${header_path}/PropertyGroup.hpp
     ${header_path}/AbstractPropertyVisitor.h
+    ${header_path}/PropertyVisitor.h
+    ${header_path}/PropertyCategoryVisitor.h
+    ${header_path}/StandardPropertyVisitor.h
     ${header_path}/PropertyDeserializer.h
     ${header_path}/PropertySerializer.h
 
@@ -98,16 +106,22 @@ set(headers
     ${header_path}/Function.h
     ${header_path}/Variant.h
     ${header_path}/TemplateHelper.h
+
+    ${header_path}/util.h
+    ${header_path}/util.hpp
 )
 
 set(sources
     ${source_path}/AbstractProperty.cpp
-    ${source_path}/ValueProperty.cpp
+    ${source_path}/ValuePropertyInterface.cpp
+    ${source_path}/EnumPropertyInterface.cpp
     ${source_path}/StringProperty.cpp
     ${source_path}/FilePathProperty.cpp
 
-    ${source_path}/PropertyGroup.cpp
+
     ${source_path}/AbstractPropertyVisitor.cpp
+
+    ${source_path}/PropertyGroup.cpp
     ${source_path}/PropertyDeserializer.cpp
     ${source_path}/PropertySerializer.cpp
 
@@ -116,14 +130,16 @@ set(sources
 
     ${source_path}/Object.cpp
     ${source_path}/Variant.cpp
+
+    ${source_path}/util.cpp
 )
 
 # Group source files
 set(header_group "Header Files (API)")
 set(source_group "Source Files")
-source_group_by_path(${header_path} "\\\\.h$|\\\\.hpp$" 
+source_group_by_path(${header_path} "\\\\.h$|\\\\.hpp$"
     ${header_group} ${headers})
-source_group_by_path(${source_path} "\\\\.cpp$|\\\\.c$|\\\\.h$|\\\\.hpp$" 
+source_group_by_path(${source_path} "\\\\.cpp$|\\\\.c$|\\\\.h$|\\\\.hpp$"
     ${source_group} ${sources})
 
 #

@@ -1,10 +1,11 @@
 
 
-#include <assert.h>
+#include <cassert>
 #include <sstream>
 #include <iomanip>
 
 #include <reflectionzeug/Color.h>
+#include <reflectionzeug/util.h>
 
 namespace reflectionzeug
 {
@@ -34,6 +35,21 @@ Color::Color(int red, int green, int blue, int alpha)
 
 Color::~Color()
 {
+}
+
+Color Color::fromString(const std::string & string, bool * ok)
+{
+    *ok = util::matchesRegex(string, "#[0-9A-F]{8}");
+
+    if (!(*ok))
+        return Color();
+
+    std::stringstream stream(string.substr(1, string.length()));
+    unsigned int colorHex;
+    stream >> std::hex >> std::uppercase;
+    stream >> colorHex;
+
+    return Color(colorHex);
 }
 
 int Color::red() const
@@ -89,7 +105,7 @@ void Color::setRgba(unsigned int rgba)
 {
     v = rgba;
 }
-    
+
 std::string Color::asHex() const
 {
     std::stringstream stream;
@@ -98,5 +114,10 @@ std::string Color::asHex() const
     stream << this->rgba();
     return stream.str();
 }
-    
+
+std::string Color::toString() const
+{
+    return asHex();
+}
+
 } // namespace reflectionzeug
