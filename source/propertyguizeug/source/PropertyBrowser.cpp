@@ -64,13 +64,13 @@ PropertyBrowser::~PropertyBrowser()
 }
     
 void PropertyBrowser::setRoot(reflectionzeug::PropertyGroup * root)
-{
-    assert(root);
-    PropertyModel * newModel = new PropertyModel(root);
-    this->setModel(newModel);
+{   
+    PropertyModel * model = root == nullptr ? nullptr : new PropertyModel(root);
+
+    this->setModel(model);
     
     delete m_model;
-    m_model = newModel;
+    m_model = model;
 }
     
 void PropertyBrowser::initView()
