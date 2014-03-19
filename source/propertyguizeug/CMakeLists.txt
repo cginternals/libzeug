@@ -56,6 +56,20 @@ set(headers
     ${header_path}/PropertyDelegate.h
     ${header_path}/PropertyPainter.h
     ${header_path}/PropertyEditorFactory.h
+    ${header_path}/PropertyEditor.h
+    ${header_path}/BoolEditor.h
+    ${header_path}/IntegerEditor.h
+    ${header_path}/DoubleEditor.h
+    ${header_path}/EnumEditor.h
+    ${header_path}/StringEditor.h
+    ${header_path}/ChoiceEditor.h
+    ${header_path}/ColorEditor.h
+    ${header_path}/FilePathEditor.h
+    ${header_path}/MatrixEditor.h
+    ${header_path}/BoolMatrixEditor.h
+    ${header_path}/IntMatrixEditor.h
+    ${header_path}/DoubleMatrixEditor.h
+    ${header_path}/ValueEditor.h
 )
 
 set(sources
@@ -63,37 +77,23 @@ set(sources
     ${source_path}/PropertyModel.cpp
     ${source_path}/PropertyDelegate.cpp
     ${source_path}/PropertyPainter.cpp
-    ${source_path}/PropertyEditorFactory.cpp
-    ${source_path}/PropertyEditor.h
     ${source_path}/PropertyEditor.cpp
-    ${source_path}/BoolEditor.h
+    ${source_path}/PropertyEditorFactory.cpp
     ${source_path}/BoolEditor.cpp
-    ${source_path}/IntegerEditor.h
     ${source_path}/IntegerEditor.cpp
-    ${source_path}/DoubleEditor.h
     ${source_path}/DoubleEditor.cpp
     ${source_path}/EnumEditor.cpp
-    ${source_path}/EnumEditor.h
-    ${source_path}/StringEditor.h
     ${source_path}/StringEditor.cpp
-    ${source_path}/ChoiceEditor.h
     ${source_path}/ChoiceEditor.cpp
-    ${source_path}/ColorEditor.h
     ${source_path}/ColorEditor.cpp
-    ${source_path}/FilePathEditor.h
     ${source_path}/FilePathEditor.cpp
-    ${source_path}/MatrixEditor.h
     ${source_path}/MatrixEditor.cpp
-    ${source_path}/BoolMatrixEditor.h
     ${source_path}/BoolMatrixEditor.cpp
-    ${source_path}/IntMatrixEditor.h
     ${source_path}/IntMatrixEditor.cpp
-    ${source_path}/DoubleMatrixEditor.h
     ${source_path}/DoubleMatrixEditor.cpp
     ${source_path}/ColorButton.h
     ${source_path}/ColorButton.cpp
     ${source_path}/ValueEditor.cpp
-    ${source_path}/ValueEditor.h
     ${source_path}/TransparencyBackgroundBrush.hpp
 )
 

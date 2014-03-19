@@ -4,7 +4,7 @@
 
 #include <reflectionzeug/Property.h>
 
-#include "IntMatrixEditor.h"
+#include <propertyguizeug/IntMatrixEditor.h>
 
 using namespace reflectionzeug;
 namespace propertyguizeug

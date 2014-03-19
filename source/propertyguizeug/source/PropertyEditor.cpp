@@ -4,7 +4,7 @@
 #include <QApplication>
 #include <QHBoxLayout>
 
-#include "PropertyEditor.h"
+#include <propertyguizeug/PropertyEditor.h>
 
 namespace propertyguizeug
 {

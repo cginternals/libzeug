@@ -5,7 +5,7 @@
 
 #include <reflectionzeug/EnumPropertyInterface.h>
 
-#include "EnumEditor.h"
+#include <propertyguizeug/EnumEditor.h>
 
 using namespace reflectionzeug;
 namespace propertyguizeug

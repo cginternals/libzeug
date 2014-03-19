@@ -1,18 +1,18 @@
 
 #include <reflectionzeug/Property.h>
 
-#include "IntegerEditor.h"
-#include "StringEditor.h"
-#include "ChoiceEditor.h"
-#include "ColorEditor.h"
-#include "FilePathEditor.h"
-#include "DoubleEditor.h"
-#include "EnumEditor.h"
-#include "BoolEditor.h"
-#include "BoolMatrixEditor.h"
-#include "IntMatrixEditor.h"
-#include "DoubleMatrixEditor.h"
-#include "ValueEditor.h"
+#include <propertyguizeug/IntegerEditor.h>
+#include <propertyguizeug/StringEditor.h>
+#include <propertyguizeug/ChoiceEditor.h>
+#include <propertyguizeug/ColorEditor.h>
+#include <propertyguizeug/FilePathEditor.h>
+#include <propertyguizeug/DoubleEditor.h>
+#include <propertyguizeug/EnumEditor.h>
+#include <propertyguizeug/BoolEditor.h>
+#include <propertyguizeug/BoolMatrixEditor.h>
+#include <propertyguizeug/IntMatrixEditor.h>
+#include <propertyguizeug/DoubleMatrixEditor.h>
+#include <propertyguizeug/ValueEditor.h>
 
 #include <propertyguizeug/PropertyEditorFactory.h>
 

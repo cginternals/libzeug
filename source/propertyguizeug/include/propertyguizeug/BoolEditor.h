@@ -13,7 +13,7 @@ namespace reflectionzeug {
 namespace propertyguizeug
 {
     
-class BoolEditor : public PropertyEditor
+class PROPERTYGUIZEUG_API BoolEditor : public PropertyEditor
 {
 public:
     BoolEditor(reflectionzeug::Property<bool> * property, QWidget * parent = nullptr);

@@ -1,13 +1,12 @@
 
 #pragma once
 
-#include <propertyguizeug/propertyguizeug.h>
-
-#include "PropertyEditor.h"
-
+#include <propertyguizeug/PropertyEditor.h>
 
 class QDoubleSpinBox;
-namespace reflectionzeug {
+
+namespace reflectionzeug
+{
     template <typename Type>
     class Property;
 }

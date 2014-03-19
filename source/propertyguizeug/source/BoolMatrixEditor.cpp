@@ -2,7 +2,7 @@
 #include <QLineEdit>
 #include <reflectionzeug/Property.h>
 
-#include "BoolMatrixEditor.h"
+#include <propertyguizeug/BoolMatrixEditor.h>
 
 using namespace reflectionzeug;
 namespace propertyguizeug

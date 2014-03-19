@@ -4,7 +4,7 @@
 
 #include <reflectionzeug/ValuePropertyInterface.h>
 
-#include "ValueEditor.h"
+#include <propertyguizeug/ValueEditor.h>
 
 using namespace reflectionzeug;
 namespace propertyguizeug

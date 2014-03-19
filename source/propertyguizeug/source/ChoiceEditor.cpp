@@ -4,7 +4,7 @@
 
 #include <reflectionzeug/Property.h>
 
-#include "ChoiceEditor.h"
+#include <propertyguizeug/ChoiceEditor.h>
 
 using namespace reflectionzeug;
 namespace propertyguizeug

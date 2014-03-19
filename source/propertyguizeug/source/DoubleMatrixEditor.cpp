@@ -3,7 +3,7 @@
 
 #include <reflectionzeug/Property.h>
 
-#include "DoubleMatrixEditor.h"
+#include <propertyguizeug/DoubleMatrixEditor.h>
 
 using namespace reflectionzeug;
 namespace propertyguizeug

@@ -4,7 +4,8 @@
 
 #include <reflectionzeug/Property.h>
 
-#include "PropertyEditor.h"
+#include <propertyguizeug/PropertyEditor.h>
+
 #include "ColorButton.h"
 
 #include <propertyguizeug/PropertyPainter.h>

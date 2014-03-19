@@ -1,5 +1,4 @@
 
-
 #include <QHBoxLayout>
 #include <QSettings>
 #include <QApplication>
@@ -10,7 +9,7 @@
 
 #include <reflectionzeug/Property.h>
 
-#include "FilePathEditor.h"
+#include <propertyguizeug/FilePathEditor.h>
 
 using namespace reflectionzeug;
 namespace propertyguizeug

@@ -1,11 +1,12 @@
 
 #pragma once
 
-#include "PropertyEditor.h"
-
+#include <propertyguizeug/PropertyEditor.h>
 
 class QLineEdit;
-namespace reflectionzeug {
+
+namespace reflectionzeug 
+{
     template <typename Type>
     class Property;
     class Color;
@@ -16,7 +17,7 @@ namespace propertyguizeug
 
 class ColorButton;
 
-class ColorEditor : public PropertyEditor
+class PROPERTYGUIZEUG_API ColorEditor : public PropertyEditor
 {
 public:
     ColorEditor(reflectionzeug::Property<reflectionzeug::Color> * property, QWidget * parent = nullptr);

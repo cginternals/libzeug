@@ -4,7 +4,7 @@
 
 #include <reflectionzeug/Property.h>
 
-#include "StringEditor.h"
+#include <propertyguizeug/StringEditor.h>
 
 using namespace reflectionzeug;
 namespace propertyguizeug

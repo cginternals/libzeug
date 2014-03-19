@@ -1,10 +1,9 @@
 
-
 #include <QHBoxLayout>
 #include <QLineEdit>
 #include <QRegularExpression>
 
-#include "MatrixEditor.h"
+#include <propertyguizeug/MatrixEditor.h>
 
 namespace propertyguizeug
 {

@@ -3,7 +3,7 @@
 
 #include <QStringList>
 
-#include "MatrixEditor.h"
+#include <propertyguizeug/MatrixEditor.h>
 
 namespace reflectionzeug {
     template <typename Type>

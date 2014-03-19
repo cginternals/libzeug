@@ -1,11 +1,10 @@
 
-
 #include <QHBoxLayout>
 #include <QDoubleSpinBox>
 
 #include <reflectionzeug/Property.h>
 
-#include "DoubleEditor.h"
+#include <propertyguizeug/DoubleEditor.h>
 
 using namespace reflectionzeug;
 namespace propertyguizeug

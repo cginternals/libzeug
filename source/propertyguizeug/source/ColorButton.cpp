@@ -3,8 +3,8 @@
 #include <QGridLayout>
 #include <QPainter>
 
-#include "TransparencyBackgroundBrush.hpp"
 #include "ColorButton.h"
+#include "TransparencyBackgroundBrush.hpp"
 
 namespace propertyguizeug
 {
@@ -27,11 +27,9 @@ ColorButton::ColorButton(const QColor & initialColor, QWidget * parent)
 	this->setColor(initialColor);
 }
 
-
 ColorButton::~ColorButton()
 {
 }
-
 
 const QColor ColorButton::color() {
 	return m_color;

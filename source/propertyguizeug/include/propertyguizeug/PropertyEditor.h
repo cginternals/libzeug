@@ -5,13 +5,12 @@
 
 #include <propertyguizeug/propertyguizeug.h>
 
-
 class QBoxLayout;
 
 namespace propertyguizeug
 {
 
-class PropertyEditor : public QWidget
+class PROPERTYGUIZEUG_API PropertyEditor : public QWidget
 {
 public:
 	static const int s_horizontalMargin = 3;

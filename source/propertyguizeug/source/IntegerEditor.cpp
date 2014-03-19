@@ -1,11 +1,10 @@
 
-
 #include <QHBoxLayout>
 #include <QSpinBox>
 
 #include <reflectionzeug/Property.h>
 
-#include "IntegerEditor.h"
+#include <propertyguizeug/IntegerEditor.h>
 
 using namespace reflectionzeug;
 namespace propertyguizeug

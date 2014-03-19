@@ -1,11 +1,10 @@
 
-
 #include <QCheckBox>
 #include <QBoxLayout>
 
 #include <reflectionzeug/Property.h>
 
-#include "BoolEditor.h"
+#include <propertyguizeug/BoolEditor.h>
 
 using namespace reflectionzeug;
 namespace propertyguizeug

@@ -3,10 +3,7 @@
 
 #include <functional>
 
-#include <propertyguizeug/propertyguizeug.h>
-
-#include "PropertyEditor.h"
-
+#include <propertyguizeug/PropertyEditor.h>
 
 class QLineEdit;
 

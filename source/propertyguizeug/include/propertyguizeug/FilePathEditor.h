@@ -1,15 +1,14 @@
 
 #pragma once
 
-#include <propertyguizeug/propertyguizeug.h>
-
-#include "PropertyEditor.h"
+#include <propertyguizeug/PropertyEditor.h>
 
 class QLineEdit;
 class QFileDialog;
 class QHBoxLayout;
 
-namespace reflectionzeug {
+namespace reflectionzeug 
+{
     template <typename Type>
     class Property;
     class FilePath;
