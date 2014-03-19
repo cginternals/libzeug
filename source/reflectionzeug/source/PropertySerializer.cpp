@@ -55,9 +55,9 @@ void PropertySerializer::serializeValue(const ValuePropertyInterface & property)
 
 void PropertySerializer::serializeGroup(const PropertyGroup & group)
 {
-    group.forEachProperty([this](AbstractProperty & property) {
+    group.forEachProperty([this](const AbstractProperty & property) {
         if (property.isGroup()) {
-            PropertyGroup & subGroup = *property.asGroup();
+            const PropertyGroup & subGroup = *property.asGroup();
             this->pushGroupToPath(subGroup);
             this->serializeGroup(subGroup);
             this->popGroupFromPath();
