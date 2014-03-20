@@ -38,7 +38,6 @@ set(libs
 set(sources
     main.cpp
 
-    PropertyExtension.h
     SomeObject.cpp
     SomeObject.h
 )

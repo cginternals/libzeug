@@ -36,24 +36,18 @@ public:
                  Object & object, Enum (Object::*getter_pointer)() const,
                  void (Object::*setter_pointer)(Enum));
 
+    virtual void accept(AbstractPropertyVisitor * visitor, bool warn = true);
+    
     virtual std::string toString() const;
     virtual bool fromString(const std::string & string);
-
-    virtual const std::vector<std::string> & stringList() const;
-
-    virtual void accept(AbstractPropertyVisitor * visitor, bool warn = true);
-
-protected:
-    virtual std::vector<std::pair<Enum, std::string>> pairs() const = 0;
+    
+    virtual std::vector<std::string> strings() const;
+    
+    void setPairs(const std::vector<std::pair<Enum, std::string>> & pairs);
 
 private:
-    void init() const;
-
-private:
-    std::vector<std::string> m_stringList;
     std::map<Enum, std::string> m_stringMap;
     std::map<std::string, Enum> m_enumMap;
-    bool m_isInitialized;
 
 };
 

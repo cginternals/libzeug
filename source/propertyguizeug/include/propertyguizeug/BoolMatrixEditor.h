@@ -3,12 +3,9 @@
 
 #include <QStringList>
 
-#include <propertyguizeug/MatrixEditor.h>
+#include <reflectionzeug/property_declaration.h>
 
-namespace reflectionzeug {
-    template <typename Type>
-    class Property;
-}
+#include <propertyguizeug/MatrixEditor.h>
 
 namespace propertyguizeug
 {

@@ -7,7 +7,6 @@
 #include <reflectionzeug/PropertyDeserializer.h>
 #include <reflectionzeug/PropertySerializer.h>
 
-#include "PropertyExtension.h"
 #include "SomeObject.h"
 
 #ifdef WIN32
@@ -94,13 +93,13 @@ void enumProperty()
     std::cout << ">> enumProperty()" << std::endl;
 
     PropertyGroup root("root");
-    SomeObject object;
-
-    root.addProperty<NormalMode>("normal_mode", NormalMode::LookAt);
-    root.addProperty<NormalMode>("normal_mode2", object, &SomeObject::normalMode, &SomeObject::setNormalMode);
+    auto * normalModeProperty = root.addProperty<NormalMode>("normal_mode", NormalMode::LookAt);
+    normalModeProperty->setPairs({ 
+        { NormalMode::Vertex, "Vertex" },
+        { NormalMode::Custom, "Custom" },
+        { NormalMode::LookAt, "LookAt" }
+    });
     
-    object.setNormalMode(NormalMode::Custom);
-
     printGroup(root);
 }
 

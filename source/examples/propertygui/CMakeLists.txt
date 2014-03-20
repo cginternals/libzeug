@@ -42,7 +42,7 @@ set(libs
 
 set(sources
     main.cpp
-    PropertyExtension.h
+    Switch.h
 )
 
 #

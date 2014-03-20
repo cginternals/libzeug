@@ -1,15 +1,11 @@
 
 #pragma once
 
+#include <reflectionzeug/property_declaration.h>
+
 #include <propertyguizeug/PropertyEditor.h>
 
 class QSpinBox;
-
-namespace reflectionzeug 
-{
-    template <typename Type>
-    class Property;
-}
 
 namespace propertyguizeug
 {

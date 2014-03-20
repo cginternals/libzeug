@@ -107,6 +107,8 @@ set(headers
     ${header_path}/Variant.h
     ${header_path}/TemplateHelper.h
 
+    ${header_path}/property_declaration.h
+    ${header_path}/specialization_helpers.h
     ${header_path}/util.h
     ${header_path}/util.hpp
 )

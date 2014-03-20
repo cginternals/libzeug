@@ -8,7 +8,7 @@
 #include <reflectionzeug/PropertyDeserializer.h>
 #include <propertyguizeug/PropertyBrowser.h>
 
-#include "PropertyExtension.h"
+#include "Switch.h"
 
 #ifdef WIN32
 #define SETTINGS_PATH ".\\data\\propertygui.ini"
@@ -120,7 +120,7 @@ int main(int argc, char *argv[])
 
     backgroundColor->setTitle("Background Color");
 
-    settings->addProperty<Qt::CursorShape>("Cursor",
+    auto * cursorProperty = settings->addProperty<Qt::CursorShape>("Cursor",
         [widget] () 
         {
             return widget->cursor().shape();
@@ -129,6 +129,15 @@ int main(int argc, char *argv[])
         {
             widget->setCursor(QCursor(shape));
         });
+
+    cursorProperty->setPairs({
+        { Qt::PointingHandCursor, "Pointing Hand Cursor" },
+        { Qt::BusyCursor, "Busy Cursor" },
+        { Qt::ArrowCursor, "Arrow Cursor" },
+        { Qt::WaitCursor, "Wait Cursor" }
+    });
+
+
 
     settings->addProperty<Switch>("switch", Switch(true));
 

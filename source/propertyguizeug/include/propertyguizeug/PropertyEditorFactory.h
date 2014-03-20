@@ -1,6 +1,7 @@
 
 #pragma once
 
+#include <reflectionzeug/property_declaration.h>
 #include <reflectionzeug/StandardPropertyVisitor.h>
 
 #include <propertyguizeug/propertyguizeug.h>
@@ -9,8 +10,6 @@ class QWidget;
 
 namespace reflectionzeug
 {
-    template <typename Type>
-    class Property;
     class ValuePropertyInterface;
     class Color;
     class FilePath;
