@@ -38,7 +38,7 @@ public:
                    void (Object::*setter_pointer)(std::string));
     
     bool hasChoices() const;
-    const std::vector<std::string> & choices() const;
+    const std::vector<std::string>  & choices() const;
     void clearChoices();
     void setChoices(const std::vector<std::string> & choices);
     void addChoice(const std::string & string);

@@ -78,8 +78,10 @@ set(headers
     ${header_path}/NumberProperty.hpp
     ${header_path}/StringProperty.h
     ${header_path}/StringProperty.hpp
-    ${header_path}/VectorProperty.h
-    ${header_path}/VectorProperty.hpp
+    ${header_path}/ArrayProperty.h
+    ${header_path}/ArrayProperty.hpp
+    ${header_path}/ArrayPropertyInterface.h
+    ${header_path}/ArrayPropertyInterface.hpp
     ${header_path}/FilePathProperty.h
     ${header_path}/FilePathProperty.hpp
     ${header_path}/Property.h

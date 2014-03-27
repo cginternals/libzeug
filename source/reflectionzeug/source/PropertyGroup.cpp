@@ -13,7 +13,6 @@
 
 #include <algorithm>
 
-#include <reflectionzeug/StandardPropertyVisitor.h>
 
 namespace reflectionzeug
 {

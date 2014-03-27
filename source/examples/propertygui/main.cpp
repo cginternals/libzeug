@@ -66,14 +66,11 @@ int main(int argc, char *argv[])
 
     height->setRange(widget->minimumHeight(), widget->maximumHeight());
 
-    auto * minimumSize = size->addProperty<std::vector<int>>("minimumSize",
-        [widget]() {
-            std::vector<int> range;
-            range.push_back(widget->minimumWidth());
-            range.push_back(widget->minimumHeight());
-            return range;
+    auto * minimumSize = size->addProperty<std::array<int, 2>>("minimumSize",
+        [widget] () -> std::array<int, 2> {
+            return { {widget->minimumWidth(), widget->minimumHeight()} };
         },
-        [widget, width, height](const std::vector<int> & size) {
+        [widget, width, height] (const std::array<int, 2> & size) {
             widget->setMinimumSize(QSize(size[0], size[1]));
             width->setMinimum(size[0]);
             height->setMinimum(size[1]);
@@ -81,14 +78,11 @@ int main(int argc, char *argv[])
 
     minimumSize->setTitle("Minimum Size");
 
-    auto * maximumSize = size->addProperty<std::vector<int>>("maximumSize",
-        [widget]() {
-            std::vector<int> range;
-            range.push_back(widget->maximumWidth());
-            range.push_back(widget->maximumHeight());
-            return range;
+    auto * maximumSize = size->addProperty<std::array<int, 2>>("maximumSize",
+        [widget]() -> std::array<int, 2> {
+            return { {widget->maximumWidth(), widget->maximumHeight()} };
         },
-        [widget, width, height](const std::vector<int> & size) {
+        [widget, width, height] (const std::array<int, 2> & size) {
             widget->setMaximumSize(QSize(size[0], size[1]));
             width->setMaximum(size[0]);
             height->setMaximum(size[1]);

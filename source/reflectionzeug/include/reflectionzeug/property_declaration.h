@@ -14,9 +14,10 @@ namespace reflectionzeug
  * - std::string
  * - Color
  * - FilePath
- * - std::vector<bool>
- * - std::vector<int>
- * - std::vector<double>
+ * - any std::array with type
+ *   - bool
+ *   - int
+ *   - double
  * - any enum
  * - any class that implements:
  *   - static Class fromString(std::string)

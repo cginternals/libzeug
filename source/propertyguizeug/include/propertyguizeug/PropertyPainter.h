@@ -7,7 +7,7 @@
 
 #include <propertyguizeug/propertyguizeug.h>
 
-#include <reflectionzeug/StandardPropertyVisitor.h>
+#include <reflectionzeug/PropertyVisitor.h>
 
 class QPainter;
 

@@ -1,22 +1,20 @@
 
 #pragma once
 
-#include <set>
-#include <type_traits>
+#include <array>
 
-#include <reflectionzeug/reflectionzeug.h>
+#include <reflectionzeug/property_declaration.h>
 
 #include <reflectionzeug/ValueProperty.h>
 #include <reflectionzeug/NumberProperty.h>
 #include <reflectionzeug/StringProperty.h>
-#include <reflectionzeug/VectorProperty.h>
+#include <reflectionzeug/ArrayProperty.h>
 #include <reflectionzeug/FilePathProperty.h>
 #include <reflectionzeug/EnumProperty.h>
 
 #include <reflectionzeug/Color.h>
 #include <reflectionzeug/FilePath.h>
 
-#include <reflectionzeug/property_declaration.h>
 #include <reflectionzeug/specialization_helpers.h>
 #include <reflectionzeug/util.h>
 
@@ -117,30 +115,30 @@ public:
 
 };
 
-template <>
-class Property<std::vector<bool>> : public VectorProperty<bool>
+template <typename Type>
+class Property<Type, EnableIf<isBoolArray<Type>>> : public ArrayProperty<Type>
 {
 public:
-    template <typename... Args>
-    Property(const std::string & name, Args&&... args) : 
-        ValuePropertyInterface(name),
-        VectorProperty<bool>(name, std::forward<Args>(args)...) {}
+   template <typename... Args>
+   Property(const std::string & name, Args&&... args) : 
+       ValuePropertyInterface(name),
+       ArrayProperty<Type>(name, std::forward<Args>(args)...) {}
 
 protected:
-    virtual std::string elementRegex() const { return "true|false"; }
-    virtual std::string elementToString(const bool & element) const { return element ? "true" : "false"; }
-    virtual bool elementFromString(const std::string & string) const { return string == "true"; }
+   virtual std::string elementRegex() const { return "true|false"; }
+   virtual std::string elementToString(const bool & element) const { return element ? "true" : "false"; }
+   virtual bool elementFromString(const std::string & string) const { return string == "true"; }
 
 };
 
-template <>
-class Property<std::vector<int>> : public VectorProperty<int>
+template <typename Type>
+class Property<Type, EnableIf<isArray<Type>>> : public ArrayProperty<Type>
 {
 public:
     template <typename... Args>
     Property(const std::string & name, Args&&... args) : 
         ValuePropertyInterface(name),
-        VectorProperty<int>(name, std::forward<Args>(args)...) {}
+        ArrayProperty<Type>(name, std::forward<Args>(args)...) {}
 
 protected:
     virtual std::string elementRegex() const { return "(-|\\+)?\\d+"; }
@@ -149,19 +147,19 @@ protected:
 
 };
 
-template <>
-class Property<std::vector<double>> : public VectorProperty<double>
+template <typename Type>
+class Property<Type, EnableIf<isDoubleArray<Type>>> : public ArrayProperty<Type>
 {
 public:
-    template <typename... Args>
-    Property(const std::string & name, Args&&... args) : 
-        ValuePropertyInterface(name),
-        VectorProperty<double>(name, std::forward<Args>(args)...) {}
+   template <typename... Args>
+   Property(const std::string & name, Args&&... args) : 
+       ValuePropertyInterface(name),
+       ArrayProperty<Type>(name, std::forward<Args>(args)...) {}
 
 protected:
-    virtual std::string elementRegex() const { return "(-|\\+)?\\d+\\.?\\d*"; }
-    virtual std::string elementToString(const double & element) const { return util::toString(element); }
-    virtual double elementFromString(const std::string & string) const { return util::fromString<double>(string); }
+   virtual std::string elementRegex() const { return "(-|\\+)?\\d+\\.?\\d*"; }
+   virtual std::string elementToString(const double & element) const { return util::toString(element); }
+   virtual double elementFromString(const std::string & string) const { return util::fromString<double>(string); }
 
 };
 
@@ -177,7 +175,7 @@ public:
 };
 
 template <typename Type>
-class Property<Type, EnableIf<std::is_class<Type>>> : public ClassProperty<Type>
+class Property<Type, EnableIf<std::is_class<Type>, Neg<isArray<Type>>>> : public ClassProperty<Type>
 {
 public:
     template <typename... Args>
