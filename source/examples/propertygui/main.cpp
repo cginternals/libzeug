@@ -130,14 +130,12 @@ int main(int argc, char *argv[])
             widget->setCursor(QCursor(shape));
         });
 
-    cursorProperty->setPairs({
+    cursorProperty->setStrings({
         { Qt::PointingHandCursor, "Pointing Hand Cursor" },
         { Qt::BusyCursor, "Busy Cursor" },
         { Qt::ArrowCursor, "Arrow Cursor" },
         { Qt::WaitCursor, "Wait Cursor" }
     });
-
-
 
     settings->addProperty<Switch>("switch", Switch(true));
 

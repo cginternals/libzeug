@@ -43,7 +43,7 @@ public:
     
     virtual std::vector<std::string> strings() const;
     
-    void setPairs(const std::vector<std::pair<Enum, std::string>> & pairs);
+    void setStrings(const std::vector<std::pair<Enum, std::string>> & pairs);
 
 private:
     std::map<Enum, std::string> m_stringMap;

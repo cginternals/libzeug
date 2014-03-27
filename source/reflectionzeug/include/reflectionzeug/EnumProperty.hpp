@@ -104,7 +104,7 @@ std::vector<std::string> EnumProperty<Enum>::strings() const
 }
     
 template <typename Enum>
-void EnumProperty<Enum>::setPairs(const std::vector<std::pair<Enum, std::string>> & pairs)
+void EnumProperty<Enum>::setStrings(const std::vector<std::pair<Enum, std::string>> & pairs)
 {
     m_stringMap.clear();
     m_enumMap.clear();

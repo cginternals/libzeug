@@ -94,7 +94,7 @@ void enumProperty()
 
     PropertyGroup root("root");
     auto * normalModeProperty = root.addProperty<NormalMode>("normal_mode", NormalMode::LookAt);
-    normalModeProperty->setPairs({ 
+    normalModeProperty->setStrings({ 
         { NormalMode::Vertex, "Vertex" },
         { NormalMode::Custom, "Custom" },
         { NormalMode::LookAt, "LookAt" }
