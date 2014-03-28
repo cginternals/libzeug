@@ -6,6 +6,7 @@
 #include <reflectionzeug/property_declaration.h>
 
 #include <reflectionzeug/ValueProperty.h>
+#include <reflectionzeug/ClassProperty.h>
 #include <reflectionzeug/NumberProperty.h>
 #include <reflectionzeug/StringProperty.h>
 #include <reflectionzeug/ArrayProperty.h>
@@ -90,17 +91,6 @@ public:
     Property(const std::string & name, Args&&... args) : 
         ValuePropertyInterface(name),
         StringProperty(std::forward<Args>(args)...) {}
-
-};
-
-template <>
-class Property<Color> : public ClassProperty<Color>
-{
-public:
-    template <typename... Args>
-    Property(const std::string & name, Args&&... args) : 
-        ValuePropertyInterface(name),
-        ClassProperty<Color>(std::forward<Args>(args)...) {}
 
 };
 
