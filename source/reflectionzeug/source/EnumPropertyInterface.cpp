@@ -5,8 +5,7 @@
 namespace reflectionzeug
 {
     
-EnumPropertyInterface::EnumPropertyInterface(const std::string & name)
-:   ValuePropertyInterface(name)
+EnumPropertyInterface::~EnumPropertyInterface()
 {
 }
 

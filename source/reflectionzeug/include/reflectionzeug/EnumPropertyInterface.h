@@ -13,7 +13,7 @@ namespace reflectionzeug
 class REFLECTIONZEUG_API EnumPropertyInterface : public virtual ValuePropertyInterface
 {
 public:
-    EnumPropertyInterface(const std::string & name);
+    virtual ~EnumPropertyInterface() = 0;
     
     virtual void accept(AbstractPropertyVisitor * visitor, bool warn = true);
     

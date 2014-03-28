@@ -7,53 +7,51 @@ namespace reflectionzeug
 {
 
 template <typename Enum>
-EnumProperty<Enum>::EnumProperty(const std::string & name, const Enum & value)
-:   ValuePropertyInterface(name)
-,   EnumPropertyInterface(name)
-,   ValueProperty<Enum>(name, value)
+EnumProperty<Enum>::EnumProperty(const Enum & value)
+:   ValueProperty<Enum>(value)
 {
 }
 
 template <typename Enum>
-EnumProperty<Enum>::EnumProperty(const std::string & name,
+EnumProperty<Enum>::EnumProperty(
     const std::function<Enum ()> & getter,
     const std::function<void(const Enum &)> & setter)
-:   ValuePropertyInterface(name)
-,   EnumPropertyInterface(name)
-,   ValueProperty<Enum>(name, getter, setter)
+:   ValueProperty<Enum>(getter, setter)
 {
 }
 
 template <typename Enum>
 template <class Object>
-EnumProperty<Enum>::EnumProperty(const std::string & name,
-    Object & object, const Enum & (Object::*getter_pointer)() const,
+EnumProperty<Enum>::EnumProperty(
+    Object & object, 
+    const Enum & (Object::*getter_pointer)() const,
     void (Object::*setter_pointer)(const Enum &))
-:   ValuePropertyInterface(name)
-,   EnumPropertyInterface(name)
-,   ValueProperty<Enum>(name, object, getter_pointer, setter_pointer)
+:   ValueProperty<Enum>(object, getter_pointer, setter_pointer)
 {
 }
 
 template <typename Enum>
 template <class Object>
-EnumProperty<Enum>::EnumProperty(const std::string & name,
-    Object & object, Enum (Object::*getter_pointer)() const,
+EnumProperty<Enum>::EnumProperty(
+    Object & object, 
+    Enum (Object::*getter_pointer)() const,
     void (Object::*setter_pointer)(const Enum &))
-:   ValuePropertyInterface(name)
-,   EnumPropertyInterface(name)
-,   ValueProperty<Enum>(name, object, getter_pointer, setter_pointer)
+:   ValueProperty<Enum>(object, getter_pointer, setter_pointer)
 {
 }
 
 template <typename Enum>
 template <class Object>
-EnumProperty<Enum>::EnumProperty(const std::string & name,
-    Object & object, Enum (Object::*getter_pointer)() const,
+EnumProperty<Enum>::EnumProperty(
+    Object & object, 
+    Enum (Object::*getter_pointer)() const,
     void (Object::*setter_pointer)(Enum))
-:   ValuePropertyInterface(name)
-,   EnumPropertyInterface(name)
-,   ValueProperty<Enum>(name, object, getter_pointer, setter_pointer)
+:   ValueProperty<Enum>(object, getter_pointer, setter_pointer)
+{
+}
+
+template <typename Enum>
+EnumProperty<Enum>::~EnumProperty()
 {
 }
     

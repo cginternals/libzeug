@@ -4,18 +4,19 @@
 namespace reflectionzeug
 {
 
-StringProperty::StringProperty(const std::string & name,
-    const std::string & value)
-:   ValuePropertyInterface(name)
-,   ValueProperty<std::string>(name, value)
+StringProperty::StringProperty(const std::string & value)
+:   ValueProperty<std::string>(value)
 {
 }
 
-StringProperty::StringProperty(const std::string & name, 
+StringProperty::StringProperty( 
     const std::function<std::string ()> & getter,
     const std::function<void(const std::string &)> & setter)
-:   ValuePropertyInterface(name)
-,   ValueProperty<std::string>(name, getter, setter)
+:   ValueProperty<std::string>(getter, setter)
+{
+}
+
+StringProperty::~StringProperty()
 {
 }
     
@@ -24,26 +25,26 @@ bool StringProperty::hasChoices() const
     return !m_choices.empty();
 }
  
+void StringProperty::addChoice(const std::string & string)
+{
+    m_choices.push_back(string);
+}
+ 
 const std::vector<std::string> & StringProperty::choices() const
 {
     return m_choices;
-}
- 
-void StringProperty::clearChoices()
-{
-    m_choices.clear();
 }
  
 void StringProperty::setChoices(const std::vector<std::string> & choices)
 {
     m_choices = choices;
 }
- 
-void StringProperty::addChoice(const std::string & string)
-{
-    m_choices.push_back(string);
-}
     
+void StringProperty::clearChoices()
+{
+    m_choices.clear();
+}
+ 
 std::string StringProperty::toString() const
 {
     return this->value();

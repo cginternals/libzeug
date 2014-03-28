@@ -13,7 +13,7 @@ template <typename Type>
 class ArrayPropertyInterface : public virtual ValuePropertyInterface
 {
 public:
-    ArrayPropertyInterface(const std::string & name);
+    virtual ~ArrayPropertyInterface() = 0;
     
     virtual void accept(AbstractPropertyVisitor * visitor, bool warn = true);
     

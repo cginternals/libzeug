@@ -9,10 +9,8 @@ namespace reflectionzeug
 {
 
 template <typename Type>
-ArrayProperty<Type>::ArrayProperty(const std::string & name, const Type & value)
-:   ValuePropertyInterface(name)
-,   ArrayPropertyInterface<contained_type>(name)
-,   ValueProperty<Type>(name, value)
+ArrayProperty<Type>::ArrayProperty(const Type & value)
+:   ValueProperty<Type>(value)
 ,   m_columns(size())
 ,   m_rows(1)
 {
@@ -20,12 +18,9 @@ ArrayProperty<Type>::ArrayProperty(const std::string & name, const Type & value)
 
 template <typename Type>
 ArrayProperty<Type>::ArrayProperty(
-    const std::string & name,
     const std::function<Type ()> & getter,
     const std::function<void(const Type &)> & setter)
-:   ValuePropertyInterface(name)
-,   ArrayPropertyInterface<contained_type>(name)
-,   ValueProperty<Type>(name, getter, setter)
+:   ValueProperty<Type>(getter, setter)
 ,   m_columns(size())
 ,   m_rows(1)
 {
@@ -34,13 +29,10 @@ ArrayProperty<Type>::ArrayProperty(
 template <typename Type>
 template <class Object>
 ArrayProperty<Type>::ArrayProperty(
-    const std::string & name,
     Object & object, 
     const Type & (Object::*getter_pointer)() const,
     void (Object::*setter_pointer)(const Type &))
-:   ValuePropertyInterface(name)
-,   ArrayPropertyInterface<contained_type>(name)
-,   ValueProperty<Type>(name, object, getter_pointer, setter_pointer)
+:   ValueProperty<Type>(object, getter_pointer, setter_pointer)
 ,   m_columns(size())
 ,   m_rows(1)
 {
@@ -49,13 +41,10 @@ ArrayProperty<Type>::ArrayProperty(
 template <typename Type>
 template <class Object>
 ArrayProperty<Type>::ArrayProperty(
-    const std::string & name,
     Object & object, 
     Type (Object::*getter_pointer)() const,
     void (Object::*setter_pointer)(const Type &))
-:   ValuePropertyInterface(name)
-,   ArrayPropertyInterface<contained_type>(name)
-,   ValueProperty<Type>(name, object, getter_pointer, setter_pointer)
+:   ValueProperty<Type>(object, getter_pointer, setter_pointer)
 ,   m_columns(size())
 ,   m_rows(1)
 {
@@ -64,15 +53,17 @@ ArrayProperty<Type>::ArrayProperty(
 template <typename Type>
 template <class Object>
 ArrayProperty<Type>::ArrayProperty(
-    const std::string & name,
     Object & object, 
     Type (Object::*getter_pointer)() const,
     void (Object::*setter_pointer)(Type))
-:   ValuePropertyInterface(name)
-,   ArrayPropertyInterface<contained_type>(name)
-,   ValueProperty<Type>(name, object, getter_pointer, setter_pointer)
+:   ValueProperty<Type>(object, getter_pointer, setter_pointer)
 ,   m_columns(size())
 ,   m_rows(1)
+{
+}
+
+template <typename Type>
+ArrayProperty<Type>::~ArrayProperty()
 {
 }
     

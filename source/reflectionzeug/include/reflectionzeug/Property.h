@@ -28,7 +28,7 @@ public:
     template <typename... Args>
     Property(const std::string & name, Args&&... args) : 
         ValuePropertyInterface(name),
-        ValueProperty<bool>(name, std::forward<Args>(args)...) {}
+        ValueProperty<bool>(std::forward<Args>(args)...) {}
 
     virtual std::string toString() const { return this->value() ? "true" : "false"; }
 
@@ -53,7 +53,7 @@ public:
     template <typename... Args>
     Property(const std::string & name, Args&&... args) : 
         ValuePropertyInterface(name),
-        NumberProperty<int>(name, std::forward<Args>(args)...) {}
+        NumberProperty<int>(std::forward<Args>(args)...) {}
 
 protected:
     virtual std::string matchRegex() { return "(-|\\+)?\\d+"; }
@@ -67,7 +67,7 @@ public:
     template <typename... Args>
     Property(const std::string & name, Args&&... args) : 
         ValuePropertyInterface(name), 
-        NumberProperty<double>(name, std::forward<Args>(args)...),
+        NumberProperty<double>(std::forward<Args>(args)...),
         m_precision(0) {}
 
     unsigned int precision() const { return m_precision; }
@@ -89,7 +89,7 @@ public:
     template <typename... Args>
     Property(const std::string & name, Args&&... args) : 
         ValuePropertyInterface(name),
-        StringProperty(name, std::forward<Args>(args)...) {}
+        StringProperty(std::forward<Args>(args)...) {}
 
 };
 
@@ -100,7 +100,7 @@ public:
     template <typename... Args>
     Property(const std::string & name, Args&&... args) : 
         ValuePropertyInterface(name),
-        ClassProperty<Color>(name, std::forward<Args>(args)...) {}
+        ClassProperty<Color>(std::forward<Args>(args)...) {}
 
 };
 
@@ -111,7 +111,7 @@ public:
     template <typename... Args>
     Property(const std::string & name, Args&&... args) : 
         ValuePropertyInterface(name),
-        FilePathProperty(name, std::forward<Args>(args)...) {}
+        FilePathProperty(std::forward<Args>(args)...) {}
 
 };
 
@@ -122,7 +122,7 @@ public:
    template <typename... Args>
    Property(const std::string & name, Args&&... args) : 
        ValuePropertyInterface(name),
-       ArrayProperty<Type>(name, std::forward<Args>(args)...) {}
+       ArrayProperty<Type>(std::forward<Args>(args)...) {}
 
 protected:
    virtual std::string elementRegex() const { return "true|false"; }
@@ -138,7 +138,7 @@ public:
     template <typename... Args>
     Property(const std::string & name, Args&&... args) : 
         ValuePropertyInterface(name),
-        ArrayProperty<Type>(name, std::forward<Args>(args)...) {}
+        ArrayProperty<Type>(std::forward<Args>(args)...) {}
 
 protected:
     virtual std::string elementRegex() const { return "(-|\\+)?\\d+"; }
@@ -154,7 +154,7 @@ public:
    template <typename... Args>
    Property(const std::string & name, Args&&... args) : 
        ValuePropertyInterface(name),
-       ArrayProperty<Type>(name, std::forward<Args>(args)...) {}
+       ArrayProperty<Type>(std::forward<Args>(args)...) {}
 
 protected:
    virtual std::string elementRegex() const { return "(-|\\+)?\\d+\\.?\\d*"; }
@@ -170,7 +170,7 @@ public:
     template <typename... Args>
     Property(const std::string & name, Args&&... args) : 
         ValuePropertyInterface(name),
-        EnumProperty<Type>(name, std::forward<Args>(args)...) {}
+        EnumProperty<Type>(std::forward<Args>(args)...) {}
     
 };
 
@@ -181,7 +181,7 @@ public:
     template <typename... Args>
     Property(const std::string & name, Args&&... args) : 
         ValuePropertyInterface(name),
-        ClassProperty<Type>(name, std::forward<Args>(args)...) {}
+        ClassProperty<Type>(std::forward<Args>(args)...) {}
 
 };
 

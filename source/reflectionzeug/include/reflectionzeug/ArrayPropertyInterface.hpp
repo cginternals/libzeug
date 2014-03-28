@@ -7,8 +7,7 @@ namespace reflectionzeug
 {
 
 template <typename Type>
-ArrayPropertyInterface<Type>::ArrayPropertyInterface(const std::string & name)
-:   ValuePropertyInterface(name)
+ArrayPropertyInterface<Type>::~ArrayPropertyInterface()
 {
 }
 

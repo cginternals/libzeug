@@ -15,26 +15,27 @@ template <typename Enum>
 class EnumProperty : public EnumPropertyInterface, public ValueProperty<Enum>
 {
 public:
-    EnumProperty(const std::string & name, const Enum & value);
+    EnumProperty(const Enum & value);
 
-    EnumProperty(const std::string & name,
-                 const std::function<Enum()> & getter,
+    EnumProperty(const std::function<Enum()> & getter,
                  const std::function<void(const Enum &)> & setter);
 
     template <class Object>
-    EnumProperty(const std::string & name,
-                 Object & object, const Enum & (Object::*getter_pointer)() const,
+    EnumProperty(Object & object, 
+                 const Enum & (Object::*getter_pointer)() const,
                  void (Object::*setter_pointer)(const Enum &));
 
     template <class Object>
-    EnumProperty(const std::string & name,
-                 Object & object, Enum (Object::*getter_pointer)() const,
+    EnumProperty(Object & object, 
+                 Enum (Object::*getter_pointer)() const,
                  void (Object::*setter_pointer)(const Enum &));
 
     template <class Object>
-    EnumProperty(const std::string & name,
-                 Object & object, Enum (Object::*getter_pointer)() const,
+    EnumProperty(Object & object, 
+                 Enum (Object::*getter_pointer)() const,
                  void (Object::*setter_pointer)(Enum));
+
+    virtual ~EnumProperty() = 0;
 
     virtual void accept(AbstractPropertyVisitor * visitor, bool warn = true);
     

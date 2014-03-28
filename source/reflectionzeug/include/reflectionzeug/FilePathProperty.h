@@ -14,26 +14,27 @@ namespace reflectionzeug
 class REFLECTIONZEUG_API FilePathProperty : public ClassProperty<FilePath>
 {
 public:
-    FilePathProperty(const std::string & name, const FilePath & value);
+    FilePathProperty(const FilePath & value);
     
-    FilePathProperty(const std::string & name,
-                     const std::function<FilePath ()> & getter,
+    FilePathProperty(const std::function<FilePath ()> & getter,
                      const std::function<void(const FilePath &)> & setter);
 
     template <class Object>
-    FilePathProperty(const std::string & name,
-                     Object & object, const FilePath & (Object::*getter_pointer)() const,
+    FilePathProperty(Object & object, 
+                     const FilePath & (Object::*getter_pointer)() const,
                      void (Object::*setter_pointer)(const FilePath &));
 
     template <class Object>
-    FilePathProperty(const std::string & name,
-                     Object & object, FilePath (Object::*getter_pointer)() const,
+    FilePathProperty(Object & object, 
+                     FilePath (Object::*getter_pointer)() const,
                      void (Object::*setter_pointer)(const FilePath &));
     
     template <class Object>
-    FilePathProperty(const std::string & name,
-                     Object & object, FilePath (Object::*getter_pointer)() const,
+    FilePathProperty(Object & object, 
+                     FilePath (Object::*getter_pointer)() const,
                      void (Object::*setter_pointer)(FilePath));
+
+    virtual ~FilePathProperty() = 0;
     
     bool shouldExist() const;
     void setShouldExist(bool shouldExist);
