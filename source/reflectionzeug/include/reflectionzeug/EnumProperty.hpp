@@ -3,6 +3,8 @@
 
 #include <cassert>
 
+#include <reflectionzeug/PropertyVisitor.h>
+
 namespace reflectionzeug
 {
 

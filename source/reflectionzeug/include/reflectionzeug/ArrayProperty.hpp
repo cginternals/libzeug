@@ -3,6 +3,7 @@
 
 #include <cassert>
 
+#include <reflectionzeug/PropertyVisitor.h>
 #include <reflectionzeug/util.h>
 
 namespace reflectionzeug
