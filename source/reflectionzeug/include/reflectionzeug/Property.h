@@ -132,7 +132,7 @@ protected:
 };
 
 template <typename Type>
-class Property<Type, EnableIf<isArray<Type>>> : public ArrayProperty<Type>
+class Property<Type, EnableIf<isIntArray<Type>>> : public ArrayProperty<Type>
 {
 public:
     template <typename... Args>
