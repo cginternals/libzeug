@@ -166,7 +166,7 @@ static void getProperty(Local<String> property, const PropertyCallbackInfo<Value
             if (vp) {
                 // Convert property value into Variant
                 JSPropVisitor visitor(JSPropVisitor::GetOperation);
-                vp->accept(visitor);
+                vp->accept(&visitor);
 
                 // [TODO]
                 info.GetReturnValue().Set(wrapValue(isolate, visitor.value()));
@@ -194,7 +194,7 @@ static void setProperty(Local<String> property, Local<Value> value, const Proper
                 // Set property value
                 JSPropVisitor visitor(JSPropVisitor::SetOperation);
                 visitor.setValue(wrapValue(value));
-                vp->accept(visitor);
+                vp->accept(&visitor);
             }
         }
     }
