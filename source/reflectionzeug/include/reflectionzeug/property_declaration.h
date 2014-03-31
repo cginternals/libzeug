@@ -12,14 +12,13 @@ namespace reflectionzeug
  * - int
  * - double
  * - std::string
- * - Color
  * - FilePath
  * - any std::array with type
  *   - bool
  *   - int
  *   - double
  * - any enum
- * - any class that implements:
+ * - any class that implements (e.g. Color):
  *   - static Class fromString(std::string)
  *   - std::string toString()
  */
