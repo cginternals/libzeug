@@ -62,18 +62,30 @@ struct is_array<std::array<Type, Size>>
 };
 
 }
-
+    
 template <typename Condition>
-using Neg = helpers::neg<Condition::value>;
+struct NegHelper : public helpers::neg<Condition::value> {};
+    
+template <typename Condition>
+using Neg = NegHelper<Condition>;
 
 template <typename... Conditions>
-using All = helpers::all<Conditions::value...>;
+struct AllHelper : public helpers::all<Conditions::value...> {};
+    
+template <typename... Conditions>
+using All = AllHelper<Conditions...>;
 
-template <typename... Condition>
-using EnableIf = typename std::enable_if<All<Condition...>::value>::type;
+template <typename... Conditions>
+struct EnableIfHelper : std::enable_if<All<Conditions...>::value> {};
+    
+template <typename... Conditions>
+using EnableIf = typename EnableIfHelper<Conditions...>::type;
 
-template <typename... Condition>
-using DisableIf = typename std::enable_if<!All<Condition...>::value>::type;
+template <typename... Conditions>
+struct DisableIfHelper : public std::enable_if<!All<Conditions...>::value> {};
+
+template <typename... Conditions>
+using DisableIf = typename DisableIfHelper<Conditions...>::type;
 
 template <typename Type>
 using isArray = helpers::is_array<Type>;
