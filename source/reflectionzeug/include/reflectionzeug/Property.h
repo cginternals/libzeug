@@ -106,7 +106,7 @@ public:
 };
 
 template <typename Type>
-class Property<Type, EnableIf<isBoolArray<Type>>> : public ArrayProperty<Type>
+class Property<Type, typename EnableIf<isBoolArray<Type>>::type> : public ArrayProperty<Type>
 {
 public:
    template <typename... Args>
@@ -122,7 +122,7 @@ protected:
 };
 
 template <typename Type>
-class Property<Type, EnableIf<isIntArray<Type>>> : public ArrayProperty<Type>
+class Property<Type, typename EnableIf<isIntArray<Type>>::type> : public ArrayProperty<Type>
 {
 public:
     template <typename... Args>
@@ -138,7 +138,7 @@ protected:
 };
 
 template <typename Type>
-class Property<Type, EnableIf<isDoubleArray<Type>>> : public ArrayProperty<Type>
+class Property<Type, typename EnableIf<isDoubleArray<Type>>::type> : public ArrayProperty<Type>
 {
 public:
    template <typename... Args>
@@ -154,7 +154,7 @@ protected:
 };
 
 template <typename Type>
-class Property<Type, EnableIf<std::is_enum<Type>>> : public EnumProperty<Type>
+class Property<Type, typename EnableIf<std::is_enum<Type>>::type> : public EnumProperty<Type>
 {
 public:
     template <typename... Args>
@@ -165,7 +165,7 @@ public:
 };
 
 template <typename Type>
-class Property<Type, EnableIf<std::is_class<Type>, Neg<isArray<Type>>>> : public ClassProperty<Type>
+class Property<Type, typename EnableIf<std::is_class<Type>, Neg<isArray<Type>>>::type> : public ClassProperty<Type>
 {
 public:
     template <typename... Args>

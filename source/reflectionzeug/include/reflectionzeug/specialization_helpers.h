@@ -1,4 +1,3 @@
-
 #pragma once
 
 #include <array>
@@ -7,8 +6,8 @@
 
 namespace reflectionzeug
 {
-
-namespace helpers
+    
+namespace
 {
 
 template <bool Condition, bool... MoreConditions>
@@ -60,43 +59,43 @@ struct is_array<std::array<Type, Size>>
 {
     enum { value = true };
 };
-
+    
+template <typename Type, typename Container>
+struct is_special_array
+{
+    enum { value = false };
+};
+    
+template <typename Type, size_t Size>
+struct is_special_array<Type, std::array<Type, Size>>
+{
+    enum { value = true };
+};
+    
 }
-    
+
 template <typename Condition>
-struct NegHelper : public helpers::neg<Condition::value> {};
+struct Neg : public neg<Condition::value> {};
+
+template <typename... Conditions>
+struct All : public all<Conditions::value...> {};
+
+template <typename... Conditions>
+struct EnableIf : std::enable_if<All<Conditions...>::value> {};
+
+template <typename... Conditions>
+struct DisableIf : public std::enable_if<!All<Conditions...>::value> {};
+
+template <typename Type>
+struct isArray : public is_array<Type> {};
+
+template <typename Type>
+struct isBoolArray : public is_special_array<bool, Type> {};
+
+template <typename Type>
+struct isIntArray : public is_special_array<int, Type> {};
+
+template <typename Type>
+struct isDoubleArray : public is_special_array<double, Type> {};
     
-template <typename Condition>
-using Neg = NegHelper<Condition>;
-
-template <typename... Conditions>
-struct AllHelper : public helpers::all<Conditions::value...> {};
-    
-template <typename... Conditions>
-using All = AllHelper<Conditions...>;
-
-template <typename... Conditions>
-struct EnableIfHelper : std::enable_if<All<Conditions...>::value> {};
-    
-template <typename... Conditions>
-using EnableIf = typename EnableIfHelper<Conditions...>::type;
-
-template <typename... Conditions>
-struct DisableIfHelper : public std::enable_if<!All<Conditions...>::value> {};
-
-template <typename... Conditions>
-using DisableIf = typename DisableIfHelper<Conditions...>::type;
-
-template <typename Type>
-using isArray = helpers::is_array<Type>;
-
-template <typename Type>
-using isBoolArray = All<isArray<Type>, std::is_same<typename Type::value_type, bool>>;
-
-template <typename Type>
-using isIntArray = All<isArray<Type>, std::is_same<typename Type::value_type, int>>;
-
-template <typename Type>
-using isDoubleArray = All<isArray<Type>, std::is_same<typename Type::value_type, double>>;
-
 } // namespace reflectionzeug
