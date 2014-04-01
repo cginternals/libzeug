@@ -30,12 +30,6 @@ struct all<true>
     enum { value = true };
 };
 
-template <>
-struct all<false>
-{
-    enum { value = false };
-};
-
 template <bool Condition>
 struct neg
 {
@@ -77,13 +71,13 @@ struct is_special_array<Type, std::array<Type, Size>>
 template <typename Condition>
 struct Neg : public neg<Condition::value> {};
 
-template <typename... Conditions>
-struct All : public all<Conditions::value...> {};
+template <bool... Conditions>
+struct All : public all<Conditions...> {};
 
-template <typename... Conditions>
-struct EnableIf : std::enable_if<All<Conditions...>::value> {};
+template <bool... Conditions>
+struct EnableIf : public std::enable_if<All<Conditions...>::value> {};
 
-template <typename... Conditions>
+template <bool... Conditions>
 struct DisableIf : public std::enable_if<!All<Conditions...>::value> {};
 
 template <typename Type>
