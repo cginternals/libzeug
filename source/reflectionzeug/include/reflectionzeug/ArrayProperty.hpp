@@ -132,7 +132,7 @@ bool ArrayProperty<Type>::fromString(const std::string & string)
     std::vector<std::string> values = util::extract(string, elementRegex());
 
     Type array;
-    for (int i = 0; i < values.size(); ++i)
+    for (unsigned int i = 0; i < values.size(); ++i)
     {
         array[i] = (elementFromString(values[i]));
     }
@@ -155,7 +155,7 @@ bool ArrayProperty<Type>::fromVector(const std::vector<contained_type> & vector)
         return false;
 
     Type array;
-    for (int i = 0; i < size(); ++i)
+    for (unsigned int i = 0; i < size(); ++i)
         array[i] = vector[i];
 
     this->setValue(array);
