@@ -35,9 +35,9 @@ PropertyBrowser::PropertyBrowser(
     PropertyPainter * painter,
     QWidget * parent)
 :   QTreeView(parent)
-,   m_model(nullptr)
 ,   m_delegate(new PropertyDelegate(editorFactory, painter, this))
 {
+    this->setModel(nullptr);
     this->setItemDelegateForColumn(1, m_delegate);
     
     initView();
@@ -49,10 +49,9 @@ PropertyBrowser::PropertyBrowser(
     PropertyPainter * painter,
     QWidget * parent)
 :   QTreeView(parent)
-,   m_model(new PropertyModel(root))
 ,   m_delegate(new PropertyDelegate(editorFactory, painter, this))
 {
-    this->setModel(m_model);
+    this->setModel(new PropertyModel(root));
     this->setItemDelegateForColumn(1, m_delegate);
     
     initView();
@@ -60,17 +59,14 @@ PropertyBrowser::PropertyBrowser(
 
 PropertyBrowser::~PropertyBrowser()
 {
-    delete m_model;
+    delete this->model();
 }
     
 void PropertyBrowser::setRoot(reflectionzeug::PropertyGroup * root)
 {   
-    PropertyModel * model = root == nullptr ? nullptr : new PropertyModel(root);
-
-    this->setModel(model);
-    
-    delete m_model;
-    m_model = model;
+    QAbstractItemModel * model = this->model();
+    this->setModel((root == nullptr) ? nullptr : new PropertyModel(root));
+    delete model;
 }
     
 void PropertyBrowser::initView()

@@ -15,7 +15,6 @@ namespace propertyguizeug
 
 class PropertyDelegate;
 class PropertyEditorFactory;
-class PropertyModel;
 class PropertyPainter;
 
 class PROPERTYGUIZEUG_API PropertyBrowser : public QTreeView
@@ -43,7 +42,6 @@ protected:
     void initView();
     
 protected:    
-    PropertyModel * m_model;
     PropertyDelegate * m_delegate;
     
 };
