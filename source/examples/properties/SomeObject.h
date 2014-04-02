@@ -1,8 +1,7 @@
 
 #pragma once
 
-#include "PropertyExtension.h"
-
+enum class NormalMode : char { Vertex, Custom, LookAt };
 
 class SomeObject
 {

@@ -2,12 +2,10 @@
 #pragma once
 
 #include <reflectionzeug/AbstractPropertyVisitor.h>
+#include <reflectionzeug/property_declaration.h>
 
 namespace reflectionzeug
 {
-
-template <typename Type>
-class Property;
 
 template <typename Type, typename... MoreTypes>
 class PropertyVisitor : public PropertyVisitor<Type>, public PropertyVisitor<MoreTypes...>

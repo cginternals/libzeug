@@ -17,7 +17,7 @@ public:
     
     virtual void accept(AbstractPropertyVisitor * visitor, bool warn = true);
     
-    virtual const std::vector<std::string> & stringList() const = 0;
+    virtual std::vector<std::string> strings() const = 0;
 
 };
 

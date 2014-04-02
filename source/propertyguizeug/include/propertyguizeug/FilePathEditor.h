@@ -1,6 +1,8 @@
 
 #pragma once
 
+#include <reflectionzeug/property_declaration.h>
+
 #include <propertyguizeug/PropertyEditor.h>
 
 class QLineEdit;
@@ -9,8 +11,6 @@ class QHBoxLayout;
 
 namespace reflectionzeug 
 {
-    template <typename Type>
-    class Property;
     class FilePath;
 }
 

@@ -18,7 +18,7 @@ EnumEditor::EnumEditor(
 ,   m_property(property)
 {
     QStringList list;
-    for (const std::string & string : property->stringList())
+    for (const std::string & string : property->strings())
     {
         list << QString::fromStdString(string);
     }

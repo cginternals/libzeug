@@ -3,20 +3,20 @@
 
 #include <QStyleOptionViewItem>
 
+#include <reflectionzeug/property_declaration.h>
+
 #include <propertyguizeug/propertyguizeug.h>
 
 #include <reflectionzeug/StandardPropertyVisitor.h>
 
-
 class QPainter;
-namespace reflectionzeug {
-    template <typename Type>
-    class Property;
+
+namespace reflectionzeug 
+{
     class ValuePropertyInterface;
     class Color;
     class FilePath;
 }
-
 
 namespace propertyguizeug
 {

@@ -1,12 +1,9 @@
 
 #pragma once
 
-#include <propertyguizeug/PropertyEditor.h>
+#include <reflectionzeug/property_declaration.h>
 
-namespace reflectionzeug {
-    template <typename Type>
-    class Property;
-}
+#include <propertyguizeug/PropertyEditor.h>
 
 namespace propertyguizeug
 {

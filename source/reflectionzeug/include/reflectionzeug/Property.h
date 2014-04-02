@@ -2,7 +2,7 @@
 #pragma once
 
 #include <set>
-#include <typeinfo>
+#include <type_traits>
 
 #include <reflectionzeug/reflectionzeug.h>
 
@@ -11,32 +11,17 @@
 #include <reflectionzeug/StringProperty.h>
 #include <reflectionzeug/VectorProperty.h>
 #include <reflectionzeug/FilePathProperty.h>
+#include <reflectionzeug/EnumProperty.h>
 
 #include <reflectionzeug/Color.h>
 #include <reflectionzeug/FilePath.h>
 
+#include <reflectionzeug/property_declaration.h>
+#include <reflectionzeug/specialization_helpers.h>
 #include <reflectionzeug/util.h>
-
 
 namespace reflectionzeug
 {
-
-/** \brief Part of the property hierarchy, that has different implementation based on its template Type.
-
-    Only this class may be instantiated!
-    Supported Types:
-      - bool
-      - int
-      - double
-      - std::string
-      - Color
-      - FilePath
-      - std::vector<bool>
-      - std::vector<int>
-      - std::vector<double>
-*/
-template <typename Type>
-class Property;
 
 template <>
 class Property<bool> : public ValueProperty<bool>
@@ -181,7 +166,18 @@ protected:
 };
 
 template <typename Type>
-class Property : public ClassProperty<Type>
+class Property<Type, EnableIf<std::is_enum<Type>>> : public EnumProperty<Type>
+{
+public:
+    template <typename... Args>
+    Property(const std::string & name, Args&&... args) : 
+        ValuePropertyInterface(name),
+        EnumProperty<Type>(name, std::forward<Args>(args)...) {}
+    
+};
+
+template <typename Type>
+class Property<Type, EnableIf<std::is_class<Type>>> : public ClassProperty<Type>
 {
 public:
     template <typename... Args>

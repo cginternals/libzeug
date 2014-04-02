@@ -14,9 +14,6 @@ namespace reflectionzeug
 class ValuePropertyInterface;
 class EnumPropertyInterface;
 
-template <typename Type>
-class Property;
-
 class Color;
 class FilePath;
 
