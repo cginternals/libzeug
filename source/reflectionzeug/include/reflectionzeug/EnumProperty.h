@@ -43,12 +43,19 @@ public:
     
     virtual std::vector<std::string> strings() const;
     
-    void setStrings(const std::vector<std::pair<Enum, std::string>> & pairs);
-
+    void setStrings(const std::map<Enum, std::string> & pairs);
 private:
     std::map<Enum, std::string> m_stringMap;
     std::map<std::string, Enum> m_enumMap;
+};
 
+template <typename Enum>
+struct EnumDefaultStrings
+{
+    std::map<Enum, std::string> operator()()
+    {
+        return std::map<Enum, std::string>();
+    }
 };
 
 } // namespace reflectionzeug
