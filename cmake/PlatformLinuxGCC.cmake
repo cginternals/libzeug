@@ -44,6 +44,14 @@ set(LINUX_COMPILE_FLAGS "-pthread -pipe -fPIC -Wreturn-type -Wall -Wextra -Wcast
 # -Wreturn-type -Werror=return-type -> missing returns in functions and methods are handled as errors which stops the compilation
 # -Wshadow -> e.g. when a parameter is named like a member, too many warnings, disabled for now
 
+if(CMAKE_COMPILER_IS_GNUCXX)
+    # gcc
+    set(LINUX_COMPILE_FLAGS "${LINUX_COMPILE_FLAGS} -Wno-unused-but-set-variable")
+elseif("${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang")
+    # clang
+    set(LINUX_COMPILE_FLAGS "${LINUX_COMPILE_FLAGS} -Wno-reinterpret-base-class -Wno-overloaded-virtual")
+endif()
+
 set(LINUX_LINKER_FLAGS "-pthread")
 
 set(DEFAULT_COMPILE_FLAGS ${LINUX_COMPILE_FLAGS})

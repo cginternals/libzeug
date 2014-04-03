@@ -12,6 +12,7 @@ template <typename Enum>
 EnumProperty<Enum>::EnumProperty(const Enum & value)
 :   ValueProperty<Enum>(value)
 {
+    this->setStrings(EnumDefaultStrings<Enum>()());
 }
 
 template <typename Enum>
@@ -20,6 +21,7 @@ EnumProperty<Enum>::EnumProperty(
     const std::function<void(const Enum &)> & setter)
 :   ValueProperty<Enum>(getter, setter)
 {
+    this->setStrings(EnumDefaultStrings<Enum>()());
 }
 
 template <typename Enum>
@@ -30,6 +32,7 @@ EnumProperty<Enum>::EnumProperty(
     void (Object::*setter_pointer)(const Enum &))
 :   ValueProperty<Enum>(object, getter_pointer, setter_pointer)
 {
+    this->setStrings(EnumDefaultStrings<Enum>()());
 }
 
 template <typename Enum>
@@ -40,6 +43,7 @@ EnumProperty<Enum>::EnumProperty(
     void (Object::*setter_pointer)(const Enum &))
 :   ValueProperty<Enum>(object, getter_pointer, setter_pointer)
 {
+    this->setStrings(EnumDefaultStrings<Enum>()());
 }
 
 template <typename Enum>
@@ -55,6 +59,7 @@ EnumProperty<Enum>::EnumProperty(
 template <typename Enum>
 EnumProperty<Enum>::~EnumProperty()
 {
+    this->setStrings(EnumDefaultStrings<Enum>()());
 }
     
 template <typename Type>
@@ -104,16 +109,14 @@ std::vector<std::string> EnumProperty<Enum>::strings() const
 }
     
 template <typename Enum>
-void EnumProperty<Enum>::setStrings(const std::vector<std::pair<Enum, std::string>> & pairs)
+void EnumProperty<Enum>::setStrings(const std::map<Enum, std::string> & pairs)
 {
-    m_stringMap.clear();
+    m_stringMap = pairs;
+
     m_enumMap.clear();
     
     for (const std::pair<Enum, std::string> & pair : pairs)
-    {
-        assert(m_stringMap.count(pair.first) == 0);
-        m_stringMap.emplace(pair.first, pair.second);
-        
+    {        
         assert(m_enumMap.count(pair.second) == 0);
         m_enumMap.emplace(pair.second, pair.first);
     }

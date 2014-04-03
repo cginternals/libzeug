@@ -26,15 +26,18 @@ public:
 
     reflectionzeug::Variant & value();
     void setValue(const reflectionzeug::Variant & value);
-    virtual void visit(reflectionzeug::Property<bool> & property);
-    virtual void visit(reflectionzeug::Property<int> & property);
-    virtual void visit(reflectionzeug::Property<double> & property);
-    virtual void visit(reflectionzeug::Property<std::string> & property);
-    virtual void visit(reflectionzeug::Property<reflectionzeug::Color> & property);
-    virtual void visit(reflectionzeug::Property<reflectionzeug::FilePath> & property);
-    virtual void visit(reflectionzeug::Property<std::vector<bool>> & property);
-    virtual void visit(reflectionzeug::Property<std::vector<int>> & property);
-    virtual void visit(reflectionzeug::Property<std::vector<double>> & property);
+    virtual void visit(reflectionzeug::Property<bool> * property);
+    virtual void visit(reflectionzeug::Property<int> * property);
+    virtual void visit(reflectionzeug::Property<double> * property);
+    virtual void visit(reflectionzeug::Property<std::string> * property);
+    virtual void visit(reflectionzeug::Property<reflectionzeug::Color> * property);
+    virtual void visit(reflectionzeug::Property<reflectionzeug::FilePath> * property);
+    virtual void visit(reflectionzeug::Property<std::vector<bool>> * property);
+    virtual void visit(reflectionzeug::Property<std::vector<int>> * property);
+    virtual void visit(reflectionzeug::Property<std::vector<double>> * property);
+
+virtual void visit(reflectionzeug::ValuePropertyInterface * property) {}
+virtual void visit(reflectionzeug::EnumPropertyInterface * property) {}
 
 protected:
     Operation               m_operation;
