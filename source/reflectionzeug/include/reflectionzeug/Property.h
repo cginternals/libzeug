@@ -99,7 +99,7 @@ public:
     template <typename... Args>
     Property(const std::string & name, Args&&... args) : 
         ValuePropertyInterface(name),
-        NumberProperty<Type>(std::forward<Args>(args)...) {}
+        UnsignedIntegralProperty<Type>(std::forward<Args>(args)...) {}
 
 protected:
     virtual std::string matchRegex() { return "(\\+)?\\d+"; }
