@@ -9,6 +9,7 @@
 #include <reflectionzeug/ClassProperty.h>
 #include <reflectionzeug/NumberProperty.h>
 #include <reflectionzeug/UnsignedIntegralProperty.h>
+#include <reflectionzeug/SignedIntegralProperty.h>
 #include <reflectionzeug/StringProperty.h>
 #include <reflectionzeug/ArrayProperty.h>
 #include <reflectionzeug/FilePathProperty.h>
@@ -107,13 +108,13 @@ protected:
 };
 
 template <typename Type>
-class Property<Type, typename EnableIf<isSignedIntegral<Type>::value>::type> : public NumberProperty<Type>
+class Property<Type, typename EnableIf<isSignedIntegral<Type>::value>::type> : public SignedIntegralProperty<Type>
 {
 public:
     template <typename... Args>
     Property(const std::string & name, Args&&... args) : 
         ValuePropertyInterface(name),
-        NumberProperty<Type>(std::forward<Args>(args)...) {}
+        SignedIntegralProperty<Type>(std::forward<Args>(args)...) {}
 
 protected:
     virtual std::string matchRegex() { return "(-|\\+)?\\d+"; }

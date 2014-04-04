@@ -10,6 +10,7 @@
 #include <propertyguizeug/EnumEditor.h>
 #include <propertyguizeug/BoolEditor.h>
 #include <propertyguizeug/ValueEditor.h>
+#include <propertyguizeug/UnsignedIntegralEditor.h>
 
 #include <propertyguizeug/PropertyEditorFactory.h>
 
@@ -81,6 +82,11 @@ void PropertyEditorFactory::visit(reflectionzeug::ValuePropertyInterface * prope
 void PropertyEditorFactory::visit(reflectionzeug::EnumPropertyInterface * property)
 {
     m_editor = new EnumEditor(property);
+}
+
+void PropertyEditorFactory::visit(reflectionzeug::UnsignedIntegralPropertyInterface * property)
+{
+    m_editor = new UnsignedIntegralEditor(property);
 }
 
 } // namespace propertyguizeug

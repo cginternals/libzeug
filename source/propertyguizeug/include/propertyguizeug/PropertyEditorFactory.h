@@ -8,13 +8,6 @@
 
 class QWidget;
 
-namespace reflectionzeug
-{
-    class ValuePropertyInterface;
-    class Color;
-    class FilePath;
-}
-
 namespace propertyguizeug
 {
     
@@ -36,6 +29,7 @@ public:
 
     virtual void visit(reflectionzeug::ValuePropertyInterface * property);
     virtual void visit(reflectionzeug::EnumPropertyInterface * property);
+    virtual void visit(reflectionzeug::UnsignedIntegralPropertyInterface * property);
 
 protected:
     QWidget * m_editor;
