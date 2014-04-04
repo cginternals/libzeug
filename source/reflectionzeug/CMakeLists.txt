@@ -76,6 +76,9 @@ set(headers
     ${header_path}/EnumPropertyInterface.h
     ${header_path}/NumberProperty.h
     ${header_path}/NumberProperty.hpp
+    ${header_path}/UnsignedIntegralProperty.h
+    ${header_path}/UnsignedIntegralProperty.hpp
+    ${header_path}/UnsignedIntegralPropertyInterface.h
     ${header_path}/StringProperty.h
     ${header_path}/StringProperty.hpp
     ${header_path}/ArrayProperty.h
@@ -119,6 +122,7 @@ set(sources
     ${source_path}/AbstractProperty.cpp
     ${source_path}/ValuePropertyInterface.cpp
     ${source_path}/EnumPropertyInterface.cpp
+    ${source_path}/UnsignedIntegralPropertyInterface.cpp
     ${source_path}/StringProperty.cpp
     ${source_path}/FilePathProperty.cpp
 

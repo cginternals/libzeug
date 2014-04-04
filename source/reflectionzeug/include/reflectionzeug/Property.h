@@ -8,6 +8,7 @@
 #include <reflectionzeug/ValueProperty.h>
 #include <reflectionzeug/ClassProperty.h>
 #include <reflectionzeug/NumberProperty.h>
+#include <reflectionzeug/UnsignedIntegralProperty.h>
 #include <reflectionzeug/StringProperty.h>
 #include <reflectionzeug/ArrayProperty.h>
 #include <reflectionzeug/FilePathProperty.h>
@@ -44,20 +45,6 @@ public:
     }
 
     void toggleValue() { setValue(!value()); }
-
-};
-
-template <>
-class Property<int> : public NumberProperty<int>
-{
-public:
-    template <typename... Args>
-    Property(const std::string & name, Args&&... args) : 
-        ValuePropertyInterface(name),
-        NumberProperty<int>(std::forward<Args>(args)...) {}
-
-protected:
-    virtual std::string matchRegex() { return "(-|\\+)?\\d+"; }
 
 };
 
@@ -102,6 +89,34 @@ public:
     Property(const std::string & name, Args&&... args) : 
         ValuePropertyInterface(name),
         FilePathProperty(std::forward<Args>(args)...) {}
+
+};
+
+template <typename Type>
+class Property<Type, typename EnableIf<isUnsignedIntegral<Type>::value>::type> : public UnsignedIntegralProperty<Type>
+{
+public:
+    template <typename... Args>
+    Property(const std::string & name, Args&&... args) : 
+        ValuePropertyInterface(name),
+        NumberProperty<Type>(std::forward<Args>(args)...) {}
+
+protected:
+    virtual std::string matchRegex() { return "(\\+)?\\d+"; }
+
+};
+
+template <typename Type>
+class Property<Type, typename EnableIf<isSignedIntegral<Type>::value>::type> : public NumberProperty<Type>
+{
+public:
+    template <typename... Args>
+    Property(const std::string & name, Args&&... args) : 
+        ValuePropertyInterface(name),
+        NumberProperty<Type>(std::forward<Args>(args)...) {}
+
+protected:
+    virtual std::string matchRegex() { return "(-|\\+)?\\d+"; }
 
 };
 

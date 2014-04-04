@@ -36,18 +36,18 @@ public:
 
     const Type & minimum() const;
     void setMinimum(const Type & minimum);
-    bool hasMinimum() const;
+    virtual bool hasMinimum() const;
 
     const Type & maximum() const;
     void setMaximum(const Type & maximum);
-    bool hasMaximum() const;
+    virtual bool hasMaximum() const;
 
     void setRange(const Type & minimum, const Type & maximum);
-    bool hasRange() const;
+    virtual bool hasRange() const;
 
     const Type & step() const;
     void setStep(const Type & step);
-    bool hasStep() const;
+    virtual bool hasStep() const;
 
     virtual std::string toString() const;
     virtual bool fromString(const std::string & string);
