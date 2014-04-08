@@ -3,6 +3,7 @@
 #include <algorithm>
 
 #include <QLineEdit>
+#include <QLocale>
 
 #include <reflectionzeug/util.h>
 
@@ -19,6 +20,8 @@ UnsignedLongLongSpinBox::UnsignedLongLongSpinBox(QWidget * parent)
 ,   m_step(1)
 ,   m_value(m_min)
 {
+    setInputMethodHints(Qt::ImhDigitsOnly);
+
     connect(this, &QAbstractSpinBox::editingFinished,
             this, &UnsignedLongLongSpinBox::onEditingFinished);
 }
@@ -46,8 +49,12 @@ unsigned long long UnsignedLongLongSpinBox::value() const
 void UnsignedLongLongSpinBox::setValue(const unsigned long long & value)
 {
     unsigned long long clampedValue = std::min(m_max, std::max(value, m_min));
+
+    if (clampedValue == m_value)
+        return;
+    
     m_value = clampedValue;
-    lineEdit()->setText(QString::fromStdString(reflectionzeug::util::toString(m_value)));
+    lineEdit()->setText(QLocale::system().toString(m_value));
     emit valueChanged(m_value);
 }
 

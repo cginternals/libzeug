@@ -1,7 +1,6 @@
 
 #include <reflectionzeug/Property.h>
 
-#include <propertyguizeug/IntegerEditor.h>
 #include <propertyguizeug/StringEditor.h>
 #include <propertyguizeug/ChoiceEditor.h>
 #include <propertyguizeug/ColorEditor.h>
@@ -46,12 +45,7 @@ void PropertyEditorFactory::visit(Property<bool> * property)
 {
     m_editor = new BoolEditor(property);
 }
-    
-void PropertyEditorFactory::visit(Property<int> * property)
-{
-    m_editor = new IntegerEditor(property);
-}
-    
+
 void PropertyEditorFactory::visit(Property<double> * property)
 {
     m_editor = new DoubleEditor(property);

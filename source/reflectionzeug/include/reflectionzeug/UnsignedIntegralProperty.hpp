@@ -79,6 +79,7 @@ template <typename Type>
 bool UnsignedIntegralProperty<Type>::fromULongLong(unsigned long long integral)
 {
     this->setValue(static_cast<Type>(integral));
+    return true;
 }
 
 template <typename Type>

@@ -18,7 +18,7 @@ class PROPERTYGUIZEUG_API SignedIntegralEditor : public PropertyEditor
 {
 public:
     SignedIntegralEditor(reflectionzeug::SignedIntegralPropertyInterface * property, 
-                           QWidget * parent = nullptr);
+                         QWidget * parent = nullptr);
 
     virtual ~SignedIntegralEditor();
 

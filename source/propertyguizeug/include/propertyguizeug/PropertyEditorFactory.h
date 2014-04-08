@@ -21,7 +21,6 @@ public:
     QWidget * createEditorWithParent(reflectionzeug::ValuePropertyInterface & property, QWidget * parent);
 
     virtual void visit(reflectionzeug::Property<bool> * property);
-    virtual void visit(reflectionzeug::Property<int> * property);
     virtual void visit(reflectionzeug::Property<double> * property);
     virtual void visit(reflectionzeug::Property<std::string> * property);
     virtual void visit(reflectionzeug::Property<reflectionzeug::Color> * property);

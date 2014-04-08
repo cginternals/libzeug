@@ -25,7 +25,6 @@ class FilePath;
 class StandardPropertyVisitor :
     public PropertyVisitor<
         bool,
-        int,
         double,
         std::string,
         Color,
