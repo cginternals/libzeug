@@ -102,9 +102,6 @@ public:
         ValuePropertyInterface(name),
         UnsignedIntegralProperty<Type>(std::forward<Args>(args)...) {}
 
-protected:
-    virtual std::string matchRegex() { return "(\\+)?\\d+"; }
-
 };
 
 template <typename Type>
@@ -115,9 +112,6 @@ public:
     Property(const std::string & name, Args&&... args) : 
         ValuePropertyInterface(name),
         SignedIntegralProperty<Type>(std::forward<Args>(args)...) {}
-
-protected:
-    virtual std::string matchRegex() { return "(-|\\+)?\\d+"; }
 
 };
 

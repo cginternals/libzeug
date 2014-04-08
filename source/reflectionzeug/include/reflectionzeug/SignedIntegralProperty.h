@@ -31,6 +31,9 @@ public:
     virtual long long toULongLong() const;
     virtual bool fromULongLong(long long integral);
 
+protected:
+    virtual std::string matchRegex();
+
 };
 
 } // namespace reflectionzeug

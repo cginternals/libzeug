@@ -81,4 +81,10 @@ bool UnsignedIntegralProperty<Type>::fromULongLong(unsigned long long integral)
     this->setValue(static_cast<Type>(integral));
 }
 
+template <typename Type>
+std::string UnsignedIntegralProperty<Type>::matchRegex()
+{
+    return "\\+?\\d+";
+}
+
 } // namespace reflectionzeug

@@ -81,4 +81,10 @@ bool SignedIntegralProperty<Type>::fromULongLong(long long integral)
     this->setValue(static_cast<Type>(integral));
 }
 
+template <typename Type>
+std::string SignedIntegralProperty<Type>::matchRegex()
+{
+    return "(-|\\+)?\\d+";
+}
+
 } // namespace reflectionzeug
