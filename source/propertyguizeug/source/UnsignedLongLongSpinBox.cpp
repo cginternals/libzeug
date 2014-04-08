@@ -9,7 +9,6 @@
 #include <propertyguizeug/UnsignedLongLongSpinBox.h>
 
 
-
 namespace propertyguizeug
 {
 

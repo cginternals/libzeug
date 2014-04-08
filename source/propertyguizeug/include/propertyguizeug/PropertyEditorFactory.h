@@ -30,6 +30,7 @@ public:
     virtual void visit(reflectionzeug::ValuePropertyInterface * property);
     virtual void visit(reflectionzeug::EnumPropertyInterface * property);
     virtual void visit(reflectionzeug::UnsignedIntegralPropertyInterface * property);
+    virtual void visit(reflectionzeug::SignedIntegralPropertyInterface * property);
 
 protected:
     QWidget * m_editor;

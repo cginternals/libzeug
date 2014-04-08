@@ -67,7 +67,9 @@ set(headers
     ${header_path}/FilePathEditor.h
     ${header_path}/ValueEditor.h
     ${header_path}/UnsignedIntegralEditor.h
+    ${header_path}/SignedIntegralEditor.h
     ${header_path}/UnsignedLongLongSpinBox.h
+    ${header_path}/LongLongSpinBox.h
 )
 
 set(sources
@@ -89,7 +91,9 @@ set(sources
     ${source_path}/ColorButton.cpp
     ${source_path}/ValueEditor.cpp
     ${source_path}/UnsignedIntegralEditor.cpp
+    ${source_path}/SignedIntegralEditor.cpp
     ${source_path}/UnsignedLongLongSpinBox.cpp
+    ${source_path}/LongLongSpinBox.cpp
     ${source_path}/TransparencyBackgroundBrush.hpp
 )
 
