@@ -12,7 +12,7 @@ namespace reflectionzeug
 namespace propertyguizeug
 {
     
-class UnsignedLongLongSpinBox;
+class ULongLongSpinBox;
 
 class PROPERTYGUIZEUG_API UnsignedIntegralEditor : public PropertyEditor
 {
@@ -23,7 +23,7 @@ public:
     virtual ~UnsignedIntegralEditor();
 
 protected:
-    UnsignedLongLongSpinBox * m_spinBox;
+    ULongLongSpinBox * m_spinBox;
     
     reflectionzeug::UnsignedIntegralPropertyInterface * m_property;
 };

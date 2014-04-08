@@ -4,7 +4,7 @@
 #include <reflectionzeug/UnsignedIntegralPropertyInterface.h>
 
 #include <propertyguizeug/UnsignedIntegralEditor.h>
-#include <propertyguizeug/UnsignedLongLongSpinBox.h>
+#include <propertyguizeug/ULongLongSpinBox.h>
 
 
 namespace propertyguizeug
@@ -14,7 +14,7 @@ UnsignedIntegralEditor::UnsignedIntegralEditor(
     reflectionzeug::UnsignedIntegralPropertyInterface * property, 
     QWidget * parent)
 :   PropertyEditor(parent)
-,   m_spinBox(new UnsignedLongLongSpinBox(this))
+,   m_spinBox(new ULongLongSpinBox(this))
 ,   m_property(property)
 {
     boxLayout()->addWidget(m_spinBox);
@@ -27,7 +27,7 @@ UnsignedIntegralEditor::UnsignedIntegralEditor(
     if (m_property->hasStep())
         m_spinBox->setStep(m_property->uLongLongStep());
     
-    connect(m_spinBox, &UnsignedLongLongSpinBox::valueChanged,
+    connect(m_spinBox, &ULongLongSpinBox::valueChanged,
         [this] (const unsigned long long & value) 
         {
             m_property->fromULongLong(value);
