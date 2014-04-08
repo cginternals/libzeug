@@ -8,48 +8,51 @@ namespace reflectionzeug
 {
 
 template <typename Type>
-ClassProperty<Type>::ClassProperty(const std::string & name, const Type & value)
-:   ValuePropertyInterface(name)
-,   ValueProperty<Type>(name, value)
+ClassProperty<Type>::ClassProperty(const Type & value)
+:   ValueProperty<Type>(value)
 {
 }
 
 template <typename Type>
-ClassProperty<Type>::ClassProperty(const std::string & name, 
+ClassProperty<Type>::ClassProperty( 
     const std::function<Type ()> & getter,
     const std::function<void(const Type &)> & setter)
-:   ValuePropertyInterface(name)
-,   ValueProperty<Type>(name, getter, setter)
+:   ValueProperty<Type>(getter, setter)
 {
 }
 
 template <typename Type>
 template <class Object>
-ClassProperty<Type>::ClassProperty(const std::string & name,
-    Object & object, const Type & (Object::*getter_pointer)() const,
+ClassProperty<Type>::ClassProperty(
+    Object & object, 
+    const Type & (Object::*getter_pointer)() const,
     void (Object::*setter_pointer)(const Type &))
-:   ValuePropertyInterface(name)
-,   ValueProperty<Type>(name, object, getter_pointer, setter_pointer)
+:   ValueProperty<Type>(object, getter_pointer, setter_pointer)
 {
 }
 
 template <typename Type>
 template <class Object>
-ClassProperty<Type>::ClassProperty(const std::string & name,
-    Object & object, Type (Object::*getter_pointer)() const,
+ClassProperty<Type>::ClassProperty(
+    Object & object, 
+    Type (Object::*getter_pointer)() const,
     void (Object::*setter_pointer)(const Type &))
-:   ValuePropertyInterface(name)
-,   ValueProperty<Type>(name, object, getter_pointer, setter_pointer)
+:   ValueProperty<Type>(object, getter_pointer, setter_pointer)
 {
 }
 
 template <typename Type>
 template <class Object>
-ClassProperty<Type>::ClassProperty(const std::string & name,
-    Object & object, Type (Object::*getter_pointer)() const,
+ClassProperty<Type>::ClassProperty(
+    Object & object, 
+    Type (Object::*getter_pointer)() const,
     void (Object::*setter_pointer)(Type))
-:   ValuePropertyInterface(name)
-,   ValueProperty<Type>(name, object, getter_pointer, setter_pointer)
+:   ValueProperty<Type>(object, getter_pointer, setter_pointer)
+{
+}
+
+template <typename Type>
+ClassProperty<Type>::~ClassProperty()
 {
 }
 

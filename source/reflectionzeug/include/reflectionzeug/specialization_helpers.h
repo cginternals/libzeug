@@ -1,30 +1,95 @@
-
 #pragma once
 
+#include <array>
 #include <type_traits>
 
 
 namespace reflectionzeug
 {
-
-// Replace code below as soon as Visual Studio fully supports type aliases.
-
-// template <typename Condition>
-// using EnableIf = typename std::enable_if<Condition::value>::type;
-   
-// template <typename Condition>
-// using DisableIf = typename std::enable_if<!Condition::value>::type;
     
-template <typename Condition>
-struct EnableIfHelper : public std::enable_if<Condition::value> {};
+namespace
+{
+
+template <bool Condition, bool... MoreConditions>
+struct all;
+
+template <bool... MoreConditions>
+struct all<true, MoreConditions...> : public all<MoreConditions...>
+{
+};
+
+template <bool... MoreConditions>
+struct all<false, MoreConditions...>
+{
+    enum { value = false };
+};
+
+template <>
+struct all<true>
+{
+    enum { value = true };
+};
+
+template <bool Condition>
+struct neg
+{
+    enum { value = true };
+};
+
+template <>
+struct neg<true>
+{
+    enum { value = false };
+};
+
+template <typename Type>
+struct is_array
+{
+    enum { value = false };
+};
+
+template <typename Type, size_t Size>
+struct is_array<std::array<Type, Size>>
+{
+    enum { value = true };
+};
     
-template <typename Condition>
-using EnableIf = typename EnableIfHelper<Condition>::type;
+template <typename Type, typename Container>
+struct is_special_array
+{
+    enum { value = false };
+};
     
-template <typename Condition>
-struct DisableIfHelper : public std::enable_if<!Condition::value> {};
+template <typename Type, size_t Size>
+struct is_special_array<Type, std::array<Type, Size>>
+{
+    enum { value = true };
+};
+    
+}
 
 template <typename Condition>
-using DisableIf = typename DisableIfHelper<Condition>::type;
+struct Neg : public neg<Condition::value> {};
 
+template <bool... Conditions>
+struct All : public all<Conditions...> {};
+
+template <bool... Conditions>
+struct EnableIf : public std::enable_if<All<Conditions...>::value> {};
+
+template <bool... Conditions>
+struct DisableIf : public std::enable_if<!All<Conditions...>::value> {};
+
+template <typename Type>
+struct isArray : public is_array<Type> {};
+
+template <typename Type>
+struct isBoolArray : public is_special_array<bool, Type> {};
+
+template <typename Type>
+struct isIntArray : public is_special_array<int, Type> {};
+
+template <typename Type>
+struct isDoubleArray : public is_special_array<double, Type> {};
+    
 } // namespace reflectionzeug

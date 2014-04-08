@@ -9,49 +9,51 @@ namespace reflectionzeug
 {
 
 template <typename Type>
-ValueProperty<Type>::ValueProperty(const std::string & name,
-    const Type & value)
-:   ValuePropertyInterface(name)
-,   m_value(new StoredValue<Type>(value))
+ValueProperty<Type>::ValueProperty(const Type & value)
+:   m_value(new StoredValue<Type>(value))
 {
 }
 
 template <typename Type>
-ValueProperty<Type>::ValueProperty(const std::string & name, 
+ValueProperty<Type>::ValueProperty(
     const std::function<Type ()> & getter,
     const std::function<void(const Type &)> & setter)
-:   ValuePropertyInterface(name)
-,   m_value(new AccessorValue<Type>(getter, setter))
+:   m_value(new AccessorValue<Type>(getter, setter))
 {
 }
 
 template <typename Type>
 template <class Object>
-ValueProperty<Type>::ValueProperty(const std::string & name,
-    Object & object, const Type & (Object::*getter_pointer)() const,
+ValueProperty<Type>::ValueProperty(
+    Object & object, 
+    const Type & (Object::*getter_pointer)() const,
     void (Object::*setter_pointer)(const Type &))
-:   ValuePropertyInterface(name)
-,   m_value(new AccessorValue<Type>(object, getter_pointer, setter_pointer))
+:   m_value(new AccessorValue<Type>(object, getter_pointer, setter_pointer))
 {
 }
     
 template <typename Type>
 template <class Object>
-ValueProperty<Type>::ValueProperty(const std::string & name,
-    Object & object, Type (Object::*getter_pointer)() const,
+ValueProperty<Type>::ValueProperty(
+    Object & object, 
+    Type (Object::*getter_pointer)() const,
     void (Object::*setter_pointer)(const Type &))
-:   ValuePropertyInterface(name)
-,   m_value(new AccessorValue<Type>(object, getter_pointer, setter_pointer))
+:   m_value(new AccessorValue<Type>(object, getter_pointer, setter_pointer))
 {
 }
     
 template <typename Type>
 template <class Object>
-ValueProperty<Type>::ValueProperty(const std::string & name,
-    Object & object, Type (Object::*getter_pointer)() const,
+ValueProperty<Type>::ValueProperty(
+    Object & object, 
+    Type (Object::*getter_pointer)() const,
     void (Object::*setter_pointer)(Type))
-:   ValuePropertyInterface(name)
-,   m_value(new AccessorValue<Type>(object, getter_pointer, setter_pointer))
+:   m_value(new AccessorValue<Type>(object, getter_pointer, setter_pointer))
+{
+}
+    
+template <typename Type>
+ValueProperty<Type>::~ValueProperty()
 {
 }
 

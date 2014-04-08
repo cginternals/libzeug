@@ -26,15 +26,11 @@ class StandardPropertyVisitor :
         double,
         std::string,
         Color,
-        FilePath,
-        std::vector<bool>,
-        std::vector<int>,
-        std::vector<double>>,
+        FilePath>,
     public PropertyCategoryVisitor<
         ValuePropertyInterface,
         EnumPropertyInterface>
 {
-
 };
 
 } // namespace reflectionzeug

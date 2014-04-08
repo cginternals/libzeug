@@ -22,26 +22,27 @@ public:
     static size_t stype();
 
 public:
-    ValueProperty(const std::string & name, const Type & value);
+    ValueProperty(const Type & value);
     
-    ValueProperty(const std::string & name, 
-                          const std::function<Type()> & getter,
-                          const std::function<void(const Type &)> & setter);
-    
-    template <class Object>
-    ValueProperty(const std::string & name,
-                          Object & object, const Type & (Object::*getter_pointer)() const,
-                          void (Object::*setter_pointer)(const Type &));
+    ValueProperty(const std::function<Type()> & getter,
+                  const std::function<void(const Type &)> & setter);
     
     template <class Object>
-    ValueProperty(const std::string & name,
-                          Object & object, Type (Object::*getter_pointer)() const,
-                          void (Object::*setter_pointer)(const Type &));
+    ValueProperty(Object & object, 
+                  const Type & (Object::*getter_pointer)() const,
+                  void (Object::*setter_pointer)(const Type &));
     
     template <class Object>
-    ValueProperty(const std::string & name,
-                          Object & object, Type (Object::*getter_pointer)() const,
-                          void (Object::*setter_pointer)(Type));
+    ValueProperty(Object & object, 
+                  Type (Object::*getter_pointer)() const,
+                  void (Object::*setter_pointer)(const Type &));
+    
+    template <class Object>
+    ValueProperty(Object & object, 
+                  Type (Object::*getter_pointer)() const,
+                  void (Object::*setter_pointer)(Type));
+    
+    virtual ~ValueProperty() = 0;
 
     virtual Type value() const;
     virtual void setValue(const Type & value);

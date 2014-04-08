@@ -8,6 +8,11 @@
 namespace reflectionzeug
 {
 
+ValuePropertyInterface::ValuePropertyInterface()
+:   AbstractProperty(std::string())
+{
+}
+    
 ValuePropertyInterface::ValuePropertyInterface(const std::string & name)
 :   AbstractProperty(name)
 {

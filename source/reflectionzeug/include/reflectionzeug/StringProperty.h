@@ -16,33 +16,36 @@ namespace reflectionzeug
 class REFLECTIONZEUG_API StringProperty : public ValueProperty<std::string>
 {
 public:
-    StringProperty(const std::string & name, const std::string & value);
+    StringProperty(const std::string & value);
     
-    StringProperty(const std::string & name,
-                   const std::function<std::string ()> & getter,
+    StringProperty(const std::function<std::string ()> & getter,
                    const std::function<void(const std::string &)> & setter);
     
     template <class Object>
-    StringProperty(const std::string & name,
-                   Object & object, const std::string & (Object::*getter_pointer)() const,
+    StringProperty(Object & object, 
+                   const std::string & (Object::*getter_pointer)() const,
                    void (Object::*setter_pointer)(const std::string &));
     
     template <class Object>
-    StringProperty(const std::string & name,
-                   Object & object, std::string (Object::*getter_pointer)() const,
+    StringProperty(Object & object, 
+                   std::string (Object::*getter_pointer)() const,
                    void (Object::*setter_pointer)(const std::string &));
 
     template <class Object>
-    StringProperty(const std::string & name,
-                   Object & object, std::string (Object::*getter_pointer)() const,
+    StringProperty(Object & object, 
+                   std::string (Object::*getter_pointer)() const,
                    void (Object::*setter_pointer)(std::string));
     
+    virtual ~StringProperty() = 0;
+
     bool hasChoices() const;
-    const std::vector<std::string> & choices() const;
-    void clearChoices();
-    void setChoices(const std::vector<std::string> & choices);
     void addChoice(const std::string & string);
+
+    const std::vector<std::string>  & choices() const;
+    void setChoices(const std::vector<std::string> & choices);
     
+    void clearChoices();
+
     virtual std::string toString() const;
     virtual bool fromString(const std::string & string);
     

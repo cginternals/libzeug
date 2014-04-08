@@ -4,22 +4,23 @@
 namespace reflectionzeug
 {
 
-FilePathProperty::FilePathProperty(const std::string & name,
-    const FilePath & value)
-:   ValuePropertyInterface(name)
-,   ClassProperty<FilePath>(name, value)
+FilePathProperty::FilePathProperty(const FilePath & value)
+:   ClassProperty<FilePath>(value)
 ,   m_shouldExist(true)
 ,   m_isFile(true)
 {
 }
 
-FilePathProperty::FilePathProperty(const std::string & name, 
+FilePathProperty::FilePathProperty( 
     const std::function<FilePath ()> & getter,
     const std::function<void(const FilePath &)> & setter)
-:   ValuePropertyInterface(name)
-,   ClassProperty<FilePath>(name, getter, setter)
+:   ClassProperty<FilePath>(getter, setter)
 ,   m_shouldExist(true)
 ,   m_isFile(true)
+{
+}
+
+FilePathProperty::~FilePathProperty()
 {
 }
 

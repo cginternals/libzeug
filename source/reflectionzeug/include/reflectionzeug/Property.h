@@ -1,22 +1,21 @@
 
 #pragma once
 
-#include <set>
-#include <type_traits>
+#include <array>
 
-#include <reflectionzeug/reflectionzeug.h>
+#include <reflectionzeug/property_declaration.h>
 
 #include <reflectionzeug/ValueProperty.h>
+#include <reflectionzeug/ClassProperty.h>
 #include <reflectionzeug/NumberProperty.h>
 #include <reflectionzeug/StringProperty.h>
-#include <reflectionzeug/VectorProperty.h>
+#include <reflectionzeug/ArrayProperty.h>
 #include <reflectionzeug/FilePathProperty.h>
 #include <reflectionzeug/EnumProperty.h>
 
 #include <reflectionzeug/Color.h>
 #include <reflectionzeug/FilePath.h>
 
-#include <reflectionzeug/property_declaration.h>
 #include <reflectionzeug/specialization_helpers.h>
 #include <reflectionzeug/util.h>
 
@@ -30,7 +29,7 @@ public:
     template <typename... Args>
     Property(const std::string & name, Args&&... args) : 
         ValuePropertyInterface(name),
-        ValueProperty<bool>(name, std::forward<Args>(args)...) {}
+        ValueProperty<bool>(std::forward<Args>(args)...) {}
 
     virtual std::string toString() const { return this->value() ? "true" : "false"; }
 
@@ -55,7 +54,7 @@ public:
     template <typename... Args>
     Property(const std::string & name, Args&&... args) : 
         ValuePropertyInterface(name),
-        NumberProperty<int>(name, std::forward<Args>(args)...) {}
+        NumberProperty<int>(std::forward<Args>(args)...) {}
 
 protected:
     virtual std::string matchRegex() { return "(-|\\+)?\\d+"; }
@@ -69,7 +68,7 @@ public:
     template <typename... Args>
     Property(const std::string & name, Args&&... args) : 
         ValuePropertyInterface(name), 
-        NumberProperty<double>(name, std::forward<Args>(args)...),
+        NumberProperty<double>(std::forward<Args>(args)...),
         m_precision(0) {}
 
     unsigned int precision() const { return m_precision; }
@@ -91,18 +90,7 @@ public:
     template <typename... Args>
     Property(const std::string & name, Args&&... args) : 
         ValuePropertyInterface(name),
-        StringProperty(name, std::forward<Args>(args)...) {}
-
-};
-
-template <>
-class Property<Color> : public ClassProperty<Color>
-{
-public:
-    template <typename... Args>
-    Property(const std::string & name, Args&&... args) : 
-        ValuePropertyInterface(name),
-        ClassProperty<Color>(name, std::forward<Args>(args)...) {}
+        StringProperty(std::forward<Args>(args)...) {}
 
 };
 
@@ -113,34 +101,34 @@ public:
     template <typename... Args>
     Property(const std::string & name, Args&&... args) : 
         ValuePropertyInterface(name),
-        FilePathProperty(name, std::forward<Args>(args)...) {}
+        FilePathProperty(std::forward<Args>(args)...) {}
 
 };
 
-template <>
-class Property<std::vector<bool>> : public VectorProperty<bool>
+template <typename Type>
+class Property<Type, typename EnableIf<isBoolArray<Type>::value>::type> : public ArrayProperty<Type>
 {
 public:
-    template <typename... Args>
-    Property(const std::string & name, Args&&... args) : 
-        ValuePropertyInterface(name),
-        VectorProperty<bool>(name, std::forward<Args>(args)...) {}
+   template <typename... Args>
+   Property(const std::string & name, Args&&... args) : 
+       ValuePropertyInterface(name),
+       ArrayProperty<Type>(std::forward<Args>(args)...) {}
 
 protected:
-    virtual std::string elementRegex() const { return "true|false"; }
-    virtual std::string elementToString(const bool & element) const { return element ? "true" : "false"; }
-    virtual bool elementFromString(const std::string & string) const { return string == "true"; }
+   virtual std::string elementRegex() const { return "true|false"; }
+   virtual std::string elementToString(const bool & element) const { return element ? "true" : "false"; }
+   virtual bool elementFromString(const std::string & string) const { return string == "true"; }
 
 };
 
-template <>
-class Property<std::vector<int>> : public VectorProperty<int>
+template <typename Type>
+class Property<Type, typename EnableIf<isIntArray<Type>::value>::type> : public ArrayProperty<Type>
 {
 public:
     template <typename... Args>
     Property(const std::string & name, Args&&... args) : 
         ValuePropertyInterface(name),
-        VectorProperty<int>(name, std::forward<Args>(args)...) {}
+        ArrayProperty<Type>(std::forward<Args>(args)...) {}
 
 protected:
     virtual std::string elementRegex() const { return "(-|\\+)?\\d+"; }
@@ -149,41 +137,41 @@ protected:
 
 };
 
-template <>
-class Property<std::vector<double>> : public VectorProperty<double>
+template <typename Type>
+class Property<Type, typename EnableIf<isDoubleArray<Type>::value>::type> : public ArrayProperty<Type>
 {
 public:
-    template <typename... Args>
-    Property(const std::string & name, Args&&... args) : 
-        ValuePropertyInterface(name),
-        VectorProperty<double>(name, std::forward<Args>(args)...) {}
+   template <typename... Args>
+   Property(const std::string & name, Args&&... args) : 
+       ValuePropertyInterface(name),
+       ArrayProperty<Type>(std::forward<Args>(args)...) {}
 
 protected:
-    virtual std::string elementRegex() const { return "(-|\\+)?\\d+\\.?\\d*"; }
-    virtual std::string elementToString(const double & element) const { return util::toString(element); }
-    virtual double elementFromString(const std::string & string) const { return util::fromString<double>(string); }
+   virtual std::string elementRegex() const { return "(-|\\+)?\\d+\\.?\\d*"; }
+   virtual std::string elementToString(const double & element) const { return util::toString(element); }
+   virtual double elementFromString(const std::string & string) const { return util::fromString<double>(string); }
 
 };
 
 template <typename Type>
-class Property<Type, EnableIf<std::is_enum<Type>>> : public EnumProperty<Type>
+class Property<Type, typename EnableIf<std::is_enum<Type>::value>::type> : public EnumProperty<Type>
 {
 public:
     template <typename... Args>
     Property(const std::string & name, Args&&... args) : 
         ValuePropertyInterface(name),
-        EnumProperty<Type>(name, std::forward<Args>(args)...) {}
+        EnumProperty<Type>(std::forward<Args>(args)...) {}
     
 };
 
 template <typename Type>
-class Property<Type, EnableIf<std::is_class<Type>>> : public ClassProperty<Type>
+class Property<Type, typename EnableIf<std::is_class<Type>::value, Neg<isArray<Type>>::value>::type> : public ClassProperty<Type>
 {
 public:
     template <typename... Args>
     Property(const std::string & name, Args&&... args) : 
         ValuePropertyInterface(name),
-        ClassProperty<Type>(name, std::forward<Args>(args)...) {}
+        ClassProperty<Type>(std::forward<Args>(args)...) {}
 
 };
 

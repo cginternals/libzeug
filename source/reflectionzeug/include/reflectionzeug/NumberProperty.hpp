@@ -10,9 +10,8 @@ namespace reflectionzeug
 {
 
 template <typename Type>
-NumberProperty<Type>::NumberProperty(const std::string & name, const Type & value)
-:   ValuePropertyInterface(name)
-,   ValueProperty<Type>(name, value)
+NumberProperty<Type>::NumberProperty(const Type & value)
+:   ValueProperty<Type>(value)
 ,   m_min(std::numeric_limits<Type>::lowest())
 ,   m_max(std::numeric_limits<Type>::max())
 ,   m_step(0)
@@ -20,11 +19,10 @@ NumberProperty<Type>::NumberProperty(const std::string & name, const Type & valu
 }
 
 template <typename Type>
-NumberProperty<Type>::NumberProperty(const std::string & name,
+NumberProperty<Type>::NumberProperty(
     const std::function<Type ()> & getter,
     const std::function<void(const Type &)> & setter)
-:   ValuePropertyInterface(name)
-,   ValueProperty<Type>(name, getter, setter)
+:   ValueProperty<Type>(getter, setter)
 ,   m_min(std::numeric_limits<Type>::lowest())
 ,   m_max(std::numeric_limits<Type>::max())
 ,   m_step(0)
@@ -33,11 +31,11 @@ NumberProperty<Type>::NumberProperty(const std::string & name,
 
 template <typename Type>
 template <class Object>
-NumberProperty<Type>::NumberProperty(const std::string & name,
-    Object & object, const Type & (Object::*getter_pointer)() const,
+NumberProperty<Type>::NumberProperty(
+    Object & object, 
+    const Type & (Object::*getter_pointer)() const,
     void (Object::*setter_pointer)(const Type &))
-:   ValuePropertyInterface(name)
-,   ValueProperty<Type>(name, object, getter_pointer, setter_pointer)
+:   ValueProperty<Type>(object, getter_pointer, setter_pointer)
 ,   m_min(std::numeric_limits<Type>::lowest())
 ,   m_max(std::numeric_limits<Type>::max())
 ,   m_step(0)
@@ -46,11 +44,11 @@ NumberProperty<Type>::NumberProperty(const std::string & name,
 
 template <typename Type>
 template <class Object>
-NumberProperty<Type>::NumberProperty(const std::string & name,
-    Object & object, Type (Object::*getter_pointer)() const,
+NumberProperty<Type>::NumberProperty(
+    Object & object, 
+    Type (Object::*getter_pointer)() const,
     void (Object::*setter_pointer)(const Type &))
-:   ValuePropertyInterface(name)
-,   ValueProperty<Type>(name, object, getter_pointer, setter_pointer)
+:   ValueProperty<Type>(object, getter_pointer, setter_pointer)
 ,   m_min(std::numeric_limits<Type>::lowest())
 ,   m_max(std::numeric_limits<Type>::max())
 ,   m_step(0)
@@ -59,14 +57,19 @@ NumberProperty<Type>::NumberProperty(const std::string & name,
 
 template <typename Type>
 template <class Object>
-NumberProperty<Type>::NumberProperty(const std::string & name,
-    Object & object, Type (Object::*getter_pointer)() const,
+NumberProperty<Type>::NumberProperty(
+    Object & object, 
+    Type (Object::*getter_pointer)() const,
     void (Object::*setter_pointer)(Type))
-:   ValuePropertyInterface(name)
-,   ValueProperty<Type>(name, object, getter_pointer, setter_pointer)
+:   ValueProperty<Type>(object, getter_pointer, setter_pointer)
 ,   m_min(std::numeric_limits<Type>::lowest())
 ,   m_max(std::numeric_limits<Type>::max())
 ,   m_step(0)
+{
+}
+
+template <typename Type>
+NumberProperty<Type>::~NumberProperty()
 {
 }
 

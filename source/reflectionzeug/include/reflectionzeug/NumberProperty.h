@@ -12,26 +12,27 @@ template <typename Type>
 class NumberProperty : public ValueProperty<Type>
 {
 public:
-    NumberProperty(const std::string & name, const Type & value);
+    NumberProperty(const Type & value);
 
-    NumberProperty(const std::string & name,
-                   const std::function<Type ()> & getter,
+    NumberProperty(const std::function<Type ()> & getter,
                    const std::function<void(const Type &)> & setter);
 
     template <class Object>
-    NumberProperty(const std::string & name,
-                   Object & object, const Type & (Object::*getter_pointer)() const,
+    NumberProperty(Object & object, 
+                   const Type & (Object::*getter_pointer)() const,
                    void (Object::*setter_pointer)(const Type &));
 
     template <class Object>
-    NumberProperty(const std::string & name,
-                   Object & object, Type (Object::*getter_pointer)() const,
+    NumberProperty(Object & object, 
+                   Type (Object::*getter_pointer)() const,
                    void (Object::*setter_pointer)(const Type &));
 
     template <class Object>
-    NumberProperty(const std::string & name,
-                   Object & object, Type (Object::*getter_pointer)() const,
+    NumberProperty(Object & object,
+                   Type (Object::*getter_pointer)() const,
                    void (Object::*setter_pointer)(Type));
+
+    virtual ~NumberProperty() = 0;
 
     const Type & minimum() const;
     void setMinimum(const Type & minimum);

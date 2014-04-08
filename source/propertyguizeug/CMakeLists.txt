@@ -65,10 +65,6 @@ set(headers
     ${header_path}/ChoiceEditor.h
     ${header_path}/ColorEditor.h
     ${header_path}/FilePathEditor.h
-    ${header_path}/MatrixEditor.h
-    ${header_path}/BoolMatrixEditor.h
-    ${header_path}/IntMatrixEditor.h
-    ${header_path}/DoubleMatrixEditor.h
     ${header_path}/ValueEditor.h
 )
 
@@ -87,10 +83,6 @@ set(sources
     ${source_path}/ChoiceEditor.cpp
     ${source_path}/ColorEditor.cpp
     ${source_path}/FilePathEditor.cpp
-    ${source_path}/MatrixEditor.cpp
-    ${source_path}/BoolMatrixEditor.cpp
-    ${source_path}/IntMatrixEditor.cpp
-    ${source_path}/DoubleMatrixEditor.cpp
     ${source_path}/ColorButton.h
     ${source_path}/ColorButton.cpp
     ${source_path}/ValueEditor.cpp

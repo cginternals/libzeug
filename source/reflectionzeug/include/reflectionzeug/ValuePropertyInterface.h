@@ -12,6 +12,7 @@ namespace reflectionzeug
 class REFLECTIONZEUG_API ValuePropertyInterface : public AbstractProperty
 {
 public:
+    ValuePropertyInterface();
     ValuePropertyInterface(const std::string & name);
 
     virtual void accept(AbstractPropertyVisitor * visitor, bool warn = true);
