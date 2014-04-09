@@ -4,18 +4,6 @@
 namespace reflectionzeug
 {
 
-StringProperty::StringProperty(const std::string & value)
-:   ValueProperty<std::string>(value)
-{
-}
-
-StringProperty::StringProperty( 
-    const std::function<std::string ()> & getter,
-    const std::function<void(const std::string &)> & setter)
-:   ValueProperty<std::string>(getter, setter)
-{
-}
-
 StringProperty::~StringProperty()
 {
 }

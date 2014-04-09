@@ -9,57 +9,16 @@ namespace reflectionzeug
 {
 
 template <typename Enum>
-EnumProperty<Enum>::EnumProperty(const Enum & value)
-:   ValueProperty<Enum>(value)
+template <typename... Arguments>
+EnumProperty<Enum>::EnumProperty(Arguments&&... args)
+:   ValueProperty<Enum>(std::forward<Arguments>(args)...)
 {
     this->setStrings(EnumDefaultStrings<Enum>()());
-}
-
-template <typename Enum>
-EnumProperty<Enum>::EnumProperty(
-    const std::function<Enum ()> & getter,
-    const std::function<void(const Enum &)> & setter)
-:   ValueProperty<Enum>(getter, setter)
-{
-    this->setStrings(EnumDefaultStrings<Enum>()());
-}
-
-template <typename Enum>
-template <class Object>
-EnumProperty<Enum>::EnumProperty(
-    Object & object, 
-    const Enum & (Object::*getter_pointer)() const,
-    void (Object::*setter_pointer)(const Enum &))
-:   ValueProperty<Enum>(object, getter_pointer, setter_pointer)
-{
-    this->setStrings(EnumDefaultStrings<Enum>()());
-}
-
-template <typename Enum>
-template <class Object>
-EnumProperty<Enum>::EnumProperty(
-    Object & object, 
-    Enum (Object::*getter_pointer)() const,
-    void (Object::*setter_pointer)(const Enum &))
-:   ValueProperty<Enum>(object, getter_pointer, setter_pointer)
-{
-    this->setStrings(EnumDefaultStrings<Enum>()());
-}
-
-template <typename Enum>
-template <class Object>
-EnumProperty<Enum>::EnumProperty(
-    Object & object, 
-    Enum (Object::*getter_pointer)() const,
-    void (Object::*setter_pointer)(Enum))
-:   ValueProperty<Enum>(object, getter_pointer, setter_pointer)
-{
 }
 
 template <typename Enum>
 EnumProperty<Enum>::~EnumProperty()
 {
-    this->setStrings(EnumDefaultStrings<Enum>()());
 }
     
 template <typename Type>

@@ -10,58 +10,9 @@ namespace reflectionzeug
 {
 
 template <typename Type>
-NumberProperty<Type>::NumberProperty(const Type & value)
-:   ValueProperty<Type>(value)
-,   m_min(std::numeric_limits<Type>::lowest())
-,   m_max(std::numeric_limits<Type>::max())
-,   m_step(0)
-{
-}
-
-template <typename Type>
-NumberProperty<Type>::NumberProperty(
-    const std::function<Type ()> & getter,
-    const std::function<void(const Type &)> & setter)
-:   ValueProperty<Type>(getter, setter)
-,   m_min(std::numeric_limits<Type>::lowest())
-,   m_max(std::numeric_limits<Type>::max())
-,   m_step(0)
-{
-}
-
-template <typename Type>
-template <class Object>
-NumberProperty<Type>::NumberProperty(
-    Object & object, 
-    const Type & (Object::*getter_pointer)() const,
-    void (Object::*setter_pointer)(const Type &))
-:   ValueProperty<Type>(object, getter_pointer, setter_pointer)
-,   m_min(std::numeric_limits<Type>::lowest())
-,   m_max(std::numeric_limits<Type>::max())
-,   m_step(0)
-{
-}
-
-template <typename Type>
-template <class Object>
-NumberProperty<Type>::NumberProperty(
-    Object & object, 
-    Type (Object::*getter_pointer)() const,
-    void (Object::*setter_pointer)(const Type &))
-:   ValueProperty<Type>(object, getter_pointer, setter_pointer)
-,   m_min(std::numeric_limits<Type>::lowest())
-,   m_max(std::numeric_limits<Type>::max())
-,   m_step(0)
-{
-}
-
-template <typename Type>
-template <class Object>
-NumberProperty<Type>::NumberProperty(
-    Object & object, 
-    Type (Object::*getter_pointer)() const,
-    void (Object::*setter_pointer)(Type))
-:   ValueProperty<Type>(object, getter_pointer, setter_pointer)
+template <typename... Arguments>
+NumberProperty<Type>::NumberProperty(Arguments&&... args)
+:   ValueProperty<Type>(std::forward<Arguments>(args)...)
 ,   m_min(std::numeric_limits<Type>::lowest())
 ,   m_max(std::numeric_limits<Type>::max())
 ,   m_step(0)

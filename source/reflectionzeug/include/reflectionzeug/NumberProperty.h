@@ -12,25 +12,8 @@ template <typename Type>
 class NumberProperty : public ValueProperty<Type>
 {
 public:
-    NumberProperty(const Type & value);
-
-    NumberProperty(const std::function<Type ()> & getter,
-                   const std::function<void(const Type &)> & setter);
-
-    template <class Object>
-    NumberProperty(Object & object, 
-                   const Type & (Object::*getter_pointer)() const,
-                   void (Object::*setter_pointer)(const Type &));
-
-    template <class Object>
-    NumberProperty(Object & object, 
-                   Type (Object::*getter_pointer)() const,
-                   void (Object::*setter_pointer)(const Type &));
-
-    template <class Object>
-    NumberProperty(Object & object,
-                   Type (Object::*getter_pointer)() const,
-                   void (Object::*setter_pointer)(Type));
+    template <typename... Arguments>
+    NumberProperty(Arguments&&... args);
 
     virtual ~NumberProperty() = 0;
 

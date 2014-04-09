@@ -4,70 +4,14 @@
 namespace reflectionzeug
 {
 
-template <typename Type>
-Property<Type> * PropertyGroup::addProperty(const std::string & name, const Type & value)
+template <typename Type, typename... Args>
+Property<Type> * PropertyGroup::addProperty(const std::string & name, Args&&... args)
 {
-    auto property = new Property<Type>(name, value);
-    
-    if (this->addProperty(property))
-        return property;
-    
-    delete property;
-    return nullptr;
-}
-
-template <typename Type>
-Property<Type> * PropertyGroup::addProperty(const std::string & name,
-    const std::function<Type ()> & getter,
-    const std::function<void(const Type &)> & setter)
-{
-    auto property = new Property<Type>(name, getter, setter);
+    auto property = new Property<Type>(name, std::forward<Args>(args)...);
 
     if (this->addProperty(property))
         return property;
-    
-    delete property;
-    return nullptr;
-}
 
-template <typename Type, class Object>
-Property<Type> * PropertyGroup::addProperty(const std::string & name,
-    Object & object, const Type & (Object::*getter_pointer)() const,
-    void (Object::*setter_pointer)(const Type &))
-{
-    auto property = new Property<Type>(name, object, getter_pointer, setter_pointer);
-
-    if (this->addProperty(property))
-        return property;
-    
-    delete property;
-    return nullptr;
-}
-
-template <typename Type, class Object>
-Property<Type> * PropertyGroup::addProperty(const std::string & name,
-    Object & object, Type (Object::*getter_pointer)() const,
-    void (Object::*setter_pointer)(const Type &))
-{
-    auto property = new Property<Type>(name, object, getter_pointer, setter_pointer);
-
-    if (this->addProperty(property))
-        return property;
-    
-    delete property;
-    return nullptr;
-}
-    
-template <typename Type, class Object>
-Property<Type> * PropertyGroup::addProperty(const std::string & name,
-    Object & object, Type (Object::*getter_pointer)() const,
-    void (Object::*setter_pointer)(Type))
-{
-    auto property = new Property<Type>(name, object, getter_pointer, setter_pointer);
-    
-    if (this->addProperty(property))
-        return property;
-    
     delete property;
     return nullptr;
 }

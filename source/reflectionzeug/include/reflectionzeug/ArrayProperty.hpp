@@ -10,54 +10,9 @@ namespace reflectionzeug
 {
 
 template <typename Type>
-ArrayProperty<Type>::ArrayProperty(const Type & value)
-:   ValueProperty<Type>(value)
-,   m_columns(size())
-,   m_rows(1)
-{
-}
-
-template <typename Type>
-ArrayProperty<Type>::ArrayProperty(
-    const std::function<Type ()> & getter,
-    const std::function<void(const Type &)> & setter)
-:   ValueProperty<Type>(getter, setter)
-,   m_columns(size())
-,   m_rows(1)
-{
-}
-
-template <typename Type>
-template <class Object>
-ArrayProperty<Type>::ArrayProperty(
-    Object & object, 
-    const Type & (Object::*getter_pointer)() const,
-    void (Object::*setter_pointer)(const Type &))
-:   ValueProperty<Type>(object, getter_pointer, setter_pointer)
-,   m_columns(size())
-,   m_rows(1)
-{
-}
-
-template <typename Type>
-template <class Object>
-ArrayProperty<Type>::ArrayProperty(
-    Object & object, 
-    Type (Object::*getter_pointer)() const,
-    void (Object::*setter_pointer)(const Type &))
-:   ValueProperty<Type>(object, getter_pointer, setter_pointer)
-,   m_columns(size())
-,   m_rows(1)
-{
-}
-
-template <typename Type>
-template <class Object>
-ArrayProperty<Type>::ArrayProperty(
-    Object & object, 
-    Type (Object::*getter_pointer)() const,
-    void (Object::*setter_pointer)(Type))
-:   ValueProperty<Type>(object, getter_pointer, setter_pointer)
+template <typename... Arguments>
+ArrayProperty<Type>::ArrayProperty(Arguments&&... args)
+:   ValueProperty<Type>(std::forward<Arguments>(args)...)
 ,   m_columns(size())
 ,   m_rows(1)
 {
