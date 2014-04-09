@@ -3,10 +3,7 @@
 #include <algorithm>
 
 #include <QLineEdit>
-#include <QDebug>
 #include <QLocale>
-
-#include <reflectionzeug/util.h>
 
 #include <propertyguizeug/ULongLongSpinBox.h>
 
