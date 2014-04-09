@@ -166,6 +166,7 @@ qulonglong ULongLongSpinBox::validateAndInterpret(
     {
         bool ok = false;
         num = locale().toULongLong(input, &ok);
+        
         if (!ok && input.contains(locale().groupSeparator()) && m_max >= 1000)
         {
             QString copy = input;

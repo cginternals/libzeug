@@ -20,23 +20,23 @@ public:
     virtual void stepBy(int steps);
     virtual QValidator::State validate(QString & input, int & pos) const;
     
-    long long value() const;
-    void setValue(const long long & value);
+    qlonglong value() const;
+    void setValue(qlonglong value);
     
-    long long minimum() const;
-    void setMinimum(const long long & minimum);
+    qlonglong minimum() const;
+    void setMinimum(qlonglong minimum);
 
-    long long maximum() const;
-    void setMaximum(const long long & maximum);
+    qlonglong maximum() const;
+    void setMaximum(qlonglong maximum);
     
-    long long step() const;
-    void setStep(const long long & step);
+    qlonglong step() const;
+    void setStep(qlonglong step);
 
-    void setRange(const long long & min,
-                  const long long & max);
+    void setRange(qlonglong min,
+                  qlonglong max);
     
 signals:
-    void valueChanged(const long long & value);
+    void valueChanged(qlonglong value);
     
 protected slots:
     void onEditingFinished();
@@ -45,10 +45,17 @@ protected:
     virtual StepEnabled stepEnabled() const;
     
 private:
-    long long m_min;
-    long long m_max;
-    long long m_step;
-    long long m_value;
+    QString textFromValue(qlonglong value);
+    qlonglong valueFromText(const QString & text);
+    qlonglong validateAndInterpret(const QString & input, 
+                                   int & pos, 
+                                   QValidator::State & state) const;
+
+private:
+    qlonglong m_min;
+    qlonglong m_max;
+    qlonglong m_step;
+    qlonglong m_value;
     
 };
     

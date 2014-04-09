@@ -47,7 +47,9 @@ protected:
 private:
     QString textFromValue(qulonglong value);
     qulonglong valueFromText(const QString & text);
-    qulonglong validateAndInterpret(const QString & input, int & pos, QValidator::State & state) const;
+    qulonglong validateAndInterpret(const QString & input, 
+                                    int & pos, 
+                                    QValidator::State & state) const;
 
 private:
     qulonglong m_min;

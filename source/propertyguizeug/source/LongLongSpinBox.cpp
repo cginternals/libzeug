@@ -3,8 +3,7 @@
 #include <algorithm>
 
 #include <QLineEdit>
-
-#include <reflectionzeug/util.h>
+#include <QLocale>
 
 #include <propertyguizeug/LongLongSpinBox.h>
 
@@ -14,8 +13,8 @@ namespace propertyguizeug
 
 LongLongSpinBox::LongLongSpinBox(QWidget * parent)
 :   QAbstractSpinBox(parent) 
-,   m_min(std::numeric_limits<long long>::lowest())
-,   m_max(std::numeric_limits<long long>::max())
+,   m_min(std::numeric_limits<qlonglong>::lowest())
+,   m_max(std::numeric_limits<qlonglong>::max())
 ,   m_step(1)
 ,   m_value(m_min)
 {
@@ -25,7 +24,7 @@ LongLongSpinBox::LongLongSpinBox(QWidget * parent)
 
 void LongLongSpinBox::fixup(QString & input) const
 {
-    QAbstractSpinBox::fixup(input);
+    input.remove(locale().groupSeparator());
 }
 
 void LongLongSpinBox::stepBy(int steps)
@@ -35,28 +34,34 @@ void LongLongSpinBox::stepBy(int steps)
 
 QValidator::State LongLongSpinBox::validate(QString & input, int & pos) const
 {
-    return QAbstractSpinBox::validate(input, pos);
+    QValidator::State state;
+    validateAndInterpret(input, pos, state);
+    return state;
 }
     
-long long LongLongSpinBox::value() const
+qlonglong LongLongSpinBox::value() const
 {
     return m_value;
 }
 
-void LongLongSpinBox::setValue(const long long & value)
+void LongLongSpinBox::setValue(qlonglong value)
 {
-    long long clampedValue = std::min(m_max, std::max(value, m_min));
+    qlonglong clampedValue = std::min(m_max, std::max(value, m_min));
+
+    if (clampedValue == m_value)
+        return;
+    
     m_value = clampedValue;
-    lineEdit()->setText(QString::fromStdString(reflectionzeug::util::toString(m_value)));
+    lineEdit()->setText(textFromValue(m_value));
     emit valueChanged(m_value);
 }
 
-long long LongLongSpinBox::minimum() const
+qlonglong LongLongSpinBox::minimum() const
 {
     return m_min;
 }
 
-void LongLongSpinBox::setMinimum(const long long & minimum)
+void LongLongSpinBox::setMinimum(qlonglong minimum)
 {
     m_min = minimum;
 
@@ -64,12 +69,12 @@ void LongLongSpinBox::setMinimum(const long long & minimum)
         m_max = m_min;
 }
 
-long long LongLongSpinBox::maximum() const
+qlonglong LongLongSpinBox::maximum() const
 {
     return m_max;
 }
 
-void LongLongSpinBox::setMaximum(const long long & maximum)
+void LongLongSpinBox::setMaximum(qlonglong maximum)
 {
     m_max = maximum;
 
@@ -77,19 +82,19 @@ void LongLongSpinBox::setMaximum(const long long & maximum)
         m_min = m_max;
 }
 
-long long LongLongSpinBox::step() const
+qlonglong LongLongSpinBox::step() const
 {
     return m_step;
 }
 
-void LongLongSpinBox::setStep(const long long & step)
+void LongLongSpinBox::setStep(qlonglong step)
 {
     m_step = step;
 }
 
 void LongLongSpinBox::setRange(
-    const long long & min,
-    const long long & max)
+    qlonglong min,
+    qlonglong max)
 {
     setMinimum(min);
     setMaximum(max);    
@@ -97,12 +102,15 @@ void LongLongSpinBox::setRange(
 
 void LongLongSpinBox::onEditingFinished()
 {
-    if (!reflectionzeug::util::matchesRegex(text().toStdString(), "(-|\\+)?\\d+"))
+    qlonglong value = valueFromText(text());
+    
+    qulonglong clampedValue = std::min(m_max, std::max(value, m_min));
+
+    if (clampedValue == m_value)
         return;
     
-    long long value = reflectionzeug::util::fromString<long long>(text().toStdString()); 
-    
-    setValue(value);
+    m_value = clampedValue;
+    emit valueChanged(m_value);
 }
     
 QAbstractSpinBox::StepEnabled LongLongSpinBox::stepEnabled() const
@@ -116,6 +124,77 @@ QAbstractSpinBox::StepEnabled LongLongSpinBox::stepEnabled() const
         enabled |= QAbstractSpinBox::StepUpEnabled;
     
     return enabled;
+}
+
+QString LongLongSpinBox::textFromValue(qlonglong value)
+{
+    QString str;
+
+    str = locale().toString(value);
+
+    if (value >= 1000 || value <= -1000)
+        str.remove(locale().groupSeparator());
+
+    return str;
+}
+
+qlonglong LongLongSpinBox::valueFromText(const QString & text)
+{
+    int pos = lineEdit()->cursorPosition();
+    QValidator::State state = QValidator::Acceptable;
+    return validateAndInterpret(text, pos, state);
+}
+
+qlonglong LongLongSpinBox::validateAndInterpret(
+    const QString & input, 
+    int & pos, 
+    QValidator::State & state) const
+{
+    qlonglong num = m_min;
+
+    if (input.isEmpty() 
+        || (m_min < 0 && input == QLatin1String("-"))
+        || (m_max >= 0 && input == QLatin1String("+")))
+    {
+        state = QValidator::Intermediate;
+    }
+    else if (input.startsWith("-") && m_min >= 0)
+    {
+        state = QValidator::Invalid;
+    }
+    else
+    {
+        bool ok = false;
+        num = locale().toLongLong(input, &ok);
+
+        if (!ok 
+            && input.contains(locale().groupSeparator()) 
+            && (m_max >= 1000 || m_min <= -1000))
+        {
+            QString copy = input;
+            copy.remove(locale().groupSeparator());
+            num = locale().toLongLong(copy, &ok);
+        }
+
+        if (!ok)
+            state = QValidator::Invalid;
+        else if (num >= m_min && num <= m_max)
+            state = QValidator::Acceptable;
+        else if (m_min == m_max)
+            state = QValidator::Invalid;
+        else
+        {
+            if ((num >= 0 || num > m_max) || (num < 0 && num < m_min))
+                state = QValidator::Invalid;
+            else
+                state = QValidator::Intermediate;
+        }
+    }
+
+    if (state != QValidator::Acceptable)
+        num = m_max > 0 ? m_min : m_max;
+
+    return num;
 }
     
 } // namespace propertyguizeug
