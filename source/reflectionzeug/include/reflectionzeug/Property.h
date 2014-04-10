@@ -119,6 +119,10 @@ template <typename Type>
 class Property<Type, typename EnableIf<isBoolArray<Type>::value>::type> : public ArrayProperty<Type>
 {
 public:
+    Property(const std::string & name, const Type & value) : 
+       ValuePropertyInterface(name),
+       ArrayProperty<Type>(value) {}
+       
    template <typename... Args>
    Property(const std::string & name, Args&&... args) : 
        ValuePropertyInterface(name),
@@ -135,6 +139,10 @@ template <typename Type>
 class Property<Type, typename EnableIf<isIntArray<Type>::value>::type> : public ArrayProperty<Type>
 {
 public:
+    Property(const std::string & name, const Type & value) : 
+       ValuePropertyInterface(name),
+       ArrayProperty<Type>(value) {}
+
     template <typename... Args>
     Property(const std::string & name, Args&&... args) : 
         ValuePropertyInterface(name),
@@ -151,6 +159,10 @@ template <typename Type>
 class Property<Type, typename EnableIf<isDoubleArray<Type>::value>::type> : public ArrayProperty<Type>
 {
 public:
+   Property(const std::string & name, const Type & value) : 
+       ValuePropertyInterface(name),
+       ArrayProperty<Type>(value) {}
+
    template <typename... Args>
    Property(const std::string & name, Args&&... args) : 
        ValuePropertyInterface(name),

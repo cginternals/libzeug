@@ -4,6 +4,18 @@
 namespace reflectionzeug
 {
 
+template <typename Type>
+Property<Type> * PropertyGroup::addProperty(const std::string & name, const Type & value)
+{
+    auto property = new Property<Type>(name, value);
+
+    if (this->addProperty(property))
+        return property;
+
+    delete property;
+    return nullptr;
+}
+
 template <typename Type, typename... Args>
 Property<Type> * PropertyGroup::addProperty(const std::string & name, Args&&... args)
 {

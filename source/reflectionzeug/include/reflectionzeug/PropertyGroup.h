@@ -29,6 +29,9 @@ public:
     
     bool addProperty(AbstractProperty * property);
     
+    template <typename Type>
+    Property<Type> * addProperty(const std::string & name, const Type & value);
+
     template <typename Type, typename... Args>
     Property<Type> * addProperty(const std::string & name, Args&&... args);
     
