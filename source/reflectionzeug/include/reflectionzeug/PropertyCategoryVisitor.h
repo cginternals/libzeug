@@ -24,8 +24,3 @@ public:
 };
 
 } // namespace reflectionzeug
-
-
-
-
-

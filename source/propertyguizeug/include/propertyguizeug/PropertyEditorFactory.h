@@ -8,13 +8,6 @@
 
 class QWidget;
 
-namespace reflectionzeug
-{
-    class ValuePropertyInterface;
-    class Color;
-    class FilePath;
-}
-
 namespace propertyguizeug
 {
     
@@ -28,7 +21,6 @@ public:
     QWidget * createEditorWithParent(reflectionzeug::ValuePropertyInterface & property, QWidget * parent);
 
     virtual void visit(reflectionzeug::Property<bool> * property);
-    virtual void visit(reflectionzeug::Property<int> * property);
     virtual void visit(reflectionzeug::Property<double> * property);
     virtual void visit(reflectionzeug::Property<std::string> * property);
     virtual void visit(reflectionzeug::Property<reflectionzeug::Color> * property);
@@ -36,6 +28,8 @@ public:
 
     virtual void visit(reflectionzeug::ValuePropertyInterface * property);
     virtual void visit(reflectionzeug::EnumPropertyInterface * property);
+    virtual void visit(reflectionzeug::UnsignedIntegralPropertyInterface * property);
+    virtual void visit(reflectionzeug::SignedIntegralPropertyInterface * property);
 
 protected:
     QWidget * m_editor;

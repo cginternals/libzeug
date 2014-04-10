@@ -1,7 +1,6 @@
 
 #include <reflectionzeug/Property.h>
 
-#include <propertyguizeug/IntegerEditor.h>
 #include <propertyguizeug/StringEditor.h>
 #include <propertyguizeug/ChoiceEditor.h>
 #include <propertyguizeug/ColorEditor.h>
@@ -10,6 +9,8 @@
 #include <propertyguizeug/EnumEditor.h>
 #include <propertyguizeug/BoolEditor.h>
 #include <propertyguizeug/ValueEditor.h>
+#include <propertyguizeug/UnsignedIntegralEditor.h>
+#include <propertyguizeug/SignedIntegralEditor.h>
 
 #include <propertyguizeug/PropertyEditorFactory.h>
 
@@ -44,12 +45,7 @@ void PropertyEditorFactory::visit(Property<bool> * property)
 {
     m_editor = new BoolEditor(property);
 }
-    
-void PropertyEditorFactory::visit(Property<int> * property)
-{
-    m_editor = new IntegerEditor(property);
-}
-    
+
 void PropertyEditorFactory::visit(Property<double> * property)
 {
     m_editor = new DoubleEditor(property);
@@ -81,6 +77,16 @@ void PropertyEditorFactory::visit(reflectionzeug::ValuePropertyInterface * prope
 void PropertyEditorFactory::visit(reflectionzeug::EnumPropertyInterface * property)
 {
     m_editor = new EnumEditor(property);
+}
+
+void PropertyEditorFactory::visit(reflectionzeug::UnsignedIntegralPropertyInterface * property)
+{
+    m_editor = new UnsignedIntegralEditor(property);
+}
+
+void PropertyEditorFactory::visit(reflectionzeug::SignedIntegralPropertyInterface * property)
+{
+    m_editor = new SignedIntegralEditor(property);
 }
 
 } // namespace propertyguizeug

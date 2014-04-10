@@ -16,25 +16,8 @@ namespace reflectionzeug
 class REFLECTIONZEUG_API StringProperty : public ValueProperty<std::string>
 {
 public:
-    StringProperty(const std::string & value);
-    
-    StringProperty(const std::function<std::string ()> & getter,
-                   const std::function<void(const std::string &)> & setter);
-    
-    template <class Object>
-    StringProperty(Object & object, 
-                   const std::string & (Object::*getter_pointer)() const,
-                   void (Object::*setter_pointer)(const std::string &));
-    
-    template <class Object>
-    StringProperty(Object & object, 
-                   std::string (Object::*getter_pointer)() const,
-                   void (Object::*setter_pointer)(const std::string &));
-
-    template <class Object>
-    StringProperty(Object & object, 
-                   std::string (Object::*getter_pointer)() const,
-                   void (Object::*setter_pointer)(std::string));
+    template <typename... Arguments>
+    StringProperty(Arguments&&... args);
     
     virtual ~StringProperty() = 0;
 

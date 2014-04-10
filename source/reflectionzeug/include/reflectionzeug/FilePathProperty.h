@@ -14,25 +14,8 @@ namespace reflectionzeug
 class REFLECTIONZEUG_API FilePathProperty : public ClassProperty<FilePath>
 {
 public:
-    FilePathProperty(const FilePath & value);
-    
-    FilePathProperty(const std::function<FilePath ()> & getter,
-                     const std::function<void(const FilePath &)> & setter);
-
-    template <class Object>
-    FilePathProperty(Object & object, 
-                     const FilePath & (Object::*getter_pointer)() const,
-                     void (Object::*setter_pointer)(const FilePath &));
-
-    template <class Object>
-    FilePathProperty(Object & object, 
-                     FilePath (Object::*getter_pointer)() const,
-                     void (Object::*setter_pointer)(const FilePath &));
-    
-    template <class Object>
-    FilePathProperty(Object & object, 
-                     FilePath (Object::*getter_pointer)() const,
-                     void (Object::*setter_pointer)(FilePath));
+    template <typename... Arguments>
+    FilePathProperty(Arguments&&... args);
 
     virtual ~FilePathProperty() = 0;
     

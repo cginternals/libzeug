@@ -18,26 +18,9 @@ public:
     using contained_type = typename Type::value_type;
     
 public:
-    ArrayProperty(const Type & value);
-
-    ArrayProperty(const std::function<Type ()> & getter,
-                  const std::function<void(const Type &)> & setter);
-
-    template <class Object>
-    ArrayProperty(Object & object, 
-                  const Type & (Object::*getter_pointer)() const,
-                  void (Object::*setter_pointer)(const Type &));
-
-    template <class Object>
-    ArrayProperty(Object & object, 
-                  Type (Object::*getter_pointer)() const,
-                  void (Object::*setter_pointer)(const Type &));
-
-    template <class Object>
-    ArrayProperty(Object & object, 
-                  Type (Object::*getter_pointer)() const,
-                  void (Object::*setter_pointer)(Type));
-
+    template <typename... Arguments>
+    ArrayProperty(Arguments&&... args);
+    
     virtual ~ArrayProperty() = 0;
     
     virtual void accept(AbstractPropertyVisitor * visitor, bool warn = true);

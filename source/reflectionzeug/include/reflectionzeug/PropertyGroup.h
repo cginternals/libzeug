@@ -29,32 +29,8 @@ public:
     
     bool addProperty(AbstractProperty * property);
     
-    template <typename Type>
-    Property<Type> * addProperty(const std::string & name,
-                                 const Type & value);
-    
-    template <typename Type>
-    Property<Type> * addProperty(const std::string & name,
-                                 const std::function<Type ()> & getter,
-                                 const std::function<void(const Type &)> & setter);
-    
-    template <typename Type, class Object>
-    Property<Type> * addProperty(const std::string & name,
-                                 Object & object, 
-                                 const Type & (Object::*getter_pointer)() const,
-                                 void (Object::*setter_pointer)(const Type &));
-    
-    template <typename Type, class Object>
-    Property<Type> * addProperty(const std::string & name,
-                                 Object & object, 
-                                 Type (Object::*getter_pointer)() const,
-                                 void (Object::*setter_pointer)(const Type &));
-    
-    template <typename Type, class Object>
-    Property<Type> * addProperty(const std::string & name,
-                                 Object & object,
-                                 Type (Object::*getter_pointer)() const,
-                                 void (Object::*setter_pointer)(Type));
+    template <typename Type, typename... Args>
+    Property<Type> * addProperty(const std::string & name, Args&&... args);
     
     PropertyGroup * addGroup(const std::string & name);
 

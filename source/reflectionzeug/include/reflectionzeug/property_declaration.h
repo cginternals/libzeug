@@ -9,7 +9,6 @@ namespace reflectionzeug
  * Only this class may be instantiated!
  * Supported Types:
  * - bool
- * - int
  * - double
  * - std::string
  * - FilePath
@@ -17,6 +16,7 @@ namespace reflectionzeug
  *   - bool
  *   - int
  *   - double
+ * - any integral type
  * - any enum
  * - any class that implements (e.g. Color):
  *   - static Class fromString(std::string)

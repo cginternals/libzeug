@@ -14,25 +14,8 @@ template <typename Type>
 class ClassProperty : public ValueProperty<Type>
 {
 public:
-    ClassProperty(const Type & value);
-
-    ClassProperty(const std::function<Type ()> & getter,
-                  const std::function<void(const Type &)> & setter);
-    
-    template <class Object>
-    ClassProperty(Object & object, 
-                  const Type & (Object::*getter_pointer)() const,
-                  void (Object::*setter_pointer)(const Type &));
-    
-    template <class Object>
-    ClassProperty(Object & object, 
-                  Type (Object::*getter_pointer)() const,
-                  void (Object::*setter_pointer)(const Type &));
-
-    template <class Object>
-    ClassProperty(Object & object, 
-                  Type (Object::*getter_pointer)() const,
-                  void (Object::*setter_pointer)(Type));
+    template <typename... Arguments>
+    ClassProperty(Arguments&&... args);
 
     virtual ~ClassProperty() = 0;
     

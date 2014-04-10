@@ -91,5 +91,15 @@ struct isIntArray : public is_special_array<int, Type> {};
 
 template <typename Type>
 struct isDoubleArray : public is_special_array<double, Type> {};
+
+template <typename Type>
+struct isUnsignedIntegral : public All<std::is_integral<Type>::value, 
+                                       std::is_unsigned<Type>::value, 
+                                       Neg<std::is_same<Type, bool>>::value> {};
+
+template <typename Type>
+struct isSignedIntegral : public All<std::is_integral<Type>::value, 
+                                     std::is_signed<Type>::value, 
+                                     Neg<std::is_same<Type, bool>>::value> {};
     
 } // namespace reflectionzeug

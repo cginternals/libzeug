@@ -13,6 +13,9 @@ namespace reflectionzeug
 
 class ValuePropertyInterface;
 class EnumPropertyInterface;
+class UnsignedIntegralPropertyInterface;
+class SignedIntegralPropertyInterface;
+
 
 class Color;
 class FilePath;
@@ -22,14 +25,15 @@ class FilePath;
 class StandardPropertyVisitor :
     public PropertyVisitor<
         bool,
-        int,
         double,
         std::string,
         Color,
         FilePath>,
     public PropertyCategoryVisitor<
         ValuePropertyInterface,
-        EnumPropertyInterface>
+        EnumPropertyInterface,
+        UnsignedIntegralPropertyInterface,
+        SignedIntegralPropertyInterface>
 {
 };
 

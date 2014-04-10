@@ -15,25 +15,8 @@ template <typename Enum>
 class EnumProperty : public EnumPropertyInterface, public ValueProperty<Enum>
 {
 public:
-    EnumProperty(const Enum & value);
-
-    EnumProperty(const std::function<Enum()> & getter,
-                 const std::function<void(const Enum &)> & setter);
-
-    template <class Object>
-    EnumProperty(Object & object, 
-                 const Enum & (Object::*getter_pointer)() const,
-                 void (Object::*setter_pointer)(const Enum &));
-
-    template <class Object>
-    EnumProperty(Object & object, 
-                 Enum (Object::*getter_pointer)() const,
-                 void (Object::*setter_pointer)(const Enum &));
-
-    template <class Object>
-    EnumProperty(Object & object, 
-                 Enum (Object::*getter_pointer)() const,
-                 void (Object::*setter_pointer)(Enum));
+    template <typename... Arguments>
+    EnumProperty(Arguments&&... args);
 
     virtual ~EnumProperty() = 0;
 
@@ -45,6 +28,7 @@ public:
     virtual std::vector<std::string> strings() const;
     
     void setStrings(const std::map<Enum, std::string> & pairs);
+    
 private:
     std::map<Enum, std::string> m_stringMap;
     std::map<std::string, Enum> m_enumMap;

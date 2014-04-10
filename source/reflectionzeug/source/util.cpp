@@ -20,6 +20,40 @@ namespace reflectionzeug
 namespace util
 {
 
+template <>
+char fromString(const std::string & string)
+{
+    std::stringstream stream(string);
+    int value;
+    stream >> value;
+    return static_cast<char>(value);
+}
+
+template <>
+unsigned char fromString(const std::string & string)
+{
+    std::stringstream stream(string);
+    unsigned int value;
+    stream >> value;
+    return static_cast<unsigned char>(value);
+}
+
+template <>
+std::string toString(const char & value)
+{
+    std::stringstream stream;
+    stream << static_cast<int>(value);
+    return stream.str();
+}
+
+template <>
+std::string toString(const unsigned char & value)
+{
+    std::stringstream stream;
+    stream << static_cast<unsigned int>(value);
+    return stream.str();
+}
+
 bool matchesRegex(const std::string & string, const std::string & regex)
 {
     return regex_namespace::regex_match(string, regex_namespace::regex(regex));

@@ -132,6 +132,8 @@ int main(int argc, char *argv[])
     });
 
     settings->addProperty<Switch>("switch", Switch(true));
+    
+    settings->addProperty<unsigned long long int>("unsigned_int", 12);
 
     PropertyDeserializer deserializer;
     deserializer.deserialize(*settings, SETTINGS_PATH);
