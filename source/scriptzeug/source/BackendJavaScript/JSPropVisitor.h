@@ -26,18 +26,21 @@ public:
 
     reflectionzeug::Variant & value();
     void setValue(const reflectionzeug::Variant & value);
-    virtual void visit(reflectionzeug::Property<bool> * property);
-    virtual void visit(reflectionzeug::Property<int> * property);
-    virtual void visit(reflectionzeug::Property<double> * property);
-    virtual void visit(reflectionzeug::Property<std::string> * property);
-    virtual void visit(reflectionzeug::Property<reflectionzeug::Color> * property);
-    virtual void visit(reflectionzeug::Property<reflectionzeug::FilePath> * property);
-    virtual void visit(reflectionzeug::Property<std::vector<bool>> * property);
-    virtual void visit(reflectionzeug::Property<std::vector<int>> * property);
-    virtual void visit(reflectionzeug::Property<std::vector<double>> * property);
+    virtual void visit(reflectionzeug::Property<bool> * property) override;
+    //virtual void visit(reflectionzeug::Property<int> * property) override;
+    virtual void visit(reflectionzeug::Property<double> * property) override;
+    virtual void visit(reflectionzeug::Property<std::string> * property) override;
+    virtual void visit(reflectionzeug::Property<reflectionzeug::Color> * property) override;
+    virtual void visit(reflectionzeug::Property<reflectionzeug::FilePath> * property) override;
+    //virtual void visit(reflectionzeug::Property<std::vector<bool>> * property) override;
+    //virtual void visit(reflectionzeug::Property<std::vector<int>> * property) override;
+    //virtual void visit(reflectionzeug::Property<std::vector<double>> * property) override;
 
-virtual void visit(reflectionzeug::ValuePropertyInterface * property) {}
-virtual void visit(reflectionzeug::EnumPropertyInterface * property) {}
+    virtual void visit(reflectionzeug::SignedIntegralPropertyInterface * propertyInterface) override;
+    virtual void visit(reflectionzeug::UnsignedIntegralPropertyInterface * propertyInterface) override;
+
+virtual void visit(reflectionzeug::ValuePropertyInterface * property) override {}
+virtual void visit(reflectionzeug::EnumPropertyInterface * property) override {}
 
 protected:
     Operation               m_operation;

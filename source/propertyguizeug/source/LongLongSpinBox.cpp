@@ -104,7 +104,7 @@ void LongLongSpinBox::onEditingFinished()
 {
     qlonglong value = valueFromText(text());
     
-    qulonglong clampedValue = std::min(m_max, std::max(value, m_min));
+    qlonglong clampedValue = std::min(m_max, std::max(value, m_min));
 
     if (clampedValue == m_value)
         return;

@@ -9,7 +9,7 @@ namespace reflectionzeug
 class REFLECTIONZEUG_API AbstractPropertyVisitor
 {
 public:
-    virtual ~AbstractPropertyVisitor() = 0;
+    virtual ~AbstractPropertyVisitor();
 
 };
 

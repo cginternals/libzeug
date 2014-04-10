@@ -1,6 +1,9 @@
 #include <reflectionzeug/PropertyGroup.h>
 #include "BackendJavaScript/JSPropVisitor.h"
 
+#include <reflectionzeug/SignedIntegralPropertyInterface.h>
+#include <reflectionzeug/UnsignedIntegralPropertyInterface.h>
+
 
 using namespace reflectionzeug;
 namespace scriptzeug
@@ -34,13 +37,23 @@ void JSPropVisitor::visit(Property<bool> * property)
         property->setValue(m_value.toBool());
 }
 
-void JSPropVisitor::visit(Property<int> * property)
+void JSPropVisitor::visit(reflectionzeug::SignedIntegralPropertyInterface * propertyInterface)
+{
+    // TODO: implement
+}
+
+void JSPropVisitor::visit(reflectionzeug::UnsignedIntegralPropertyInterface * propertyInterface)
+{
+    // TODO: implement
+}
+
+/*void JSPropVisitor::visit(Property<int> * property)
 {
     if (m_operation == GetOperation)
         m_value = property->value();
     else
         property->setValue(m_value.toInt());
-}
+}*/
 
 void JSPropVisitor::visit(Property<double> * property)
 {
@@ -71,7 +84,7 @@ void JSPropVisitor::visit(Property<FilePath> * property)
         property->setValue(m_value.toString());
 }
 
-void JSPropVisitor::visit(Property<std::vector<bool>> * property)
+/*void JSPropVisitor::visit(Property<std::vector<bool>> * property)
 {
     if (m_operation == GetOperation) {
         m_value = Variant::Array();
@@ -120,6 +133,6 @@ void JSPropVisitor::visit(Property<std::vector<double>> * property)
         }
         property->setValue(arr);
     }
-}
+}*/
 
 } // namespace scriptzeug
