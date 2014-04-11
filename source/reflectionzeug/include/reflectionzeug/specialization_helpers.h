@@ -14,57 +14,31 @@ template <bool Condition, bool... MoreConditions>
 struct all;
 
 template <bool... MoreConditions>
-struct all<true, MoreConditions...> : public all<MoreConditions...>
-{
-};
+struct all<true, MoreConditions...> : public all<MoreConditions...> {};
 
 template <bool... MoreConditions>
-struct all<false, MoreConditions...>
-{
-    enum { value = false };
-};
+struct all<false, MoreConditions...> : public std::false_type {};
 
 template <>
-struct all<true>
-{
-    enum { value = true };
-};
+struct all<true> : public std::true_type {};
 
 template <bool Condition>
-struct neg
-{
-    enum { value = true };
-};
+struct neg : public std::true_type {};
 
 template <>
-struct neg<true>
-{
-    enum { value = false };
-};
+struct neg<true> : public std::false_type {};
 
 template <typename Type>
-struct is_array
-{
-    enum { value = false };
-};
+struct is_array : public std::false_type {};
 
 template <typename Type, size_t Size>
-struct is_array<std::array<Type, Size>>
-{
-    enum { value = true };
-};
+struct is_array<std::array<Type, Size>> : public std::true_type {};
     
 template <typename Type, typename Container>
-struct is_special_array
-{
-    enum { value = false };
-};
+struct is_special_array : public std::false_type {};
     
 template <typename Type, size_t Size>
-struct is_special_array<Type, std::array<Type, Size>>
-{
-    enum { value = true };
-};
+struct is_special_array<Type, std::array<Type, Size>> : public std::true_type {};
     
 }
 

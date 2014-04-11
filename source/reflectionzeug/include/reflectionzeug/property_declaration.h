@@ -10,6 +10,7 @@ namespace reflectionzeug
  * Supported Types:
  * - bool
  * - double
+ * - float
  * - std::string
  * - FilePath
  * - any std::array with type

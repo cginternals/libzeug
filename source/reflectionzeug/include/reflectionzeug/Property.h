@@ -17,13 +17,23 @@
 #include <reflectionzeug/EnumProperty.h>
 
 #include <reflectionzeug/Color.h>
-#include <reflectionzeug/FilePath.h>
 
 #include <reflectionzeug/specialization_helpers.h>
 #include <reflectionzeug/util.h>
 
 namespace reflectionzeug
 {
+
+template <typename Type, typename>
+class Property : public ClassProperty<Type>
+{
+public:
+    template <typename... Args>
+    Property(const std::string & name, Args&&... args) : 
+        ValuePropertyInterface(name),
+        ClassProperty<Type>(std::forward<Args>(args)...) {}
+
+};
 
 template <>
 class Property<bool> : public ValueProperty<bool>
@@ -174,17 +184,6 @@ public:
         ValuePropertyInterface(name),
         EnumProperty<Type>(std::forward<Args>(args)...) {}
     
-};
-
-template <typename Type>
-class Property<Type, typename EnableIf<std::is_class<Type>::value, Neg<isArray<Type>>::value>::type> : public ClassProperty<Type>
-{
-public:
-    template <typename... Args>
-    Property(const std::string & name, Args&&... args) : 
-        ValuePropertyInterface(name),
-        ClassProperty<Type>(std::forward<Args>(args)...) {}
-
 };
 
 } // namespace reflectionzeug
