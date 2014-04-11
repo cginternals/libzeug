@@ -18,10 +18,15 @@ EnumEditor::EnumEditor(
 ,   m_property(property)
 {
     QStringList list;
-    for (const std::string & string : property->strings())
-    {
+
+    std::vector<std::string> strings;
+    if (property->hasChoices())
+        strings = property->stringChoices();
+    else
+        strings = property->strings();
+
+    for (const std::string & string : strings)
         list << QString::fromStdString(string);
-    }
     
     QComboBox * comboBox = new QComboBox(this);
     comboBox->addItems(list);

@@ -25,6 +25,12 @@ public:
     virtual std::string toString() const;
     virtual bool fromString(const std::string & string);
     
+    const std::vector<Enum> & choices() const;
+    void setChoices(const std::vector<Enum> & choices);
+    virtual bool hasChoices() const;
+    void clearChoices();
+    
+    virtual std::vector<std::string> stringChoices() const;
     virtual std::vector<std::string> strings() const;
     
     void setStrings(const std::map<Enum, std::string> & pairs);
@@ -32,6 +38,7 @@ public:
 private:
     std::map<Enum, std::string> m_stringMap;
     std::map<std::string, Enum> m_enumMap;
+    std::vector<Enum> m_choices;
 };
 
 template <typename Enum>

@@ -56,6 +56,42 @@ bool EnumProperty<Enum>::fromString(const std::string & string)
 }
     
 template <typename Enum>
+const std::vector<Enum> & EnumProperty<Enum>::choices() const
+{
+    return m_choices;
+}
+
+template <typename Enum>
+void EnumProperty<Enum>::setChoices(const std::vector<Enum> & choices)
+{
+    m_choices = choices;
+}
+
+template <typename Enum>
+bool EnumProperty<Enum>::hasChoices() const
+{
+    return !m_choices.empty();
+}
+
+template <typename Enum>
+void EnumProperty<Enum>::clearChoices()
+{
+    m_choices.clear();
+}
+
+template <typename Enum>
+std::vector<std::string> EnumProperty<Enum>::stringChoices() const
+{
+    std::vector<std::string> strings;
+    for (Enum value : m_choices)
+    {
+        strings.push_back(m_stringMap.at(value));
+    }
+
+    return strings;
+}
+    
+template <typename Enum>
 std::vector<std::string> EnumProperty<Enum>::strings() const
 {
     std::vector<std::string> strings;
