@@ -10,6 +10,7 @@
 #include <reflectionzeug/NumberProperty.h>
 #include <reflectionzeug/UnsignedIntegralProperty.h>
 #include <reflectionzeug/SignedIntegralProperty.h>
+#include <reflectionzeug/FloatingPointProperty.h>
 #include <reflectionzeug/StringProperty.h>
 #include <reflectionzeug/ArrayProperty.h>
 #include <reflectionzeug/FilePathProperty.h>
@@ -46,28 +47,6 @@ public:
     }
 
     void toggleValue() { setValue(!value()); }
-
-};
-
-template <>
-class Property<double> : public NumberProperty<double>
-{
-public:
-    template <typename... Args>
-    Property(const std::string & name, Args&&... args) : 
-        ValuePropertyInterface(name), 
-        NumberProperty<double>(std::forward<Args>(args)...),
-        m_precision(0) {}
-
-    unsigned int precision() const { return m_precision; }
-    void setPrecision(unsigned int precision) { m_precision = precision; }
-    bool hasPrecision() const { return m_precision != 0; }
-
-protected:
-    virtual std::string matchRegex() { return "(-|\\+)?\\d+\\.?\\d*"; }
-
-protected:
-    unsigned int m_precision;
 
 };
 
@@ -112,6 +91,17 @@ public:
     Property(const std::string & name, Args&&... args) : 
         ValuePropertyInterface(name),
         SignedIntegralProperty<Type>(std::forward<Args>(args)...) {}
+
+};
+
+template <typename Type>
+class Property<Type, typename EnableIf<isFloatingPoint<Type>::value>::type> : public FloatingPointProperty<Type>
+{
+public:
+    template <typename... Args>
+    Property(const std::string & name, Args&&... args) : 
+        ValuePropertyInterface(name), 
+        FloatingPointProperty<Type>(std::forward<Args>(args)...) {}
 
 };
 

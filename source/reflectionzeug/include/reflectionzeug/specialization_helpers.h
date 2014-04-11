@@ -101,5 +101,9 @@ template <typename Type>
 struct isSignedIntegral : public All<std::is_integral<Type>::value, 
                                      std::is_signed<Type>::value, 
                                      Neg<std::is_same<Type, bool>>::value> {};
+
+template <typename Type>
+struct isFloatingPoint : public All<std::is_floating_point<Type>::value,
+                                    Neg<std::is_same<Type, long double>>::value> {};
     
 } // namespace reflectionzeug

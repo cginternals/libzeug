@@ -15,6 +15,7 @@ class ValuePropertyInterface;
 class EnumPropertyInterface;
 class UnsignedIntegralPropertyInterface;
 class SignedIntegralPropertyInterface;
+class FloatingPointPropertyInterface;
 
 
 class Color;
@@ -25,7 +26,6 @@ class FilePath;
 class StandardPropertyVisitor :
     public PropertyVisitor<
         bool,
-        double,
         std::string,
         Color,
         FilePath>,
@@ -33,7 +33,8 @@ class StandardPropertyVisitor :
         ValuePropertyInterface,
         EnumPropertyInterface,
         UnsignedIntegralPropertyInterface,
-        SignedIntegralPropertyInterface>
+        SignedIntegralPropertyInterface,
+        FloatingPointPropertyInterface>
 {
 };
 

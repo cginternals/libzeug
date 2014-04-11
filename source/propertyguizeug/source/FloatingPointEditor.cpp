@@ -4,13 +4,13 @@
 
 #include <reflectionzeug/Property.h>
 
-#include <propertyguizeug/DoubleEditor.h>
+#include <propertyguizeug/FloatingPointEditor.h>
 
 using namespace reflectionzeug;
 namespace propertyguizeug
 {
     
-DoubleEditor::DoubleEditor(Property<double> * property, QWidget * parent)
+FloatingPointEditor::FloatingPointEditor(FloatingPointPropertyInterface * property, QWidget * parent)
 :   PropertyEditor(parent)
 ,   m_spinBox(new QDoubleSpinBox(this))
 ,   m_property(property)
@@ -18,21 +18,21 @@ DoubleEditor::DoubleEditor(Property<double> * property, QWidget * parent)
     boxLayout()->addWidget(m_spinBox);
     setFocusProxy(m_spinBox);
 
-    m_spinBox->setRange(m_property->minimum(), m_property->maximum());
+    m_spinBox->setRange(m_property->doubleMinimum(), m_property->doubleMaximum());
 	
     if (m_property->hasStep())
-	m_spinBox->setSingleStep(m_property->step());
+	m_spinBox->setSingleStep(m_property->doubleStep());
     
     m_spinBox->setDecimals(m_property->hasPrecision() ? m_property->precision() : 3);
-    m_spinBox->setValue(m_property->value());
+    m_spinBox->setValue(m_property->toDouble());
     
     connect(m_spinBox, static_cast<void (QDoubleSpinBox::*)(double)>(&QDoubleSpinBox::valueChanged),
                   [this](double d) {
-                      m_property->setValue(d);
+                      m_property->fromDouble(d);
                   });
 }
     
-DoubleEditor::~DoubleEditor()
+FloatingPointEditor::~FloatingPointEditor()
 {
 }
 

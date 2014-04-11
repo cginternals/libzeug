@@ -58,7 +58,7 @@ set(headers
     ${header_path}/PropertyEditorFactory.h
     ${header_path}/PropertyEditor.h
     ${header_path}/BoolEditor.h
-    ${header_path}/DoubleEditor.h
+    ${header_path}/FloatingPointEditor.h
     ${header_path}/EnumEditor.h
     ${header_path}/StringEditor.h
     ${header_path}/ChoiceEditor.h
@@ -79,7 +79,7 @@ set(sources
     ${source_path}/PropertyEditor.cpp
     ${source_path}/PropertyEditorFactory.cpp
     ${source_path}/BoolEditor.cpp
-    ${source_path}/DoubleEditor.cpp
+    ${source_path}/FloatingPointEditor.cpp
     ${source_path}/EnumEditor.cpp
     ${source_path}/StringEditor.cpp
     ${source_path}/ChoiceEditor.cpp

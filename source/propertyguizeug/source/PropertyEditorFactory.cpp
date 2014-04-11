@@ -5,12 +5,12 @@
 #include <propertyguizeug/ChoiceEditor.h>
 #include <propertyguizeug/ColorEditor.h>
 #include <propertyguizeug/FilePathEditor.h>
-#include <propertyguizeug/DoubleEditor.h>
 #include <propertyguizeug/EnumEditor.h>
 #include <propertyguizeug/BoolEditor.h>
 #include <propertyguizeug/ValueEditor.h>
 #include <propertyguizeug/UnsignedIntegralEditor.h>
 #include <propertyguizeug/SignedIntegralEditor.h>
+#include <propertyguizeug/FloatingPointEditor.h>
 
 #include <propertyguizeug/PropertyEditorFactory.h>
 
@@ -44,11 +44,6 @@ QWidget * PropertyEditorFactory::createEditorWithParent(ValuePropertyInterface &
 void PropertyEditorFactory::visit(Property<bool> * property)
 {
     m_editor = new BoolEditor(property);
-}
-
-void PropertyEditorFactory::visit(Property<double> * property)
-{
-    m_editor = new DoubleEditor(property);
 }
     
 void PropertyEditorFactory::visit(Property<std::string> * property)
@@ -87,6 +82,11 @@ void PropertyEditorFactory::visit(reflectionzeug::UnsignedIntegralPropertyInterf
 void PropertyEditorFactory::visit(reflectionzeug::SignedIntegralPropertyInterface * property)
 {
     m_editor = new SignedIntegralEditor(property);
+}
+
+void PropertyEditorFactory::visit(reflectionzeug::FloatingPointPropertyInterface * property)
+{
+    m_editor = new FloatingPointEditor(property);
 }
 
 } // namespace propertyguizeug
