@@ -83,7 +83,7 @@ bool SignedIntegralProperty<Type>::fromULongLong(long long integral)
 }
 
 template <typename Type>
-std::string SignedIntegralProperty<Type>::matchRegex()
+std::string SignedIntegralProperty<Type>::matchRegex() const
 {
     return "(-|\\+)?\\d+";
 }

@@ -36,7 +36,7 @@ public:
     virtual bool fromDouble(double value);
 
 protected:
-    virtual std::string matchRegex();
+    virtual std::string matchRegex() const;
 
 protected:
     unsigned int m_precision;

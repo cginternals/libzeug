@@ -83,7 +83,7 @@ bool UnsignedIntegralProperty<Type>::fromULongLong(unsigned long long integral)
 }
 
 template <typename Type>
-std::string UnsignedIntegralProperty<Type>::matchRegex()
+std::string UnsignedIntegralProperty<Type>::matchRegex() const
 {
     return "\\+?\\d+";
 }

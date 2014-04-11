@@ -32,7 +32,7 @@ public:
     virtual bool fromULongLong(unsigned long long integral);
 
 protected:
-    virtual std::string matchRegex();
+    virtual std::string matchRegex() const;
 
 };
 

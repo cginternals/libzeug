@@ -84,12 +84,6 @@ bool FloatingPointProperty<Type>::fromDouble(double integral)
 }
 
 template <typename Type>
-std::string FloatingPointProperty<Type>::matchRegex()
-{
-    return "(-|\\+)?\\d+\\.?\\d*";
-}
-
-template <typename Type>
 unsigned int FloatingPointProperty<Type>::precision() const
 {
     return m_precision;
@@ -105,6 +99,12 @@ template <typename Type>
 bool FloatingPointProperty<Type>::hasPrecision() const
 {
     return m_precision != 0;
+}
+
+template <typename Type>
+std::string FloatingPointProperty<Type>::matchRegex() const
+{
+    return "(-|\\+)?\\d+\\.?\\d*";
 }
 
 } // namespace reflectionzeug
