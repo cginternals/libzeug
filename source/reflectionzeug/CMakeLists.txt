@@ -122,6 +122,8 @@ set(headers
     ${header_path}/specialization_helpers.h
     ${header_path}/util.h
     ${header_path}/util.hpp
+    
+    ${header_path}/extensions/GlmProperties.hpp
 )
 
 set(sources
