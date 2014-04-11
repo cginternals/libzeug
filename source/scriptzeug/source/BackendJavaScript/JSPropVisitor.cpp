@@ -3,6 +3,7 @@
 
 #include <reflectionzeug/SignedIntegralPropertyInterface.h>
 #include <reflectionzeug/UnsignedIntegralPropertyInterface.h>
+#include <reflectionzeug/FloatingPointPropertyInterface.h>
 
 
 using namespace reflectionzeug;
@@ -47,6 +48,11 @@ void JSPropVisitor::visit(reflectionzeug::UnsignedIntegralPropertyInterface * pr
     // TODO: implement
 }
 
+void JSPropVisitor::visit(reflectionzeug::FloatingPointPropertyInterface * propertyInterface)
+{
+    // TODO: implement
+}
+
 /*void JSPropVisitor::visit(Property<int> * property)
 {
     if (m_operation == GetOperation)
@@ -55,13 +61,13 @@ void JSPropVisitor::visit(reflectionzeug::UnsignedIntegralPropertyInterface * pr
         property->setValue(m_value.toInt());
 }*/
 
-void JSPropVisitor::visit(Property<double> * property)
+/*void JSPropVisitor::visit(Property<double> * property)
 {
     if (m_operation == GetOperation)
         m_value = property->value();
     else
         property->setValue(m_value.toDouble());
-}
+}*/
 
 void JSPropVisitor::visit(Property<std::string> * property)
 {
