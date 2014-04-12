@@ -90,7 +90,6 @@ set(headers
     ${header_path}/ArrayProperty.h
     ${header_path}/ArrayProperty.hpp
     ${header_path}/ArrayPropertyInterface.h
-    ${header_path}/ArrayPropertyInterface.hpp
     ${header_path}/FilePathProperty.h
     ${header_path}/FilePathProperty.hpp
     ${header_path}/Property.h
@@ -109,6 +108,12 @@ set(headers
     ${header_path}/StoredValue.hpp
     ${header_path}/AccessorValue.h
     ${header_path}/AccessorValue.hpp
+
+    ${header_path}/AbstractArrayValue.h
+    ${header_path}/StoredArrayValue.h
+    ${header_path}/StoredArrayValue.hpp
+    ${header_path}/AccessorArrayValue.h
+    ${header_path}/AccessorArrayValue.hpp
 
     ${header_path}/Color.h
     ${header_path}/FilePath.h
@@ -131,6 +136,7 @@ set(sources
     ${source_path}/UnsignedIntegralPropertyInterface.cpp
     ${source_path}/SignedIntegralPropertyInterface.cpp
     ${source_path}/FloatingPointPropertyInterface.cpp
+    ${source_path}/ArrayPropertyInterface.cpp
     ${source_path}/StringProperty.cpp
     ${source_path}/FilePathProperty.cpp
 

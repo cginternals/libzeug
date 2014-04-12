@@ -1,7 +1,6 @@
 
 #pragma once
 
-#include <assert.h>
 #include <vector>
 #include <unordered_map>
 
@@ -92,14 +91,14 @@ public:
      */
     /** \{ */
     
-    void forEachProperty(const std::function<void(AbstractProperty &)> functor);
-    void forEachProperty(const std::function<void(const AbstractProperty &)> functor) const;
+    void forEachProperty(const std::function<void(AbstractProperty &)> & functor);
+    void forEachProperty(const std::function<void(const AbstractProperty &)> & functor) const;
     
-    void forEachValuePropertyInterface(const std::function<void(ValuePropertyInterface &)> functor);
-    void forEachValuePropertyInterface(const std::function<void(const ValuePropertyInterface &)> functor) const;
+    void forEachValuePropertyInterface(const std::function<void(ValuePropertyInterface &)> & functor);
+    void forEachValuePropertyInterface(const std::function<void(const ValuePropertyInterface &)> & functor) const;
     
-    void forEachSubGroup(const std::function<void(PropertyGroup &)> functor);
-    void forEachSubGroup(const std::function<void(const PropertyGroup &)> functor) const;
+    void forEachSubGroup(const std::function<void(PropertyGroup &)> & functor);
+    void forEachSubGroup(const std::function<void(const PropertyGroup &)> & functor) const;
     
     /** \} */
     

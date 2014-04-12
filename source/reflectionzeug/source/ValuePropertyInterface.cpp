@@ -32,4 +32,9 @@ void ValuePropertyInterface::accept(AbstractPropertyVisitor * visitor, bool warn
     typedVisitor->visit(this);
 }
 
+bool ValuePropertyInterface::isArray() const
+{
+    return false;
+}
+
 } // namespace reflectionzeug

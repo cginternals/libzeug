@@ -114,65 +114,18 @@ public:
         FloatingPointProperty<Type>(std::forward<Args>(args)...) {}
 
 };
-
+    
 template <typename Type>
-class Property<Type, typename EnableIf<isBoolArray<Type>::value>::type> : public ArrayProperty<Type>
+    class Property<Type, typename EnableIf<isArray<Type>::value>::type> : public ArrayProperty<typename Type::value_type, std::tuple_size<Type>::value>
 {
 public:
-    Property(const std::string & name, const Type & value) : 
-       ValuePropertyInterface(name),
-       ArrayProperty<Type>(value) {}
-       
-   template <typename... Args>
-   Property(const std::string & name, Args&&... args) : 
-       ValuePropertyInterface(name),
-       ArrayProperty<Type>(std::forward<Args>(args)...) {}
-
-protected:
-   virtual std::string elementRegex() const { return "true|false"; }
-   virtual std::string elementToString(const bool & element) const { return element ? "true" : "false"; }
-   virtual bool elementFromString(const std::string & string) const { return string == "true"; }
-
-};
-
-template <typename Type>
-class Property<Type, typename EnableIf<isIntArray<Type>::value>::type> : public ArrayProperty<Type>
-{
-public:
-    Property(const std::string & name, const Type & value) : 
-       ValuePropertyInterface(name),
-       ArrayProperty<Type>(value) {}
-
+    Property(const std::string & name, const Type & array) :
+        ArrayProperty<typename Type::value_type, std::tuple_size<Type>::value>(name, array) {}
+    
     template <typename... Args>
     Property(const std::string & name, Args&&... args) : 
-        ValuePropertyInterface(name),
-        ArrayProperty<Type>(std::forward<Args>(args)...) {}
-
-protected:
-    virtual std::string elementRegex() const { return "(-|\\+)?\\d+"; }
-    virtual std::string elementToString(const int & element) const { return util::toString(element); }
-    virtual int elementFromString(const std::string & string) const { return util::fromString<int>(string); }
-
-};
-
-template <typename Type>
-class Property<Type, typename EnableIf<isDoubleArray<Type>::value>::type> : public ArrayProperty<Type>
-{
-public:
-   Property(const std::string & name, const Type & value) : 
-       ValuePropertyInterface(name),
-       ArrayProperty<Type>(value) {}
-
-   template <typename... Args>
-   Property(const std::string & name, Args&&... args) : 
-       ValuePropertyInterface(name),
-       ArrayProperty<Type>(std::forward<Args>(args)...) {}
-
-protected:
-   virtual std::string elementRegex() const { return "(-|\\+)?\\d+\\.?\\d*"; }
-   virtual std::string elementToString(const double & element) const { return util::toString(element); }
-   virtual double elementFromString(const std::string & string) const { return util::fromString<double>(string); }
-
+        ArrayProperty<typename Type::value_type, std::tuple_size<Type>::value>(name, std::forward<Args>(args)...) {}
+    
 };
 
 template <typename Type>

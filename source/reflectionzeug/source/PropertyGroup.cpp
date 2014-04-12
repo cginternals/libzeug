@@ -186,19 +186,19 @@ bool PropertyGroup::hasProperties() const
     return this->propertyCount() != 0;
 }
 
-void PropertyGroup::forEachProperty(const std::function<void(AbstractProperty &)> functor)
+void PropertyGroup::forEachProperty(const std::function<void(AbstractProperty &)> & functor)
 {
     for (AbstractProperty * property : m_properties)
         functor(*property);
 }
 
-void PropertyGroup::forEachProperty(const std::function<void(const AbstractProperty &)> functor) const
+void PropertyGroup::forEachProperty(const std::function<void(const AbstractProperty &)> & functor) const
 {
     for (AbstractProperty * property : m_properties)
         functor(*property);
 }
 
-void PropertyGroup::forEachValuePropertyInterface(const std::function<void(ValuePropertyInterface &)> functor)
+void PropertyGroup::forEachValuePropertyInterface(const std::function<void(ValuePropertyInterface &)> & functor)
 {
     for (AbstractProperty * property : m_properties) {
         if (!property->isGroup())
@@ -206,7 +206,7 @@ void PropertyGroup::forEachValuePropertyInterface(const std::function<void(Value
     }
 }
 
-void PropertyGroup::forEachValuePropertyInterface(const std::function<void(const ValuePropertyInterface &)> functor) const
+void PropertyGroup::forEachValuePropertyInterface(const std::function<void(const ValuePropertyInterface &)> & functor) const
 {
     for (AbstractProperty * property : m_properties) {
         if (!property->isGroup())
@@ -214,7 +214,7 @@ void PropertyGroup::forEachValuePropertyInterface(const std::function<void(const
     }
 }
 
-void PropertyGroup::forEachSubGroup(const std::function<void(PropertyGroup &)> functor)
+void PropertyGroup::forEachSubGroup(const std::function<void(PropertyGroup &)> & functor)
 {
     for (AbstractProperty * property : m_properties) {
         if (property->isGroup())
@@ -222,7 +222,7 @@ void PropertyGroup::forEachSubGroup(const std::function<void(PropertyGroup &)> f
     }
 }
 
-void PropertyGroup::forEachSubGroup(const std::function<void(const PropertyGroup &)> functor) const
+void PropertyGroup::forEachSubGroup(const std::function<void(const PropertyGroup &)> & functor) const
 {
     for (AbstractProperty * property : m_properties) {
         if (property->isGroup())

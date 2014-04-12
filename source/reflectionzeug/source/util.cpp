@@ -9,8 +9,9 @@
     namespace regex_namespace = boost;
 #endif
 
-#include <algorithm>
 #include <cctype>
+#include <cassert>
+#include <algorithm>
 
 #include <reflectionzeug/util.h>
 
@@ -80,6 +81,27 @@ std::string trim(const std::string & string, bool enclosed)
     const regex_namespace::regex regex(enclosed ? "\\s+" : "(^\\s+|\\s+$)");
     
     return regex_namespace::regex_replace(string, regex, "");
+}
+
+std::vector<std::string> splitArray(size_t size, const std::string & string)
+{
+    std::string regexString = "\\s*\\(";
+    for (size_t i = 0; i < size - 1; ++i)
+        regexString.append("([^,]*),");
+    regexString.append("([^,]*)\\)\\s*");
+
+    regex_namespace::smatch match;
+    regex_namespace::regex regex(regexString);
+
+    if (!regex_namespace::regex_match(string, match, regex))
+        return {};
+
+    std::vector<std::string> result;
+    for (size_t i = 1; i < match.size(); ++i)
+        result.push_back(trim(match[i].str(), false));
+
+    assert(result.size() == size);
+    return result;
 }
 
 } // namespace util

@@ -1,7 +1,7 @@
 
 #pragma once
 
-#include <vector>
+#include <functional>
 
 #include <reflectionzeug/reflectionzeug.h>
 #include <reflectionzeug/ValuePropertyInterface.h>
@@ -9,24 +9,13 @@
 namespace reflectionzeug
 {
 
-template <typename Type>
-class ArrayPropertyInterface : public virtual ValuePropertyInterface
+class REFLECTIONZEUG_API ArrayPropertyInterface : public ValuePropertyInterface
 {
 public:
-    virtual ~ArrayPropertyInterface() = 0;
+    ArrayPropertyInterface(const std::string & name);
+
+    virtual bool isArray() const;
     
-    virtual void accept(AbstractPropertyVisitor * visitor, bool warn = true);
-    
-    virtual unsigned int size() const = 0;
-
-    virtual unsigned int columns() const = 0;
-    virtual unsigned int rows() const = 0;
-
-    virtual std::vector<Type> toVector() const = 0;
-    virtual bool fromVector(const std::vector<Type> & vector) = 0;
-
 };
 
 } // namespace reflectionzeug
-
-#include "ArrayPropertyInterface.hpp"

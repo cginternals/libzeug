@@ -94,8 +94,7 @@ size_t ValueProperty<Type>::stype()
 template <typename Type>
 size_t ValueProperty<Type>::type()
 {
-    static size_t type = typeid(Type).hash_code();
-    return type;
+    return stype();
 }
 
 } // namespace reflectionzeug

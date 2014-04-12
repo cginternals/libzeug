@@ -40,6 +40,8 @@ REFLECTIONZEUG_API std::vector<std::string> extract(const std::string & string, 
 
 REFLECTIONZEUG_API std::string trim(const std::string & string, bool enclosed = true);
 
+REFLECTIONZEUG_API std::vector<std::string> splitArray(size_t size, const std::string & string);
+
 } // namespace util
 
 } // namespace reflectionzeug

@@ -1,56 +1,88 @@
 
 #pragma once
 
-#include <vector>
+#include <type_traits>
+#include <memory>
+#include <array>
+#include <functional>
 
-#include <reflectionzeug/ValueProperty.h>
+#include <reflectionzeug/property_declaration.h>
 #include <reflectionzeug/ArrayPropertyInterface.h>
 
 namespace reflectionzeug
 {
-
-/** \brief Part of the property hierarchy wrapping arbitrary n x m matrices/vectors.
- */
-template <typename Type>
-class ArrayProperty : public ArrayPropertyInterface<typename Type::value_type>, public ValueProperty<Type>
+    
+template <typename, size_t>
+class AbstractArrayValue;
+    
+/** \brief Part of the Property Hierarchy that manages properties while being a property itself.
+*/
+template <typename Type, size_t Size>
+class ArrayProperty : public ArrayPropertyInterface
 {
+    static_assert(Size > 0, "Size must be greater than zero");
+
 public:
-    using contained_type = typename Type::value_type;
-    
+    static size_t stype();
+
 public:
-    template <typename... Arguments>
-    ArrayProperty(Arguments&&... args);
+    ArrayProperty(const std::string & name, const std::array<Type, Size> & array);
+
+    ArrayProperty(const std::string & name,
+                  const std::function<Type (size_t)> & getter,
+                  const std::function<void(size_t, const Type &)> & setter);
     
-    virtual ~ArrayProperty() = 0;
+    template <class Object>
+    ArrayProperty(const std::string & name,
+                  Object & object, 
+                  const Type & (Object::*getter_pointer)(size_t) const,
+                  void (Object::*setter_pointer)(size_t, const Type &));
     
-    virtual void accept(AbstractPropertyVisitor * visitor, bool warn = true);
+    template <class Object>
+    ArrayProperty(const std::string & name,
+                  Object & object, 
+                  Type (Object::*getter_pointer)(size_t) const,
+                  void (Object::*setter_pointer)(size_t, const Type &));
+    
+    template <class Object>
+    ArrayProperty(const std::string & name,
+                  Object & object, 
+                  Type (Object::*getter_pointer)(size_t) const,
+                  void (Object::*setter_pointer)(size_t, Type));
 
-    virtual unsigned int size() const;
+    ~ArrayProperty();
 
-    virtual unsigned int columns() const;
-    virtual unsigned int rows() const;
+    virtual void accept(AbstractPropertyVisitor * visitor, bool warn);
 
-    void setDimensions(unsigned int columns, unsigned int rows);
+    virtual size_t type();
 
     virtual std::string toString() const;
     virtual bool fromString(const std::string & string);
 
-    virtual std::vector<contained_type> toVector() const;
-    virtual bool fromVector(const std::vector<contained_type> & vector);
+    std::array<Type, Size> array() const;
+    void setArray(const std::array<Type, Size> & array);
 
-protected:
-    bool matchesArrayRegex(const std::string & string);
+    Type value(size_t i) const;
+    void setValue(size_t i, const Type & value);
 
-    virtual std::string elementRegex() const = 0;
-    virtual std::string elementToString(const contained_type & element) const = 0;
-    virtual contained_type elementFromString(const std::string & string) const = 0;
+    size_t size() const;
 
-protected:
-    unsigned int m_columns;
-    unsigned int m_rows;
+    Property<Type> * at(size_t i);
+    const Property<Type> * at(size_t i) const;
+
+    const std::array<Property<Type> *, Size> & subProperties();
+    const std::array<const Property<Type> *, Size> & subProperties() const;
+
+private:
+    void init();
+
+private:
+    std::unique_ptr<AbstractArrayValue<Type, Size>> m_array;
+    std::array<Property<Type> *, Size> m_properties;
 
 };
 
 } // namespace reflectionzeug
 
 #include "ArrayProperty.hpp"
+
