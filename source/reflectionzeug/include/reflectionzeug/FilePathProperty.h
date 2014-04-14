@@ -11,19 +11,19 @@ namespace reflectionzeug
     
 /** \brief Part of the property hierarchy that  manages a file path.
  */
-class REFLECTIONZEUG_API FilePathProperty : public ClassProperty<FilePath>
+class FilePathProperty : public ClassProperty<FilePath>
 {
 public:
     template <typename... Arguments>
     FilePathProperty(Arguments&&... args);
 
-    virtual ~FilePathProperty() = 0;
+    REFLECTIONZEUG_API virtual ~FilePathProperty() = 0;
     
-    bool shouldExist() const;
-    void setShouldExist(bool shouldExist);
+    REFLECTIONZEUG_API bool shouldExist() const;
+    REFLECTIONZEUG_API void setShouldExist(bool shouldExist);
 
-    bool isFile() const;
-    void setIsFile(bool isFile);
+    REFLECTIONZEUG_API bool isFile() const;
+    REFLECTIONZEUG_API void setIsFile(bool isFile);
   
 protected:
     bool m_shouldExist;
