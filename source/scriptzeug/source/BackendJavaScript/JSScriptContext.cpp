@@ -79,12 +79,12 @@ static Local<Value> wrapValue(Isolate *isolate, const Variant &arg)
     Local<Value> value;
 
     if (arg.type() == Variant::TypeInt) {
-        Local<Integer> v = Integer::New(isolate, arg.toInt());
+        Local<Integer> v = Integer::New(arg.toInt(), isolate);
         value = v;
     }
 
     else if (arg.type() == Variant::TypeUInt) {
-        Local<Integer> v = Integer::NewFromUnsigned(isolate, arg.toUInt());
+        Local<Integer> v = Integer::NewFromUnsigned(arg.toUInt(), isolate);
         value = v;
     }
 
@@ -94,7 +94,8 @@ static Local<Value> wrapValue(Isolate *isolate, const Variant &arg)
     }
 
     else if (arg.type() == Variant::TypeBool) {
-        Local<Boolean> v = Boolean::New(isolate, arg.toBool());
+        Local<Boolean> v = Boolean::New(arg.toBool());
+        v = v.v8::Handle<Boolean>::New(isolate, v);
         value = v;
     }
 
@@ -104,7 +105,8 @@ static Local<Value> wrapValue(Isolate *isolate, const Variant &arg)
     }
 
     else if (arg.type() == Variant::TypeArray) {
-        Handle<Array> arr = Array::New(isolate, arg.size());
+        Handle<Array> arr = Array::New(arg.size());
+        arr = arr.New(isolate, arr);
         for (unsigned int i=0; i<arg.size(); i++) {
             arr->Set(i, wrapValue(isolate, arg.get(i)));
         }
@@ -112,7 +114,8 @@ static Local<Value> wrapValue(Isolate *isolate, const Variant &arg)
     }
 
     else if (arg.type() == Variant::TypeObject) {
-        Handle<v8::Object> obj = v8::Object::New(isolate);
+        Handle<v8::Object> obj = v8::Object::New();
+        obj = obj.New(isolate, obj);
         std::vector<std::string> args = arg.keys();
         for (std::vector<std::string>::iterator it = args.begin(); it != args.end(); ++it) {
             std::string name = *it;
@@ -297,9 +300,10 @@ void JSScriptContext::registerObj(Handle<v8::Object> parent, PropertyGroup * obj
 
             // Bind pointer to AbstractFunction as an external data object
             // and set it in the function template
-            Handle<External> func_ptr = External::New(m_isolate, func);
-            Handle<FunctionTemplate> funcTempl =
-                FunctionTemplate::New(m_isolate, wrapFunction, func_ptr);
+            Handle<External> func_ptr = External::New(func);
+            func_ptr = func_ptr.New(m_isolate, func_ptr);
+            Handle<FunctionTemplate> funcTempl = FunctionTemplate::New(wrapFunction, func_ptr);
+            funcTempl = funcTempl.New(m_isolate, funcTempl);
 
             // Register function at object template
             Handle<v8::Function> funcObj = funcTempl->GetFunction();
@@ -313,7 +317,8 @@ void JSScriptContext::registerObj(Handle<v8::Object> parent, PropertyGroup * obj
 
     // Create new object
     Handle<v8::Object> object  = templ->NewInstance();
-    Handle<External>   obj_ptr = External::New(m_isolate, obj);
+    Handle<External>   obj_ptr = External::New(obj);
+    obj_ptr = obj_ptr.New(m_isolate, obj_ptr);
     object->SetInternalField(0, obj_ptr);
 
     // Register sub-objects
