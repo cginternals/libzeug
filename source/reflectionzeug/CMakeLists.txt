@@ -62,97 +62,74 @@ set(header_path "${CMAKE_CURRENT_SOURCE_DIR}/include/${target}")
 set(source_path "${CMAKE_CURRENT_SOURCE_DIR}/source")
 
 set(headers
-    ${header_path}/reflectionzeug.h
-
+    ${header_path}/AbstractArrayValue.h
     ${header_path}/AbstractProperty.h
     ${header_path}/AbstractProperty.hpp
-    ${header_path}/ValuePropertyInterface.h
-    ${header_path}/ValueProperty.h
-    ${header_path}/ValueProperty.hpp
+    ${header_path}/AbstractPropertyGroup.h
+    ${header_path}/AbstractPropertyVisitor.h
+    ${header_path}/AbstractValue.h
+    ${header_path}/AbstractValueProperty.h
+    ${header_path}/AccessorArrayValue.h
+    ${header_path}/AccessorArrayValue.hpp
+    ${header_path}/AccessorValue.h
+    ${header_path}/AccessorValue.hpp
+    ${header_path}/ArrayProperty.h
+    ${header_path}/ArrayProperty.hpp
     ${header_path}/ClassProperty.h
     ${header_path}/ClassProperty.hpp
+    ${header_path}/Color.h
     ${header_path}/EnumProperty.h
     ${header_path}/EnumProperty.hpp
     ${header_path}/EnumPropertyInterface.h
-    ${header_path}/NumberProperty.h
-    ${header_path}/NumberProperty.hpp
-    ${header_path}/UnsignedIntegralProperty.h
-    ${header_path}/UnsignedIntegralProperty.hpp
-    ${header_path}/UnsignedIntegralPropertyInterface.h
+    ${header_path}/FilePath.h
+    ${header_path}/FilePathProperty.h
+    ${header_path}/FilePathProperty.hpp
+    ${header_path}/FloatingPointProperty.h
+    ${header_path}/FloatingPointProperty.hpp
+    ${header_path}/Property.h
+    ${header_path}/PropertyCategoryVisitor.h
+    ${header_path}/PropertyDeserializer.h
+    ${header_path}/PropertyGroup.h
+    ${header_path}/PropertyGroup.hpp
+    ${header_path}/PropertySerializer.h
+    ${header_path}/PropertyVisitor.h
     ${header_path}/SignedIntegralProperty.h
     ${header_path}/SignedIntegralProperty.hpp
     ${header_path}/SignedIntegralPropertyInterface.h
-    ${header_path}/FloatingPointProperty.h
-    ${header_path}/FloatingPointProperty.hpp
-    ${header_path}/FloatingPointPropertyInterface.h
-    ${header_path}/StringProperty.h
-    ${header_path}/StringProperty.hpp
-    ${header_path}/ArrayProperty.h
-    ${header_path}/ArrayProperty.hpp
-    ${header_path}/ArrayPropertyInterface.h
-    ${header_path}/FilePathProperty.h
-    ${header_path}/FilePathProperty.hpp
-    ${header_path}/Property.h
-
-    ${header_path}/PropertyGroup.h
-    ${header_path}/PropertyGroup.hpp
-    ${header_path}/AbstractPropertyVisitor.h
-    ${header_path}/PropertyVisitor.h
-    ${header_path}/PropertyCategoryVisitor.h
     ${header_path}/StandardPropertyVisitor.h
-    ${header_path}/PropertyDeserializer.h
-    ${header_path}/PropertySerializer.h
-
-    ${header_path}/AbstractValue.h
-    ${header_path}/StoredValue.h
-    ${header_path}/StoredValue.hpp
-    ${header_path}/AccessorValue.h
-    ${header_path}/AccessorValue.hpp
-
-    ${header_path}/AbstractArrayValue.h
     ${header_path}/StoredArrayValue.h
     ${header_path}/StoredArrayValue.hpp
-    ${header_path}/AccessorArrayValue.h
-    ${header_path}/AccessorArrayValue.hpp
-
-    ${header_path}/Color.h
-    ${header_path}/FilePath.h
-
-    ${header_path}/Object.h
-    ${header_path}/Function.h
-    ${header_path}/Variant.h
+    ${header_path}/StoredValue.h
+    ${header_path}/StoredValue.hpp
+    ${header_path}/StringProperty.h
+    ${header_path}/StringProperty.hpp
     ${header_path}/TemplateHelper.h
-
-    ${header_path}/property_declaration.h
-    ${header_path}/specialization_helpers.h
-    ${header_path}/util.h
-    ${header_path}/util.hpp
+    ${header_path}/UnsignedIntegralProperty.h
+    ${header_path}/UnsignedIntegralProperty.hpp
+    ${header_path}/UnsignedIntegralPropertyInterface.h
+    ${header_path}/ValueProperty.h
+    ${header_path}/ValueProperty.hpp
+    ${header_path}/Variant.h
 )
 
 set(sources
     ${source_path}/AbstractProperty.cpp
-    ${source_path}/ValuePropertyInterface.cpp
-    ${source_path}/EnumPropertyInterface.cpp
-    ${source_path}/UnsignedIntegralPropertyInterface.cpp
-    ${source_path}/SignedIntegralPropertyInterface.cpp
-    ${source_path}/FloatingPointPropertyInterface.cpp
-    ${source_path}/ArrayPropertyInterface.cpp
-    ${source_path}/StringProperty.cpp
-    ${source_path}/FilePathProperty.cpp
-
-
+    ${source_path}/AbstractPropertyGroup.cpp
     ${source_path}/AbstractPropertyVisitor.cpp
-
-    ${source_path}/PropertyGroup.cpp
-    ${source_path}/PropertyDeserializer.cpp
-    ${source_path}/PropertySerializer.cpp
-
+    ${source_path}/AbstractValueProperty.cpp
     ${source_path}/Color.cpp
+    ${source_path}/EnumPropertyInterface.cpp
     ${source_path}/FilePath.cpp
-
+    ${source_path}/FilePathProperty.cpp
+    ${source_path}/FloatingPointPropertyInterface.cpp
     ${source_path}/Object.cpp
+    ${source_path}/PropertyDeserializer.cpp
+    ${source_path}/PropertyGroup.cpp
+    ${source_path}/PropertySerializer.cpp
+    ${source_path}/SignedIntegralPropertyInterface.cpp
+    ${source_path}/StringProperty.cpp
+    ${source_path}/UnsignedIntegralPropertyInterface.cpp
     ${source_path}/Variant.cpp
-
     ${source_path}/util.cpp
 )
 

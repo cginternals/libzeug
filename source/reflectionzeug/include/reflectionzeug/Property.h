@@ -30,7 +30,7 @@ class Property : public ClassProperty<Type>
 public:
     template <typename... Args>
     Property(const std::string & name, Args&&... args) : 
-        ValuePropertyInterface(name),
+        AbstractProperty(name),
         ClassProperty<Type>(std::forward<Args>(args)...) {}
 
 };
@@ -41,7 +41,7 @@ class Property<bool> : public ValueProperty<bool>
 public:
     template <typename... Args>
     Property(const std::string & name, Args&&... args) : 
-        ValuePropertyInterface(name),
+        AbstractProperty(name),
         ValueProperty<bool>(std::forward<Args>(args)...) {}
 
     virtual std::string toString() const { return this->value() ? "true" : "false"; }
@@ -66,7 +66,7 @@ class Property<std::string> : public StringProperty
 public:
     template <typename... Args>
     Property(const std::string & name, Args&&... args) : 
-        ValuePropertyInterface(name),
+        AbstractProperty(name),
         StringProperty(std::forward<Args>(args)...) {}
 
 };
@@ -77,7 +77,7 @@ class Property<FilePath> : public FilePathProperty
 public:
     template <typename... Args>
     Property(const std::string & name, Args&&... args) : 
-        ValuePropertyInterface(name),
+        AbstractProperty(name),
         FilePathProperty(std::forward<Args>(args)...) {}
 
 };
@@ -88,7 +88,7 @@ class Property<Type, typename EnableIf<isUnsignedIntegral<Type>::value>::type> :
 public:
     template <typename... Args>
     Property(const std::string & name, Args&&... args) : 
-        ValuePropertyInterface(name),
+        AbstractProperty(name),
         UnsignedIntegralProperty<Type>(std::forward<Args>(args)...) {}
 
 };
@@ -99,7 +99,7 @@ class Property<Type, typename EnableIf<isSignedIntegral<Type>::value>::type> : p
 public:
     template <typename... Args>
     Property(const std::string & name, Args&&... args) : 
-        ValuePropertyInterface(name),
+        AbstractProperty(name),
         SignedIntegralProperty<Type>(std::forward<Args>(args)...) {}
 
 };
@@ -110,7 +110,7 @@ class Property<Type, typename EnableIf<isFloatingPoint<Type>::value>::type> : pu
 public:
     template <typename... Args>
     Property(const std::string & name, Args&&... args) : 
-        ValuePropertyInterface(name), 
+        AbstractProperty(name), 
         FloatingPointProperty<Type>(std::forward<Args>(args)...) {}
 
 };
@@ -120,11 +120,13 @@ template <typename Type>
 {
 public:
     Property(const std::string & name, const Type & array) :
-        ArrayProperty<typename Type::value_type, std::tuple_size<Type>::value>(name, array) {}
+        AbstractProperty(name),
+        ArrayProperty<typename Type::value_type, std::tuple_size<Type>::value>(array) {}
     
     template <typename... Args>
     Property(const std::string & name, Args&&... args) : 
-        ArrayProperty<typename Type::value_type, std::tuple_size<Type>::value>(name, std::forward<Args>(args)...) {}
+        AbstractProperty(name),
+        ArrayProperty<typename Type::value_type, std::tuple_size<Type>::value>(std::forward<Args>(args)...) {}
     
 };
 
@@ -134,7 +136,7 @@ class Property<Type, typename EnableIf<std::is_enum<Type>::value>::type> : publi
 public:
     template <typename... Args>
     Property(const std::string & name, Args&&... args) : 
-        ValuePropertyInterface(name),
+        AbstractProperty(name),
         EnumProperty<Type>(std::forward<Args>(args)...) {}
     
 };

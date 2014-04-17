@@ -159,7 +159,8 @@ int main(int argc, char *argv[])
     
     settings->addProperty<unsigned long long int>("unsigned_int", 12);
     
-    auto prop = settings->addProperty<std::array<std::string, 2>>("float_array", { "ad", "ad" });
+    std::array<int, 2> array = { 1 ,2 };
+    auto prop = settings->addProperty<std::array<int, 2>>("float_array", array);
 
     PropertyDeserializer deserializer;
     deserializer.deserialize(*settings, SETTINGS_PATH);

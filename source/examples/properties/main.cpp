@@ -21,12 +21,12 @@ void printGroup(const PropertyGroup & group)
 {
     std::cout << group.path() << std::endl;
 
-    group.forEachValuePropertyInterface([] (const ValuePropertyInterface & property)
+    group.forEachValue([] (const AbstractValueProperty & property)
     {
         std::cout << property.path() << " = " << property.toString() << std::endl;
     });
 
-    group.forEachSubGroup([] (const PropertyGroup & subGroup)
+    group.forEachPropertyGroup([] (const PropertyGroup & subGroup)
     {
         printGroup(subGroup);
     });
@@ -65,11 +65,11 @@ void iterateOverProperties()
     group->addProperty<Color>("fifth", Color(125, 125, 125));
     group->addProperty<std::array<int, 3>>("sixth", { 1, 2, 3 });
 
-    group->forEachValuePropertyInterface([](AbstractProperty & property) {
+    group->forEachValue([](AbstractProperty & property) {
         std::cout << property.title() << std::endl;
     });
 
-    group->forEachSubGroup([](PropertyGroup & subGroup) {
+    group->forEachPropertyGroup([](PropertyGroup & subGroup) {
         std::cout << subGroup.title() << std::endl;
     });
 
@@ -107,7 +107,7 @@ void typeUsage()
 {
     std::cout << ">> typeUsage()" << std::endl;
     
-    ValuePropertyInterface * property = new Property<int>("property", 12);
+    AbstractValueProperty * property = new Property<int>("property", 12);
     
     if (property->type() == Property<int>::stype())
     {
@@ -126,8 +126,8 @@ bool saveProperties()
 
     PropertyGroup * subGroup = root.addGroup("more");
 
-    subGroup->addProperty<Color>("spinach_green", Color(74, 84, 43));
-    subGroup->addProperty<int>("apple_count", 17);
+    subGroup->addProperty<Color>("spinach_green", Color(0x2B, 0xAA, 0xCF));
+    subGroup->addProperty<int>("apple_count", 16);
 
     PropertySerializer serializer;
     return serializer.serialize(root, INI_PATH);
@@ -135,6 +135,8 @@ bool saveProperties()
 
 bool loadProperties()
 {
+    std::cout << ">> loadProperties()" << std::endl;
+
     PropertyGroup root("root");
 
     root.addProperty<std::array<double, 3>>("normal", { 0.0, 0.0, 0.0 });

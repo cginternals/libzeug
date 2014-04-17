@@ -114,7 +114,7 @@ bool PropertyDeserializer::setPropertyValue(const std::string line)
         return false;
     }
 
-    if (property->isGroup()) {
+    if (!property->isValue()) {
         std::cerr << "Tried to assign value to group with name: ";
         std::cerr << property->name() << std::endl;
         return false;

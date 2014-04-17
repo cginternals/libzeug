@@ -13,15 +13,12 @@ namespace reflectionzeug
  * - float
  * - std::string
  * - FilePath
- * - any std::array with type
- *   - bool
- *   - int
- *   - double
  * - any integral type
  * - any enum
  * - any class that implements (e.g. Color):
  *   - static Class fromString(std::string)
  *   - std::string toString()
+ * - any std::array of the above types
  */
 template <typename Type, typename = void>
 class Property;

@@ -3,7 +3,7 @@
 #include <iostream>
 #include <sstream>
 
-#include <reflectionzeug/ValuePropertyInterface.h>
+#include <reflectionzeug/AbstractValueProperty.h>
 #include <reflectionzeug/PropertyGroup.h>
 
 #include <reflectionzeug/PropertySerializer.h>
@@ -28,26 +28,27 @@ bool PropertySerializer::serialize(PropertyGroup & group, std::string filePath)
         return false;
     }
     
-    
     m_currentPath = "";
     
     m_fstream << "[" << group.name() << "]" << std::endl;
-    group.forEachValuePropertyInterface([this] (ValuePropertyInterface & property) {
-        this->serializeValue(property);
-    });
+    group.forEachValue([this] (AbstractValueProperty & property) 
+        {
+            this->serializeValue(property);
+        });
     m_fstream << std::endl;
     
-    group.forEachSubGroup([this](PropertyGroup & subGroup) {
-        m_fstream << "[" << subGroup.name() << "]" << std::endl;
-        this->serializeGroup(subGroup);
-        m_fstream << std::endl;
-    });
+    group.forEachPropertyGroup([this](PropertyGroup & subGroup) 
+        {
+            m_fstream << "[" << subGroup.name() << "]" << std::endl;
+            this->serializeGroup(subGroup);
+            m_fstream << std::endl;
+        });
     
     m_fstream.close();
     return true;
 }
     
-void PropertySerializer::serializeValue(const ValuePropertyInterface & property)
+void PropertySerializer::serializeValue(const AbstractValueProperty & property)
 {
     m_fstream << m_currentPath << property.name();
     m_fstream << "=" << property.toString() << std::endl;
@@ -55,9 +56,9 @@ void PropertySerializer::serializeValue(const ValuePropertyInterface & property)
 
 void PropertySerializer::serializeGroup(const PropertyGroup & group)
 {
-    group.forEachProperty([this](const AbstractProperty & property) {
-        if (property.isGroup()) {
-            const PropertyGroup & subGroup = *property.asGroup();
+    group.forEach([this] (const AbstractProperty & property) {
+        if (property.isGroup() && !property.isArray()) {
+            const PropertyGroup & subGroup = *property.as<PropertyGroup>();
             this->pushGroupToPath(subGroup);
             this->serializeGroup(subGroup);
             this->popGroupFromPath();

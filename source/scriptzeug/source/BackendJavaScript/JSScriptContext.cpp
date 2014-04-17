@@ -162,7 +162,7 @@ static void getProperty(Local<String> property, const PropertyCallbackInfo<Value
         // Get property
         AbstractProperty * property = obj->property(name);
         if (property) {
-            ValuePropertyInterface * vp = property->asValue();
+            AbstractValueProperty * vp = property->asValue();
             if (vp) {
                 // Convert property value into Variant
                 JSPropVisitor visitor(JSPropVisitor::GetOperation);
@@ -189,7 +189,7 @@ static void setProperty(Local<String> property, Local<Value> value, const Proper
         // Get property
         AbstractProperty * property = obj->property(name);
         if (property) {
-            ValuePropertyInterface * vp = property->asValue();
+            AbstractValueProperty * vp = property->asValue();
             if (vp) {
                 // Set property value
                 JSPropVisitor visitor(JSPropVisitor::SetOperation);

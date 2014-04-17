@@ -2,12 +2,12 @@
 #pragma once
 
 #include <reflectionzeug/reflectionzeug.h>
-#include <reflectionzeug/ValuePropertyInterface.h>
+#include <reflectionzeug/AbstractValueProperty.h>
 
 namespace reflectionzeug
 {
 
-class REFLECTIONZEUG_API UnsignedIntegralPropertyInterface : public virtual ValuePropertyInterface
+class REFLECTIONZEUG_API UnsignedIntegralPropertyInterface : public virtual AbstractValueProperty
 {
 public:
     virtual ~UnsignedIntegralPropertyInterface() = 0;

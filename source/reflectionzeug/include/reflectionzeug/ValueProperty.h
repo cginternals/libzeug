@@ -6,7 +6,7 @@
 #include <signalzeug/Signal.h>
 
 #include <reflectionzeug/reflectionzeug.h>
-#include <reflectionzeug/ValuePropertyInterface.h>
+#include <reflectionzeug/AbstractValueProperty.h>
 #include <reflectionzeug/StoredValue.h>
 #include <reflectionzeug/AccessorValue.h>
 
@@ -16,7 +16,7 @@ namespace reflectionzeug
 /** \brief Part of the property hierarchy. The Template Class for all properties that have a value.
  */
 template <typename Type>
-class ValueProperty : public virtual ValuePropertyInterface
+class ValueProperty : public virtual AbstractValueProperty
 {
 public:
     static size_t stype();
@@ -49,7 +49,7 @@ public:
 
     virtual void accept(AbstractPropertyVisitor * visitor, bool warn = true);
 
-    virtual size_t type();
+    virtual size_t type() const;
     
     signalzeug::Signal<const Type &> valueChanged;
 

@@ -5,21 +5,21 @@
 #include <unordered_map>
 
 #include <reflectionzeug/reflectionzeug.h>
-
-#include <reflectionzeug/Property.h>
+#include <reflectionzeug/property_declaration.h>
+#include <reflectionzeug/AbstractPropertyGroup.h>
 
 namespace reflectionzeug
 {
     
+class AbstractValueProperty;
+    
 /** \brief Part of the Property Hierarchy that manages properties while being a property itself.
 */
-class REFLECTIONZEUG_API PropertyGroup : public AbstractProperty
+class REFLECTIONZEUG_API PropertyGroup : public AbstractPropertyGroup
 {
 public:
     PropertyGroup(const std::string & name);
     virtual ~PropertyGroup();
-    
-    virtual bool isGroup() const;
     
     /** \name Property Adding
         \brief Methods for adding properties.
@@ -64,8 +64,8 @@ public:
     template <typename Type>
     void setValue(const std::string & path, const Type & value);
     
-    AbstractProperty * property(unsigned int index);
-    const AbstractProperty * property(unsigned int index) const;
+    virtual AbstractProperty * at(size_t index);
+    virtual const AbstractProperty * at(size_t index) const;
     
     /** \} */
 
@@ -77,9 +77,9 @@ public:
     bool propertyExists(const std::string & name) const;
     bool groupExists(const std::string & name) const;
     
-    bool hasProperties() const;
-    unsigned int propertyCount() const;
-    int indexOfProperty(const std::string & name) const;
+    virtual bool isEmpty() const;
+    virtual size_t count() const;
+    virtual int indexOf(const AbstractProperty * property) const;
 
     AbstractProperty * obtainProperty(const std::string & name);
     bool removeProperty(AbstractProperty * property);
@@ -91,24 +91,27 @@ public:
      */
     /** \{ */
     
-    void forEachProperty(const std::function<void(AbstractProperty &)> & functor);
-    void forEachProperty(const std::function<void(const AbstractProperty &)> & functor) const;
+    void forEach(const std::function<void(AbstractProperty &)> & functor);
+    void forEach(const std::function<void(const AbstractProperty &)> & functor) const;
     
-    void forEachValuePropertyInterface(const std::function<void(ValuePropertyInterface &)> & functor);
-    void forEachValuePropertyInterface(const std::function<void(const ValuePropertyInterface &)> & functor) const;
+    void forEachValue(const std::function<void(AbstractValueProperty &)> & functor);
+    void forEachValue(const std::function<void(const AbstractValueProperty &)> & functor) const;
     
-    void forEachSubGroup(const std::function<void(PropertyGroup &)> & functor);
-    void forEachSubGroup(const std::function<void(const PropertyGroup &)> & functor) const;
+    void forEachGroup(const std::function<void(AbstractPropertyGroup &)> & functor);
+    void forEachGroup(const std::function<void(const AbstractPropertyGroup &)> & functor) const;
+
+    void forEachPropertyGroup(const std::function<void(PropertyGroup &)> & functor);
+    void forEachPropertyGroup(const std::function<void(const PropertyGroup &)> & functor) const;
     
     /** \} */
-    
-protected:
-    std::vector<AbstractProperty *> m_properties;
-    std::unordered_map<std::string, AbstractProperty *> m_propertiesMap;
     
 private:
     AbstractProperty * findProperty(const std::string & path);
     const AbstractProperty * findProperty(const std::string & path) const;
+    
+private:
+    std::vector<AbstractProperty *> m_properties;
+    std::unordered_map<std::string, AbstractProperty *> m_propertiesMap;
 };
 
 } // namespace reflectionzeug

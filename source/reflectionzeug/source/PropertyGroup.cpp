@@ -11,6 +11,7 @@
     namespace regex_namespace = boost;
 #endif
 
+#include <cassert>
 #include <algorithm>
 
 
@@ -26,11 +27,6 @@ PropertyGroup::~PropertyGroup()
 {
     for (AbstractProperty * property : m_properties)
         delete property;
-}
-    
-bool PropertyGroup::isGroup() const
-{
-    return true;
 }
 
 bool PropertyGroup::addProperty(AbstractProperty * property)
@@ -120,16 +116,14 @@ const PropertyGroup * PropertyGroup::group(const std::string & path) const
     return this->property(path)->as<PropertyGroup>();
 }
     
-AbstractProperty * PropertyGroup::property(unsigned int index)
+AbstractProperty * PropertyGroup::at(size_t index)
 {
-    return (index < this->propertyCount()) ? m_properties[index] : nullptr;
+    return (index < this->count()) ? m_properties[index] : nullptr;
 }
 
-const AbstractProperty * PropertyGroup::property(unsigned int index) const
+const AbstractProperty * PropertyGroup::at(size_t index) const
 {
-    if (index < this->propertyCount())
-        return nullptr;
-    return m_properties[index];
+    return (index < this->count()) ? m_properties[index] : nullptr;
 }
 
 bool PropertyGroup::propertyExists(const std::string & name) const
@@ -166,66 +160,82 @@ AbstractProperty * PropertyGroup::obtainProperty(const std::string & name)
     return property;
 }
 
-unsigned int PropertyGroup::propertyCount() const
+size_t PropertyGroup::count() const
 {
-    return (unsigned int)m_properties.size();
+    return static_cast<size_t>(m_properties.size());
 }
     
-int PropertyGroup::indexOfProperty(const std::string & name) const
+int PropertyGroup::indexOf(const AbstractProperty * property) const
 {
-    if (!this->propertyExists(name))
+    assert(property);
+
+    if (!this->propertyExists(property->name()))
         return -1;
 
-    AbstractProperty * property = m_propertiesMap.find(name)->second;
-    return static_cast<int>(std::distance(
-        m_properties.begin(), std::find(m_properties.begin(), m_properties.end(), property)));
+    return std::distance(m_properties.begin(), std::find(m_properties.begin(), m_properties.end(), property));
 }
     
-bool PropertyGroup::hasProperties() const
+bool PropertyGroup::isEmpty() const
 {
-    return this->propertyCount() != 0;
+    return this->count() != 0;
 }
 
-void PropertyGroup::forEachProperty(const std::function<void(AbstractProperty &)> & functor)
-{
-    for (AbstractProperty * property : m_properties)
-        functor(*property);
-}
-
-void PropertyGroup::forEachProperty(const std::function<void(const AbstractProperty &)> & functor) const
+void PropertyGroup::forEach(const std::function<void(AbstractProperty &)> & functor)
 {
     for (AbstractProperty * property : m_properties)
         functor(*property);
 }
 
-void PropertyGroup::forEachValuePropertyInterface(const std::function<void(ValuePropertyInterface &)> & functor)
+void PropertyGroup::forEach(const std::function<void(const AbstractProperty &)> & functor) const
+{
+    for (AbstractProperty * property : m_properties)
+        functor(*property);
+}
+
+void PropertyGroup::forEachValue(const std::function<void(AbstractValueProperty &)> & functor)
 {
     for (AbstractProperty * property : m_properties) {
-        if (!property->isGroup())
+        if (property->isValue())
             functor(*property->asValue());
     }
 }
 
-void PropertyGroup::forEachValuePropertyInterface(const std::function<void(const ValuePropertyInterface &)> & functor) const
+void PropertyGroup::forEachValue(const std::function<void(const AbstractValueProperty &)> & functor) const
 {
     for (AbstractProperty * property : m_properties) {
-        if (!property->isGroup())
+        if (property->isValue())
             functor(*property->asValue());
     }
 }
 
-void PropertyGroup::forEachSubGroup(const std::function<void(PropertyGroup &)> & functor)
+void PropertyGroup::forEachGroup(const std::function<void(AbstractPropertyGroup &)> & functor)
 {
     for (AbstractProperty * property : m_properties) {
         if (property->isGroup())
+            functor(*property->asGroup());
+    }
+}
+
+void PropertyGroup::forEachGroup(const std::function<void(const AbstractPropertyGroup &)> & functor) const
+{
+    for (AbstractProperty * property : m_properties) {
+        if (property->isGroup())
+            functor(*property->asGroup());
+    }
+}
+
+void PropertyGroup::forEachPropertyGroup(const std::function<void(PropertyGroup &)> & functor)
+{
+    for (AbstractProperty * property : m_properties) {
+        if (property->isGroup() && !property->isArray())
             functor(*property->as<PropertyGroup>());
     }
 }
 
-void PropertyGroup::forEachSubGroup(const std::function<void(const PropertyGroup &)> & functor) const
+void PropertyGroup::forEachPropertyGroup(const std::function<void(const PropertyGroup &)> & functor) const
 {
     for (AbstractProperty * property : m_properties) {
-        if (property->isGroup())
+        if (property->isGroup() && !property->isArray())
             functor(*property->as<PropertyGroup>());
     }
 }

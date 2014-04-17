@@ -7,7 +7,7 @@
 namespace reflectionzeug
 {
 
-class ValuePropertyInterface;
+class AbstractValueProperty;
 class PropertyGroup;
     
 /** @brief
@@ -23,7 +23,7 @@ public:
     bool serialize(PropertyGroup & group, std::string filePath);
     
 protected:
-    void serializeValue(const ValuePropertyInterface & property);
+    void serializeValue(const AbstractValueProperty & property);
     void serializeGroup(const PropertyGroup & group);
     void pushGroupToPath(const PropertyGroup & group);
     void popGroupFromPath();

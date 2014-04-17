@@ -17,15 +17,15 @@ public:
     PropertyEditorFactory();
     virtual ~PropertyEditorFactory();
 
-    QWidget * createEditor(reflectionzeug::ValuePropertyInterface & property);
-    QWidget * createEditorWithParent(reflectionzeug::ValuePropertyInterface & property, QWidget * parent);
+    QWidget * createEditor(reflectionzeug::AbstractValueProperty & property);
+    QWidget * createEditorWithParent(reflectionzeug::AbstractValueProperty & property, QWidget * parent);
 
     virtual void visit(reflectionzeug::Property<bool> * property);
     virtual void visit(reflectionzeug::Property<std::string> * property);
     virtual void visit(reflectionzeug::Property<reflectionzeug::Color> * property);
     virtual void visit(reflectionzeug::Property<reflectionzeug::FilePath> * property);
 
-    virtual void visit(reflectionzeug::ValuePropertyInterface * property);
+    virtual void visit(reflectionzeug::AbstractValueProperty * property);
     virtual void visit(reflectionzeug::EnumPropertyInterface * property);
     virtual void visit(reflectionzeug::UnsignedIntegralPropertyInterface * property);
     virtual void visit(reflectionzeug::SignedIntegralPropertyInterface * property);

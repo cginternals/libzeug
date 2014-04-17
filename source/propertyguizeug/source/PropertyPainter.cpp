@@ -25,7 +25,7 @@ PropertyPainter::~PropertyPainter()
 }
 
 void PropertyPainter::drawValue(QPainter * painter, 
-    const QStyleOptionViewItem & option, ValuePropertyInterface & property)
+    const QStyleOptionViewItem & option, AbstractValueProperty & property)
 {
     m_drawn = false;
     m_painter = painter;

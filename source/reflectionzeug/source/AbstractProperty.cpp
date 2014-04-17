@@ -9,23 +9,33 @@
     namespace regex_namespace = boost;
 #endif
 
-#include <reflectionzeug/ValuePropertyInterface.h>
-#include <reflectionzeug/PropertyGroup.h>
+#include <reflectionzeug/AbstractValueProperty.h>
+#include <reflectionzeug/AbstractPropertyGroup.h>
 
 #include <reflectionzeug/AbstractProperty.h>
 
-namespace reflectionzeug {
+
+namespace reflectionzeug 
+{
     
 const std::string AbstractProperty::s_nameRegexString("[a-zA-Z_]+\\w*");
 
+AbstractProperty::AbstractProperty()
+{
+    // should never be called; just to avoid explicit constructor call in each subclass
+    assert(false);
+}
+
 AbstractProperty::AbstractProperty(const std::string & name)
-:   m_state(kNotSet)
+:   m_state(State::NotSet)
 ,   m_name(name)
 ,   m_title(name)
 ,   m_parent(nullptr)
 {
     assert(regex_namespace::regex_match(m_name, regex_namespace::regex(s_nameRegexString)));
 }
+    
+AbstractProperty::
 
 AbstractProperty::~AbstractProperty()
 {
@@ -56,12 +66,12 @@ void AbstractProperty::setAnnotations(const std::string & annotations)
     m_annotations = annotations;
 }
     
-PropertyGroup * AbstractProperty::parent() const
+AbstractPropertyGroup * AbstractProperty::parent() const
 {
     return m_parent;
 }
     
-void AbstractProperty::setParent(PropertyGroup * parent)
+void AbstractProperty::setParent(AbstractPropertyGroup * parent)
 {
     m_parent = parent;
 }
@@ -78,8 +88,8 @@ void AbstractProperty::removeParent()
     
 bool AbstractProperty::isEnabled() const
 {
-    if (m_state != kNotSet)
-        return m_state == kEnabled;
+    if (m_state != State::NotSet)
+        return m_state == State::Enabled;
     
     if (!this->hasParent())
         return true;
@@ -89,7 +99,7 @@ bool AbstractProperty::isEnabled() const
     
 void AbstractProperty::setEnabled(bool enabled)
 {
-    m_state = enabled ? kEnabled : kDisabled;
+    m_state = enabled ? State::Enabled : State::Disabled;
 }
     
 std::string AbstractProperty::path() const
@@ -100,27 +110,37 @@ std::string AbstractProperty::path() const
     return this->parent()->path() + "/" + this->name();
 }
     
-ValuePropertyInterface * AbstractProperty::asValue()
+AbstractValueProperty * AbstractProperty::asValue()
 {
-    return static_cast<ValuePropertyInterface *>(this);
+    return dynamic_cast<AbstractValueProperty *>(this);
 }
 
-const ValuePropertyInterface * AbstractProperty::asValue() const
+const AbstractValueProperty * AbstractProperty::asValue() const
 {
-    return static_cast<const ValuePropertyInterface *>(this);
+    return dynamic_cast<const AbstractValueProperty *>(this);
 }
 
-PropertyGroup * AbstractProperty::asGroup()
+AbstractPropertyGroup * AbstractProperty::asGroup()
 {
-    return static_cast<PropertyGroup *>(this);
+    return dynamic_cast<AbstractPropertyGroup *>(this);
 }
 
-const PropertyGroup * AbstractProperty::asGroup() const
+const AbstractPropertyGroup * AbstractProperty::asGroup() const
 {
-    return static_cast<const PropertyGroup *>(this);
+    return dynamic_cast<const AbstractPropertyGroup *>(this);
 }
     
 bool AbstractProperty::isGroup() const
+{
+    return false;
+}
+
+bool AbstractProperty::isValue() const
+{
+    return false;
+}
+    
+bool AbstractProperty::isArray() const
 {
     return false;
 }

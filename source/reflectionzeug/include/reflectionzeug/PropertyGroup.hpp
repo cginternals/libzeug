@@ -1,6 +1,9 @@
 
 #pragma once
 
+#include <reflectionzeug/Property.h>
+
+
 namespace reflectionzeug
 {
 

@@ -11,8 +11,8 @@
 namespace reflectionzeug
 {
 
-class ValuePropertyInterface;
-class PropertyGroup;
+class AbstractValueProperty;
+class AbstractPropertyGroup;
     
 /** \brief Part of the property hierarchy (base class of all properties).
 */
@@ -21,7 +21,9 @@ class REFLECTIONZEUG_API AbstractProperty
 public:
     static const std::string s_nameRegexString;
     
+    AbstractProperty();
     AbstractProperty(const std::string & name);
+    
     virtual ~AbstractProperty() = 0;
 
     const std::string & name() const;
@@ -32,8 +34,8 @@ public:
     const std::string & annotations() const;
     void setAnnotations(const std::string & annotations);
     
-    PropertyGroup * parent() const;
-    void setParent(PropertyGroup * parent);
+    AbstractPropertyGroup * parent() const;
+    void setParent(AbstractPropertyGroup * parent);
     void removeParent();
     bool hasParent() const;
     
@@ -48,28 +50,26 @@ public:
     template <class Property>
     const Property * as() const;
 
-    ValuePropertyInterface * asValue();
-    const ValuePropertyInterface * asValue() const;
+    AbstractValueProperty * asValue();
+    const AbstractValueProperty * asValue() const;
 
-    PropertyGroup * asGroup();
-    const PropertyGroup * asGroup() const;
+    AbstractPropertyGroup * asGroup();
+    const AbstractPropertyGroup * asGroup() const;
 
     virtual bool isGroup() const;
-
-protected:
-
-    enum 
-    {
-        kNotSet
-    ,   kEnabled
-    ,   kDisabled
-    } m_state;
+    virtual bool isValue() const;
+    virtual bool isArray() const;
+    
+private:
+    enum class State : char { NotSet, Enabled, Disabled };
+    
+    State m_state;
     
     std::string m_name;
     std::string m_title;
     std::string m_annotations;
 
-    PropertyGroup * m_parent;
+    AbstractPropertyGroup * m_parent;
 };
     
 } // namespace reflectionzeug

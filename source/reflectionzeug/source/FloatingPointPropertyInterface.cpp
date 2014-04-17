@@ -16,7 +16,7 @@ void FloatingPointPropertyInterface::accept(AbstractPropertyVisitor * visitor, b
 
     if (typedVisitor == nullptr)
     {
-        ValuePropertyInterface::accept(visitor, warn);
+        AbstractValueProperty::accept(visitor, warn);
         return;
     }
 

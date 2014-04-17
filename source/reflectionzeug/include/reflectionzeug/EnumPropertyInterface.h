@@ -5,12 +5,12 @@
 #include <vector>
 
 #include <reflectionzeug/reflectionzeug.h>
-#include <reflectionzeug/ValuePropertyInterface.h>
+#include <reflectionzeug/AbstractValueProperty.h>
 
 namespace reflectionzeug
 {
 
-class REFLECTIONZEUG_API EnumPropertyInterface : public virtual ValuePropertyInterface
+class REFLECTIONZEUG_API EnumPropertyInterface : public virtual AbstractValueProperty
 {
 public:
     virtual ~EnumPropertyInterface() = 0;

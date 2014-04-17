@@ -15,7 +15,7 @@ void EnumPropertyInterface::accept(AbstractPropertyVisitor * visitor, bool warn)
 
     if (typedVisitor == nullptr)
     {
-        ValuePropertyInterface::accept(visitor, warn);
+        AbstractValueProperty::accept(visitor, warn);
         return;
     }
 

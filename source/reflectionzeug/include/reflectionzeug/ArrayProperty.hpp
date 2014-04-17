@@ -2,6 +2,7 @@
 #pragma once
 
 #include <cassert>
+#include <algorithm>
 #include <iostream>
 #include <typeinfo>
 #include <vector>
@@ -17,22 +18,17 @@ namespace reflectionzeug
 {
 
 template <typename Type, size_t Size>
-ArrayProperty<Type, Size>::ArrayProperty(
-    const std::string & name, 
-    const std::array<Type, Size> & array)
-:   ArrayPropertyInterface(name)
-,   m_array(new StoredArrayValue<Type, Size>(array))
+ArrayProperty<Type, Size>::ArrayProperty(const std::array<Type, Size> & array)
+:   m_array(new StoredArrayValue<Type, Size>(array))
 {
     init();
 }
 
 template <typename Type, size_t Size>
 ArrayProperty<Type, Size>::ArrayProperty(
-    const std::string & name,
     const std::function<Type (size_t)> & getter,
     const std::function<void(size_t, const Type &)> & setter)
-:   ArrayPropertyInterface(name)
-,   m_array(new AccessorArrayValue<Type, Size>(getter, setter))
+:   m_array(new AccessorArrayValue<Type, Size>(getter, setter))
 {
     init();
 }
@@ -40,12 +36,10 @@ ArrayProperty<Type, Size>::ArrayProperty(
 template <typename Type, size_t Size>
 template <class Object>
 ArrayProperty<Type, Size>::ArrayProperty(
-    const std::string & name,
     Object & object, 
     const Type & (Object::*getter_pointer)(size_t) const,
     void (Object::*setter_pointer)(size_t, const Type &))
-:   ArrayPropertyInterface(name)
-,   m_array(new AccessorArrayValue<Type, Size>(object, getter_pointer, setter_pointer))
+:   m_array(new AccessorArrayValue<Type, Size>(object, getter_pointer, setter_pointer))
 {
     init();
 }
@@ -53,7 +47,6 @@ ArrayProperty<Type, Size>::ArrayProperty(
 template <typename Type, size_t Size>
 template <class Object>
 ArrayProperty<Type, Size>::ArrayProperty(
-    const std::string & name,
     Object & object, 
     Type (Object::*getter_pointer)(size_t) const,
     void (Object::*setter_pointer)(size_t, const Type &))
@@ -65,14 +58,25 @@ ArrayProperty<Type, Size>::ArrayProperty(
 template <typename Type, size_t Size>
 template <class Object>
 ArrayProperty<Type, Size>::ArrayProperty(
-    const std::string & name,
     Object & object, 
     Type (Object::*getter_pointer)(size_t) const,
     void (Object::*setter_pointer)(size_t, Type))
-:   ArrayPropertyInterface(name)
-,   m_array(new AccessorArrayValue<Type, Size>(object, getter_pointer, setter_pointer))
+:   m_array(new AccessorArrayValue<Type, Size>(object, getter_pointer, setter_pointer))
 {
     init();
+}
+
+template <typename Type, size_t Size>
+ArrayProperty<Type, Size>::~ArrayProperty()
+{
+    for (Property<Type> * property : m_properties)
+        delete property;
+}
+    
+template <typename Type, size_t Size>
+bool ArrayProperty<Type, Size>::isArray() const
+{
+    return true;
 }
 
 template <typename Type, size_t Size>
@@ -82,7 +86,7 @@ void ArrayProperty<Type, Size>::accept(AbstractPropertyVisitor * visitor, bool w
 
     if (typedVisitor == nullptr)
     {
-        ValuePropertyInterface::accept(visitor, warn);
+        AbstractValueProperty::accept(visitor, warn);
         return;
     }
 
@@ -97,7 +101,7 @@ size_t ArrayProperty<Type, Size>::stype()
 }
 
 template <typename Type, size_t Size>
-size_t ArrayProperty<Type, Size>::type()
+size_t ArrayProperty<Type, Size>::type() const
 {
     return stype();
 }
@@ -131,10 +135,38 @@ bool ArrayProperty<Type, Size>::fromString(const std::string & string)
 }
 
 template <typename Type, size_t Size>
-ArrayProperty<Type, Size>::~ArrayProperty()
+Property<Type> * ArrayProperty<Type, Size>::at(size_t i)
 {
-    for (Property<Type> * property : m_properties)
-        delete property;
+    return m_properties.at(i);
+}
+
+template <typename Type, size_t Size>
+const Property<Type> * ArrayProperty<Type, Size>::at(size_t i) const
+{
+    return m_properties.at(i);
+}
+
+template <typename Type, size_t Size>
+bool ArrayProperty<Type, Size>::isEmpty() const
+{
+    return false;
+}
+
+template <typename Type, size_t Size>
+size_t ArrayProperty<Type, Size>::count() const
+{
+    return Size;
+}
+
+template <typename Type, size_t Size>
+int ArrayProperty<Type, Size>::indexOf(const AbstractProperty * property) const
+{
+    auto it = std::find(m_properties.begin(), m_properties.end(), property);
+
+    if (it == m_properties.end())
+        return -1;
+
+    return std::distance(m_properties.begin(), it);
 }
 
 template <typename Type, size_t Size>
@@ -159,24 +191,6 @@ template <typename Type, size_t Size>
 void ArrayProperty<Type, Size>::setValue(size_t i, const Type & value)
 {
     return m_array->set(i, value);
-}
-
-template <typename Type, size_t Size>
-size_t ArrayProperty<Type, Size>::size() const
-{
-    return Size;
-}
-
-template <typename Type, size_t Size>
-Property<Type> * ArrayProperty<Type, Size>::at(size_t i)
-{
-    return m_properties.at(i);
-}
-
-template <typename Type, size_t Size>
-const Property<Type> * ArrayProperty<Type, Size>::at(size_t i) const
-{
-    return m_properties.at(i);
 }
 
 template <typename Type, size_t Size>

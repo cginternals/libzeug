@@ -77,7 +77,7 @@ void ValueProperty<Type>::accept(AbstractPropertyVisitor * visitor, bool warn)
 
     if (typedVisitor == nullptr)
     {
-        ValuePropertyInterface::accept(visitor, warn);
+        AbstractValueProperty::accept(visitor, warn);
         return;
     }
 
@@ -92,7 +92,7 @@ size_t ValueProperty<Type>::stype()
 }
 
 template <typename Type>
-size_t ValueProperty<Type>::type()
+size_t ValueProperty<Type>::type() const
 {
     return stype();
 }

@@ -15,7 +15,7 @@ void SignedIntegralPropertyInterface::accept(AbstractPropertyVisitor * visitor, 
 
     if (typedVisitor == nullptr)
     {
-        ValuePropertyInterface::accept(visitor, warn);
+        AbstractValueProperty::accept(visitor, warn);
         return;
     }
 
