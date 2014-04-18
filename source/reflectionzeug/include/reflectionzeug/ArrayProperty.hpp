@@ -165,7 +165,7 @@ int ArrayProperty<Type, Size>::indexOf(const AbstractProperty * property) const
 
     if (it == m_properties.end())
         return -1;
-
+    
     return std::distance(m_properties.begin(), it);
 }
 
@@ -213,6 +213,7 @@ void ArrayProperty<Type, Size>::init()
         m_properties[i] = new Property<Type>("_" + std::to_string(i),
                                              std::bind(&ArrayProperty::value, this, i),
                                              std::bind(&ArrayProperty::setValue, this, i, std::placeholders::_1));
+        m_properties[i]->setParent(this);
     }
 }
 

@@ -162,7 +162,7 @@ AbstractProperty * PropertyGroup::obtainProperty(const std::string & name)
 
 size_t PropertyGroup::count() const
 {
-    return static_cast<size_t>(m_properties.size());
+    return m_properties.size();
 }
     
 int PropertyGroup::indexOf(const AbstractProperty * property) const
@@ -177,7 +177,7 @@ int PropertyGroup::indexOf(const AbstractProperty * property) const
     
 bool PropertyGroup::isEmpty() const
 {
-    return this->count() != 0;
+    return this->count() == 0;
 }
 
 void PropertyGroup::forEach(const std::function<void(AbstractProperty &)> & functor)

@@ -110,6 +110,8 @@ set(headers
     ${header_path}/ValueProperty.h
     ${header_path}/ValueProperty.hpp
     ${header_path}/Variant.h
+    ${header_path}/extensions/GlmProperties.hpp
+
 )
 
 set(sources
