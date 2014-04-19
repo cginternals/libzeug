@@ -16,11 +16,6 @@ AbstractProperty * retrieveProperty(const QModelIndex & index)
     return static_cast<AbstractProperty *>(index.internalPointer());
 }
     
-AbstractPropertyGroup * retrieveGroup(const QModelIndex & index)
-{
-    return retrieveProperty(index)->asGroup();
-}
-    
 } // namespace
 
 namespace propertyguizeug
@@ -55,7 +50,8 @@ QModelIndex PropertyModel::index(int row, int column, const QModelIndex & parent
     if (!parent->isGroup())
         return QModelIndex();
     
-    return createIndex(row, column, parent->asGroup()->at(row));
+    AbstractProperty * property = parent->asGroup()->at(row);
+    return createIndex(row, column, property);
 }
 
 QModelIndex PropertyModel::parent(const QModelIndex & index) const
@@ -92,7 +88,6 @@ int PropertyModel::rowCount(const QModelIndex & parentIndex) const
         return 0;
     
     AbstractPropertyGroup * group = property->asGroup();
-    int count = group->count();
     return group->count();
 }
 
@@ -118,6 +113,7 @@ QVariant PropertyModel::data(const QModelIndex & index, int role) const
         return QVariant();
     
     AbstractProperty * property = retrieveProperty(index);
+
     return QVariant(QString::fromStdString(property->title()));
 }
     
@@ -150,6 +146,11 @@ QVariant PropertyModel::headerData(int section, Qt::Orientation orientation, int
     }
 
     return QVariant();
+}
+    
+QModelIndex PropertyModel::createIndex(int row, int column, AbstractProperty * property) const
+{
+    return QAbstractItemModel::createIndex(row, column, property);
 }
 
 } // namespace propertyguizeug

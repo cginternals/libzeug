@@ -6,7 +6,9 @@
 #include <propertyguizeug/propertyguizeug.h>
 
 
-namespace reflectionzeug {
+namespace reflectionzeug 
+{
+    class AbstractProperty;
     class PropertyGroup;
 }
 
@@ -37,8 +39,11 @@ public:
     
     virtual QVariant headerData(int section, Qt::Orientation orientation,
                                 int role = Qt::DisplayRole) const;
+
+private:
+    QModelIndex createIndex(int row, int column, reflectionzeug::AbstractProperty * property) const;
     
-protected:
+private:
     reflectionzeug::PropertyGroup * m_root;
 
 };
