@@ -34,8 +34,6 @@ AbstractProperty::AbstractProperty(const std::string & name)
 {
     assert(regex_namespace::regex_match(m_name, regex_namespace::regex(s_nameRegexString)));
 }
-    
-AbstractProperty::
 
 AbstractProperty::~AbstractProperty()
 {

@@ -36,8 +36,6 @@ public:
     
     PropertyGroup * addGroup(const std::string & name);
 
-    bool addGroup(PropertyGroup * group);
-
     /** \} */
     
     /** \name Property Accessing

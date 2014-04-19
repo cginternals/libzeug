@@ -52,11 +52,6 @@ PropertyGroup * PropertyGroup::addGroup(const std::string & name)
     return group;
 }
 
-bool PropertyGroup::addGroup(PropertyGroup * group)
-{
-    return addProperty(group);
-}
-
 AbstractProperty * PropertyGroup::property(const std::string & path)
 {
     static const regex_namespace::regex pathRegex(AbstractProperty::s_nameRegexString +
@@ -118,17 +113,23 @@ const PropertyGroup * PropertyGroup::group(const std::string & path) const
     
 AbstractProperty * PropertyGroup::at(size_t index)
 {
-    return (index < this->count()) ? m_properties[index] : nullptr;
+    if (index >= this->count())
+        return nullptr;
+    
+    return m_properties[index];
 }
 
 const AbstractProperty * PropertyGroup::at(size_t index) const
 {
-    return (index < this->count()) ? m_properties[index] : nullptr;
+    if (index >= this->count())
+        return nullptr;
+    
+    return m_properties[index];
 }
 
 bool PropertyGroup::propertyExists(const std::string & name) const
 {
-    return !(m_propertiesMap.find(name) == m_propertiesMap.end());
+    return m_propertiesMap.find(name) != m_propertiesMap.end();
 }
 
 bool PropertyGroup::groupExists(const std::string & name) const

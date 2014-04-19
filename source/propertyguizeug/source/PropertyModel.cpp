@@ -1,4 +1,6 @@
 
+#include <iostream>
+
 #include <reflectionzeug/PropertyGroup.h>
 #include <reflectionzeug/Property.h>
 
@@ -12,6 +14,11 @@ namespace
 AbstractProperty * retrieveProperty(const QModelIndex & index)
 {
     return static_cast<AbstractProperty *>(index.internalPointer());
+}
+    
+AbstractPropertyGroup * retrieveGroup(const QModelIndex & index)
+{
+    return retrieveProperty(index)->asGroup();
 }
     
 } // namespace
@@ -37,27 +44,18 @@ PropertyModel::~PropertyModel()
 
 QModelIndex PropertyModel::index(int row, int column, const QModelIndex & parentIndex) const
 {
-    if (column > 1)
+    if (!hasIndex(row, column, parentIndex))
         return QModelIndex();
-
-    AbstractProperty * parent;
+    
     if (!parentIndex.isValid())
-        parent = m_root;
-    else
-        parent = static_cast<AbstractProperty *>(parentIndex.internalPointer());
-
+        return createIndex(row, column, m_root->at(row));
+    
+    AbstractProperty * parent = retrieveProperty(parentIndex);
+    
     if (!parent->isGroup())
         return QModelIndex();
     
-    AbstractPropertyGroup * group = parent->asGroup();
-    
-    if (group->name() == "float_array")
-    {
-        std::cout << "float_array[" << row << "]" <<std::endl;
-        std::cout.flush();
-    }
-    
-    return this->createIndex(row, column, group->at(row));
+    return createIndex(row, column, parent->asGroup()->at(row));
 }
 
 QModelIndex PropertyModel::parent(const QModelIndex & index) const
@@ -65,9 +63,9 @@ QModelIndex PropertyModel::parent(const QModelIndex & index) const
     if (!index.isValid())
         return QModelIndex();
     
-    AbstractProperty * property = static_cast<AbstractProperty *>(index.internalPointer());
-    
-    if (property == m_root)
+    AbstractProperty * property = retrieveProperty(index);
+
+    if (!property->hasParent())
         return QModelIndex();
     
     AbstractPropertyGroup * parent = property->parent();
@@ -81,49 +79,46 @@ QModelIndex PropertyModel::parent(const QModelIndex & index) const
 
 int PropertyModel::rowCount(const QModelIndex & parentIndex) const
 {
+    if (parentIndex.column() > 0)
+        return 0;
+    
+    AbstractProperty * property;
     if (!parentIndex.isValid())
-        return m_root->count();
+        property = m_root;
+    else
+        property = retrieveProperty(parentIndex);
     
-    AbstractProperty * property = retrieveProperty(parentIndex);
+    if (!property->isGroup())
+        return 0;
     
-    if (property->name() == "float_array")
-    {
-        std::cout << property->asGroup()->count() << std::endl;
-        std::cout.flush();
-        property->asGroup()->count();
-    }
-    
-    return property->isGroup() ? property->asGroup()->count() : 0;
+    AbstractPropertyGroup * group = property->asGroup();
+    int count = group->count();
+    return group->count();
 }
 
 int PropertyModel::columnCount(const QModelIndex & parentIndex) const
 {
     if (!parentIndex.isValid())
-        return 2;
+        return m_root->isEmpty() ? 0 : 2;
     
     AbstractProperty * property = retrieveProperty(parentIndex);
     
     if (!property->isGroup())
         return 0;
     
-    AbstractPropertyGroup * group = property->asGroup();
-    
-    return group->isEmpty() ? 0 : 2;
+    return property->asGroup()->isEmpty() ? 0 : 2;
 }
 
 QVariant PropertyModel::data(const QModelIndex & index, int role) const
 {
-    if (role == Qt::DisplayRole) {
-        if (!index.isValid())
-            return QVariant();
-        
-        AbstractProperty * property = retrieveProperty(index);
-        
-        if (index.column() == 0)
-            return QVariant(QString::fromStdString(property->title()));
-    }
+    if (!index.isValid())
+        return QVariant();
     
-    return QVariant();
+    if (role != Qt::DisplayRole || index.column() != 0)
+        return QVariant();
+    
+    AbstractProperty * property = retrieveProperty(index);
+    return QVariant(QString::fromStdString(property->title()));
 }
     
 Qt::ItemFlags PropertyModel::flags(const QModelIndex & index) const
