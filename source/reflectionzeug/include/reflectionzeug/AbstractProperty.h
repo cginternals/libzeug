@@ -15,14 +15,24 @@ class AbstractValueProperty;
 class AbstractPropertyCollection;
 class PropertyGroup;
     
-/** \brief Part of the property hierarchy (base class of all properties).
-*/
+/** 
+ * \brief The base class of all properties
+ * When added to a PropertyGroup, the name is used as the unique key.
+ * The title is supposed to be used in user interfaces.
+ * Most subclasses use virtual inheritance.
+ * \see PropertyGroup
+ */
 class REFLECTIONZEUG_API AbstractProperty 
 {
 public:
     static const std::string s_nameRegexString;
     
+    /**
+     * Should never be used
+     * Exists just to avoid explicit constructor calls in intermediate subclasses
+     */
     AbstractProperty();
+    
     AbstractProperty(const std::string & name);
     
     virtual ~AbstractProperty() = 0;
@@ -45,6 +55,13 @@ public:
     
     std::string path() const;
 
+    /**
+     * \name Convenience casting methods
+     * Use them, when you need to cast to sub classes.
+     * All casting is done with dynamic casts.
+     */
+    /** \{ */
+    
     template <class Property>
     Property * as();
     
@@ -63,6 +80,8 @@ public:
     virtual bool isCollection() const;
     virtual bool isValue() const;
     virtual bool isGroup() const;
+    
+    /** \} */
     
 private:
     enum class State : char { NotSet, Enabled, Disabled };

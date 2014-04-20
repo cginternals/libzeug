@@ -23,7 +23,6 @@ const std::string AbstractProperty::s_nameRegexString("[a-zA-Z_]+\\w*");
 
 AbstractProperty::AbstractProperty()
 {
-    // should never be called; just to avoid explicit constructor call in each subclass
     assert(false);
 }
 
