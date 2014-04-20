@@ -14,6 +14,8 @@ class SignedIntegralProperty : public SignedIntegralPropertyInterface, public Nu
 public:
     template <typename... Arguments>
     SignedIntegralProperty(Arguments&&... args);
+    
+    virtual ~SignedIntegralProperty() = 0;
 
     virtual void accept(AbstractPropertyVisitor * visitor);
 

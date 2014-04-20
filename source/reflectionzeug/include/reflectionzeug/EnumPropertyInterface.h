@@ -13,8 +13,6 @@ namespace reflectionzeug
 class REFLECTIONZEUG_API EnumPropertyInterface : public virtual AbstractValueProperty
 {
 public:
-    virtual ~EnumPropertyInterface() = 0;
-    
     virtual void accept(AbstractPropertyVisitor * visitor);
     
     virtual bool hasChoices() const = 0;

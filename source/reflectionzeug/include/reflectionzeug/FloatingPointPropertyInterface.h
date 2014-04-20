@@ -10,8 +10,6 @@ namespace reflectionzeug
 class REFLECTIONZEUG_API FloatingPointPropertyInterface : public virtual AbstractValueProperty
 {
 public:
-    ~FloatingPointPropertyInterface() = 0;
-
     virtual void accept(AbstractPropertyVisitor * visitor);
 
     virtual double doubleMinimum() const = 0;

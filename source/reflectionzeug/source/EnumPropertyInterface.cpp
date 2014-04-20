@@ -4,10 +4,6 @@
 
 namespace reflectionzeug
 {
-    
-EnumPropertyInterface::~EnumPropertyInterface()
-{
-}
 
 void EnumPropertyInterface::accept(AbstractPropertyVisitor * visitor)
 {

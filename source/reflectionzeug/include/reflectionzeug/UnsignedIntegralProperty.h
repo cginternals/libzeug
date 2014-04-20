@@ -14,6 +14,8 @@ class UnsignedIntegralProperty : public UnsignedIntegralPropertyInterface, publi
 public:
     template <typename... Arguments>
     UnsignedIntegralProperty(Arguments&&... args);
+    
+    ~UnsignedIntegralProperty() = 0;
 
     virtual void accept(AbstractPropertyVisitor * visitor);
 

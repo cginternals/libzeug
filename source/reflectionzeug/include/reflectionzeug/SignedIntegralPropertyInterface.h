@@ -9,9 +9,7 @@ namespace reflectionzeug
 
 class REFLECTIONZEUG_API SignedIntegralPropertyInterface : public virtual AbstractValueProperty
 {
-public:
-    virtual ~SignedIntegralPropertyInterface() = 0;
-    
+public:    
     virtual void accept(AbstractPropertyVisitor * visitor);
     
     virtual long long uLongLongMinimum() = 0;

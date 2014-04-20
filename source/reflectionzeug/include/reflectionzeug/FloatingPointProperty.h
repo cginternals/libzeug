@@ -14,6 +14,8 @@ class FloatingPointProperty : public FloatingPointPropertyInterface, public Numb
 public:
     template <typename... Arguments>
     FloatingPointProperty(Arguments&&... args);
+    
+    virtual ~FloatingPointProperty() = 0;
 
     virtual void accept(AbstractPropertyVisitor * visitor);
 

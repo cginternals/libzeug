@@ -12,6 +12,11 @@ UnsignedIntegralProperty<Type>::UnsignedIntegralProperty(Arguments&&... args)
 :   NumberProperty<Type>(std::forward<Arguments>(args)...)
 {
 }
+    
+template <typename Type>
+UnsignedIntegralProperty<Type>::~UnsignedIntegralProperty()
+{
+}
 
 template <typename Type>
 void UnsignedIntegralProperty<Type>::accept(AbstractPropertyVisitor * visitor)

@@ -15,6 +15,11 @@ FloatingPointProperty<Type>::FloatingPointProperty(Arguments&&... args)
 }
 
 template <typename Type>
+FloatingPointProperty<Type>::~FloatingPointProperty()
+{
+}
+
+template <typename Type>
 void FloatingPointProperty<Type>::accept(AbstractPropertyVisitor * visitor)
 {
     auto * typedVisitor = dynamic_cast<PropertyVisitor<Type> *>(visitor);

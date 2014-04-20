@@ -12,6 +12,11 @@ SignedIntegralProperty<Type>::SignedIntegralProperty(Arguments&&... args)
 :   NumberProperty<Type>(std::forward<Arguments>(args)...)
 {
 }
+    
+template <typename Type>
+SignedIntegralProperty<Type>::~SignedIntegralProperty()
+{
+}
 
 template <typename Type>
 void SignedIntegralProperty<Type>::accept(AbstractPropertyVisitor * visitor)
