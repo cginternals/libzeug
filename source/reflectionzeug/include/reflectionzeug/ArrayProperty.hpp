@@ -188,15 +188,17 @@ void ArrayProperty<Type, Size>::setValue(size_t i, const Type & value)
 }
 
 template <typename Type, size_t Size>
-const std::array<Property<Type> *, Size> & ArrayProperty<Type, Size>::subProperties()
+void ArrayProperty<Type, Size>::forEach(const std::function<void(Property<Type> &)> & functor)
 {
-    return m_properties;
+    for (Property<Type> * property : m_properties)
+        functor(*property);
 }
 
 template <typename Type, size_t Size>
-const std::array<const Property<Type> *, Size> & ArrayProperty<Type, Size>::subProperties() const
+void ArrayProperty<Type, Size>::forEach(const std::function<void(const Property<Type> &)> & functor) const
 {
-    return m_properties;
+    for (const Property<Type> * property : m_properties)
+        functor(*property);
 }
 
 template <typename Type, size_t Size>

@@ -67,8 +67,8 @@ public:
     Type value(size_t i) const;
     void setValue(size_t i, const Type & value);
 
-    const std::array<Property<Type> *, Size> & subProperties();
-    const std::array<const Property<Type> *, Size> & subProperties() const;
+    void forEach(const std::function<void(Property<Type> &)> & functor);
+    void forEach(const std::function<void(const Property<Type> &)> & functor) const;
 
 private:
     void init();
