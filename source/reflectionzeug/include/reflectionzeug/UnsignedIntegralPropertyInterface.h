@@ -12,7 +12,7 @@ class REFLECTIONZEUG_API UnsignedIntegralPropertyInterface : public virtual Abst
 public:
     virtual ~UnsignedIntegralPropertyInterface() = 0;
     
-    virtual void accept(AbstractPropertyVisitor * visitor, bool warn = true);
+    virtual void accept(AbstractPropertyVisitor * visitor);
     
     virtual unsigned long long uLongLongMinimum() = 0;
     virtual bool hasMinimum() const = 0;

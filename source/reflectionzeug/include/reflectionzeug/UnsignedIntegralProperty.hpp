@@ -14,15 +14,12 @@ UnsignedIntegralProperty<Type>::UnsignedIntegralProperty(Arguments&&... args)
 }
 
 template <typename Type>
-void UnsignedIntegralProperty<Type>::accept(AbstractPropertyVisitor * visitor, bool warn)
+void UnsignedIntegralProperty<Type>::accept(AbstractPropertyVisitor * visitor)
 {
     auto * typedVisitor = dynamic_cast<PropertyVisitor<Type> *>(visitor);
     
     if (typedVisitor == nullptr)
-    {
-        UnsignedIntegralPropertyInterface::accept(visitor, warn);
-        return;
-    }
+        return UnsignedIntegralPropertyInterface::accept(visitor);
     
     typedVisitor->visit(reinterpret_cast<Property<Type> *>(this));
 }

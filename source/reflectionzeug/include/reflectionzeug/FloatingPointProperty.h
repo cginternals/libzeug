@@ -15,7 +15,7 @@ public:
     template <typename... Arguments>
     FloatingPointProperty(Arguments&&... args);
 
-    virtual void accept(AbstractPropertyVisitor * visitor, bool warn = true);
+    virtual void accept(AbstractPropertyVisitor * visitor);
 
     virtual double doubleMinimum() const;
     virtual bool hasMinimum() const;

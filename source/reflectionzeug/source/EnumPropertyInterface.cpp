@@ -9,15 +9,12 @@ EnumPropertyInterface::~EnumPropertyInterface()
 {
 }
 
-void EnumPropertyInterface::accept(AbstractPropertyVisitor * visitor, bool warn)
+void EnumPropertyInterface::accept(AbstractPropertyVisitor * visitor)
 {
     auto * typedVisitor = dynamic_cast<PropertyCategoryVisitor<EnumPropertyInterface> *>(visitor);
 
     if (typedVisitor == nullptr)
-    {
-        AbstractValueProperty::accept(visitor, warn);
-        return;
-    }
+        return AbstractValueProperty::accept(visitor);
 
     typedVisitor->visit(this);
 }

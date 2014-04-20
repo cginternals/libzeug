@@ -15,7 +15,7 @@ public:
     template <typename... Arguments>
     UnsignedIntegralProperty(Arguments&&... args);
 
-    virtual void accept(AbstractPropertyVisitor * visitor, bool warn = true);
+    virtual void accept(AbstractPropertyVisitor * visitor);
 
     virtual unsigned long long uLongLongMinimum();
     virtual bool hasMinimum() const;

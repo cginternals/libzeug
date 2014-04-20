@@ -71,15 +71,12 @@ void ValueProperty<Type>::setValue(const Type & value)
 }
 
 template <typename Type>
-void ValueProperty<Type>::accept(AbstractPropertyVisitor * visitor, bool warn)
+void ValueProperty<Type>::accept(AbstractPropertyVisitor * visitor)
 {
     auto * typedVisitor = dynamic_cast<PropertyVisitor<Type> *>(visitor);
 
     if (typedVisitor == nullptr)
-    {
-        AbstractValueProperty::accept(visitor, warn);
-        return;
-    }
+        return AbstractValueProperty::accept(visitor);
 
     typedVisitor->visit(reinterpret_cast<Property<Type> *>(this));
 }

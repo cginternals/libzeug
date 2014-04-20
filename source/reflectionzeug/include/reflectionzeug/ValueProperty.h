@@ -47,7 +47,7 @@ public:
     virtual Type value() const;
     virtual void setValue(const Type & value);
 
-    virtual void accept(AbstractPropertyVisitor * visitor, bool warn = true);
+    virtual void accept(AbstractPropertyVisitor * visitor);
 
     virtual size_t type() const;
     

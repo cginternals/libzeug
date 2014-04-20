@@ -20,7 +20,7 @@ public:
 
     virtual ~EnumProperty() = 0;
 
-    virtual void accept(AbstractPropertyVisitor * visitor, bool warn = true);
+    virtual void accept(AbstractPropertyVisitor * visitor);
     
     virtual std::string toString() const;
     virtual bool fromString(const std::string & string);

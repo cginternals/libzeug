@@ -12,7 +12,7 @@ class REFLECTIONZEUG_API FloatingPointPropertyInterface : public virtual Abstrac
 public:
     ~FloatingPointPropertyInterface() = 0;
 
-    virtual void accept(AbstractPropertyVisitor * visitor, bool warn = true);
+    virtual void accept(AbstractPropertyVisitor * visitor);
 
     virtual double doubleMinimum() const = 0;
     virtual bool hasMinimum() const = 0;

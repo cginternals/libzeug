@@ -47,7 +47,7 @@ public:
 
     virtual ~ArrayProperty() = 0;
 
-    virtual void accept(AbstractPropertyVisitor * visitor, bool warn);
+    virtual void accept(AbstractPropertyVisitor * visitor);
 
     virtual size_t type() const;
 

@@ -17,7 +17,7 @@ class REFLECTIONZEUG_API AbstractValueProperty : public virtual AbstractProperty
 public:
     virtual bool isValue() const;
     
-    virtual void accept(AbstractPropertyVisitor * visitor, bool warn = true);
+    virtual void accept(AbstractPropertyVisitor * visitor);
 
     virtual size_t type() const = 0;
 

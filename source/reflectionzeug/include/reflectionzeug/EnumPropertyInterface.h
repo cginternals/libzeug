@@ -15,7 +15,7 @@ class REFLECTIONZEUG_API EnumPropertyInterface : public virtual AbstractValuePro
 public:
     virtual ~EnumPropertyInterface() = 0;
     
-    virtual void accept(AbstractPropertyVisitor * visitor, bool warn = true);
+    virtual void accept(AbstractPropertyVisitor * visitor);
     
     virtual bool hasChoices() const = 0;
 

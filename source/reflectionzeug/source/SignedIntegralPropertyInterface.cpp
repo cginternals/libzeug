@@ -9,15 +9,12 @@ SignedIntegralPropertyInterface::~SignedIntegralPropertyInterface()
 {
 }
 
-void SignedIntegralPropertyInterface::accept(AbstractPropertyVisitor * visitor, bool warn)
+void SignedIntegralPropertyInterface::accept(AbstractPropertyVisitor * visitor)
 {
     auto * typedVisitor = dynamic_cast<PropertyCategoryVisitor<SignedIntegralPropertyInterface> *>(visitor);
 
     if (typedVisitor == nullptr)
-    {
-        AbstractValueProperty::accept(visitor, warn);
-        return;
-    }
+        return AbstractValueProperty::accept(visitor);
 
     typedVisitor->visit(this);
 }

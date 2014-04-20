@@ -9,15 +9,12 @@ UnsignedIntegralPropertyInterface::~UnsignedIntegralPropertyInterface()
 {
 }
 
-void UnsignedIntegralPropertyInterface::accept(AbstractPropertyVisitor * visitor, bool warn)
+void UnsignedIntegralPropertyInterface::accept(AbstractPropertyVisitor * visitor)
 {
     auto * typedVisitor = dynamic_cast<PropertyCategoryVisitor<UnsignedIntegralPropertyInterface> *>(visitor);
 
     if (typedVisitor == nullptr)
-    {
-        AbstractValueProperty::accept(visitor, warn);
-        return;
-    }
+        return AbstractValueProperty::accept(visitor);
 
     typedVisitor->visit(this);
 }

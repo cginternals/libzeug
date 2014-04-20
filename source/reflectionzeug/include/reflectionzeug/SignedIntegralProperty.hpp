@@ -14,15 +14,12 @@ SignedIntegralProperty<Type>::SignedIntegralProperty(Arguments&&... args)
 }
 
 template <typename Type>
-void SignedIntegralProperty<Type>::accept(AbstractPropertyVisitor * visitor, bool warn)
+void SignedIntegralProperty<Type>::accept(AbstractPropertyVisitor * visitor)
 {
     auto * typedVisitor = dynamic_cast<PropertyVisitor<Type> *>(visitor);
     
     if (typedVisitor == nullptr)
-    {
-        SignedIntegralPropertyInterface::accept(visitor, warn);
-        return;
-    }
+        return SignedIntegralPropertyInterface::accept(visitor);
     
     typedVisitor->visit(reinterpret_cast<Property<Type> *>(this));
 }
