@@ -281,7 +281,7 @@ void JSScriptContext::registerObj(Handle<v8::Object> parent, PropertyGroup * obj
         // Get property
         AbstractProperty * prop = obj->property(i);
         std::string name = prop->name();
-        if (!prop->isGroup()) {
+        if (!prop->isCollection()) {
             // Add accessor for property
             Local<String> str = String::NewFromUtf8(m_isolate, name.c_str());
             templ->SetAccessor(str, getProperty, setProperty);
@@ -321,7 +321,7 @@ void JSScriptContext::registerObj(Handle<v8::Object> parent, PropertyGroup * obj
         // Get property
         AbstractProperty * prop = obj->property(i);
         std::string name = prop->name();
-        if (prop->isGroup()) {
+        if (prop->isCollection()) {
             // Add sub object
             reflectionzeug::Object * subobj = dynamic_cast<reflectionzeug::Object *>(prop);
             registerObj(object, subobj);

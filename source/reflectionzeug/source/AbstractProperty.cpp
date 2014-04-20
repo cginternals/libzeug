@@ -10,7 +10,8 @@
 #endif
 
 #include <reflectionzeug/AbstractValueProperty.h>
-#include <reflectionzeug/AbstractPropertyGroup.h>
+#include <reflectionzeug/AbstractPropertyCollection.h>
+#include <reflectionzeug/PropertyGroup.h>
 
 #include <reflectionzeug/AbstractProperty.h>
 
@@ -64,12 +65,12 @@ void AbstractProperty::setAnnotations(const std::string & annotations)
     m_annotations = annotations;
 }
     
-AbstractPropertyGroup * AbstractProperty::parent() const
+AbstractPropertyCollection * AbstractProperty::parent() const
 {
     return m_parent;
 }
     
-void AbstractProperty::setParent(AbstractPropertyGroup * parent)
+void AbstractProperty::setParent(AbstractPropertyCollection * parent)
 {
     m_parent = parent;
 }
@@ -118,17 +119,27 @@ const AbstractValueProperty * AbstractProperty::asValue() const
     return dynamic_cast<const AbstractValueProperty *>(this);
 }
 
-AbstractPropertyGroup * AbstractProperty::asGroup()
+AbstractPropertyCollection * AbstractProperty::asCollection()
 {
-    return dynamic_cast<AbstractPropertyGroup *>(this);
+    return dynamic_cast<AbstractPropertyCollection *>(this);
 }
 
-const AbstractPropertyGroup * AbstractProperty::asGroup() const
+const AbstractPropertyCollection * AbstractProperty::asCollection() const
 {
-    return dynamic_cast<const AbstractPropertyGroup *>(this);
+    return dynamic_cast<const AbstractPropertyCollection *>(this);
+}
+
+PropertyGroup * AbstractProperty::asGroup()
+{
+    return dynamic_cast<PropertyGroup *>(this);
+}
+
+const PropertyGroup * AbstractProperty::asGroup() const
+{
+    return dynamic_cast<const PropertyGroup *>(this);
 }
     
-bool AbstractProperty::isGroup() const
+bool AbstractProperty::isCollection() const
 {
     return false;
 }
@@ -138,7 +149,7 @@ bool AbstractProperty::isValue() const
     return false;
 }
     
-bool AbstractProperty::isArray() const
+bool AbstractProperty::isGroup() const
 {
     return false;
 }

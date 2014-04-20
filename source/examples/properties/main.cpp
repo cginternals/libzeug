@@ -26,7 +26,7 @@ void printGroup(const PropertyGroup & group)
         std::cout << property.path() << " = " << property.toString() << std::endl;
     });
 
-    group.forEachPropertyGroup([] (const PropertyGroup & subGroup)
+    group.forEachGroup([] (const PropertyGroup & subGroup)
     {
         printGroup(subGroup);
     });
@@ -69,7 +69,7 @@ void iterateOverProperties()
         std::cout << property.title() << std::endl;
     });
 
-    group->forEachPropertyGroup([](PropertyGroup & subGroup) {
+    group->forEachGroup([](PropertyGroup & subGroup) {
         std::cout << subGroup.title() << std::endl;
     });
 

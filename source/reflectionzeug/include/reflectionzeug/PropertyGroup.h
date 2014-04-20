@@ -6,7 +6,7 @@
 
 #include <reflectionzeug/reflectionzeug.h>
 #include <reflectionzeug/property_declaration.h>
-#include <reflectionzeug/AbstractPropertyGroup.h>
+#include <reflectionzeug/AbstractPropertyCollection.h>
 
 namespace reflectionzeug
 {
@@ -15,11 +15,13 @@ class AbstractValueProperty;
     
 /** \brief Part of the Property Hierarchy that manages properties while being a property itself.
 */
-class REFLECTIONZEUG_API PropertyGroup : public AbstractPropertyGroup
+class REFLECTIONZEUG_API PropertyGroup : public AbstractPropertyCollection
 {
 public:
     PropertyGroup(const std::string & name);
     virtual ~PropertyGroup();
+
+    virtual bool isGroup() const;
     
     /** \name Property Adding
         \brief Methods for adding properties.
@@ -95,11 +97,11 @@ public:
     void forEachValue(const std::function<void(AbstractValueProperty &)> & functor);
     void forEachValue(const std::function<void(const AbstractValueProperty &)> & functor) const;
     
-    void forEachGroup(const std::function<void(AbstractPropertyGroup &)> & functor);
-    void forEachGroup(const std::function<void(const AbstractPropertyGroup &)> & functor) const;
+    void forEachCollection(const std::function<void(AbstractPropertyCollection &)> & functor);
+    void forEachCollection(const std::function<void(const AbstractPropertyCollection &)> & functor) const;
 
-    void forEachPropertyGroup(const std::function<void(PropertyGroup &)> & functor);
-    void forEachPropertyGroup(const std::function<void(const PropertyGroup &)> & functor) const;
+    void forEachGroup(const std::function<void(PropertyGroup &)> & functor);
+    void forEachGroup(const std::function<void(const PropertyGroup &)> & functor) const;
     
     /** \} */
     

@@ -12,7 +12,8 @@ namespace reflectionzeug
 {
 
 class AbstractValueProperty;
-class AbstractPropertyGroup;
+class AbstractPropertyCollection;
+class PropertyGroup;
     
 /** \brief Part of the property hierarchy (base class of all properties).
 */
@@ -34,8 +35,8 @@ public:
     const std::string & annotations() const;
     void setAnnotations(const std::string & annotations);
     
-    AbstractPropertyGroup * parent() const;
-    void setParent(AbstractPropertyGroup * parent);
+    AbstractPropertyCollection * parent() const;
+    void setParent(AbstractPropertyCollection * parent);
     void removeParent();
     bool hasParent() const;
     
@@ -53,12 +54,15 @@ public:
     AbstractValueProperty * asValue();
     const AbstractValueProperty * asValue() const;
 
-    AbstractPropertyGroup * asGroup();
-    const AbstractPropertyGroup * asGroup() const;
+    AbstractPropertyCollection * asCollection();
+    const AbstractPropertyCollection * asCollection() const;
 
-    virtual bool isGroup() const;
+    PropertyGroup * asGroup();
+    const PropertyGroup * asGroup() const;
+
+    virtual bool isCollection() const;
     virtual bool isValue() const;
-    virtual bool isArray() const;
+    virtual bool isGroup() const;
     
 private:
     enum class State : char { NotSet, Enabled, Disabled };
@@ -69,7 +73,7 @@ private:
     std::string m_title;
     std::string m_annotations;
 
-    AbstractPropertyGroup * m_parent;
+    AbstractPropertyCollection * m_parent;
 };
     
 } // namespace reflectionzeug

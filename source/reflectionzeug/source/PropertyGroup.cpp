@@ -29,6 +29,11 @@ PropertyGroup::~PropertyGroup()
         delete property;
 }
 
+bool PropertyGroup::isGroup() const
+{
+    return true;
+}
+
 bool PropertyGroup::addProperty(AbstractProperty * property)
 {
     if (this->property(property->name()) || property->hasParent())
@@ -209,34 +214,34 @@ void PropertyGroup::forEachValue(const std::function<void(const AbstractValuePro
     }
 }
 
-void PropertyGroup::forEachGroup(const std::function<void(AbstractPropertyGroup &)> & functor)
+void PropertyGroup::forEachCollection(const std::function<void(AbstractPropertyCollection &)> & functor)
 {
     for (AbstractProperty * property : m_properties) {
-        if (property->isGroup())
-            functor(*property->asGroup());
+        if (property->isCollection())
+            functor(*property->asCollection());
     }
 }
 
-void PropertyGroup::forEachGroup(const std::function<void(const AbstractPropertyGroup &)> & functor) const
+void PropertyGroup::forEachCollection(const std::function<void(const AbstractPropertyCollection &)> & functor) const
 {
     for (AbstractProperty * property : m_properties) {
-        if (property->isGroup())
-            functor(*property->asGroup());
+        if (property->isCollection())
+            functor(*property->asCollection());
     }
 }
 
-void PropertyGroup::forEachPropertyGroup(const std::function<void(PropertyGroup &)> & functor)
+void PropertyGroup::forEachGroup(const std::function<void(PropertyGroup &)> & functor)
 {
     for (AbstractProperty * property : m_properties) {
-        if (property->isGroup() && !property->isArray())
+        if (property->isGroup())
             functor(*property->as<PropertyGroup>());
     }
 }
 
-void PropertyGroup::forEachPropertyGroup(const std::function<void(const PropertyGroup &)> & functor) const
+void PropertyGroup::forEachGroup(const std::function<void(const PropertyGroup &)> & functor) const
 {
     for (AbstractProperty * property : m_properties) {
-        if (property->isGroup() && !property->isArray())
+        if (property->isGroup())
             functor(*property->as<PropertyGroup>());
     }
 }

@@ -7,7 +7,7 @@
 #include <functional>
 
 #include <reflectionzeug/property_declaration.h>
-#include <reflectionzeug/AbstractPropertyGroup.h>
+#include <reflectionzeug/AbstractPropertyCollection.h>
 #include <reflectionzeug/AbstractValueProperty.h>
 
 namespace reflectionzeug
@@ -17,7 +17,7 @@ template <typename, size_t>
 class AbstractArrayValue;
 
 template <typename Type, size_t Size>
-class ArrayProperty : public AbstractPropertyGroup, public AbstractValueProperty
+class ArrayProperty : public AbstractPropertyCollection, public AbstractValueProperty
 {
     static_assert(Size > 0, "Size must be greater than zero");
 
@@ -46,8 +46,6 @@ public:
                   void (Object::*setter_pointer)(size_t, Type));
 
     virtual ~ArrayProperty() = 0;
-    
-    virtual bool isArray() const;
 
     virtual void accept(AbstractPropertyVisitor * visitor, bool warn);
 

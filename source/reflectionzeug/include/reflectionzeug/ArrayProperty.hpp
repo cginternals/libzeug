@@ -72,12 +72,6 @@ ArrayProperty<Type, Size>::~ArrayProperty()
     for (Property<Type> * property : m_properties)
         delete property;
 }
-    
-template <typename Type, size_t Size>
-bool ArrayProperty<Type, Size>::isArray() const
-{
-    return true;
-}
 
 template <typename Type, size_t Size>
 void ArrayProperty<Type, Size>::accept(AbstractPropertyVisitor * visitor, bool warn)

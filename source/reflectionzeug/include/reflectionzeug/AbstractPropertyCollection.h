@@ -7,10 +7,10 @@
 namespace reflectionzeug
 {
 
-class REFLECTIONZEUG_API AbstractPropertyGroup : public virtual AbstractProperty
+class REFLECTIONZEUG_API AbstractPropertyCollection : public virtual AbstractProperty
 {
 public:
-    virtual bool isGroup() const;
+    virtual bool isCollection() const;
 
     virtual AbstractProperty * at(size_t i) = 0;
     virtual const AbstractProperty * at(size_t i) const = 0;

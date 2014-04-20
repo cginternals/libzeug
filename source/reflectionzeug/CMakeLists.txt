@@ -65,7 +65,7 @@ set(headers
     ${header_path}/AbstractArrayValue.h
     ${header_path}/AbstractProperty.h
     ${header_path}/AbstractProperty.hpp
-    ${header_path}/AbstractPropertyGroup.h
+    ${header_path}/AbstractPropertyCollection.h
     ${header_path}/AbstractPropertyVisitor.h
     ${header_path}/AbstractValue.h
     ${header_path}/AbstractValueProperty.h
@@ -116,7 +116,7 @@ set(headers
 
 set(sources
     ${source_path}/AbstractProperty.cpp
-    ${source_path}/AbstractPropertyGroup.cpp
+    ${source_path}/AbstractPropertyCollection.cpp
     ${source_path}/AbstractPropertyVisitor.cpp
     ${source_path}/AbstractValueProperty.cpp
     ${source_path}/Color.cpp

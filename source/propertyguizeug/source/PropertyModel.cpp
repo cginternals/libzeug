@@ -47,10 +47,10 @@ QModelIndex PropertyModel::index(int row, int column, const QModelIndex & parent
     
     AbstractProperty * parent = retrieveProperty(parentIndex);
     
-    if (!parent->isGroup())
+    if (!parent->isCollection())
         return QModelIndex();
     
-    AbstractProperty * property = parent->asGroup()->at(row);
+    AbstractProperty * property = parent->asCollection()->at(row);
     return createIndex(row, column, property);
 }
 
@@ -64,7 +64,7 @@ QModelIndex PropertyModel::parent(const QModelIndex & index) const
     if (!property->hasParent())
         return QModelIndex();
     
-    AbstractPropertyGroup * parent = property->parent();
+    AbstractPropertyCollection * parent = property->parent();
 
     if (parent == m_root)
         return QModelIndex();
@@ -84,10 +84,10 @@ int PropertyModel::rowCount(const QModelIndex & parentIndex) const
     else
         property = retrieveProperty(parentIndex);
     
-    if (!property->isGroup())
+    if (!property->isCollection())
         return 0;
     
-    AbstractPropertyGroup * group = property->asGroup();
+    AbstractPropertyCollection * group = property->asCollection();
     return group->count();
 }
 
@@ -98,10 +98,10 @@ int PropertyModel::columnCount(const QModelIndex & parentIndex) const
     
     AbstractProperty * property = retrieveProperty(parentIndex);
     
-    if (!property->isGroup())
+    if (!property->isCollection())
         return 0;
     
-    return property->asGroup()->isEmpty() ? 0 : 2;
+    return property->asCollection()->isEmpty() ? 0 : 2;
 }
 
 QVariant PropertyModel::data(const QModelIndex & index, int role) const

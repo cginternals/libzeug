@@ -37,7 +37,7 @@ bool PropertySerializer::serialize(PropertyGroup & group, std::string filePath)
         });
     m_fstream << std::endl;
     
-    group.forEachPropertyGroup([this](PropertyGroup & subGroup) 
+    group.forEachGroup([this](PropertyGroup & subGroup) 
         {
             m_fstream << "[" << subGroup.name() << "]" << std::endl;
             this->serializeGroup(subGroup);
@@ -57,8 +57,8 @@ void PropertySerializer::serializeValue(const AbstractValueProperty & property)
 void PropertySerializer::serializeGroup(const PropertyGroup & group)
 {
     group.forEach([this] (const AbstractProperty & property) {
-        if (property.isGroup() && !property.isArray()) {
-            const PropertyGroup & subGroup = *property.as<PropertyGroup>();
+        if (property.isGroup()) {
+            const PropertyGroup & subGroup = *property.asGroup();
             this->pushGroupToPath(subGroup);
             this->serializeGroup(subGroup);
             this->popGroupFromPath();
