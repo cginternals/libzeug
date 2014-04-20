@@ -13,8 +13,9 @@ namespace reflectionzeug
     
 class AbstractValueProperty;
     
-/** \brief Part of the Property Hierarchy that manages properties while being a property itself.
-*/
+/** 
+ * Property that manages properties while being a property itself.
+ */
 class REFLECTIONZEUG_API PropertyGroup : public AbstractPropertyCollection
 {
 public:
@@ -23,8 +24,9 @@ public:
 
     virtual bool isGroup() const;
     
-    /** \name Property Adding
-        \brief Methods for adding properties.
+    /** 
+     * \name Property Adding
+     * \brief Methods for adding properties
      */
     /** \{ */
     
@@ -37,12 +39,18 @@ public:
     Property<Type> * addProperty(const std::string & name, Args&&... args);
     
     PropertyGroup * addGroup(const std::string & name);
+    
+    /** 
+     * Convenience method that creates the entire path if it does not exist yet.
+     */
+    PropertyGroup * ensureGroup(const std::string & path);
 
     /** \} */
     
-    /** \name Property Accessing
-        \brief Methods accessing properties, subgroups and values.
-        Acces Properties in the hierachy with the separater '/'
+    /** 
+     * \name Property Accessing
+     * \brief Methods for accessing properties, subgroups and values
+     * Acces Properties in the hierachy with the separater '/'.
     */
     /** \{ */
     
@@ -57,8 +65,6 @@ public:
 
     PropertyGroup * group(const std::string & path);
     const PropertyGroup * group(const std::string & path) const;
-    
-    PropertyGroup * ensureGroup(const std::string & path);
 
     template <typename Type>
     Type value(const std::string & path) const;
@@ -66,30 +72,43 @@ public:
     template <typename Type>
     void setValue(const std::string & path, const Type & value);
     
-    virtual AbstractProperty * at(size_t index);
-    virtual const AbstractProperty * at(size_t index) const;
-    
     /** \} */
 
-    /** \name Properties
-        \brief Methods for manipulating properties
-    */
+    /** 
+     * \name Index-based Accessing
+     * \brief Methods for manipulating properties
+     */
     /** \{ */
-
-    bool propertyExists(const std::string & name) const;
-    bool groupExists(const std::string & name) const;
+    
+    virtual AbstractProperty * at(size_t index);
+    virtual const AbstractProperty * at(size_t index) const;
     
     virtual bool isEmpty() const;
     virtual size_t count() const;
     virtual int indexOf(const AbstractProperty * property) const;
 
-    AbstractProperty * takeProperty(const std::string & name);
-    bool removeProperty(AbstractProperty * property);
-
     /** \} */
     
-    /** \name Property Iterators
-        \brief Methods for property iteration
+    /**
+     * Removes the property with the given name from the group and returns it.
+     */
+    AbstractProperty * takeProperty(const std::string & name);
+    
+    
+    /**
+     * \name Property existence
+     * \brief Methods for checking the existence of properties
+     */
+    /** \{ */
+    
+    bool propertyExists(const std::string & name) const;
+    bool groupExists(const std::string & name) const;
+    
+    /** \} */
+    
+    /** 
+     * \name Property Iterators
+     * \brief Methods for property iteration
      */
     /** \{ */
     

@@ -56,6 +56,12 @@ PropertyGroup * PropertyGroup::addGroup(const std::string & name)
     
     return group;
 }
+    
+PropertyGroup * PropertyGroup::ensureGroup(const std::string & path)
+{
+    std::vector<std::string> splittedPath = util::split(path, '/');
+    return ensureGroup(splittedPath);
+}
 
 AbstractProperty * PropertyGroup::property(const std::string & path)
 {
@@ -79,12 +85,6 @@ const PropertyGroup * PropertyGroup::group(const std::string & path) const
     return this->property(path)->as<PropertyGroup>();
 }
     
-PropertyGroup * PropertyGroup::ensureGroup(const std::string & path)
-{
-    std::vector<std::string> splittedPath = util::split(path, '/');
-    return ensureGroup(splittedPath);
-}
-    
 AbstractProperty * PropertyGroup::at(size_t index)
 {
     if (index >= this->count())
@@ -100,39 +100,10 @@ const AbstractProperty * PropertyGroup::at(size_t index) const
     
     return m_properties[index];
 }
-
-bool PropertyGroup::propertyExists(const std::string & name) const
-{
-    return m_propertiesMap.find(name) != m_propertiesMap.end();
-}
-
-bool PropertyGroup::groupExists(const std::string & name) const
-{
-    return this->propertyExists(name) && m_propertiesMap.at(name)->isGroup();
-}
-
-bool PropertyGroup::removeProperty(AbstractProperty * property)
-{
-    if (!this->propertyExists(property->name()))
-        return false;
     
-    auto propertyIt = std::find(m_properties.begin(), m_properties.end(), property);
-    m_properties.erase(propertyIt);
-    m_propertiesMap.erase(property->name());
-    return true;
-}
-
-AbstractProperty * PropertyGroup::takeProperty(const std::string & name)
+bool PropertyGroup::isEmpty() const
 {
-    if (!this->propertyExists(name))
-        return nullptr;
-    
-    AbstractProperty * property = m_propertiesMap.at(name);
-    auto propertyIt = std::find(m_properties.begin(), m_properties.end(), property);
-    m_properties.erase(propertyIt);
-    m_propertiesMap.erase(property->name());
-    property->removeParent();
-    return property;
+    return this->count() == 0;
 }
 
 size_t PropertyGroup::count() const
@@ -149,10 +120,28 @@ int PropertyGroup::indexOf(const AbstractProperty * property) const
 
     return std::distance(m_properties.begin(), std::find(m_properties.begin(), m_properties.end(), property));
 }
-    
-bool PropertyGroup::isEmpty() const
+
+AbstractProperty * PropertyGroup::takeProperty(const std::string & name)
 {
-    return this->count() == 0;
+    if (!this->propertyExists(name))
+        return nullptr;
+    
+    AbstractProperty * property = m_propertiesMap.at(name);
+    auto propertyIt = std::find(m_properties.begin(), m_properties.end(), property);
+    m_properties.erase(propertyIt);
+    m_propertiesMap.erase(property->name());
+    property->removeParent();
+    return property;
+}
+    
+bool PropertyGroup::propertyExists(const std::string & name) const
+{
+    return m_propertiesMap.find(name) != m_propertiesMap.end();
+}
+
+bool PropertyGroup::groupExists(const std::string & name) const
+{
+    return this->propertyExists(name) && m_propertiesMap.at(name)->isGroup();
 }
 
 void PropertyGroup::forEach(const std::function<void(AbstractProperty &)> & functor)
