@@ -81,7 +81,7 @@ public:
     virtual size_t count() const;
     virtual int indexOf(const AbstractProperty * property) const;
 
-    AbstractProperty * obtainProperty(const std::string & name);
+    AbstractProperty * takeProperty(const std::string & name);
     bool removeProperty(AbstractProperty * property);
 
     /** \} */

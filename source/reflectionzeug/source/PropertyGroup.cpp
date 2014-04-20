@@ -153,7 +153,7 @@ bool PropertyGroup::removeProperty(AbstractProperty * property)
     return true;
 }
 
-AbstractProperty * PropertyGroup::obtainProperty(const std::string & name)
+AbstractProperty * PropertyGroup::takeProperty(const std::string & name)
 {
     if (!this->propertyExists(name))
         return nullptr;
