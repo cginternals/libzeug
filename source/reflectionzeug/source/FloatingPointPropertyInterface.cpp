@@ -5,11 +5,6 @@
 namespace reflectionzeug
 {
 
-FloatingPointPropertyInterface::~FloatingPointPropertyInterface()
-{
-
-}
-
 void FloatingPointPropertyInterface::accept(AbstractPropertyVisitor * visitor)
 {
     auto * typedVisitor = dynamic_cast<PropertyCategoryVisitor<FloatingPointPropertyInterface> *>(visitor);

@@ -36,7 +36,7 @@ bool PropertyGroup::isGroup() const
 
 bool PropertyGroup::addProperty(AbstractProperty * property)
 {
-    if (this->property(property->name()) || property->hasParent())
+    if (this->propertyExists(property->name()) || property->hasParent())
         return false;
     
     m_properties.push_back(property);
@@ -59,51 +59,14 @@ PropertyGroup * PropertyGroup::addGroup(const std::string & name)
 
 AbstractProperty * PropertyGroup::property(const std::string & path)
 {
-    static const regex_namespace::regex pathRegex(AbstractProperty::s_nameRegexString +
-                                      "(\\/" +
-                                      AbstractProperty::s_nameRegexString +
-                                      ")*");
-    
-    if (regex_namespace::regex_match(path, pathRegex))
-        return this->findProperty(path);
-    else
-        return nullptr;
+    std::vector<std::string> splittedPath = util::split(path, '/');
+    return const_cast<AbstractProperty *>(findProperty(splittedPath));
 }
     
 const AbstractProperty * PropertyGroup::property(const std::string & path) const
 {
-    static const regex_namespace::regex pathRegex(AbstractProperty::s_nameRegexString +
-                                      "(\\/" +
-                                      AbstractProperty::s_nameRegexString +
-                                      ")*");
-    
-    if (regex_namespace::regex_match(path, pathRegex))
-        return this->findProperty(path);
-    else
-        return nullptr;
-}
-
-AbstractProperty * PropertyGroup::findProperty(const std::string & path)
-{
-    if (regex_namespace::regex_match(path, regex_namespace::regex(AbstractProperty::s_nameRegexString)))
-        return this->propertyExists(path) ? m_propertiesMap.at(path) : nullptr;
-    
-    
-    regex_namespace::smatch match;
-    regex_namespace::regex_search(path, match, regex_namespace::regex("\\/"));
-    PropertyGroup * group = m_propertiesMap.at(match.prefix())->as<PropertyGroup>();
-    return group ? group->property(match.suffix()) : nullptr;
-}
-    
-const AbstractProperty * PropertyGroup::findProperty(const std::string & path) const
-{
-    if (regex_namespace::regex_match(path, regex_namespace::regex(AbstractProperty::s_nameRegexString)))
-        return this->propertyExists(path) ? m_propertiesMap.at(path) : nullptr;
-    
-    regex_namespace::smatch match;
-    regex_namespace::regex_search(path, match, regex_namespace::regex("\\/"));
-    PropertyGroup * group = m_propertiesMap.at(match.prefix())->as<PropertyGroup>();
-    return group ? group->property(match.suffix()) : nullptr;
+    std::vector<std::string> splittedPath = util::split(path, '/');
+    return findProperty(splittedPath);
 }
 
 PropertyGroup * PropertyGroup::group(const std::string & path)
@@ -114,6 +77,12 @@ PropertyGroup * PropertyGroup::group(const std::string & path)
 const PropertyGroup * PropertyGroup::group(const std::string & path) const
 {
     return this->property(path)->as<PropertyGroup>();
+}
+    
+PropertyGroup * PropertyGroup::ensureGroup(const std::string & path)
+{
+    std::vector<std::string> splittedPath = util::split(path, '/');
+    return ensureGroup(splittedPath);
 }
     
 AbstractProperty * PropertyGroup::at(size_t index)
@@ -139,7 +108,7 @@ bool PropertyGroup::propertyExists(const std::string & name) const
 
 bool PropertyGroup::groupExists(const std::string & name) const
 {
-    return this->propertyExists(name) && this->group(name);
+    return this->propertyExists(name) && m_propertiesMap.at(name)->isGroup();
 }
 
 bool PropertyGroup::removeProperty(AbstractProperty * property)
@@ -158,7 +127,7 @@ AbstractProperty * PropertyGroup::takeProperty(const std::string & name)
     if (!this->propertyExists(name))
         return nullptr;
     
-    AbstractProperty * property = m_propertiesMap.find(name)->second;
+    AbstractProperty * property = m_propertiesMap.at(name);
     auto propertyIt = std::find(m_properties.begin(), m_properties.end(), property);
     m_properties.erase(propertyIt);
     m_propertiesMap.erase(property->name());
@@ -244,6 +213,49 @@ void PropertyGroup::forEachGroup(const std::function<void(const PropertyGroup &)
         if (property->isGroup())
             functor(*property->as<PropertyGroup>());
     }
+}
+
+const AbstractProperty * PropertyGroup::findProperty(const std::vector<std::string> & path) const
+{
+    if (path.size() == 0)
+        return nullptr;
+    
+    if (!propertyExists(path.front()))
+        return nullptr;
+    
+    AbstractProperty * property = m_propertiesMap.at(path.front());
+    
+    if (path.size() == 1)
+        return property;
+    
+    if (!property->isGroup())
+        return nullptr;
+    
+    return property->asGroup()->findProperty({ path.begin() + 1, path.end() });
+}
+    
+PropertyGroup * PropertyGroup::ensureGroup(const std::vector<std::string> & path)
+{
+    if (path.size() == 0)
+        return nullptr;
+    
+    PropertyGroup * group;
+    if (propertyExists(path.front()))
+    {
+        AbstractProperty * property = m_propertiesMap.at(path.front());
+        if (!property->isGroup())
+            return nullptr;
+        group = property->asGroup();
+    }
+    else
+    {
+        group = addGroup(path.front());
+    }
+    
+    if (path.size() == 1)
+        return group;
+    else
+        return group->ensureGroup(std::vector<std::string>(path.begin() + 1, path.end()));
 }
     
 } // namespace reflectionzeug

@@ -57,6 +57,8 @@ public:
 
     PropertyGroup * group(const std::string & path);
     const PropertyGroup * group(const std::string & path) const;
+    
+    PropertyGroup * ensureGroup(const std::string & path);
 
     template <typename Type>
     Type value(const std::string & path) const;
@@ -106,8 +108,8 @@ public:
     /** \} */
     
 private:
-    AbstractProperty * findProperty(const std::string & path);
-    const AbstractProperty * findProperty(const std::string & path) const;
+    const AbstractProperty * findProperty(const std::vector<std::string> & path) const;
+    PropertyGroup * ensureGroup(const std::vector<std::string> & path);
     
 private:
     std::vector<AbstractProperty *> m_properties;

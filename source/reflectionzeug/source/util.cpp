@@ -103,6 +103,23 @@ std::vector<std::string> splitArray(size_t size, const std::string & string)
     assert(result.size() == size);
     return result;
 }
+    
+std::vector<std::string> split(const std::string & input, char delimiter)
+{
+    std::vector<std::string> result;
+    result.push_back(std::string());
+    for (const char & c : input)
+	{
+		if (c == delimiter)
+		{
+			result.push_back(std::string());
+			continue;
+		}
+		
+		result.back().push_back(c);
+	}
+	return result;
+}
 
 } // namespace util
 

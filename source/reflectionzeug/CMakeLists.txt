@@ -107,6 +107,8 @@ set(headers
     ${header_path}/UnsignedIntegralProperty.h
     ${header_path}/UnsignedIntegralProperty.hpp
     ${header_path}/UnsignedIntegralPropertyInterface.h
+    ${header_path}/util.h
+    ${header_path}/util.hpp
     ${header_path}/ValueProperty.h
     ${header_path}/ValueProperty.hpp
     ${header_path}/Variant.h

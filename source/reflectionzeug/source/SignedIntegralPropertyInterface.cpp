@@ -4,10 +4,6 @@
 
 namespace reflectionzeug
 {
-    
-SignedIntegralPropertyInterface::~SignedIntegralPropertyInterface()
-{
-}
 
 void SignedIntegralPropertyInterface::accept(AbstractPropertyVisitor * visitor)
 {
