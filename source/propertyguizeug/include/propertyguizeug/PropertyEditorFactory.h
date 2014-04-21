@@ -4,7 +4,7 @@
 #include <reflectionzeug/property_declaration.h>
 #include <reflectionzeug/StandardPropertyVisitor.h>
 
-#include <propertyguizeug/propertyguizeug.h>
+#include <propertyguizeug/propertyguizeug_api.h>
 
 class QWidget;
 

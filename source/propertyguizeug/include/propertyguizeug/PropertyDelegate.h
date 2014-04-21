@@ -3,7 +3,7 @@
 
 #include <QStyledItemDelegate>
 
-#include <propertyguizeug/propertyguizeug.h>
+#include <propertyguizeug/propertyguizeug_api.h>
 
 
 namespace propertyguizeug

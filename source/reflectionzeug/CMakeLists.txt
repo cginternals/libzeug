@@ -62,7 +62,7 @@ set(header_path "${CMAKE_CURRENT_SOURCE_DIR}/include/${target}")
 set(source_path "${CMAKE_CURRENT_SOURCE_DIR}/source")
 
 set(headers
-    ${header_path}/reflectionzeug.h
+    ${header_path}/reflectionzeug_api.h
 
     ${header_path}/AbstractProperty.h
     ${header_path}/AbstractProperty.hpp

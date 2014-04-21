@@ -3,7 +3,7 @@
 
 #include <vector>
 
-#include <reflectionzeug/reflectionzeug.h>
+#include <reflectionzeug/reflectionzeug_api.h>
 #include <reflectionzeug/ValuePropertyInterface.h>
 
 namespace reflectionzeug

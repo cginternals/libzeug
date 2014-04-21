@@ -3,7 +3,7 @@
 
 #include <string>
 #include <reflectionzeug/Variant.h>
-#include "scriptzeug/scriptzeug.h"
+#include <scriptzeug/scriptzeug_api.h>
 
 
 namespace reflectionzeug {

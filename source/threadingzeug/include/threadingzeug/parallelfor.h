@@ -3,7 +3,7 @@
 #include <functional>
 #include <vector>
 
-#include <threadingzeug/threadingzeug.h>
+#include <threadingzeug/threadingzeug_api.h>
 
 namespace threadingzeug
 {

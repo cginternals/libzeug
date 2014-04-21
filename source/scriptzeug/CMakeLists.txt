@@ -64,7 +64,7 @@ set(header_path "${CMAKE_CURRENT_SOURCE_DIR}/include/${target}")
 set(source_path "${CMAKE_CURRENT_SOURCE_DIR}/source")
 
 set(headers
-    ${header_path}/scriptzeug.h
+    ${header_path}/scriptzeug_api.h
     ${header_path}/ScriptContext.h
     ${header_path}/Backend/AbstractScriptContext.h
 )

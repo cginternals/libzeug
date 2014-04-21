@@ -2,7 +2,7 @@
 
 #include <string>
 
-#include <iozeug/iozeug.h>
+#include <iozeug/iozeug_api.h>
 
 namespace iozeug 
 {
