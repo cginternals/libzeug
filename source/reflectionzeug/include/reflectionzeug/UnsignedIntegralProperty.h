@@ -8,6 +8,10 @@
 namespace reflectionzeug
 {
 
+/**
+ * Extends the NumberProperty by implementing necessary methods for uniform access
+ * of all unsigned integral types.
+ */
 template <typename Type>
 class UnsignedIntegralProperty : public UnsignedIntegralPropertyInterface, public NumberProperty<Type>
 {

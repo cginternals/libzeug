@@ -6,7 +6,8 @@
 namespace reflectionzeug
 {
 
-/** \brief Provides access to a stored value.
+/**
+ * Provides access to a stored value.
  */  
 template <typename Type>
 class StoredValue : public AbstractValue<Type>

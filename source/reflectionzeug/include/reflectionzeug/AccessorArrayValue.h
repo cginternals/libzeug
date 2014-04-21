@@ -8,7 +8,10 @@
 
 namespace reflectionzeug
 {
-    
+
+/**
+ * \brief Provides access to an array value by element-based accessors.
+ */
 template <typename Type, size_t Size>
 class AccessorArrayValue : public AbstractArrayValue<Type, Size>
 {

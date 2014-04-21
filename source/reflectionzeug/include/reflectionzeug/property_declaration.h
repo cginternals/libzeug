@@ -5,7 +5,9 @@
 namespace reflectionzeug
 {
 
-/** \brief The template class of all instantiated properties.
+/** 
+ * \brief The template class of all instantiated properties.
+ *
  * Only this class may be instantiated!
  * Supported Types:
  * - bool
@@ -16,8 +18,10 @@ namespace reflectionzeug
  * - any integral type
  * - any enum
  * - any class that implements (e.g. Color):
- *   - static Class fromString(std::string)
- *   - std::string toString()
+ *   \code{.cpp}
+ *   static Class fromString(std::string string, bool * ok);
+ *   std::string toString();
+ *   \endcode
  * - any std::array of the above types
  */
 template <typename Type, typename = void>

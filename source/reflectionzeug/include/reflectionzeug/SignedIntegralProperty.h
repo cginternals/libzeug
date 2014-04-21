@@ -8,6 +8,10 @@
 namespace reflectionzeug
 {
 
+/**
+ * Extends the NumberProperty by implementing necessary methods for uniform access
+ * of all signed integral types.
+ */
 template <typename Type>
 class SignedIntegralProperty : public SignedIntegralPropertyInterface, public NumberProperty<Type>
 {

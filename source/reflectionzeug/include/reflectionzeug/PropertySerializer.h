@@ -10,8 +10,9 @@ namespace reflectionzeug
 class AbstractValueProperty;
 class PropertyGroup;
     
-/** @brief
- * Saves values of a property hierachy to a specified file.
+/**
+ * \brief Saves values of a property hierachy in an INI like file format.
+ * \see PropertyDeserializer
  */
     
 class REFLECTIONZEUG_API PropertySerializer

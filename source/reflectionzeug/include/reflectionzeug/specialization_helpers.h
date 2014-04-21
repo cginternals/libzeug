@@ -6,7 +6,7 @@
 
 namespace reflectionzeug
 {
-    
+   
 namespace
 {
 
@@ -42,6 +42,14 @@ struct is_special_array<Type, std::array<Type, Size>> : public std::true_type {}
     
 }
 
+    
+/** 
+ * \defgroup type_traits Type Traits
+ * \brief Used to choose specific property implementation for different types at compile time via SFINAE
+ * \see http://en.wikipedia.org/wiki/Substitution_failure_is_not_an_error
+ */
+/** \{ */
+    
 template <typename Condition>
 struct Neg : public neg<Condition::value> {};
 
@@ -79,5 +87,7 @@ struct isSignedIntegral : public All<std::is_integral<Type>::value,
 template <typename Type>
 struct isFloatingPoint : public All<std::is_floating_point<Type>::value,
                                     Neg<std::is_same<Type, long double>>::value> {};
+    
+/** \} */
     
 } // namespace reflectionzeug

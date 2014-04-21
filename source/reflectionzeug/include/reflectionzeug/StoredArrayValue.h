@@ -6,7 +6,10 @@
 
 namespace reflectionzeug
 {
-    
+  
+/**
+ * \brief Provides access to a stored array value.
+ */
 template <typename Type, size_t Size>
 class StoredArrayValue : public AbstractArrayValue<Type, Size>
 {

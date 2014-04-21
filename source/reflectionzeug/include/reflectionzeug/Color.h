@@ -8,7 +8,8 @@
 namespace reflectionzeug
 {
 
-/** \brief A simple RGBA color class for use as a property value.
+/**
+ * \brief A simple RGBA color class for use as a property value.
  */
 class REFLECTIONZEUG_API Color
 {

@@ -10,6 +10,11 @@
 namespace reflectionzeug
 {
 
+/**
+ * \brief The interface for all enum properties. 
+ *
+ * Used to access and edit enum properties uniformly in the user interface.
+ */
 class REFLECTIONZEUG_API EnumPropertyInterface : public virtual AbstractValueProperty
 {
 public:

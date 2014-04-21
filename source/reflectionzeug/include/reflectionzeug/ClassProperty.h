@@ -8,7 +8,13 @@
 namespace reflectionzeug
 {
     
-/** \brief Part of the property hierarchy that extends the ValueProperty.
+/**
+ * Provides a basic property implementation for classes that implement atleast
+ * a copy constructor and the following interface:
+ * \code{.cpp}
+ * static Class fromString(std::string string, bool * ok);
+ * std::string toString();
+ * \endcode
  */
 template <typename Type>
 class ClassProperty : public ValueProperty<Type>

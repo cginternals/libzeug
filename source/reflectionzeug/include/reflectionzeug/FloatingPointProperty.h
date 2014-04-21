@@ -8,6 +8,12 @@
 namespace reflectionzeug
 {
 
+/**
+ * \brief Provides the property implementation for floating point types.
+ *
+ * While adding a precision member, it also implements the 
+ * FloatingPointPropertyInterface
+ */
 template <typename Type>
 class FloatingPointProperty : public FloatingPointPropertyInterface, public NumberProperty<Type>
 {

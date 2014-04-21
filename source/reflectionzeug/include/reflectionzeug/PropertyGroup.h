@@ -14,7 +14,9 @@ namespace reflectionzeug
 class AbstractValueProperty;
     
 /** 
- * Property that manages properties while being a property itself.
+ * \brief Property that manages properties while being a property itself.
+ *
+ * It owns its properties and therefore deletes them on destruction.
  */
 class REFLECTIONZEUG_API PropertyGroup : public AbstractPropertyCollection
 {

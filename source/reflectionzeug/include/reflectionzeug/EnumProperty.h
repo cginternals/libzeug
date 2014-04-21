@@ -11,6 +11,12 @@
 namespace reflectionzeug
 {
 
+/**
+ * \brief Provides a property implementation for any kind of enum or enum class.
+ *
+ * Be sure to either specialize the EnumDefaultStrings template or explicitly
+ * call setStrings() before using template instantiations.
+ */
 template <typename Enum>
 class EnumProperty : public EnumPropertyInterface, public ValueProperty<Enum>
 {
@@ -41,6 +47,9 @@ private:
     std::vector<Enum> m_choices;
 };
 
+/**
+ * \brief Specialize this template to provide default string mapping for an enum.
+ */
 template <typename Enum>
 struct EnumDefaultStrings
 {

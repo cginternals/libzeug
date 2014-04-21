@@ -9,7 +9,8 @@
 namespace reflectionzeug
 {
     
-/** \brief Part of the property hierarchy that  manages a file path.
+/**
+ * \brief Extends the ClassProperty by some file path specific flags.
  */
 class FilePathProperty : public ClassProperty<FilePath>
 {

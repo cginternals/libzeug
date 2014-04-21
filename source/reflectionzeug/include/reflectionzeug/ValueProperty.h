@@ -7,13 +7,19 @@
 
 #include <reflectionzeug/reflectionzeug.h>
 #include <reflectionzeug/AbstractValueProperty.h>
-#include <reflectionzeug/StoredValue.h>
-#include <reflectionzeug/AccessorValue.h>
+
 
 namespace reflectionzeug
 {
 
-/** \brief Part of the property hierarchy. The Template Class for all properties that have a value.
+template <typename>
+class AbstractValue;
+
+/** 
+ * \brief The template class for all properties that have a value other than std::array.
+ *
+ * It can either store the value itself or access it through getter and setter.
+ * \see AbstractValue
  */
 template <typename Type>
 class ValueProperty : public virtual AbstractValueProperty

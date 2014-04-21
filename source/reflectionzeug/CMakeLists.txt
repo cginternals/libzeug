@@ -62,6 +62,7 @@ set(header_path "${CMAKE_CURRENT_SOURCE_DIR}/include/${target}")
 set(source_path "${CMAKE_CURRENT_SOURCE_DIR}/source")
 
 set(headers
+    ${header_path}/AbstractArrayValue.h
     ${header_path}/AbstractProperty.h
     ${header_path}/AbstractProperty.hpp
     ${header_path}/AbstractPropertyCollection.h
@@ -85,6 +86,11 @@ set(headers
     ${header_path}/FilePathProperty.hpp
     ${header_path}/FloatingPointProperty.h
     ${header_path}/FloatingPointProperty.hpp
+    ${header_path}/FloatingPointPropertyInterface.h
+    ${header_path}/Function.h
+    ${header_path}/NumberProperty.h
+    ${header_path}/NumberProperty.hpp
+    ${header_path}/Object.h
     ${header_path}/Property.h
     ${header_path}/PropertyCategoryVisitor.h
     ${header_path}/PropertyDeserializer.h
@@ -106,13 +112,15 @@ set(headers
     ${header_path}/UnsignedIntegralProperty.h
     ${header_path}/UnsignedIntegralProperty.hpp
     ${header_path}/UnsignedIntegralPropertyInterface.h
-    ${header_path}/util.h
-    ${header_path}/util.hpp
     ${header_path}/ValueProperty.h
     ${header_path}/ValueProperty.hpp
     ${header_path}/Variant.h
+    ${header_path}/property_declaration.h
+    ${header_path}/reflectionzeug.h
+    ${header_path}/specialization_helpers.h
+    ${header_path}/util.h
+    ${header_path}/util.hpp
     ${header_path}/extensions/GlmProperties.hpp
-
 )
 
 set(sources
@@ -132,8 +140,8 @@ set(sources
     ${source_path}/SignedIntegralPropertyInterface.cpp
     ${source_path}/StringProperty.cpp
     ${source_path}/UnsignedIntegralPropertyInterface.cpp
-    ${source_path}/Variant.cpp
     ${source_path}/util.cpp
+    ${source_path}/Variant.cpp
 )
 
 # Group source files

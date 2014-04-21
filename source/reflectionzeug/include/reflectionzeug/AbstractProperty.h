@@ -16,7 +16,8 @@ class AbstractPropertyCollection;
 class PropertyGroup;
     
 /** 
- * \brief The base class of all properties
+ * \brief The base class of all properties.
+ *
  * When added to a PropertyGroup, the name is used as the unique key.
  * The title is supposed to be used in user interfaces.
  * Most subclasses use virtual inheritance.
@@ -28,8 +29,8 @@ public:
     static const std::string s_nameRegexString;
     
     /**
-     * Should never be used
-     * Exists just to avoid explicit constructor calls in intermediate subclasses
+     * Should never be used.
+     * Exists just to avoid explicit constructor calls in intermediate subclasses.
      */
     AbstractProperty();
     

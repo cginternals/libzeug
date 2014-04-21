@@ -7,6 +7,11 @@
 namespace reflectionzeug
 {
 
+/**
+ * \brief The interface for all unsigned integral properties. 
+ *
+ * Used to access and edit unsigned integral properties uniformly in the user interface.
+ */
 class REFLECTIONZEUG_API UnsignedIntegralPropertyInterface : public virtual AbstractValueProperty
 {
 public:    

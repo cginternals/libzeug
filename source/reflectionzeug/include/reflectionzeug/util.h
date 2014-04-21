@@ -10,6 +10,10 @@
 namespace reflectionzeug
 {
 
+/**
+ * \brief Utility methods which deal with common string conversion, 
+ * string manipulation and regular expressions.
+ */
 namespace util
 {
 

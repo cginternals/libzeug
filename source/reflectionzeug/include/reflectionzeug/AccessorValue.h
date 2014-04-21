@@ -8,7 +8,8 @@
 namespace reflectionzeug
 {
     
-/** \brief Provides access to a value by accessors.
+/**
+ * \brief Provides access to a value by accessors.
  */
 template <typename Type>
 class AccessorValue : public AbstractValue<Type>

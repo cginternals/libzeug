@@ -4,6 +4,8 @@
 #include <typeinfo>
 
 #include <reflectionzeug/PropertyVisitor.h>
+#include <reflectionzeug/StoredValue.h>
+#include <reflectionzeug/AccessorValue.h>
 
 namespace reflectionzeug
 {

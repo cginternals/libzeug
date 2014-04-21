@@ -6,7 +6,9 @@ namespace reflectionzeug
 
 class PropertyGroup;
 
-/** \brief Loads property values from a given file.
+/**
+ * \brief Loads values of a property hierachy from an INI like file format.
+ * \see PropertySerializer
  */
 class REFLECTIONZEUG_API PropertyDeserializer
 {

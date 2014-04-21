@@ -16,6 +16,14 @@ namespace reflectionzeug
 template <typename, size_t>
 class AbstractArrayValue;
 
+/**
+ * \brief Property implementation that stores an std::array.
+ *
+ * It can either store the value itself or access it through 
+ * element-based getter and setter.
+ * It uses the property implementations of the single value properties, 
+ * therefore any single value type is also supported as the element type in arrays.
+ */
 template <typename Type, size_t Size>
 class ArrayProperty : public AbstractPropertyCollection, public AbstractValueProperty
 {
