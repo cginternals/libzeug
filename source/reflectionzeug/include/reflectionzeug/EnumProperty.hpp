@@ -27,7 +27,7 @@ void EnumProperty<Type>::accept(AbstractPropertyVisitor * visitor)
     auto * typedVisitor = dynamic_cast<PropertyVisitor<Type> *>(visitor);
     
     if (typedVisitor == nullptr)
-        EnumPropertyInterface::accept(visitor);
+        return EnumPropertyInterface::accept(visitor);
     
     typedVisitor->visit(reinterpret_cast<Property<Type> *>(this));
 }

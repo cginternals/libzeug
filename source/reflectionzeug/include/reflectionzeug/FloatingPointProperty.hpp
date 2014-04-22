@@ -25,10 +25,7 @@ void FloatingPointProperty<Type>::accept(AbstractPropertyVisitor * visitor)
     auto * typedVisitor = dynamic_cast<PropertyVisitor<Type> *>(visitor);
     
     if (typedVisitor == nullptr)
-    {
-        FloatingPointPropertyInterface::accept(visitor);
-        return;
-    }
+        return FloatingPointPropertyInterface::accept(visitor);
     
     typedVisitor->visit(reinterpret_cast<Property<Type> *>(this));
 }
