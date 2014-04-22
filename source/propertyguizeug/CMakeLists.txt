@@ -50,7 +50,7 @@ set(header_path "${CMAKE_CURRENT_SOURCE_DIR}/include/${target}")
 set(source_path "${CMAKE_CURRENT_SOURCE_DIR}/source")
 
 set(headers
-    ${header_path}/propertyguizeug.h
+    ${header_path}/propertyguizeug_api.h
     ${header_path}/PropertyBrowser.h
     ${header_path}/PropertyModel.h
     ${header_path}/PropertyDelegate.h

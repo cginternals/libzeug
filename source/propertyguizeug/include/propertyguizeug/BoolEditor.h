@@ -3,7 +3,7 @@
 
 #include <reflectionzeug/property_declaration.h>
 
-#include <propertyguizeug/propertyguizeug.h>
+#include <propertyguizeug/propertyguizeug_api.h>
 
 #include "PropertyEditor.h"
 

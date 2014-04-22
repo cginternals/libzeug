@@ -62,6 +62,8 @@ set(header_path "${CMAKE_CURRENT_SOURCE_DIR}/include/${target}")
 set(source_path "${CMAKE_CURRENT_SOURCE_DIR}/source")
 
 set(headers
+    ${header_path}/reflectionzeug_api.h
+    
     ${header_path}/AbstractArrayValue.h
     ${header_path}/AbstractProperty.h
     ${header_path}/AbstractProperty.hpp
@@ -118,7 +120,6 @@ set(headers
     ${header_path}/ValueProperty.hpp
     ${header_path}/Variant.h
     ${header_path}/property_declaration.h
-    ${header_path}/reflectionzeug.h
     ${header_path}/specialization_helpers.h
     ${header_path}/util.h
     ${header_path}/util.hpp

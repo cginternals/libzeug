@@ -3,7 +3,7 @@
 #include <QList>
 #include <QAbstractItemModel>
 
-#include <propertyguizeug/propertyguizeug.h>
+#include <propertyguizeug/propertyguizeug_api.h>
 
 
 namespace reflectionzeug 

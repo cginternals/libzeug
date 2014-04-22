@@ -2,7 +2,7 @@
 
 #include <memory>
 
-#include <signalzeug/signalzeug.h>
+#include <signalzeug/signalzeug_api.h>
 
 
 namespace signalzeug

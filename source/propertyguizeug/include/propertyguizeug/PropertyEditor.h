@@ -3,7 +3,7 @@
 
 #include <QWidget>
 
-#include <propertyguizeug/propertyguizeug.h>
+#include <propertyguizeug/propertyguizeug_api.h>
 
 class QBoxLayout;
 

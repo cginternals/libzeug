@@ -5,7 +5,7 @@
 
 #include <signalzeug/Signal.h>
 
-#include <reflectionzeug/reflectionzeug.h>
+#include <reflectionzeug/reflectionzeug_api.h>
 #include <reflectionzeug/AbstractValueProperty.h>
 
 

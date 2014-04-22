@@ -43,7 +43,7 @@ set(header_path "${CMAKE_CURRENT_SOURCE_DIR}/include/${target}")
 set(source_path "${CMAKE_CURRENT_SOURCE_DIR}/source")
 
 set(headers
-    ${header_path}/iozeug.h
+    ${header_path}/iozeug_api.h
     ${header_path}/readfile.h
 )
 

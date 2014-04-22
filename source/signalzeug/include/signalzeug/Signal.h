@@ -3,7 +3,7 @@
 #include <functional>
 #include <unordered_map>
 
-#include <signalzeug/signalzeug.h>
+#include <signalzeug/signalzeug_api.h>
 #include <signalzeug/AbstractSignal.h>
 
 

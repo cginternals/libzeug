@@ -43,7 +43,7 @@ set(header_path "${CMAKE_CURRENT_SOURCE_DIR}/include/${target}")
 set(source_path "${CMAKE_CURRENT_SOURCE_DIR}/source")
 
 set(headers
-    ${header_path}/signalzeug.h
+    ${header_path}/signalzeug_api.h
     ${header_path}/AbstractSignal.h
     ${header_path}/Connection.h
     ${header_path}/ConnectionMap.h

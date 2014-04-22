@@ -4,7 +4,7 @@
 #include <string>
 #include <vector>
 #include <map>
-#include "reflectionzeug/reflectionzeug.h"
+#include <reflectionzeug/reflectionzeug_api.h>
 
 
 namespace reflectionzeug {

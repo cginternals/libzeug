@@ -4,9 +4,10 @@
 #include <vector>
 #include <unordered_map>
 
-#include <reflectionzeug/reflectionzeug.h>
+#include <reflectionzeug/reflectionzeug_api.h>
 #include <reflectionzeug/property_declaration.h>
 #include <reflectionzeug/AbstractPropertyCollection.h>
+
 
 namespace reflectionzeug
 {

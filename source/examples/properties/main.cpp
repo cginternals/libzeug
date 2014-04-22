@@ -58,12 +58,16 @@ void iterateOverProperties()
 
     PropertyGroup * group = new PropertyGroup("group");
 
+    int arr[3] = {0, 0, 0};
+
     group->addProperty<double>("first", 0.3);
     group->addGroup("second");
     group->addProperty<int>("third", 7);
     group->addGroup("fourth");
     group->addProperty<Color>("fifth", Color(125, 125, 125));
-    group->addProperty<std::array<int, 3>>("sixth", { 1, 2, 3 });
+
+    std::array<int, 3> array = { 1, 2, 3 };
+    group->addProperty<std::array<int, 3>>("sixth", array);
 
     group->forEachValue([](AbstractProperty & property) {
         std::cout << property.title() << std::endl;
@@ -121,7 +125,8 @@ bool saveProperties()
 
     PropertyGroup root("root");
 
-    root.addProperty<std::array<double, 3>>("normal", { -1.3, 2.6, -4.2 });
+    std::array<double, 3> normal = { -1.3, 2.6, -4.2 };
+    root.addProperty<std::array<double, 3>>("normal", normal);
     root.addProperty<bool>("eatable", true);
 
     PropertyGroup * subGroup = root.addGroup("more");
@@ -139,7 +144,8 @@ bool loadProperties()
 
     PropertyGroup root("root");
 
-    root.addProperty<std::array<double, 3>>("normal", { 0.0, 0.0, 0.0 });
+    std::array<double, 3> normal = { -1.3, 2.6, -4.2 };
+    root.addProperty<std::array<double, 3>>("normal", normal);
     root.addProperty<bool>("eatable", false);
 
     PropertyGroup * subGroup = root.addGroup("more");

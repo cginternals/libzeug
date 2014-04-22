@@ -1,6 +1,6 @@
 #pragma once
 
-#include <signalzeug/signalzeug.h>
+#include <signalzeug/signalzeug_api.h>
 
 #include <signalzeug/Connection.h>
 

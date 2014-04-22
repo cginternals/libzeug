@@ -1,8 +1,9 @@
 
 #pragma once
 
-#include <reflectionzeug/reflectionzeug.h>
+#include <reflectionzeug/reflectionzeug_api.h>
 #include <reflectionzeug/AbstractValueProperty.h>
+
 
 namespace reflectionzeug
 {

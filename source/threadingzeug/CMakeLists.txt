@@ -60,7 +60,7 @@ set(header_path "${CMAKE_CURRENT_SOURCE_DIR}/include/${target}")
 set(source_path "${CMAKE_CURRENT_SOURCE_DIR}/source")
 
 set(headers
-    ${header_path}/threadingzeug.h
+    ${header_path}/threadingzeug_api.h
     ${header_path}/parallelfor.h
     ${header_path}/parallelfor.hpp
 )
