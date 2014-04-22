@@ -113,7 +113,7 @@ void EnumProperty<Enum>::setStrings(const std::map<Enum, std::string> & pairs)
     for (const std::pair<Enum, std::string> & pair : pairs)
     {        
         assert(m_enumMap.count(pair.second) == 0);
-        m_enumMap.insert(std::pair<std::string, Enum>(pair.second, pair.first));
+        m_enumMap.insert(std::make_pair(pair.second, pair.first));
     }
 }
 
