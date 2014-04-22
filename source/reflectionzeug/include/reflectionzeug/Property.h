@@ -67,7 +67,7 @@ public:
 };
 
 template <typename Type>
-class Property<Type, typename EnableIf<isUnsignedIntegral<Type>::value>::type> : public UnsignedIntegralProperty<Type>
+class Property<Type, EnableIf<isUnsignedIntegral<Type>>> : public UnsignedIntegralProperty<Type>
 {
 public:
     template <typename... Args>
@@ -78,7 +78,7 @@ public:
 };
 
 template <typename Type>
-class Property<Type, typename EnableIf<isSignedIntegral<Type>::value>::type> : public SignedIntegralProperty<Type>
+class Property<Type, EnableIf<isSignedIntegral<Type>>> : public SignedIntegralProperty<Type>
 {
 public:
     template <typename... Args>
@@ -89,7 +89,7 @@ public:
 };
 
 template <typename Type>
-class Property<Type, typename EnableIf<isFloatingPoint<Type>::value>::type> : public FloatingPointProperty<Type>
+class Property<Type, EnableIf<isFloatingPoint<Type>>> : public FloatingPointProperty<Type>
 {
 public:
     template <typename... Args>
@@ -100,7 +100,7 @@ public:
 };
     
 template <typename Type>
-    class Property<Type, typename EnableIf<isArray<Type>::value>::type> : public ArrayProperty<typename Type::value_type, std::tuple_size<Type>::value>
+class Property<Type, EnableIf<isArray<Type>>> : public ArrayProperty<typename Type::value_type, std::tuple_size<Type>::value>
 {
 public:
     Property(const std::string & name, const Type & array) :
@@ -115,7 +115,7 @@ public:
 };
 
 template <typename Type>
-class Property<Type, typename EnableIf<std::is_enum<Type>::value>::type> : public EnumProperty<Type>
+class Property<Type, EnableIf<std::is_enum<Type>>> : public EnumProperty<Type>
 {
 public:
     template <typename... Args>

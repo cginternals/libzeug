@@ -39,7 +39,10 @@ struct is_special_array : public std::false_type {};
     
 template <typename Type, size_t Size>
 struct is_special_array<Type, std::array<Type, Size>> : public std::true_type {};
-    
+
+template <typename Condition>
+struct value_accessor : public std::enable_if<Condition::value> {};
+
 }
 
     
@@ -49,18 +52,15 @@ struct is_special_array<Type, std::array<Type, Size>> : public std::true_type {}
  * \see http://en.wikipedia.org/wiki/Substitution_failure_is_not_an_error
  */
 /** \{ */
-    
+
+template <typename Condition>
+using EnableIf = typename value_accessor<Condition>::type; 
+
 template <typename Condition>
 struct Neg : public neg<Condition::value> {};
 
 template <bool... Conditions>
 struct All : public all<Conditions...> {};
-
-template <bool... Conditions>
-struct EnableIf : public std::enable_if<All<Conditions...>::value> {};
-
-template <bool... Conditions>
-struct DisableIf : public std::enable_if<!All<Conditions...>::value> {};
 
 template <typename Type>
 struct isArray : public is_array<Type> {};
