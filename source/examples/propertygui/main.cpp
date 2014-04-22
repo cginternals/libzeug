@@ -30,7 +30,9 @@ int main(int argc, char *argv[])
     auto * size = settings->addGroup("size");
     size->addProperty<int>("width", 11);
     settings->addProperty<bool>("bool", true);
-    settings->addProperty<std::array<std::string, 3>>("string_array", std::array<std::string, 3>{ "hu", "hu", "hu"});
+
+    std::array<std::string, 3> stringArray = { "hu", "hu", "hu" };
+    settings->addProperty<std::array<std::string, 3>>("string_array", stringArray);
 
     
     auto * browser = new PropertyBrowser(settings);

@@ -118,7 +118,7 @@ int PropertyGroup::indexOf(const AbstractProperty * property) const
     if (!this->propertyExists(property->name()))
         return -1;
 
-    return std::distance(m_properties.begin(), std::find(m_properties.begin(), m_properties.end(), property));
+    return (int)std::distance(m_properties.begin(), std::find(m_properties.begin(), m_properties.end(), property));
 }
 
 AbstractProperty * PropertyGroup::takeProperty(const std::string & name)
