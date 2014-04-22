@@ -75,6 +75,8 @@ set(headers
     ${header_path}/AccessorValue.hpp
     ${header_path}/ArrayProperty.h
     ${header_path}/ArrayProperty.hpp
+    ${header_path}/BoolProperty.h
+    ${header_path}/BoolProperty.hpp
     ${header_path}/ClassProperty.h
     ${header_path}/ClassProperty.hpp
     ${header_path}/Color.h
@@ -128,6 +130,7 @@ set(sources
     ${source_path}/AbstractPropertyCollection.cpp
     ${source_path}/AbstractPropertyVisitor.cpp
     ${source_path}/AbstractValueProperty.cpp
+    ${source_path}/BoolProperty.cpp
     ${source_path}/Color.cpp
     ${source_path}/EnumPropertyInterface.cpp
     ${source_path}/FilePath.cpp

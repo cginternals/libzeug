@@ -5,21 +5,19 @@
 
 #include <reflectionzeug/property_declaration.h>
 
-#include <reflectionzeug/ValueProperty.h>
+#include <reflectionzeug/BoolProperty.h>
 #include <reflectionzeug/ClassProperty.h>
-#include <reflectionzeug/NumberProperty.h>
+#include <reflectionzeug/FilePathProperty.h>
 #include <reflectionzeug/UnsignedIntegralProperty.h>
 #include <reflectionzeug/SignedIntegralProperty.h>
 #include <reflectionzeug/FloatingPointProperty.h>
 #include <reflectionzeug/StringProperty.h>
 #include <reflectionzeug/ArrayProperty.h>
-#include <reflectionzeug/FilePathProperty.h>
 #include <reflectionzeug/EnumProperty.h>
 
 #include <reflectionzeug/Color.h>
 
 #include <reflectionzeug/specialization_helpers.h>
-#include <reflectionzeug/util.h>
 
 namespace reflectionzeug
 {
@@ -36,27 +34,13 @@ public:
 };
 
 template <>
-class Property<bool> : public ValueProperty<bool>
+class Property<bool> : public BoolProperty
 {
 public:
     template <typename... Args>
     Property(const std::string & name, Args&&... args) : 
         AbstractProperty(name),
-        ValueProperty<bool>(std::forward<Args>(args)...) {}
-
-    virtual std::string toString() const { return this->value() ? "true" : "false"; }
-
-    virtual bool fromString(const std::string & string)
-    {
-        if (!util::matchesRegex(string, "(true|false)"))
-            return false;
-
-        this->setValue(string == "true");
-
-        return true;
-    }
-
-    void toggleValue() { setValue(!value()); }
+        BoolProperty(std::forward<Args>(args)...) {}
 
 };
 
