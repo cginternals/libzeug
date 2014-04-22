@@ -9,8 +9,12 @@ namespace reflectionzeug
 {
 
 /**
+ * \brief Provides the property implementation for unsigned integral types.
+ *
  * Extends the NumberProperty by implementing necessary methods for uniform access
  * of all unsigned integral types.
+ *
+ * \ingroup property_hierarchy
  */
 template <typename Type>
 class UnsignedIntegralProperty : public UnsignedIntegralPropertyInterface, public NumberProperty<Type>

@@ -23,6 +23,8 @@ class AbstractArrayValue;
  * element-based getter and setter.
  * It uses the property implementations of the single value properties, 
  * therefore any single value type is also supported as the element type in arrays.
+ *
+ * \ingroup property_hierarchy
  */
 template <typename Type, size_t Size>
 class ArrayProperty : public AbstractPropertyCollection, public AbstractValueProperty

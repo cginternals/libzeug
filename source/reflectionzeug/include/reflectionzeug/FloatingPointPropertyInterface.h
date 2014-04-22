@@ -12,6 +12,8 @@ namespace reflectionzeug
  * \brief The interface for all floating point properties. 
  *
  * Used to access and edit floating point properties uniformly in the user interface.
+ *
+ * \ingroup property_hierarchy
  */
 class REFLECTIONZEUG_API FloatingPointPropertyInterface : public virtual AbstractValueProperty
 {

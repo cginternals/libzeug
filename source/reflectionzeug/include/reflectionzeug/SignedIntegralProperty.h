@@ -9,8 +9,12 @@ namespace reflectionzeug
 {
 
 /**
+ * \brief Provides the property implementation for signed integral types.
+ *
  * Extends the NumberProperty by implementing necessary methods for uniform access
  * of all signed integral types.
+ *
+ * \ingroup property_hierarchy
  */
 template <typename Type>
 class SignedIntegralProperty : public SignedIntegralPropertyInterface, public NumberProperty<Type>

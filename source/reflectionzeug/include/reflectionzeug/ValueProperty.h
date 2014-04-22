@@ -19,7 +19,9 @@ class AbstractValue;
  * \brief The template class for all properties that have a value other than std::array.
  *
  * It can either store the value itself or access it through getter and setter.
+ *
  * \see AbstractValue
+ * \ingroup property_hierarchy
  */
 template <typename Type>
 class ValueProperty : public virtual AbstractValueProperty

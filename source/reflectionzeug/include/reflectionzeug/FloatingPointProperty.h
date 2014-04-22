@@ -13,6 +13,8 @@ namespace reflectionzeug
  *
  * While adding a precision member, it also implements the 
  * FloatingPointPropertyInterface
+ *
+ * \ingroup property_hierarchy
  */
 template <typename Type>
 class FloatingPointProperty : public FloatingPointPropertyInterface, public NumberProperty<Type>

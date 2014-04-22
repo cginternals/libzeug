@@ -8,6 +8,10 @@
 namespace reflectionzeug
 {
 
+/**
+ * \brief Property implementation for bool values.
+ * \ingroup property_hierarchy
+ */
 class BoolProperty : public ValueProperty<bool>
 {
 public:

@@ -16,6 +16,8 @@ namespace reflectionzeug
  *
  * Be sure to either specialize the EnumDefaultStrings template or explicitly
  * call setStrings() before using template instantiations.
+ *
+ * \ingroup property_hierarchy
  */
 template <typename Enum>
 class EnumProperty : public EnumPropertyInterface, public ValueProperty<Enum>

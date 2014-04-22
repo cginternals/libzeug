@@ -12,6 +12,8 @@ namespace reflectionzeug
  * \brief The interface for all signed integral properties. 
  *
  * Used to access and edit signed integral properties uniformly in the user interface.
+ *
+ * \ingroup property_hierarchy
  */
 class REFLECTIONZEUG_API SignedIntegralPropertyInterface : public virtual AbstractValueProperty
 {

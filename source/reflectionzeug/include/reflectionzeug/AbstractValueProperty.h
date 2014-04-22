@@ -12,6 +12,16 @@ class ArrayPropertyInterface;
 
 /** 
  * \brief The super class of all properties that store a value.
+ *
+ * Value properties implement an adapted Visitor Pattern.  
+ * Visitors inherit from the PropertyVisitor or PropertyCategoryVisitor template for each type they want to support. 
+ * The visitor template implements a visit method for the passed template type. 
+ * The properties check in their accept() method, wether the visitor supports their type and
+ * in case it doesn't they call the super class' accept().
+ * Other than the old fashioned implementation, this one can be extended.
+ *
+ * \see AbstractPropertyVisitor
+ * \ingroup property_hierarchy
  */
 class REFLECTIONZEUG_API AbstractValueProperty : public virtual AbstractProperty
 {

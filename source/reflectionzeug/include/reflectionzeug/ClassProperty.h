@@ -15,6 +15,7 @@ namespace reflectionzeug
  * static Class fromString(std::string string, bool * ok);
  * std::string toString();
  * \endcode
+ * \ingroup property_hierarchy
  */
 template <typename Type>
 class ClassProperty : public ValueProperty<Type>

@@ -9,6 +9,7 @@ namespace reflectionzeug
 
 /**
  * \brief The super class of all property collections.
+ * \ingroup property_hierarchy
  */
 class REFLECTIONZEUG_API AbstractPropertyCollection : public virtual AbstractProperty
 {
