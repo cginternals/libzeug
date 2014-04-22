@@ -23,7 +23,7 @@ namespace reflectionzeug
 
 /** 
  * \defgroup property_specializations Property Specializations
- * \brief %All possible template specializations of Property
+ * \brief All possible template specializations of Property
  *
  * Only this template class may be instantiated!
  * Supported Types:

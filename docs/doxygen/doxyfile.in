@@ -743,7 +743,8 @@ WARN_LOGFILE           =
 # spaces.
 # Note: If this tag is empty the current directory is searched.
 
-INPUT                  = @CMAKE_SOURCE_DIR@/source/iozeug/include \
+INPUT                  = moduledocumentation.h \
+                         @CMAKE_SOURCE_DIR@/source/iozeug/include \
                          @CMAKE_SOURCE_DIR@/source/reflectionzeug/include \
                          @CMAKE_SOURCE_DIR@/source/propertyguizeug/include \
                          @CMAKE_SOURCE_DIR@/source/scriptzeug/include \

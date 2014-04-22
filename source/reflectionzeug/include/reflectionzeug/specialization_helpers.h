@@ -60,7 +60,7 @@ template <typename Condition>
 struct Neg : public neg<Condition::value> {};
 
 template <bool... Conditions>
-struct All : public all<Conditions...> {};
+struct And : public all<Conditions...> {};
 
 template <typename Type>
 struct isArray : public is_array<Type> {};
@@ -75,17 +75,17 @@ template <typename Type>
 struct isDoubleArray : public is_special_array<double, Type> {};
 
 template <typename Type>
-struct isUnsignedIntegral : public All<std::is_integral<Type>::value, 
+struct isUnsignedIntegral : public And<std::is_integral<Type>::value, 
                                        std::is_unsigned<Type>::value, 
                                        Neg<std::is_same<Type, bool>>::value> {};
 
 template <typename Type>
-struct isSignedIntegral : public All<std::is_integral<Type>::value, 
+struct isSignedIntegral : public And<std::is_integral<Type>::value, 
                                      std::is_signed<Type>::value, 
                                      Neg<std::is_same<Type, bool>>::value> {};
 
 template <typename Type>
-struct isFloatingPoint : public All<std::is_floating_point<Type>::value,
+struct isFloatingPoint : public And<std::is_floating_point<Type>::value,
                                     Neg<std::is_same<Type, long double>>::value> {};
     
 /** \} */
