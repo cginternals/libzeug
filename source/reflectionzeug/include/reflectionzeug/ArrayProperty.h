@@ -43,17 +43,17 @@ public:
                   const std::function<void(size_t, const Type &)> & setter);
     
     template <class Object>
-    ArrayProperty(Object & object, 
+    ArrayProperty(Object * object, 
                   const Type & (Object::*getter_pointer)(size_t) const,
                   void (Object::*setter_pointer)(size_t, const Type &));
     
     template <class Object>
-    ArrayProperty(Object & object, 
+    ArrayProperty(Object * object, 
                   Type (Object::*getter_pointer)(size_t) const,
                   void (Object::*setter_pointer)(size_t, const Type &));
     
     template <class Object>
-    ArrayProperty(Object & object, 
+    ArrayProperty(Object * object, 
                   Type (Object::*getter_pointer)(size_t) const,
                   void (Object::*setter_pointer)(size_t, Type));
 

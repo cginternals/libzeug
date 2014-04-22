@@ -19,17 +19,17 @@ public:
                   std::function<void(const Type &)> setter);
     
     template <class Object>
-    AccessorValue(Object & object,
+    AccessorValue(Object * object,
                   const Type & (Object::*getter_pointer)() const,
                   void (Object::*setter_pointer)(const Type &));
     
     template <class Object>
-    AccessorValue(Object & object,
+    AccessorValue(Object * object,
                   Type (Object::*getter_pointer)() const,
                   void (Object::*setter_pointer)(const Type &));
 
     template <class Object>
-    AccessorValue(Object & object,
+    AccessorValue(Object * object,
                   Type (Object::*getter_pointer)() const,
                   void (Object::*setter_pointer)(Type));
   

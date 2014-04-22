@@ -27,7 +27,7 @@ ValueProperty<Type>::ValueProperty(
 template <typename Type>
 template <class Object>
 ValueProperty<Type>::ValueProperty(
-    Object & object, 
+    Object * object, 
     const Type & (Object::*getter_pointer)() const,
     void (Object::*setter_pointer)(const Type &))
 :   m_value(new AccessorValue<Type>(object, getter_pointer, setter_pointer))
@@ -37,7 +37,7 @@ ValueProperty<Type>::ValueProperty(
 template <typename Type>
 template <class Object>
 ValueProperty<Type>::ValueProperty(
-    Object & object, 
+    Object * object, 
     Type (Object::*getter_pointer)() const,
     void (Object::*setter_pointer)(const Type &))
 :   m_value(new AccessorValue<Type>(object, getter_pointer, setter_pointer))
@@ -47,7 +47,7 @@ ValueProperty<Type>::ValueProperty(
 template <typename Type>
 template <class Object>
 ValueProperty<Type>::ValueProperty(
-    Object & object, 
+    Object * object, 
     Type (Object::*getter_pointer)() const,
     void (Object::*setter_pointer)(Type))
 :   m_value(new AccessorValue<Type>(object, getter_pointer, setter_pointer))

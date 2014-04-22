@@ -36,17 +36,17 @@ public:
                   const std::function<void(const Type &)> & setter);
     
     template <class Object>
-    ValueProperty(Object & object, 
+    ValueProperty(Object * object, 
                   const Type & (Object::*getter_pointer)() const,
                   void (Object::*setter_pointer)(const Type &));
     
     template <class Object>
-    ValueProperty(Object & object, 
+    ValueProperty(Object * object, 
                   Type (Object::*getter_pointer)() const,
                   void (Object::*setter_pointer)(const Type &));
     
     template <class Object>
-    ValueProperty(Object & object, 
+    ValueProperty(Object * object, 
                   Type (Object::*getter_pointer)() const,
                   void (Object::*setter_pointer)(Type));
     

@@ -18,33 +18,33 @@ AccessorArrayValue<Type, Size>::AccessorArrayValue(
 template <typename Type, size_t Size>
 template <class Object>
 AccessorArrayValue<Type, Size>::AccessorArrayValue(
-    Object & object,
+    Object * object,
     const Type & (Object::*getter_pointer)(size_t) const,
     void (Object::*setter_pointer)(size_t, const Type &))
-:   m_getter(std::bind(getter_pointer, &object, std::placeholders::_1))
-,   m_setter(std::bind(setter_pointer, &object, std::placeholders::_1, std::placeholders::_2))
+:   m_getter(std::bind(getter_pointer, object, std::placeholders::_1))
+,   m_setter(std::bind(setter_pointer, object, std::placeholders::_1, std::placeholders::_2))
 {
 }
     
 template <typename Type, size_t Size>
 template <class Object>
 AccessorArrayValue<Type, Size>::AccessorArrayValue(
-    Object & object,
+    Object * object,
     Type (Object::*getter_pointer)(size_t) const,
     void (Object::*setter_pointer)(size_t, const Type &))
-:   m_getter(std::bind(getter_pointer, &object, std::placeholders::_1))
-,   m_setter(std::bind(setter_pointer, &object, std::placeholders::_1, std::placeholders::_2))
+:   m_getter(std::bind(getter_pointer, object, std::placeholders::_1))
+,   m_setter(std::bind(setter_pointer, object, std::placeholders::_1, std::placeholders::_2))
 {
 }
 
 template <typename Type, size_t Size>
 template <class Object>
 AccessorArrayValue<Type, Size>::AccessorArrayValue(
-    Object & object,
+    Object * object,
     Type (Object::*getter_pointer)(size_t) const,
     void (Object::*setter_pointer)(size_t, Type))
-:   m_getter(std::bind(getter_pointer, &object, std::placeholders::_1))
-,   m_setter(std::bind(setter_pointer, &object, std::placeholders::_1, std::placeholders::_2))
+:   m_getter(std::bind(getter_pointer, object, std::placeholders::_1))
+,   m_setter(std::bind(setter_pointer, object, std::placeholders::_1, std::placeholders::_2))
 {
 }
 

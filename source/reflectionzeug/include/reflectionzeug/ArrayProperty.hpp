@@ -34,7 +34,7 @@ ArrayProperty<Type, Size>::ArrayProperty(
 template <typename Type, size_t Size>
 template <class Object>
 ArrayProperty<Type, Size>::ArrayProperty(
-    Object & object, 
+    Object * object, 
     const Type & (Object::*getter_pointer)(size_t) const,
     void (Object::*setter_pointer)(size_t, const Type &))
 :   m_array(new AccessorArrayValue<Type, Size>(object, getter_pointer, setter_pointer))
@@ -45,7 +45,7 @@ ArrayProperty<Type, Size>::ArrayProperty(
 template <typename Type, size_t Size>
 template <class Object>
 ArrayProperty<Type, Size>::ArrayProperty(
-    Object & object, 
+    Object * object, 
     Type (Object::*getter_pointer)(size_t) const,
     void (Object::*setter_pointer)(size_t, const Type &))
 :   m_array(new AccessorArrayValue<Type, Size>(object, getter_pointer, setter_pointer))
@@ -56,7 +56,7 @@ ArrayProperty<Type, Size>::ArrayProperty(
 template <typename Type, size_t Size>
 template <class Object>
 ArrayProperty<Type, Size>::ArrayProperty(
-    Object & object, 
+    Object * object, 
     Type (Object::*getter_pointer)(size_t) const,
     void (Object::*setter_pointer)(size_t, Type))
 :   m_array(new AccessorArrayValue<Type, Size>(object, getter_pointer, setter_pointer))

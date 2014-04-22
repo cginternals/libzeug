@@ -56,6 +56,8 @@ void iterateOverProperties()
 {
     std::cout << ">> iterateOverProperties()" << std::endl;
 
+    SomeObject object;
+    
     PropertyGroup * group = new PropertyGroup("group");
 
     int arr[3] = {0, 0, 0};
@@ -65,9 +67,15 @@ void iterateOverProperties()
     group->addProperty<int>("third", 7);
     group->addGroup("fourth");
     group->addProperty<Color>("fifth", Color(125, 125, 125));
+    group->addProperty<int>("sixth", &object,
+                            &SomeObject::count,
+                            &SomeObject::setCount);
+    group->addProperty<std::array<float, 3>>("seventh", &object,
+                                             &SomeObject::normal,
+                                             &SomeObject::setNormal);
 
     std::array<int, 3> array = { 1, 2, 3 };
-    group->addProperty<std::array<int, 3>>("sixth", array);
+    group->addProperty<std::array<int, 3>>("eighth", array);
 
     group->forEachValue([](AbstractProperty & property) {
         std::cout << property.title() << std::endl;
