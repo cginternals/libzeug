@@ -170,6 +170,8 @@ template <typename Type, size_t Size>
 void ArrayProperty<Type, Size>::setArray(const std::array<Type, Size> & array)
 {
     m_array->set(array);
+    std::cout << "setArray" << std::endl;
+    this->valueChanged(array);
 }
 
 template <typename Type, size_t Size>
@@ -181,7 +183,9 @@ Type ArrayProperty<Type, Size>::value(size_t i) const
 template <typename Type, size_t Size>
 void ArrayProperty<Type, Size>::setValue(size_t i, const Type & value)
 {
-    return m_array->set(i, value);
+    m_array->set(i, value);
+    std::cout << "setValue" << std::endl;
+    this->valueChanged(m_array->get());
 }
 
 template <typename Type, size_t Size>
@@ -206,6 +210,7 @@ void ArrayProperty<Type, Size>::init()
         m_properties[i] = new Property<Type>("_" + std::to_string(i),
                                              std::bind(&ArrayProperty::value, this, i),
                                              std::bind(&ArrayProperty::setValue, this, i, std::placeholders::_1));
+        
         m_properties[i]->setParent(this);
     }
 }

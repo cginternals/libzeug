@@ -6,6 +6,8 @@
 #include <array>
 #include <functional>
 
+#include <signalzeug/Signal.h>
+
 #include <reflectionzeug/property_declaration.h>
 #include <reflectionzeug/AbstractPropertyCollection.h>
 #include <reflectionzeug/AbstractValueProperty.h>
@@ -79,6 +81,8 @@ public:
 
     void forEach(const std::function<void(Property<Type> &)> & functor);
     void forEach(const std::function<void(const Property<Type> &)> & functor) const;
+
+    signalzeug::Signal<const std::array<Type, Size> &> valueChanged;
 
 private:
     void init();
