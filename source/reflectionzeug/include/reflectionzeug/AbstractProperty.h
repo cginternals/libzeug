@@ -24,7 +24,7 @@ class PropertyGroup;
  * - All classes of the second group inherit from AbstractPropertyCollection and represent a collection.
  *
  * The ArrayProperty is the only one that is in both groups. \n
- * Except PropertyGroup, you can't instantiate one of these classes directly.
+ * Except PropertyGroup, you can't instantiate any of these classes directly.
  * Instead, you can use the Property template which dynamically inherits from the right class.
  *
  * \see \ref property_specializations

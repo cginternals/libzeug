@@ -1,9 +1,7 @@
 
 #pragma once
 
-#include <cassert>
 #include <algorithm>
-#include <iostream>
 #include <typeinfo>
 #include <vector>
 
@@ -170,7 +168,6 @@ template <typename Type, size_t Size>
 void ArrayProperty<Type, Size>::setArray(const std::array<Type, Size> & array)
 {
     m_array->set(array);
-    std::cout << "setArray" << std::endl;
     this->valueChanged(array);
 }
 
@@ -184,7 +181,6 @@ template <typename Type, size_t Size>
 void ArrayProperty<Type, Size>::setValue(size_t i, const Type & value)
 {
     m_array->set(i, value);
-    std::cout << "setValue" << std::endl;
     this->valueChanged(m_array->get());
 }
 
