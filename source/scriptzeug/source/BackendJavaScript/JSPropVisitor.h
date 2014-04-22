@@ -3,7 +3,7 @@
 
 #include <reflectionzeug/StandardPropertyVisitor.h>
 #include <reflectionzeug/Variant.h>
-#include "scriptzeug/scriptzeug.h"
+#include "scriptzeug/scriptzeug_api.h"
 
 
 namespace scriptzeug

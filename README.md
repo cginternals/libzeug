@@ -23,7 +23,7 @@ A first basic libzeug documentation can be found [here](http://costumebrother.de
 ### Dependencies
 
 The following dev-libraries and programs need to be provided for correct CMake configuration:
-* C++11 compatible compiler (e.g. gcc 4.8, better 4.9, VS 2013)
+* C++11 compatible compiler (e.g. gcc 4.7, VS 2013)
 * CMake (>=2.8.9, better 2.8.12): http://www.cmake.org/
 * Qt5 (>= 5.0): http://www.qt-project.org/
 
