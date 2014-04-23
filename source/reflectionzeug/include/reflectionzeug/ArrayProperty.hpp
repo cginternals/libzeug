@@ -159,26 +159,26 @@ int ArrayProperty<Type, Size>::indexOf(const AbstractProperty * property) const
 }
 
 template <typename Type, size_t Size>
-std::array<Type, Size> ArrayProperty<Type, Size>::array() const
+std::array<Type, Size> ArrayProperty<Type, Size>::value() const
 {
     return m_array->get();
 }
 
 template <typename Type, size_t Size>
-void ArrayProperty<Type, Size>::setArray(const std::array<Type, Size> & array)
+void ArrayProperty<Type, Size>::setValue(const std::array<Type, Size> & array)
 {
     m_array->set(array);
     this->valueChanged(array);
 }
 
 template <typename Type, size_t Size>
-Type ArrayProperty<Type, Size>::value(size_t i) const
+Type ArrayProperty<Type, Size>::element(size_t i) const
 {
     return m_array->get(i);
 }
 
 template <typename Type, size_t Size>
-void ArrayProperty<Type, Size>::setValue(size_t i, const Type & value)
+void ArrayProperty<Type, Size>::setElement(size_t i, const Type & value)
 {
     m_array->set(i, value);
     this->valueChanged(m_array->get());
@@ -204,8 +204,8 @@ void ArrayProperty<Type, Size>::init()
     for (size_t i = 0; i < Size; ++i)
     {
         m_properties[i] = new Property<Type>("_" + std::to_string(i),
-                                             std::bind(&ArrayProperty::value, this, i),
-                                             std::bind(&ArrayProperty::setValue, this, i, std::placeholders::_1));
+                                             std::bind(&ArrayProperty::element, this, i),
+                                             std::bind(&ArrayProperty::setElement, this, i, std::placeholders::_1));
         
         m_properties[i]->setParent(this);
     }

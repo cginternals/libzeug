@@ -73,11 +73,11 @@ public:
     virtual size_t count() const;
     virtual int indexOf(const AbstractProperty * property) const;
 
-    std::array<Type, Size> array() const;
-    void setArray(const std::array<Type, Size> & array);
+    std::array<Type, Size> value() const;
+    void setValue(const std::array<Type, Size> & array);
 
-    Type value(size_t i) const;
-    void setValue(size_t i, const Type & value);
+    Type element(size_t i) const;
+    void setElement(size_t i, const Type & value);
 
     void forEach(const std::function<void(Property<Type> &)> & functor);
     void forEach(const std::function<void(const Property<Type> &)> & functor) const;
