@@ -48,17 +48,20 @@ iozeug
 
 iozeug contains a function to read a file into an std::string.
 
+
 propertyguizeug
 ---------------
 
 propertyguizeug contains the automatic generation of a GUI from a set of properties from [reflectionzeug](#reflectionzeug).
 
+
 reflectionzeug
 ------------
 
-reflectionzeug allows the definition of properties that can be used to parameterize a program.
+reflectionzeug allows the definition of properties that can be used to parameterize a program. 
 It supports saving and loading properties to and from a file.
-The currently implemented property types are `int`, `double`, `std::string`, fixed size `std::vector` for mathematical vectors and matrices, `bool`, `FilePath` and `Color`.
+The currently implemented property types are `bool`, `float`, `double`, `std::string`, `FilePath`, `Color`, every integral type, every enum and some glm types. Every prior type can be wrapped in an `std::array`. You can even extend reflectionzeug and add your own types.
+
 
 scriptzeug
 ----------
@@ -75,6 +78,7 @@ signalzeug
 signalzeug is a small library that provides classes for a simple signal system.
 Objects can define signals they can fire and other objects can register on those signals.
 Arbitrary parameters and even signal chaining are allowed.
+
 
 threadingzeug
 -------------
