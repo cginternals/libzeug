@@ -8,8 +8,6 @@
 namespace reflectionzeug
 {
 
-class ArrayPropertyInterface;
-
 /** 
  * \brief The super class of all properties that store a value.
  *
