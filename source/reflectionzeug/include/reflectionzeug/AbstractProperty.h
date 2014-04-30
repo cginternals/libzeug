@@ -30,26 +30,24 @@ class REFLECTIONZEUG_API AbstractProperty
 public:
     static const std::string s_nameRegexString;
     
-    /**
-     * Should never be used.
-     * Exists just to avoid explicit constructor calls in intermediate subclasses.
-     */
     AbstractProperty();
-    
     AbstractProperty(const std::string & name);
     
     virtual ~AbstractProperty() = 0;
 
     const std::string & name() const;
+    bool setName(const std::string & name);
+    bool hasName() const;
     
     const std::string & title() const;
     void setTitle(const std::string & title);
+    bool hasTitle() const;
     
     const std::string & annotations() const;
     void setAnnotations(const std::string & annotations);
     
     AbstractPropertyCollection * parent() const;
-    void setParent(AbstractPropertyCollection * parent);
+    bool setParent(AbstractPropertyCollection * parent);
     void removeParent();
     bool hasParent() const;
     

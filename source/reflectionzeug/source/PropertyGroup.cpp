@@ -1,26 +1,20 @@
 
 #include <reflectionzeug/PropertyGroup.h>
 
-#ifdef USE_STD_REGEX
-    #include <regex>
-
-    namespace regex_namespace = std;
-#else
-    #include <boost/regex.hpp>
-
-    namespace regex_namespace = boost;
-#endif
-
 #include <cassert>
 #include <algorithm>
 
 
 namespace reflectionzeug
 {
+
+PropertyGroup::PropertyGroup()
+{    
+}
     
 PropertyGroup::PropertyGroup(const std::string & name)
-:   AbstractProperty(name)
 {
+    setName(name);
 }
 
 PropertyGroup::~PropertyGroup()
@@ -36,7 +30,9 @@ bool PropertyGroup::isGroup() const
 
 bool PropertyGroup::addProperty(AbstractProperty * property)
 {
-    if (this->propertyExists(property->name()) || property->hasParent())
+    if (!property->hasName() ||
+        property->hasParent() ||
+        this->propertyExists(property->name()))
         return false;
     
     m_properties.push_back(property);

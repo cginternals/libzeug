@@ -24,6 +24,7 @@ class AbstractValueProperty;
 class REFLECTIONZEUG_API PropertyGroup : public AbstractPropertyCollection
 {
 public:
+    PropertyGroup();
     PropertyGroup(const std::string & name);
     virtual ~PropertyGroup();
 
