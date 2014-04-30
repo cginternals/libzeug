@@ -33,7 +33,7 @@ PropertyDeserializer::~PropertyDeserializer()
 {
 }
 
-bool PropertyDeserializer::deserialize(PropertyGroup & group, std::string filePath)
+bool PropertyDeserializer::deserialize(PropertyGroup & group, const std::string & filePath)
 {
     std::fstream fstream;
     fstream.open(filePath, std::ios_base::in);
@@ -56,14 +56,14 @@ bool PropertyDeserializer::deserialize(PropertyGroup & group, std::string filePa
     return noErrorsOccured;
 }
 
-bool PropertyDeserializer::isGroupDeclaration(const std::string line)
+bool PropertyDeserializer::isGroupDeclaration(const std::string & line)
 {
     static const regex_namespace::regex groupRegex("\\[" + AbstractProperty::s_nameRegexString + "\\]");
 
     return regex_namespace::regex_match(line, groupRegex);
 }
 
-bool PropertyDeserializer::isPropertyDeclaration(const std::string line)
+bool PropertyDeserializer::isPropertyDeclaration(const std::string & line)
 {
     static const regex_namespace::regex propertyRegex(AbstractProperty::s_nameRegexString +
                                           "(\\/" +
@@ -73,7 +73,7 @@ bool PropertyDeserializer::isPropertyDeclaration(const std::string line)
     return regex_namespace::regex_match(line, propertyRegex);
 }
 
-bool PropertyDeserializer::updateCurrentGroup(const std::string line)
+bool PropertyDeserializer::updateCurrentGroup(const std::string & line)
 {
     std::string groupName = line.substr(1, line.length() - 2);
 
@@ -93,7 +93,7 @@ bool PropertyDeserializer::updateCurrentGroup(const std::string line)
     return false;
 }
 
-bool PropertyDeserializer::setPropertyValue(const std::string line)
+bool PropertyDeserializer::setPropertyValue(const std::string & line)
 {
     if (!m_currentGroup) {
         std::cerr << "Could not parse line\"" << line << "\"";

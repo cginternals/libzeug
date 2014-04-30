@@ -21,7 +21,7 @@ public:
     PropertySerializer();
     virtual ~PropertySerializer();
 
-    bool serialize(PropertyGroup & group, std::string filePath);
+    bool serialize(PropertyGroup & group, const std::string & filePath);
     
 protected:
     void serializeValue(const AbstractValueProperty & property);

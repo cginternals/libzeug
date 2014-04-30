@@ -19,7 +19,7 @@ PropertySerializer::~PropertySerializer()
 {
 }
     
-bool PropertySerializer::serialize(PropertyGroup & group, std::string filePath)
+bool PropertySerializer::serialize(PropertyGroup & group, const std::string & filePath)
 {
     m_fstream.open(filePath, std::ios_base::out);
     
@@ -31,13 +31,15 @@ bool PropertySerializer::serialize(PropertyGroup & group, std::string filePath)
     m_currentPath = "";
     
     m_fstream << "[" << group.name() << "]" << std::endl;
-    group.forEachValue([this] (AbstractValueProperty & property) 
+    group.forEachValue(
+        [this] (AbstractValueProperty & property) 
         {
             this->serializeValue(property);
         });
     m_fstream << std::endl;
     
-    group.forEachGroup([this](PropertyGroup & subGroup) 
+    group.forEachGroup(
+        [this](PropertyGroup & subGroup) 
         {
             m_fstream << "[" << subGroup.name() << "]" << std::endl;
             this->serializeGroup(subGroup);
@@ -56,16 +58,18 @@ void PropertySerializer::serializeValue(const AbstractValueProperty & property)
 
 void PropertySerializer::serializeGroup(const PropertyGroup & group)
 {
-    group.forEach([this] (const AbstractProperty & property) {
-        if (property.isGroup()) {
-            const PropertyGroup & subGroup = *property.asGroup();
-            this->pushGroupToPath(subGroup);
-            this->serializeGroup(subGroup);
-            this->popGroupFromPath();
-        } else { 
-            this->serializeValue(*property.asValue());
-        }
-    });
+    group.forEach(
+        [this] (const AbstractProperty & property) 
+        {
+            if (property.isGroup()) {
+                const PropertyGroup & subGroup = *property.asGroup();
+                this->pushGroupToPath(subGroup);
+                this->serializeGroup(subGroup);
+                this->popGroupFromPath();
+            } else { 
+                this->serializeValue(*property.asValue());
+            }
+        });
 }
 
 void PropertySerializer::pushGroupToPath(const PropertyGroup & group)
