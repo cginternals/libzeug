@@ -70,7 +70,7 @@ class Property<glm::vec2> : public ValueProperty<glm::vec2>
 public:
     template <typename... Args>
     Property(const std::string & name, Args&&... args) :
-        ValuePropertyInterface(name),
+        //ValuePropertyInterface(name),
         ValueProperty<glm::vec2>(std::forward<Args>(args)...) {}
 
     virtual std::string toString() const override { return ::toString<glm::vec2::value_type, 2u>(glm::value_ptr(this->value())); }
@@ -92,7 +92,7 @@ class Property<glm::ivec2> : public ValueProperty<glm::ivec2>
 public:
     template <typename... Args>
     Property(const std::string & name, Args&&... args) :
-        ValuePropertyInterface(name),
+        AbstractProperty(name),
         ValueProperty<glm::ivec2>(std::forward<Args>(args)...) {}
 
     virtual std::string toString() const override { return ::toString<glm::ivec2::value_type, 2>(glm::value_ptr(value())); }
@@ -114,7 +114,7 @@ class Property<glm::vec3> : public ValueProperty<glm::vec3>
 public:
     template <typename... Args>
     Property(const std::string & name, Args&&... args) :
-        ValuePropertyInterface(name),
+        AbstractProperty(name),
         ValueProperty<glm::vec3>(std::forward<Args>(args)...) {}
 
     virtual std::string toString() const override { return ::toString<glm::vec3::value_type, 3>(glm::value_ptr(value())); }
@@ -136,7 +136,7 @@ class Property<glm::vec4> : public ValueProperty<glm::vec4>
 public:
     template <typename... Args>
     Property(const std::string & name, Args&&... args) :
-        ValuePropertyInterface(name),
+        AbstractProperty(name),
         ValueProperty<glm::vec4>(std::forward<Args>(args)...) {}
 
     virtual std::string toString() const override { return ::toString<glm::vec4::value_type, 4>(glm::value_ptr(value())); }
