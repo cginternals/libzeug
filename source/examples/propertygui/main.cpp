@@ -74,6 +74,8 @@ int main(int argc, char *argv[])
                 return widget->minimumWidth();
             case 1:
                 return widget->minimumHeight();
+            default:
+                return -1;
             }
         },
         [widget, width, height] (size_t i, const int & size) {
@@ -99,6 +101,9 @@ int main(int argc, char *argv[])
                 return widget->maximumWidth();
             case 1:
                 return widget->maximumHeight();
+            default:
+                return -1;
+            
             }
         },
         [widget, width, height] (size_t i, const int & size) {

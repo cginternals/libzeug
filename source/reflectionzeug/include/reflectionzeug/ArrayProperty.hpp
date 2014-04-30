@@ -155,7 +155,7 @@ int ArrayProperty<Type, Size>::indexOf(const AbstractProperty * property) const
     if (it == m_properties.end())
         return -1;
     
-    return std::distance(m_properties.begin(), it);
+    return (int)std::distance(m_properties.begin(), it);
 }
 
 template <typename Type, size_t Size>
