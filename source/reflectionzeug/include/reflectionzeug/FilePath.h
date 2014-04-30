@@ -9,7 +9,8 @@
 namespace reflectionzeug
 {
 
-/** \brief A simple file path class for use as a property value.
+/** 
+ * \brief A simple file path class for use as a property value.
  */
 class REFLECTIONZEUG_API FilePath
 {

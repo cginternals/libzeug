@@ -6,7 +6,12 @@
 namespace reflectionzeug
 {
 
-/** \brief Part of the property hierarchy that extends the ValueProperty by adding a minimum and maximum.
+/**
+ * \brief An intermediate class for numeric property types.
+ *
+ * Adds a minimum and maximum as well as a step size.
+ *
+ * \ingroup property_hierarchy
  */
 template <typename Type>
 class NumberProperty : public ValueProperty<Type>

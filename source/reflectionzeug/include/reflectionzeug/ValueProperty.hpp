@@ -4,6 +4,8 @@
 #include <typeinfo>
 
 #include <reflectionzeug/PropertyVisitor.h>
+#include <reflectionzeug/StoredValue.h>
+#include <reflectionzeug/AccessorValue.h>
 
 namespace reflectionzeug
 {
@@ -25,7 +27,7 @@ ValueProperty<Type>::ValueProperty(
 template <typename Type>
 template <class Object>
 ValueProperty<Type>::ValueProperty(
-    Object & object, 
+    Object * object, 
     const Type & (Object::*getter_pointer)() const,
     void (Object::*setter_pointer)(const Type &))
 :   m_value(new AccessorValue<Type>(object, getter_pointer, setter_pointer))
@@ -35,7 +37,7 @@ ValueProperty<Type>::ValueProperty(
 template <typename Type>
 template <class Object>
 ValueProperty<Type>::ValueProperty(
-    Object & object, 
+    Object * object, 
     Type (Object::*getter_pointer)() const,
     void (Object::*setter_pointer)(const Type &))
 :   m_value(new AccessorValue<Type>(object, getter_pointer, setter_pointer))
@@ -45,7 +47,7 @@ ValueProperty<Type>::ValueProperty(
 template <typename Type>
 template <class Object>
 ValueProperty<Type>::ValueProperty(
-    Object & object, 
+    Object * object, 
     Type (Object::*getter_pointer)() const,
     void (Object::*setter_pointer)(Type))
 :   m_value(new AccessorValue<Type>(object, getter_pointer, setter_pointer))
@@ -71,15 +73,12 @@ void ValueProperty<Type>::setValue(const Type & value)
 }
 
 template <typename Type>
-void ValueProperty<Type>::accept(AbstractPropertyVisitor * visitor, bool warn)
+void ValueProperty<Type>::accept(AbstractPropertyVisitor * visitor)
 {
     auto * typedVisitor = dynamic_cast<PropertyVisitor<Type> *>(visitor);
 
     if (typedVisitor == nullptr)
-    {
-        ValuePropertyInterface::accept(visitor, warn);
-        return;
-    }
+        return AbstractValueProperty::accept(visitor);
 
     typedVisitor->visit(reinterpret_cast<Property<Type> *>(this));
 }
@@ -92,10 +91,9 @@ size_t ValueProperty<Type>::stype()
 }
 
 template <typename Type>
-size_t ValueProperty<Type>::type()
+size_t ValueProperty<Type>::type() const
 {
-    static size_t type = typeid(Type).hash_code();
-    return type;
+    return stype();
 }
 
 } // namespace reflectionzeug

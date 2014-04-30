@@ -40,7 +40,7 @@ public:
     virtual void visit(reflectionzeug::UnsignedIntegralPropertyInterface * propertyInterface) override;
     virtual void visit(reflectionzeug::FloatingPointPropertyInterface * propertyInterface) override;
 
-virtual void visit(reflectionzeug::ValuePropertyInterface * property) override {}
+virtual void visit(reflectionzeug::AbstractValueProperty * property) override {}
 virtual void visit(reflectionzeug::EnumPropertyInterface * property) override {}
 
 protected:

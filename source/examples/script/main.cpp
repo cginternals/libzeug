@@ -25,8 +25,8 @@ class Counting : public Object
 public:
     Counting() : Object("counting"), m_min(0), m_max(2)
     {
-        addProperty<int>("min", *this, &Counting::getMin, &Counting::setMin);
-        addProperty<int>("max", *this, &Counting::getMax, &Counting::setMax);
+        addProperty<int>("min", this, &Counting::getMin, &Counting::setMin);
+        addProperty<int>("max", this, &Counting::getMax, &Counting::setMax);
         addFunction("count", this, &Counting::count);
     }
 
@@ -57,8 +57,8 @@ public:
     MyInterface() : Object("api"), m_prompt("Hello World")
     {
         // Properties
-        addProperty<std::string>("prompt", *this, &MyInterface::prompt, &MyInterface::setPrompt);
-        addGroup(new Counting);
+        addProperty<std::string>("prompt", this, &MyInterface::prompt, &MyInterface::setPrompt);
+        addProperty(new Counting);
 
         // Functions
         addFunction("test",                &testFunction);

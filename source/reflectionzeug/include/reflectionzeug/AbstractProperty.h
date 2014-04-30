@@ -11,29 +11,43 @@
 namespace reflectionzeug
 {
 
-class ValuePropertyInterface;
-class PropertyGroup;
-    
-/** \brief Part of the property hierarchy (base class of all properties).
-*/
+class AbstractValueProperty;
+class AbstractPropertyCollection;
+class PropertyGroup;  
+
+/** 
+ * \brief The base class of all properties.
+ *
+ * When added to a PropertyGroup, the name is used as the unique key.
+ * The title is supposed to be used in user interfaces.
+ * All subclasses use virtual inheritance.
+ *
+ * \see PropertyGroup
+ * \ingroup property_hierarchy
+ */
 class REFLECTIONZEUG_API AbstractProperty 
 {
 public:
     static const std::string s_nameRegexString;
     
+    AbstractProperty();
     AbstractProperty(const std::string & name);
+    
     virtual ~AbstractProperty() = 0;
 
     const std::string & name() const;
+    bool setName(const std::string & name);
+    bool hasName() const;
     
     const std::string & title() const;
     void setTitle(const std::string & title);
+    bool hasTitle() const;
     
     const std::string & annotations() const;
     void setAnnotations(const std::string & annotations);
     
-    PropertyGroup * parent() const;
-    void setParent(PropertyGroup * parent);
+    AbstractPropertyCollection * parent() const;
+    bool setParent(AbstractPropertyCollection * parent);
     void removeParent();
     bool hasParent() const;
     
@@ -42,34 +56,44 @@ public:
     
     std::string path() const;
 
+    /**
+     * \name Convenience casting methods
+     * Use them, when you need to cast to sub classes.
+     * All casting is done with dynamic casts.
+     */
+    /** \{ */
+    
     template <class Property>
     Property * as();
     
     template <class Property>
     const Property * as() const;
 
-    ValuePropertyInterface * asValue();
-    const ValuePropertyInterface * asValue() const;
+    AbstractValueProperty * asValue();
+    const AbstractValueProperty * asValue() const;
+
+    AbstractPropertyCollection * asCollection();
+    const AbstractPropertyCollection * asCollection() const;
 
     PropertyGroup * asGroup();
     const PropertyGroup * asGroup() const;
 
+    virtual bool isCollection() const;
+    virtual bool isValue() const;
     virtual bool isGroup() const;
-
-protected:
-
-    enum 
-    {
-        kNotSet
-    ,   kEnabled
-    ,   kDisabled
-    } m_state;
+    
+    /** \} */
+    
+private:
+    enum class State : char { NotSet, Enabled, Disabled };
+    
+    State m_state;
     
     std::string m_name;
     std::string m_title;
     std::string m_annotations;
 
-    PropertyGroup * m_parent;
+    AbstractPropertyCollection * m_parent;
 };
     
 } // namespace reflectionzeug

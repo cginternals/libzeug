@@ -1,28 +1,57 @@
 
 #pragma once
 
-#include <array>
-
 #include <reflectionzeug/property_declaration.h>
 
-#include <reflectionzeug/ValueProperty.h>
+#include <reflectionzeug/BoolProperty.h>
 #include <reflectionzeug/ClassProperty.h>
-#include <reflectionzeug/NumberProperty.h>
+#include <reflectionzeug/FilePathProperty.h>
 #include <reflectionzeug/UnsignedIntegralProperty.h>
 #include <reflectionzeug/SignedIntegralProperty.h>
 #include <reflectionzeug/FloatingPointProperty.h>
 #include <reflectionzeug/StringProperty.h>
 #include <reflectionzeug/ArrayProperty.h>
-#include <reflectionzeug/FilePathProperty.h>
 #include <reflectionzeug/EnumProperty.h>
 
 #include <reflectionzeug/Color.h>
 
 #include <reflectionzeug/specialization_helpers.h>
-#include <reflectionzeug/util.h>
+
 
 namespace reflectionzeug
 {
+
+/** 
+ * \defgroup property_specializations Property Specializations
+ * \brief All possible template specializations of Property
+ *
+ * Only this template class may be instantiated!
+ * Supported Types:
+ * - bool
+ * - double
+ * - float
+ * - std::string
+ * - FilePath
+ * - any integral type
+ * - any enum
+ * - any class that implements (e.g. Color):
+ *   \code{.cpp}
+ *   static Class fromString(std::string string, bool * ok);
+ *   std::string toString();
+ *   \endcode
+ * - any std::array of the above types
+ *
+ * The template specializations of supported types can have different super classes.
+ * They have additional meta information, utility methods and common interfaces specific to each type. 
+ * The specialization chosen for each type is determined via SFINAE (Substitution failure is not an error).
+ * If you are going to extend the property class, keep in mind that all specializations 
+ * have to somehow inherit from AbstractValueProperty. You will probably also have to extend your property visitor.
+ *
+ * \see \ref type_traits
+ * \see AbstractPropertyVisitor
+ * \see http://en.wikipedia.org/wiki/Substitution_failure_is_not_an_error
+ */
+/** \{ */
 
 template <typename Type, typename>
 class Property : public ClassProperty<Type>
@@ -30,34 +59,18 @@ class Property : public ClassProperty<Type>
 public:
     template <typename... Args>
     Property(const std::string & name, Args&&... args) : 
-        ValuePropertyInterface(name),
+        AbstractProperty(name),
         ClassProperty<Type>(std::forward<Args>(args)...) {}
-
 };
 
 template <>
-class Property<bool> : public ValueProperty<bool>
+class Property<bool> : public BoolProperty
 {
 public:
     template <typename... Args>
     Property(const std::string & name, Args&&... args) : 
-        ValuePropertyInterface(name),
-        ValueProperty<bool>(std::forward<Args>(args)...) {}
-
-    virtual std::string toString() const { return this->value() ? "true" : "false"; }
-
-    virtual bool fromString(const std::string & string)
-    {
-        if (!util::matchesRegex(string, "(true|false)"))
-            return false;
-
-        this->setValue(string == "true");
-
-        return true;
-    }
-
-    void toggleValue() { setValue(!value()); }
-
+        AbstractProperty(name),
+        BoolProperty(std::forward<Args>(args)...) {}
 };
 
 template <>
@@ -66,9 +79,8 @@ class Property<std::string> : public StringProperty
 public:
     template <typename... Args>
     Property(const std::string & name, Args&&... args) : 
-        ValuePropertyInterface(name),
+        AbstractProperty(name),
         StringProperty(std::forward<Args>(args)...) {}
-
 };
 
 template <>
@@ -77,113 +89,64 @@ class Property<FilePath> : public FilePathProperty
 public:
     template <typename... Args>
     Property(const std::string & name, Args&&... args) : 
-        ValuePropertyInterface(name),
+        AbstractProperty(name),
         FilePathProperty(std::forward<Args>(args)...) {}
-
 };
 
 template <typename Type>
-class Property<Type, typename EnableIf<isUnsignedIntegral<Type>::value>::type> : public UnsignedIntegralProperty<Type>
+class Property<Type, EnableIf<isUnsignedIntegral<Type>>> : public UnsignedIntegralProperty<Type>
 {
 public:
     template <typename... Args>
     Property(const std::string & name, Args&&... args) : 
-        ValuePropertyInterface(name),
+        AbstractProperty(name),
         UnsignedIntegralProperty<Type>(std::forward<Args>(args)...) {}
-
 };
 
 template <typename Type>
-class Property<Type, typename EnableIf<isSignedIntegral<Type>::value>::type> : public SignedIntegralProperty<Type>
+class Property<Type, EnableIf<isSignedIntegral<Type>>> : public SignedIntegralProperty<Type>
 {
 public:
     template <typename... Args>
     Property(const std::string & name, Args&&... args) : 
-        ValuePropertyInterface(name),
+        AbstractProperty(name),
         SignedIntegralProperty<Type>(std::forward<Args>(args)...) {}
-
 };
 
 template <typename Type>
-class Property<Type, typename EnableIf<isFloatingPoint<Type>::value>::type> : public FloatingPointProperty<Type>
+class Property<Type, EnableIf<isFloatingPoint<Type>>> : public FloatingPointProperty<Type>
 {
 public:
     template <typename... Args>
     Property(const std::string & name, Args&&... args) : 
-        ValuePropertyInterface(name), 
+        AbstractProperty(name), 
         FloatingPointProperty<Type>(std::forward<Args>(args)...) {}
-
 };
 
 template <typename Type>
-class Property<Type, typename EnableIf<isBoolArray<Type>::value>::type> : public ArrayProperty<Type>
+class Property<Type, EnableIf<isArray<Type>>> : public ArrayProperty<typename Type::value_type, std::tuple_size<Type>::value>
 {
 public:
-    Property(const std::string & name, const Type & value) : 
-       ValuePropertyInterface(name),
-       ArrayProperty<Type>(value) {}
-       
-   template <typename... Args>
-   Property(const std::string & name, Args&&... args) : 
-       ValuePropertyInterface(name),
-       ArrayProperty<Type>(std::forward<Args>(args)...) {}
-
-protected:
-   virtual std::string elementRegex() const { return "true|false"; }
-   virtual std::string elementToString(const bool & element) const { return element ? "true" : "false"; }
-   virtual bool elementFromString(const std::string & string) const { return string == "true"; }
-
-};
-
-template <typename Type>
-class Property<Type, typename EnableIf<isIntArray<Type>::value>::type> : public ArrayProperty<Type>
-{
-public:
-    Property(const std::string & name, const Type & value) : 
-       ValuePropertyInterface(name),
-       ArrayProperty<Type>(value) {}
-
-    template <typename... Args>
-    Property(const std::string & name, Args&&... args) : 
-        ValuePropertyInterface(name),
-        ArrayProperty<Type>(std::forward<Args>(args)...) {}
-
-protected:
-    virtual std::string elementRegex() const { return "(-|\\+)?\\d+"; }
-    virtual std::string elementToString(const int & element) const { return util::toString(element); }
-    virtual int elementFromString(const std::string & string) const { return util::fromString<int>(string); }
-
-};
-
-template <typename Type>
-class Property<Type, typename EnableIf<isDoubleArray<Type>::value>::type> : public ArrayProperty<Type>
-{
-public:
-   Property(const std::string & name, const Type & value) : 
-       ValuePropertyInterface(name),
-       ArrayProperty<Type>(value) {}
-
-   template <typename... Args>
-   Property(const std::string & name, Args&&... args) : 
-       ValuePropertyInterface(name),
-       ArrayProperty<Type>(std::forward<Args>(args)...) {}
-
-protected:
-   virtual std::string elementRegex() const { return "(-|\\+)?\\d+\\.?\\d*"; }
-   virtual std::string elementToString(const double & element) const { return util::toString(element); }
-   virtual double elementFromString(const std::string & string) const { return util::fromString<double>(string); }
-
-};
-
-template <typename Type>
-class Property<Type, typename EnableIf<std::is_enum<Type>::value>::type> : public EnumProperty<Type>
-{
-public:
-    template <typename... Args>
-    Property(const std::string & name, Args&&... args) : 
-        ValuePropertyInterface(name),
-        EnumProperty<Type>(std::forward<Args>(args)...) {}
+    Property(const std::string & name, const Type & array) :
+        AbstractProperty(name),
+        ArrayProperty<typename Type::value_type, std::tuple_size<Type>::value>(array) {}
     
+    template <typename... Args>
+    Property(const std::string & name, Args&&... args) : 
+        AbstractProperty(name),
+        ArrayProperty<typename Type::value_type, std::tuple_size<Type>::value>(std::forward<Args>(args)...) {}
 };
+
+template <typename Type>
+class Property<Type, EnableIf<std::is_enum<Type>>> : public EnumProperty<Type>
+{
+public:
+    template <typename... Args>
+    Property(const std::string & name, Args&&... args) : 
+        AbstractProperty(name),
+        EnumProperty<Type>(std::forward<Args>(args)...) {}
+};
+
+/** \} */
 
 } // namespace reflectionzeug

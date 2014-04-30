@@ -6,7 +6,7 @@
 
 namespace reflectionzeug
 {
-    
+   
 namespace
 {
 
@@ -39,20 +39,28 @@ struct is_special_array : public std::false_type {};
     
 template <typename Type, size_t Size>
 struct is_special_array<Type, std::array<Type, Size>> : public std::true_type {};
-    
+
+template <typename Condition>
+struct value_accessor : public std::enable_if<Condition::value> {};
+
 }
+
+    
+/** 
+ * \defgroup type_traits Type Traits
+ * \brief Used to choose specific property implementation for different types at compile time via SFINAE
+ * \see http://en.wikipedia.org/wiki/Substitution_failure_is_not_an_error
+ */
+/** \{ */
+
+template <typename Condition>
+using EnableIf = typename value_accessor<Condition>::type; 
 
 template <typename Condition>
 struct Neg : public neg<Condition::value> {};
 
 template <bool... Conditions>
-struct All : public all<Conditions...> {};
-
-template <bool... Conditions>
-struct EnableIf : public std::enable_if<All<Conditions...>::value> {};
-
-template <bool... Conditions>
-struct DisableIf : public std::enable_if<!All<Conditions...>::value> {};
+struct And : public all<Conditions...> {};
 
 template <typename Type>
 struct isArray : public is_array<Type> {};
@@ -67,17 +75,19 @@ template <typename Type>
 struct isDoubleArray : public is_special_array<double, Type> {};
 
 template <typename Type>
-struct isUnsignedIntegral : public All<std::is_integral<Type>::value, 
+struct isUnsignedIntegral : public And<std::is_integral<Type>::value, 
                                        std::is_unsigned<Type>::value, 
                                        Neg<std::is_same<Type, bool>>::value> {};
 
 template <typename Type>
-struct isSignedIntegral : public All<std::is_integral<Type>::value, 
+struct isSignedIntegral : public And<std::is_integral<Type>::value, 
                                      std::is_signed<Type>::value, 
                                      Neg<std::is_same<Type, bool>>::value> {};
 
 template <typename Type>
-struct isFloatingPoint : public All<std::is_floating_point<Type>::value,
+struct isFloatingPoint : public And<std::is_floating_point<Type>::value,
                                     Neg<std::is_same<Type, long double>>::value> {};
+    
+/** \} */
     
 } // namespace reflectionzeug

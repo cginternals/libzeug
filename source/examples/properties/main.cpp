@@ -21,12 +21,12 @@ void printGroup(const PropertyGroup & group)
 {
     std::cout << group.path() << std::endl;
 
-    group.forEachValuePropertyInterface([] (const ValuePropertyInterface & property)
+    group.forEachValue([] (const AbstractValueProperty & property)
     {
         std::cout << property.path() << " = " << property.toString() << std::endl;
     });
 
-    group.forEachSubGroup([] (const PropertyGroup & subGroup)
+    group.forEachGroup([] (const PropertyGroup & subGroup)
     {
         printGroup(subGroup);
     });
@@ -56,6 +56,8 @@ void iterateOverProperties()
 {
     std::cout << ">> iterateOverProperties()" << std::endl;
 
+    SomeObject object;
+    
     PropertyGroup * group = new PropertyGroup("group");
 
     int arr[3] = {0, 0, 0};
@@ -65,15 +67,21 @@ void iterateOverProperties()
     group->addProperty<int>("third", 7);
     group->addGroup("fourth");
     group->addProperty<Color>("fifth", Color(125, 125, 125));
+    group->addProperty<int>("sixth", &object,
+                            &SomeObject::count,
+                            &SomeObject::setCount);
+    group->addProperty<std::array<float, 3>>("seventh", &object,
+                                             &SomeObject::normal,
+                                             &SomeObject::setNormal);
 
     std::array<int, 3> array = { 1, 2, 3 };
-    group->addProperty<std::array<int, 3>>("sixth", array);
+    group->addProperty<std::array<int, 3>>("eighth", array);
 
-    group->forEachValuePropertyInterface([](AbstractProperty & property) {
+    group->forEachValue([](AbstractProperty & property) {
         std::cout << property.title() << std::endl;
     });
 
-    group->forEachSubGroup([](PropertyGroup & subGroup) {
+    group->forEachGroup([](PropertyGroup & subGroup) {
         std::cout << subGroup.title() << std::endl;
     });
 
@@ -111,7 +119,7 @@ void typeUsage()
 {
     std::cout << ">> typeUsage()" << std::endl;
     
-    ValuePropertyInterface * property = new Property<int>("property", 12);
+    AbstractValueProperty * property = new Property<int>("property", 12);
     
     if (property->type() == Property<int>::stype())
     {
@@ -131,8 +139,8 @@ bool saveProperties()
 
     PropertyGroup * subGroup = root.addGroup("more");
 
-    subGroup->addProperty<Color>("spinach_green", Color(74, 84, 43));
-    subGroup->addProperty<int>("apple_count", 17);
+    subGroup->addProperty<Color>("spinach_green", Color(0x2B, 0xAA, 0xCF));
+    subGroup->addProperty<int>("apple_count", 16);
 
     PropertySerializer serializer;
     return serializer.serialize(root, INI_PATH);
@@ -140,6 +148,8 @@ bool saveProperties()
 
 bool loadProperties()
 {
+    std::cout << ">> loadProperties()" << std::endl;
+
     PropertyGroup root("root");
 
     std::array<double, 3> normal = { -1.3, 2.6, -4.2 };

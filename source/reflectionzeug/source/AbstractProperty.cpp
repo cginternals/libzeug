@@ -1,30 +1,28 @@
 
-#ifdef USE_STD_REGEX
-    #include <regex>
-
-    namespace regex_namespace = std;
-#else
-    #include <boost/regex.hpp>
-
-    namespace regex_namespace = boost;
-#endif
-
-#include <reflectionzeug/ValuePropertyInterface.h>
+#include <reflectionzeug/AbstractValueProperty.h>
+#include <reflectionzeug/AbstractPropertyCollection.h>
 #include <reflectionzeug/PropertyGroup.h>
+#include <reflectionzeug/util.h>
 
 #include <reflectionzeug/AbstractProperty.h>
 
-namespace reflectionzeug {
-    
-const std::string AbstractProperty::s_nameRegexString("[a-zA-Z]+\\w*");
 
-AbstractProperty::AbstractProperty(const std::string & name)
-:   m_state(kNotSet)
-,   m_name(name)
-,   m_title(name)
+namespace reflectionzeug 
+{
+    
+const std::string AbstractProperty::s_nameRegexString("[a-zA-Z_]+\\w*");
+
+AbstractProperty::AbstractProperty()
+:   m_state(State::NotSet)
 ,   m_parent(nullptr)
 {
-    assert(regex_namespace::regex_match(m_name, regex_namespace::regex(s_nameRegexString)));
+}
+
+AbstractProperty::AbstractProperty(const std::string & name)
+:   m_state(State::NotSet)
+,   m_parent(nullptr)
+{
+    setName(name);
 }
 
 AbstractProperty::~AbstractProperty()
@@ -34,6 +32,27 @@ AbstractProperty::~AbstractProperty()
 const std::string & AbstractProperty::name() const
 {
     return m_name;
+}
+    
+bool AbstractProperty::setName(const std::string & name)
+{
+    if (this->hasParent())
+        return false;
+    
+    if (!util::matchesRegex(name, s_nameRegexString))
+        return false;
+    
+    m_name = name;
+    
+    if (!this->hasTitle())
+        setTitle(name);
+    
+    return true;
+}
+    
+bool AbstractProperty::hasName() const
+{
+    return !m_name.empty();
 }
 
 const std::string & AbstractProperty::title() const
@@ -46,6 +65,11 @@ void AbstractProperty::setTitle(const std::string & title)
     m_title = title;
 }
     
+bool AbstractProperty::hasTitle() const
+{
+    return !m_title.empty();
+}
+    
 const std::string & AbstractProperty::annotations() const
 {
     return m_annotations;
@@ -56,14 +80,18 @@ void AbstractProperty::setAnnotations(const std::string & annotations)
     m_annotations = annotations;
 }
     
-PropertyGroup * AbstractProperty::parent() const
+AbstractPropertyCollection * AbstractProperty::parent() const
 {
     return m_parent;
 }
     
-void AbstractProperty::setParent(PropertyGroup * parent)
+bool AbstractProperty::setParent(AbstractPropertyCollection * parent)
 {
+    if (!this->hasName())
+        return false;
+    
     m_parent = parent;
+    return true;
 }
 
 bool AbstractProperty::hasParent() const
@@ -78,8 +106,8 @@ void AbstractProperty::removeParent()
     
 bool AbstractProperty::isEnabled() const
 {
-    if (m_state != kNotSet)
-        return m_state == kEnabled;
+    if (m_state != State::NotSet)
+        return m_state == State::Enabled;
     
     if (!this->hasParent())
         return true;
@@ -89,7 +117,7 @@ bool AbstractProperty::isEnabled() const
     
 void AbstractProperty::setEnabled(bool enabled)
 {
-    m_state = enabled ? kEnabled : kDisabled;
+    m_state = enabled ? State::Enabled : State::Disabled;
 }
     
 std::string AbstractProperty::path() const
@@ -100,24 +128,44 @@ std::string AbstractProperty::path() const
     return this->parent()->path() + "/" + this->name();
 }
     
-ValuePropertyInterface * AbstractProperty::asValue()
+AbstractValueProperty * AbstractProperty::asValue()
 {
-    return static_cast<ValuePropertyInterface *>(this);
+    return dynamic_cast<AbstractValueProperty *>(this);
 }
 
-const ValuePropertyInterface * AbstractProperty::asValue() const
+const AbstractValueProperty * AbstractProperty::asValue() const
 {
-    return static_cast<const ValuePropertyInterface *>(this);
+    return dynamic_cast<const AbstractValueProperty *>(this);
+}
+
+AbstractPropertyCollection * AbstractProperty::asCollection()
+{
+    return dynamic_cast<AbstractPropertyCollection *>(this);
+}
+
+const AbstractPropertyCollection * AbstractProperty::asCollection() const
+{
+    return dynamic_cast<const AbstractPropertyCollection *>(this);
 }
 
 PropertyGroup * AbstractProperty::asGroup()
 {
-    return static_cast<PropertyGroup *>(this);
+    return dynamic_cast<PropertyGroup *>(this);
 }
 
 const PropertyGroup * AbstractProperty::asGroup() const
 {
-    return static_cast<const PropertyGroup *>(this);
+    return dynamic_cast<const PropertyGroup *>(this);
+}
+    
+bool AbstractProperty::isCollection() const
+{
+    return false;
+}
+
+bool AbstractProperty::isValue() const
+{
+    return false;
 }
     
 bool AbstractProperty::isGroup() const
