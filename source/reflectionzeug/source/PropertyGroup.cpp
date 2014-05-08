@@ -9,18 +9,28 @@ namespace reflectionzeug
 {
 
 PropertyGroup::PropertyGroup()
+:   m_ownsProperties(true)
 {    
 }
     
 PropertyGroup::PropertyGroup(const std::string & name)
+:   PropertyGroup()
 {
     setName(name);
 }
 
 PropertyGroup::~PropertyGroup()
 {
-    for (AbstractProperty * property : m_properties)
-        delete property;
+    if (m_ownsProperties)
+    {
+        for (AbstractProperty * property : m_properties)
+            delete property;
+    }
+    else
+    {
+        for (AbstractProperty * property : m_properties)
+            property->setParent(nullptr);
+    }
 }
 
 bool PropertyGroup::isGroup() const
@@ -128,6 +138,11 @@ AbstractProperty * PropertyGroup::takeProperty(const std::string & name)
     m_propertiesMap.erase(property->name());
     property->removeParent();
     return property;
+}
+    
+void PropertyGroup::setOwnsProperties(bool b)
+{
+    m_ownsProperties = b;
 }
     
 bool PropertyGroup::propertyExists(const std::string & name) const
