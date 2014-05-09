@@ -17,7 +17,8 @@ class AbstractValueProperty;
 /** 
  * \brief Property that manages properties while being a property itself.
  *
- * It owns its properties and therefore deletes them on destruction.
+ * By default, it owns its properties and therefore deletes them on destruction.
+ * However you can change this behaviour with setOwnsProperties().
  *
  * \ingroup property_hierarchy
  */
@@ -100,6 +101,10 @@ public:
      */
     AbstractProperty * takeProperty(const std::string & name);
     
+    /**
+     * Sets whether the group deletes its properties on destruction or not.
+     */
+    void setOwnsProperties(bool b);
     
     /**
      * \name Property existence
@@ -139,6 +144,7 @@ private:
 private:
     std::vector<AbstractProperty *> m_properties;
     std::unordered_map<std::string, AbstractProperty *> m_propertiesMap;
+    bool m_ownsProperties;
 };
 
 } // namespace reflectionzeug

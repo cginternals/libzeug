@@ -1,6 +1,9 @@
 
 #pragma once
 
+#include <reflectionzeug/reflectionzeug_api.h>
+
+
 namespace reflectionzeug
 {
 
