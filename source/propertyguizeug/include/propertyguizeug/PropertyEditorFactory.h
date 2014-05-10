@@ -21,7 +21,6 @@ public:
     QWidget * createEditorWithParent(reflectionzeug::AbstractValueProperty & property, QWidget * parent);
 
     virtual void visit(reflectionzeug::Property<bool> * property);
-    virtual void visit(reflectionzeug::Property<std::string> * property);
     virtual void visit(reflectionzeug::Property<reflectionzeug::Color> * property);
     virtual void visit(reflectionzeug::Property<reflectionzeug::FilePath> * property);
 
@@ -30,6 +29,7 @@ public:
     virtual void visit(reflectionzeug::UnsignedIntegralPropertyInterface * property);
     virtual void visit(reflectionzeug::SignedIntegralPropertyInterface * property);
     virtual void visit(reflectionzeug::FloatingPointPropertyInterface * property);
+    virtual void visit(reflectionzeug::StringPropertyInterface * property);
 
 protected:
     QWidget * m_editor;

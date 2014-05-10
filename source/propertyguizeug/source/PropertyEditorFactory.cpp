@@ -45,14 +45,6 @@ void PropertyEditorFactory::visit(Property<bool> * property)
 {
     m_editor = new BoolEditor(property);
 }
-    
-void PropertyEditorFactory::visit(Property<std::string> * property)
-{
-    if (property->hasChoices())
-        m_editor = new ChoiceEditor(property);
-    else
-        m_editor = new StringEditor(property);
-}
 
 void PropertyEditorFactory::visit(Property<Color> * property)
 {
@@ -87,6 +79,14 @@ void PropertyEditorFactory::visit(reflectionzeug::SignedIntegralPropertyInterfac
 void PropertyEditorFactory::visit(reflectionzeug::FloatingPointPropertyInterface * property)
 {
     m_editor = new FloatingPointEditor(property);
+}
+
+void PropertyEditorFactory::visit(reflectionzeug::StringPropertyInterface * property)
+{
+    if (property->hasChoices())
+        m_editor = new ChoiceEditor(property);
+    else
+        m_editor = new StringEditor(property);
 }
 
 } // namespace propertyguizeug

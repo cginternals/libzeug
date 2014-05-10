@@ -2,7 +2,6 @@
 #pragma once
 
 #include <set>
-#include <string>
 #include <vector>
 
 #include <reflectionzeug/PropertyVisitor.h>
@@ -16,7 +15,7 @@ class EnumPropertyInterface;
 class UnsignedIntegralPropertyInterface;
 class SignedIntegralPropertyInterface;
 class FloatingPointPropertyInterface;
-
+class StringPropertyInterface;
 
 class Color;
 class FilePath;
@@ -26,7 +25,6 @@ class FilePath;
 class StandardPropertyVisitor :
     public PropertyVisitor<
         bool,
-        std::string,
         Color,
         FilePath>,
     public PropertyCategoryVisitor<
@@ -34,7 +32,8 @@ class StandardPropertyVisitor :
         EnumPropertyInterface,
         UnsignedIntegralPropertyInterface,
         SignedIntegralPropertyInterface,
-        FloatingPointPropertyInterface>
+        FloatingPointPropertyInterface,
+        StringPropertyInterface>
 {
 };
 

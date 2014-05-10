@@ -13,7 +13,7 @@ namespace propertyguizeug
 class PROPERTYGUIZEUG_API StringEditor : public PropertyEditor
 {
 public:
-    StringEditor(reflectionzeug::Property<std::string> * property, QWidget * parent = nullptr);
+    StringEditor(reflectionzeug::StringPropertyInterface * property, QWidget * parent = nullptr);
     virtual ~StringEditor();
     
     void editingFinished();
@@ -21,7 +21,7 @@ public:
 protected:
     QLineEdit * m_lineEdit;
     
-    reflectionzeug::Property<std::string> * m_property;
+    reflectionzeug::StringPropertyInterface * m_property;
 };
 
 } // namespace propertyguizeug

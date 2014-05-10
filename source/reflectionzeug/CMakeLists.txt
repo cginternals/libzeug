@@ -112,6 +112,7 @@ set(headers
     ${header_path}/StoredValue.hpp
     ${header_path}/StringProperty.h
     ${header_path}/StringProperty.hpp
+    ${header_path}/StringPropertyInterface.h
     ${header_path}/TemplateHelper.h
     ${header_path}/UnsignedIntegralProperty.h
     ${header_path}/UnsignedIntegralProperty.hpp
@@ -141,8 +142,9 @@ set(sources
     ${source_path}/PropertyDeserializer.cpp
     ${source_path}/PropertyGroup.cpp
     ${source_path}/PropertySerializer.cpp
-    ${source_path}/SignedIntegralPropertyInterface.cpp
     ${source_path}/StringProperty.cpp
+    ${source_path}/StringPropertyInterface.cpp
+    ${source_path}/SignedIntegralPropertyInterface.cpp
     ${source_path}/UnsignedIntegralPropertyInterface.cpp
     ${source_path}/util.cpp
     ${source_path}/Variant.cpp
