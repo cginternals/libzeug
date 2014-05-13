@@ -82,6 +82,9 @@ set(headers
     ${header_path}/ClassProperty.h
     ${header_path}/ClassProperty.hpp
     ${header_path}/Color.h
+    ${header_path}/ColorProperty.h
+    ${header_path}/ColorProperty.hpp
+    ${header_path}/ColorPropertyInterface.h
     ${header_path}/EnumProperty.h
     ${header_path}/EnumProperty.hpp
     ${header_path}/EnumPropertyInterface.h
@@ -134,6 +137,8 @@ set(sources
     ${source_path}/AbstractValueProperty.cpp
     ${source_path}/BoolProperty.cpp
     ${source_path}/Color.cpp
+    ${source_path}/ColorProperty.cpp
+    ${source_path}/ColorPropertyInterface.cpp
     ${source_path}/EnumPropertyInterface.cpp
     ${source_path}/FilePath.cpp
     ${source_path}/FilePathProperty.cpp

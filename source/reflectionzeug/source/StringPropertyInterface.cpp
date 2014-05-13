@@ -2,6 +2,7 @@
 #include <reflectionzeug/PropertyCategoryVisitor.h>
 #include <reflectionzeug/StringPropertyInterface.h>
 
+
 namespace reflectionzeug
 {
 
@@ -42,6 +43,5 @@ void StringPropertyInterface::clearChoices()
     m_choices.clear();
     this->choicesChanged(m_choices);
 }
-
 
 } // namespace reflectionzeug

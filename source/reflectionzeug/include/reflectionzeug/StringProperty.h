@@ -9,7 +9,7 @@ namespace reflectionzeug
 {
     
 /**
- * \brief Property implementation for strings that adds choices.
+ * \brief Property implementation for strings.
  * \ingroup property_hierarchy
  */
 class StringProperty : public StringPropertyInterface, public ValueProperty<std::string>
