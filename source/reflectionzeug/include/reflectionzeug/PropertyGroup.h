@@ -1,29 +1,39 @@
 
 #pragma once
 
-#include <assert.h>
 #include <vector>
 #include <unordered_map>
 
 #include <reflectionzeug/reflectionzeug_api.h>
+#include <reflectionzeug/property_declaration.h>
+#include <reflectionzeug/AbstractPropertyCollection.h>
 
-#include <reflectionzeug/Property.h>
 
 namespace reflectionzeug
 {
     
-/** \brief Part of the Property Hierarchy that manages properties while being a property itself.
-*/
-class REFLECTIONZEUG_API PropertyGroup : public AbstractProperty
+class AbstractValueProperty;
+    
+/** 
+ * \brief Property that manages properties while being a property itself.
+ *
+ * By default, it owns its properties and therefore deletes them on destruction.
+ * However you can change this behaviour with setOwnsProperties().
+ *
+ * \ingroup property_hierarchy
+ */
+class REFLECTIONZEUG_API PropertyGroup : public AbstractPropertyCollection
 {
 public:
+    PropertyGroup();
     PropertyGroup(const std::string & name);
     virtual ~PropertyGroup();
-    
+
     virtual bool isGroup() const;
     
-    /** \name Property Adding
-        \brief Methods for adding properties.
+    /** 
+     * \name Property Adding
+     * \brief Methods for adding properties
      */
     /** \{ */
     
@@ -36,14 +46,18 @@ public:
     Property<Type> * addProperty(const std::string & name, Args&&... args);
     
     PropertyGroup * addGroup(const std::string & name);
-
-    bool addGroup(PropertyGroup * group);
+    
+    /** 
+     * Convenience method that creates the entire path if it does not exist yet.
+     */
+    PropertyGroup * ensureGroup(const std::string & path);
 
     /** \} */
     
-    /** \name Property Accessing
-        \brief Methods accessing properties, subgroups and values.
-        Acces Properties in the hierachy with the separater '/'
+    /** 
+     * \name Property Accessing
+     * \brief Methods for accessing properties, subgroups and values
+     * Acces Properties in the hierachy with the separater '/'.
     */
     /** \{ */
     
@@ -65,51 +79,72 @@ public:
     template <typename Type>
     void setValue(const std::string & path, const Type & value);
     
-    AbstractProperty * property(unsigned int index);
-    const AbstractProperty * property(unsigned int index) const;
-    
     /** \} */
 
-    /** \name Properties
-        \brief Methods for manipulating properties
-    */
-    /** \{ */
-
-    bool propertyExists(const std::string & name) const;
-    bool groupExists(const std::string & name) const;
-    
-    bool hasProperties() const;
-    unsigned int propertyCount() const;
-    int indexOfProperty(const std::string & name) const;
-
-    AbstractProperty * obtainProperty(const std::string & name);
-    bool removeProperty(AbstractProperty * property);
-
-    /** \} */
-    
-    /** \name Property Iterators
-        \brief Methods for property iteration
+    /** 
+     * \name Index-based Accessing
+     * \brief Methods for manipulating properties
      */
     /** \{ */
     
-    void forEachProperty(const std::function<void(AbstractProperty &)> functor);
-    void forEachProperty(const std::function<void(const AbstractProperty &)> functor) const;
+    virtual AbstractProperty * at(size_t index);
+    virtual const AbstractProperty * at(size_t index) const;
     
-    void forEachValuePropertyInterface(const std::function<void(ValuePropertyInterface &)> functor);
-    void forEachValuePropertyInterface(const std::function<void(const ValuePropertyInterface &)> functor) const;
+    virtual bool isEmpty() const;
+    virtual size_t count() const;
+    virtual int indexOf(const AbstractProperty * property) const;
+
+    /** \} */
     
-    void forEachSubGroup(const std::function<void(PropertyGroup &)> functor);
-    void forEachSubGroup(const std::function<void(const PropertyGroup &)> functor) const;
+    /**
+     * Removes the property with the given name from the group and returns it.
+     */
+    AbstractProperty * takeProperty(const std::string & name);
+    
+    /**
+     * Sets whether the group deletes its properties on destruction or not.
+     */
+    void setOwnsProperties(bool b);
+    
+    /**
+     * \name Property existence
+     * \brief Methods for checking the existence of properties
+     */
+    /** \{ */
+    
+    bool propertyExists(const std::string & name) const;
+    bool groupExists(const std::string & name) const;
     
     /** \} */
     
-protected:
-    std::vector<AbstractProperty *> m_properties;
-    std::unordered_map<std::string, AbstractProperty *> m_propertiesMap;
+    /** 
+     * \name Property Iterators
+     * \brief Methods for property iteration
+     */
+    /** \{ */
+    
+    void forEach(const std::function<void(AbstractProperty &)> & functor);
+    void forEach(const std::function<void(const AbstractProperty &)> & functor) const;
+    
+    void forEachValue(const std::function<void(AbstractValueProperty &)> & functor);
+    void forEachValue(const std::function<void(const AbstractValueProperty &)> & functor) const;
+    
+    void forEachCollection(const std::function<void(AbstractPropertyCollection &)> & functor);
+    void forEachCollection(const std::function<void(const AbstractPropertyCollection &)> & functor) const;
+
+    void forEachGroup(const std::function<void(PropertyGroup &)> & functor);
+    void forEachGroup(const std::function<void(const PropertyGroup &)> & functor) const;
+    
+    /** \} */
     
 private:
-    AbstractProperty * findProperty(const std::string & path);
-    const AbstractProperty * findProperty(const std::string & path) const;
+    const AbstractProperty * findProperty(const std::vector<std::string> & path) const;
+    PropertyGroup * ensureGroup(const std::vector<std::string> & path);
+    
+private:
+    std::vector<AbstractProperty *> m_properties;
+    std::unordered_map<std::string, AbstractProperty *> m_propertiesMap;
+    bool m_ownsProperties;
 };
 
 } // namespace reflectionzeug

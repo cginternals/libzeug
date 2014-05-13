@@ -47,45 +47,76 @@ int main(int argc, char *argv[])
     PropertyGroup * size = settings->addGroup("Size");
 
     auto * width = size->addProperty<int>("Width",
-        [widget]() {
+        [widget] () -> int {
             return widget->width();
         },
-        [widget](const int & width) {
+        [widget] (const int & width) {
             widget->resize(width, widget->height());
         });
 
     width->setRange(widget->minimumWidth(), widget->maximumWidth());
 
     auto * height = size->addProperty<int>("Height",
-        [widget]() {
+        [widget] () -> int {
             return widget->height();
         },
-        [widget](const int & height) {
+        [widget] (const int & height) {
             widget->resize(widget->width(), height);
         });
 
     height->setRange(widget->minimumHeight(), widget->maximumHeight());
 
     auto * minimumSize = size->addProperty<std::array<int, 2>>("minimumSize",
-        [widget] () -> std::array<int, 2> {
-            return { {widget->minimumWidth(), widget->minimumHeight()} };
+        [widget] (size_t i) -> int {
+            switch (i)
+            {
+            case 0:
+                return widget->minimumWidth();
+            case 1:
+                return widget->minimumHeight();
+            default:
+                return -1;
+            }
         },
-        [widget, width, height] (const std::array<int, 2> & size) {
-            widget->setMinimumSize(QSize(size[0], size[1]));
-            width->setMinimum(size[0]);
-            height->setMinimum(size[1]);
+        [widget, width, height] (size_t i, const int & size) {
+            switch (i)
+            {
+            case 0:
+                widget->setMinimumWidth(size);
+                width->setMinimum(size);
+                break;
+            case 1:
+                widget->setMinimumHeight(size);
+                height->setMinimum(size);
+            }
         });
 
     minimumSize->setTitle("Minimum Size");
 
     auto * maximumSize = size->addProperty<std::array<int, 2>>("maximumSize",
-        [widget]() -> std::array<int, 2> {
-            return { {widget->maximumWidth(), widget->maximumHeight()} };
+        [widget](size_t i) -> int {
+            switch (i)
+            {
+            case 0:
+                return widget->maximumWidth();
+            case 1:
+                return widget->maximumHeight();
+            default:
+                return -1;
+            
+            }
         },
-        [widget, width, height] (const std::array<int, 2> & size) {
-            widget->setMaximumSize(QSize(size[0], size[1]));
-            width->setMaximum(size[0]);
-            height->setMaximum(size[1]);
+        [widget, width, height] (size_t i, const int & size) {
+            switch (i)
+            {
+            case 0:
+                widget->setMaximumWidth(size);
+                width->setMaximum(size);
+                break;
+            case 1:
+                widget->setMaximumHeight(size);
+                height->setMaximum(size);
+            }
         });
 
     maximumSize->setTitle("Maximum Size");
@@ -130,10 +161,6 @@ int main(int argc, char *argv[])
         { Qt::ArrowCursor, "Arrow Cursor" },
         { Qt::WaitCursor, "Wait Cursor" }
     });
-
-    settings->addProperty<Switch>("switch", Switch(true));
-    
-    settings->addProperty<unsigned long long int>("unsigned_int", 12);
 
     PropertyDeserializer deserializer;
     deserializer.deserialize(*settings, SETTINGS_PATH);

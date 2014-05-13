@@ -7,7 +7,7 @@ class QLineEdit;
 
 namespace reflectionzeug 
 {
-    class ValuePropertyInterface;
+    class AbstractValueProperty;
 }
 
 namespace propertyguizeug
@@ -16,7 +16,7 @@ namespace propertyguizeug
 class PROPERTYGUIZEUG_API ValueEditor : public PropertyEditor
 {
 public:
-    ValueEditor(reflectionzeug::ValuePropertyInterface * property, QWidget * parent = nullptr);
+    ValueEditor(reflectionzeug::AbstractValueProperty * property, QWidget * parent = nullptr);
     virtual ~ValueEditor();
     
     void editingFinished();
@@ -24,7 +24,7 @@ public:
 protected:
     QLineEdit * m_lineEdit;
     
-    reflectionzeug::ValuePropertyInterface * m_property;
+    reflectionzeug::AbstractValueProperty * m_property;
 };
 
 } // namespace propertyguizeug

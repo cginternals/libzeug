@@ -8,12 +8,13 @@
 #include <propertyguizeug/propertyguizeug_api.h>
 
 #include <reflectionzeug/PropertyVisitor.h>
+#include <reflectionzeug/PropertyCategoryVisitor.h>
 
 class QPainter;
 
 namespace reflectionzeug 
 {
-    class ValuePropertyInterface;
+    class AbstractValueProperty;
     class Color;
     class FilePath;
 }
@@ -21,7 +22,9 @@ namespace reflectionzeug
 namespace propertyguizeug
 {
    
-class PROPERTYGUIZEUG_API PropertyPainter : public reflectionzeug::PropertyVisitor<bool, reflectionzeug::Color>
+class PROPERTYGUIZEUG_API PropertyPainter : 
+    public reflectionzeug::PropertyVisitor<bool, reflectionzeug::Color>,
+    public reflectionzeug::PropertyCategoryVisitor<reflectionzeug::AbstractValueProperty>
 {
 public:
     PropertyPainter();
@@ -29,8 +32,9 @@ public:
 
     void drawValue(QPainter * painter, 
                    const QStyleOptionViewItem & option,
-                   reflectionzeug::ValuePropertyInterface & property);
+                   reflectionzeug::AbstractValueProperty & property);
 
+    virtual void visit(reflectionzeug::AbstractValueProperty * property);
     virtual void visit(reflectionzeug::Property<bool> * property);
     virtual void visit(reflectionzeug::Property<reflectionzeug::Color> * property);
     

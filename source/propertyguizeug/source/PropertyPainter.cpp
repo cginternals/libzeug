@@ -25,13 +25,13 @@ PropertyPainter::~PropertyPainter()
 }
 
 void PropertyPainter::drawValue(QPainter * painter, 
-    const QStyleOptionViewItem & option, ValuePropertyInterface & property)
+    const QStyleOptionViewItem & option, AbstractValueProperty & property)
 {
     m_drawn = false;
     m_painter = painter;
     m_option = option;
 
-    property.accept(this, false);
+    property.accept(this);
 
 	if (!m_drawn)
 		this->drawString(QString::fromStdString(property.toString()));
@@ -51,6 +51,11 @@ void PropertyPainter::drawItemViewBackground()
 	const QWidget * widget = m_option.widget;
 	QStyle * style = widget ? widget->style() : QApplication::style();
 	style->drawControl(QStyle::CE_ItemViewItem, &m_option, m_painter, widget);
+}
+    
+void PropertyPainter::visit(reflectionzeug::AbstractValueProperty * property)
+{
+    m_drawn = false;
 }
 
 void PropertyPainter::visit(Property<bool> * property)

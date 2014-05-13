@@ -2,17 +2,23 @@
 #pragma once
 
 #include <reflectionzeug/reflectionzeug_api.h>
-#include <reflectionzeug/ValuePropertyInterface.h>
+#include <reflectionzeug/AbstractValueProperty.h>
+
 
 namespace reflectionzeug
 {
 
-class REFLECTIONZEUG_API UnsignedIntegralPropertyInterface : public virtual ValuePropertyInterface
+/**
+ * \brief The interface for all unsigned integral properties. 
+ *
+ * Used to access and edit unsigned integral properties uniformly in the user interface.
+ *
+ * \ingroup property_hierarchy
+ */
+class REFLECTIONZEUG_API UnsignedIntegralPropertyInterface : public virtual AbstractValueProperty
 {
-public:
-    virtual ~UnsignedIntegralPropertyInterface() = 0;
-    
-    virtual void accept(AbstractPropertyVisitor * visitor, bool warn = true);
+public:    
+    virtual void accept(AbstractPropertyVisitor * visitor);
     
     virtual unsigned long long uLongLongMinimum() = 0;
     virtual bool hasMinimum() const = 0;

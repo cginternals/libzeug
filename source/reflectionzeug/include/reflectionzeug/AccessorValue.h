@@ -8,7 +8,8 @@
 namespace reflectionzeug
 {
     
-/** \brief Provides access to a value by accessors.
+/**
+ * \brief Provides access to a value by accessors.
  */
 template <typename Type>
 class AccessorValue : public AbstractValue<Type>
@@ -18,17 +19,17 @@ public:
                   std::function<void(const Type &)> setter);
     
     template <class Object>
-    AccessorValue(Object & object,
+    AccessorValue(Object * object,
                   const Type & (Object::*getter_pointer)() const,
                   void (Object::*setter_pointer)(const Type &));
     
     template <class Object>
-    AccessorValue(Object & object,
+    AccessorValue(Object * object,
                   Type (Object::*getter_pointer)() const,
                   void (Object::*setter_pointer)(const Type &));
 
     template <class Object>
-    AccessorValue(Object & object,
+    AccessorValue(Object * object,
                   Type (Object::*getter_pointer)() const,
                   void (Object::*setter_pointer)(Type));
   

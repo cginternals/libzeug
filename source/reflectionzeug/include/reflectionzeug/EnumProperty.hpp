@@ -22,15 +22,12 @@ EnumProperty<Enum>::~EnumProperty()
 }
     
 template <typename Type>
-void EnumProperty<Type>::accept(AbstractPropertyVisitor * visitor, bool warn)
+void EnumProperty<Type>::accept(AbstractPropertyVisitor * visitor)
 {
     auto * typedVisitor = dynamic_cast<PropertyVisitor<Type> *>(visitor);
     
     if (typedVisitor == nullptr)
-    {
-        EnumPropertyInterface::accept(visitor, warn);
-        return;
-    }
+        return EnumPropertyInterface::accept(visitor);
     
     typedVisitor->visit(reinterpret_cast<Property<Type> *>(this));
 }

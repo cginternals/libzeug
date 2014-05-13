@@ -6,7 +6,8 @@
 namespace reflectionzeug
 {
     
-/** \brief The base class for value implementations of ValueProperty.
+/**
+ * \brief The base class for value implementations of ValueProperty.
  */
 template <typename Type>
 class AbstractValue

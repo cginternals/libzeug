@@ -2,7 +2,7 @@
 #include <QLineEdit>
 #include <QHBoxLayout>
 
-#include <reflectionzeug/ValuePropertyInterface.h>
+#include <reflectionzeug/AbstractValueProperty.h>
 
 #include <propertyguizeug/ValueEditor.h>
 
@@ -10,7 +10,7 @@ using namespace reflectionzeug;
 namespace propertyguizeug
 {
     
-ValueEditor::ValueEditor(ValuePropertyInterface * property, QWidget * parent)
+ValueEditor::ValueEditor(AbstractValueProperty * property, QWidget * parent)
 :   PropertyEditor(parent)
 ,   m_lineEdit(new QLineEdit(this))
 ,   m_property(property)

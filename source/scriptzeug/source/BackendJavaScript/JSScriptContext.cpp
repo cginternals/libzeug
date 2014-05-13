@@ -162,7 +162,7 @@ static void getProperty(Local<String> property, const PropertyCallbackInfo<Value
         // Get property
         AbstractProperty * property = obj->property(name);
         if (property) {
-            ValuePropertyInterface * vp = property->asValue();
+            AbstractValueProperty * vp = property->asValue();
             if (vp) {
                 // Convert property value into Variant
                 JSPropVisitor visitor(JSPropVisitor::GetOperation);
@@ -189,7 +189,7 @@ static void setProperty(Local<String> property, Local<Value> value, const Proper
         // Get property
         AbstractProperty * property = obj->property(name);
         if (property) {
-            ValuePropertyInterface * vp = property->asValue();
+            AbstractValueProperty * vp = property->asValue();
             if (vp) {
                 // Set property value
                 JSPropVisitor visitor(JSPropVisitor::SetOperation);
@@ -281,7 +281,7 @@ void JSScriptContext::registerObj(Handle<v8::Object> parent, PropertyGroup * obj
         // Get property
         AbstractProperty * prop = obj->property(i);
         std::string name = prop->name();
-        if (!prop->isGroup()) {
+        if (!prop->isCollection()) {
             // Add accessor for property
             Local<String> str = String::NewFromUtf8(m_isolate, name.c_str());
             templ->SetAccessor(str, getProperty, setProperty);
@@ -321,7 +321,7 @@ void JSScriptContext::registerObj(Handle<v8::Object> parent, PropertyGroup * obj
         // Get property
         AbstractProperty * prop = obj->property(i);
         std::string name = prop->name();
-        if (prop->isGroup()) {
+        if (prop->isCollection()) {
             // Add sub object
             reflectionzeug::Object * subobj = dynamic_cast<reflectionzeug::Object *>(prop);
             registerObj(object, subobj);

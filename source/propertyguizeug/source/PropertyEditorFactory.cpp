@@ -28,13 +28,13 @@ PropertyEditorFactory::~PropertyEditorFactory()
 {
 }
 
-QWidget * PropertyEditorFactory::createEditor(ValuePropertyInterface & property)
+QWidget * PropertyEditorFactory::createEditor(AbstractValueProperty & property)
 {
     property.accept(this);
     return m_editor;
 }
 
-QWidget * PropertyEditorFactory::createEditorWithParent(ValuePropertyInterface & property, QWidget * parent)
+QWidget * PropertyEditorFactory::createEditorWithParent(AbstractValueProperty & property, QWidget * parent)
 {
 	QWidget * editor = createEditor(property);
 	editor->setParent(parent);
@@ -64,7 +64,7 @@ void PropertyEditorFactory::visit(Property<FilePath> * property)
     m_editor = new FilePathEditor(property);
 }
 
-void PropertyEditorFactory::visit(reflectionzeug::ValuePropertyInterface * property)
+void PropertyEditorFactory::visit(reflectionzeug::AbstractValueProperty * property)
 {
     m_editor = new ValueEditor(property);
 }

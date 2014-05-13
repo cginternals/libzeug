@@ -6,17 +6,25 @@
 #include <signalzeug/Signal.h>
 
 #include <reflectionzeug/reflectionzeug_api.h>
-#include <reflectionzeug/ValuePropertyInterface.h>
-#include <reflectionzeug/StoredValue.h>
-#include <reflectionzeug/AccessorValue.h>
+#include <reflectionzeug/AbstractValueProperty.h>
+
 
 namespace reflectionzeug
 {
 
-/** \brief Part of the property hierarchy. The Template Class for all properties that have a value.
+template <typename>
+class AbstractValue;
+
+/** 
+ * \brief The template class for all properties that have a value other than std::array.
+ *
+ * It can either store the value itself or access it through getter and setter.
+ *
+ * \see AbstractValue
+ * \ingroup property_hierarchy
  */
 template <typename Type>
-class ValueProperty : public virtual ValuePropertyInterface
+class ValueProperty : public virtual AbstractValueProperty
 {
 public:
     static size_t stype();
@@ -28,17 +36,17 @@ public:
                   const std::function<void(const Type &)> & setter);
     
     template <class Object>
-    ValueProperty(Object & object, 
+    ValueProperty(Object * object, 
                   const Type & (Object::*getter_pointer)() const,
                   void (Object::*setter_pointer)(const Type &));
     
     template <class Object>
-    ValueProperty(Object & object, 
+    ValueProperty(Object * object, 
                   Type (Object::*getter_pointer)() const,
                   void (Object::*setter_pointer)(const Type &));
     
     template <class Object>
-    ValueProperty(Object & object, 
+    ValueProperty(Object * object, 
                   Type (Object::*getter_pointer)() const,
                   void (Object::*setter_pointer)(Type));
     
@@ -47,9 +55,9 @@ public:
     virtual Type value() const;
     virtual void setValue(const Type & value);
 
-    virtual void accept(AbstractPropertyVisitor * visitor, bool warn = true);
+    virtual void accept(AbstractPropertyVisitor * visitor);
 
-    virtual size_t type();
+    virtual size_t type() const;
     
     signalzeug::Signal<const Type &> valueChanged;
 

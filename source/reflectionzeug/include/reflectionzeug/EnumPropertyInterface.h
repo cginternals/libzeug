@@ -5,17 +5,23 @@
 #include <vector>
 
 #include <reflectionzeug/reflectionzeug_api.h>
-#include <reflectionzeug/ValuePropertyInterface.h>
+#include <reflectionzeug/AbstractValueProperty.h>
+
 
 namespace reflectionzeug
 {
 
-class REFLECTIONZEUG_API EnumPropertyInterface : public virtual ValuePropertyInterface
+/**
+ * \brief The interface for all enum properties. 
+ *
+ * Used to access and edit enum properties uniformly in the user interface.
+ *
+ * \ingroup property_hierarchy
+ */
+class REFLECTIONZEUG_API EnumPropertyInterface : public virtual AbstractValueProperty
 {
 public:
-    virtual ~EnumPropertyInterface() = 0;
-    
-    virtual void accept(AbstractPropertyVisitor * visitor, bool warn = true);
+    virtual void accept(AbstractPropertyVisitor * visitor);
     
     virtual bool hasChoices() const = 0;
 

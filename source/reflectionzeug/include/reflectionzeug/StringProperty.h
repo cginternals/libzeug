@@ -11,7 +11,9 @@
 namespace reflectionzeug
 {
     
-/** \brief Part of the property hierarchy that manages a string and can have choices.
+/**
+ * \brief Property implementation for strings that adds choices.
+ * \ingroup property_hierarchy
  */
 class StringProperty : public ValueProperty<std::string>
 {

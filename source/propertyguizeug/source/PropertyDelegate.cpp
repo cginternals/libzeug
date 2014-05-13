@@ -35,7 +35,7 @@ void PropertyDelegate::paint(QPainter * painter,
 {
     AbstractProperty * property = static_cast<AbstractProperty *>(index.internalPointer());
 
-    if (property->isGroup())
+    if (!property->isValue())
         return QStyledItemDelegate::paint(painter, option, index);
 
 	QStyleOptionViewItem opt = option;
@@ -49,7 +49,7 @@ QWidget * PropertyDelegate::createEditor(QWidget * parent,
 {
     AbstractProperty * property = static_cast<AbstractProperty *>(index.internalPointer());
 
-    if (property->isGroup())
+    if (!property->isValue())
         return QStyledItemDelegate::createEditor(parent, option, index);
 
     return m_editorFactory->createEditorWithParent(*property->asValue(), parent);

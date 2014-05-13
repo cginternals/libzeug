@@ -2,17 +2,23 @@
 #pragma once
 
 #include <reflectionzeug/reflectionzeug_api.h>
-#include <reflectionzeug/ValuePropertyInterface.h>
+#include <reflectionzeug/AbstractValueProperty.h>
+
 
 namespace reflectionzeug
 {
 
-class REFLECTIONZEUG_API FloatingPointPropertyInterface : public virtual ValuePropertyInterface
+/**
+ * \brief The interface for all floating point properties. 
+ *
+ * Used to access and edit floating point properties uniformly in the user interface.
+ *
+ * \ingroup property_hierarchy
+ */
+class REFLECTIONZEUG_API FloatingPointPropertyInterface : public virtual AbstractValueProperty
 {
 public:
-    ~FloatingPointPropertyInterface() = 0;
-
-    virtual void accept(AbstractPropertyVisitor * visitor, bool warn = true);
+    virtual void accept(AbstractPropertyVisitor * visitor);
 
     virtual double doubleMinimum() const = 0;
     virtual bool hasMinimum() const = 0;
