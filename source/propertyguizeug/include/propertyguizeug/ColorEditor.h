@@ -5,11 +5,12 @@
 
 #include <propertyguizeug/PropertyEditor.h>
 
+
 class QLineEdit;
 
 namespace reflectionzeug 
 {
-    class Color;
+    class ColorPropertyInterface;
 }
 
 namespace propertyguizeug
@@ -20,7 +21,7 @@ class ColorButton;
 class PROPERTYGUIZEUG_API ColorEditor : public PropertyEditor
 {
 public:
-    ColorEditor(reflectionzeug::Property<reflectionzeug::Color> * property, QWidget * parent = nullptr);
+    ColorEditor(reflectionzeug::ColorPropertyInterface * property, QWidget * parent = nullptr);
     virtual ~ColorEditor();
     
     void openColorPicker();
@@ -35,7 +36,7 @@ protected:
     ColorButton * m_button;
     QLineEdit * m_lineEdit;
     
-    reflectionzeug::Property<reflectionzeug::Color> * m_property;    
+    reflectionzeug::ColorPropertyInterface * m_property;    
 };
 
 } // namespace propertyguizeug

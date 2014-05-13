@@ -11,6 +11,7 @@ namespace reflectionzeug
 {
 
 class AbstractValueProperty;
+class ColorPropertyInterface;
 class EnumPropertyInterface;
 class UnsignedIntegralPropertyInterface;
 class SignedIntegralPropertyInterface;
@@ -25,10 +26,10 @@ class FilePath;
 class StandardPropertyVisitor :
     public PropertyVisitor<
         bool,
-        Color,
         FilePath>,
     public PropertyCategoryVisitor<
         AbstractValueProperty,
+        ColorPropertyInterface,
         EnumPropertyInterface,
         UnsignedIntegralPropertyInterface,
         SignedIntegralPropertyInterface,

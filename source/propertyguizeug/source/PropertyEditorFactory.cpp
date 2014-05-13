@@ -46,11 +46,6 @@ void PropertyEditorFactory::visit(Property<bool> * property)
     m_editor = new BoolEditor(property);
 }
 
-void PropertyEditorFactory::visit(Property<Color> * property)
-{
-    m_editor = new ColorEditor(property);
-}
-
 void PropertyEditorFactory::visit(Property<FilePath> * property)
 {
     m_editor = new FilePathEditor(property);
@@ -59,6 +54,11 @@ void PropertyEditorFactory::visit(Property<FilePath> * property)
 void PropertyEditorFactory::visit(reflectionzeug::AbstractValueProperty * property)
 {
     m_editor = new ValueEditor(property);
+}
+    
+void PropertyEditorFactory::visit(reflectionzeug::ColorPropertyInterface * property)
+{
+    m_editor = new ColorEditor(property);
 }
 
 void PropertyEditorFactory::visit(reflectionzeug::EnumPropertyInterface * property)

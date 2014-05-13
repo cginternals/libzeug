@@ -21,10 +21,10 @@ public:
     QWidget * createEditorWithParent(reflectionzeug::AbstractValueProperty & property, QWidget * parent);
 
     virtual void visit(reflectionzeug::Property<bool> * property);
-    virtual void visit(reflectionzeug::Property<reflectionzeug::Color> * property);
     virtual void visit(reflectionzeug::Property<reflectionzeug::FilePath> * property);
 
     virtual void visit(reflectionzeug::AbstractValueProperty * property);
+    virtual void visit(reflectionzeug::ColorPropertyInterface * property);
     virtual void visit(reflectionzeug::EnumPropertyInterface * property);
     virtual void visit(reflectionzeug::UnsignedIntegralPropertyInterface * property);
     virtual void visit(reflectionzeug::SignedIntegralPropertyInterface * property);
