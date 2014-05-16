@@ -1,6 +1,7 @@
 
 #pragma once
 
+#include <deque>
 #include <fstream>
 
 #include <reflectionzeug/reflectionzeug_api.h>
@@ -28,13 +29,15 @@ public:
 protected:
     void serializeValue(const AbstractValueProperty & property);
     void serializeGroup(const PropertyGroup & group);
+    
     void pushGroupToPath(const PropertyGroup & group);
     void popGroupFromPath();
+    std::string currentPath() const;
 
 protected:
     std::fstream m_fstream;
-    std::string m_currentPath;
-    std::string m_previousPath;
+    std::deque<std::string> m_pathStack;
+
 };
     
 } // namespace reflectionzeug

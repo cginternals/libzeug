@@ -18,6 +18,8 @@ build.release
 build.debug
 build-release
 build-debug
+build-debug-*
+build-release-*
 debug_build
 release_build
 /bin
