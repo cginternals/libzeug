@@ -1,12 +1,13 @@
 
-
-#include <iostream>
 #include <sstream>
+#include <iostream>
 
 #include <reflectionzeug/AbstractValueProperty.h>
 #include <reflectionzeug/PropertyGroup.h>
+#include <reflectionzeug/util.h>
 
 #include <reflectionzeug/PropertySerializer.h>
+
 
 namespace reflectionzeug
 {
@@ -27,8 +28,8 @@ bool PropertySerializer::serialize(PropertyGroup & group, const std::string & fi
         std::cerr << "Could not write to file \"" << filePath << "\"" << std::endl;
         return false;
     }
-    
-    m_currentPath = "";
+
+    m_pathStack.clear();
     
     m_fstream << "[" << group.name() << "]" << std::endl;
     group.forEachValue(
@@ -52,7 +53,7 @@ bool PropertySerializer::serialize(PropertyGroup & group, const std::string & fi
     
 void PropertySerializer::serializeValue(const AbstractValueProperty & property)
 {
-    m_fstream << m_currentPath << property.name();
+    m_fstream << currentPath() << property.name();
     m_fstream << "=" << property.toString() << std::endl;
 }
 
@@ -74,13 +75,22 @@ void PropertySerializer::serializeGroup(const PropertyGroup & group)
 
 void PropertySerializer::pushGroupToPath(const PropertyGroup & group)
 {
-    m_previousPath = m_currentPath;
-    m_currentPath += group.name() + "/"; 
+    m_pathStack.push_back(group.name());
 }
 
 void PropertySerializer::popGroupFromPath()
 {
-    m_currentPath = m_previousPath;
+    m_pathStack.pop_back();
+}
+
+std::string PropertySerializer::currentPath() const
+{
+    std::stringstream stream;
+
+    for (const std::string & name : m_pathStack)
+        stream << name << "/";
+
+    return stream.str();
 }
 
 } // namespace reflectionzeug
