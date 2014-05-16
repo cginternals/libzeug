@@ -6,9 +6,7 @@ message(STATUS "Example ${target}")
 # External libraries
 #
 
-find_package(Qt5Core    REQUIRED)
-find_package(Qt5Gui     REQUIRED)
-find_package(Qt5Widgets REQUIRED)
+find_package(Qt5 COMPONENTS Core Gui Widgets REQUIRED)
 
 #
 # Includes
@@ -30,6 +28,12 @@ include_directories(
 
 set(libs
     propertyguizeug
+    # this target link libraries somehow fixes the include directories for used qt modules.
+    # (not nice! since it obfuscates the common cmake way to link 3rdp libraries..., 
+    #  but seems to be intended by qt: http://qt-project.org/doc/qt-5/cmake-manual.html)
+    Qt5::Core
+    Qt5::Gui
+    Qt5::Widgets
 )
 
 #
@@ -52,7 +56,6 @@ set(sources
 add_executable(${target} ${sources})
 
 target_link_libraries(${target} ${libs})
-qt5_use_modules(${target} Widgets)
 
 set_target_properties(${target}
     PROPERTIES
