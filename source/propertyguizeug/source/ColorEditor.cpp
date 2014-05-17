@@ -8,6 +8,7 @@
 #include <reflectionzeug/Property.h>
 
 #include <propertyguizeug/ColorEditor.h>
+#include <reflectionzeug/ColorPropertyInterface.h>
 
 #include "ColorButton.h"
 
@@ -15,11 +16,11 @@ using namespace reflectionzeug;
 namespace propertyguizeug
 {
 
-ColorEditor::ColorEditor(Property<Color> * property, QWidget * parent)
+ColorEditor::ColorEditor(reflectionzeug::ColorPropertyInterface * property, QWidget * parent)
 :   PropertyEditor(parent)
 ,   m_property(property)
 {
-    const Color & color = m_property->value();
+    const Color & color = m_property->toColor();
     QColor qcolor(color.red(), color.green(), color.blue(), color.alpha());
     
     m_lineEdit = new QLineEdit(this);
@@ -64,14 +65,14 @@ void ColorEditor::parseColor()
     
 QColor ColorEditor::qcolor() const
 {
-    const Color & color = m_property->value();
+    const Color & color = m_property->toColor();
     return QColor(color.red(), color.green(), color.blue(), color.alpha());
 }
     
 void ColorEditor::setQColor(const QColor & qcolor)
 {
     Color color(qcolor.red(), qcolor.green(), qcolor.blue(), qcolor.alpha());
-    m_property->setValue(color);
+    m_property->fromColor(color);
     
     m_button->setColor(qcolor);
     m_lineEdit->setText(QString::fromStdString(m_property->toString()));
@@ -80,7 +81,7 @@ void ColorEditor::setQColor(const QColor & qcolor)
 void ColorEditor::setColor(const Color & color)
 {
     QColor qcolor(color.red(), color.green(), color.blue(), color.alpha());
-    m_property->setValue(color);
+    m_property->fromColor(color);
 
     m_button->setColor(qcolor);
     m_lineEdit->setText(QString::fromStdString(m_property->toString()));

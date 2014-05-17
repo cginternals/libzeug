@@ -82,6 +82,9 @@ set(headers
     ${header_path}/ClassProperty.h
     ${header_path}/ClassProperty.hpp
     ${header_path}/Color.h
+    ${header_path}/ColorProperty.h
+    ${header_path}/ColorProperty.hpp
+    ${header_path}/ColorPropertyInterface.h
     ${header_path}/EnumProperty.h
     ${header_path}/EnumProperty.hpp
     ${header_path}/EnumPropertyInterface.h
@@ -112,6 +115,7 @@ set(headers
     ${header_path}/StoredValue.hpp
     ${header_path}/StringProperty.h
     ${header_path}/StringProperty.hpp
+    ${header_path}/StringPropertyInterface.h
     ${header_path}/TemplateHelper.h
     ${header_path}/UnsignedIntegralProperty.h
     ${header_path}/UnsignedIntegralProperty.hpp
@@ -133,6 +137,8 @@ set(sources
     ${source_path}/AbstractValueProperty.cpp
     ${source_path}/BoolProperty.cpp
     ${source_path}/Color.cpp
+    ${source_path}/ColorProperty.cpp
+    ${source_path}/ColorPropertyInterface.cpp
     ${source_path}/EnumPropertyInterface.cpp
     ${source_path}/FilePath.cpp
     ${source_path}/FilePathProperty.cpp
@@ -141,8 +147,9 @@ set(sources
     ${source_path}/PropertyDeserializer.cpp
     ${source_path}/PropertyGroup.cpp
     ${source_path}/PropertySerializer.cpp
-    ${source_path}/SignedIntegralPropertyInterface.cpp
     ${source_path}/StringProperty.cpp
+    ${source_path}/StringPropertyInterface.cpp
+    ${source_path}/SignedIntegralPropertyInterface.cpp
     ${source_path}/UnsignedIntegralPropertyInterface.cpp
     ${source_path}/util.cpp
     ${source_path}/Variant.cpp

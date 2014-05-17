@@ -1,7 +1,7 @@
 #include <scriptzeug/ScriptContext.h>
 #include <scriptzeug/Backend/AbstractScriptContext.h>
 #ifdef LIBZEUG_USE_V8
-    #include <scriptzeug/BackendJavaScript/JSScriptContext.h>
+    #include "BackendJavaScript/JSScriptContext.h"
 #endif
 
 

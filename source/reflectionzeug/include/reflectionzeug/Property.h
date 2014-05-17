@@ -5,6 +5,7 @@
 
 #include <reflectionzeug/BoolProperty.h>
 #include <reflectionzeug/ClassProperty.h>
+#include <reflectionzeug/ColorProperty.h>
 #include <reflectionzeug/FilePathProperty.h>
 #include <reflectionzeug/UnsignedIntegralProperty.h>
 #include <reflectionzeug/SignedIntegralProperty.h>
@@ -81,6 +82,16 @@ public:
     Property(const std::string & name, Args&&... args) : 
         AbstractProperty(name),
         StringProperty(std::forward<Args>(args)...) {}
+};
+
+template <>
+class Property<Color> : public ColorProperty
+{
+public:
+    template <typename... Args>
+    Property(const std::string & name, Args&&... args) : 
+        AbstractProperty(name),
+        ColorProperty(std::forward<Args>(args)...) {}
 };
 
 template <>

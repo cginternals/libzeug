@@ -10,7 +10,7 @@ using namespace reflectionzeug;
 namespace propertyguizeug
 {
 
-ChoiceEditor::ChoiceEditor(Property<std::string> * property, QWidget * parent)
+ChoiceEditor::ChoiceEditor(StringPropertyInterface * property, QWidget * parent)
 :   PropertyEditor(parent)
 ,   m_property(property)
 ,   m_comboBox(nullptr)
@@ -22,7 +22,7 @@ ChoiceEditor::ChoiceEditor(Property<std::string> * property, QWidget * parent)
     m_comboBox = new QComboBox(this);
     m_comboBox->addItems(list);
     this->setFocusProxy(m_comboBox);
-    m_comboBox->setCurrentText(QString::fromStdString(m_property->value()));
+    m_comboBox->setCurrentText(QString::fromStdString(m_property->toString()));
 
     this->boxLayout()->addWidget(m_comboBox);
 
@@ -37,7 +37,7 @@ ChoiceEditor::~ChoiceEditor()
 
 void ChoiceEditor::setString(const QString & text)
 {
-    m_property->setValue(text.toStdString());
+    m_property->fromString(text.toStdString());
 }
 
 void ChoiceEditor::propertyChoicesChanged(const std::vector<std::string> & choices)
