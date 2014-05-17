@@ -2,7 +2,7 @@
 #include <reflectionzeug/Object.h>
 #include <reflectionzeug/Variant.h>
 #include "scriptzeug/ScriptContext.h"
-#include "scriptzeug/BackendJavaScript/JSScriptContext.h"
+#include "BackendJavaScript/JSScriptContext.h"
 
 
 using namespace v8;

@@ -79,7 +79,7 @@ if (LIBZEUG_USE_V8 AND V8_FOUND)
         ${source_path}/BackendJavaScript/JSScriptContext.cpp
     )
     set(headers ${headers}
-        ${header_path}/BackendJavaScript/JSScriptContext.h
+        ${source_path}/BackendJavaScript/JSScriptContext.h
     )
 endif()
 
