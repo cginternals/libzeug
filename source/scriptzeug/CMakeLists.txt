@@ -77,7 +77,6 @@ set(sources
 if (LIBZEUG_USE_V8 AND V8_FOUND)
     set(sources ${sources}
         ${source_path}/BackendJavaScript/JSScriptContext.cpp
-        ${source_path}/BackendJavaScript/JSPropVisitor.cpp
     )
     set(headers ${headers}
         ${header_path}/BackendJavaScript/JSScriptContext.h
