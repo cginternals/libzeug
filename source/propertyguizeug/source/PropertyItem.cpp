@@ -1,17 +1,20 @@
 
-#include <propertyguizeug/PropertyItem.h>
+#include "PropertyItem.h"
 
 #include <functional>
 
 #include <reflectionzeug/AbstractValueProperty.h>
 #include <reflectionzeug/PropertyGroup.h>
 
+#include <propertyguizeug/PropertyModel.h>
 
+
+using namespace reflectionzeug;
 namespace propertyguizeug
 {
 
 PropertyItem::PropertyItem(
-    reflectionzeug::AbstractProperty * collection,
+    reflectionzeug::AbstractProperty * property,
     PropertyModel * model)
 :   m_property(property)
 ,   m_parent(nullptr)
@@ -90,9 +93,9 @@ PropertyItem * PropertyItem::at(size_t i) const
     return m_children.at(i);
 }
 
-int PropertyItem::indexOf(PropertyItem * item) const
+int PropertyItem::indexOf(const PropertyItem * item) const
 {
-    m_children.indexOf(item);
+    m_children.indexOf(const_cast<PropertyItem *>(item));
 }
 
 void PropertyItem::insertChild(size_t i, PropertyItem * item)
@@ -106,7 +109,7 @@ bool PropertyItem::removeChild(size_t i)
     if (i >= m_children.count())
         return false;
 
-    delete m_children.take(i);
+    delete m_children.takeAt(i);
     return true;
 }
 

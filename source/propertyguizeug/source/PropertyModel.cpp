@@ -6,16 +6,16 @@
 #include <reflectionzeug/PropertyGroup.h>
 #include <reflectionzeug/Property.h>
 
-#include <propertyguizeug/PropertyItem.h>
+#include "PropertyItem.h"
 
 using namespace reflectionzeug;
 
 namespace
 {
 
-PropertyItem * retrieveItem(const QModelIndex & index)
+propertyguizeug::PropertyItem * retrieveItem(const QModelIndex & index)
 {
-    return static_cast<PropertyItem *>(index.internalPointer());
+    return static_cast<propertyguizeug::PropertyItem *>(index.internalPointer());
 }
     
 } // namespace
@@ -27,9 +27,9 @@ PropertyModel::PropertyModel(PropertyGroup * group, QObject * parent)
 :   QAbstractItemModel(parent)
 ,   m_root(new PropertyItem(group, this))
 {
-    group->forEach([m_root] (AbstractProperty * property) 
+    group->forEach([this] (AbstractProperty & property) 
     {
-        m_root->appendChild(new PropertyItem(property, this));
+        m_root->appendChild(new PropertyItem(&property, this));
     });
 }
 
@@ -62,7 +62,7 @@ int PropertyModel::rowCount(const QModelIndex & parentIndex) const
     
     PropertyItem * item = parentIndex.isValid() ? retrieveItem(parentIndex) : m_root;
 
-    return item->count();
+    return item->childCount();
 }
 
 int PropertyModel::columnCount(const QModelIndex & parentIndex) const
@@ -80,7 +80,7 @@ QVariant PropertyModel::data(const QModelIndex & index, int role) const
     if (role != Qt::DisplayRole || index.column() != 0)
         return QVariant();
     
-    PropertyItem * item = retrieveItem(parentIndex);
+    PropertyItem * item = retrieveItem(index);
 
     return QVariant(QString::fromStdString(item->property()->title()));
 }
@@ -90,14 +90,14 @@ Qt::ItemFlags PropertyModel::flags(const QModelIndex & index) const
     if (!index.isValid())
         return 0;
     
-    PropertyItem * item = retrieveItem(parentIndex);
+    PropertyItem * item = retrieveItem(index);
 
     Qt::ItemFlags flags = Qt::ItemIsSelectable;
 
     if (index.column() == 1 && item->property()->isValue())
         flags |= Qt::ItemIsEditable;
 
-    if (property->isEnabled())
+    if (item->property()->isEnabled())
         flags |= Qt::ItemIsEnabled;
     
     return flags;
@@ -129,7 +129,7 @@ void PropertyModel::onBeforeAdd(
     AbstractProperty * property)
 {
     beginInsertRows(createIndex(item), position, position);
-    item->insertChild(position, new PropertyItem(property, this);
+    item->insertChild(position, new PropertyItem(property, this));
 }
 
 void PropertyModel::onAfterAdd()
@@ -150,12 +150,12 @@ void PropertyModel::onAfterRemove()
     endRemoveRows();
 }
 
-QModelIndex PropertyModel::createIndex(PropertyItem * item, int column)
+QModelIndex PropertyModel::createIndex(PropertyItem * item, int column) const
 {
     if (!item->hasParent())
         return QModelIndex();
 
-    return QAbstractItemModel::createIndex(item->index(), column, item)
+    return QAbstractItemModel::createIndex(item->index(), column, item);
 }
 
 } // namespace propertyguizeug

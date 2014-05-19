@@ -43,17 +43,23 @@ public:
 
     void onValueChanged(PropertyItem * item);
 
-    void onBeforeAdd(PropertyItem * item, size_t position, AbstractProperty * property);
+    void onBeforeAdd(PropertyItem * item, 
+                     size_t position, 
+                     reflectionzeug::AbstractProperty * property);
     void onAfterAdd();
 
-    void onBeforeRemove(PropertyItem * item, size_t position);
+    void onBeforeRemove(PropertyItem * item, 
+                        size_t position);
     void onAfterRemove();
 
 private:
-    static void addChildren(PropertyItem * item, PropertyGroup * group);
-    static void addChild(PropertyItem * item, AbstractProperty * property);
+    static void addChildren(PropertyItem * item, 
+                            reflectionzeug::PropertyGroup * group);
+    
+    static void addChild(PropertyItem * item, 
+                         reflectionzeug::AbstractProperty * property);
 
-    QModelIndex createIndex(PropertyItem * item, int column = 0);
+    QModelIndex createIndex(PropertyItem * item, int column = 0) const;
     
 private:
     PropertyItem * m_root;

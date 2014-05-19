@@ -15,6 +15,8 @@ namespace reflectionzeug
 
 namespace propertyguizeug
 {
+    
+class PropertyModel;
 
 class PropertyItem
 {
@@ -37,7 +39,7 @@ public:
 
     PropertyItem * at(size_t i) const;
 
-    int indexOf(PropertyItem * item) const;
+    int indexOf(const PropertyItem * item) const;
 
     void insertChild(size_t i, PropertyItem * item);
     bool removeChild(size_t i);
