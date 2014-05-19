@@ -22,7 +22,7 @@ namespace util
 {
 
 template <>
-char fromString(const std::string & string)
+char fromString<char>(const std::string & string)
 {
     std::stringstream stream(string);
     int value;
@@ -31,7 +31,7 @@ char fromString(const std::string & string)
 }
 
 template <>
-unsigned char fromString(const std::string & string)
+unsigned char fromString<unsigned char>(const std::string & string)
 {
     std::stringstream stream(string);
     unsigned int value;
@@ -40,7 +40,7 @@ unsigned char fromString(const std::string & string)
 }
 
 template <>
-std::string toString(const char & value)
+std::string toString<char>(const char & value)
 {
     std::stringstream stream;
     stream << static_cast<int>(value);
@@ -48,7 +48,7 @@ std::string toString(const char & value)
 }
 
 template <>
-std::string toString(const unsigned char & value)
+std::string toString<unsigned char>(const unsigned char & value)
 {
     std::stringstream stream;
     stream << static_cast<unsigned int>(value);

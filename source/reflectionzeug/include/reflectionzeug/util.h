@@ -21,19 +21,19 @@ template <typename Type>
 Type fromString(const std::string & string);
 
 template <>
-char fromString(const std::string & string);
+REFLECTIONZEUG_API char fromString<char>(const std::string & string);
 
 template <>
-unsigned char fromString(const std::string & string);
+REFLECTIONZEUG_API unsigned char fromString<unsigned char>(const std::string & string);
 
 template <typename Type>
 std::string toString(const Type & value);
 
 template <>
-std::string toString(const char & value);
+REFLECTIONZEUG_API std::string toString<char>(const char & value);
 
 template <>
-std::string toString(const unsigned char & value);
+REFLECTIONZEUG_API std::string toString<unsigned char>(const unsigned char & value);
 
 template <class Iterable>
 std::string join(const Iterable & iterable, const std::string & separator);

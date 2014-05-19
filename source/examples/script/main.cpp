@@ -208,7 +208,7 @@ protected:
     long          m_long;
     unsigned long m_ulong;
     long long     m_longlong;
-    unsigned long m_ulonglong;
+    unsigned long long m_ulonglong;
     float         m_float;
     double        m_double;
     bool          m_bool;
