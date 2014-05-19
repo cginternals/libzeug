@@ -14,7 +14,7 @@ PropertyGroup::PropertyGroup()
 }
     
 PropertyGroup::PropertyGroup(const std::string & name)
-:   PropertyGroup()
+:   m_ownsProperties(true)
 {
     setName(name);
 }

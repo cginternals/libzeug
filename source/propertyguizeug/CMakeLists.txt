@@ -6,9 +6,7 @@ message(STATUS "Lib ${target}")
 # External libraries
 #
 
-find_package(Qt5Core    REQUIRED)
-find_package(Qt5Gui     REQUIRED)
-find_package(Qt5Widgets REQUIRED)
+find_package(Qt5 COMPONENTS Core Gui Widgets REQUIRED)
 
 #
 # Includes
@@ -30,6 +28,12 @@ include_directories(
 
 set(libs
     reflectionzeug
+    # this target link libraries somehow fixes the include directories for used qt modules.
+    # (not nice! since it obfuscates the common cmake way to link 3rdp libraries..., 
+    #  but seems to be intended by qt: http://qt-project.org/doc/qt-5/cmake-manual.html)
+    Qt5::Core
+    Qt5::Gui
+    Qt5::Widgets
 )
 
 #
@@ -64,6 +68,7 @@ set(headers
     ${header_path}/ChoiceEditor.h
     ${header_path}/ColorEditor.h
     ${header_path}/FilePathEditor.h
+    ${header_path}/ColorButton.h
     ${header_path}/ValueEditor.h
     ${header_path}/UnsignedIntegralEditor.h
     ${header_path}/SignedIntegralEditor.h
@@ -85,7 +90,6 @@ set(sources
     ${source_path}/ChoiceEditor.cpp
     ${source_path}/ColorEditor.cpp
     ${source_path}/FilePathEditor.cpp
-    ${source_path}/ColorButton.h
     ${source_path}/ColorButton.cpp
     ${source_path}/ValueEditor.cpp
     ${source_path}/UnsignedIntegralEditor.cpp
@@ -114,7 +118,6 @@ else()
 endif()
 
 target_link_libraries(${target} ${libs})
-qt5_use_modules(${target} Core Gui Widgets)
 
 set_target_properties(${target}
     PROPERTIES

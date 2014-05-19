@@ -1,17 +1,19 @@
 
+#include <propertyguizeug/ColorButton.h>
+
 #include <QColorDialog>
 #include <QGridLayout>
 #include <QPainter>
 
-#include "ColorButton.h"
 #include "TransparencyBackgroundBrush.hpp"
+
 
 namespace propertyguizeug
 {
 
 const QSize ColorButton::s_fixedSize = QSize(19, 19);
 
-ColorButton::ColorButton(const QColor & initialColor, QWidget * parent)
+ColorButton::ColorButton(QWidget * parent, const QColor & initialColor)
 :	QLabel(parent)
 {
     this->setFrameStyle(QFrame::NoFrame);
@@ -31,7 +33,8 @@ ColorButton::~ColorButton()
 {
 }
 
-const QColor ColorButton::color() {
+const QColor & ColorButton::color() const
+{
 	return m_color;
 }
 

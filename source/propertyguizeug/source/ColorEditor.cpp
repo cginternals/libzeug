@@ -7,10 +7,10 @@
 
 #include <reflectionzeug/Property.h>
 
-#include <propertyguizeug/ColorEditor.h>
 #include <reflectionzeug/ColorPropertyInterface.h>
 
-#include "ColorButton.h"
+#include <propertyguizeug/ColorEditor.h>
+#include <propertyguizeug/ColorButton.h>
 
 using namespace reflectionzeug;
 namespace propertyguizeug
@@ -26,7 +26,7 @@ ColorEditor::ColorEditor(reflectionzeug::ColorPropertyInterface * property, QWid
     m_lineEdit = new QLineEdit(this);
     m_lineEdit->setText(QString::fromStdString(m_property->toString()));
     
-    m_button = new ColorButton(qcolor, this);
+    m_button = new ColorButton(this, qcolor);
     
     this->boxLayout()->addWidget(m_button);
     this->boxLayout()->addWidget(m_lineEdit);

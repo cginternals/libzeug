@@ -39,7 +39,7 @@ Color::~Color()
 
 Color Color::fromString(const std::string & string, bool * ok)
 {
-    *ok = util::matchesRegex(string, "#[0-9A-F]{8}");
+    *ok = util::matchesRegex(string, "#[0-9A-Fa-f]{8}");
 
     if (!(*ok))
         return Color();

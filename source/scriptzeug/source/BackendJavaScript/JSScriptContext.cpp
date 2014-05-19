@@ -2,8 +2,7 @@
 #include <reflectionzeug/Object.h>
 #include <reflectionzeug/Variant.h>
 #include "scriptzeug/ScriptContext.h"
-#include "scriptzeug/BackendJavaScript/JSScriptContext.h"
-#include "BackendJavaScript/JSPropVisitor.h"
+#include "BackendJavaScript/JSScriptContext.h"
 
 
 using namespace v8;
@@ -12,7 +11,7 @@ namespace scriptzeug
 {
 
 
-static Variant wrapValue(Local<Value> arg)
+static Variant fromV8Value(Local<Value> arg)
 {
     // Int
     if (arg->IsInt32()) {
@@ -50,7 +49,7 @@ static Variant wrapValue(Local<Value> arg)
         Handle<Array> arr = Handle<Array>::Cast(arg);
         for (unsigned int i=0; i<arr->Length(); i++) {
             Local<Value> prop = arr->Get(i);
-            value.set(i, wrapValue(prop));
+            value.set(i, fromV8Value(prop));
         }
         return value;
     }
@@ -65,7 +64,7 @@ static Variant wrapValue(Local<Value> arg)
             String::Utf8Value ascii(name);
             std::string propName(*ascii);
             Local<Value> prop = obj->Get(name);
-            value.set(propName, wrapValue(prop));
+            value.set(propName, fromV8Value(prop));
         }
         return value;
     }
@@ -74,7 +73,7 @@ static Variant wrapValue(Local<Value> arg)
     return Variant();
 }
 
-static Local<Value> wrapValue(Isolate *isolate, const Variant &arg)
+static Local<Value> toV8Value(Isolate *isolate, const Variant &arg)
 {
     Local<Value> value;
 
@@ -106,7 +105,7 @@ static Local<Value> wrapValue(Isolate *isolate, const Variant &arg)
     else if (arg.type() == Variant::TypeArray) {
         Handle<Array> arr = Array::New(isolate, arg.size());
         for (unsigned int i=0; i<arg.size(); i++) {
-            arr->Set(i, wrapValue(isolate, arg.get(i)));
+            arr->Set(i, toV8Value(isolate, arg.get(i)));
         }
         value = arr;
     }
@@ -117,7 +116,7 @@ static Local<Value> wrapValue(Isolate *isolate, const Variant &arg)
         for (std::vector<std::string>::iterator it = args.begin(); it != args.end(); ++it) {
             std::string name = *it;
             Handle<String> n = String::NewFromUtf8(isolate, name.c_str());
-            obj->Set(n, wrapValue(isolate, arg.get(name)));
+            obj->Set(n, toV8Value(isolate, arg.get(name)));
         }
         value = obj;
     }
@@ -138,15 +137,143 @@ static void wrapFunction(const v8::FunctionCallbackInfo<Value> & args)
     for (int i=0; i<args.Length(); i++) {
         HandleScope scope(isolate);
         Local<Value> arg = args[i];
-        arguments.push_back(wrapValue(arg));
+        arguments.push_back(fromV8Value(arg));
     }
 
     // Call the function
     Variant value = func->call(arguments);
-    args.GetReturnValue().Set( wrapValue(isolate, value) );
+    args.GetReturnValue().Set( toV8Value(isolate, value) );
 }
 
-static void getProperty(Local<String> property, const PropertyCallbackInfo<Value> & info)
+static Variant getPropertyValue(AbstractProperty * property)
+{
+    // Get property value
+    Variant value;
+
+    // Boolean
+    if (Property<bool> * prop = dynamic_cast< Property<bool> * >(property) ) {
+        value = (bool)prop->value();
+    }
+
+    // Unsigned integral
+    else if (UnsignedIntegralPropertyInterface * prop = dynamic_cast< UnsignedIntegralPropertyInterface * >(property) ) {
+        value = (unsigned int)prop->toULongLong();
+    }
+
+    // Signed integral
+    else if (SignedIntegralPropertyInterface * prop = dynamic_cast< SignedIntegralPropertyInterface * >(property) ) {
+        value = (int)prop->toULongLong();
+    }
+
+    // Floating point number
+    else if (FloatingPointPropertyInterface * prop = dynamic_cast< FloatingPointPropertyInterface * >(property) ) {
+        value = (double)prop->toDouble();
+    }
+
+    // Enum
+    else if (EnumPropertyInterface * prop = dynamic_cast< EnumPropertyInterface * >(property) ) {
+        value = prop->toString();
+    }
+
+    // String
+    else if (StringPropertyInterface * prop = dynamic_cast< StringPropertyInterface * >(property) ) {
+        value = prop->toString();
+    }
+
+    // FilePath
+    else if (Property<FilePath> * prop = dynamic_cast< Property<FilePath> * >(property) ) {
+        value = prop->value().toString();
+    }
+
+    // Color
+    else if (ColorPropertyInterface * prop = dynamic_cast< ColorPropertyInterface * >(property) ) {
+        value = prop->toColor().toString();
+    }
+
+    // Array
+    else if (AbstractPropertyCollection * prop = dynamic_cast< AbstractPropertyCollection * >(property) ) {
+        value = Variant::Array();
+        for (size_t i=0; i<prop->count(); i++) {
+            AbstractProperty * subprop = prop->at(i);
+            value.append(getPropertyValue(subprop));
+        }
+    }
+
+    // Return value
+    return value;
+}
+
+static void setPropertyValue(AbstractProperty * property, const Variant &value)
+{
+    // Check property
+    if (property) {
+         // Boolean
+        if (Property<bool> * prop = dynamic_cast< Property<bool> * >(property) ) {
+            prop->setValue( value.toBool() );
+        }
+
+        // Unsigned integral
+        else if (UnsignedIntegralPropertyInterface * prop = dynamic_cast< UnsignedIntegralPropertyInterface * >(property) ) {
+            prop->fromULongLong( value.toUInt() );
+        }
+
+        // Signed integral
+        else if (SignedIntegralPropertyInterface * prop = dynamic_cast< SignedIntegralPropertyInterface * >(property) ) {
+            prop->fromULongLong( value.toInt() );
+        }
+
+        // Floating point number
+        else if (FloatingPointPropertyInterface * prop = dynamic_cast< FloatingPointPropertyInterface * >(property) ) {
+            prop->fromDouble( value.toDouble() );
+        }
+
+        // Enum
+        else if (EnumPropertyInterface * prop = dynamic_cast< EnumPropertyInterface * >(property) ) {
+            prop->fromString( value.toString() );
+        }
+
+        // String
+        else if (StringPropertyInterface * prop = dynamic_cast< StringPropertyInterface * >(property) ) {
+            prop->fromString( value.toString() );
+        }
+
+        // FilePath
+        else if (Property<FilePath> * prop = dynamic_cast< Property<FilePath> * >(property) ) {
+            prop->setValue( value.toString() );
+        }
+
+        // Color
+        else if (ColorPropertyInterface * prop = dynamic_cast< ColorPropertyInterface * >(property) ) {
+            if (value.isArray()) {
+                int r = value.get(0).toInt();
+                int g = value.get(1).toInt();
+                int b = value.get(2).toInt();
+                int a = value.get(3).toInt();
+                prop->fromColor(Color(r, g, b, a));
+            } else if (value.isObject()) {
+                int r = value.get("r").toInt();
+                int g = value.get("g").toInt();
+                int b = value.get("b").toInt();
+                int a = value.get("a").toInt();
+                prop->fromColor(Color(r, g, b, a));
+            } else {
+                prop->fromString(value.toString());
+            }
+        }
+
+        // Array
+        else if (AbstractPropertyCollection * prop = dynamic_cast< AbstractPropertyCollection * >(property) ) {
+            if (value.isArray()) {
+                for (size_t i=0; i<(size_t)value.size() && i<prop->count(); i++) {
+                    AbstractProperty * subprop = prop->at(i);
+                    setPropertyValue(subprop, value.get(i));
+                }
+            }
+        }
+    }
+}
+
+static void getProperty(Local<String> propertyName, const PropertyCallbackInfo<Value> & info)
 {
     Isolate *isolate = Isolate::GetCurrent();
 
@@ -155,47 +282,37 @@ static void getProperty(Local<String> property, const PropertyCallbackInfo<Value
     Local<External> wrap = Local<External>::Cast(self->GetInternalField(0));
     reflectionzeug::Object * obj = static_cast<reflectionzeug::Object *>(wrap->Value());
     if (obj) {
-        // Get property name
-        String::Utf8Value str(property);
-        std::string name(*str);
-
         // Get property
+        String::Utf8Value str(propertyName);
+        std::string name(*str);
         AbstractProperty * property = obj->property(name);
         if (property) {
-            AbstractValueProperty * vp = property->asValue();
-            if (vp) {
-                // Convert property value into Variant
-                JSPropVisitor visitor(JSPropVisitor::GetOperation);
-                vp->accept(&visitor);
+            // Get property value
+            Variant value = getPropertyValue(property);
 
-                // [TODO]
-                info.GetReturnValue().Set(wrapValue(isolate, visitor.value()));
-            }
+            // Set return value
+            info.GetReturnValue().Set( toV8Value(isolate, value) );
         }
     }
 }
 
-static void setProperty(Local<String> property, Local<Value> value, const PropertyCallbackInfo<void> & info)
+static void setProperty(Local<String> propertyName, Local<Value> value, const PropertyCallbackInfo<void> & info)
 {
+    // Convert value into variant
+    Variant v = fromV8Value(value);
+
     // Get object
     Local<v8::Object> self = info.Holder();
     Local<External> wrap = Local<External>::Cast(self->GetInternalField(0));
     reflectionzeug::Object * obj = static_cast<reflectionzeug::Object *>(wrap->Value());
     if (obj) {
-        // Get property name
-        String::Utf8Value str(property);
-        std::string name(*str);
-
         // Get property
+        String::Utf8Value str(propertyName);
+        std::string name(*str);
         AbstractProperty * property = obj->property(name);
         if (property) {
-            AbstractValueProperty * vp = property->asValue();
-            if (vp) {
-                // Set property value
-                JSPropVisitor visitor(JSPropVisitor::SetOperation);
-                visitor.setValue(wrapValue(value));
-                vp->accept(&visitor);
-            }
+            // Set property value
+            setPropertyValue(property, v);
         }
     }
 }
@@ -267,7 +384,7 @@ Variant JSScriptContext::evaluate(const std::string & code)
         String::Utf8Value str(ex);
         m_scriptContext->scriptException(std::string(*str));
         return Variant();
-    } else return wrapValue(result);
+    } else return fromV8Value(result);
 }
 
 void JSScriptContext::registerObj(Handle<v8::Object> parent, PropertyGroup * obj)
@@ -277,11 +394,14 @@ void JSScriptContext::registerObj(Handle<v8::Object> parent, PropertyGroup * obj
     templ->SetInternalFieldCount(1);
 
     // Register object properties
-    for (unsigned int i=0; i<obj->propertyCount(); i++) {
+    for (unsigned int i=0; i<obj->count(); i++) {
         // Get property
-        AbstractProperty * prop = obj->property(i);
+        AbstractProperty * prop = obj->at(i);
         std::string name = prop->name();
-        if (!prop->isCollection()) {
+
+        // Check if property is a property group
+        PropertyGroup * group = dynamic_cast< PropertyGroup * >(prop);
+        if (!group) {
             // Add accessor for property
             Local<String> str = String::NewFromUtf8(m_isolate, name.c_str());
             templ->SetAccessor(str, getProperty, setProperty);
@@ -317,14 +437,13 @@ void JSScriptContext::registerObj(Handle<v8::Object> parent, PropertyGroup * obj
     object->SetInternalField(0, obj_ptr);
 
     // Register sub-objects
-    for (unsigned int i=0; i<obj->propertyCount(); i++) {
+    for (unsigned int i=0; i<obj->count(); i++) {
         // Get property
-        AbstractProperty * prop = obj->property(i);
+        AbstractProperty * prop = obj->at(i);
         std::string name = prop->name();
-        if (prop->isCollection()) {
+        if (PropertyGroup * group = dynamic_cast< PropertyGroup * >(prop)) {
             // Add sub object
-            reflectionzeug::Object * subobj = dynamic_cast<reflectionzeug::Object *>(prop);
-            registerObj(object, subobj);
+            registerObj(object, group);
         }
     }
 
