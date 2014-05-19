@@ -1,10 +1,12 @@
 
+#include <propertyguizeug/PropertyModel.h>
+
 #include <iostream>
 
 #include <reflectionzeug/PropertyGroup.h>
 #include <reflectionzeug/Property.h>
 
-#include <propertyguizeug/PropertyModel.h>
+#include <propertyguizeug/PropertyItem.h>
 
 using namespace reflectionzeug;
 
@@ -21,20 +23,16 @@ AbstractProperty * retrieveProperty(const QModelIndex & index)
 namespace propertyguizeug
 {
     
-PropertyModel::PropertyModel(PropertyGroup * root, QObject * parent)
+PropertyModel::PropertyModel(PropertyGroup * group, QObject * parent)
 :   QAbstractItemModel(parent)
-,   m_root(root)
+,   m_root(new PropertyItem(group, this))
 {
-    this->subscribeToValueChanges();
-}
-    
-void PropertyModel::subscribeToValueChanges()
-{
-    // TODO subscribe to valueChanged signals
+    appendChildren(m_root, group);
 }
 
 PropertyModel::~PropertyModel()
 {
+    delete m_root;
 }
 
 QModelIndex PropertyModel::index(int row, int column, const QModelIndex & parentIndex) const
@@ -146,6 +144,58 @@ QVariant PropertyModel::headerData(int section, Qt::Orientation orientation, int
     }
 
     return QVariant();
+}
+
+void PropertyModel::onValueChanged(PropertyItem * item)
+{
+    // emit dataChanged
+}
+
+void PropertyModel::onBeforeAdd(
+    PropertyItem * item, 
+    size_t position, 
+    AbstractProperty * property)
+{
+    // beginInsertRows
+}
+
+void PropertyModel::onAfterAdd()
+{
+    // endInsertRows
+}
+
+void PropertyModel::onBeforeRemove(
+    PropertyItem * item, 
+    size_t position)
+{
+    // beginRemoveRows
+}
+
+void PropertyModel::onAfterRemove()
+{
+    // endRemoveRows
+}
+
+void PropertyModel::addChildren(PropertyItem * item, PropertyGroup * group)
+{
+    group->forEach([this] (AbstractProperty * property) 
+    {
+        if (property->isValue())
+        {
+            item->append(new PropertyItem(property->asValue(), this));
+        }
+        else if (property->isGroup())
+        {
+            PropertyGroup * subGroup = property->asGroup();
+            PropertyItem * item = new PropertyItem(subGroup, this);
+            item->append(item);
+            addChildren(item, subGroup);
+        }
+        else
+        {
+            item->append(new PropertyItem(property, this));
+        }
+    });
 }
     
 QModelIndex PropertyModel::createIndex(int row, int column, AbstractProperty * property) const
