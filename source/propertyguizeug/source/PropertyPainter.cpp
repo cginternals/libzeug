@@ -6,9 +6,9 @@
 
 #include <propertyguizeug/PropertyEditor.h>
 
-#include "ColorButton.h"
-
+#include <propertyguizeug/ColorButton.h>
 #include <propertyguizeug/PropertyPainter.h>
+
 
 using namespace reflectionzeug;
 namespace propertyguizeug

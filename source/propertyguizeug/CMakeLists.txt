@@ -68,6 +68,7 @@ set(headers
     ${header_path}/ChoiceEditor.h
     ${header_path}/ColorEditor.h
     ${header_path}/FilePathEditor.h
+    ${header_path}/ColorButton.h
     ${header_path}/ValueEditor.h
     ${header_path}/UnsignedIntegralEditor.h
     ${header_path}/SignedIntegralEditor.h
@@ -89,7 +90,6 @@ set(sources
     ${source_path}/ChoiceEditor.cpp
     ${source_path}/ColorEditor.cpp
     ${source_path}/FilePathEditor.cpp
-    ${source_path}/ColorButton.h
     ${source_path}/ColorButton.cpp
     ${source_path}/ValueEditor.cpp
     ${source_path}/UnsignedIntegralEditor.cpp

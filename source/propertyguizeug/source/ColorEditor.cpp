@@ -7,10 +7,10 @@
 
 #include <reflectionzeug/Property.h>
 
-#include <propertyguizeug/ColorEditor.h>
 #include <reflectionzeug/ColorPropertyInterface.h>
 
-#include "ColorButton.h"
+#include <propertyguizeug/ColorEditor.h>
+#include <propertyguizeug/ColorButton.h>
 
 using namespace reflectionzeug;
 namespace propertyguizeug

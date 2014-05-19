@@ -1,10 +1,12 @@
 
+#include <propertyguizeug/ColorButton.h>
+
 #include <QColorDialog>
 #include <QGridLayout>
 #include <QPainter>
 
-#include "ColorButton.h"
 #include "TransparencyBackgroundBrush.hpp"
+
 
 namespace propertyguizeug
 {
@@ -31,7 +33,8 @@ ColorButton::~ColorButton()
 {
 }
 
-const QColor ColorButton::color() {
+const QColor & ColorButton::color() const
+{
 	return m_color;
 }
 
