@@ -23,6 +23,9 @@ public:
     virtual size_t count() const = 0;
     virtual int indexOf(const AbstractProperty * property) const = 0;
 
+    virtual void forEach(const std::function<void(AbstractProperty &)> & functor) = 0;
+    virtual void forEach(const std::function<void(const AbstractProperty &)> & functor) const = 0;
+
 };
 
 } // namespace relfectionzeug

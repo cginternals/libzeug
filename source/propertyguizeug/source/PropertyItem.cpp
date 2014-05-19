@@ -1,10 +1,12 @@
 
 #include "PropertyItem.h"
 
+#include <iostream>
 #include <functional>
 
 #include <reflectionzeug/AbstractValueProperty.h>
 #include <reflectionzeug/PropertyGroup.h>
+#include <reflectionzeug/Property.h>
 
 #include <propertyguizeug/PropertyModel.h>
 
@@ -19,28 +21,30 @@ PropertyItem::PropertyItem(
 :   m_property(property)
 ,   m_parent(nullptr)
 {
+    std::cout << property->name() << std::endl;
+    
     if (property->isValue())
     {
         AbstractValueProperty * value = property->asValue();
-        m_connections << value->valueChanged.connect(std::bind(&PropertyModel::onValueChanged, model, this));
+        
+        value->valueChanged.onFire(std::bind(&PropertyModel::onValueChanged, model, this));
     }
     else if (property->isCollection())
     {
         AbstractPropertyCollection * collection = property->asCollection();
-        collection->forEach([this, model] (AbstractProperty * child) 
+        collection->forEach([this, model] (AbstractProperty & child) 
         {
-            appendChild(new PropertyItem(child, model));
+            appendChild(new PropertyItem(&child, model));
         });
 
         if (collection->isGroup())
         {
-            PropertyGroup * group = collection->asGroup();
+            PropertyGroup * group = property->asGroup();
 
-            m_connections
-                << group->beforeAdd.connect(std::bind(&PropertyModel::onBeforeAdd, model, this, std::placeholders::_1, std::placeholders::_2))
-                << group->afterAdd.connect(std::bind(&PropertyModel::onAfterAdd, model, this))
-                << group->beforeRemove.connect(std::bind(&PropertyModel::onBeforeRemove, model, this, std::placeholders::_1))
-                << group->afterRemove.connect(std::bind(&PropertyModel::onAfterRemove, model, this));
+            group->beforeAdd.connect(std::bind(&PropertyModel::onBeforeAdd, model, this, std::placeholders::_1, std::placeholders::_2));
+            group->afterAdd.onFire(std::bind(&PropertyModel::onAfterAdd, model));
+            group->beforeRemove.connect(std::bind(&PropertyModel::onBeforeRemove, model, this, std::placeholders::_1));
+            group->afterRemove.onFire(std::bind(&PropertyModel::onAfterRemove, model));
         }
     }
 }
@@ -59,7 +63,7 @@ int PropertyItem::index() const
 {
     if (!hasParent())
         return -1;
-
+    
     return m_parent->indexOf(this);
 }
 
@@ -95,7 +99,7 @@ PropertyItem * PropertyItem::at(size_t i) const
 
 int PropertyItem::indexOf(const PropertyItem * item) const
 {
-    m_children.indexOf(const_cast<PropertyItem *>(item));
+    return m_children.indexOf(const_cast<PropertyItem *>(item));
 }
 
 void PropertyItem::insertChild(size_t i, PropertyItem * item)

@@ -20,6 +20,7 @@ class PropertyGroup;
  *
  * When added to a PropertyGroup, the name is used as the unique key.
  * The title is supposed to be used in user interfaces.
+ * Do not change its name when it's in one or more groups.
  * All subclasses use virtual inheritance.
  *
  * \see PropertyGroup
@@ -46,15 +47,8 @@ public:
     const std::string & annotations() const;
     void setAnnotations(const std::string & annotations);
     
-    AbstractPropertyCollection * parent() const;
-    bool setParent(AbstractPropertyCollection * parent);
-    void removeParent();
-    bool hasParent() const;
-    
     bool isEnabled() const;
     void setEnabled(bool enabled);
-    
-    std::string path() const;
 
     /**
      * \name Convenience casting methods
@@ -92,8 +86,7 @@ private:
     std::string m_name;
     std::string m_title;
     std::string m_annotations;
-
-    AbstractPropertyCollection * m_parent;
+    
 };
     
 } // namespace reflectionzeug

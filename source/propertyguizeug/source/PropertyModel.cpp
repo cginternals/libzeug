@@ -2,13 +2,13 @@
 #include <propertyguizeug/PropertyModel.h>
 
 #include <iostream>
+#include <QDebug>
 
 #include <reflectionzeug/PropertyGroup.h>
 #include <reflectionzeug/Property.h>
 
 #include "PropertyItem.h"
 
-using namespace reflectionzeug;
 
 namespace
 {
@@ -20,6 +20,7 @@ propertyguizeug::PropertyItem * retrieveItem(const QModelIndex & index)
     
 } // namespace
 
+using namespace reflectionzeug;
 namespace propertyguizeug
 {
     
@@ -27,10 +28,6 @@ PropertyModel::PropertyModel(PropertyGroup * group, QObject * parent)
 :   QAbstractItemModel(parent)
 ,   m_root(new PropertyItem(group, this))
 {
-    group->forEach([this] (AbstractProperty & property) 
-    {
-        m_root->appendChild(new PropertyItem(&property, this));
-    });
 }
 
 PropertyModel::~PropertyModel()
@@ -51,8 +48,11 @@ QModelIndex PropertyModel::index(int row, int column, const QModelIndex & parent
 QModelIndex PropertyModel::parent(const QModelIndex & index) const
 {    
     PropertyItem * item = index.isValid() ? retrieveItem(index) : m_root;
+    
+    if (!item->hasParent())
+        return QModelIndex();
 
-    return createIndex(item);
+    return createIndex(item->parent());
 }
 
 int PropertyModel::rowCount(const QModelIndex & parentIndex) const
@@ -61,14 +61,14 @@ int PropertyModel::rowCount(const QModelIndex & parentIndex) const
         return 0;
     
     PropertyItem * item = parentIndex.isValid() ? retrieveItem(parentIndex) : m_root;
-
+    
     return item->childCount();
 }
 
 int PropertyModel::columnCount(const QModelIndex & parentIndex) const
 {
     PropertyItem * item = parentIndex.isValid() ? retrieveItem(parentIndex) : m_root;
-
+    
     return item->hasChildren() ? 2 : 0;
 }
 
@@ -152,9 +152,9 @@ void PropertyModel::onAfterRemove()
 
 QModelIndex PropertyModel::createIndex(PropertyItem * item, int column) const
 {
-    if (!item->hasParent())
+    if (item == m_root)
         return QModelIndex();
-
+    
     return QAbstractItemModel::createIndex(item->index(), column, item);
 }
 

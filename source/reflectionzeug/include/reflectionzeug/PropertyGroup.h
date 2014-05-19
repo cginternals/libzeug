@@ -4,6 +4,8 @@
 #include <vector>
 #include <unordered_map>
 
+#include <signalzeug/Signal.h>
+
 #include <reflectionzeug/reflectionzeug_api.h>
 #include <reflectionzeug/property_declaration.h>
 #include <reflectionzeug/AbstractPropertyCollection.h>
@@ -123,8 +125,8 @@ public:
      */
     /** \{ */
     
-    void forEach(const std::function<void(AbstractProperty &)> & functor);
-    void forEach(const std::function<void(const AbstractProperty &)> & functor) const;
+    virtual void forEach(const std::function<void(AbstractProperty &)> & functor);
+    virtual void forEach(const std::function<void(const AbstractProperty &)> & functor) const;
     
     void forEachValue(const std::function<void(AbstractValueProperty &)> & functor);
     void forEachValue(const std::function<void(const AbstractValueProperty &)> & functor) const;
@@ -136,6 +138,12 @@ public:
     void forEachGroup(const std::function<void(const PropertyGroup &)> & functor) const;
     
     /** \} */
+    
+    signalzeug::Signal<size_t, AbstractProperty *> beforeAdd;
+    signalzeug::Signal<size_t, AbstractProperty *> afterAdd;
+    
+    signalzeug::Signal<size_t, AbstractProperty *> beforeRemove;
+    signalzeug::Signal<size_t, AbstractProperty *> afterRemove;
     
 private:
     const AbstractProperty * findProperty(const std::vector<std::string> & path) const;

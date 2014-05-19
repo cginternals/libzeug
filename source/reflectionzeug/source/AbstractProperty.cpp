@@ -14,13 +14,11 @@ const std::string AbstractProperty::s_nameRegexString("[a-zA-Z_]+\\w*");
 
 AbstractProperty::AbstractProperty()
 :   m_state(State::NotSet)
-,   m_parent(nullptr)
 {
 }
 
 AbstractProperty::AbstractProperty(const std::string & name)
 :   m_state(State::NotSet)
-,   m_parent(nullptr)
 {
     setName(name);
 }
@@ -35,10 +33,7 @@ const std::string & AbstractProperty::name() const
 }
     
 bool AbstractProperty::setName(const std::string & name)
-{
-    if (this->hasParent())
-        return false;
-    
+{    
     if (!util::matchesRegex(name, s_nameRegexString))
         return false;
     
@@ -80,52 +75,17 @@ void AbstractProperty::setAnnotations(const std::string & annotations)
     m_annotations = annotations;
 }
     
-AbstractPropertyCollection * AbstractProperty::parent() const
-{
-    return m_parent;
-}
-    
-bool AbstractProperty::setParent(AbstractPropertyCollection * parent)
-{
-    if (!this->hasName())
-        return false;
-    
-    m_parent = parent;
-    return true;
-}
-
-bool AbstractProperty::hasParent() const
-{
-    return nullptr != m_parent;
-}
-
-void AbstractProperty::removeParent()
-{
-    m_parent = nullptr;
-}
-    
 bool AbstractProperty::isEnabled() const
 {
     if (m_state != State::NotSet)
         return m_state == State::Enabled;
     
-    if (!this->hasParent())
-        return true;
-
-    return this->parent()->isEnabled();
+    return true;
 }
     
 void AbstractProperty::setEnabled(bool enabled)
 {
     m_state = enabled ? State::Enabled : State::Disabled;
-}
-    
-std::string AbstractProperty::path() const
-{
-    if (!this->hasParent())
-        return this->name();
-    
-    return this->parent()->path() + "/" + this->name();
 }
     
 AbstractValueProperty * AbstractProperty::asValue()

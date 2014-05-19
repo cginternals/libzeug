@@ -26,11 +26,6 @@ PropertyGroup::~PropertyGroup()
         for (AbstractProperty * property : m_properties)
             delete property;
     }
-    else
-    {
-        for (AbstractProperty * property : m_properties)
-            property->setParent(nullptr);
-    }
 }
 
 bool PropertyGroup::isGroup() const
@@ -41,13 +36,16 @@ bool PropertyGroup::isGroup() const
 bool PropertyGroup::addProperty(AbstractProperty * property)
 {
     if (!property->hasName() ||
-        property->hasParent() ||
         this->propertyExists(property->name()))
         return false;
     
+    beforeAdd(count(), property);
+    
     m_properties.push_back(property);
     m_propertiesMap.insert(std::make_pair(property->name(), property));
-    property->setParent(this);
+    
+    afterAdd(count(), property);
+    
     return true;
 }
 
@@ -131,12 +129,18 @@ AbstractProperty * PropertyGroup::takeProperty(const std::string & name)
 {
     if (!this->propertyExists(name))
         return nullptr;
-    
+
     AbstractProperty * property = m_propertiesMap.at(name);
     auto propertyIt = std::find(m_properties.begin(), m_properties.end(), property);
+    
+    size_t index = indexOf(*propertyIt);
+    beforeRemove(index, *propertyIt);
+    
     m_properties.erase(propertyIt);
     m_propertiesMap.erase(property->name());
-    property->removeParent();
+    
+    beforeRemove(index, *propertyIt);
+    
     return property;
 }
     
