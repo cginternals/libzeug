@@ -13,7 +13,7 @@ namespace propertyguizeug
 
 const QSize ColorButton::s_fixedSize = QSize(19, 19);
 
-ColorButton::ColorButton(const QColor & initialColor, QWidget * parent)
+ColorButton::ColorButton(QWidget * parent, const QColor & initialColor)
 :	QLabel(parent)
 {
     this->setFrameStyle(QFrame::NoFrame);

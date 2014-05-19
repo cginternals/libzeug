@@ -15,7 +15,7 @@ class PROPERTYGUIZEUG_API ColorButton : public QLabel
 	Q_OBJECT
 
 public:
-	ColorButton(const QColor & initialColor = Qt::black, QWidget * parent = nullptr);
+	ColorButton(QWidget * parent = nullptr, const QColor & initialColor = Qt::black);
 	virtual ~ColorButton();
 
 	virtual const QColor & color() const;
