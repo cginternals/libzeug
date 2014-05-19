@@ -22,15 +22,11 @@ public:
     PropertyItem(reflectionzeug::AbstractProperty * collection,
                  PropertyModel * model);
 
-    PropertyItem(reflectionzeug::AbstractValueProperty * property,
-                 PropertyModel * model);
-
-    PropertyItem(reflectionzeug::PropertyGroup * group,
-                 PropertyModel * model);
-
     ~PropertyItem();
 
     reflectionzeug::AbstractProperty * property() const;
+
+    int index() const;
 
     PropertyItem * parent() const;
     void setParent(PropertyItem * parent);

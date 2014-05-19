@@ -16,26 +16,30 @@ PropertyItem::PropertyItem(
 :   m_property(property)
 ,   m_parent(nullptr)
 {
-}
+    if (property->isValue())
+    {
+        AbstractValueProperty * value = property->asValue();
+        m_connections << value->valueChanged.connect(std::bind(&PropertyModel::onValueChanged, model, this));
+    }
+    else if (property->isCollection())
+    {
+        AbstractPropertyCollection * collection = property->asCollection();
+        collection->forEach([this, model] (AbstractProperty * child) 
+        {
+            appendChild(new PropertyItem(child, model));
+        });
 
-PropertyItem::PropertyItem(
-    reflectionzeug::AbstractValueProperty * property,
-    PropertyModel * model)
-:   PropertyItem(static_cast<AbstractProperty *>(property), model)
-{
-    m_connections << property->valueChanged.connect(std::bind(&PropertyModel::onValueChanged, model, this));
-}
+        if (collection->isGroup())
+        {
+            PropertyGroup * group = collection->asGroup();
 
-PropertyItem::PropertyItem(
-    reflectionzeug::PropertyGroup * group,
-    PropertyModel * model)
-:   PropertyItem(static_cast<AbstractProperty *>(property), model)
-{
-    m_connections
-        << group->beforeAdd.connect(std::bind(&PropertyModel::onBeforeAdd, model, this, std::placeholders::_1, std::placeholders::_2))
-        << group->afterAdd.connect(std::bind(&PropertyModel::onAfterAdd, model, this))
-        << group->beforeRemove.connect(std::bind(&PropertyModel::onBeforeRemove, model, this, std::placeholders::_1))
-        << group->afterRemove.connect(std::bind(&PropertyModel::onAfterRemove, model, this));
+            m_connections
+                << group->beforeAdd.connect(std::bind(&PropertyModel::onBeforeAdd, model, this, std::placeholders::_1, std::placeholders::_2))
+                << group->afterAdd.connect(std::bind(&PropertyModel::onAfterAdd, model, this))
+                << group->beforeRemove.connect(std::bind(&PropertyModel::onBeforeRemove, model, this, std::placeholders::_1))
+                << group->afterRemove.connect(std::bind(&PropertyModel::onAfterRemove, model, this));
+        }
+    }
 }
 
 PropertyItem::~PropertyItem()
@@ -46,6 +50,14 @@ PropertyItem::~PropertyItem()
 reflectionzeug::AbstractProperty * PropertyItem::property() const
 {
     return m_property;
+}
+
+int PropertyItem::index() const
+{
+    if (!hasParent())
+        return -1;
+
+    return m_parent->indexOf(this);
 }
 
 PropertyItem * PropertyItem::parent() const
@@ -86,6 +98,7 @@ int PropertyItem::indexOf(PropertyItem * item) const
 void PropertyItem::insertChild(size_t i, PropertyItem * item)
 {
     m_children.insert(i, item);
+    item->setParent(this);
 }
 
 bool PropertyItem::removeChild(size_t i)
@@ -100,6 +113,7 @@ bool PropertyItem::removeChild(size_t i)
 void PropertyItem::appendChild(PropertyItem * item)
 {
     m_children.append(item);
+    item->setParent(this);
 }
 
 } // namespace propertyguizeug

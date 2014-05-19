@@ -13,9 +13,9 @@ using namespace reflectionzeug;
 namespace
 {
 
-AbstractProperty * retrieveProperty(const QModelIndex & index)
+PropertyItem * retrieveItem(const QModelIndex & index)
 {
-    return static_cast<AbstractProperty *>(index.internalPointer());
+    return static_cast<PropertyItem *>(index.internalPointer());
 }
     
 } // namespace
@@ -27,7 +27,10 @@ PropertyModel::PropertyModel(PropertyGroup * group, QObject * parent)
 :   QAbstractItemModel(parent)
 ,   m_root(new PropertyItem(group, this))
 {
-    appendChildren(m_root, group);
+    group->forEach([m_root] (AbstractProperty * property) 
+    {
+        m_root->appendChild(new PropertyItem(property, this));
+    });
 }
 
 PropertyModel::~PropertyModel()
@@ -40,35 +43,16 @@ QModelIndex PropertyModel::index(int row, int column, const QModelIndex & parent
     if (!hasIndex(row, column, parentIndex))
         return QModelIndex();
     
-    if (!parentIndex.isValid())
-        return createIndex(row, column, m_root->at(row));
-    
-    AbstractProperty * parent = retrieveProperty(parentIndex);
-    
-    if (!parent->isCollection())
-        return QModelIndex();
-    
-    AbstractProperty * property = parent->asCollection()->at(row);
-    return createIndex(row, column, property);
+    PropertyItem * item = parentIndex.isValid() ? retrieveItem(parentIndex) : m_root;
+
+    return createIndex(item->at(row), column);
 }
 
 QModelIndex PropertyModel::parent(const QModelIndex & index) const
-{
-    if (!index.isValid())
-        return QModelIndex();
-    
-    AbstractProperty * property = retrieveProperty(index);
+{    
+    PropertyItem * item = index.isValid() ? retrieveItem(index) : m_root;
 
-    if (!property->hasParent())
-        return QModelIndex();
-    
-    AbstractPropertyCollection * parent = property->parent();
-
-    if (parent == m_root)
-        return QModelIndex();
-    
-    int row = parent->parent()->indexOf(parent);
-    return this->createIndex(row, 0, parent);
+    return createIndex(item);
 }
 
 int PropertyModel::rowCount(const QModelIndex & parentIndex) const
@@ -76,30 +60,16 @@ int PropertyModel::rowCount(const QModelIndex & parentIndex) const
     if (parentIndex.column() > 0)
         return 0;
     
-    AbstractProperty * property;
-    if (!parentIndex.isValid())
-        property = m_root;
-    else
-        property = retrieveProperty(parentIndex);
-    
-    if (!property->isCollection())
-        return 0;
-    
-    AbstractPropertyCollection * group = property->asCollection();
-    return group->count();
+    PropertyItem * item = parentIndex.isValid() ? retrieveItem(parentIndex) : m_root;
+
+    return item->count();
 }
 
 int PropertyModel::columnCount(const QModelIndex & parentIndex) const
 {
-    if (!parentIndex.isValid())
-        return m_root->isEmpty() ? 0 : 2;
-    
-    AbstractProperty * property = retrieveProperty(parentIndex);
-    
-    if (!property->isCollection())
-        return 0;
-    
-    return property->asCollection()->isEmpty() ? 0 : 2;
+    PropertyItem * item = parentIndex.isValid() ? retrieveItem(parentIndex) : m_root;
+
+    return item->hasChildren() ? 2 : 0;
 }
 
 QVariant PropertyModel::data(const QModelIndex & index, int role) const
@@ -110,9 +80,9 @@ QVariant PropertyModel::data(const QModelIndex & index, int role) const
     if (role != Qt::DisplayRole || index.column() != 0)
         return QVariant();
     
-    AbstractProperty * property = retrieveProperty(index);
+    PropertyItem * item = retrieveItem(parentIndex);
 
-    return QVariant(QString::fromStdString(property->title()));
+    return QVariant(QString::fromStdString(item->property()->title()));
 }
     
 Qt::ItemFlags PropertyModel::flags(const QModelIndex & index) const
@@ -120,11 +90,11 @@ Qt::ItemFlags PropertyModel::flags(const QModelIndex & index) const
     if (!index.isValid())
         return 0;
     
-    AbstractProperty * property = retrieveProperty(index);
+    PropertyItem * item = retrieveItem(parentIndex);
 
     Qt::ItemFlags flags = Qt::ItemIsSelectable;
 
-    if (index.column() == 1 && property->isValue())
+    if (index.column() == 1 && item->property()->isValue())
         flags |= Qt::ItemIsEditable;
 
     if (property->isEnabled())
@@ -148,7 +118,9 @@ QVariant PropertyModel::headerData(int section, Qt::Orientation orientation, int
 
 void PropertyModel::onValueChanged(PropertyItem * item)
 {
-    // emit dataChanged
+    QModelIndex index = createIndex(item, 1);
+
+    emit dataChanged(index, index);
 }
 
 void PropertyModel::onBeforeAdd(
@@ -156,51 +128,34 @@ void PropertyModel::onBeforeAdd(
     size_t position, 
     AbstractProperty * property)
 {
-    // beginInsertRows
+    beginInsertRows(createIndex(item), position, position);
+    item->insertChild(position, new PropertyItem(property, this);
 }
 
 void PropertyModel::onAfterAdd()
 {
-    // endInsertRows
+    endInsertRows();
 }
 
 void PropertyModel::onBeforeRemove(
     PropertyItem * item, 
     size_t position)
 {
-    // beginRemoveRows
+    beginRemoveRows(createIndex(item), position, position);
+    item->removeChild(position);
 }
 
 void PropertyModel::onAfterRemove()
 {
-    // endRemoveRows
+    endRemoveRows();
 }
 
-void PropertyModel::addChildren(PropertyItem * item, PropertyGroup * group)
+QModelIndex PropertyModel::createIndex(PropertyItem * item, int column)
 {
-    group->forEach([this] (AbstractProperty * property) 
-    {
-        if (property->isValue())
-        {
-            item->append(new PropertyItem(property->asValue(), this));
-        }
-        else if (property->isGroup())
-        {
-            PropertyGroup * subGroup = property->asGroup();
-            PropertyItem * item = new PropertyItem(subGroup, this);
-            item->append(item);
-            addChildren(item, subGroup);
-        }
-        else
-        {
-            item->append(new PropertyItem(property, this));
-        }
-    });
-}
-    
-QModelIndex PropertyModel::createIndex(int row, int column, AbstractProperty * property) const
-{
-    return QAbstractItemModel::createIndex(row, column, property);
+    if (!item->hasParent())
+        return QModelIndex();
+
+    return QAbstractItemModel::createIndex(item->index(), column, item)
 }
 
 } // namespace propertyguizeug

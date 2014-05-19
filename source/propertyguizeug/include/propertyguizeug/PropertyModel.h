@@ -51,8 +51,9 @@ public:
 
 private:
     static void addChildren(PropertyItem * item, PropertyGroup * group);
+    static void addChild(PropertyItem * item, AbstractProperty * property);
 
-    QModelIndex createIndex(int row, int column, reflectionzeug::AbstractProperty * property) const;
+    QModelIndex createIndex(PropertyItem * item, int column = 0);
     
 private:
     PropertyItem * m_root;
