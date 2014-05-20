@@ -36,7 +36,7 @@ int main(int argc, char *argv[])
 
     auto * settings = new PropertyGroup("Settings");
 
-    auto * visible = settings->addProperty<bool>("Visible",
+    settings->addProperty<bool>("Visible",
         [widget]() {
             return widget->isVisible();
         },
@@ -161,6 +161,11 @@ int main(int argc, char *argv[])
         { Qt::ArrowCursor, "Arrow Cursor" },
         { Qt::WaitCursor, "Wait Cursor" }
     });
+    
+    settings->property("Size")->setEnabled(false);
+    
+    Property<FilePath> * filePath = settings->addProperty<FilePath>("filePath", "");
+    filePath->setUniqueIdentifier("settings/filePath");
 
     PropertyDeserializer deserializer;
     deserializer.deserialize(*settings, SETTINGS_PATH);
