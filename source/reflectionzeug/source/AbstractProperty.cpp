@@ -13,12 +13,12 @@ namespace reflectionzeug
 const std::string AbstractProperty::s_nameRegexString("[a-zA-Z_]+\\w*");
 
 AbstractProperty::AbstractProperty()
-:   m_state(State::NotSet)
+:   m_enabled(true)
 {
 }
 
 AbstractProperty::AbstractProperty(const std::string & name)
-:   m_state(State::NotSet)
+:   m_enabled(true)
 {
     setName(name);
 }
@@ -77,15 +77,12 @@ void AbstractProperty::setAnnotations(const std::string & annotations)
     
 bool AbstractProperty::isEnabled() const
 {
-    if (m_state != State::NotSet)
-        return m_state == State::Enabled;
-    
-    return true;
+    return m_enabled;
 }
     
 void AbstractProperty::setEnabled(bool enabled)
 {
-    m_state = enabled ? State::Enabled : State::Disabled;
+    m_enabled = enabled;
 }
     
 AbstractValueProperty * AbstractProperty::asValue()

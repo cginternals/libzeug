@@ -97,7 +97,7 @@ Qt::ItemFlags PropertyModel::flags(const QModelIndex & index) const
     if (index.column() == 1 && item->property()->isValue())
         flags |= Qt::ItemIsEditable;
 
-    if (item->property()->isEnabled())
+    if (item->isEnabled())
         flags |= Qt::ItemIsEnabled;
     
     return flags;

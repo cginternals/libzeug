@@ -29,6 +29,7 @@ public:
     reflectionzeug::AbstractProperty * property() const;
 
     int index() const;
+    bool isEnabled() const;
 
     PropertyItem * parent() const;
     void setParent(PropertyItem * parent);

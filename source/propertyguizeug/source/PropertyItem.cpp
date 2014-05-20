@@ -1,7 +1,6 @@
 
 #include "PropertyItem.h"
 
-#include <iostream>
 #include <functional>
 
 #include <reflectionzeug/AbstractValueProperty.h>
@@ -21,15 +20,14 @@ PropertyItem::PropertyItem(
 :   m_property(property)
 ,   m_parent(nullptr)
 {
-    std::cout << property->name() << std::endl;
-    
     if (property->isValue())
     {
         AbstractValueProperty * value = property->asValue();
         
         value->valueChanged.onFire(std::bind(&PropertyModel::onValueChanged, model, this));
     }
-    else if (property->isCollection())
+    
+    if (property->isCollection())
     {
         AbstractPropertyCollection * collection = property->asCollection();
         collection->forEach([this, model] (AbstractProperty & child) 
@@ -65,6 +63,14 @@ int PropertyItem::index() const
         return -1;
     
     return m_parent->indexOf(this);
+}
+    
+bool PropertyItem::isEnabled() const
+{
+    if (!hasParent())
+        return m_property->isEnabled();
+        
+    return m_property->isEnabled() && m_parent->isEnabled();
 }
 
 PropertyItem * PropertyItem::parent() const

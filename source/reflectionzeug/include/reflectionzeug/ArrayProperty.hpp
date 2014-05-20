@@ -215,15 +215,16 @@ void ArrayProperty<Type, Size>::forEach(const std::function<void(const Property<
 template <typename Type, size_t Size>
 void ArrayProperty<Type, Size>::init()
 {
-    valueChanged.onFire(AbstractValueProperty::valueChanged);
+    valueChanged.onFire([this] ()
+    {
+        AbstractValueProperty::valueChanged();
+    });
     
     for (size_t i = 0; i < Size; ++i)
     {
         m_properties[i] = new Property<Type>("_" + std::to_string(i),
                                              std::bind(&ArrayProperty::element, this, i),
                                              std::bind(&ArrayProperty::setElement, this, i, std::placeholders::_1));
-        
-        m_properties[i]->setParent(this);
     }
 }
 

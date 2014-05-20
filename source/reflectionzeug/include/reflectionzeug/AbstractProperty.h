@@ -79,9 +79,7 @@ public:
     /** \} */
     
 private:
-    enum class State : char { NotSet, Enabled, Disabled };
-    
-    State m_state;
+    bool m_enabled;
     
     std::string m_name;
     std::string m_title;
