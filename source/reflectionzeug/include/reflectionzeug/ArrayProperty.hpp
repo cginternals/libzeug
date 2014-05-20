@@ -217,7 +217,7 @@ void ArrayProperty<Type, Size>::init()
 {
     valueChanged.onFire([this] ()
     {
-        AbstractValueProperty::valueChanged();
+        this->AbstractValueProperty::valueChanged();
     });
     
     for (size_t i = 0; i < Size; ++i)

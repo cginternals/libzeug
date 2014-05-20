@@ -1,7 +1,9 @@
 
-#include <iostream>
+#include <string>
+
 #include <QApplication>
 #include <QWidget>
+#include <QPushButton>
 #include <reflectionzeug/Property.h>
 #include <reflectionzeug/PropertyGroup.h>
 #include <reflectionzeug/PropertySerializer.h>
@@ -162,10 +164,18 @@ int main(int argc, char *argv[])
         { Qt::WaitCursor, "Wait Cursor" }
     });
     
-    settings->property("Size")->setEnabled(false);
-    
     Property<FilePath> * filePath = settings->addProperty<FilePath>("filePath", "");
     filePath->setUniqueIdentifier("settings/filePath");
+
+    QPushButton button("Add");
+
+    QObject::connect(&button, &QAbstractButton::pressed, [settings] ()
+        {
+            static int i = 0;
+            settings->addProperty<int>("_" + std::to_string(i++), 12);
+        });
+    
+    button.show();
 
     PropertyDeserializer deserializer;
     deserializer.deserialize(*settings, SETTINGS_PATH);

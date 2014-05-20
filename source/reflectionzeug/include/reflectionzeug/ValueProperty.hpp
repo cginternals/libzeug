@@ -105,7 +105,7 @@ void ValueProperty<Type>::init()
 {
     ValueProperty<Type>::valueChanged.connect([this] (const Type &)
     {
-        AbstractValueProperty::valueChanged();
+        this->AbstractValueProperty::valueChanged();
     });
 }
 
