@@ -139,7 +139,7 @@ AbstractProperty * PropertyGroup::takeProperty(const std::string & name)
     m_properties.erase(propertyIt);
     m_propertiesMap.erase(property->name());
     
-    beforeRemove(index, *propertyIt);
+    afterRemove(index, *propertyIt);
     
     return property;
 }
