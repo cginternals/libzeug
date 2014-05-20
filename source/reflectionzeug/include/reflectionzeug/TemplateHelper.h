@@ -22,6 +22,15 @@ struct ArgValue {
     }
 };
 
+/** \brief ArgValue specialization for const references
+ */
+template<typename T, size_t POS>
+struct ArgValue<const T &, POS> {
+    static T get(const std::vector<Variant> & args) {
+        return ArgValue<T, POS>::get(args);
+    }
+};
+
 /** \brief ArgValue specialization for type float
  */
 template<size_t POS>
