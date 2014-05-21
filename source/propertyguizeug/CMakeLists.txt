@@ -55,48 +55,50 @@ set(source_path "${CMAKE_CURRENT_SOURCE_DIR}/source")
 
 set(headers
     ${header_path}/propertyguizeug_api.h
-    ${header_path}/PropertyBrowser.h
-    ${header_path}/PropertyModel.h
-    ${header_path}/PropertyDelegate.h
-    ${header_path}/PropertyPainter.h
-    ${header_path}/PropertyEditorFactory.h
-    ${header_path}/PropertyEditor.h
     ${header_path}/BoolEditor.h
-    ${header_path}/FloatingPointEditor.h
-    ${header_path}/EnumEditor.h
-    ${header_path}/StringEditor.h
     ${header_path}/ChoiceEditor.h
-    ${header_path}/ColorEditor.h
-    ${header_path}/FilePathEditor.h
     ${header_path}/ColorButton.h
-    ${header_path}/ValueEditor.h
-    ${header_path}/UnsignedIntegralEditor.h
-    ${header_path}/SignedIntegralEditor.h
-    ${header_path}/ULongLongSpinBox.h
+    ${header_path}/ColorEditor.h
+    ${header_path}/EnumEditor.h
+    ${header_path}/FilePathEditor.h
+    ${header_path}/FloatingPointEditor.h
     ${header_path}/LongLongSpinBox.h
+    ${header_path}/PropertyBrowser.h
+    ${header_path}/PropertyDelegate.h
+    ${header_path}/PropertyEditor.h
+    ${header_path}/PropertyEditorFactory.h
+    ${header_path}/PropertyModel.h
+    ${header_path}/PropertyPainter.h
+    ${header_path}/SignedIntegralEditor.h
+    ${header_path}/StringEditor.h
+    ${header_path}/ULongLongSpinBox.h
+    ${header_path}/UnsignedIntegralEditor.h
+    ${header_path}/ValueEditor.h
 )
 
 set(sources
+    ${source_path}/BoolEditor.cpp
+    ${source_path}/ChoiceEditor.cpp
+    ${source_path}/ColorButton.cpp
+    ${source_path}/ColorEditor.cpp
+    ${source_path}/EnumEditor.cpp
+    ${source_path}/FilePathEditor.cpp
+    ${source_path}/FloatingPointEditor.cpp
+    ${source_path}/LongLongSpinBox.cpp
     ${source_path}/PropertyBrowser.cpp
-    ${source_path}/PropertyModel.cpp
     ${source_path}/PropertyDelegate.cpp
-    ${source_path}/PropertyPainter.cpp
     ${source_path}/PropertyEditor.cpp
     ${source_path}/PropertyEditorFactory.cpp
-    ${source_path}/BoolEditor.cpp
-    ${source_path}/FloatingPointEditor.cpp
-    ${source_path}/EnumEditor.cpp
-    ${source_path}/StringEditor.cpp
-    ${source_path}/ChoiceEditor.cpp
-    ${source_path}/ColorEditor.cpp
-    ${source_path}/FilePathEditor.cpp
-    ${source_path}/ColorButton.cpp
-    ${source_path}/ValueEditor.cpp
-    ${source_path}/UnsignedIntegralEditor.cpp
+    ${source_path}/PropertyItem.cpp
+    ${source_path}/PropertyItem.h
+    ${source_path}/PropertyModel.cpp
+    ${source_path}/PropertyPainter.cpp
     ${source_path}/SignedIntegralEditor.cpp
-    ${source_path}/ULongLongSpinBox.cpp
-    ${source_path}/LongLongSpinBox.cpp
+    ${source_path}/StringEditor.cpp
     ${source_path}/TransparencyBackgroundBrush.hpp
+    ${source_path}/ULongLongSpinBox.cpp
+    ${source_path}/UnsignedIntegralEditor.cpp
+    ${source_path}/ValueEditor.cpp
 )
 
 # Group source files

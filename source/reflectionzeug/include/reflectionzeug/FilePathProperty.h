@@ -1,6 +1,8 @@
 
 #pragma once
 
+#include <string>
+
 #include <reflectionzeug/ClassProperty.h>
 #include <reflectionzeug/FilePath.h>
 
@@ -25,10 +27,14 @@ public:
 
     REFLECTIONZEUG_API bool isFile() const;
     REFLECTIONZEUG_API void setIsFile(bool isFile);
+    
+    REFLECTIONZEUG_API const std::string & uniqueIdentifier();
+    REFLECTIONZEUG_API void setUniqueIdentifier(const std::string & string);
   
 protected:
     bool m_shouldExist;
     bool m_isFile;
+    std::string m_identifier;
     
 };
 

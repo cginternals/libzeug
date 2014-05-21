@@ -17,18 +17,19 @@
 
 using namespace reflectionzeug;
 
-void printGroup(const PropertyGroup & group)
+void printGroup(const PropertyGroup & group, const std::string & path = "")
 {
-    std::cout << group.path() << std::endl;
+    std::string groupPath = path + group.name() + "/";
+    std::cout << groupPath << std::endl;
 
-    group.forEachValue([] (const AbstractValueProperty & property)
+    group.forEachValue([&groupPath] (const AbstractValueProperty & property)
     {
-        std::cout << property.path() << " = " << property.toString() << std::endl;
+        std::cout << groupPath + property.name() << " = " << property.toString() << std::endl;
     });
 
-    group.forEachGroup([] (const PropertyGroup & subGroup)
+    group.forEachGroup([&groupPath] (const PropertyGroup & subGroup)
     {
-        printGroup(subGroup);
+        printGroup(subGroup, groupPath + "/");
     });
 }
 
@@ -59,8 +60,6 @@ void iterateOverProperties()
     SomeObject object;
     
     PropertyGroup * group = new PropertyGroup("group");
-
-    int arr[3] = {0, 0, 0};
 
     group->addProperty<double>("first", 0.3);
     group->addGroup("second");

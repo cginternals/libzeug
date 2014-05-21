@@ -27,5 +27,15 @@ void FilePathProperty::setIsFile(bool isFile)
 {
     m_isFile = isFile;
 }
+
+const std::string & FilePathProperty::uniqueIdentifier()
+{
+    return m_identifier;
+}
+
+void FilePathProperty::setUniqueIdentifier(const std::string & string)
+{
+    m_identifier = string;
+}
     
 } // namespace reflectionzeug

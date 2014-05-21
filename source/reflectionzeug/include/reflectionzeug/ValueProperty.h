@@ -61,7 +61,10 @@ public:
     
     signalzeug::Signal<const Type &> valueChanged;
 
-protected:
+private:
+    void init();
+
+private:
     std::unique_ptr<AbstractValue<Type>> m_value;
 };
 

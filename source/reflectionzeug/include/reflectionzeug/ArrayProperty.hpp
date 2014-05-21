@@ -185,6 +185,20 @@ void ArrayProperty<Type, Size>::setElement(size_t i, const Type & value)
 }
 
 template <typename Type, size_t Size>
+void ArrayProperty<Type, Size>::forEach(const std::function<void(AbstractProperty &)> & functor)
+{
+    for (AbstractProperty * property : m_properties)
+        functor(*property);
+}
+
+template <typename Type, size_t Size>
+void ArrayProperty<Type, Size>::forEach(const std::function<void(const AbstractProperty &)> & functor) const
+{
+    for (const AbstractProperty * property : m_properties)
+        functor(*property);
+}
+
+template <typename Type, size_t Size>
 void ArrayProperty<Type, Size>::forEach(const std::function<void(Property<Type> &)> & functor)
 {
     for (Property<Type> * property : m_properties)
@@ -201,13 +215,16 @@ void ArrayProperty<Type, Size>::forEach(const std::function<void(const Property<
 template <typename Type, size_t Size>
 void ArrayProperty<Type, Size>::init()
 {
+    valueChanged.onFire([this] ()
+    {
+        this->AbstractValueProperty::valueChanged();
+    });
+    
     for (size_t i = 0; i < Size; ++i)
     {
         m_properties[i] = new Property<Type>("_" + std::to_string(i),
                                              std::bind(&ArrayProperty::element, this, i),
                                              std::bind(&ArrayProperty::setElement, this, i, std::placeholders::_1));
-        
-        m_properties[i]->setParent(this);
     }
 }
 

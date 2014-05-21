@@ -54,7 +54,7 @@ QStringList FilePathEditor::recentlyUsedFilePaths()
                        QSettings::UserScope,
                        QApplication::organizationName());
     
-    return settings.value(QString::fromStdString(m_property->path()),
+    return settings.value(QString::fromStdString(m_property->uniqueIdentifier()),
                           QVariant(QStringList())).toStringList();
 }
 
@@ -72,7 +72,7 @@ void FilePathEditor::pushRecentlyUsedFilePath(const QString & filePath)
                        QSettings::UserScope,
                        QApplication::organizationName());
     
-    settings.setValue(QString::fromStdString(m_property->path()),
+    settings.setValue(QString::fromStdString(m_property->uniqueIdentifier()),
                       QVariant(list));
 }
     

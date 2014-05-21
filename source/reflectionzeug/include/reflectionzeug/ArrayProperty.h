@@ -79,6 +79,9 @@ public:
     Type element(size_t i) const;
     void setElement(size_t i, const Type & value);
 
+    virtual void forEach(const std::function<void(AbstractProperty &)> & functor);
+    virtual void forEach(const std::function<void(const AbstractProperty &)> & functor) const;
+
     void forEach(const std::function<void(Property<Type> &)> & functor);
     void forEach(const std::function<void(const Property<Type> &)> & functor) const;
 

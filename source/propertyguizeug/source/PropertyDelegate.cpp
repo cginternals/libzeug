@@ -1,13 +1,28 @@
 
+#include <propertyguizeug/PropertyDelegate.h>
+
 #include <cassert>
 
 #include <reflectionzeug/AbstractProperty.h>
 
 #include <propertyguizeug/PropertyEditorFactory.h>
 #include <propertyguizeug/PropertyPainter.h>
-#include <propertyguizeug/PropertyDelegate.h>
+
+#include "PropertyItem.h"
+
 
 using namespace reflectionzeug;
+
+namespace
+{
+
+AbstractProperty * retrieveProperty(const QModelIndex & index)
+{
+    return static_cast<propertyguizeug::PropertyItem *>(index.internalPointer())->property();
+}
+    
+} // namespace
+
 namespace propertyguizeug
 {
 
@@ -33,7 +48,7 @@ void PropertyDelegate::paint(QPainter * painter,
    const QStyleOptionViewItem & option,
    const QModelIndex & index) const
 {
-    AbstractProperty * property = static_cast<AbstractProperty *>(index.internalPointer());
+    AbstractProperty * property = retrieveProperty(index);
 
     if (!property->isValue())
         return QStyledItemDelegate::paint(painter, option, index);
@@ -47,7 +62,7 @@ void PropertyDelegate::paint(QPainter * painter,
 QWidget * PropertyDelegate::createEditor(QWidget * parent,
     const QStyleOptionViewItem & option, const QModelIndex & index) const
 {
-    AbstractProperty * property = static_cast<AbstractProperty *>(index.internalPointer());
+    AbstractProperty * property = retrieveProperty(index);
 
     if (!property->isValue())
         return QStyledItemDelegate::createEditor(parent, option, index);
