@@ -3,7 +3,7 @@
 
 #include <QList>
 
-#include <signalzeug/ScopedConnection.h>
+#include <signalzeug/Connection.h>
 
 
 namespace reflectionzeug
@@ -53,7 +53,7 @@ private:
     PropertyItem * m_parent;
     QList<PropertyItem *> m_children;
 
-    QList<signalzeug::ScopedConnection> m_connections;
+    QList<signalzeug::Connection> m_connections;
 };
 
 } // namespace propertyguizeug

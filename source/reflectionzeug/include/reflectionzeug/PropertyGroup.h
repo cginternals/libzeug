@@ -102,6 +102,11 @@ public:
      * Removes the property with the given name from the group and returns it.
      */
     AbstractProperty * takeProperty(const std::string & name);
+
+    /**
+     * Removes all properties from the group. Deletes them if it owns them.
+     */
+    void clear();
     
     /**
      * Sets whether the group deletes its properties on destruction or not.
@@ -142,8 +147,8 @@ public:
     signalzeug::Signal<size_t, AbstractProperty *> beforeAdd;
     signalzeug::Signal<size_t, AbstractProperty *> afterAdd;
     
-    signalzeug::Signal<size_t, AbstractProperty *> beforeRemove;
-    signalzeug::Signal<size_t, AbstractProperty *> afterRemove;
+    signalzeug::Signal<size_t> beforeRemove;
+    signalzeug::Signal<size_t> afterRemove;
     
 private:
     const AbstractProperty * findProperty(const std::vector<std::string> & path) const;

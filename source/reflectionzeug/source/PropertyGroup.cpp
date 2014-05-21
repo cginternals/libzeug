@@ -134,14 +134,33 @@ AbstractProperty * PropertyGroup::takeProperty(const std::string & name)
     auto propertyIt = std::find(m_properties.begin(), m_properties.end(), property);
     
     size_t index = indexOf(*propertyIt);
-    beforeRemove(index, *propertyIt);
+    beforeRemove(index);
     
     m_properties.erase(propertyIt);
     m_propertiesMap.erase(property->name());
     
-    afterRemove(index, *propertyIt);
+    afterRemove(index);
     
     return property;
+}
+
+void PropertyGroup::clear()
+{
+    if (m_ownsProperties)
+    {
+        for (AbstractProperty * property : m_properties)
+            delete property;
+    }
+
+    auto propertyIt = m_properties.begin();
+    while (propertyIt != m_properties.end())
+    {
+        size_t index = std::distance(m_properties.begin(), propertyIt);
+        beforeRemove(index);
+        m_propertiesMap.erase((*propertyIt)->name());
+        m_properties.erase(propertyIt);
+        afterRemove(index);
+    }
 }
     
 void PropertyGroup::setOwnsProperties(bool b)

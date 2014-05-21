@@ -24,7 +24,7 @@ PropertyItem::PropertyItem(
     {
         AbstractValueProperty * value = property->asValue();
         
-        value->valueChanged.onFire(std::bind(&PropertyModel::onValueChanged, model, this));
+        m_connections.append(value->valueChanged.onFire(std::bind(&PropertyModel::onValueChanged, model, this)));
     }
     
     if (property->isCollection())
@@ -39,16 +39,21 @@ PropertyItem::PropertyItem(
         {
             PropertyGroup * group = property->asGroup();
 
-            group->beforeAdd.connect(std::bind(&PropertyModel::onBeforeAdd, model, this, std::placeholders::_1, std::placeholders::_2));
-            group->afterAdd.onFire(std::bind(&PropertyModel::onAfterAdd, model));
-            group->beforeRemove.connect(std::bind(&PropertyModel::onBeforeRemove, model, this, std::placeholders::_1));
-            group->afterRemove.onFire(std::bind(&PropertyModel::onAfterRemove, model));
+            m_connections.append({ 
+                group->beforeAdd.connect(std::bind(&PropertyModel::onBeforeAdd, model, this, std::placeholders::_1, std::placeholders::_2)),
+                group->afterAdd.onFire(std::bind(&PropertyModel::onAfterAdd, model)),
+                group->beforeRemove.connect(std::bind(&PropertyModel::onBeforeRemove, model, this, std::placeholders::_1)),
+                group->afterRemove.onFire(std::bind(&PropertyModel::onAfterRemove, model))
+            });
         }
     }
 }
 
 PropertyItem::~PropertyItem()
 {
+    for (signalzeug::Connection & connection : m_connections)
+        connection.disconnect();
+        
     qDeleteAll(m_children);
 }
 
