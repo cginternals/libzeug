@@ -1,5 +1,6 @@
 #pragma once
 
+#include <QHash>
 #include <QList>
 #include <QAbstractItemModel>
 
@@ -14,15 +15,15 @@ namespace reflectionzeug
 
 
 namespace propertyguizeug
-{  
+{
+
+class PropertyItem;  
 
 class PROPERTYGUIZEUG_API PropertyModel : public QAbstractItemModel
 {
 public:
-    PropertyModel(reflectionzeug::PropertyGroup * root, QObject * parent = nullptr);
+    PropertyModel(reflectionzeug::PropertyGroup * group, QObject * parent = nullptr);
     virtual ~PropertyModel();
-    
-    void subscribeToValueChanges();
     
     virtual QModelIndex index(int row, int column,
                               const QModelIndex & parentIndex = QModelIndex()) const;
@@ -40,12 +41,28 @@ public:
     virtual QVariant headerData(int section, Qt::Orientation orientation,
                                 int role = Qt::DisplayRole) const;
 
+    void onValueChanged(PropertyItem * item);
+
+    void onBeforeAdd(PropertyItem * item, 
+                     size_t position, 
+                     reflectionzeug::AbstractProperty * property);
+    void onAfterAdd();
+
+    void onBeforeRemove(PropertyItem * item, 
+                        size_t position);
+    void onAfterRemove();
+
 private:
-    QModelIndex createIndex(int row, int column, reflectionzeug::AbstractProperty * property) const;
+    static void addChildren(PropertyItem * item, 
+                            reflectionzeug::PropertyGroup * group);
+    
+    static void addChild(PropertyItem * item, 
+                         reflectionzeug::AbstractProperty * property);
+
+    QModelIndex createIndex(PropertyItem * item, int column = 0) const;
     
 private:
-    reflectionzeug::PropertyGroup * m_root;
-
+    PropertyItem * m_root;
 };
 
 } // namespace propertyguizeug

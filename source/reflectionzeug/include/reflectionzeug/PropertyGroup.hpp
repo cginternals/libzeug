@@ -46,14 +46,12 @@ const Property<Type> * PropertyGroup::property(const std::string & name) const
 template <typename Type>
 Type PropertyGroup::value(const std::string & name) const
 {
-    /** TODO handle non-existence of property **/
     return this->property(name)->as<Property<Type>>()->value();
 }
 
 template <typename Type>
 void PropertyGroup::setValue(const std::string & name, const Type & value)
 {
-    /** TODO handle non-existence of property **/
     this->property(name)->as<Property<Type>>()->setValue(value);
 }
 

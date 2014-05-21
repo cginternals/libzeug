@@ -1,7 +1,9 @@
 
-#include <iostream>
+#include <string>
+
 #include <QApplication>
 #include <QWidget>
+#include <QPushButton>
 #include <reflectionzeug/Property.h>
 #include <reflectionzeug/PropertyGroup.h>
 #include <reflectionzeug/PropertySerializer.h>
@@ -36,7 +38,7 @@ int main(int argc, char *argv[])
 
     auto * settings = new PropertyGroup("Settings");
 
-    auto * visible = settings->addProperty<bool>("Visible",
+    settings->addProperty<bool>("Visible",
         [widget]() {
             return widget->isVisible();
         },
@@ -161,6 +163,19 @@ int main(int argc, char *argv[])
         { Qt::ArrowCursor, "Arrow Cursor" },
         { Qt::WaitCursor, "Wait Cursor" }
     });
+    
+    Property<FilePath> * filePath = settings->addProperty<FilePath>("filePath", "");
+    filePath->setUniqueIdentifier("settings/filePath");
+
+    QPushButton button("Add");
+
+    QObject::connect(&button, &QAbstractButton::pressed, [settings] ()
+        {
+            static int i = 0;
+            settings->addProperty<int>("_" + std::to_string(i++), 12);
+        });
+    
+    button.show();
 
     PropertyDeserializer deserializer;
     deserializer.deserialize(*settings, SETTINGS_PATH);

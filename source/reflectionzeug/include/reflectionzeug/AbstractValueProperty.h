@@ -1,6 +1,8 @@
 
 #pragma once
 
+#include <signalzeug/Signal.h>
+
 #include <reflectionzeug/AbstractProperty.h>
 #include <reflectionzeug/AbstractPropertyVisitor.h>
 
@@ -38,6 +40,8 @@ public:
     
     virtual std::string toString() const = 0;
     virtual bool fromString(const std::string & string) = 0;
+    
+    signalzeug::Signal<> valueChanged;
 
 };
 

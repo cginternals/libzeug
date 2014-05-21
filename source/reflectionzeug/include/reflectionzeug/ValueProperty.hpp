@@ -14,6 +14,7 @@ template <typename Type>
 ValueProperty<Type>::ValueProperty(const Type & value)
 :   m_value(new StoredValue<Type>(value))
 {
+    init();
 }
 
 template <typename Type>
@@ -22,6 +23,7 @@ ValueProperty<Type>::ValueProperty(
     const std::function<void(const Type &)> & setter)
 :   m_value(new AccessorValue<Type>(getter, setter))
 {
+    init();
 }
 
 template <typename Type>
@@ -32,6 +34,7 @@ ValueProperty<Type>::ValueProperty(
     void (Object::*setter_pointer)(const Type &))
 :   m_value(new AccessorValue<Type>(object, getter_pointer, setter_pointer))
 {
+    init();
 }
     
 template <typename Type>
@@ -42,6 +45,7 @@ ValueProperty<Type>::ValueProperty(
     void (Object::*setter_pointer)(const Type &))
 :   m_value(new AccessorValue<Type>(object, getter_pointer, setter_pointer))
 {
+    init();
 }
     
 template <typename Type>
@@ -52,6 +56,7 @@ ValueProperty<Type>::ValueProperty(
     void (Object::*setter_pointer)(Type))
 :   m_value(new AccessorValue<Type>(object, getter_pointer, setter_pointer))
 {
+    init();
 }
     
 template <typename Type>
@@ -69,7 +74,7 @@ template <typename Type>
 void ValueProperty<Type>::setValue(const Type & value)
 {
     m_value->set(value);
-    this->valueChanged(value);
+    this->ValueProperty::valueChanged(value);
 }
 
 template <typename Type>
@@ -94,6 +99,14 @@ template <typename Type>
 size_t ValueProperty<Type>::type() const
 {
     return stype();
+}
+template <typename Type>
+void ValueProperty<Type>::init()
+{
+    ValueProperty<Type>::valueChanged.connect([this] (const Type &)
+    {
+        this->AbstractValueProperty::valueChanged();
+    });
 }
 
 } // namespace reflectionzeug
