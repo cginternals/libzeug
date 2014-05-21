@@ -117,7 +117,9 @@ Variant::Variant(AbstractFunction *func) :
 *  @brief
 *    Copy constructor
 */
-Variant::Variant(const Variant &rh)
+Variant::Variant(const Variant &rh) :
+    m_type(TypeNull),
+    m_string("")
 {
     *this = rh;
 }
@@ -153,7 +155,7 @@ Variant &Variant::operator =(const Variant &rh)
             case TypeString:    m_string = rh.m_string; break;
             case TypeArray:     m_array  = rh.m_array;  break;
             case TypeObject:    m_object = rh.m_object; break;
-            case TypeFunction:  m_func   = rh.m_func;   break;
+            case TypeFunction:  m_func   = rh.m_func ? rh.m_func->clone() : nullptr; break;
             default:            break;
         }
     }
@@ -169,7 +171,7 @@ Variant &Variant::operator =(const Variant &rh)
 void Variant::clear()
 {
     if (m_type == TypeFunction && m_func) {
-        // TODO: Delete function, use clone() to copy from variant to variant
+        delete m_func;
         m_func = nullptr;
     }
 

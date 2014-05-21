@@ -31,6 +31,8 @@ public:
         return m_name;
     }
 
+    virtual AbstractFunction *clone() = 0;
+
     virtual Variant call(const std::vector<Variant> & args) = 0;
 
 protected:
@@ -55,6 +57,11 @@ public:
 
     virtual ~Function()
     {
+    }
+
+    virtual AbstractFunction *clone()
+    {
+        return new Function<RET, Arguments...>(m_name, m_func);
     }
 
     virtual Variant call(const std::vector<Variant> & args)
@@ -92,6 +99,11 @@ public:
 
     virtual ~Method()
     {
+    }
+
+    virtual AbstractFunction *clone()
+    {
+        return new Method<T, RET, Arguments...>(m_name, m_obj, m_method);
     }
 
     virtual Variant call(const std::vector<Variant> & args)

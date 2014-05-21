@@ -31,6 +31,16 @@ public:
         m_func.Reset();
     }
 
+    virtual AbstractFunction *clone()
+    {
+        // Copy handle
+        HandleScope scope(m_isolate);
+        Local<v8::Function> func = Local<v8::Function>::New(m_isolate, m_func);
+
+        // Create new instance
+        return new JSScriptFunction(m_isolate, func);
+    }
+
     virtual Variant call(const std::vector<Variant> & args)
     {
         Locker locker(m_isolate);
