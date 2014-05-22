@@ -1,6 +1,7 @@
 #include <functional>
 #include <reflectionzeug/Object.h>
 #include <reflectionzeug/Variant.h>
+#include <reflectionzeug/Function.h>
 #include "scriptzeug/ScriptContext.h"
 #include "BackendJavaScript/JSScriptContext.h"
 
@@ -11,10 +12,79 @@ namespace scriptzeug
 {
 
 
-static Variant fromV8Value(Local<Value> arg)
+static Variant fromV8Value(Isolate *isolate, Local<Value> arg);
+static Local<Value> toV8Value(Isolate *isolate, const Variant &arg);
+
+
+class JSScriptFunction : public reflectionzeug::AbstractFunction
 {
+public:
+    JSScriptFunction(v8::Isolate *isolate, v8::Handle<v8::Function> &func)
+    : AbstractFunction("")
+    , m_isolate(isolate)
+    , m_func(isolate, func)
+    {
+    }
+
+    virtual ~JSScriptFunction()
+    {
+        m_func.Reset();
+    }
+
+    virtual AbstractFunction *clone()
+    {
+        // Copy handle
+        HandleScope scope(m_isolate);
+        Local<v8::Function> func = Local<v8::Function>::New(m_isolate, m_func);
+
+        // Create new instance
+        return new JSScriptFunction(m_isolate, func);
+    }
+
+    virtual Variant call(const std::vector<Variant> & args)
+    {
+        Locker locker(m_isolate);
+        HandleScope scope(m_isolate);
+
+        // Get local handle to the function
+        Local<v8::Function> func = Local<v8::Function>::New(m_isolate, m_func);
+
+        // Create list of arguments for v8
+        // [TODO] Support more than 32 arguments by making the array flexible
+        Handle<v8::Value> v8args[32];
+        int numArgs = args.size();
+        if (numArgs > 32) numArgs = 32;
+        if (numArgs > 0) {
+            // Convert arguments from reflectionzeug-variant to v8 value
+            for (int i=0; i<numArgs; i++) {
+                v8args[i] = toV8Value(m_isolate, args[i]);
+            }
+        }
+
+        // Call the function (use the function-object itself as 'this')
+        Handle<Value> res = func->Call(func, numArgs, v8args);
+
+        // Convert return value to variant
+        return fromV8Value(m_isolate, res);
+    }
+
+protected:
+        v8::Isolate                  *m_isolate;
+        v8::Persistent<v8::Function>  m_func;
+};
+
+
+static Variant fromV8Value(Isolate *isolate, Local<Value> arg)
+{
+    // Function
+    if (arg->IsFunction()) { // Remember: A function is also an object, so check for functions first
+        Handle<v8::Function> func = v8::Handle<v8::Function>::Cast(arg);
+        JSScriptFunction *function = new JSScriptFunction(isolate, func);
+        return Variant(function);
+    }
+
     // Int
-    if (arg->IsInt32()) {
+    else if (arg->IsInt32()) {
         int value = arg->Int32Value();
         return Variant(value);
     }
@@ -49,7 +119,7 @@ static Variant fromV8Value(Local<Value> arg)
         Handle<Array> arr = Handle<Array>::Cast(arg);
         for (unsigned int i=0; i<arr->Length(); i++) {
             Local<Value> prop = arr->Get(i);
-            value.set(i, fromV8Value(prop));
+            value.set(i, fromV8Value(isolate, prop));
         }
         return value;
     }
@@ -64,7 +134,7 @@ static Variant fromV8Value(Local<Value> arg)
             String::Utf8Value ascii(name);
             std::string propName(*ascii);
             Local<Value> prop = obj->Get(name);
-            value.set(propName, fromV8Value(prop));
+            value.set(propName, fromV8Value(isolate, prop));
         }
         return value;
     }
@@ -137,7 +207,7 @@ static void wrapFunction(const v8::FunctionCallbackInfo<Value> & args)
     for (int i=0; i<args.Length(); i++) {
         HandleScope scope(isolate);
         Local<Value> arg = args[i];
-        arguments.push_back(fromV8Value(arg));
+        arguments.push_back(fromV8Value(isolate, arg));
     }
 
     // Call the function
@@ -298,8 +368,10 @@ static void getProperty(Local<String> propertyName, const PropertyCallbackInfo<V
 
 static void setProperty(Local<String> propertyName, Local<Value> value, const PropertyCallbackInfo<void> & info)
 {
+    Isolate *isolate = Isolate::GetCurrent();
+
     // Convert value into variant
-    Variant v = fromV8Value(value);
+    Variant v = fromV8Value(isolate, value);
 
     // Get object
     Local<v8::Object> self = info.Holder();
@@ -384,7 +456,7 @@ Variant JSScriptContext::evaluate(const std::string & code)
         String::Utf8Value str(ex);
         m_scriptContext->scriptException(std::string(*str));
         return Variant();
-    } else return fromV8Value(result);
+    } else return fromV8Value(m_isolate, result);
 }
 
 void JSScriptContext::registerObj(Handle<v8::Object> parent, PropertyGroup * obj)

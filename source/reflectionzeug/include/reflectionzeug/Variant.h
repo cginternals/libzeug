@@ -10,6 +10,9 @@
 namespace reflectionzeug {
 
 
+class AbstractFunction;
+
+
 typedef std::vector<std::string> StringList;
 
 
@@ -58,7 +61,8 @@ public:
         TypeBool,       /**< Boolean */
         TypeString,     /**< String */
         TypeArray,      /**< Array (ordered list of values) */
-        TypeObject      /**< Object (name/value map) */
+        TypeObject,     /**< Object (name/value map) */
+        TypeFunction    /**< Function pointer */
     };
 
 
@@ -75,6 +79,7 @@ public:
     Variant(const std::string &value);
     Variant(const std::vector<std::string> &values);
     Variant(const char *value);
+    Variant(AbstractFunction *func);
 
     /**
     *  @brief
@@ -177,6 +182,24 @@ public:
     *    String list
     */
     StringList toStringList() const;
+
+    /**
+    *  @brief
+    *    Check if value is a function pointer
+    *
+    *  @return
+    *    'true' if object is a function pointer, else false
+    */
+    bool isFunction() const;
+
+    /**
+    *  @brief
+    *    Convert value to function pointer
+    *
+    *  @return
+    *    Function pointer, nullptr on error
+    */
+    AbstractFunction *toFunction() const;
 
     /**
     *  @brief
@@ -422,6 +445,7 @@ private:
         unsigned int               m_uint;      /**< Unsigned integer value */
         double                     m_double;    /**< Double value */
         bool                       m_bool;      /**< Boolean value */
+        AbstractFunction          *m_func;      /**< Pointer to a function */
     };
     std::string                    m_string;    /**< String value */
     std::vector<Variant>           m_array;     /**< Array elements (ordered list of values) */

@@ -1,6 +1,7 @@
 #include <stdlib.h>
 #include <sstream>
 #include "reflectionzeug/Variant.h"
+#include "reflectionzeug/Function.h"
 
 
 namespace reflectionzeug {
@@ -43,11 +44,12 @@ Variant::Variant(Type type) :
 {
     // Initialize value
     switch (m_type) {
-        case TypeInt:     m_int    = 0;     break;
-        case TypeUInt:    m_uint   = 0;     break;
-        case TypeDouble:  m_double = 0.0;   break;
-        case TypeBool:    m_bool   = false; break;
-        default:          break;
+        case TypeInt:      m_int    = 0;       break;
+        case TypeUInt:     m_uint   = 0;       break;
+        case TypeDouble:   m_double = 0.0;     break;
+        case TypeBool:     m_bool   = false;   break;
+        case TypeFunction: m_func   = nullptr; break;
+        default: break;
     }
 }
 
@@ -105,11 +107,19 @@ Variant::Variant(const char *value) :
 {
 }
 
+Variant::Variant(AbstractFunction *func) :
+    m_type(TypeFunction),
+    m_func(func)
+{
+}
+
 /**
 *  @brief
 *    Copy constructor
 */
-Variant::Variant(const Variant &rh)
+Variant::Variant(const Variant &rh) :
+    m_type(TypeNull),
+    m_string("")
 {
     *this = rh;
 }
@@ -120,8 +130,7 @@ Variant::Variant(const Variant &rh)
 */
 Variant::~Variant()
 {
-    m_array .clear();
-    m_object.clear();
+    clear();
 }
 
 /**
@@ -146,6 +155,7 @@ Variant &Variant::operator =(const Variant &rh)
             case TypeString:    m_string = rh.m_string; break;
             case TypeArray:     m_array  = rh.m_array;  break;
             case TypeObject:    m_object = rh.m_object; break;
+            case TypeFunction:  m_func   = rh.m_func ? rh.m_func->clone() : nullptr; break;
             default:            break;
         }
     }
@@ -160,6 +170,11 @@ Variant &Variant::operator =(const Variant &rh)
 */
 void Variant::clear()
 {
+    if (m_type == TypeFunction && m_func) {
+        delete m_func;
+        m_func = nullptr;
+    }
+
     if (this != &Null) {
         m_type   = TypeNull;
         m_uint   = 0;
@@ -186,7 +201,8 @@ bool Variant::empty() const
 {
     return (  m_type == TypeNull ||
              (m_type == TypeObject    && m_object.empty()) ||
-             (m_type == TypeArray     && m_array .empty()) );
+             (m_type == TypeArray     && m_array .empty()) ||
+             (m_type == TypeFunction  && !m_func) );
 }
 
 /**
@@ -314,6 +330,28 @@ StringList Variant::toStringList() const
 
 /**
 *  @brief
+*    Check if value is a function pointer
+*/
+bool Variant::isFunction() const
+{
+    return (m_type == TypeFunction);
+}
+
+/**
+*  @brief
+*    Convert value to function pointer
+*/
+AbstractFunction *Variant::toFunction() const
+{
+    if (m_type == TypeFunction) {
+        return m_func;
+    }
+
+    return nullptr;
+}
+
+/**
+*  @brief
 *    Convert value to JSON notation
 */
 std::string Variant::toJSON(bool nice, const std::string &indent) const
@@ -411,8 +449,11 @@ bool Variant::isObject() const
 StringList Variant::keys() const
 {
     StringList keys;
-    for (std::map<std::string, Variant>::const_iterator it = m_object.begin(); it != m_object.end(); ++it)
-        keys.push_back(it->first);
+    if (m_type == TypeObject) {
+        for (std::map<std::string, Variant>::const_iterator it = m_object.begin(); it != m_object.end(); ++it) {
+            keys.push_back(it->first);
+        }
+    }
     return keys;
 }
 
