@@ -66,7 +66,7 @@ void PropertyPainter::visit(Property<bool> * property)
     opt.state = property->value() ? QStyle::State_On : QStyle::State_Off;
     opt.state |= QStyle::State_Enabled;
     opt.rect = m_option.rect;
-    opt.rect.setLeft(opt.rect.left() + PropertyEditor::s_horizontalMargin);
+    opt.rect.setLeft(opt.rect.left()/* + PropertyEditor::s_horizontalMargin */);
 
 	const QWidget * widget = m_option.widget;
 	QStyle * style = widget ? widget->style() : QApplication::style();
@@ -85,16 +85,14 @@ void PropertyPainter::visit(Property<Color> * property)
                   color.green(),
                   color.blue(),
                   color.alpha());
-    QPoint topLeft(m_option.rect.left() + PropertyEditor::s_horizontalMargin, 
+    QPoint topLeft(m_option.rect.left(), 
                    m_option.rect.top() + 4);
 
     ColorButton::paint(m_painter, topLeft, qcolor);
     
     QRect rect = m_option.rect;
     rect.setLeft(m_option.rect.left() + 
-                 PropertyEditor::s_horizontalMargin + 
-                 ColorButton::s_fixedSize.width() + 
-                 PropertyEditor::s_spacing * 2);
+                 ColorButton::s_fixedSize.width() + 2);
 
     const QWidget * widget = m_option.widget;
     QStyle * style = widget ? widget->style() : QApplication::style();

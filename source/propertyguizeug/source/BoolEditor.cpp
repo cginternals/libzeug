@@ -16,6 +16,8 @@ BoolEditor::BoolEditor(Property<bool> * property, QWidget * parent)
 {
     QCheckBox * checkBox = new QCheckBox(this);
 
+    m_property->toggleValue();
+    
     this->boxLayout()->addWidget(checkBox);
     this->setFocusProxy(checkBox);
 
