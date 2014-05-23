@@ -28,6 +28,7 @@ ColorEditor::ColorEditor(reflectionzeug::ColorPropertyInterface * property, QWid
     
     m_button = new ColorButton(this, qcolor);
     
+    this->boxLayout()->setSpacing(2);
     this->boxLayout()->addWidget(m_button);
     this->boxLayout()->addWidget(m_lineEdit);
     

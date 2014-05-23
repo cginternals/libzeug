@@ -92,7 +92,7 @@ void PropertyPainter::visit(Property<Color> * property)
     
     QRect rect = m_option.rect;
     rect.setLeft(m_option.rect.left() + 
-                 ColorButton::s_fixedSize.width() + 2);
+                 ColorButton::s_fixedSize.width() + 4);
 
     const QWidget * widget = m_option.widget;
     QStyle * style = widget ? widget->style() : QApplication::style();
