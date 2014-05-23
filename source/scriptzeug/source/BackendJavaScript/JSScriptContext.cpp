@@ -62,10 +62,14 @@ public:
         }
 
         // Call the function (use the function-object itself as 'this')
+        TryCatch trycatch;
         Handle<Value> res = func->Call(func, numArgs, v8args);
-
-        // Convert return value to variant
-        return fromV8Value(m_isolate, res);
+        if (res.IsEmpty()) {
+            return Variant();
+        } else {
+            // Convert return value to variant
+            return fromV8Value(m_isolate, res);
+        }
     }
 
 protected:
