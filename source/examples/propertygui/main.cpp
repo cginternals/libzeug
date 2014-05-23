@@ -38,13 +38,15 @@ int main(int argc, char *argv[])
 
     auto * settings = new PropertyGroup("Settings");
 
-    settings->addProperty<bool>("Visible",
+    auto * visible = settings->addProperty<bool>("Visible",
         [widget]() {
             return widget->isVisible();
         },
         [widget](const bool & b) {
             widget->setVisible(b);
         });
+        
+    visible->setAnnotations("Opens and closes the example window.");
 
     PropertyGroup * size = settings->addGroup("Size");
 
@@ -146,6 +148,7 @@ int main(int argc, char *argv[])
         });
 
     backgroundColor->setTitle("Background Color");
+    backgroundColor->setAnnotations("Sets the background color of the example window.");
 
     auto * cursorProperty = settings->addProperty<Qt::CursorShape>("Cursor",
         [widget] () 
@@ -166,6 +169,7 @@ int main(int argc, char *argv[])
     
     Property<FilePath> * filePath = settings->addProperty<FilePath>("filePath", "");
     filePath->setUniqueIdentifier("settings/filePath");
+    filePath->setAnnotations("A file path with no meaning.");
 
     QPushButton button("Add");
 
