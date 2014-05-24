@@ -26,7 +26,8 @@ ChoiceEditor::ChoiceEditor(StringPropertyInterface * property, QWidget * parent)
 
     this->boxLayout()->addWidget(m_comboBox);
 
-    this->connect(m_comboBox, &QComboBox::currentTextChanged, this, &ChoiceEditor::setString);
+    typedef void (QComboBox::*ACTIVATED_PTR) (const QString &);
+    this->connect(m_comboBox, (ACTIVATED_PTR)(&QComboBox::activated), this, &ChoiceEditor::setString);
 
     property->choicesChanged.connect(this, &ChoiceEditor::propertyChoicesChanged);
 }
