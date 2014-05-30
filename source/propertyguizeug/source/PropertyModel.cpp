@@ -77,14 +77,17 @@ QVariant PropertyModel::data(const QModelIndex & index, int role) const
     if (!index.isValid())
         return QVariant();
     
-    if (role != Qt::DisplayRole || index.column() != 0)
-        return QVariant();
-    
     PropertyItem * item = retrieveItem(index);
-
-    return QVariant(QString::fromStdString(item->property()->title()));
-}
     
+    if (role == Qt::DisplayRole && index.column() == 0)
+        return QVariant(QString::fromStdString(item->property()->title()));
+        
+    if (role == Qt::ToolTipRole)
+        return QVariant(QString::fromStdString(item->property()->annotations()));
+    
+    return QVariant();
+}
+
 Qt::ItemFlags PropertyModel::flags(const QModelIndex & index) const
 {
     if (!index.isValid())
