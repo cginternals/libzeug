@@ -39,12 +39,10 @@ PropertyItem::PropertyItem(
         {
             PropertyGroup * group = property->asGroup();
 
-            m_connections.append({ 
-                group->beforeAdd.connect(std::bind(&PropertyModel::onBeforeAdd, model, this, std::placeholders::_1, std::placeholders::_2)),
-                group->afterAdd.onFire(std::bind(&PropertyModel::onAfterAdd, model)),
-                group->beforeRemove.connect(std::bind(&PropertyModel::onBeforeRemove, model, this, std::placeholders::_1)),
-                group->afterRemove.onFire(std::bind(&PropertyModel::onAfterRemove, model))
-            });
+            m_connections.append(group->beforeAdd.connect(std::bind(&PropertyModel::onBeforeAdd, model, this, std::placeholders::_1, std::placeholders::_2)));
+            m_connections.append(group->afterAdd.onFire(std::bind(&PropertyModel::onAfterAdd, model)));
+            m_connections.append(group->beforeRemove.connect(std::bind(&PropertyModel::onBeforeRemove, model, this, std::placeholders::_1)));
+            m_connections.append(group->afterRemove.onFire(std::bind(&PropertyModel::onAfterRemove, model)));
         }
     }
 }
