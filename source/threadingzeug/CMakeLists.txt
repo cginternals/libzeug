@@ -60,7 +60,6 @@ set(header_path "${CMAKE_CURRENT_SOURCE_DIR}/include/${target}")
 set(source_path "${CMAKE_CURRENT_SOURCE_DIR}/source")
 
 set(headers
-    ${header_path}/threadingzeug_api.h
     ${header_path}/parallelfor.h
     ${header_path}/parallelfor.hpp
 )
@@ -86,6 +85,8 @@ if(OPTION_BUILD_STATIC)
 else()
     add_library(${target} SHARED ${headers} ${sources})
 endif()
+
+generate_library_export_header(${target})
 
 target_link_libraries(${target} ${libs})
 
@@ -113,4 +114,5 @@ install(TARGETS ${target}
 )
 
 # Header files
+install(FILES ${PROJECT_BINARY_DIR}/source/${target}/${target}_api.h DESTINATION ${INSTALL_INCLUDE}/${target})
 install(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/include/${target} DESTINATION ${INSTALL_INCLUDE})
