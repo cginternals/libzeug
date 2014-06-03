@@ -43,7 +43,6 @@ set(header_path "${CMAKE_CURRENT_SOURCE_DIR}/include/${target}")
 set(source_path "${CMAKE_CURRENT_SOURCE_DIR}/source")
 
 set(headers
-    ${header_path}/signalzeug_api.h
     ${header_path}/AbstractSignal.h
     ${header_path}/Connection.h
     ${header_path}/ConnectionMap.h
@@ -78,6 +77,8 @@ else()
     add_library(${target} SHARED ${headers} ${sources})
 endif()
 
+generate_library_export_header(${target})
+
 target_link_libraries(${target} ${libs})
 
 set_target_properties(${target}
@@ -104,4 +105,5 @@ install(TARGETS ${target}
 )
 
 # Header files
+install(FILES ${PROJECT_BINARY_DIR}/source/${target}/${target}_api.h DESTINATION ${INSTALL_INCLUDE}/${target})
 install(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/include/${target} DESTINATION ${INSTALL_INCLUDE})
