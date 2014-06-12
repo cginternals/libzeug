@@ -29,7 +29,7 @@ ChoiceEditor::ChoiceEditor(StringPropertyInterface * property, QWidget * parent)
     typedef void (QComboBox::*ACTIVATED_PTR) (const QString &);
     this->connect(m_comboBox, (ACTIVATED_PTR)(&QComboBox::activated), this, &ChoiceEditor::setString);
 
-    property->choicesChanged.connect(this, &ChoiceEditor::propertyChoicesChanged);
+    m_connection = property->choicesChanged.connect(this, &ChoiceEditor::propertyChoicesChanged);
 }
 
 ChoiceEditor::~ChoiceEditor()

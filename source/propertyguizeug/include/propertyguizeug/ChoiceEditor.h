@@ -4,6 +4,9 @@
 #include <reflectionzeug/property_declaration.h>
 
 #include <propertyguizeug/PropertyEditor.h>
+#include <reflectionzeug/StringPropertyInterface.h>
+
+#include <signalzeug/ScopedConnection.h>
 
 class QComboBox;
 
@@ -24,6 +27,7 @@ protected:
 protected:
     reflectionzeug::StringPropertyInterface * m_property;
     QComboBox * m_comboBox;
+    signalzeug::ScopedConnection m_connection;
 };
 
 } // namespace propertyguizeug
