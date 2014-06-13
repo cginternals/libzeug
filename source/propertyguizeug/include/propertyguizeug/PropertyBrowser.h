@@ -41,8 +41,6 @@ public:
 protected:
     void initView();
     
-    virtual void keyPressEvent(QKeyEvent * event);
-    
 protected:    
     PropertyDelegate * m_delegate;
     
