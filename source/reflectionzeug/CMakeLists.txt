@@ -123,6 +123,13 @@ set(headers
     ${header_path}/ValueProperty.h
     ${header_path}/ValueProperty.hpp
     ${header_path}/Variant.h
+    ${header_path}/Variant2.h
+    ${header_path}/Variant2.hpp
+    ${header_path}/VariantConverterRegistry.h
+    ${header_path}/VariantConverterRegistry.hpp
+    ${header_path}/VariantConverterRegistryInit.hpp
+    ${header_path}/VariantConverters.h
+    ${header_path}/VariantHolder.h
     ${header_path}/property_declaration.h
     ${header_path}/specialization_helpers.h
     ${header_path}/util.h
@@ -153,6 +160,7 @@ set(sources
     ${source_path}/UnsignedIntegralPropertyInterface.cpp
     ${source_path}/util.cpp
     ${source_path}/Variant.cpp
+    ${source_path}/Variant2.cpp
 )
 
 # Group source files
