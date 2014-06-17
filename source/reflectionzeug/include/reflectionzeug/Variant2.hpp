@@ -110,7 +110,7 @@ bool Variant2::canConvert() const
 }
 
 template <typename ValueType>
-const ValueType & Variant2::value() const
+ValueType Variant2::value() const
 {
     if (!m_content)
         return ValueType();

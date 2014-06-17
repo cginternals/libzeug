@@ -51,7 +51,7 @@ public:
     bool canConvert() const;
 
     template <typename ValueType>
-    const ValueType & value() const;
+    ValueType value() const;
 
 private:
     VariantContent * m_content;
