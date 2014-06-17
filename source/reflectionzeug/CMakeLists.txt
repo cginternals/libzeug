@@ -128,7 +128,6 @@ set(headers
     ${header_path}/VariantConverterRegistry.h
     ${header_path}/VariantConverterRegistry.hpp
     ${header_path}/VariantConverterInit.h
-    ${header_path}/VariantConverters.h
     ${header_path}/VariantHolder.h
     ${header_path}/VariantHolder.hpp
     ${header_path}/property_declaration.h

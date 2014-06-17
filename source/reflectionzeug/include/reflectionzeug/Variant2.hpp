@@ -26,7 +26,7 @@ bool Variant2::registerConverter()
 
     auto converter = [] (const FromType & input, void * output)
         {
-            *static_cast<ToType *>(output) = input;
+            *static_cast<ToType *>(output) = static_cast<const ToType &>(input);
             return true;
         };
 

@@ -21,7 +21,7 @@ struct VariantConverterInit<ValueType, EnableIf<std::is_integral<ValueType>>>
 {
     void operator()()
     {
-        Variant2::registerConverter<ValueType, bool>();
+        Variant2::registerConverter<ValueType, bool>(toBool);
         Variant2::registerConverter<ValueType, char>();
         Variant2::registerConverter<ValueType, unsigned char>();
         Variant2::registerConverter<ValueType, short>();
@@ -32,6 +32,11 @@ struct VariantConverterInit<ValueType, EnableIf<std::is_integral<ValueType>>>
         Variant2::registerConverter<ValueType, unsigned long>();
         Variant2::registerConverter<ValueType, long long>();
         Variant2::registerConverter<ValueType, unsigned long long>();
+    }
+
+    static bool toBool(const ValueType & value)
+    {
+        return value != 0;
     }
 };
 

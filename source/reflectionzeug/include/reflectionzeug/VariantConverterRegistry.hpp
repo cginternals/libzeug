@@ -18,7 +18,7 @@ VariantConverterRegistry<ValueType> & VariantConverterRegistry<ValueType>::insta
 template <typename ValueType>
 bool VariantConverterRegistry<ValueType>::canConvert(const std::type_info & typeInfo) const
 {
-    return m_converters.count(typeInfo);
+    return m_converters.count(typeInfo) > 0;
 }
 
 template <typename ValueType>
