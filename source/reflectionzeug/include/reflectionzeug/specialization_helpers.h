@@ -40,8 +40,8 @@ struct is_special_array : public std::false_type {};
 template <typename Type, size_t Size>
 struct is_special_array<Type, std::array<Type, Size>> : public std::true_type {};
 
-template <typename Condition>
-struct value_accessor : public std::enable_if<Condition::value> {};
+template <typename Condition, typename Type>
+struct value_accessor : public std::enable_if<Condition::value, Type> {};
 
 }
 
@@ -53,8 +53,8 @@ struct value_accessor : public std::enable_if<Condition::value> {};
  */
 /** \{ */
 
-template <typename Condition>
-using EnableIf = typename value_accessor<Condition>::type; 
+template <typename Condition, typename Type = void>
+using EnableIf = typename value_accessor<Condition, Type>::type; 
 
 template <typename Condition>
 struct Neg : public neg<Condition::value> {};
@@ -87,7 +87,7 @@ struct isSignedIntegral : public And<std::is_integral<Type>::value,
 template <typename Type>
 struct isFloatingPoint : public And<std::is_floating_point<Type>::value,
                                     Neg<std::is_same<Type, long double>>::value> {};
-    
+
 /** \} */
     
 } // namespace reflectionzeug

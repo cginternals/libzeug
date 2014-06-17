@@ -7,6 +7,8 @@
 #include <typeindex>
 #include <unordered_map>
 
+#include <reflectionzeug/specialization_helpers.h>
+
 
 namespace reflectionzeug
 {
@@ -16,15 +18,11 @@ class VariantConverterRegistry
 {
 public:
     static VariantConverterRegistry & instance();
-
+    
 public:
     using Converter = std::function<bool (const ValueType & input, void * output)>;
-
-    template <typename ConversionType>
-    using TypedConverter = std::function<bool (const ValueType & input, ConversionType * output)>;
-
-    template <typename ConversionType>
-    bool registerConverter(const TypedConverter<ConversionType> & converter);
+    
+    bool registerConverter(const std::type_info & typeInfo, const Converter & converter);
 
     bool canConvert(const std::type_info & typeInfo) const;
 
@@ -36,10 +34,12 @@ private:
 
     VariantConverterRegistry(const VariantConverterRegistry &) = delete;
     void operator=(const VariantConverterRegistry &) = delete;
+    
+    void init();
 
 private:
     std::unordered_map<std::type_index, Converter> m_converters;
-
+    bool m_initialized;
 };
 
 } // namespace reflectionzeug

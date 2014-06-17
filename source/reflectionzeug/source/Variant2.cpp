@@ -1,10 +1,6 @@
 
 #include <reflectionzeug/Variant2.h>
 
-#include <cassert>
-
-#include <reflectionzeug/TypeId.h>
-
 
 namespace reflectionzeug
 {
@@ -19,9 +15,9 @@ Variant2::Variant2(const Variant2 & variant)
 {
 }
 
-const std::type_info & Variant2::type() const
+Variant2::~Variant2()
 {
-    return m_content->type();
+    delete m_content;
 }
 
 bool Variant2::isNull() const

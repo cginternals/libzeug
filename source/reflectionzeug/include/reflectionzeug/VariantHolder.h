@@ -2,53 +2,44 @@
 #pragma once
 
 #include <reflectionzeug/Variant2.h>
-#include <reflectionzeug/VariantConverterRegistry.h>
 
 
 namespace reflectionzeug
 {
 
+class REFLECTIONZEUG_API VariantContent
+{
+public:
+    virtual ~VariantContent() = default;
+    virtual VariantContent * clone() const = 0;
+
+    virtual const std::type_info & type() const = 0;
+
+    virtual bool canConvert(const std::type_info & typeInfo) const = 0;
+    virtual bool convert(const std::type_info & typeInfo, void * result) const = 0;
+};
+
 template <typename ValueType>
 class VariantHolder : public VariantContent
 {
 public:
-    VariantHolder(const ValueType & value)
-    :   m_value(value)
-    {
-    }
+    VariantHolder(const ValueType & value);
+    VariantHolder(const VariantHolder & holder);
 
-    VariantHolder(const VariantHolder & holder)
-    :   m_value(holder.m_value)
-    {
-    }
+    virtual VariantHolder * clone() const;
 
-    virtual VariantHolder * clone() const
-    {
-        return new VariantHolder(*this);
-    }
+    virtual const std::type_info & type() const;
 
-    virtual const std::type_info & type() const
-    {
-        return typeid(ValueType);
-    }
+    virtual bool canConvert(const std::type_info & typeInfo) const;
 
-    virtual bool canConvert(const std::type_info & typeInfo) const
-    {
-        return VariantConverterRegistry<ValueType>::instance().canConvert(typeInfo);
-    }
+    virtual bool convert(const std::type_info & typeInfo, void * result) const;
 
-    virtual bool convert(const std::type_info & typeInfo, void * result) const
-    {
-        return VariantConverterRegistry<ValueType>::instance().convert(m_value, typeInfo, result);
-    }
-
-    const ValueType & value() const
-    {
-        return m_value;
-    }
+    const ValueType & value() const;
 
 private:
     const ValueType m_value;
 };
 
 } // namespace reflectionzeug
+
+#include "VariantHolder.hpp"

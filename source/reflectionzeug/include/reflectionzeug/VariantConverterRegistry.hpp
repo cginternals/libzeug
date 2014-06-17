@@ -1,7 +1,7 @@
 
 #pragma once
 
-#include <reflectionzeug/VariantConverterRegistryInit.h>
+#include <reflectionzeug/VariantConverterInit.h>
 
 
 namespace reflectionzeug
@@ -11,24 +11,8 @@ template <typename ValueType>
 VariantConverterRegistry<ValueType> & VariantConverterRegistry<ValueType>::instance()
 {
     static VariantConverterRegistry registry;
+    registry.init();
     return registry;
-}
-
-template <typename ValueType>
-template <typename ConversionType>
-bool VariantConverterRegistry<ValueType>::registerConverter(const TypedConverter<ConversionType> & converter)
-{
-    if (m_converters.count(typeid(ConversionType)))
-        return false;
-
-    Converter typelessConverter = [converter] (const ValueType & input, void * output)
-        {
-            return converter(input, static_cast<ConversionType *>(output));
-        };
-
-    m_converters.insert({ typeid(ConversionType), typelessConverter });
-
-    return true;
 }
 
 template <typename ValueType>
@@ -50,14 +34,34 @@ bool VariantConverterRegistry<ValueType>::convert(
 }
 
 template <typename ValueType>
-VariantConverterRegistry<ValueType>::VariantConverterRegistry()
+bool VariantConverterRegistry<ValueType>::registerConverter(const std::type_info & typeInfo, const Converter & converter)
 {
-    VariantConverterRegistryInit<ValueType>()(*this);
+    if (canConvert(typeInfo))
+        return false;
+
+    m_converters.insert({ typeInfo, converter });
+    return true;
+}
+
+template <typename ValueType>
+VariantConverterRegistry<ValueType>::VariantConverterRegistry()
+:   m_initialized(false)
+{
 }
 
 template <typename ValueType>
 VariantConverterRegistry<ValueType>::~VariantConverterRegistry()
 {
+}
+
+template <typename ValueType>
+void VariantConverterRegistry<ValueType>::init()
+{    
+    if (m_initialized)
+        return;
+        
+    m_initialized = true;
+    VariantConverterInit<ValueType>()();  
 }
 
 } // namespace reflectionzeug
