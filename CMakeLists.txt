@@ -1,9 +1,9 @@
 
-cmake_minimum_required(VERSION 2.8.11 FATAL_ERROR)
-
+# Test for minimum required CMake version 2.8.12
+cmake_minimum_required(VERSION 2.8.12 FATAL_ERROR)
 
 #
-# Project description
+# Project description and (meta) information
 #
 
 set(META_PROJECT_NAME        "libzeug")
@@ -13,13 +13,24 @@ set(META_VERSION_PATCH       "0")
 set(META_VERSION             "${META_VERSION_MAJOR}.${META_VERSION_MINOR}.${META_VERSION_PATCH}")
 set(META_AUTHOR_ORGANIZATION "hpicgs group")
 set(META_AUTHOR_DOMAIN       "https://github.com/hpicgs/libzeug/")
+set(META_AUTHOR_MAINTAINER   "stefan.buschmann@hpi.de")
+
+string(TOUPPER ${META_PROJECT_NAME} META_PROJECT_NAME_UPPER)
+
+
+# Limit supported configuration types
+set(CMAKE_CONFIGURATION_TYPES "Debug;Release" CACHE STRING "Limited Configs" FORCE)
+
+# Set project name and type (C/C++)
+project(${META_PROJECT_NAME} C CXX)
+
+
 
 
 #
-# Options
+# Configuration options
 #
 
-option(OPTION_LIMIT_CONFIGS        "Generate limited configs (Release; Debug)" ON)
 option(OPTION_PORTABLE_INSTALL     "Install into a self-contained directory" OFF)
 option(OPTION_BUILD_STATIC         "Build static libraries" OFF)
 option(OPTION_BUILD_EXAMPLES       "Build examples" ON)
@@ -39,16 +50,6 @@ set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR})
 set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR})
 set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR})
 
-# Set configuration types
-if(OPTION_LIMIT_CONFIGS)
-    set(CMAKE_CONFIGURATION_TYPES "Debug;Release" CACHE STRING "Limited Configs" FORCE)
-endif()
-set(CMAKE_BUILD_TYPE "Debug" CACHE STRING "Choose the type of build, options are: ${CMAKE_CONFIGURATION_TYPES}")
-# Reorder CMAKE_CONFIGURATION_TYPES list so that the chosen CMAKE_BUILD_TYPE is the first element.
-if (NOT "${CMAKE_BUILD_TYPE}" STREQUAL "")
-    list(REMOVE_ITEM CMAKE_CONFIGURATION_TYPES "${CMAKE_BUILD_TYPE}")
-    list(INSERT CMAKE_CONFIGURATION_TYPES 0 "${CMAKE_BUILD_TYPE}")
-endif()
 
 # Project
 project(${META_PROJECT_NAME} C CXX)
@@ -63,7 +64,7 @@ include(cmake/GitRevision.cmake)
 
 
 #
-# Platform and architecture
+# Platform and architecture setup
 #
 
 # Architecture (32/64 bit)
@@ -73,6 +74,14 @@ if(CMAKE_SIZEOF_VOID_P EQUAL 8)
 endif()
 
 # Setup platform specifics (compile flags, etc., ...)
+
+# This policy was introduced in 3.0.0 and does not allow for COMPILER_DEFINITIONS_<Config>,
+# anymore, but instead requires generator expressions like $<CONFIG:Debug> ... 
+# For now the current compile-flag, -definitions, and linker-flags setup shall remain as is.
+if(POLICY CMP0043)
+    cmake_policy(SET CMP0043 OLD)
+endif()
+
 if(MSVC)
     include(${CMAKE_CURRENT_SOURCE_DIR}/cmake/PlatformWindowsMSVC.cmake)
 elseif(WIN32 AND CMAKE_COMPILER_IS_GNUCXX)
@@ -85,7 +94,12 @@ else()
     message(WARNING "Unsupported platform/compiler combination")
 endif()
 
-# Installation paths
+
+
+
+#
+# Deployment/installation setup
+#
 set(project ${META_PROJECT_NAME})
 if(WIN32)
     set(INSTALL_ROOT          ".")                      # C:\Programme\<project>
@@ -131,22 +145,20 @@ else()
     endif()
 endif()
 
-
-#
-# Global deployment
-#
-
-# Project meta files
+# Install the project meta files
 install(FILES libzeug-config.cmake DESTINATION ${INSTALL_ROOT})
-install(FILES AUTHORS              DESTINATION ${INSTALL_ROOT})
-install(FILES LICENSE              DESTINATION ${INSTALL_ROOT})
+install(FILES AUTHORS DESTINATION ${INSTALL_ROOT})
+install(FILES LICENSE DESTINATION ${INSTALL_ROOT})
 
-# Add a revision file containing the git-head tag for cpack and install
+# Add a revision file containing the git-head tag for cpack and install. The function
+# "create_revision_file (...)" is defined in cmake/GitRevision.cmake
 create_revision_file(${CMAKE_BINARY_DIR}/revision ${INSTALL_ROOT})
 
 
+
+
 #
-# Include projects
+# Include subdirectories that contain project sources, documentation files, and packaging scripts
 #
 
 add_subdirectory(source)
