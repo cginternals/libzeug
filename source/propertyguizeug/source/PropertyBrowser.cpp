@@ -1,6 +1,9 @@
 
 #include <cassert>
 
+#include <reflectionzeug/AbstractProperty.h>
+#include <reflectionzeug/AbstractValueProperty.h>
+
 #include <propertyguizeug/PropertyModel.h>
 #include <propertyguizeug/PropertyDelegate.h>
 #include <propertyguizeug/PropertyEditorFactory.h>
@@ -8,7 +11,21 @@
 
 #include <propertyguizeug/PropertyBrowser.h>
 
+#include "PropertyItem.h"
+
+
 using namespace reflectionzeug;
+
+namespace
+{
+
+AbstractProperty * retrieveProperty(const QModelIndex & index)
+{
+    return static_cast<propertyguizeug::PropertyItem *>(index.internalPointer())->property();
+}
+    
+} // namespace
+
 namespace propertyguizeug
 {
     
@@ -71,14 +88,10 @@ void PropertyBrowser::setRoot(reflectionzeug::PropertyGroup * root)
     
 void PropertyBrowser::initView()
 {
-    this->setEditTriggers(QAbstractItemView::DoubleClicked  |
-                          QAbstractItemView::EditKeyPressed |
-                          QAbstractItemView::CurrentChanged);
+    this->setEditTriggers(QAbstractItemView::AllEditTriggers);
     this->setAlternatingRowColors(true);
     this->setUniformRowHeights(true);
-    this->setColumnWidth(0, 150);
-    this->setColumnWidth(1, 200);
-    this->expandAll();
+    this->setTabKeyNavigation(true);
 }
 
 } // namespace propertyguizeug

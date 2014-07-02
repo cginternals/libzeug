@@ -70,15 +70,6 @@ QWidget * PropertyDelegate::createEditor(QWidget * parent,
     return m_editorFactory->createEditorWithParent(*property->asValue(), parent);
 }
 
-void PropertyDelegate::setEditorData(QWidget *editor, const QModelIndex &index) const
-{
-}
-
-void PropertyDelegate::setModelData(QWidget * editor, QAbstractItemModel * model,
-    const QModelIndex & index) const
-{
-}
-
 void PropertyDelegate::updateEditorGeometry(QWidget * editor, const QStyleOptionViewItem & option,
     const QModelIndex & index) const
 {
@@ -88,7 +79,7 @@ void PropertyDelegate::updateEditorGeometry(QWidget * editor, const QStyleOption
 QSize PropertyDelegate::sizeHint (const QStyleOptionViewItem & option,
     const QModelIndex & index) const
 {
-    return QSize(100, 27);
+    return QSize(0, 27);
 }
 
 } // namespace propertyguizeug
