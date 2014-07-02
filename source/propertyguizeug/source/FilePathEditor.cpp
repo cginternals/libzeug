@@ -1,7 +1,6 @@
 
 #include <QHBoxLayout>
 #include <QSettings>
-#include <QApplication>
 #include <QFileDialog>
 #include <QVariant>
 #include <QCompleter>
@@ -50,12 +49,11 @@ FilePathEditor::~FilePathEditor()
     
 QStringList FilePathEditor::recentlyUsedFilePaths()
 {
-    QSettings settings(QSettings::NativeFormat,
-                       QSettings::UserScope,
-                       QApplication::organizationName());
-    
-    return settings.value(QString::fromStdString(m_property->uniqueIdentifier()),
-                          QVariant(QStringList())).toStringList();
+    if (m_property->uniqueIdentifier().empty())
+        return QStringList();
+
+    QSettings settings;
+    return settings.value(QString::fromStdString(m_property->uniqueIdentifier()), QStringList()).toStringList();
 }
 
 void FilePathEditor::pushRecentlyUsedFilePath(const QString & filePath)
@@ -67,13 +65,12 @@ void FilePathEditor::pushRecentlyUsedFilePath(const QString & filePath)
     
     if (!list.contains(filePath))
         list.push_back(filePath);
-    
-    QSettings settings(QSettings::NativeFormat,
-                       QSettings::UserScope,
-                       QApplication::organizationName());
-    
-    settings.setValue(QString::fromStdString(m_property->uniqueIdentifier()),
-                      QVariant(list));
+
+    if (m_property->uniqueIdentifier().empty())
+        return;
+
+    QSettings settings;    
+    settings.setValue(QString::fromStdString(m_property->uniqueIdentifier()), QVariant(list));
 }
     
 void FilePathEditor::handleItemActivated(const QString & text)
