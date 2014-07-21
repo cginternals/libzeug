@@ -14,7 +14,7 @@ namespace loggingzeug
 	\see setLoggingHandler
 	\see logging.h
 */
-class LOGGINGZEUG_API ConsoleLogger : public AbstractLogHandler
+class LOGGINGZEUG_API ConsoleLogHandler : public AbstractLogHandler
 {
 public:
     virtual void handle(const LogMessage & message) override;

@@ -1,11 +1,11 @@
-#include <loggingzeug/ConsoleLogger.h>
+#include <loggingzeug/ConsoleLogHandler.h>
 
 #include <iostream>
 
 namespace loggingzeug
 {
 
-void ConsoleLogger::handle(const LogMessage& message)
+void ConsoleLogHandler::handle(const LogMessage& message)
 {
     if (LogMessage::Info > message.level())
 	    std::cerr << levelString(message.level()) << message.message() << std::endl;
@@ -13,7 +13,7 @@ void ConsoleLogger::handle(const LogMessage& message)
         std::cout << levelString(message.level()) << message.message() << std::endl;
 }
 
-std::string ConsoleLogger::levelString(LogMessage::Level level)
+std::string ConsoleLogHandler::levelString(LogMessage::Level level)
 {
 	switch (level)
 	{

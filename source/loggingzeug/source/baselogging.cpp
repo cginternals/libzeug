@@ -4,12 +4,12 @@
 
 #include <loggingzeug/AbstractLogHandler.h>
 #include <loggingzeug/LogMessageBuilder.h>
-#include <loggingzeug/ConsoleLogger.h>
+#include <loggingzeug/ConsoleLogHandler.h>
 
 namespace
 {
     loggingzeug::LogMessage::Level l_verbosityLevel = loggingzeug::LogMessage::Info;
-    loggingzeug::AbstractLogHandler * l_logHandler = new loggingzeug::ConsoleLogger();
+    loggingzeug::AbstractLogHandler * l_logHandler = new loggingzeug::ConsoleLogHandler();
 }
 
 namespace loggingzeug

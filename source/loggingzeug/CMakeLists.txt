@@ -43,7 +43,7 @@ set(headers
     ${header_path}/loggingzeug_api.h
 
     ${header_path}/AbstractLogHandler.h
-    ${header_path}/ConsoleLogger.h
+    ${header_path}/ConsoleLogHandler.h
     ${header_path}/LogMessage.h
     ${header_path}/LogMessageBuilder.h
     ${header_path}/LogMessageBuilder.hpp
@@ -55,7 +55,7 @@ set(headers
 )
 
 set(sources
-    ${source_path}/ConsoleLogger.cpp
+    ${source_path}/ConsoleLogHandler.cpp
     ${source_path}/LogMessage.cpp
     ${source_path}/LogMessageBuilder.cpp
     ${source_path}/baselogging.cpp
