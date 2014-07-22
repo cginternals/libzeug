@@ -5,12 +5,31 @@
 namespace loggingzeug
 {
 
-void ConsoleLogHandler::handle(const LogMessage& message)
+void ConsoleLogHandler::handle(const LogMessage & message)
 {
     if (LogMessage::Info > message.level())
-	    std::cerr << levelString(message.level()) << message.message() << std::endl;
+	    std::cerr << messagePrefix(message) << message.message() << std::endl;
     else
-        std::cout << levelString(message.level()) << message.message() << std::endl;
+        std::cout << messagePrefix(message) << message.message() << std::endl;
+}
+
+std::string ConsoleLogHandler::messagePrefix(const LogMessage & message)
+{
+	std::string prefix = levelString(message.level());
+
+
+	if (!message.context().empty())
+	{
+		if (!prefix.empty())
+			prefix = prefix + " ";
+
+		prefix = prefix + "[" + message.context() + "]";
+	}
+
+	if (prefix.empty())
+		return prefix;
+
+	return prefix + ": ";
 }
 
 std::string ConsoleLogHandler::levelString(LogMessage::Level level)
@@ -18,11 +37,11 @@ std::string ConsoleLogHandler::levelString(LogMessage::Level level)
 	switch (level)
 	{
 	case LogMessage::Fatal:
-		return "#fatal: ";
+		return "#fatal";
 	case LogMessage::Critical:
-		return "#critical: ";
+		return "#critical";
 	case LogMessage::Warning:
-		return "#warning: ";
+		return "#warning";
 	default:
 		return "";
 	}

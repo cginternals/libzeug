@@ -15,29 +15,29 @@ namespace
 namespace loggingzeug
 {
 
-LogMessageBuilder info(LogMessage::Level level)
+LogMessageBuilder info(const std::string & context, LogMessage::Level level)
 {
-    return LogMessageBuilder(level, level <= l_verbosityLevel ? l_logHandler : nullptr);
+    return LogMessageBuilder(level, level <= l_verbosityLevel ? l_logHandler : nullptr, context);
 }
 
-LogMessageBuilder debug()
+LogMessageBuilder debug(const std::string & context)
 {
-    return info(LogMessage::Debug);
+    return info(context, LogMessage::Debug);
 }
 
-LogMessageBuilder warning()
+LogMessageBuilder warning(const std::string & context)
 {
-    return info(LogMessage::Warning);
+    return info(context, LogMessage::Warning);
 }
 
-LogMessageBuilder critical()
+LogMessageBuilder critical(const std::string & context)
 {
-    return info(LogMessage::Critical);
+    return info(context, LogMessage::Critical);
 }
 
-LogMessageBuilder fatal()
+LogMessageBuilder fatal(const std::string & context)
 {
-    return info(LogMessage::Fatal);
+    return info(context, LogMessage::Fatal);
 }
 
 AbstractLogHandler * loggingHandler()

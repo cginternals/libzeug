@@ -27,14 +27,16 @@ public:
 		Info
 	};
 
-	LogMessage(Level level, const std::string& message);
+	LogMessage(Level level, const std::string& message, const std::string& context);
 
 	Level level() const;
 	const std::string& message() const;
+	const std::string& context() const;
 
 protected:
 	Level m_level;
 	std::string m_message;
+	std::string m_context;
 };
 
 } // namespace loggingzeug

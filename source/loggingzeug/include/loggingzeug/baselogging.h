@@ -20,11 +20,11 @@ class LogMessageBuilder;
   * info() << "Message: " << 3.14;
   * \endcode
   */
-LOGGINGZEUG_API LogMessageBuilder info(LogMessage::Level level = LogMessage::Info);
-LOGGINGZEUG_API LogMessageBuilder debug();
-LOGGINGZEUG_API LogMessageBuilder warning();
-LOGGINGZEUG_API LogMessageBuilder critical();
-LOGGINGZEUG_API LogMessageBuilder fatal();
+LOGGINGZEUG_API LogMessageBuilder info(const std::string & context = "", LogMessage::Level level = LogMessage::Info);
+LOGGINGZEUG_API LogMessageBuilder debug(const std::string & context = "");
+LOGGINGZEUG_API LogMessageBuilder warning(const std::string & context = "");
+LOGGINGZEUG_API LogMessageBuilder critical(const std::string & context = "");
+LOGGINGZEUG_API LogMessageBuilder fatal(const std::string & context = "");
 
 LOGGINGZEUG_API void setLoggingHandler(AbstractLogHandler * handler);
 LOGGINGZEUG_API AbstractLogHandler * loggingHandler();
@@ -37,38 +37,38 @@ LOGGINGZEUG_API LogMessage::Level verbosityLevel();
  *
  *  Sample usage:
  *  \code{.cpp}
- *      info("This is a test: %; pi = %+0E10.5;", 42, 3.141592653589793); // output: "This is a test: 42 pi = +3.14159E+00"
- *      info("%; - %X; - %rf?_10.2;", "a string", 255, 2.71828182846); // output: "a string - 255 - ______2.72"
+ *      fInfo("This is a test: %; pi = %+0E10.5;", 42, 3.141592653589793); // output: "This is a test: 42 pi = +3.14159E+00"
+ *      fInfo("%; - %X; - %rf?_10.2;", "a string", 255, 2.71828182846); // output: "a string - 255 - ______2.72"
  *  \endcode
  *
  *   \see formatString
  */
 template <typename... Arguments>
-void info(const char* format, Arguments... arguments);
+void fInfo(const char* format, Arguments... arguments);
 
 /**
- *  \see info
+ *  \see fInfo
  */
 template <typename... Arguments>
-void debug(const char* format, Arguments... arguments);
+void fDebug(const char* format, Arguments... arguments);
 
 /**
- *  \see info
+ *  \see fInfo
  */
 template <typename... Arguments>
-void warning(const char* format, Arguments... arguments);
+void fWarning(const char* format, Arguments... arguments);
 
 /**
- *  \see info
+ *  \see fInfo
  */
 template <typename... Arguments>
-void critical(const char* format, Arguments... arguments);
+void fCritical(const char* format, Arguments... arguments);
 
 /**
- *  \see info
+ *  \see fInfo
  */
 template <typename... Arguments>
-void fatal(const char* format, Arguments... arguments);
+void fFatal(const char* format, Arguments... arguments);
 
 } // namespace loggingzeug
 

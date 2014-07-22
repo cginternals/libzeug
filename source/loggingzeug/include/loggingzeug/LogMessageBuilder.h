@@ -48,7 +48,7 @@ public:
     using FillManipulator = decltype(std::setfill('0'));
     using WidthManipulator = decltype(std::setw(0));
 public:
-    LogMessageBuilder(LogMessage::Level level, AbstractLogHandler * handler);
+    LogMessageBuilder(LogMessage::Level level, AbstractLogHandler * handler, const std::string & context);
     LogMessageBuilder(const LogMessageBuilder & builder);
 	virtual ~LogMessageBuilder();
 
@@ -88,6 +88,7 @@ public:
 protected:
 	LogMessage::Level m_level;
     AbstractLogHandler * m_handler;
+    std::string m_context;
     std::shared_ptr<std::stringstream> m_stream;
 };
 

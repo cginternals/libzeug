@@ -10,9 +10,10 @@
 namespace loggingzeug
 {
 
-LogMessageBuilder::LogMessageBuilder(LogMessage::Level level, AbstractLogHandler * handler)
+LogMessageBuilder::LogMessageBuilder(LogMessage::Level level, AbstractLogHandler * handler, const std::string & context)
 : m_level(level)
 , m_handler(handler)
+, m_context(context)
 , m_stream(new std::stringstream)
 {
     assert(handler != nullptr);
@@ -21,6 +22,7 @@ LogMessageBuilder::LogMessageBuilder(LogMessage::Level level, AbstractLogHandler
 LogMessageBuilder::LogMessageBuilder(const LogMessageBuilder & builder)
 : m_level(builder.m_level)
 , m_handler(builder.m_handler)
+, m_context(builder.m_context)
 , m_stream(builder.m_stream)
 {
 }
@@ -31,7 +33,7 @@ LogMessageBuilder::~LogMessageBuilder()
         return;
 
 	if (m_handler)
-        m_handler->handle(LogMessage(m_level, m_stream->str()));
+        m_handler->handle(LogMessage(m_level, m_stream->str(), m_context));
 }
 
 LogMessageBuilder & LogMessageBuilder::operator<<(const char * c)
