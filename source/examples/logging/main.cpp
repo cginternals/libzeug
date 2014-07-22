@@ -16,7 +16,7 @@ int main(int argc, char const *argv[])
 
     info("A") << "Info message from context A";
     warning("B") << "Warning from context B";
-    fatal("C") << "Fatal message from context C" << std::endl;
+    fatal("C") << "Fatal message from context C";
 
 
     return 0;
