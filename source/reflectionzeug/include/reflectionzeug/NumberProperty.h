@@ -9,7 +9,9 @@ namespace reflectionzeug
 /**
  * \brief An intermediate class for numeric property types.
  *
- * Adds a minimum and maximum as well as a step size.
+ * It sets two option in the constructor
+ * - _minimum (Type)_: initialized to the lowest value of Type
+ * - _maximum (Type)_: initialized to the greates value of Type
  *
  * \ingroup property_hierarchy
  */

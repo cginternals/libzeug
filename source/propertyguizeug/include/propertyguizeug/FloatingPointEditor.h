@@ -10,7 +10,7 @@ class QDoubleSpinBox;
 namespace propertyguizeug
 {
 
-/** \brief Editor for floating point propertyies
+/** \brief Editor for floating point properties
  *
  * Supported options
  * - _minimum (double)_: lowest value to be accepted
