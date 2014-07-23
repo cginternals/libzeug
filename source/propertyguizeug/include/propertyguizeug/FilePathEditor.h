@@ -1,6 +1,8 @@
 
 #pragma once
 
+#include <QString>
+
 #include <reflectionzeug/property_declaration.h>
 
 #include <propertyguizeug/PropertyEditor.h>
@@ -16,7 +18,16 @@ namespace reflectionzeug
 
 namespace propertyguizeug
 {
-    
+
+/** \brief Editor for FilePath class
+ *
+ * Supported options:
+ * - uniqueidentifier (std::string): used to save recent files with QSettings
+ *
+ * Supported flags:
+ * - shouldexist
+ * - isfile
+ */    
 class PROPERTYGUIZEUG_API FilePathEditor : public PropertyEditor
 {
 public:
@@ -35,9 +46,9 @@ private:
     static const QString s_openFileDialog;
 
 protected:
-    
     QLineEdit * m_lineEdit;
     bool m_dialogOpened;
+    QString m_uniqueIdentifier;
 
     QString m_filePathFromDialog;
     

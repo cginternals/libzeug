@@ -17,9 +17,9 @@ class ULongLongSpinBox;
 /** \brief Editor for signed integral point properties
  *
  * Supported options
- * - _minimum (unsigned long long)_: lowest value to be accepted
- * - _maximum (unsigned long long)_: greatest value to be accepted
- * - _step (unsigned long long)_: step size of the spinbox
+ * - minimum (unsigned long long): lowest value to be accepted
+ * - maximum (unsigned long long): greatest value to be accepted
+ * - step (unsigned long long): step size of the spinbox
  */
 class PROPERTYGUIZEUG_API UnsignedIntegralEditor : public PropertyEditor
 {

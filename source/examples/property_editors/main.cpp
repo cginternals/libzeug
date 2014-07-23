@@ -29,6 +29,7 @@ void addFlagProperty(PropertyGroup * group, const std::string & flag)
 int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);
+    QApplication::setApplicationName("property_editors");
     QApplication::setOrganizationName("hpicgs_libzeug");
     
     PropertyGroup group;
@@ -134,6 +135,21 @@ int main(int argc, char *argv[])
                 stringProperty->removeOption("choices");
             }
         });
+        
+    subGroup = group.addGroup("other"); 
+
+    subGroup->addProperty<FilePath>("filePath", "")->setOptions({
+        { "uniqueidentifier", Variant2("filePath") }
+    });
+    
+    subGroup->addProperty<Color>("color", Color(128, 128, 128));
+    
+    enum class MyEnum { One, Two, Three };
+    subGroup->addProperty<MyEnum>("enum", MyEnum::One)->setStrings({
+        { MyEnum::One, "One" },
+        { MyEnum::Two, "Two" },
+        { MyEnum::Three, "Three" }
+    });
 
     PropertyBrowser browser;
     browser.setRoot(&group);

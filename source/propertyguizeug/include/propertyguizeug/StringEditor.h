@@ -13,7 +13,7 @@ namespace propertyguizeug
 /** \brief Editor for strings
  *
  * Supported options
- * - _choices (std::vector<std::string>)_: list of choices; when set, editor will be a combobox.
+ * - choices (std::vector<std::string>): list of choices; when set, editor will be a combobox.
  */
 class PROPERTYGUIZEUG_API StringEditor : public PropertyEditor
 {

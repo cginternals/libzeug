@@ -13,10 +13,10 @@ namespace propertyguizeug
 /** \brief Editor for floating point properties
  *
  * Supported options
- * - _minimum (double)_: lowest value to be accepted
- * - _maximum (double)_: greatest value to be accepted
- * - _step (double)_: step size of the spinbox
- * - _precision (uint)_: number of decimals used 
+ * - minimum (double): lowest value to be accepted
+ * - maximum (double): greatest value to be accepted
+ * - step (double): step size of the spinbox
+ * - precision (uint): number of decimals used 
  */
 class PROPERTYGUIZEUG_API FloatingPointEditor : public PropertyEditor
 {
