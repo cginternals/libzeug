@@ -62,6 +62,15 @@ void AbstractProperty::setOption(const std::string & key, const Variant2 & value
     m_options.insert({ key, value });
 }
 
+bool AbstractProperty::removeOption(const std::string & key)
+{
+    if (!this->hasOption(key))
+        return false;
+        
+    m_options.erase(key);
+    return true;
+}
+
 void AbstractProperty::setOptions(const VariantMap & map)
 {
     m_options.insert(map.begin(), map.end());

@@ -42,6 +42,7 @@ public:
     bool hasOption(const std::string & key) const;
     Variant2 option(const std::string & key) const;
     void setOption(const std::string & key, const Variant2 & value);
+    bool removeOption(const std::string & key);
     
     void setOptions(const VariantMap & map);
     

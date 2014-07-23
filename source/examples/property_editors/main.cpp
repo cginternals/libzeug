@@ -12,12 +12,29 @@
 using namespace reflectionzeug;
 using namespace propertyguizeug;
 
+void addFlagProperty(PropertyGroup * group, const std::string & flag)
+{
+    group->addProperty<bool>(flag, false)->valueChanged.connect([&flag, group] (bool b)
+        {
+            group->forEachGroup([&flag, b] (PropertyGroup & subGroup)
+                {
+                    if (b)
+                        subGroup.addFlag(flag);
+                    else
+                        subGroup.removeFlag(flag);
+                });
+        });
+}
+
 int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);
     QApplication::setOrganizationName("hpicgs_libzeug");
     
     PropertyGroup group;
+    
+    addFlagProperty(&group, "readonly");
+    addFlagProperty(&group, "disabled");
     
     PropertyGroup * subGroup;
     
@@ -101,20 +118,21 @@ int main(int argc, char *argv[])
         { "step", Variant2(5ull) }
     });
     
-    group.addProperty<bool>("readonly", false)->valueChanged.connect([&group] (bool b) 
+    subGroup = group.addGroup("string");
+    
+    auto * stringProperty = subGroup->addProperty<std::string>("std_string", "Hallo Welt!");
+    
+    subGroup->addProperty<bool>("choices", false)->valueChanged.connect([stringProperty] (bool b)
         {
             if (b)
-                group.addFlag("readonly");
+            {
+                Variant2 choices = Variant2::fromValue<std::vector<std::string>>({ "blau", "rot", "grün" });
+                stringProperty->setOption("choices", choices);
+            }
             else
-                group.removeFlag("readonly");
-        });
-        
-    group.addProperty<bool>("disabled", false)->valueChanged.connect([&group] (bool b)
-        {
-            if (b)
-                group.addFlag("disabled");
-            else
-                group.removeFlag("disabled");
+            {
+                stringProperty->removeOption("choices");
+            }
         });
 
     PropertyBrowser browser;

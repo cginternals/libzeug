@@ -56,7 +56,6 @@ set(source_path "${CMAKE_CURRENT_SOURCE_DIR}/source")
 set(headers
     ${header_path}/propertyguizeug_api.h
     ${header_path}/BoolEditor.h
-    ${header_path}/ChoiceEditor.h
     ${header_path}/ColorButton.h
     ${header_path}/ColorEditor.h
     ${header_path}/EnumEditor.h
@@ -78,7 +77,6 @@ set(headers
 
 set(sources
     ${source_path}/BoolEditor.cpp
-    ${source_path}/ChoiceEditor.cpp
     ${source_path}/ColorButton.cpp
     ${source_path}/ColorEditor.cpp
     ${source_path}/EnumEditor.cpp
