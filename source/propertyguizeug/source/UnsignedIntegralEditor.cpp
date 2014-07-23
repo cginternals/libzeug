@@ -20,7 +20,9 @@ UnsignedIntegralEditor::UnsignedIntegralEditor(
     boxLayout()->addWidget(m_spinBox);
     setFocusProxy(m_spinBox);
 
-    double minimum, maximum;
+    m_spinBox->setValue(m_property->toULongLong());
+
+    qulonglong minimum, maximum;
     
     if (m_property->hasOption("minimum"))
         minimum = m_property->option("minimum").value<qulonglong>();
@@ -38,7 +40,7 @@ UnsignedIntegralEditor::UnsignedIntegralEditor(
         m_spinBox->setStep(m_property->option("step").value<qulonglong>());
     
     connect(m_spinBox, &ULongLongSpinBox::valueChanged,
-        [this] (const unsigned long long & value) 
+        [this] (const qulonglong & value) 
         {
             m_property->fromULongLong(value);
         });

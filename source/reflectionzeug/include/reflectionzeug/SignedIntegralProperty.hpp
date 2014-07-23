@@ -30,13 +30,13 @@ void SignedIntegralProperty<Type>::accept(AbstractPropertyVisitor * visitor)
 }
 
 template <typename Type>
-long long SignedIntegralProperty<Type>::toULongLong() const
+long long SignedIntegralProperty<Type>::toLongLong() const
 {
     return this->value();
 }
 
 template <typename Type>
-bool SignedIntegralProperty<Type>::fromULongLong(long long integral)
+bool SignedIntegralProperty<Type>::fromLongLong(long long integral)
 {
     this->setValue(static_cast<Type>(integral));
     return true;

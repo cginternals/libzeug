@@ -20,8 +20,8 @@ class REFLECTIONZEUG_API SignedIntegralPropertyInterface : public virtual Abstra
 public:    
     virtual void accept(AbstractPropertyVisitor * visitor);
 
-    virtual long long toULongLong() const = 0;
-    virtual bool fromULongLong(long long integral) = 0;
+    virtual long long toLongLong() const = 0;
+    virtual bool fromLongLong(long long integral) = 0;
 
 };
 

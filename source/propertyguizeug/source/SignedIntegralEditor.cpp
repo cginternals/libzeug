@@ -20,7 +20,9 @@ SignedIntegralEditor::SignedIntegralEditor(
     boxLayout()->addWidget(m_spinBox);
     setFocusProxy(m_spinBox);
 
-    double minimum, maximum;
+    m_spinBox->setValue(m_property->toLongLong());
+
+    qlonglong minimum, maximum;
     
     if (m_property->hasOption("minimum"))
         minimum = m_property->option("minimum").value<qlonglong>();
@@ -40,7 +42,7 @@ SignedIntegralEditor::SignedIntegralEditor(
     connect(m_spinBox, &LongLongSpinBox::valueChanged,
         [this] (const qlonglong & value) 
         {
-            m_property->fromULongLong(value);
+            m_property->fromLongLong(value);
         });
 }
     
