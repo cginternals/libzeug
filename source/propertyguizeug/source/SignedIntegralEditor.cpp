@@ -20,22 +20,28 @@ SignedIntegralEditor::SignedIntegralEditor(
     boxLayout()->addWidget(m_spinBox);
     setFocusProxy(m_spinBox);
 
-    m_spinBox->setValue(m_property->toULongLong());
-    m_spinBox->setRange(m_property->uLongLongMinimum(),
-                        m_property->uLongLongMaximum());
-
-    if (m_property->hasStep())
-        m_spinBox->setStep(m_property->uLongLongStep());
+    double minimum, maximum;
+    
+    if (m_property->hasOption("minimum"))
+        minimum = m_property->option("minimum").value<qlonglong>();
+    else
+        minimum = std::numeric_limits<qlonglong>::min();
+        
+    if (m_property->hasOption("maximum"))
+        maximum = m_property->option("maximum").value<qlonglong>();
+    else
+        maximum = std::numeric_limits<qlonglong>::max();
+    
+    m_spinBox->setRange(minimum, maximum);
+    
+    if (m_property->hasOption("step"))
+        m_spinBox->setStep(m_property->option("step").value<qlonglong>());
     
     connect(m_spinBox, &LongLongSpinBox::valueChanged,
-        [this] (const unsigned long long & value) 
+        [this] (const qlonglong & value) 
         {
             m_property->fromULongLong(value);
         });
-}
-    
-SignedIntegralEditor::~SignedIntegralEditor()
-{
 }
     
 } // namespace propertyguizeug

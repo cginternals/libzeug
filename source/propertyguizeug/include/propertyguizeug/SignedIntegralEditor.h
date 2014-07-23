@@ -20,8 +20,6 @@ public:
     SignedIntegralEditor(reflectionzeug::SignedIntegralPropertyInterface * property, 
                          QWidget * parent = nullptr);
 
-    virtual ~SignedIntegralEditor();
-
 protected:
     LongLongSpinBox * m_spinBox;
     

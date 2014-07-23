@@ -83,12 +83,6 @@ bool Variant2::registerConverter(FunctorType functor)
 }
 
 template <typename ValueType>
-Variant2::Variant2(const ValueType & value)
-:   m_content(new VariantHolder<ValueType>(value))
-{
-}
-
-template <typename ValueType>
 bool Variant2::hasType() const
 {
     if (!m_content)

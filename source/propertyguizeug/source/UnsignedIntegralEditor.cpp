@@ -20,12 +20,22 @@ UnsignedIntegralEditor::UnsignedIntegralEditor(
     boxLayout()->addWidget(m_spinBox);
     setFocusProxy(m_spinBox);
 
-    m_spinBox->setValue(m_property->toULongLong());
-    m_spinBox->setRange(m_property->uLongLongMinimum(),
-                        m_property->uLongLongMaximum());
-
-    if (m_property->hasStep())
-        m_spinBox->setStep(m_property->uLongLongStep());
+    double minimum, maximum;
+    
+    if (m_property->hasOption("minimum"))
+        minimum = m_property->option("minimum").value<qulonglong>();
+    else
+        minimum = std::numeric_limits<qulonglong>::min();
+        
+    if (m_property->hasOption("maximum"))
+        maximum = m_property->option("maximum").value<qulonglong>();
+    else
+        maximum = std::numeric_limits<qulonglong>::max();
+    
+    m_spinBox->setRange(minimum, maximum);
+	
+    if (m_property->hasOption("step"))
+        m_spinBox->setStep(m_property->option("step").value<qulonglong>());
     
     connect(m_spinBox, &ULongLongSpinBox::valueChanged,
         [this] (const unsigned long long & value) 

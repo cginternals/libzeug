@@ -30,48 +30,6 @@ void SignedIntegralProperty<Type>::accept(AbstractPropertyVisitor * visitor)
 }
 
 template <typename Type>
-long long SignedIntegralProperty<Type>::uLongLongMinimum()
-{
-    return this->minimum();
-}
-
-template <typename Type>
-bool SignedIntegralProperty<Type>::hasMinimum() const
-{
-    return NumberProperty<Type>::hasMinimum();
-}
-
-template <typename Type>
-long long SignedIntegralProperty<Type>::uLongLongMaximum()
-{
-    return this->maximum();
-}
-
-template <typename Type>
-bool SignedIntegralProperty<Type>::hasMaximum() const
-{
-    return NumberProperty<Type>::hasMaximum();
-}
-
-template <typename Type>
-bool SignedIntegralProperty<Type>::hasRange() const
-{
-    return NumberProperty<Type>::hasRange();
-}
-
-template <typename Type>
-long long SignedIntegralProperty<Type>::uLongLongStep()
-{
-    return this->step();
-}
-
-template <typename Type>
-bool SignedIntegralProperty<Type>::hasStep() const
-{
-    return NumberProperty<Type>::hasStep();
-}
-
-template <typename Type>
 long long SignedIntegralProperty<Type>::toULongLong() const
 {
     return this->value();

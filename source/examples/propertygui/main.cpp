@@ -46,7 +46,7 @@ int main(int argc, char *argv[])
             widget->setVisible(b);
         });
         
-    visible->setAnnotations("Opens and closes the example window.");
+    visible->setOption("tooltip", Variant2("Opens and closes the example window."));
 
     PropertyGroup * size = settings->addGroup("Size");
 
@@ -95,7 +95,7 @@ int main(int argc, char *argv[])
             }
         });
 
-    minimumSize->setTitle("Minimum Size");
+    minimumSize->setOption("title", Variant2("Minimum Size"));
 
     auto * maximumSize = size->addProperty<std::array<int, 2>>("maximumSize",
         [widget](size_t i) -> int {
@@ -123,7 +123,7 @@ int main(int argc, char *argv[])
             }
         });
 
-    maximumSize->setTitle("Maximum Size");
+    maximumSize->setOption("title", Variant2("Maximum Size"));
 
     auto * windowTitle = settings->addProperty<std::string>("windowTitle",
         [widget]() {
@@ -133,7 +133,7 @@ int main(int argc, char *argv[])
             widget->setWindowTitle(QString::fromStdString(title));
         });
 
-    windowTitle->setTitle("Window Title");
+    windowTitle->setOption("title", Variant2("Window Title"));
 
     auto * backgroundColor = settings->addProperty<Color>("backgroundColor",
         [widget]() {
@@ -147,8 +147,8 @@ int main(int argc, char *argv[])
             widget->setPalette(palette);
         });
 
-    backgroundColor->setTitle("Background Color");
-    backgroundColor->setAnnotations("Sets the background color of the example window.");
+    backgroundColor->setOption("title", Variant2("Background Color"));
+    backgroundColor->setOption("tooltip", Variant2("Sets the background color of the example window."));
 
     auto * cursorProperty = settings->addProperty<Qt::CursorShape>("Cursor",
         [widget] () 
@@ -169,7 +169,7 @@ int main(int argc, char *argv[])
     
     Property<FilePath> * filePath = settings->addProperty<FilePath>("filePath", "");
     filePath->setUniqueIdentifier("settings/filePath");
-    filePath->setAnnotations("A file path with no meaning.");
+    filePath->setOption("tooltip", Variant2("A file path with no meaning."));
 
     QPushButton button("Add");
 

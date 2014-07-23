@@ -38,10 +38,6 @@ bool AbstractProperty::setName(const std::string & name)
         return false;
     
     m_name = name;
-    
-    if (!this->hasTitle())
-        setTitle(name);
-    
     return true;
 }
     
@@ -50,31 +46,6 @@ bool AbstractProperty::hasName() const
     return !m_name.empty();
 }
 
-const std::string & AbstractProperty::title() const
-{
-    return m_title;
-}
-
-void AbstractProperty::setTitle(const std::string & title)
-{
-    m_title = title;
-}
-    
-bool AbstractProperty::hasTitle() const
-{
-    return !m_title.empty();
-}
-    
-const std::string & AbstractProperty::annotations() const
-{
-    return m_annotations;
-}
-
-void AbstractProperty::setAnnotations(const std::string & annotations)
-{
-    m_annotations = annotations;
-}
-    
 bool AbstractProperty::isEnabled() const
 {
     return m_enabled;
@@ -84,7 +55,30 @@ void AbstractProperty::setEnabled(bool enabled)
 {
     m_enabled = enabled;
 }
-    
+
+bool AbstractProperty::hasOption(const std::string & key) const
+{
+    return m_options.count(key) != 0;
+}
+
+Variant2 AbstractProperty::option(const std::string & key) const
+{
+    if (!this->hasOption(key))
+        return Variant2();
+
+    return m_options.at(key);
+}
+
+void AbstractProperty::setOption(const std::string & key, const Variant2 & value)
+{
+    m_options.insert({ key, value });
+}
+
+void AbstractProperty::setOptions(const VariantMap & map)
+{
+    m_options.insert(map.begin(), map.end());
+}
+
 AbstractValueProperty * AbstractProperty::asValue()
 {
     return dynamic_cast<AbstractValueProperty *>(this);

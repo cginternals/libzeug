@@ -7,6 +7,7 @@
 #include <signalzeug/Signal.h>
 
 #include <reflectionzeug/reflectionzeug_api.h>
+#include <reflectionzeug/Variant2.h>
 
 namespace reflectionzeug
 {
@@ -40,15 +41,14 @@ public:
     bool setName(const std::string & name);
     bool hasName() const;
     
-    const std::string & title() const;
-    void setTitle(const std::string & title);
-    bool hasTitle() const;
-    
-    const std::string & annotations() const;
-    void setAnnotations(const std::string & annotations);
-    
     bool isEnabled() const;
     void setEnabled(bool enabled);
+
+    bool hasOption(const std::string & key) const;
+    Variant2 option(const std::string & key) const;
+    void setOption(const std::string & key, const Variant2 & value);
+    
+    void setOptions(const VariantMap & map);
 
     /**
      * \name Convenience casting methods
@@ -80,10 +80,8 @@ public:
     
 private:
     bool m_enabled;
-    
     std::string m_name;
-    std::string m_title;
-    std::string m_annotations;
+    VariantMap m_options;
     
 };
     

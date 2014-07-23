@@ -10,11 +10,18 @@ class QDoubleSpinBox;
 namespace propertyguizeug
 {
 
+/** \brief Editor for floating point propertyies
+ *
+ * Supported options
+ * - _minimum (double)_: lowest value to be accepted
+ * - _maximum (double)_: greatest value to be accepted
+ * - _step (double)_: step size of the spinbox
+ * - _precision (uint)_: number of decimals used 
+ */
 class PROPERTYGUIZEUG_API FloatingPointEditor : public PropertyEditor
 {
 public:
     FloatingPointEditor(reflectionzeug::FloatingPointPropertyInterface * property, QWidget * parent = nullptr);
-    virtual ~FloatingPointEditor();
 
 protected:
     QDoubleSpinBox * m_spinBox;

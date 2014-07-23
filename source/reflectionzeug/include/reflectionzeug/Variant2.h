@@ -35,8 +35,21 @@ public:
 public:
     Variant2();
 
-    template <typename ValueType>
-    Variant2(const ValueType & value);
+    explicit Variant2(const std::string & value);
+    
+    explicit Variant2(float value);
+    explicit Variant2(double value);
+    
+    explicit Variant2(char value);
+    explicit Variant2(unsigned char value);
+    explicit Variant2(short value);
+    explicit Variant2(unsigned short value);
+    explicit Variant2(int value);
+    explicit Variant2(unsigned int value);
+    explicit Variant2(long value);
+    explicit Variant2(unsigned long value);
+    explicit Variant2(long long value);
+    explicit Variant2(unsigned long long value);
 
     Variant2(const Variant2 & variant);
 
