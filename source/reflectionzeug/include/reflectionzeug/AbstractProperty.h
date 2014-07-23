@@ -3,8 +3,7 @@
 
 #include <assert.h>
 #include <string>
-
-#include <signalzeug/Signal.h>
+#include <set>
 
 #include <reflectionzeug/reflectionzeug_api.h>
 #include <reflectionzeug/Variant2.h>
@@ -20,7 +19,6 @@ class PropertyGroup;
  * \brief The base class of all properties.
  *
  * When added to a PropertyGroup, the name is used as the unique key.
- * The title is supposed to be used in user interfaces.
  * Do not change its name when it's in one or more groups.
  * All subclasses use virtual inheritance.
  *
@@ -40,15 +38,20 @@ public:
     const std::string & name() const;
     bool setName(const std::string & name);
     bool hasName() const;
-    
-    bool isEnabled() const;
-    void setEnabled(bool enabled);
 
     bool hasOption(const std::string & key) const;
     Variant2 option(const std::string & key) const;
     void setOption(const std::string & key, const Variant2 & value);
     
     void setOptions(const VariantMap & map);
+    
+    bool flagSet(const std::string & flag) const;
+    
+    void addFlag(const std::string & flag);
+    bool removeFlag(const std::string & flag);
+    
+    const std::set<std::string> & flags() const;
+    void setFlags(const std::set<std::string> & flags);    
 
     /**
      * \name Convenience casting methods
@@ -79,9 +82,9 @@ public:
     /** \} */
     
 private:
-    bool m_enabled;
     std::string m_name;
     VariantMap m_options;
+    std::set<std::string> m_flags;
     
 };
     

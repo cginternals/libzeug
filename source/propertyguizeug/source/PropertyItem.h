@@ -30,6 +30,7 @@ public:
 
     int index() const;
     bool isEnabled() const;
+    bool isReadOnly() const;
 
     PropertyItem * parent() const;
     void setParent(PropertyItem * parent);

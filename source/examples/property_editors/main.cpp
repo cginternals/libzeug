@@ -100,6 +100,22 @@ int main(int argc, char *argv[])
         { "maximum", Variant2(50ull) },
         { "step", Variant2(5ull) }
     });
+    
+    group.addProperty<bool>("readonly", false)->valueChanged.connect([&group] (bool b) 
+        {
+            if (b)
+                group.addFlag("readonly");
+            else
+                group.removeFlag("readonly");
+        });
+        
+    group.addProperty<bool>("disabled", false)->valueChanged.connect([&group] (bool b)
+        {
+            if (b)
+                group.addFlag("disabled");
+            else
+                group.removeFlag("disabled");
+        });
 
     PropertyBrowser browser;
     browser.setRoot(&group);

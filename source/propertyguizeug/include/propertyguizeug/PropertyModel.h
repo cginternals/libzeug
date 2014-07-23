@@ -19,6 +19,15 @@ namespace propertyguizeug
 
 class PropertyItem;  
 
+/** \brief Property model for Qts Model-View-Controller framework
+ *
+ * Supported options
+ * - _tooltip (std::string)_: tooltip to be shown when hovering over property row
+ *
+ * Supported flags
+ * - _disabled_: disables the property row
+ * - _readonly_: makes the property readonly
+ */
 class PROPERTYGUIZEUG_API PropertyModel : public QAbstractItemModel
 {
 public:

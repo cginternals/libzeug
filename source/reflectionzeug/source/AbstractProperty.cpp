@@ -13,12 +13,10 @@ namespace reflectionzeug
 const std::string AbstractProperty::s_nameRegexString("[a-zA-Z_]+\\w*");
 
 AbstractProperty::AbstractProperty()
-:   m_enabled(true)
 {
 }
 
 AbstractProperty::AbstractProperty(const std::string & name)
-:   m_enabled(true)
 {
     setName(name);
 }
@@ -46,16 +44,6 @@ bool AbstractProperty::hasName() const
     return !m_name.empty();
 }
 
-bool AbstractProperty::isEnabled() const
-{
-    return m_enabled;
-}
-    
-void AbstractProperty::setEnabled(bool enabled)
-{
-    m_enabled = enabled;
-}
-
 bool AbstractProperty::hasOption(const std::string & key) const
 {
     return m_options.count(key) != 0;
@@ -77,6 +65,35 @@ void AbstractProperty::setOption(const std::string & key, const Variant2 & value
 void AbstractProperty::setOptions(const VariantMap & map)
 {
     m_options.insert(map.begin(), map.end());
+}
+
+bool AbstractProperty::flagSet(const std::string & flag) const
+{
+    return m_flags.count(flag) == 1;
+}
+    
+void AbstractProperty::addFlag(const std::string & flag)
+{
+    m_flags.insert(flag);
+}
+
+bool AbstractProperty::removeFlag(const std::string & flag)
+{
+    if (!flagSet(flag))
+        return false;
+
+    m_flags.erase(flag);
+    return true;
+}
+
+const std::set<std::string> & AbstractProperty::flags() const
+{
+    return m_flags;
+}
+
+void AbstractProperty::setFlags(const std::set<std::string> & flags)
+{
+    m_flags = flags;
 }
 
 AbstractValueProperty * AbstractProperty::asValue()

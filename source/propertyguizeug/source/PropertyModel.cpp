@@ -105,7 +105,7 @@ Qt::ItemFlags PropertyModel::flags(const QModelIndex & index) const
 
     Qt::ItemFlags flags = Qt::ItemIsSelectable;
 
-    if (index.column() == 1 && item->property()->isValue())
+    if (index.column() == 1 && item->property()->isValue() && !item->isReadOnly())
         flags |= Qt::ItemIsEditable;
 
     if (item->isEnabled())
