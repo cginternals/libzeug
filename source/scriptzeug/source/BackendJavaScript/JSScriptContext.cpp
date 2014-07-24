@@ -236,7 +236,7 @@ static Variant getPropertyValue(AbstractProperty * property)
 
     // Signed integral
     else if (SignedIntegralPropertyInterface * prop = dynamic_cast< SignedIntegralPropertyInterface * >(property) ) {
-        value = (int)prop->toULongLong();
+        value = (int)prop->toLongLong();
     }
 
     // Floating point number
@@ -293,7 +293,7 @@ static void setPropertyValue(AbstractProperty * property, const Variant &value)
 
         // Signed integral
         else if (SignedIntegralPropertyInterface * prop = dynamic_cast< SignedIntegralPropertyInterface * >(property) ) {
-            prop->fromULongLong( value.toInt() );
+            prop->fromLongLong( value.toInt() );
         }
 
         // Floating point number
