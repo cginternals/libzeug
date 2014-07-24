@@ -2,12 +2,15 @@
 #include <sstream>
 #include <iostream>
 
+#include <loggingzeug/logging.h>
+
 #include <reflectionzeug/AbstractValueProperty.h>
 #include <reflectionzeug/PropertyGroup.h>
 #include <reflectionzeug/util.h>
 
 #include <reflectionzeug/PropertySerializer.h>
 
+using namespace loggingzeug;
 
 namespace reflectionzeug
 {
@@ -25,7 +28,7 @@ bool PropertySerializer::serialize(PropertyGroup & group, const std::string & fi
     m_fstream.open(filePath, std::ios_base::out);
     
     if (!m_fstream.is_open()) {
-        std::cerr << "Could not write to file \"" << filePath << "\"" << std::endl;
+        critical() << "Could not write to file \"" << filePath << "\"" << std::endl;
         return false;
     }
 

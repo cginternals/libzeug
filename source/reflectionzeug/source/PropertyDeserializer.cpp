@@ -13,11 +13,15 @@
 #include <iostream>
 #include <fstream>
 
+#include <loggingzeug/logging.h>
+
 #include <reflectionzeug/Property.h>
 #include <reflectionzeug/PropertyGroup.h>
 
 #include <reflectionzeug/util.h>
 #include <reflectionzeug/PropertyDeserializer.h>
+
+using namespace loggingzeug;
 
 namespace reflectionzeug
 {
@@ -38,7 +42,7 @@ bool PropertyDeserializer::deserialize(PropertyGroup & group, const std::string 
     std::fstream fstream;
     fstream.open(filePath, std::ios_base::in);
     if (!fstream.is_open()) {
-        std::cerr << "Could not open file \"" << filePath << "\"" << std::endl;
+        critical() << "Could not open file \"" << filePath << "\"" << std::endl;
         return false;
     }
 
@@ -89,15 +93,14 @@ bool PropertyDeserializer::updateCurrentGroup(const std::string & line)
     }
 
     m_currentGroup = nullptr;
-    std::cerr << "Group with name \"" << groupName << "\" does not exist" << std::endl;
+    critical() << "Group with name \"" << groupName << "\" does not exist" << std::endl;
     return false;
 }
 
 bool PropertyDeserializer::setPropertyValue(const std::string & line)
 {
     if (!m_currentGroup) {
-        std::cerr << "Could not parse line\"" << line << "\"";
-        std::cerr << "because no existing group was declared" << std::endl;
+        critical() << "Could not parse line\"" << line << "\"" << "because no existing group was declared" << std::endl;
         return false;
     }
 
@@ -109,19 +112,17 @@ bool PropertyDeserializer::setPropertyValue(const std::string & line)
     AbstractProperty * property = m_currentGroup->property(path);
 
     if (!property) {
-        std::cerr << "Property path \"" << path << "\" ";
-        std::cerr << "is invalid" << std::endl;
+        critical() << "Property path \"" << path << "\" " << "is invalid" << std::endl;
         return false;
     }
 
     if (!property->isValue()) {
-        std::cerr << "Tried to assign value to group with name: ";
-        std::cerr << property->name() << std::endl;
+        critical() << "Tried to assign value to group with name: " << property->name() << std::endl;
         return false;
     }
 
     if (!property->asValue()->fromString(util::trim(valueString, false))) {
-        std::cerr << "Could not convert \"" << valueString << "\" to property." << std::endl;
+        critical() << "Could not convert \"" << valueString << "\" to property." << std::endl;
         return false;
     }
 

@@ -42,6 +42,7 @@ add_subdirectory(reflectionzeug)
 add_subdirectory(signalzeug)
 add_subdirectory(threadingzeug)
 add_subdirectory(scriptzeug)
+add_subdirectory(loggingzeug)
 
 # Examples
 set(IDE_FOLDER "Examples")
