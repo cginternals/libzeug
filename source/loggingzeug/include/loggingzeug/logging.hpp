@@ -1,10 +1,10 @@
 #pragma once
 
-#include <loggingzeug/baselogging.h>
 
 #include <cassert>
 
 #include <loggingzeug/formatString.h>
+
 
 namespace loggingzeug
 {

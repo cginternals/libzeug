@@ -1,4 +1,4 @@
-#include <loggingzeug/baselogging.h>
+#include <loggingzeug/logging.h>
 
 #include <cassert>
 

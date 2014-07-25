@@ -48,11 +48,10 @@ set(headers
     ${header_path}/LogMessage.h
     ${header_path}/LogMessageBuilder.h
     ${header_path}/LogMessageBuilder.hpp
-    ${header_path}/baselogging.h
-    ${header_path}/baselogging.hpp
     ${header_path}/formatString.h
     ${header_path}/formatString.hpp
     ${header_path}/logging.h
+    ${header_path}/logging.hpp
 )
 
 set(sources
@@ -60,8 +59,8 @@ set(sources
     ${source_path}/FileLogHandler.cpp
     ${source_path}/LogMessage.cpp
     ${source_path}/LogMessageBuilder.cpp
-    ${source_path}/baselogging.cpp
     ${source_path}/formatString.cpp
+    ${source_path}/logging.cpp
 )
 
 # Group source files
