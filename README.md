@@ -7,6 +7,7 @@ Libzeug is a cross-platform library licenced under the [MIT license](http://open
 
 The current modules in libzeug are:
  * [iozeug](#iozeug)
+ * [loggingzeug](#loggingzeug)
  * [propertyguizeug](#propertyguizeug)
  * [reflectionzeug](#reflectionzeug)
  * [scriptzeug](#scriptzeug)
@@ -47,6 +48,11 @@ iozeug
 ------
 
 iozeug contains a function to read a file into an std::string.
+
+loggingzeug
+-----------
+
+loggingzeug provides stream like logging functionality with customizable outputs (default output is to the console).
 
 propertyguizeug
 ---------------
