@@ -74,14 +74,34 @@ Variant2::Variant2(unsigned long long value)
 {
 }
 
-Variant2::Variant2(const Variant2 & variant)
-:   m_content(variant.m_content->clone())
+Variant2::Variant2(const VariantArray & array)
+:   m_content(new VariantHolder<VariantArray>(array))
 {
+}
+
+Variant2::Variant2(const VariantMap & map)
+:   m_content(new VariantHolder<VariantMap>(map))
+{
+}
+
+Variant2::Variant2(const Variant2 & variant)
+:   m_content(variant.isNull() ? nullptr : variant.m_content->clone())
+{
+}
+
+Variant2 & Variant2::operator=(const Variant2 & variant)
+{
+    if (!isNull())
+        delete m_content;
+        
+    m_content = variant.isNull() ? nullptr : variant.m_content->clone();
+    return *this;
 }
 
 Variant2::~Variant2()
 {
-    delete m_content;
+    if (m_content)
+        delete m_content;
 }
 
 bool Variant2::isNull() const

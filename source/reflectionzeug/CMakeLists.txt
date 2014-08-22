@@ -122,7 +122,7 @@ set(headers
     ${header_path}/UnsignedIntegralPropertyInterface.h
     ${header_path}/ValueProperty.h
     ${header_path}/ValueProperty.hpp
-    ${header_path}/Variant.h
+    # ${header_path}/VariantOld.h
     ${header_path}/Variant2.h
     ${header_path}/Variant2.hpp
     ${header_path}/VariantConverterRegistry.h
@@ -159,7 +159,7 @@ set(sources
     ${source_path}/SignedIntegralPropertyInterface.cpp
     ${source_path}/UnsignedIntegralPropertyInterface.cpp
     ${source_path}/util.cpp
-    ${source_path}/Variant.cpp
+    # ${source_path}/VariantOld.cpp
     ${source_path}/Variant2.cpp
 )
 

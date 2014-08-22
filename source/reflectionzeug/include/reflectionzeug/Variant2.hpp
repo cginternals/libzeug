@@ -13,9 +13,9 @@ namespace reflectionzeug
 template <typename ValueType>
 Variant2 Variant2::fromValue(const ValueType & value)
 {
-    Variant2 variant;
-    variant.m_content = new VariantHolder<ValueType>(value);
-    return variant;
+    Variant2 VariantOld;
+    VariantOld.m_content = new VariantHolder<ValueType>(value);
+    return VariantOld;
 }
 
 template <typename FromType, typename ToType>

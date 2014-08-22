@@ -33,12 +33,12 @@ void ScriptContext::registerObject(reflectionzeug::PropertyGroup * obj)
         m_backend->registerObject(obj);
 }
 
-Variant ScriptContext::evaluate(const std::string & code)
+Variant2 ScriptContext::evaluate(const std::string & code)
 {
     if (m_backend)
         return m_backend->evaluate(code);
     else
-        return Variant();
+        return Variant2();
 }
 
 

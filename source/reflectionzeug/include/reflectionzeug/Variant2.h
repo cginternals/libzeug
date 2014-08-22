@@ -12,7 +12,11 @@
 namespace reflectionzeug
 {
 
+class Variant2;
 class VariantContent;
+
+using VariantArray = std::vector<Variant2>;
+using VariantMap = std::map<std::string, Variant2>;
 
 class REFLECTIONZEUG_API Variant2 
 {
@@ -50,8 +54,13 @@ public:
     explicit Variant2(unsigned long value);
     explicit Variant2(long long value);
     explicit Variant2(unsigned long long value);
+    
+    explicit Variant2(const VariantArray & array);
+    explicit Variant2(const VariantMap & map);
 
     Variant2(const Variant2 & variant);
+    
+    Variant2 & operator=(const Variant2 & variant);
 
     ~Variant2();
 
@@ -69,9 +78,6 @@ public:
 private:
     VariantContent * m_content;
 };
-
-using VariantArray = std::vector<Variant2>;
-using VariantMap = std::map<std::string, Variant2>;
 
 } // namespace reflectionzeug
 

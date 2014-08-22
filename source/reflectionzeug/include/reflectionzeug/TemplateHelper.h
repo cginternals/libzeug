@@ -1,7 +1,7 @@
 #pragma once
 
 
-#include "reflectionzeug/Variant.h"
+#include "reflectionzeug/Variant2.h"
 
 
 namespace reflectionzeug
@@ -12,11 +12,11 @@ namespace reflectionzeug
  */
 template<typename T, size_t POS>
 struct ArgValue {
-    static T get(const std::vector<Variant> & args) {
+    static T get(const std::vector<Variant2> & args) {
         // Assume signed integral type by default
         T value = 0;
         if (POS < args.size()) {
-            value = args[POS].toInt();
+            value = args[POS].value<int>();
         }
         return value;
     }
@@ -26,7 +26,7 @@ struct ArgValue {
  */
 template<typename T, size_t POS>
 struct ArgValue<const T &, POS> {
-    static T get(const std::vector<Variant> & args) {
+    static T get(const std::vector<Variant2> & args) {
         return ArgValue<T, POS>::get(args);
     }
 };
@@ -35,10 +35,10 @@ struct ArgValue<const T &, POS> {
  */
 template<size_t POS>
 struct ArgValue<float, POS> {
-    static float get(const std::vector<Variant> & args) {
+    static float get(const std::vector<Variant2> & args) {
         float value = 0.0f;
         if (POS < args.size()) {
-            value = (float)args[POS].toDouble();
+            value = (float)args[POS].value<double>();
         }
         return value;
     }
@@ -48,10 +48,10 @@ struct ArgValue<float, POS> {
  */
 template<size_t POS>
 struct ArgValue<double, POS> {
-    static double get(const std::vector<Variant> & args) {
+    static double get(const std::vector<Variant2> & args) {
         double value = 0.0f;
         if (POS < args.size()) {
-            value = args[POS].toDouble();
+            value = args[POS].value<double>();
         }
         return value;
     }
@@ -61,10 +61,10 @@ struct ArgValue<double, POS> {
  */
 template<size_t POS>
 struct ArgValue<bool, POS> {
-    static bool get(const std::vector<Variant> & args) {
+    static bool get(const std::vector<Variant2> & args) {
         bool value = false;
         if (POS < args.size()) {
-            value = args[POS].toBool();
+            value = args[POS].value<bool>();
         }
         return value;
     }
@@ -74,21 +74,21 @@ struct ArgValue<bool, POS> {
  */
 template<size_t POS>
 struct ArgValue<std::string, POS> {
-    static std::string get(const std::vector<Variant> & args) {
+    static std::string get(const std::vector<Variant2> & args) {
         std::string value;
         if (POS < args.size()) {
-            value = args[POS].toString();
+            value = args[POS].value<std::string>();
         }
         return value;
     }
 };
 
-/** \brief ArgValue specialization for type Variant
+/** \brief ArgValue specialization for type VariantOld
  */
 template<size_t POS>
-struct ArgValue<Variant, POS> {
-    static Variant get(const std::vector<Variant> & args) {
-        Variant value;
+struct ArgValue<Variant2, POS> {
+    static Variant2 get(const std::vector<Variant2> & args) {
+        Variant2 value;
         if (POS < args.size()) {
             value = args[POS];
         }
@@ -96,21 +96,21 @@ struct ArgValue<Variant, POS> {
     }
 };
 
-/** \brief ArgValue specialization for type const Variant &
+/** \brief ArgValue specialization for type const VariantOld &
  */
 template<size_t POS>
-struct ArgValue<const Variant &, POS> {
-    static Variant get(const std::vector<Variant> & args) {
-        return ArgValue<Variant, POS>::get(args);
+struct ArgValue<const Variant2 &, POS> {
+    static Variant2 get(const std::vector<Variant2> & args) {
+        return ArgValue<Variant2, POS>::get(args);
     }
 };
 
-/** \brief ArgValue specialization for type const std::vector<Variant> &
+/** \brief ArgValue specialization for type const std::vector<VariantOld> &
  */
 template<size_t POS>
-struct ArgValue<const std::vector<Variant> &, POS> {
-    static std::vector<Variant> get(const std::vector<Variant> & args) {
-        std::vector<Variant> list;
+struct ArgValue<const std::vector<Variant2> &, POS> {
+    static std::vector<Variant2> get(const std::vector<Variant2> & args) {
+        std::vector<Variant2> list;
         for (size_t i=POS; i<args.size(); i++) {
             list.push_back(args[i]);
         }
@@ -160,8 +160,8 @@ class CallFunction
 public:
     typedef RET (*FuncPtr) (Arguments...);
 
-    static Variant call(FuncPtr func, Arguments... args) {
-        return Variant( (*func)(args...) );
+    static Variant2 call(FuncPtr func, Arguments... args) {
+        return Variant2( (*func)(args...) );
     }
 };
 
@@ -173,9 +173,9 @@ class CallFunction<void, Arguments...>
 public:
     typedef void (*FuncPtr) (Arguments...);
 
-    static Variant call(FuncPtr func, Arguments... args) {
+    static Variant2 call(FuncPtr func, Arguments... args) {
         (*func)(args...);
-        return Variant();
+        return Variant2();
     }
 };
 
@@ -187,8 +187,8 @@ class CallMethod
 public:
     typedef RET (T::*MethodPtr) (Arguments...);
 
-    static Variant call(T * obj, MethodPtr method, Arguments... args) {
-        return Variant( (obj->*method)(args...) );
+    static Variant2 call(T * obj, MethodPtr method, Arguments... args) {
+        return Variant2( (obj->*method)(args...) );
     }
 };
 
@@ -200,9 +200,9 @@ class CallMethod<T, void, Arguments...>
 public:
     typedef void (T::*MethodPtr) (Arguments...);
 
-    static Variant call(T * obj, MethodPtr method, Arguments... args) {
+    static Variant2 call(T * obj, MethodPtr method, Arguments... args) {
         (obj->*method)(args...);
-        return Variant();
+        return Variant2();
     }
 };
 

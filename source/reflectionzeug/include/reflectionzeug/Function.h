@@ -4,7 +4,7 @@
 #include <string>
 #include <vector>
 #include <functional>
-#include "reflectionzeug/Variant.h"
+#include "reflectionzeug/Variant2.h"
 #include "reflectionzeug/TemplateHelper.h"
 
 
@@ -33,7 +33,7 @@ public:
 
     virtual AbstractFunction *clone() = 0;
 
-    virtual Variant call(const std::vector<Variant> & args) = 0;
+    virtual Variant2 call(const std::vector<Variant2> & args) = 0;
 
 protected:
     std::string m_name;
@@ -64,14 +64,14 @@ public:
         return new Function<RET, Arguments...>(m_name, m_func);
     }
 
-    virtual Variant call(const std::vector<Variant> & args)
+    virtual Variant2 call(const std::vector<Variant2> & args)
     {
         return callFunction(typename GenSeq<sizeof...(Arguments)>::Type(), args);
     }
 
 protected:
     template<size_t... I>
-    Variant callFunction(Seq<I...>, const std::vector<Variant> & args)
+    Variant2 callFunction(Seq<I...>, const std::vector<Variant2> & args)
     {
         return CallFunction<RET, Arguments...>::call(m_func, ArgValueGen<I, Arguments...>::Type::get(args)...);
     }
@@ -106,14 +106,14 @@ public:
         return new Method<T, RET, Arguments...>(m_name, m_obj, m_method);
     }
 
-    virtual Variant call(const std::vector<Variant> & args)
+    virtual Variant2 call(const std::vector<Variant2> & args)
     {
         return callMethod(typename GenSeq<sizeof...(Arguments)>::Type(), args);
     }
 
 protected:
     template<size_t... I>
-    Variant callMethod(Seq<I...>, const std::vector<Variant> & args)
+    Variant2 callMethod(Seq<I...>, const std::vector<Variant2> & args)
     {
         return CallMethod<T, RET, Arguments...>::call(m_obj, m_method, ArgValueGen<I, Arguments...>::Type::get(args)...);
     }
