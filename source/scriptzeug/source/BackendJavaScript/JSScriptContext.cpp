@@ -1,6 +1,6 @@
 #include <functional>
 #include <reflectionzeug/Object.h>
-#include <reflectionzeug/Variant2.h>
+#include <reflectionzeug/Variant.h>
 #include <reflectionzeug/Function.h>
 #include "scriptzeug/ScriptContext.h"
 #include "BackendJavaScript/JSScriptContext.h"
@@ -12,8 +12,8 @@ namespace scriptzeug
 {
 
 
-static Variant2 fromV8Value(Isolate *isolate, Local<Value> arg);
-static Local<Value> toV8Value(Isolate *isolate, const Variant2 &arg);
+static Variant fromV8Value(Isolate *isolate, Local<Value> arg);
+static Local<Value> toV8Value(Isolate *isolate, const Variant &arg);
 
 
 class JSScriptFunction : public reflectionzeug::AbstractFunction
@@ -41,7 +41,7 @@ public:
         return new JSScriptFunction(m_isolate, func);
     }
 
-    virtual Variant2 call(const std::vector<Variant2> & args)
+    virtual Variant call(const std::vector<Variant> & args)
     {
         Locker locker(m_isolate);
         HandleScope scope(m_isolate);
@@ -55,7 +55,7 @@ public:
         int numArgs = args.size();
         if (numArgs > 32) numArgs = 32;
         if (numArgs > 0) {
-            // Convert arguments from reflectionzeug-Variant2 to v8 value
+            // Convert arguments from reflectionzeug-Variant to v8 value
             for (int i=0; i<numArgs; i++) {
                 v8args[i] = toV8Value(m_isolate, args[i]);
             }
@@ -65,7 +65,7 @@ public:
         TryCatch trycatch;
         Handle<Value> res = func->Call(func, numArgs, v8args);
         if (res.IsEmpty()) {
-            return Variant2();
+            return Variant();
         } else {
             // Convert return value to VariantOld
             return fromV8Value(m_isolate, res);
@@ -78,43 +78,43 @@ protected:
 };
 
 
-static Variant2 fromV8Value(Isolate *isolate, Local<Value> arg)
+static Variant fromV8Value(Isolate *isolate, Local<Value> arg)
 {
     // Function
     if (arg->IsFunction()) { // Remember: A function is also an object, so check for functions first
         Handle<v8::Function> func = v8::Handle<v8::Function>::Cast(arg);
         JSScriptFunction *function = new JSScriptFunction(isolate, func);
-        return Variant2::fromValue<AbstractFunction *>(function);
+        return Variant::fromValue<AbstractFunction *>(function);
     }
 
     // Int
     else if (arg->IsInt32()) {
         int value = arg->Int32Value();
-        return Variant2(value);
+        return Variant(value);
     }
 
     // UInt
     else if (arg->IsUint32()) {
         unsigned int value = arg->Uint32Value();
-        return Variant2(value);
+        return Variant(value);
     }
 
     // Double
     else if (arg->IsNumber()) {
         double value = arg->NumberValue();
-        return Variant2(value);
+        return Variant(value);
     }
 
     // Bool
     else if (arg->IsBoolean()) {
         bool value = arg->BooleanValue();
-        return Variant2(value);
+        return Variant(value);
     }
 
     // String argument
     else if (arg->IsString()) {
         String::Utf8Value str(arg);
-        return Variant2(std::string(*str));
+        return Variant(std::string(*str));
     }
 
     // Array
@@ -125,7 +125,7 @@ static Variant2 fromV8Value(Isolate *isolate, Local<Value> arg)
             Local<Value> prop = arr->Get(i);
             array.push_back(fromV8Value(isolate, prop));
         }
-        return Variant2();
+        return Variant();
     }
 
     // Object
@@ -140,14 +140,14 @@ static Variant2 fromV8Value(Isolate *isolate, Local<Value> arg)
             Local<Value> prop = obj->Get(name);
             map.insert({ propName, fromV8Value(isolate, prop) });
         }
-        return Variant2(map);
+        return Variant(map);
     }
 
     // Undefined
-    return Variant2();
+    return Variant();
 }
 
-static Local<Value> toV8Value(Isolate *isolate, const Variant2 &arg)
+static Local<Value> toV8Value(Isolate *isolate, const Variant &arg)
 {
     Local<Value> value;
 
@@ -188,7 +188,7 @@ static Local<Value> toV8Value(Isolate *isolate, const Variant2 &arg)
     else if (arg.hasType<VariantMap>()) {
         VariantMap variantMap = arg.value<VariantMap>();
         Handle<v8::Object> obj = v8::Object::New(isolate);
-        for (const std::pair<std::string, Variant2> & pair : variantMap)
+        for (const std::pair<std::string, Variant> & pair : variantMap)
         {
             Handle<String> n = String::NewFromUtf8(isolate, pair.first.c_str());
             obj->Set(n, toV8Value(isolate, pair.second));
@@ -208,7 +208,7 @@ static void wrapFunction(const v8::FunctionCallbackInfo<Value> & args)
     AbstractFunction * func = static_cast<AbstractFunction *>(data->Value());
 
     // Convert arguments to a list of reflectionzeug variants
-    std::vector<Variant2> arguments;
+    std::vector<Variant> arguments;
     for (int i=0; i<args.Length(); i++) {
         HandleScope scope(isolate);
         Local<Value> arg = args[i];
@@ -216,53 +216,53 @@ static void wrapFunction(const v8::FunctionCallbackInfo<Value> & args)
     }
 
     // Call the function
-    Variant2 value = func->call(arguments);
+    Variant value = func->call(arguments);
     args.GetReturnValue().Set( toV8Value(isolate, value) );
 }
 
-static Variant2 getPropertyValue(AbstractProperty * property)
+static Variant getPropertyValue(AbstractProperty * property)
 {
     // Get property value
-    Variant2 value;
+    Variant value;
 
     // Boolean
     if (Property<bool> * prop = dynamic_cast< Property<bool> * >(property) ) {
-        value = Variant2(prop->value());
+        value = Variant(prop->value());
     }
 
     // Unsigned integral
     else if (UnsignedIntegralPropertyInterface * prop = dynamic_cast< UnsignedIntegralPropertyInterface * >(property) ) {
-        value = Variant2((unsigned int)prop->toULongLong());
+        value = Variant((unsigned int)prop->toULongLong());
     }
 
     // Signed integral
     else if (SignedIntegralPropertyInterface * prop = dynamic_cast< SignedIntegralPropertyInterface * >(property) ) {
-        value = Variant2((int)prop->toLongLong());
+        value = Variant((int)prop->toLongLong());
     }
 
     // Floating point number
     else if (FloatingPointPropertyInterface * prop = dynamic_cast< FloatingPointPropertyInterface * >(property) ) {
-        value = Variant2((double)prop->toDouble());
+        value = Variant((double)prop->toDouble());
     }
 
     // Enum
     else if (EnumPropertyInterface * prop = dynamic_cast< EnumPropertyInterface * >(property) ) {
-        value = Variant2(prop->toString());
+        value = Variant(prop->toString());
     }
 
     // String
     else if (StringPropertyInterface * prop = dynamic_cast< StringPropertyInterface * >(property) ) {
-        value = Variant2(prop->toString());
+        value = Variant(prop->toString());
     }
 
     // FilePath
     else if (Property<FilePath> * prop = dynamic_cast< Property<FilePath> * >(property) ) {
-        value = Variant2(prop->value().toString());
+        value = Variant(prop->value().toString());
     }
 
     // Color
     else if (ColorPropertyInterface * prop = dynamic_cast< ColorPropertyInterface * >(property) ) {
-        value = Variant2(prop->toColor().toString());
+        value = Variant(prop->toColor().toString());
     }
 
     // Array
@@ -272,14 +272,14 @@ static Variant2 getPropertyValue(AbstractProperty * property)
             AbstractProperty * subprop = prop->at(i);
             array.push_back(getPropertyValue(subprop));
         }
-        value = Variant2(array);
+        value = Variant(array);
     }
 
     // Return value
     return value;
 }
 
-static void setPropertyValue(AbstractProperty * property, const Variant2 &value)
+static void setPropertyValue(AbstractProperty * property, const Variant &value)
 {
     // Check property
     if (property) {
@@ -367,7 +367,7 @@ static void getProperty(Local<String> propertyName, const PropertyCallbackInfo<V
         AbstractProperty * property = obj->property(name);
         if (property) {
             // Get property value
-            Variant2 value = getPropertyValue(property);
+            Variant value = getPropertyValue(property);
 
             // Set return value
             info.GetReturnValue().Set( toV8Value(isolate, value) );
@@ -379,8 +379,8 @@ static void setProperty(Local<String> propertyName, Local<Value> value, const Pr
 {
     Isolate *isolate = Isolate::GetCurrent();
 
-    // Convert value into Variant2
-    Variant2 v = fromV8Value(isolate, value);
+    // Convert value into Variant
+    Variant v = fromV8Value(isolate, value);
 
     // Get object
     Local<v8::Object> self = info.Holder();
@@ -443,7 +443,7 @@ void JSScriptContext::registerObject(PropertyGroup * obj)
     registerObj(global, obj);
 }
 
-Variant2 JSScriptContext::evaluate(const std::string & code)
+Variant JSScriptContext::evaluate(const std::string & code)
 {
     // Enter scope
     Locker locker(m_isolate);
@@ -464,7 +464,7 @@ Variant2 JSScriptContext::evaluate(const std::string & code)
         Handle<Value> ex = trycatch.Exception();
         String::Utf8Value str(ex);
         m_scriptContext->scriptException(std::string(*str));
-        return Variant2();
+        return Variant();
     } else return fromV8Value(m_isolate, result);
 }
 

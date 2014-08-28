@@ -6,7 +6,7 @@
 #include <set>
 
 #include <reflectionzeug/reflectionzeug_api.h>
-#include <reflectionzeug/Variant2.h>
+#include <reflectionzeug/Variant.h>
 
 namespace reflectionzeug
 {
@@ -40,8 +40,8 @@ public:
     bool hasName() const;
 
     bool hasOption(const std::string & key) const;
-    Variant2 option(const std::string & key) const;
-    void setOption(const std::string & key, const Variant2 & value);
+    Variant option(const std::string & key) const;
+    void setOption(const std::string & key, const Variant & value);
     bool removeOption(const std::string & key);
     
     void setOptions(const VariantMap & map);

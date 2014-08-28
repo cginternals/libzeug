@@ -11,15 +11,15 @@ namespace reflectionzeug
 {
 
 template <typename ValueType>
-Variant2 Variant2::fromValue(const ValueType & value)
+Variant Variant::fromValue(const ValueType & value)
 {
-    Variant2 VariantOld;
+    Variant VariantOld;
     VariantOld.m_content = new VariantHolder<ValueType>(value);
     return VariantOld;
 }
 
 template <typename FromType, typename ToType>
-bool Variant2::registerConverter()
+bool Variant::registerConverter()
 {
     auto & registry = VariantConverterRegistry<FromType>::instance();
 
@@ -36,7 +36,7 @@ bool Variant2::registerConverter()
 }
 
 template <typename FromType, typename ToType>
-bool Variant2::registerConverter(ToType (FromType::*methodPtr)() const)
+bool Variant::registerConverter(ToType (FromType::*methodPtr)() const)
 {
     auto & registry = VariantConverterRegistry<FromType>::instance();
 
@@ -53,7 +53,7 @@ bool Variant2::registerConverter(ToType (FromType::*methodPtr)() const)
 }
 
 template <typename FromType, typename ToType>
-bool Variant2::registerConverter(ToType (FromType::*methodPtr)(bool * ok) const)
+bool Variant::registerConverter(ToType (FromType::*methodPtr)(bool * ok) const)
 {
     auto & registry = VariantConverterRegistry<FromType>::instance();
 
@@ -71,7 +71,7 @@ bool Variant2::registerConverter(ToType (FromType::*methodPtr)(bool * ok) const)
 }
 
 template<typename FromType, typename ToType, typename FunctorType>
-bool Variant2::registerConverter(FunctorType functor)
+bool Variant::registerConverter(FunctorType functor)
 {
     auto & registry = VariantConverterRegistry<FromType>::instance();
 
@@ -85,7 +85,7 @@ bool Variant2::registerConverter(FunctorType functor)
 }
 
 template <typename ValueType>
-bool Variant2::hasType() const
+bool Variant::hasType() const
 {
     if (!m_content)
         return false;
@@ -94,7 +94,7 @@ bool Variant2::hasType() const
 }
 
 template <typename ValueType>
-bool Variant2::canConvert() const
+bool Variant::canConvert() const
 {
     if (!m_content)
         return false;
@@ -106,7 +106,7 @@ bool Variant2::canConvert() const
 }
 
 template <typename ValueType>
-ValueType Variant2::value() const
+ValueType Variant::value() const
 {
     if (!m_content)
         return ValueType();

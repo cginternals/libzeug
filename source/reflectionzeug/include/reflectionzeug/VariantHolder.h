@@ -1,7 +1,7 @@
 
 #pragma once
 
-#include <reflectionzeug/Variant2.h>
+#include <reflectionzeug/Variant.h>
 
 
 namespace reflectionzeug

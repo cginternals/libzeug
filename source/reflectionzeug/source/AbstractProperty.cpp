@@ -49,15 +49,15 @@ bool AbstractProperty::hasOption(const std::string & key) const
     return m_options.count(key) != 0;
 }
 
-Variant2 AbstractProperty::option(const std::string & key) const
+Variant AbstractProperty::option(const std::string & key) const
 {
     if (!this->hasOption(key))
-        return Variant2();
+        return Variant();
 
     return m_options.at(key);
 }
 
-void AbstractProperty::setOption(const std::string & key, const Variant2 & value)
+void AbstractProperty::setOption(const std::string & key, const Variant & value)
 {
     m_options.insert({ key, value });
 }

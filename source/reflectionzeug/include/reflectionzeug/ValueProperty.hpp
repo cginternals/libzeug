@@ -100,6 +100,7 @@ size_t ValueProperty<Type>::type() const
 {
     return stype();
 }
+
 template <typename Type>
 void ValueProperty<Type>::init()
 {

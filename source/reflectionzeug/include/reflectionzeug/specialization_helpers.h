@@ -75,7 +75,7 @@ template <typename Type>
 struct isDoubleArray : public is_special_array<double, Type> {};
 
 template <typename Type>
-struct isIntegral : public And<std::is_integral<Type>::value,  
+struct isIntegral : public And<std::is_integral<Type>::value, 
                                Neg<std::is_same<Type, bool>>::value> {};
 
 template <typename Type>

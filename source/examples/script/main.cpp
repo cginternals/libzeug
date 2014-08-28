@@ -9,16 +9,16 @@ using namespace scriptzeug;
 using namespace std;
 
 
-Variant2 testFunction(std::string a)
+Variant testFunction(std::string a)
 {
     std::cout << "Test function\n";
 
     VariantMap map;
-    map.insert({ "a", Variant2(1) });
-    map.insert({ "b", Variant2(2) });
-    map.insert({ "c", Variant2(3) });
-    map.insert({ "d", Variant2("end") });
-    return Variant2(map);
+    map.insert({ "a", Variant(1) });
+    map.insert({ "b", Variant(2) });
+    map.insert({ "c", Variant(3) });
+    map.insert({ "d", Variant("end") });
+    return Variant(map);
 }
 
 
@@ -85,12 +85,12 @@ public:
         return "hicks";
     }
 
-    void dynamicTest(const std::vector<Variant2> &args)
+    void dynamicTest(const std::vector<Variant> &args)
     {
         std::cout << "Number of arguments: " << args.size() << "\n";
 
         int i=0;
-        for (std::vector<Variant2>::const_iterator it = args.begin(); it != args.end(); ++it) {
+        for (std::vector<Variant>::const_iterator it = args.begin(); it != args.end(); ++it) {
             std::cout << "- " << i << ": " << (*it).value<std::string>() << "\n";
             i++;
         }
@@ -221,7 +221,7 @@ protected:
 
 int main(int argc, char const *argv[])
 {
-    Variant2 value;
+    Variant value;
 
     // Create scripting context, register exception callback
     ScriptContext scripting;

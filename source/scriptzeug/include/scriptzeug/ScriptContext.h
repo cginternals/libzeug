@@ -3,7 +3,7 @@
 
 #include <string>
 #include <signalzeug/Signal.h>
-#include <reflectionzeug/Variant2.h>
+#include <reflectionzeug/Variant.h>
 #include <scriptzeug/scriptzeug_api.h>
 
 
@@ -32,7 +32,7 @@ public:
 
     void registerObject(reflectionzeug::PropertyGroup * obj);
 
-    reflectionzeug::Variant2 evaluate(const std::string & code);
+    reflectionzeug::Variant evaluate(const std::string & code);
 
 protected:
     AbstractScriptContext * m_backend;
