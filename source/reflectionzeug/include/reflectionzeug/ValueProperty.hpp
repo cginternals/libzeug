@@ -6,6 +6,7 @@
 #include <reflectionzeug/PropertyVisitor.h>
 #include <reflectionzeug/StoredValue.h>
 #include <reflectionzeug/AccessorValue.h>
+#include <reflectionzeug/Variant.h>
 
 namespace reflectionzeug
 {
@@ -99,6 +100,22 @@ template <typename Type>
 size_t ValueProperty<Type>::type() const
 {
     return stype();
+}
+
+template <typename Type>
+Variant ValueProperty<Type>::toVariant() const
+{
+    return Variant::fromValue<Type>(m_value->get());
+}
+
+template <typename Type>
+bool ValueProperty<Type>::fromVariant(const Variant & variant)
+{
+    if (!variant.canConvert<Type>())
+        return false;
+
+    m_value->set(variant.value<Type>());
+    return true;
 }
 
 template <typename Type>

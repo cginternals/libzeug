@@ -10,6 +10,8 @@
 namespace reflectionzeug
 {
 
+class Variant;
+
 /** 
  * \brief The super class of all properties that store a value.
  *
@@ -40,6 +42,9 @@ public:
     
     virtual std::string toString() const = 0;
     virtual bool fromString(const std::string & string) = 0;
+
+    virtual Variant toVariant() const = 0;
+    virtual bool fromVariant(const Variant & variant) = 0;
     
     signalzeug::Signal<> valueChanged;
 
