@@ -40,7 +40,7 @@ public:
     ValueType * ptr();
 
 private:
-    const ValueType m_value;
+    ValueType m_value;
 };
 
 } // namespace reflectionzeug

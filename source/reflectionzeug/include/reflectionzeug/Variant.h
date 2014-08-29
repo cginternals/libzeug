@@ -27,6 +27,14 @@ public:
     template <typename ValueType>
     static Variant fromValue(const ValueType && value);
 
+    /** Returns Variant that stores an empty VariantArray.
+     */
+    static Variant array();
+
+    /** Returns Variant that stores an empty VariantMap. 
+     */
+    static Variant map();
+
     template <typename FromType, typename ToType>
     static bool registerConverter();
 
@@ -98,6 +106,16 @@ public:
      */
     template <typename ValueType>
     ValueType * ptr();
+
+    /** Convenience method. Does the same as calling 
+     * \code variant.ptr<VariantArray>() \endcode
+     */
+    VariantArray * toArray();
+
+    /** Convenience method. Does the same as calling
+     * \code variant.ptr<VariantMap>() \endcode
+     */
+    VariantMap * toMap();
 
 private:
     VariantContent * m_content;

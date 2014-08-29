@@ -5,6 +5,20 @@
 namespace reflectionzeug
 {
 
+Variant Variant::array()
+{
+    Variant variant;
+    variant.m_content = new VariantHolder<VariantArray>({});
+    return variant;
+}
+
+Variant Variant::map()
+{
+    Variant variant;
+    variant.m_content = new VariantHolder<VariantMap>(VariantMap());
+    return variant;
+}
+
 Variant::Variant()
 :   m_content(nullptr)
 {
@@ -129,6 +143,16 @@ Variant::~Variant()
 bool Variant::isNull() const
 {
     return !m_content;
+}
+
+VariantArray * Variant::toArray()
+{
+    return ptr<VariantArray>();
+}
+
+VariantMap * Variant::toMap()
+{
+    return ptr<VariantMap>();
 }
 
 } // namespace reflectionzeug
