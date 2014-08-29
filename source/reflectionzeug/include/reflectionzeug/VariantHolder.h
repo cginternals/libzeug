@@ -24,6 +24,7 @@ class VariantHolder : public VariantContent
 {
 public:
     VariantHolder(const ValueType & value);
+    VariantHolder(ValueType && value);
     VariantHolder(const VariantHolder & holder);
 
     virtual VariantHolder * clone() const;
@@ -35,6 +36,8 @@ public:
     virtual bool convert(const std::type_info & typeInfo, void * result) const;
 
     const ValueType & value() const;
+
+    ValueType * ptr();
 
 private:
     const ValueType m_value;

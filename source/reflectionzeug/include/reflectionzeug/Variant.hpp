@@ -13,9 +13,17 @@ namespace reflectionzeug
 template <typename ValueType>
 Variant Variant::fromValue(const ValueType & value)
 {
-    Variant VariantOld;
-    VariantOld.m_content = new VariantHolder<ValueType>(value);
-    return VariantOld;
+    Variant variant;
+    variant.m_content = new VariantHolder<ValueType>(value);
+    return variant;
+}
+
+template <typename ValueType>
+Variant Variant::fromValue(const ValueType && value)
+{
+    Variant variant;
+    variant.m_content = new VariantHolder<ValueType>(std::move(value));
+    return variant;
 }
 
 template <typename FromType, typename ToType>
@@ -121,6 +129,18 @@ ValueType Variant::value() const
         return ValueType();
 
     return value;
+}
+
+template <typename ValueType>
+ValueType * Variant::ptr()
+{
+    if (!m_content)
+        return nullptr;
+
+    if (typeid(ValueType) != m_content->type())
+        return nullptr;
+
+    return static_cast<VariantHolder<ValueType> *>(m_content)->ptr();
 }
 
 } // namespace reflectionzeug

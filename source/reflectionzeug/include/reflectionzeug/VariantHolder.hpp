@@ -14,6 +14,12 @@ VariantHolder<ValueType>::VariantHolder(const ValueType & value)
 }
 
 template <typename ValueType>
+VariantHolder<ValueType>::VariantHolder(ValueType && value)
+:   m_value(std::move(value))
+{
+}
+
+template <typename ValueType>
 VariantHolder<ValueType>::VariantHolder(const VariantHolder & holder)
 :   m_value(holder.m_value)
 {
@@ -47,6 +53,12 @@ template <typename ValueType>
 const ValueType & VariantHolder<ValueType>::value() const
 {
     return m_value;
+}
+
+template <typename ValueType>
+ValueType * VariantHolder<ValueType>::ptr()
+{
+    return &m_value;
 }
 
 } // namespace reflectionzeug

@@ -79,22 +79,44 @@ Variant::Variant(const VariantArray & array)
 {
 }
 
+Variant::Variant(VariantArray && array)
+:   m_content(new VariantHolder<VariantArray>(std::move(array)))
+{
+}
+
 Variant::Variant(const VariantMap & map)
 :   m_content(new VariantHolder<VariantMap>(map))
 {
 }
 
-Variant::Variant(const Variant & variant)
-:   m_content(variant.isNull() ? nullptr : variant.m_content->clone())
+Variant::Variant(VariantMap && map)
+:   m_content(new VariantHolder<VariantMap>(std::move(map)))
 {
+}
+
+Variant::Variant(const Variant & variant)
+:   m_content(!variant.m_content ? nullptr : variant.m_content->clone())
+{
+}
+
+Variant::Variant(Variant && variant)
+:   m_content(nullptr)
+{
+    std::swap(m_content, variant.m_content);
 }
 
 Variant & Variant::operator=(const Variant & variant)
 {
-    if (!isNull())
+    if (m_content)
         delete m_content;
         
-    m_content = variant.isNull() ? nullptr : variant.m_content->clone();
+    m_content = !variant.m_content ? nullptr : variant.m_content->clone();
+    return *this;
+}
+
+Variant & Variant::operator=(Variant && variant)
+{
+    std::swap(m_content, variant.m_content);
     return *this;
 }
 

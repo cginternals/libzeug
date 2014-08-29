@@ -24,6 +24,9 @@ public:
     template <typename ValueType>
     static Variant fromValue(const ValueType & value);
 
+    template <typename ValueType>
+    static Variant fromValue(const ValueType && value);
+
     template <typename FromType, typename ToType>
     static bool registerConverter();
 
@@ -56,24 +59,45 @@ public:
     explicit Variant(unsigned long long value);
     
     explicit Variant(const VariantArray & array);
+    explicit Variant(VariantArray && array);
+
     explicit Variant(const VariantMap & map);
+    explicit Variant(VariantMap && map);
 
     Variant(const Variant & variant);
+    Variant(Variant && variant);
     
     Variant & operator=(const Variant & variant);
+    Variant & operator=(Variant && variant);
 
     ~Variant();
 
+    /** Returns true if the Variant has the template type ValueType.
+     */
     template <typename ValueType>
     bool hasType() const;
 
     bool isNull() const;
 
+    /** Returns true if the Variant has or
+     * can be converted to the template type ValueType.
+     * \see registerConverter()
+     */
     template <typename ValueType>
     bool canConvert() const;
 
+    /** Returns the stored value converted to the template type ValueType. 
+     * Call canConvert() to find out whether a type can be converted. 
+     * If the value cannot be converted, a default-constructed value will be returned.
+     */
     template <typename ValueType>
     ValueType value() const;
+
+    /** Returns a pointer to the stored value if it has the template type ValueType.
+     * Otherwise returns nullptr.
+     */
+    template <typename ValueType>
+    ValueType * ptr();
 
 private:
     VariantContent * m_content;
