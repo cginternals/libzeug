@@ -22,11 +22,12 @@ class PropertyItem;
 /** \brief Property model for Qts Model-View-Controller framework
  *
  * Supported options
+ * - title (std::string): used instead of property name if set
  * - tooltip (std::string): tooltip to be shown when hovering over property row
  *
  * Supported flags
- * - disabled: disables the property row
- * - readonly: makes the property readonly
+ * - disabled: disables the property row and all children
+ * - readonly: makes the property readonly and all children
  */
 class PROPERTYGUIZEUG_API PropertyModel : public QAbstractItemModel
 {

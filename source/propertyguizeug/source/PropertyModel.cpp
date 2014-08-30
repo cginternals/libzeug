@@ -82,8 +82,8 @@ QVariant PropertyModel::data(const QModelIndex & index, int role) const
     if (role == Qt::DisplayRole && index.column() == 0)
     {
         std::string title;
-        if (property->hasOption("key"))
-            title = property->option("key").value<std::string>();
+        if (property->hasOption("title"))
+            title = property->option("title").value<std::string>();
         else
             title = property->name();
         
