@@ -145,6 +145,16 @@ bool Variant::isNull() const
     return !m_content;
 }
 
+bool Variant::isArray() const
+{
+    return hasType<VariantArray>();
+}
+
+bool Variant::isMap() const
+{
+    return hasType<VariantMap>();
+}
+
 VariantArray * Variant::toArray()
 {
     return ptr<VariantArray>();

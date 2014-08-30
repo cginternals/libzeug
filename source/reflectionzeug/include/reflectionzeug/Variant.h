@@ -87,6 +87,9 @@ public:
 
     bool isNull() const;
 
+    bool isArray() const;
+    bool isMap() const;
+
     /** Returns true if the Variant has or
      * can be converted to the template type ValueType.
      * \see registerConverter()
