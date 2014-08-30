@@ -86,11 +86,30 @@ template <typename ValueType>
 struct VariantConverterInit<ValueType, EnableIf<std::is_floating_point<ValueType>>>
 {
     void operator()()
-    {
+    {   
+        Variant::registerConverter<ValueType, bool>(toBool);
+
+        Variant::registerConverter<ValueType, char>();
+        Variant::registerConverter<ValueType, unsigned char>();
+        Variant::registerConverter<ValueType, short>();
+        Variant::registerConverter<ValueType, unsigned short>();
+        Variant::registerConverter<ValueType, int>();
+        Variant::registerConverter<ValueType, unsigned int>();
+        Variant::registerConverter<ValueType, long>();
+        Variant::registerConverter<ValueType, unsigned long>();
+        Variant::registerConverter<ValueType, long long>();
+        Variant::registerConverter<ValueType, unsigned long long>();
+
         Variant::registerConverter<ValueType, float>();
         Variant::registerConverter<ValueType, double>();
         Variant::registerConverter<ValueType, long double>();
+
         Variant::registerConverter<ValueType, std::string>(util::toString<ValueType>);
+    }
+
+    static bool toBool(const ValueType & value)
+    {
+        return value != 0;
     }
 };
 
