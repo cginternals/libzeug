@@ -50,27 +50,27 @@ public:
 public:
     Variant();
 
-    explicit Variant(const std::string & value);
+    Variant(const std::string & value);
     
-    explicit Variant(float value);
-    explicit Variant(double value);
+    Variant(float value);
+    Variant(double value);
     
-    explicit Variant(char value);
-    explicit Variant(unsigned char value);
-    explicit Variant(short value);
-    explicit Variant(unsigned short value);
-    explicit Variant(int value);
-    explicit Variant(unsigned int value);
-    explicit Variant(long value);
-    explicit Variant(unsigned long value);
-    explicit Variant(long long value);
-    explicit Variant(unsigned long long value);
+    Variant(char value);
+    Variant(unsigned char value);
+    Variant(short value);
+    Variant(unsigned short value);
+    Variant(int value);
+    Variant(unsigned int value);
+    Variant(long value);
+    Variant(unsigned long value);
+    Variant(long long value);
+    Variant(unsigned long long value);
     
-    explicit Variant(const VariantArray & array);
-    explicit Variant(VariantArray && array);
+    Variant(const VariantArray & array);
+    Variant(VariantArray && array);
 
-    explicit Variant(const VariantMap & map);
-    explicit Variant(VariantMap && map);
+    Variant(const VariantMap & map);
+    Variant(VariantMap && map);
 
     Variant(const Variant & variant);
     Variant(Variant && variant);
