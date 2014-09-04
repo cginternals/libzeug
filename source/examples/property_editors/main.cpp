@@ -139,7 +139,7 @@ int main(int argc, char *argv[])
     subGroup = group.addGroup("other"); 
 
     subGroup->addProperty<FilePath>("filePath", "")->setOptions({
-        { "uniqueidentifier", Variant("filePath") }
+        { "uniqueidentifier", "filePath" }
     });
     
     subGroup->addProperty<Color>("color", Color(128, 128, 128));

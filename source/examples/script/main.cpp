@@ -14,10 +14,10 @@ Variant testFunction(std::string a)
     std::cout << "Test function\n";
 
     VariantMap map;
-    map.insert({ "a", Variant(1) });
-    map.insert({ "b", Variant(2) });
-    map.insert({ "c", Variant(3) });
-    map.insert({ "d", Variant("end") });
+    map.insert({ "a", 1 });
+    map.insert({ "b", 2 });
+    map.insert({ "c", 3 });
+    map.insert({ "d", "end" });
     return Variant(map);
 }
 

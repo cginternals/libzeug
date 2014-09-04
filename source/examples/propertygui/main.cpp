@@ -46,7 +46,7 @@ int main(int argc, char *argv[])
             widget->setVisible(b);
         });
         
-    visible->setOption("tooltip", Variant("Opens and closes the example window."));
+    visible->setOption("tooltip", "Opens and closes the example window.");
 
     PropertyGroup * size = settings->addGroup("Size");
 
@@ -98,7 +98,7 @@ int main(int argc, char *argv[])
             }
         });
 
-    minimumSize->setOption("title", Variant("Minimum Size"));
+    minimumSize->setOption("title", "Minimum Size");
 
     auto * maximumSize = size->addProperty<std::array<int, 2>>("maximumSize",
         [widget](size_t i) -> int {
@@ -126,7 +126,7 @@ int main(int argc, char *argv[])
             }
         });
 
-    maximumSize->setOption("title", Variant("Maximum Size"));
+    maximumSize->setOption("title", "Maximum Size");
 
     auto * windowTitle = settings->addProperty<std::string>("windowTitle",
         [widget]() {
@@ -136,7 +136,7 @@ int main(int argc, char *argv[])
             widget->setWindowTitle(QString::fromStdString(title));
         });
 
-    windowTitle->setOption("title", Variant("Window Title"));
+    windowTitle->setOption("title", "Window Title");
 
     auto * backgroundColor = settings->addProperty<Color>("backgroundColor",
         [widget]() {
@@ -150,8 +150,8 @@ int main(int argc, char *argv[])
             widget->setPalette(palette);
         });
 
-    backgroundColor->setOption("title", Variant("Background Color"));
-    backgroundColor->setOption("tooltip", Variant("Sets the background color of the example window."));
+    backgroundColor->setOption("title", "Background Color");
+    backgroundColor->setOption("tooltip", "Sets the background color of the example window.");
 
     auto * cursorProperty = settings->addProperty<Qt::CursorShape>("Cursor",
         [widget] () 
