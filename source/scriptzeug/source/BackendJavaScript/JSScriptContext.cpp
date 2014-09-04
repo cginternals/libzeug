@@ -125,7 +125,7 @@ static Variant fromV8Value(Isolate *isolate, Local<Value> arg)
             Local<Value> prop = arr->Get(i);
             array.push_back(fromV8Value(isolate, prop));
         }
-        return Variant();
+        return array;
     }
 
     // Object
@@ -322,11 +322,17 @@ static void setPropertyValue(AbstractProperty * property, const Variant &value)
         else if (ColorPropertyInterface * prop = dynamic_cast< ColorPropertyInterface * >(property) ) {
             if (value.hasType<VariantArray>()) {
                 VariantArray array = value.value<VariantArray>();
-                int r = array.at(0).value<int>();
-                int g = array.at(1).value<int>();
-                int b = array.at(2).value<int>();
-                int a = array.at(3).value<int>();
-                prop->fromColor(Color(r, g, b, a));
+                Color color(0, 0, 0, 255);
+                switch (array.size()) 
+                {
+                case 4: 
+                    color.setAlpha(array.at(3).value<int>());
+                case 3:
+                    color.setBlue(array.at(2).value<int>());
+                    color.setGreen(array.at(1).value<int>());
+                    color.setRed(array.at(0).value<int>());
+                }
+                prop->fromColor(color);
             } else if (value.hasType<VariantMap>()) {
                 VariantMap map = value.value<VariantMap>();
                 int r = map.count("r") >= 1 ? map.at("r").value<int>() : 0;
