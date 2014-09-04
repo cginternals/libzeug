@@ -34,6 +34,7 @@ public:
     virtual AbstractFunction *clone()
     {
         // Copy handle
+        Locker locker(m_isolate);
         HandleScope scope(m_isolate);
         Local<v8::Function> func = Local<v8::Function>::New(m_isolate, m_func);
 

@@ -1,5 +1,6 @@
 
 if(OPTION_BUILD_EXAMPLES)
+    add_subdirectory(logging)
     add_subdirectory(properties)
     add_subdirectory(property_editors)
     add_subdirectory(propertygui)

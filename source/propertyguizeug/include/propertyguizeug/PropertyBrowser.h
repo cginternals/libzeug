@@ -19,6 +19,8 @@ class PropertyPainter;
 
 class PROPERTYGUIZEUG_API PropertyBrowser : public QTreeView
 {
+    Q_OBJECT
+
 public:
     PropertyBrowser(QWidget * parent = nullptr);
     
@@ -37,13 +39,18 @@ public:
     ~PropertyBrowser();
     
     void setRoot(reflectionzeug::PropertyGroup * root);
+    void setAlwaysExpandGroups(bool b);
 
-protected:
+protected slots:
+    void onRowsInserted(const QModelIndex & parentIndex, int first, int last);
+
+private:
     void initView();
+    void expandAllGroups();
     
-protected:    
+private:    
     PropertyDelegate * m_delegate;
-    
+    bool m_alwaysExpandGroups;
 };
     
 } // namespace propertyguizeug

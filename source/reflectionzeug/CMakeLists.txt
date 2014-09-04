@@ -22,6 +22,7 @@ endif()
 include_directories(
     BEFORE
     ${CMAKE_SOURCE_DIR}/source/signalzeug/include
+    ${CMAKE_SOURCE_DIR}/source/loggingzeug/include
     ${CMAKE_CURRENT_SOURCE_DIR}/include
 )
 
@@ -31,6 +32,7 @@ include_directories(
 
 set(libs
     signalzeug
+    loggingzeug
 )
 
 if(NOT OPTION_BUILD_WITH_STD_REGEX)

@@ -10,6 +10,8 @@
 #include <reflectionzeug/PropertyDeserializer.h>
 #include <propertyguizeug/PropertyBrowser.h>
 
+#include "libzeug-version.h"
+
 #include "Switch.h"
 
 #ifdef WIN32
@@ -26,8 +28,9 @@ using namespace propertyguizeug;
 int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);
-    QApplication::setOrganizationName("hpicgs_libzeug");
-    
+    QApplication::setApplicationName("propertygui-example");
+    QApplication::setOrganizationName(META_AUTHOR_ORGANIZATION);
+
     auto * widget = new QWidget();
     widget->setMinimumWidth(200);
     widget->setMaximumWidth(640);

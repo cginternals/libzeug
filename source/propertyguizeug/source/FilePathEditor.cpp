@@ -1,7 +1,6 @@
 
 #include <QHBoxLayout>
 #include <QSettings>
-#include <QApplication>
 #include <QFileDialog>
 #include <QVariant>
 #include <QCompleter>
@@ -54,11 +53,8 @@ FilePathEditor::~FilePathEditor()
 }
     
 QStringList FilePathEditor::recentlyUsedFilePaths()
-{
-    QSettings settings(QSettings::NativeFormat,
-                       QSettings::UserScope,
-                       QApplication::organizationName());
-    
+{                       
+    QSettings settings;
     return settings.value(m_uniqueIdentifier,
                           QVariant(QStringList())).toStringList();
 }
@@ -72,11 +68,8 @@ void FilePathEditor::pushRecentlyUsedFilePath(const QString & filePath)
     
     if (!list.contains(filePath))
         list.push_back(filePath);
-    
-    QSettings settings(QSettings::NativeFormat,
-                       QSettings::UserScope,
-                       QApplication::organizationName());
-    
+
+    QSettings settings;    
     settings.setValue(m_uniqueIdentifier,
                       QVariant(list));
 }
