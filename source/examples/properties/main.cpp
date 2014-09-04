@@ -77,11 +77,11 @@ void iterateOverProperties()
     group->addProperty<std::array<int, 3>>("eighth", array);
 
     group->forEachValue([](AbstractProperty & property) {
-        std::cout << property.title() << std::endl;
+        std::cout << property.name() << std::endl;
     });
 
     group->forEachGroup([](PropertyGroup & subGroup) {
-        std::cout << subGroup.title() << std::endl;
+        std::cout << subGroup.name() << std::endl;
     });
 
     delete group;

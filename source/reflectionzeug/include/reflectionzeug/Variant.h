@@ -50,6 +50,7 @@ public:
 public:
     Variant();
 
+    Variant(const char * value);
     Variant(const std::string & value);
     
     Variant(float value);

@@ -16,16 +16,6 @@
 
 using namespace reflectionzeug;
 
-namespace
-{
-
-AbstractProperty * retrieveProperty(const QModelIndex & index)
-{
-    return static_cast<propertyguizeug::PropertyItem *>(index.internalPointer())->property();
-}
-    
-} // namespace
-
 namespace propertyguizeug
 {
     

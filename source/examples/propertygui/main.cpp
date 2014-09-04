@@ -57,8 +57,9 @@ int main(int argc, char *argv[])
         [widget] (const int & width) {
             widget->resize(width, widget->height());
         });
-
-    width->setRange(widget->minimumWidth(), widget->maximumWidth());
+    
+    width->setOption("minimum", widget->minimumWidth());
+    width->setOption("maximum", widget->maximumWidth());
 
     auto * height = size->addProperty<int>("Height",
         [widget] () -> int {
@@ -68,7 +69,8 @@ int main(int argc, char *argv[])
             widget->resize(widget->width(), height);
         });
 
-    height->setRange(widget->minimumHeight(), widget->maximumHeight());
+    height->setOption("minimum", widget->minimumHeight());
+    height->setOption("maximum", widget->maximumHeight());
 
     auto * minimumSize = size->addProperty<std::array<int, 2>>("minimumSize",
         [widget] (size_t i) -> int {
@@ -87,11 +89,12 @@ int main(int argc, char *argv[])
             {
             case 0:
                 widget->setMinimumWidth(size);
-                width->setMinimum(size);
+                width->setOption("minimum", size);
                 break;
             case 1:
                 widget->setMinimumHeight(size);
-                height->setMinimum(size);
+                height->setOption("minimum", size);
+                
             }
         });
 
@@ -115,11 +118,11 @@ int main(int argc, char *argv[])
             {
             case 0:
                 widget->setMaximumWidth(size);
-                width->setMaximum(size);
+                width->setOption("maximum", size);
                 break;
             case 1:
                 widget->setMaximumHeight(size);
-                height->setMaximum(size);
+                height->setOption("maximum", size);
             }
         });
 
@@ -168,8 +171,8 @@ int main(int argc, char *argv[])
     });
     
     Property<FilePath> * filePath = settings->addProperty<FilePath>("filePath", "");
-    filePath->setUniqueIdentifier("settings/filePath");
-    filePath->setOption("tooltip", Variant("A file path with no meaning."));
+    filePath->setOption("uniqueidentifier", "settings/filePath");
+    filePath->setOption("tooltip", "A file path with no meaning.");
 
     QPushButton button("Add");
 

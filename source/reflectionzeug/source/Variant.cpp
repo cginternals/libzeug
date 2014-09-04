@@ -24,6 +24,11 @@ Variant::Variant()
 {
 }
 
+Variant::Variant(const char * value)
+:   m_content(new VariantHolder<std::string>(std::string(value)))
+{
+}
+
 Variant::Variant(const std::string & value)
 :   m_content(new VariantHolder<std::string>(value))
 {
