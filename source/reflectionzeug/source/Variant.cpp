@@ -8,7 +8,7 @@ namespace reflectionzeug
 Variant Variant::array()
 {
     Variant variant;
-    variant.m_content = new VariantHolder<VariantArray>({});
+    variant.m_content = new VariantHolder<VariantArray>(VariantArray());
     return variant;
 }
 

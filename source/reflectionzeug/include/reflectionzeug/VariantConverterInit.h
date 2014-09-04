@@ -45,7 +45,7 @@ struct VariantConverterInit<bool>
         Variant::registerConverter<bool, std::string>(toString);
     }
 
-    static bool toString(bool value)
+    static std::string toString(bool value)
     {
         return value ? "true" : "false";
     }
