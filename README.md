@@ -64,7 +64,7 @@ reflectionzeug
 
 reflectionzeug allows the definition of properties that can be used to parameterize a program.
 It supports saving and loading properties to and from a file.
-The currently implemented property types are `int`, `double`, `std::string`, fixed size `std::vector` for mathematical vectors and matrices, `bool`, `FilePath` and `Color`.
+The currently implemented property types are `bool`, `float`, `double`, `std::string`, `FilePath`, `Color`, every integral type, user-defined enums and glm types. Every prior type can be wrapped in an `std::array`. You can extend reflectionzeug and add your own types.
 
 scriptzeug
 ----------
