@@ -129,7 +129,7 @@ void PropertyItem::insertChild(size_t i, PropertyItem * item)
 
 bool PropertyItem::removeChild(size_t i)
 {
-    if (i >= m_children.count())
+    if (i >= (size_t)m_children.count())
         return false;
 
     delete m_children.takeAt(i);

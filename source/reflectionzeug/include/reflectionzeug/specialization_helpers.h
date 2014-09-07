@@ -7,7 +7,7 @@
 namespace reflectionzeug
 {
    
-namespace
+namespace detail
 {
 
 template <bool Condition, bool... MoreConditions>
@@ -54,25 +54,25 @@ struct value_accessor : public std::enable_if<Condition::value, Type> {};
 /** \{ */
 
 template <typename Condition, typename Type = void>
-using EnableIf = typename value_accessor<Condition, Type>::type; 
+using EnableIf = typename detail::value_accessor<Condition, Type>::type; 
 
 template <typename Condition>
-struct Neg : public neg<Condition::value> {};
+struct Neg : public detail::neg<Condition::value> {};
 
 template <bool... Conditions>
-struct And : public all<Conditions...> {};
+struct And : public detail::all<Conditions...> {};
 
 template <typename Type>
-struct isArray : public is_array<Type> {};
+struct isArray : public detail::is_array<Type> {};
 
 template <typename Type>
-struct isBoolArray : public is_special_array<bool, Type> {};
+struct isBoolArray : public detail::is_special_array<bool, Type> {};
 
 template <typename Type>
-struct isIntArray : public is_special_array<int, Type> {};
+struct isIntArray : public detail::is_special_array<int, Type> {};
 
 template <typename Type>
-struct isDoubleArray : public is_special_array<double, Type> {};
+struct isDoubleArray : public detail::is_special_array<double, Type> {};
 
 template <typename Type>
 struct isIntegral : public And<std::is_integral<Type>::value, 

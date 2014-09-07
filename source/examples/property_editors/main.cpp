@@ -12,6 +12,8 @@
 using namespace reflectionzeug;
 using namespace propertyguizeug;
 
+enum class MyEnum { One, Two, Three };
+
 void addFlagProperty(PropertyGroup * group, const std::string & flag)
 {
     group->addProperty<bool>(flag, false)->valueChanged.connect([&flag, group] (bool b)
@@ -144,7 +146,6 @@ int main(int argc, char *argv[])
     
     subGroup->addProperty<Color>("color", Color(128, 128, 128));
     
-    enum class MyEnum { One, Two, Three };
     subGroup->addProperty<MyEnum>("enum", MyEnum::One)->setStrings({
         { MyEnum::One, "One" },
         { MyEnum::Two, "Two" },
