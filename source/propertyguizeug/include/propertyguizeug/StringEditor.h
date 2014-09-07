@@ -5,23 +5,30 @@
 
 #include <propertyguizeug/PropertyEditor.h>
 
-class QLineEdit;
+class QWidget;
 
 namespace propertyguizeug
 {
 
+/** \brief Editor for strings
+ *
+ * Supported options
+ * - choices (std::vector<std::string>): list of choices; when set, editor will be a combobox.
+ */
 class PROPERTYGUIZEUG_API StringEditor : public PropertyEditor
 {
 public:
     StringEditor(reflectionzeug::StringPropertyInterface * property, QWidget * parent = nullptr);
-    virtual ~StringEditor();
-    
-    void editingFinished();
 
 protected:
-    QLineEdit * m_lineEdit;
+    QWidget * createComboBox();
+    QWidget * createLineEdit();
     
+    void setString(const QString & text);
+
+protected:    
     reflectionzeug::StringPropertyInterface * m_property;
+    
 };
 
 } // namespace propertyguizeug

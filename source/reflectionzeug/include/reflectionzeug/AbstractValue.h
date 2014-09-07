@@ -13,7 +13,7 @@ template <typename Type>
 class AbstractValue
 {
 public:
-    virtual ~AbstractValue() { };
+    virtual ~AbstractValue() = default;
     
     virtual Type get() const = 0;
     virtual void set(const Type & value) = 0;

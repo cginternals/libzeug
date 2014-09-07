@@ -27,17 +27,6 @@ public:
 
     virtual void accept(AbstractPropertyVisitor * visitor);
 
-    virtual unsigned long long uLongLongMinimum();
-    virtual bool hasMinimum() const;
-
-    virtual unsigned long long uLongLongMaximum();
-    virtual bool hasMaximum() const;
-
-    virtual bool hasRange() const;
-
-    virtual unsigned long long uLongLongStep();
-    virtual bool hasStep() const;
-
     virtual unsigned long long toULongLong() const;
     virtual bool fromULongLong(unsigned long long integral);
 

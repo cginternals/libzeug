@@ -66,6 +66,9 @@ public:
     virtual std::string toString() const;
     virtual bool fromString(const std::string & string);
 
+    virtual Variant toVariant() const;
+    virtual bool fromVariant(const Variant & variant);
+
     virtual Property<Type> * at(size_t i);
     virtual const Property<Type> * at(size_t i) const;
     

@@ -13,12 +13,10 @@ namespace reflectionzeug
 const std::string AbstractProperty::s_nameRegexString("[a-zA-Z_]+\\w*");
 
 AbstractProperty::AbstractProperty()
-:   m_enabled(true)
 {
 }
 
 AbstractProperty::AbstractProperty(const std::string & name)
-:   m_enabled(true)
 {
     setName(name);
 }
@@ -38,10 +36,6 @@ bool AbstractProperty::setName(const std::string & name)
         return false;
     
     m_name = name;
-    
-    if (!this->hasTitle())
-        setTitle(name);
-    
     return true;
 }
     
@@ -50,41 +44,67 @@ bool AbstractProperty::hasName() const
     return !m_name.empty();
 }
 
-const std::string & AbstractProperty::title() const
+bool AbstractProperty::hasOption(const std::string & key) const
 {
-    return m_title;
+    return m_options.count(key) != 0;
 }
 
-void AbstractProperty::setTitle(const std::string & title)
+Variant AbstractProperty::option(const std::string & key) const
 {
-    m_title = title;
-}
-    
-bool AbstractProperty::hasTitle() const
-{
-    return !m_title.empty();
-}
-    
-const std::string & AbstractProperty::annotations() const
-{
-    return m_annotations;
+    if (!this->hasOption(key))
+        return Variant();
+
+    return m_options.at(key);
 }
 
-void AbstractProperty::setAnnotations(const std::string & annotations)
+void AbstractProperty::setOption(const std::string & key, const Variant & value)
 {
-    m_annotations = annotations;
+    m_options.insert({ key, value });
+}
+
+bool AbstractProperty::removeOption(const std::string & key)
+{
+    if (!this->hasOption(key))
+        return false;
+        
+    m_options.erase(key);
+    return true;
+}
+
+void AbstractProperty::setOptions(const VariantMap & map)
+{
+    m_options.insert(map.begin(), map.end());
+}
+
+bool AbstractProperty::flagSet(const std::string & flag) const
+{
+    return m_flags.count(flag) == 1;
 }
     
-bool AbstractProperty::isEnabled() const
+void AbstractProperty::addFlag(const std::string & flag)
 {
-    return m_enabled;
+    m_flags.insert(flag);
 }
-    
-void AbstractProperty::setEnabled(bool enabled)
+
+bool AbstractProperty::removeFlag(const std::string & flag)
 {
-    m_enabled = enabled;
+    if (!flagSet(flag))
+        return false;
+
+    m_flags.erase(flag);
+    return true;
 }
-    
+
+const std::set<std::string> & AbstractProperty::flags() const
+{
+    return m_flags;
+}
+
+void AbstractProperty::setFlags(const std::set<std::string> & flags)
+{
+    m_flags = flags;
+}
+
 AbstractValueProperty * AbstractProperty::asValue()
 {
     return dynamic_cast<AbstractValueProperty *>(this);

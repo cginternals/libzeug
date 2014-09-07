@@ -1,4 +1,6 @@
 
+#include <limits>
+
 #include <QHBoxLayout>
 #include <QDoubleSpinBox>
 
@@ -17,23 +19,38 @@ FloatingPointEditor::FloatingPointEditor(FloatingPointPropertyInterface * proper
 {
     boxLayout()->addWidget(m_spinBox);
     setFocusProxy(m_spinBox);
-
-    m_spinBox->setRange(m_property->doubleMinimum(), m_property->doubleMaximum());
-	
-    if (m_property->hasStep())
-	m_spinBox->setSingleStep(m_property->doubleStep());
     
-    m_spinBox->setDecimals(m_property->hasPrecision() ? m_property->precision() : 3);
+    double minimum, maximum;
+    
+    if (m_property->hasOption("minimum"))
+        minimum = m_property->option("minimum").value<double>();
+    else
+        minimum = std::numeric_limits<double>::min();
+        
+    if (m_property->hasOption("maximum"))
+        maximum = m_property->option("maximum").value<double>();
+    else
+        maximum = std::numeric_limits<double>::max();
+    
+    m_spinBox->setRange(minimum, maximum);
+	
+    if (m_property->hasOption("step"))
+        m_spinBox->setSingleStep(m_property->option("step").value<double>());
+        
+    uint precision;
+    if (m_property->hasOption("precision"))
+        precision = m_property->option("precision").value<uint>();
+    else
+        precision = 3;
+        
+    m_spinBox->setDecimals(precision);
+    
     m_spinBox->setValue(m_property->toDouble());
     
     connect(m_spinBox, static_cast<void (QDoubleSpinBox::*)(double)>(&QDoubleSpinBox::valueChanged),
                   [this](double d) {
                       m_property->fromDouble(d);
                   });
-}
-    
-FloatingPointEditor::~FloatingPointEditor()
-{
 }
 
 } // namespace propertyguizeug

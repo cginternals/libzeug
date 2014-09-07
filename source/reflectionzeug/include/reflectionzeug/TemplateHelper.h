@@ -16,7 +16,7 @@ struct ArgValue {
         // Assume signed integral type by default
         T value = 0;
         if (POS < args.size()) {
-            value = args[POS].toInt();
+            value = args[POS].value<int>();
         }
         return value;
     }
@@ -38,7 +38,7 @@ struct ArgValue<float, POS> {
     static float get(const std::vector<Variant> & args) {
         float value = 0.0f;
         if (POS < args.size()) {
-            value = (float)args[POS].toDouble();
+            value = (float)args[POS].value<double>();
         }
         return value;
     }
@@ -51,7 +51,7 @@ struct ArgValue<double, POS> {
     static double get(const std::vector<Variant> & args) {
         double value = 0.0f;
         if (POS < args.size()) {
-            value = args[POS].toDouble();
+            value = args[POS].value<double>();
         }
         return value;
     }
@@ -64,7 +64,7 @@ struct ArgValue<bool, POS> {
     static bool get(const std::vector<Variant> & args) {
         bool value = false;
         if (POS < args.size()) {
-            value = args[POS].toBool();
+            value = args[POS].value<bool>();
         }
         return value;
     }
@@ -77,13 +77,13 @@ struct ArgValue<std::string, POS> {
     static std::string get(const std::vector<Variant> & args) {
         std::string value;
         if (POS < args.size()) {
-            value = args[POS].toString();
+            value = args[POS].value<std::string>();
         }
         return value;
     }
 };
 
-/** \brief ArgValue specialization for type Variant
+/** \brief ArgValue specialization for type VariantOld
  */
 template<size_t POS>
 struct ArgValue<Variant, POS> {
@@ -96,7 +96,7 @@ struct ArgValue<Variant, POS> {
     }
 };
 
-/** \brief ArgValue specialization for type const Variant &
+/** \brief ArgValue specialization for type const VariantOld &
  */
 template<size_t POS>
 struct ArgValue<const Variant &, POS> {
@@ -105,7 +105,7 @@ struct ArgValue<const Variant &, POS> {
     }
 };
 
-/** \brief ArgValue specialization for type const std::vector<Variant> &
+/** \brief ArgValue specialization for type const std::vector<VariantOld> &
  */
 template<size_t POS>
 struct ArgValue<const std::vector<Variant> &, POS> {

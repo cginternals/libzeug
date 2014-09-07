@@ -49,7 +49,7 @@ int main(int argc, char *argv[])
             widget->setVisible(b);
         });
         
-    visible->setAnnotations("Opens and closes the example window.");
+    visible->setOption("tooltip", "Opens and closes the example window.");
 
     PropertyGroup * size = settings->addGroup("Size");
 
@@ -60,8 +60,9 @@ int main(int argc, char *argv[])
         [widget] (const int & width) {
             widget->resize(width, widget->height());
         });
-
-    width->setRange(widget->minimumWidth(), widget->maximumWidth());
+    
+    width->setOption("minimum", widget->minimumWidth());
+    width->setOption("maximum", widget->maximumWidth());
 
     auto * height = size->addProperty<int>("Height",
         [widget] () -> int {
@@ -71,7 +72,8 @@ int main(int argc, char *argv[])
             widget->resize(widget->width(), height);
         });
 
-    height->setRange(widget->minimumHeight(), widget->maximumHeight());
+    height->setOption("minimum", widget->minimumHeight());
+    height->setOption("maximum", widget->maximumHeight());
 
     auto * minimumSize = size->addProperty<std::array<int, 2>>("minimumSize",
         [widget] (size_t i) -> int {
@@ -90,15 +92,16 @@ int main(int argc, char *argv[])
             {
             case 0:
                 widget->setMinimumWidth(size);
-                width->setMinimum(size);
+                width->setOption("minimum", size);
                 break;
             case 1:
                 widget->setMinimumHeight(size);
-                height->setMinimum(size);
+                height->setOption("minimum", size);
+                
             }
         });
 
-    minimumSize->setTitle("Minimum Size");
+    minimumSize->setOption("title", "Minimum Size");
 
     auto * maximumSize = size->addProperty<std::array<int, 2>>("maximumSize",
         [widget](size_t i) -> int {
@@ -118,15 +121,15 @@ int main(int argc, char *argv[])
             {
             case 0:
                 widget->setMaximumWidth(size);
-                width->setMaximum(size);
+                width->setOption("maximum", size);
                 break;
             case 1:
                 widget->setMaximumHeight(size);
-                height->setMaximum(size);
+                height->setOption("maximum", size);
             }
         });
 
-    maximumSize->setTitle("Maximum Size");
+    maximumSize->setOption("title", "Maximum Size");
 
     auto * windowTitle = settings->addProperty<std::string>("windowTitle",
         [widget]() {
@@ -136,7 +139,7 @@ int main(int argc, char *argv[])
             widget->setWindowTitle(QString::fromStdString(title));
         });
 
-    windowTitle->setTitle("Window Title");
+    windowTitle->setOption("title", "Window Title");
 
     auto * backgroundColor = settings->addProperty<Color>("backgroundColor",
         [widget]() {
@@ -150,8 +153,8 @@ int main(int argc, char *argv[])
             widget->setPalette(palette);
         });
 
-    backgroundColor->setTitle("Background Color");
-    backgroundColor->setAnnotations("Sets the background color of the example window.");
+    backgroundColor->setOption("title", "Background Color");
+    backgroundColor->setOption("tooltip", "Sets the background color of the example window.");
 
     auto * cursorProperty = settings->addProperty<Qt::CursorShape>("Cursor",
         [widget] () 
@@ -171,8 +174,8 @@ int main(int argc, char *argv[])
     });
     
     Property<FilePath> * filePath = settings->addProperty<FilePath>("filePath", "");
-    filePath->setUniqueIdentifier("settings/filePath");
-    filePath->setAnnotations("A file path with no meaning.");
+    filePath->setOption("uniqueidentifier", "settings/filePath");
+    filePath->setOption("tooltip", "A file path with no meaning.");
 
     QPushButton button("Add");
 

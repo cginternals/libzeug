@@ -77,13 +77,21 @@ QVariant PropertyModel::data(const QModelIndex & index, int role) const
     if (!index.isValid())
         return QVariant();
     
-    PropertyItem * item = retrieveItem(index);
+    AbstractProperty * property = retrieveItem(index)->property();
     
     if (role == Qt::DisplayRole && index.column() == 0)
-        return QVariant(QString::fromStdString(item->property()->title()));
+    {
+        std::string title;
+        if (property->hasOption("title"))
+            title = property->option("title").value<std::string>();
+        else
+            title = property->name();
         
-    if (role == Qt::ToolTipRole)
-        return QVariant(QString::fromStdString(item->property()->annotations()));
+        return QVariant(QString::fromStdString(title));
+    }
+
+    if (role == Qt::ToolTipRole && property->hasOption("tooltip"))
+        return QVariant(QString::fromStdString(property->option("tooltip").value<std::string>()));
     
     return QVariant();
 }
@@ -97,7 +105,7 @@ Qt::ItemFlags PropertyModel::flags(const QModelIndex & index) const
 
     Qt::ItemFlags flags = Qt::ItemIsSelectable;
 
-    if (index.column() == 1 && item->property()->isValue())
+    if (index.column() == 1 && item->property()->isValue() && !item->isReadOnly())
         flags |= Qt::ItemIsEditable;
 
     if (item->isEnabled())

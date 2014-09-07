@@ -73,9 +73,17 @@ int PropertyItem::index() const
 bool PropertyItem::isEnabled() const
 {
     if (!hasParent())
-        return m_property->isEnabled();
+        return !m_property->flagSet("disabled");
         
-    return m_property->isEnabled() && m_parent->isEnabled();
+    return !m_property->flagSet("disabled") && m_parent->isEnabled();
+}
+
+bool PropertyItem::isReadOnly() const
+{
+    if (!hasParent())
+        return m_property->flagSet("readonly");
+        
+    return m_property->flagSet("readonly") || m_parent->isReadOnly();
 }
 
 PropertyItem * PropertyItem::parent() const
@@ -121,7 +129,7 @@ void PropertyItem::insertChild(size_t i, PropertyItem * item)
 
 bool PropertyItem::removeChild(size_t i)
 {
-    if (i >= m_children.count())
+    if (i >= (size_t)m_children.count())
         return false;
 
     delete m_children.takeAt(i);

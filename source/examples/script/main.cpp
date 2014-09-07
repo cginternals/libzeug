@@ -13,12 +13,12 @@ Variant testFunction(std::string a)
 {
     std::cout << "Test function\n";
 
-    Variant value = Variant::Object();
-    value.set("a", 1);
-    value.set("b", 2);
-    value.set("c", 3);
-    value.set("d", "end");
-    return value;
+    VariantMap map;
+    map.insert({ "a", 1 });
+    map.insert({ "b", 2 });
+    map.insert({ "c", 3 });
+    map.insert({ "d", "end" });
+    return Variant(map);
 }
 
 
@@ -91,7 +91,7 @@ public:
 
         int i=0;
         for (std::vector<Variant>::const_iterator it = args.begin(); it != args.end(); ++it) {
-            std::cout << "- " << i << ": " << (*it).toString() << "\n";
+            std::cout << "- " << i << ": " << (*it).value<std::string>() << "\n";
             i++;
         }
     }
@@ -243,17 +243,17 @@ int main(int argc, char const *argv[])
 
     std::cout << "1 + 2\n";
     value = scripting.evaluate("1 + 2");
-    std::cout << "(1 + 2) --> " << value.toString() << "\n";
+    std::cout << "(1 + 2) --> " << value.value<std::string>() << "\n";
     std::cout << "\n";
 
     std::cout << "api.noFunction();\n";
     value = scripting.evaluate("api.noFunction()");
-    std::cout << "--> " << value.toString() << "\n";
+    std::cout << "--> " << value.value<std::string>() << "\n";
     std::cout << "\n";
 
     std::cout << "asd\n";
     value = scripting.evaluate("asd");
-    std::cout << "--> " << value.toString() << "\n";
+    std::cout << "--> " << value.value<std::string>() << "\n";
     std::cout << "\n";
 
     //
@@ -262,178 +262,178 @@ int main(int argc, char const *argv[])
 
     // Display all values once
     value = scripting.evaluate("obj");
-    std::cout << "(obj)      --> " << value.toString() << "\n";
+    std::cout << "(obj)      --> " << value.value<std::string>() << "\n";
     value = scripting.evaluate("obj.char");
-    std::cout << "(obj.char) --> " << value.toString() << "\n";
+    std::cout << "(obj.char) --> " << value.value<std::string>() << "\n";
     value = scripting.evaluate("obj.uchar");
-    std::cout << "(obj.uchar) --> " << value.toString() << "\n";
+    std::cout << "(obj.uchar) --> " << value.value<std::string>() << "\n";
     value = scripting.evaluate("obj.int");
-    std::cout << "(obj.int) --> " << value.toString() << "\n";
+    std::cout << "(obj.int) --> " << value.value<std::string>() << "\n";
     value = scripting.evaluate("obj.uint");
-    std::cout << "(obj.uint) --> " << value.toString() << "\n";
+    std::cout << "(obj.uint) --> " << value.value<std::string>() << "\n";
     value = scripting.evaluate("obj.long");
-    std::cout << "(obj.long) --> " << value.toString() << "\n";
+    std::cout << "(obj.long) --> " << value.value<std::string>() << "\n";
     value = scripting.evaluate("obj.ulong");
-    std::cout << "(obj.ulong) --> " << value.toString() << "\n";
+    std::cout << "(obj.ulong) --> " << value.value<std::string>() << "\n";
     value = scripting.evaluate("obj.longlong");
-    std::cout << "(obj.longlong) --> " << value.toString() << "\n";
+    std::cout << "(obj.longlong) --> " << value.value<std::string>() << "\n";
     value = scripting.evaluate("obj.ulonglong");
-    std::cout << "(obj.ulonglong) --> " << value.toString() << "\n";
+    std::cout << "(obj.ulonglong) --> " << value.value<std::string>() << "\n";
     value = scripting.evaluate("obj.float");
-    std::cout << "(obj.float) --> " << value.toString() << "\n";
+    std::cout << "(obj.float) --> " << value.value<std::string>() << "\n";
     value = scripting.evaluate("obj.double");
-    std::cout << "(obj.double) --> " << value.toString() << "\n";
+    std::cout << "(obj.double) --> " << value.value<std::string>() << "\n";
     value = scripting.evaluate("obj.bool");
-    std::cout << "(obj.bool) --> " << value.toString() << "\n";
+    std::cout << "(obj.bool) --> " << value.value<std::string>() << "\n";
     value = scripting.evaluate("obj.string");
-    std::cout << "(obj.string) --> '" << value.toString() << "'\n";
+    std::cout << "(obj.string) --> '" << value.value<std::string>() << "'\n";
     value = scripting.evaluate("obj.path");
-    std::cout << "(obj.path) --> '" << value.toString() << "'\n";
+    std::cout << "(obj.path) --> '" << value.value<std::string>() << "'\n";
     value = scripting.evaluate("obj.color");
-    std::cout << "(obj.color) --> '" << value.toString() << "'\n";
+    std::cout << "(obj.color) --> '" << value.value<std::string>() << "'\n";
     value = scripting.evaluate("obj.enum");
-    std::cout << "(obj.enum) --> '" << value.toString() << "'\n";
+    std::cout << "(obj.enum) --> '" << value.value<std::string>() << "'\n";
     value = scripting.evaluate("obj.array");
-    std::cout << "(obj.array) --> '" << value.toString() << "'\n";
+    std::cout << "(obj.array) --> '" << value.value<std::string>() << "'\n";
     std::cout << "\n";
 
     // Change values
     std::cout << "obj.char = 127\n";
     value = scripting.evaluate("obj.char = 127;");
     value = scripting.evaluate("obj.char");
-    std::cout << "(obj.char) --> " << value.toString() << "\n";
+    std::cout << "(obj.char) --> " << value.value<std::string>() << "\n";
     std::cout << "\n";
 
     std::cout << "obj.uchar = 212\n";
     value = scripting.evaluate("obj.uchar = 212;");
     value = scripting.evaluate("obj.uchar");
-    std::cout << "(obj.uchar) --> " << value.toString() << "\n";
+    std::cout << "(obj.uchar) --> " << value.value<std::string>() << "\n";
     std::cout << "\n";
 
     std::cout << "obj.int = -30\n";
     value = scripting.evaluate("obj.int = -30;");
     value = scripting.evaluate("obj.int");
-    std::cout << "(obj.int) --> " << value.toString() << "\n";
+    std::cout << "(obj.int) --> " << value.value<std::string>() << "\n";
     std::cout << "\n";
 
     std::cout << "obj.uint = 64738\n";
     value = scripting.evaluate("obj.uint = 64738;");
     value = scripting.evaluate("obj.uint");
-    std::cout << "(obj.uint) --> " << value.toString() << "\n";
+    std::cout << "(obj.uint) --> " << value.value<std::string>() << "\n";
     std::cout << "\n";
 
     std::cout << "obj.long = -1024 * 1024\n";
     value = scripting.evaluate("obj.long = -1024 * 1024;");
     value = scripting.evaluate("obj.long");
-    std::cout << "(obj.long) --> " << value.toString() << "\n";
+    std::cout << "(obj.long) --> " << value.value<std::string>() << "\n";
     std::cout << "\n";
 
     std::cout << "obj.ulong = 1024 * 1024\n";
     value = scripting.evaluate("obj.ulong = 1024 * 1024;");
     value = scripting.evaluate("obj.ulong");
-    std::cout << "(obj.ulong) --> " << value.toString() << "\n";
+    std::cout << "(obj.ulong) --> " << value.value<std::string>() << "\n";
     std::cout << "\n";
 
     std::cout << "obj.longlong = -1024 * 1024\n";
     value = scripting.evaluate("obj.longlong = -1024 * 1024;");
     value = scripting.evaluate("obj.longlong");
-    std::cout << "(obj.longlong) --> " << value.toString() << "\n";
+    std::cout << "(obj.longlong) --> " << value.value<std::string>() << "\n";
     std::cout << "\n";
 
     std::cout << "obj.ulonglong = 1024 * 1024\n";
     value = scripting.evaluate("obj.ulonglong = 1024 * 1024;");
     value = scripting.evaluate("obj.ulonglong");
-    std::cout << "(obj.ulonglong) --> " << value.toString() << "\n";
+    std::cout << "(obj.ulonglong) --> " << value.value<std::string>() << "\n";
     std::cout << "\n";
 
     std::cout << "obj.float = -3.14\n";
     value = scripting.evaluate("obj.float = -3.14;");
     value = scripting.evaluate("obj.float");
-    std::cout << "(obj.float) --> " << value.toString() << "\n";
+    std::cout << "(obj.float) --> " << value.value<std::string>() << "\n";
     std::cout << "\n";
 
     std::cout << "obj.double = Math.PI\n";
     value = scripting.evaluate("obj.double = Math.PI;");
     value = scripting.evaluate("obj.double");
-    std::cout << "(obj.double) --> " << value.toString() << "\n";
+    std::cout << "(obj.double) --> " << value.value<std::string>() << "\n";
     std::cout << "\n";
 
     std::cout << "obj.bool = true\n";
     value = scripting.evaluate("obj.bool = true;");
     value = scripting.evaluate("obj.bool");
-    std::cout << "(obj.bool) --> " << value.toString() << "\n";
+    std::cout << "(obj.bool) --> " << value.value<std::string>() << "\n";
     std::cout << "\n";
 
     std::cout << "obj.string = 'whatever'\n";
     value = scripting.evaluate("obj.string = 'whatever';");
     value = scripting.evaluate("obj.string");
-    std::cout << "(obj.string) --> '" << value.toString() << "'\n";
+    std::cout << "(obj.string) --> '" << value.value<std::string>() << "'\n";
     std::cout << "\n";
 
     std::cout << "obj.path = '/path/to/some/thing'\n";
     value = scripting.evaluate("obj.path = '/path/to/some/thing';");
     value = scripting.evaluate("obj.path");
-    std::cout << "(obj.path) --> '" << value.toString() << "'\n";
+    std::cout << "(obj.path) --> '" << value.value<std::string>() << "'\n";
     std::cout << "\n";
 
     std::cout << "obj.color = '#ff6600ff'\n";
     value = scripting.evaluate("obj.color = '#ff6600ff';");
     value = scripting.evaluate("obj.color");
-    std::cout << "(obj.color) --> '" << value.toString() << "'\n";
+    std::cout << "(obj.color) --> '" << value.value<std::string>() << "'\n";
     std::cout << "\n";
 
     std::cout << "obj.color = [10, 10, 80, 255]\n";
     value = scripting.evaluate("obj.color = [10, 10, 80, 255];");
     value = scripting.evaluate("obj.color");
-    std::cout << "(obj.color) --> '" << value.toString() << "'\n";
+    std::cout << "(obj.color) --> '" << value.value<std::string>() << "'\n";
     std::cout << "\n";
 
     std::cout << "obj.color = []\n";
     value = scripting.evaluate("obj.color = [];");
     value = scripting.evaluate("obj.color");
-    std::cout << "(obj.color) --> '" << value.toString() << "'\n";
+    std::cout << "(obj.color) --> '" << value.value<std::string>() << "'\n";
     std::cout << "\n";
 
     std::cout << "obj.color = {r: 10, g: 50, b: 100, a: 120}\n";
     value = scripting.evaluate("obj.color = {r: '10', g: 50, b: 100, a: 120};");
     value = scripting.evaluate("obj.color");
-    std::cout << "(obj.color) --> '" << value.toString() << "'\n";
+    std::cout << "(obj.color) --> '" << value.value<std::string>() << "'\n";
     std::cout << "\n";
 
     std::cout << "obj.color = {}\n";
     value = scripting.evaluate("obj.color = {};");
     value = scripting.evaluate("obj.color");
-    std::cout << "(obj.color) --> '" << value.toString() << "'\n";
+    std::cout << "(obj.color) --> '" << value.value<std::string>() << "'\n";
     std::cout << "\n";
 
     std::cout << "obj.enum = 'Choice3'\n";
     value = scripting.evaluate("obj.enum = 'Choice3';");
     value = scripting.evaluate("obj.enum");
-    std::cout << "(obj.enum) --> '" << value.toString() << "'\n";
+    std::cout << "(obj.enum) --> '" << value.value<std::string>() << "'\n";
     std::cout << "\n";
 
     std::cout << "obj.enum = 'Choice5'\n";
     value = scripting.evaluate("obj.enum = 'Choice5';");
     value = scripting.evaluate("obj.enum");
-    std::cout << "(obj.enum) --> '" << value.toString() << "'\n";
+    std::cout << "(obj.enum) --> '" << value.value<std::string>() << "'\n";
     std::cout << "\n";
 
     std::cout << "obj.array = [4, 5, 6]\n";
     value = scripting.evaluate("obj.array = [4, 5, 6];");
     value = scripting.evaluate("obj.array");
-    std::cout << "(obj.array) --> '" << value.toString() << "'\n";
+    std::cout << "(obj.array) --> '" << value.value<std::string>() << "'\n";
     std::cout << "\n";
 
     std::cout << "obj.array = [7, 8, 9, 10, 11, 12]\n";
     value = scripting.evaluate("obj.array = [7, 8, 9, 10, 11, 12];");
     value = scripting.evaluate("obj.array");
-    std::cout << "(obj.array) --> '" << value.toString() << "'\n";
+    std::cout << "(obj.array) --> '" << value.value<std::string>() << "'\n";
     std::cout << "\n";
 
     std::cout << "obj.array = [13, 14]\n";
     value = scripting.evaluate("obj.array = [13, 14];");
     value = scripting.evaluate("obj.array");
-    std::cout << "(obj.array) --> '" << value.toString() << "'\n";
+    std::cout << "(obj.array) --> '" << value.value<std::string>() << "'\n";
     std::cout << "\n";
 
     //
@@ -442,27 +442,27 @@ int main(int argc, char const *argv[])
 
     std::cout << "api.prompt = 'Welcome!'\n";
     value = scripting.evaluate("api.prompt = 'Welcome!';");
-    std::cout << "--> " << value.toString() << "\n";
+    std::cout << "--> " << value.value<std::string>() << "\n";
     std::cout << "\n";
 
     std::cout << "api.helloWorld() + 1\n";
     value = scripting.evaluate("api.helloWorld() + 1;");
-    std::cout << "(11) --> " << value.toString() << "\n";
+    std::cout << "(11) --> " << value.value<std::string>() << "\n";
     std::cout << "\n";
 
     std::cout << "api.test()\n";
     value = scripting.evaluate("api.test();");
-    std::cout << "--> " << value.toString() << "\n";
+    std::cout << "--> " << value.value<std::string>() << "\n";
     std::cout << "\n";
 
     std::cout << "api.bottlesOfBeer(120, 3.5, 10)\n";
     value = scripting.evaluate("api.bottlesOfBeer(120, 3.5, 10);");
-    std::cout << "--> " << value.toString() << "\n";
+    std::cout << "--> " << value.value<std::string>() << "\n";
     std::cout << "\n";
 
     std::cout << "api.bottlesOfBeer()\n";
     value = scripting.evaluate("api.bottlesOfBeer();");
-    std::cout << "--> " << value.toString() << "\n";
+    std::cout << "--> " << value.value<std::string>() << "\n";
     std::cout << "\n";
 
     std::cout << "api.dynamicTest([3.5, {a: 100, b: 200}, 12], \"asd\")\n";
@@ -475,22 +475,22 @@ int main(int argc, char const *argv[])
 
     std::cout << "api.counting.min\n";
     value = scripting.evaluate("api.counting.min;");
-    std::cout << "(0) --> " << value.toString() << "\n";
+    std::cout << "(0) --> " << value.value<std::string>() << "\n";
     std::cout << "\n";
 
     std::cout << "api.counting.max\n";
     value = scripting.evaluate("api.counting.max;");
-    std::cout << "(2) --> " << value.toString() << "\n";
+    std::cout << "(2) --> " << value.value<std::string>() << "\n";
     std::cout << "\n";
 
     std::cout << "api.counting.min = 5\n";
     value = scripting.evaluate("api.counting.min = 5;");
-    std::cout << "(5) --> " << value.toString() << "\n";
+    std::cout << "(5) --> " << value.value<std::string>() << "\n";
     std::cout << "\n";
 
     std::cout << "api.counting.max = 10\n";
     value = scripting.evaluate("api.counting.max = 10;");
-    std::cout << "(10) --> " << value.toString() << "\n";
+    std::cout << "(10) --> " << value.value<std::string>() << "\n";
     std::cout << "\n";
 
     std::cout << "api.counting.count()\n";

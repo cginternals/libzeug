@@ -10,6 +10,7 @@
 #include <reflectionzeug/StoredArrayValue.h>
 #include <reflectionzeug/PropertyVisitor.h>
 #include <reflectionzeug/util.h>
+#include <reflectionzeug/Variant.h>
 
 
 namespace reflectionzeug
@@ -85,7 +86,7 @@ void ArrayProperty<Type, Size>::accept(AbstractPropertyVisitor * visitor)
 template <typename Type, size_t Size>
 size_t ArrayProperty<Type, Size>::stype()
 {
-    static size_t type = typeid(Type).hash_code();
+    static size_t type = typeid(std::array<Type, Size>).hash_code();
     return type;
 }
 
@@ -120,6 +121,22 @@ bool ArrayProperty<Type, Size>::fromString(const std::string & string)
             return false;
     }
 
+    return true;
+}
+
+template <typename Type, size_t Size>
+Variant ArrayProperty<Type, Size>::toVariant() const
+{
+    return Variant::fromValue<std::array<Type, Size>>(m_array->get());
+}
+
+template <typename Type, size_t Size>
+bool ArrayProperty<Type, Size>::fromVariant(const Variant & variant)
+{
+    if (!variant.canConvert<std::array<Type, Size>>())
+        return false;
+
+    m_array->set(variant.value<std::array<Type, Size>>());
     return true;
 }
 

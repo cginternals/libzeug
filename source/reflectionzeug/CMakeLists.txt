@@ -124,7 +124,14 @@ set(headers
     ${header_path}/UnsignedIntegralPropertyInterface.h
     ${header_path}/ValueProperty.h
     ${header_path}/ValueProperty.hpp
+    # ${header_path}/VariantOld.h
     ${header_path}/Variant.h
+    ${header_path}/Variant.hpp
+    ${header_path}/VariantConverterRegistry.h
+    ${header_path}/VariantConverterRegistry.hpp
+    ${header_path}/VariantConverterInit.h
+    ${header_path}/VariantHolder.h
+    ${header_path}/VariantHolder.hpp
     ${header_path}/property_declaration.h
     ${header_path}/specialization_helpers.h
     ${header_path}/util.h
@@ -154,6 +161,7 @@ set(sources
     ${source_path}/SignedIntegralPropertyInterface.cpp
     ${source_path}/UnsignedIntegralPropertyInterface.cpp
     ${source_path}/util.cpp
+    # ${source_path}/VariantOld.cpp
     ${source_path}/Variant.cpp
 )
 

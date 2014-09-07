@@ -23,6 +23,11 @@ FilePathEditor::FilePathEditor(Property<FilePath> * property, QWidget * parent)
 ,   m_filePathFromDialog("")
 ,   m_property(property)
 {
+    if (m_property->hasOption("uniqueidentifier"))
+        m_uniqueIdentifier = QString::fromStdString(m_property->option("uniqueidentifier").value<std::string>());
+    else
+        m_uniqueIdentifier = QString::fromStdString(m_property->name());
+        
     this->boxLayout()->addWidget(m_lineEdit);
     this->setFocusProxy(m_lineEdit);
     
@@ -48,12 +53,10 @@ FilePathEditor::~FilePathEditor()
 }
     
 QStringList FilePathEditor::recentlyUsedFilePaths()
-{
-    if (m_property->uniqueIdentifier().empty())
-        return QStringList();
-
+{                       
     QSettings settings;
-    return settings.value(QString::fromStdString(m_property->uniqueIdentifier()), QStringList()).toStringList();
+    return settings.value(m_uniqueIdentifier,
+                          QVariant(QStringList())).toStringList();
 }
 
 void FilePathEditor::pushRecentlyUsedFilePath(const QString & filePath)
@@ -66,11 +69,9 @@ void FilePathEditor::pushRecentlyUsedFilePath(const QString & filePath)
     if (!list.contains(filePath))
         list.push_back(filePath);
 
-    if (m_property->uniqueIdentifier().empty())
-        return;
-
     QSettings settings;    
-    settings.setValue(QString::fromStdString(m_property->uniqueIdentifier()), QVariant(list));
+    settings.setValue(m_uniqueIdentifier,
+                      QVariant(list));
 }
     
 void FilePathEditor::handleItemActivated(const QString & text)
@@ -96,8 +97,8 @@ void FilePathEditor::openFileDialog()
     m_lineEdit->clear();
     QFileDialog * fileDialog = new QFileDialog(this);
     
-    if (m_property->isFile()) {
-        fileDialog->setFileMode(m_property->shouldExist() ?
+    if (m_property->flagSet("isfile")) {
+        fileDialog->setFileMode(m_property->flagSet("shouldexist") ?
                                 QFileDialog::ExistingFile : QFileDialog::AnyFile);
     } else {
         fileDialog->setFileMode(QFileDialog::Directory);

@@ -2,7 +2,6 @@
 #include <reflectionzeug/Property.h>
 
 #include <propertyguizeug/StringEditor.h>
-#include <propertyguizeug/ChoiceEditor.h>
 #include <propertyguizeug/ColorEditor.h>
 #include <propertyguizeug/FilePathEditor.h>
 #include <propertyguizeug/EnumEditor.h>
@@ -83,10 +82,7 @@ void PropertyEditorFactory::visit(reflectionzeug::FloatingPointPropertyInterface
 
 void PropertyEditorFactory::visit(reflectionzeug::StringPropertyInterface * property)
 {
-    if (property->hasChoices())
-        m_editor = new ChoiceEditor(property);
-    else
-        m_editor = new StringEditor(property);
+    m_editor = new StringEditor(property);
 }
 
 } // namespace propertyguizeug

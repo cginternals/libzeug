@@ -1,5 +1,6 @@
 
 #include <QLineEdit>
+#include <QComboBox>
 #include <QHBoxLayout>
 
 #include <reflectionzeug/Property.h>
@@ -12,23 +13,54 @@ namespace propertyguizeug
     
 StringEditor::StringEditor(StringPropertyInterface * property, QWidget * parent)
 :   PropertyEditor(parent)
-,   m_lineEdit(new QLineEdit(this))
 ,   m_property(property)
 {   
-    this->boxLayout()->addWidget(m_lineEdit);
-    this->setFocusProxy(m_lineEdit);
-    
-    m_lineEdit->setText(QString::fromStdString(m_property->toString()));
-    this->connect(m_lineEdit, &QLineEdit::editingFinished, this, &StringEditor::editingFinished);
+    QWidget * widget;
+
+    if (m_property->hasOption("choices"))
+        widget = createComboBox();
+    else
+        widget = createLineEdit();
+
+    this->boxLayout()->addWidget(widget);
+    this->setFocusProxy(widget);
 }
 
-StringEditor::~StringEditor()
-{   
-}
-    
-void StringEditor::editingFinished()
+QWidget * StringEditor::createComboBox()
 {
-    m_property->fromString(m_lineEdit->text().toStdString());
+    QComboBox * comboBox = new QComboBox(this);
+
+    std::vector<std::string> choices = m_property->option("choices").value<std::vector<std::string>>();
+    
+    QStringList items;
+    for (const std::string & item : choices)
+        items << QString::fromStdString(item);
+
+    comboBox->addItems(items);
+    comboBox->setCurrentText(QString::fromStdString(m_property->toString()));
+    
+    typedef void (QComboBox::*ActivatedPtr) (const QString &);
+    connect(comboBox, (ActivatedPtr)(&QComboBox::activated),
+            this, &StringEditor::setString);
+
+    return comboBox;
+}
+
+QWidget * StringEditor::createLineEdit()
+{
+    QLineEdit * lineEdit = new QLineEdit(this);
+    
+    lineEdit->setText(QString::fromStdString(m_property->toString()));
+    
+    connect(lineEdit, &QLineEdit::textEdited,
+            this, &StringEditor::setString);
+    
+    return lineEdit;
+}
+
+void StringEditor::setString(const QString & text)
+{
+    m_property->fromString(text.toStdString());
 }
 
 } // namespace propertyguizeug

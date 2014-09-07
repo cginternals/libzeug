@@ -25,14 +25,6 @@ class REFLECTIONZEUG_API StringPropertyInterface : public virtual AbstractValueP
 public:
     virtual void accept(AbstractPropertyVisitor * visitor);
 
-    bool hasChoices() const;
-    void addChoice(const std::string & string);
-
-    const std::vector<std::string>  & choices() const;
-    void setChoices(const std::vector<std::string> & choices);
-    
-    void clearChoices();
-
     virtual std::string toString() const = 0;
     virtual bool fromString(const std::string & string) = 0;
 

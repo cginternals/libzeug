@@ -58,6 +58,9 @@ public:
     virtual void accept(AbstractPropertyVisitor * visitor);
 
     virtual size_t type() const;
+
+    virtual Variant toVariant() const;
+    virtual bool fromVariant(const Variant & variant);
     
     signalzeug::Signal<const Type &> valueChanged;
 
