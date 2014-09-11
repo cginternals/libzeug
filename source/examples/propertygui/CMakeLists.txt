@@ -28,6 +28,8 @@ include_directories(
 
 set(libs
     propertyguizeug
+	reflectionzeug
+	signalzeug
     # this target link libraries somehow fixes the include directories for used qt modules.
     # (not nice! since it obfuscates the common cmake way to link 3rdp libraries..., 
     #  but seems to be intended by qt: http://qt-project.org/doc/qt-5/cmake-manual.html)

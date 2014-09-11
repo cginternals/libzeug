@@ -26,6 +26,8 @@ include_directories(
 
 set(libs
     scriptzeug
+	signalzeug
+	reflectionzeug
 )
 
 #
