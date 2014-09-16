@@ -42,4 +42,4 @@ protected:
 
 } // namespace signalzeug
 
-#include "Signal.hpp"
+#include <signalzeug/Signal.hpp>
