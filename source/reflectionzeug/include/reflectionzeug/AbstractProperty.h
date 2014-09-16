@@ -45,9 +45,10 @@ public:
     Variant option(const std::string & key) const;
     template <typename T>
     T option(const std::string & key, const T & defaultValue) const;
-    void setOption(const std::string & key, const Variant & value);
+    void setOption(const std::string & key, const char * string);
     template <typename T>
     void setOption(const std::string & key, const T & value);
+    void setOption(const std::string & key, const Variant & value);
     bool removeOption(const std::string & key);
     
     void setOptions(const VariantMap & map);
@@ -79,7 +80,6 @@ public:
     virtual bool isGroup() const;
     
     /** \} */
-    
 private:
     VariantMap m_options;
     

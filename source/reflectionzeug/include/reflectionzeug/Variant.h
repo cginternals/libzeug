@@ -66,7 +66,7 @@ public:
     Variant(unsigned long value);
     Variant(long long value);
     Variant(unsigned long long value);
-    
+
     Variant(const VariantArray & array);
     Variant(VariantArray && array);
 

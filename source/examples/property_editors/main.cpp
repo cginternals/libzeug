@@ -129,8 +129,7 @@ int main(int argc, char *argv[])
         {
             if (b)
             {
-                Variant choices = Variant::fromValue<std::vector<std::string>>({ "blau", "rot", "grün" });
-                stringProperty->setOption("choices", choices);
+                stringProperty->setOption("choices", std::vector<std::string>({ "blau", "rot", "grün" }));
             }
             else
             {
