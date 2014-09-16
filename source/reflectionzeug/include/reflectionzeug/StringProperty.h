@@ -28,4 +28,4 @@ public:
 
 } // namespace reflectionzeug
 
-#include "StringProperty.hpp"
+#include <reflectionzeug/StringProperty.hpp>

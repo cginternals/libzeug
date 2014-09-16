@@ -27,4 +27,4 @@ public:
 
 } // namespace reflectionzeug
 
-#include "BoolProperty.hpp"
+#include <reflectionzeug/BoolProperty.hpp>

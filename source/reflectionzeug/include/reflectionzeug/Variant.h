@@ -103,7 +103,7 @@ public:
      * If the value cannot be converted, a default-constructed value will be returned.
      */
     template <typename ValueType>
-    ValueType value() const;
+    ValueType value(const ValueType & defaultValue = ValueType()) const;
 
     /** Returns a pointer to the stored value if it has the template type ValueType.
      * Otherwise returns nullptr.
@@ -127,4 +127,4 @@ private:
 
 } // namespace reflectionzeug
 
-#include "Variant.hpp"
+#include <reflectionzeug/Variant.hpp>

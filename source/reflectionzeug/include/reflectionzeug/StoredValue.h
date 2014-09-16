@@ -25,4 +25,4 @@ protected:
 
 } // namespace reflectionzeug
 
-#include "StoredValue.hpp"
+#include <reflectionzeug/StoredValue.hpp>

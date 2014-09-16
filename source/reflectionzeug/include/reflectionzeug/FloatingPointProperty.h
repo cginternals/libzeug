@@ -37,4 +37,4 @@ protected:
 
 } // namespace reflectionzeug
 
-#include "FloatingPointProperty.hpp"
+#include <reflectionzeug/FloatingPointProperty.hpp>

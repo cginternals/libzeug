@@ -27,11 +27,6 @@ public:
 
     virtual std::string toString() const = 0;
     virtual bool fromString(const std::string & string) = 0;
-
-    signalzeug::Signal<const std::vector<std::string> &> choicesChanged;
-
-protected:
-    std::vector<std::string> m_choices;
 };
 
 } // namespace reflectionzeug

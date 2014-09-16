@@ -1,11 +1,11 @@
+#include <reflectionzeug/AbstractProperty.h>
+
+#include <utility>
 
 #include <reflectionzeug/AbstractValueProperty.h>
 #include <reflectionzeug/AbstractPropertyCollection.h>
 #include <reflectionzeug/PropertyGroup.h>
 #include <reflectionzeug/util.h>
-
-#include <reflectionzeug/AbstractProperty.h>
-
 
 namespace reflectionzeug 
 {
@@ -25,9 +25,9 @@ AbstractProperty::~AbstractProperty()
 {
 }
 
-const std::string & AbstractProperty::name() const
+std::string AbstractProperty::name() const
 {
-    return m_name;
+    return option("name").value<std::string>();
 }
     
 bool AbstractProperty::setName(const std::string & name)
@@ -35,13 +35,13 @@ bool AbstractProperty::setName(const std::string & name)
     if (!util::matchesRegex(name, s_nameRegexString))
         return false;
     
-    m_name = name;
+    setOption("name", name);
     return true;
 }
     
 bool AbstractProperty::hasName() const
 {
-    return !m_name.empty();
+    return hasOption("name") && name().size() > 0;
 }
 
 bool AbstractProperty::hasOption(const std::string & key) const
@@ -59,7 +59,7 @@ Variant AbstractProperty::option(const std::string & key) const
 
 void AbstractProperty::setOption(const std::string & key, const Variant & value)
 {
-    m_options.insert({ key, value });
+    m_options[key] = value;
 }
 
 bool AbstractProperty::removeOption(const std::string & key)
@@ -74,35 +74,6 @@ bool AbstractProperty::removeOption(const std::string & key)
 void AbstractProperty::setOptions(const VariantMap & map)
 {
     m_options.insert(map.begin(), map.end());
-}
-
-bool AbstractProperty::flagSet(const std::string & flag) const
-{
-    return m_flags.count(flag) == 1;
-}
-    
-void AbstractProperty::addFlag(const std::string & flag)
-{
-    m_flags.insert(flag);
-}
-
-bool AbstractProperty::removeFlag(const std::string & flag)
-{
-    if (!flagSet(flag))
-        return false;
-
-    m_flags.erase(flag);
-    return true;
-}
-
-const std::set<std::string> & AbstractProperty::flags() const
-{
-    return m_flags;
-}
-
-void AbstractProperty::setFlags(const std::set<std::string> & flags)
-{
-    m_flags = flags;
 }
 
 AbstractValueProperty * AbstractProperty::asValue()

@@ -1,6 +1,8 @@
 
 #pragma once
 
+#include <reflectionzeug/util.h>
+
 #include <sstream>
 
 

@@ -37,4 +37,4 @@ protected:
 
 } // namespace reflectionzeug
 
-#include "SignedIntegralProperty.hpp"
+#include <reflectionzeug/SignedIntegralProperty.hpp>

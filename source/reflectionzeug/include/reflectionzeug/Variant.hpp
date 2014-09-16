@@ -1,6 +1,8 @@
 
 #pragma once
 
+#include <reflectionzeug/Variant.h>
+
 #include <cassert>
 
 #include <reflectionzeug/VariantHolder.h>
@@ -114,10 +116,10 @@ bool Variant::canConvert() const
 }
 
 template <typename ValueType>
-ValueType Variant::value() const
+ValueType Variant::value(const ValueType & defaultValue) const
 {
     if (!m_content)
-        return ValueType();
+        return defaultValue;
 
     if (typeid(ValueType) == m_content->type())
         return static_cast<VariantHolder<ValueType> *>(m_content)->value();
@@ -126,7 +128,7 @@ ValueType Variant::value() const
     bool ok = m_content->convert(typeid(ValueType), &value);
 
     if (!ok)
-        return ValueType();
+        return defaultValue;
 
     return value;
 }

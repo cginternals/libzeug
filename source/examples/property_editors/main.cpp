@@ -21,9 +21,9 @@ void addFlagProperty(PropertyGroup * group, const std::string & flag)
             group->forEachGroup([&flag, b] (PropertyGroup & subGroup)
                 {
                     if (b)
-                        subGroup.addFlag(flag);
+                        subGroup.setOption(flag, true);
                     else
-                        subGroup.removeFlag(flag);
+                        subGroup.setOption(flag, false);
                 });
         });
 }

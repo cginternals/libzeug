@@ -162,4 +162,4 @@ private:
 
 } // namespace reflectionzeug
 
-#include "PropertyGroup.hpp" 
+#include <reflectionzeug/PropertyGroup.hpp>

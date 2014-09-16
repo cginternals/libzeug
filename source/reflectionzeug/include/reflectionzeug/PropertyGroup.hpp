@@ -1,6 +1,8 @@
 
 #pragma once
 
+#include <reflectionzeug/PropertyGroup.h>
+
 #include <reflectionzeug/Property.h>
 
 

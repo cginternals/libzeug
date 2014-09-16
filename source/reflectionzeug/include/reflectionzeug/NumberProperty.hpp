@@ -1,6 +1,8 @@
 
 #pragma once
 
+#include <reflectionzeug/NumberProperty.h>
+
 #include <limits>
 #include <sstream>
 

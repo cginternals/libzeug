@@ -52,4 +52,4 @@ REFLECTIONZEUG_API std::vector<std::string> split(const std::string & input, cha
 
 } // namespace reflectionzeug
 
-#include "util.hpp"
+#include <reflectionzeug/util.hpp>

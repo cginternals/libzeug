@@ -4,8 +4,9 @@
 #include <string>
 #include <vector>
 #include <functional>
-#include "reflectionzeug/Variant.h"
-#include "reflectionzeug/TemplateHelper.h"
+
+#include <reflectionzeug/Variant.h>
+#include <reflectionzeug/TemplateHelper.h>
 
 
 namespace reflectionzeug

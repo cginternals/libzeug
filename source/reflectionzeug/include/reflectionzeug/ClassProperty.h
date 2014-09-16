@@ -33,4 +33,4 @@ public:
 
 } // namespace reflectionzeug
 
-#include "ClassProperty.hpp"
+#include <reflectionzeug/ClassProperty.hpp>

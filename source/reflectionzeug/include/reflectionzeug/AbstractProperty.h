@@ -35,24 +35,20 @@ public:
     
     virtual ~AbstractProperty() = 0;
 
-    const std::string & name() const;
+    std::string name() const;
     bool setName(const std::string & name);
     bool hasName() const;
 
     bool hasOption(const std::string & key) const;
     Variant option(const std::string & key) const;
+    template <typename T>
+    T option(const std::string & key, const T & defaultValue) const;
     void setOption(const std::string & key, const Variant & value);
+    template <typename T>
+    void setOption(const std::string & key, const T & value);
     bool removeOption(const std::string & key);
     
     void setOptions(const VariantMap & map);
-    
-    bool flagSet(const std::string & flag) const;
-    
-    void addFlag(const std::string & flag);
-    bool removeFlag(const std::string & flag);
-    
-    const std::set<std::string> & flags() const;
-    void setFlags(const std::set<std::string> & flags);    
 
     /**
      * \name Convenience casting methods
@@ -83,12 +79,10 @@ public:
     /** \} */
     
 private:
-    std::string m_name;
     VariantMap m_options;
-    std::set<std::string> m_flags;
     
 };
     
 } // namespace reflectionzeug
 
-#include "AbstractProperty.hpp"
+#include <reflectionzeug/AbstractProperty.hpp>

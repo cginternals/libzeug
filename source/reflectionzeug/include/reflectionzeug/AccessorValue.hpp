@@ -1,5 +1,6 @@
-
 #pragma once
+
+#include <reflectionzeug/AccessorValue.h>
 
 namespace reflectionzeug
 {

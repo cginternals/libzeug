@@ -37,4 +37,4 @@ protected:
 
 } // namespace reflectionzeug
 
-#include "UnsignedIntegralProperty.hpp"
+#include <reflectionzeug/UnsignedIntegralProperty.hpp>

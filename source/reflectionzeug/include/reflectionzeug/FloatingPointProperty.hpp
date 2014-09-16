@@ -1,6 +1,8 @@
 
 #pragma once
 
+#include <reflectionzeug/FloatingPointProperty.h>
+
 #include <reflectionzeug/PropertyVisitor.h>
 
 namespace reflectionzeug
