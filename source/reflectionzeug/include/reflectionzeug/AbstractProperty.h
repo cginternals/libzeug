@@ -13,7 +13,7 @@ namespace reflectionzeug
 
 class AbstractValueProperty;
 class AbstractPropertyCollection;
-class PropertyGroup;  
+class PropertyGroup;
 
 /** 
  * \brief The base class of all properties.
@@ -34,6 +34,8 @@ public:
     AbstractProperty(const std::string & name);
     
     virtual ~AbstractProperty() = 0;
+
+    virtual Variant toVariant() const = 0;
 
     std::string name() const;
     bool setName(const std::string & name);

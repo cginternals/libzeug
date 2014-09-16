@@ -32,6 +32,8 @@ public:
     virtual ~PropertyGroup();
 
     virtual bool isGroup() const;
+
+    virtual Variant toVariant() const override;
     
     /** 
      * \name Property Adding
