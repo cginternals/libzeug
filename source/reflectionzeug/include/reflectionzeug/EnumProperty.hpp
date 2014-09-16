@@ -60,11 +60,16 @@ void EnumProperty<Enum>::setStrings(const std::map<Enum, std::string> & pairs)
 
     m_enumMap.clear();
 
+    std::vector<std::string> strings;
+
     for (const std::pair<Enum, std::string> & pair : pairs)
     {
         assert(m_enumMap.count(pair.second) == 0);
         m_enumMap.insert(std::make_pair(pair.second, pair.first));
+        strings.push_back(pair.second);
     }
+
+    setOption("strings", strings);
 }
 
 } // namespace reflectionzeug
