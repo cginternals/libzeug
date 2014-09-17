@@ -105,6 +105,8 @@ public:
     template <typename ValueType>
     ValueType value(const ValueType & defaultValue = ValueType()) const;
 
+    bool setValue(const Variant & variant);
+
     /** Returns a pointer to the stored value if it has the template type ValueType.
      * Otherwise returns nullptr.
      */
