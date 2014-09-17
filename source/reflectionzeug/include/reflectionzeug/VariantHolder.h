@@ -45,4 +45,4 @@ private:
 
 } // namespace reflectionzeug
 
-#include "VariantHolder.hpp"
+#include <reflectionzeug/VariantHolder.hpp>

@@ -26,4 +26,4 @@ public:
 
 } // namespace reflectionzeug
 
-#include "FilePathProperty.hpp"
+#include <reflectionzeug/FilePathProperty.hpp>

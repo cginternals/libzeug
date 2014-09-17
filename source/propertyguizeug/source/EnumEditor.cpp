@@ -20,10 +20,10 @@ EnumEditor::EnumEditor(
     QStringList list;
 
     std::vector<std::string> strings;
-    if (property->hasChoices())
-        strings = property->stringChoices();
+    if (property->hasOption("choices"))
+        strings = property->option("choices").value<std::vector<std::string>>();
     else
-        strings = property->strings();
+        strings = property->option("strings").value<std::vector<std::string>>();
 
     for (const std::string & string : strings)
         list << QString::fromStdString(string);

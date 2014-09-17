@@ -28,4 +28,4 @@ public:
 
 } // namespace reflectionzeug
 
-#include "ColorProperty.hpp"
+#include <reflectionzeug/ColorProperty.hpp>

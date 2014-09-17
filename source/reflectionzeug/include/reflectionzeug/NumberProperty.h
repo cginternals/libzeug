@@ -34,4 +34,4 @@ protected:
 
 } // namespace reflectionzeug
 
-#include "NumberProperty.hpp"
+#include <reflectionzeug/NumberProperty.hpp>

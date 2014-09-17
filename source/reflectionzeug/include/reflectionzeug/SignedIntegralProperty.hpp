@@ -1,6 +1,8 @@
 
 #pragma once
 
+#include <reflectionzeug/SignedIntegralProperty.h>
+
 #include <reflectionzeug/PropertyVisitor.h>
 
 namespace reflectionzeug

@@ -32,6 +32,8 @@ public:
     virtual ~PropertyGroup();
 
     virtual bool isGroup() const;
+
+    virtual Variant toVariant() const override;
     
     /** 
      * \name Property Adding
@@ -162,4 +164,4 @@ private:
 
 } // namespace reflectionzeug
 
-#include "PropertyGroup.hpp" 
+#include <reflectionzeug/PropertyGroup.hpp>

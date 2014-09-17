@@ -27,4 +27,4 @@ protected:
 
 } // namespace signalzeug
 
-#include "ConnectionMap.hpp"
+#include <signalzeug/ConnectionMap.hpp>

@@ -101,5 +101,5 @@ private:
 
 } // namespace reflectionzeug
 
-#include "ArrayProperty.hpp"
+#include <reflectionzeug/ArrayProperty.hpp>
 

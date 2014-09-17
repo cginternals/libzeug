@@ -3,8 +3,8 @@
 
 #include <string>
 #include <vector>
-#include "reflectionzeug/PropertyGroup.h"
-#include "reflectionzeug/Function.h"
+#include <reflectionzeug/PropertyGroup.h>
+#include <reflectionzeug/Function.h>
 
 
 namespace reflectionzeug

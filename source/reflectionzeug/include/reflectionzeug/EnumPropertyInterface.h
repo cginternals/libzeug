@@ -22,11 +22,6 @@ class REFLECTIONZEUG_API EnumPropertyInterface : public virtual AbstractValuePro
 {
 public:
     virtual void accept(AbstractPropertyVisitor * visitor);
-    
-    virtual bool hasChoices() const = 0;
-
-    virtual std::vector<std::string> stringChoices() const = 0;
-    virtual std::vector<std::string> strings() const = 0;
 
 };
 

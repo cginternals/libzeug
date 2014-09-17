@@ -1,5 +1,6 @@
-
 #pragma once
+
+#include <reflectionzeug/StoredArrayValue.h>
 
 namespace reflectionzeug
 {

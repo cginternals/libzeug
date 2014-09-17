@@ -1,6 +1,8 @@
 
 #pragma once
 
+#include <reflectionzeug/VariantConverterRegistry.h>
+
 #include <reflectionzeug/VariantConverterInit.h>
 
 

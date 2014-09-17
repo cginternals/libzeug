@@ -1,6 +1,8 @@
 
 #pragma once
 
+#include <reflectionzeug/ValueProperty.h>
+
 #include <typeinfo>
 
 #include <reflectionzeug/PropertyVisitor.h>

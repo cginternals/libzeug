@@ -1,5 +1,6 @@
-
 #pragma once
+
+#include <reflectionzeug/ArrayProperty.h>
 
 #include <algorithm>
 #include <typeinfo>

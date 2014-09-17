@@ -5,7 +5,7 @@
 
 #include <propertyguizeug/propertyguizeug_api.h>
 
-#include "PropertyEditor.h"
+#include <propertyguizeug/PropertyEditor.h>
 
 namespace propertyguizeug
 {

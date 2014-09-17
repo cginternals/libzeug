@@ -7,6 +7,13 @@
 
 class QWidget;
 
+namespace reflectionzeug
+{
+
+class StringPropertyInterface;
+
+} // namespace reflectionzeug
+
 namespace propertyguizeug
 {
 

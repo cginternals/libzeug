@@ -1,8 +1,8 @@
-
 #pragma once
 
 #include <reflectionzeug/reflectionzeug_api.h>
 
+#include <string>
 
 namespace reflectionzeug
 {

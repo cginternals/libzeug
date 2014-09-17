@@ -21,9 +21,9 @@ void addFlagProperty(PropertyGroup * group, const std::string & flag)
             group->forEachGroup([&flag, b] (PropertyGroup & subGroup)
                 {
                     if (b)
-                        subGroup.addFlag(flag);
+                        subGroup.setOption(flag, true);
                     else
-                        subGroup.removeFlag(flag);
+                        subGroup.setOption(flag, false);
                 });
         });
 }
@@ -129,8 +129,7 @@ int main(int argc, char *argv[])
         {
             if (b)
             {
-                Variant choices = Variant::fromValue<std::vector<std::string>>({ "blau", "rot", "grün" });
-                stringProperty->setOption("choices", choices);
+                stringProperty->setOption("choices", std::vector<std::string>({ "blau", "rot", "grün" }));
             }
             else
             {

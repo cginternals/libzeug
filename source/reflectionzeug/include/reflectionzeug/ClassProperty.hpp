@@ -1,5 +1,6 @@
-
 #pragma once
+
+#include <reflectionzeug/ClassProperty.h>
 
 #include <limits>
 #include <iostream>

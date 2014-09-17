@@ -29,4 +29,4 @@ private:
 
 } // namespace reflectionzeug
 
-#include "StoredArrayValue.hpp"
+#include <reflectionzeug/StoredArrayValue.hpp>

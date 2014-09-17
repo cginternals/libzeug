@@ -110,12 +110,12 @@ macro (find LIB_NAME HEADER)
 
 endmacro()
 
-find(signal      signalzeug/signalzeug_api.h ${LIB_PATHS})
-find(reflection  reflectionzeug/reflectionzeug_api.h ${LIB_PATHS})
+find(signal      signalzeug/signalzeug_api.h           ${LIB_PATHS})
+find(reflection  reflectionzeug/reflectionzeug_api.h   ${LIB_PATHS})
 find(propertygui propertyguizeug/propertyguizeug_api.h ${LIB_PATHS})
-find(io          iozeug/iozeug_api.h ${LIB_PATHS})
-find(threading   threadingzeug/threadingzeug_api.h ${LIB_PATHS})
-find(script      scriptzeug/scriptzeug_api.h ${LIB_PATHS})
+find(io          iozeug/iozeug_api.h                   ${LIB_PATHS})
+find(threading   threadingzeug/threadingzeug_api.h     ${LIB_PATHS})
+find(script      scriptzeug/scriptzeug_api.h           ${LIB_PATHS})
 
 # DEBUG
 #message("LIBZEUG_INCLUDES  = ${LIBZEUG_INCLUDES}")

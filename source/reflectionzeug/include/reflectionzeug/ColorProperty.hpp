@@ -1,5 +1,6 @@
-
 #pragma once
+
+#include <reflectionzeug/ColorProperty.h>
 
 namespace reflectionzeug
 {

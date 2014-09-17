@@ -97,8 +97,8 @@ void FilePathEditor::openFileDialog()
     m_lineEdit->clear();
     QFileDialog * fileDialog = new QFileDialog(this);
     
-    if (m_property->flagSet("isfile")) {
-        fileDialog->setFileMode(m_property->flagSet("shouldexist") ?
+    if (m_property->option("isfile").value<bool>(true)) {
+        fileDialog->setFileMode(m_property->option("shouldexist").value<bool>(true) ?
                                 QFileDialog::ExistingFile : QFileDialog::AnyFile);
     } else {
         fileDialog->setFileMode(QFileDialog::Directory);

@@ -72,18 +72,12 @@ int PropertyItem::index() const
     
 bool PropertyItem::isEnabled() const
 {
-    if (!hasParent())
-        return !m_property->flagSet("disabled");
-        
-    return !m_property->flagSet("disabled") && m_parent->isEnabled();
+    return m_property->option("enabled").value<bool>(true) && (hasParent() ? m_parent->isEnabled() : true);
 }
 
 bool PropertyItem::isReadOnly() const
 {
-    if (!hasParent())
-        return m_property->flagSet("readonly");
-        
-    return m_property->flagSet("readonly") || m_parent->isReadOnly();
+    return m_property->option("readonly").value<bool>(false) || (hasParent() ? m_parent->isReadOnly() : false);
 }
 
 PropertyItem * PropertyItem::parent() const

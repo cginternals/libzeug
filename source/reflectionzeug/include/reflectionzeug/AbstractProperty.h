@@ -13,7 +13,7 @@ namespace reflectionzeug
 
 class AbstractValueProperty;
 class AbstractPropertyCollection;
-class PropertyGroup;  
+class PropertyGroup;
 
 /** 
  * \brief The base class of all properties.
@@ -35,24 +35,23 @@ public:
     
     virtual ~AbstractProperty() = 0;
 
-    const std::string & name() const;
+    virtual Variant toVariant() const = 0;
+
+    std::string name() const;
     bool setName(const std::string & name);
     bool hasName() const;
 
     bool hasOption(const std::string & key) const;
     Variant option(const std::string & key) const;
+    template <typename T>
+    T option(const std::string & key, const T & defaultValue) const;
+    void setOption(const std::string & key, const char * string);
+    template <typename T>
+    void setOption(const std::string & key, const T & value);
     void setOption(const std::string & key, const Variant & value);
     bool removeOption(const std::string & key);
     
     void setOptions(const VariantMap & map);
-    
-    bool flagSet(const std::string & flag) const;
-    
-    void addFlag(const std::string & flag);
-    bool removeFlag(const std::string & flag);
-    
-    const std::set<std::string> & flags() const;
-    void setFlags(const std::set<std::string> & flags);    
 
     /**
      * \name Convenience casting methods
@@ -81,14 +80,11 @@ public:
     virtual bool isGroup() const;
     
     /** \} */
-    
 private:
-    std::string m_name;
     VariantMap m_options;
-    std::set<std::string> m_flags;
     
 };
     
 } // namespace reflectionzeug
 
-#include "AbstractProperty.hpp"
+#include <reflectionzeug/AbstractProperty.hpp>

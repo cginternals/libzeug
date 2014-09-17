@@ -1,5 +1,7 @@
 #pragma once
 
+#include <signalzeug/Signal.h>
+
 namespace signalzeug
 {
 

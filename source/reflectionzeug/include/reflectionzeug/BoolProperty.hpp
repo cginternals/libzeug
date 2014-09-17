@@ -1,5 +1,6 @@
-
 #pragma once
+
+#include <reflectionzeug/BoolProperty.h>
 
 namespace reflectionzeug
 {

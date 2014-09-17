@@ -33,6 +33,18 @@ bool PropertyGroup::isGroup() const
     return true;
 }
 
+Variant PropertyGroup::toVariant() const
+{
+    VariantMap variantMap;
+
+    for (const std::pair<std::string, AbstractProperty*> & pair : m_propertiesMap)
+    {
+        variantMap[pair.first] = pair.second->toVariant();
+    }
+
+    return variantMap;
+}
+
 bool PropertyGroup::addProperty(AbstractProperty * property)
 {
     if (!property->hasName() ||

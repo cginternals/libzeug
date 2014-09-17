@@ -1,6 +1,8 @@
 
 #pragma once
 
+#include <signalzeug/ConnectionMap.h>
+
 namespace signalzeug
 {
 

@@ -73,4 +73,4 @@ private:
 
 } // namespace reflectionzeug
 
-#include "ValueProperty.hpp"
+#include <reflectionzeug/ValueProperty.hpp>
