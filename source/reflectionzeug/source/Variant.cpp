@@ -165,7 +165,17 @@ VariantArray * Variant::toArray()
     return ptr<VariantArray>();
 }
 
+const VariantArray * Variant::toArray() const
+{
+    return ptr<VariantArray>();
+}
+
 VariantMap * Variant::toMap()
+{
+    return ptr<VariantMap>();
+}
+
+const VariantMap * Variant::toMap() const
 {
     return ptr<VariantMap>();
 }

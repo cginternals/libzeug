@@ -145,4 +145,16 @@ ValueType * Variant::ptr()
     return static_cast<VariantHolder<ValueType> *>(m_content)->ptr();
 }
 
+template <typename ValueType>
+const ValueType * Variant::ptr() const
+{
+    if (!m_content)
+        return nullptr;
+
+    if (typeid(ValueType) != m_content->type())
+        return nullptr;
+
+    return static_cast<const VariantHolder<ValueType> *>(m_content)->ptr();
+}
+
 } // namespace reflectionzeug

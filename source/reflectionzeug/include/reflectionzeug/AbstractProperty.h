@@ -36,6 +36,7 @@ public:
     virtual ~AbstractProperty() = 0;
 
     virtual Variant toVariant() const = 0;
+    virtual bool fromVariant(const Variant & value) = 0;
 
     std::string name() const;
     bool setName(const std::string & name);

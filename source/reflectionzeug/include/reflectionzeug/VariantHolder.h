@@ -38,6 +38,7 @@ public:
     const ValueType & value() const;
 
     ValueType * ptr();
+    const ValueType * ptr() const;
 
 private:
     ValueType m_value;

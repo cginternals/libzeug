@@ -34,6 +34,7 @@ public:
     virtual bool isGroup() const;
 
     virtual Variant toVariant() const override;
+    virtual bool fromVariant(const Variant & value) override;
     
     /** 
      * \name Property Adding

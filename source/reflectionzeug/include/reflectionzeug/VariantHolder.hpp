@@ -63,4 +63,10 @@ ValueType * VariantHolder<ValueType>::ptr()
     return &m_value;
 }
 
+template <typename ValueType>
+const ValueType * VariantHolder<ValueType>::ptr() const
+{
+    return &m_value;
+}
+
 } // namespace reflectionzeug

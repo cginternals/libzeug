@@ -110,16 +110,20 @@ public:
      */
     template <typename ValueType>
     ValueType * ptr();
+    template <typename ValueType>
+    const ValueType * ptr() const;
 
     /** Convenience method. Does the same as calling 
      * \code variant.ptr<VariantArray>() \endcode
      */
     VariantArray * toArray();
+    const VariantArray * toArray() const;
 
     /** Convenience method. Does the same as calling
      * \code variant.ptr<VariantMap>() \endcode
      */
     VariantMap * toMap();
+    const VariantMap * toMap() const;
 
 private:
     VariantContent * m_content;

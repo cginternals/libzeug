@@ -45,6 +45,19 @@ Variant PropertyGroup::toVariant() const
     return variantMap;
 }
 
+bool PropertyGroup::fromVariant(const Variant & value)
+{
+    const VariantMap * map = value.toMap();
+    bool success = true;
+
+    for (const std::pair<std::string, AbstractProperty*> & pair : m_propertiesMap)
+    {
+        success &= pair.second->fromVariant(map->at(pair.first));
+    }
+
+    return success;
+}
+
 bool PropertyGroup::addProperty(AbstractProperty * property)
 {
     if (!property->hasName() ||

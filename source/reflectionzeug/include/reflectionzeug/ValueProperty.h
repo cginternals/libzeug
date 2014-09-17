@@ -59,8 +59,8 @@ public:
 
     virtual size_t type() const;
 
-    virtual Variant toVariant() const;
-    virtual bool fromVariant(const Variant & variant);
+    virtual Variant toVariant() const override;
+    virtual bool fromVariant(const Variant & value) override;
     
     signalzeug::Signal<const Type &> valueChanged;
 
