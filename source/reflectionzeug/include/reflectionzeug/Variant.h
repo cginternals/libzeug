@@ -67,6 +67,8 @@ public:
     Variant(long long value);
     Variant(unsigned long long value);
 
+    Variant(const std::vector<std::string> & value);
+
     Variant(const VariantArray & array);
     Variant(VariantArray && array);
 

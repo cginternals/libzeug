@@ -94,6 +94,11 @@ Variant::Variant(unsigned long long value)
 {
 }
 
+Variant::Variant(const std::vector<std::string> & value)
+:   m_content(new VariantHolder<std::vector<std::string>>(value))
+{
+}
+
 Variant::Variant(const VariantArray & array)
 :   m_content(new VariantHolder<VariantArray>(array))
 {
