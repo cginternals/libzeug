@@ -5,6 +5,7 @@
 
 #include <limits>
 #include <sstream>
+#include <string>
 
 #include <reflectionzeug/util.h>
 
@@ -30,11 +31,8 @@ NumberProperty<Type>::~NumberProperty()
 template <typename Type>
 std::string NumberProperty<Type>::toString() const
 {
-    std::string prefix, suffix;
-    if (hasOption("prefix"))
-        prefix = option("prefix").value<std::string>();
-    if (hasOption("suffix"))
-        suffix = option("suffix").value<std::string>();
+    std::string prefix = this->option("prefix").template value<std::string>();
+    std::string suffix = this->option("suffix").template value<std::string>();
 
     return prefix + util::toString(this->value()) + suffix;
 }
