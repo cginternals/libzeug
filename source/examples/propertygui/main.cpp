@@ -63,6 +63,7 @@ int main(int argc, char *argv[])
     
     width->setOption("minimum", widget->minimumWidth());
     width->setOption("maximum", widget->maximumWidth());
+    width->setOption("suffix", " pixel");
 
     auto * height = size->addProperty<int>("Height",
         [widget] () -> int {
@@ -74,6 +75,7 @@ int main(int argc, char *argv[])
 
     height->setOption("minimum", widget->minimumHeight());
     height->setOption("maximum", widget->maximumHeight());
+    height->setOption("suffix", " pixel");
 
     auto * minimumSize = size->addProperty<std::array<int, 2>>("minimumSize",
         [widget] (size_t i) -> int {

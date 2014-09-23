@@ -30,7 +30,13 @@ NumberProperty<Type>::~NumberProperty()
 template <typename Type>
 std::string NumberProperty<Type>::toString() const
 {
-    return util::toString(this->value());
+    std::string prefix, suffix;
+    if (hasOption("prefix"))
+        prefix = option("prefix").value<std::string>();
+    if (hasOption("suffix"))
+        suffix = option("suffix").value<std::string>();
+
+    return prefix + util::toString(this->value()) + suffix;
 }
 
 template <typename Type>
