@@ -67,11 +67,15 @@ set(headers
     ${header_path}/scriptzeug_api.h
     ${header_path}/ScriptContext.h
     ${header_path}/Backend/AbstractScriptContext.h
+    ${source_path}/BackendDuktape/duktape-0.11.0/duktape.h
+    ${source_path}/BackendDuktape/DuktapeScriptContext.h
 )
 
 set(sources
     ${source_path}/ScriptContext.cpp
     ${source_path}/Backend/AbstractScriptContext.cpp
+    ${source_path}/BackendDuktape/duktape-0.11.0/duktape.c
+    ${source_path}/BackendDuktape/DuktapeScriptContext.cpp
 )
 
 if (LIBZEUG_USE_V8 AND V8_FOUND)
