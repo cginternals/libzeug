@@ -27,7 +27,13 @@ void DuktapeScriptContext::registerObject(PropertyGroup * obj)
 
 Variant DuktapeScriptContext::evaluate(const std::string & code)
 {
-    duk_eval_string(m_context, code.c_str());
+    duk_int_t error = duk_peval_string(m_context, code.c_str());
+
+    if (error)
+    {
+        m_scriptContext->scriptException(std::string(duk_safe_to_string(m_context, -1)));
+        return Variant();
+    }
 
     Variant value = popDuktapeValue();
 
