@@ -34,12 +34,6 @@ public:
 
     void setRange(qulonglong min,
                   qulonglong max);
-
-    const QString & prefix() const;
-    void setPrefix(const QString & prefix);
-
-    const QString & suffix() const;
-    void setSuffix(const QString & suffix);
     
 signals:
     void valueChanged(qulonglong value);
@@ -51,7 +45,6 @@ protected:
     virtual StepEnabled stepEnabled() const;
     
 private:
-    void updateLineEditText();
     QString textFromValue(qulonglong value);
     qulonglong valueFromText(const QString & text);
     qulonglong validateAndInterpret(const QString & input, 
@@ -63,8 +56,6 @@ private:
     qulonglong m_max;
     qulonglong m_step;
     qulonglong m_value;
-    QString m_prefix;
-    QString m_suffix;
     
 };
     

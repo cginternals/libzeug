@@ -54,7 +54,7 @@ void ULongLongSpinBox::setValue(qulonglong value)
         return;
     
     m_value = clampedValue;
-    updateLineEditText();
+    lineEdit()->setText(textFromValue(m_value));
     emit valueChanged(m_value);
 }
 
@@ -102,36 +102,6 @@ void ULongLongSpinBox::setRange(
     setMaximum(max);    
 }
 
-const QString & ULongLongSpinBox::prefix() const
-{
-    return m_prefix;
-}
-
-void ULongLongSpinBox::setPrefix(const QString & prefix)
-{
-    if (prefix == m_prefix)
-        return;
-
-    m_prefix = prefix;
-
-    updateLineEditText();
-}
-
-const QString & ULongLongSpinBox::suffix() const
-{
-    return m_suffix;
-}
-
-void ULongLongSpinBox::setSuffix(const QString & suffix)
-{
-    if (suffix == m_suffix)
-        return;
-
-    m_suffix = suffix;
-
-    updateLineEditText();
-}
-
 void ULongLongSpinBox::onEditingFinished()
 {   
     qulonglong value = valueFromText(text());
@@ -157,11 +127,6 @@ QAbstractSpinBox::StepEnabled ULongLongSpinBox::stepEnabled() const
     
     return enabled;
 }
-
-void ULongLongSpinBox::updateLineEditText()
-{
-    lineEdit()->setText(m_prefix + textFromValue(m_value) + m_suffix);
-}
     
 QString ULongLongSpinBox::textFromValue(qulonglong value)
 {
@@ -183,15 +148,11 @@ qulonglong ULongLongSpinBox::valueFromText(const QString & text)
 }
     
 qulonglong ULongLongSpinBox::validateAndInterpret(
-    const QString & affixedInput,
+    const QString & input, 
     int & pos, 
     QValidator::State & state) const
 {
     qulonglong num = m_min;
-
-    QString input = affixedInput.mid(
-        m_prefix.length(),
-        affixedInput.length() - m_prefix.length() - m_suffix.length());
 
     if (input.isEmpty() || input == QLatin1String("+"))
     {

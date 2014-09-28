@@ -35,20 +35,9 @@ UnsignedIntegralEditor::UnsignedIntegralEditor(
         maximum = std::numeric_limits<qulonglong>::max();
     
     m_spinBox->setRange(minimum, maximum);
-    
+	
     if (m_property->hasOption("step"))
         m_spinBox->setStep(m_property->option("step").value<qulonglong>());
-
-    std::string prefix;
-    if (m_property->hasOption("prefix"))
-        prefix = m_property->option("prefix").value<std::string>();
-    m_spinBox->setPrefix(QString::fromStdString(prefix));
-
-    std::string suffix;
-    if (m_property->hasOption("suffix"))
-        suffix = m_property->option("suffix").value<std::string>();
-    m_spinBox->setSuffix(QString::fromStdString(suffix));
-
     
     connect(m_spinBox, &ULongLongSpinBox::valueChanged,
         [this] (const qulonglong & value) 
