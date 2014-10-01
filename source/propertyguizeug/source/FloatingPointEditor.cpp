@@ -25,7 +25,7 @@ FloatingPointEditor::FloatingPointEditor(FloatingPointPropertyInterface * proper
     if (m_property->hasOption("minimum"))
         minimum = m_property->option("minimum").value<double>();
     else
-        minimum = std::numeric_limits<double>::min();
+        minimum = -std::numeric_limits<double>::max();
         
     if (m_property->hasOption("maximum"))
         maximum = m_property->option("maximum").value<double>();
