@@ -119,6 +119,11 @@ void PropertyBrowser::setAlwaysExpandGroups(bool b)
 {
     m_alwaysExpandGroups = b;
 }
+
+void PropertyBrowser::addPlugin(AbstractPropertyEditorPlugin * plugin)
+{
+    m_delegate->addPlugin(plugin);
+}
     
 void PropertyBrowser::initView()
 {

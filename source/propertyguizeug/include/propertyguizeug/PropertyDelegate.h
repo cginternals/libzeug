@@ -10,6 +10,7 @@ namespace propertyguizeug
 {
 
 class PropertyEditorFactory;
+class AbstractPropertyEditorPlugin;
 class PropertyPainter;
 
 class PROPERTYGUIZEUG_API PropertyDelegate : public QStyledItemDelegate
@@ -34,6 +35,8 @@ public:
 
     virtual QSize sizeHint(const QStyleOptionViewItem & option,
                             const QModelIndex & index) const;
+
+    void addPlugin(AbstractPropertyEditorPlugin * plugin);
 
 protected:
     PropertyEditorFactory * m_editorFactory;

@@ -15,6 +15,7 @@ namespace propertyguizeug
 
 class PropertyDelegate;
 class PropertyEditorFactory;
+class AbstractPropertyEditorPlugin;
 class PropertyPainter;
 
 class PROPERTYGUIZEUG_API PropertyBrowser : public QTreeView
@@ -40,6 +41,8 @@ public:
     
     void setRoot(reflectionzeug::PropertyGroup * root);
     void setAlwaysExpandGroups(bool b);
+
+    void addPlugin(AbstractPropertyEditorPlugin * plugin);
 
 protected slots:
     void onRowsInserted(const QModelIndex & parentIndex, int first, int last);

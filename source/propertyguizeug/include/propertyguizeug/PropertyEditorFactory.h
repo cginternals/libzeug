@@ -1,6 +1,8 @@
 
 #pragma once
 
+#include <QList>
+
 #include <reflectionzeug/property_declaration.h>
 #include <reflectionzeug/StandardPropertyVisitor.h>
 
@@ -10,6 +12,8 @@ class QWidget;
 
 namespace propertyguizeug
 {
+
+class AbstractPropertyEditorPlugin;
     
 class PROPERTYGUIZEUG_API PropertyEditorFactory : public reflectionzeug::StandardPropertyVisitor
 {
@@ -31,8 +35,14 @@ public:
     virtual void visit(reflectionzeug::FloatingPointPropertyInterface * property);
     virtual void visit(reflectionzeug::StringPropertyInterface * property);
 
+    void addPlugin(AbstractPropertyEditorPlugin * plugin);
+
+    void setEditor(QWidget * editor);
+
 protected:
+    QList<AbstractPropertyEditorPlugin *> m_plugins;
     QWidget * m_editor;
+
 };
 
 } // namespace propertyguizeug

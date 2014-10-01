@@ -12,6 +12,7 @@
 #include <propertyguizeug/FloatingPointEditor.h>
 
 #include <propertyguizeug/PropertyEditorFactory.h>
+#include <propertyguizeug/AbstractPropertyEditorPlugin.h>
 
 
 using namespace reflectionzeug;
@@ -25,10 +26,21 @@ PropertyEditorFactory::PropertyEditorFactory()
 
 PropertyEditorFactory::~PropertyEditorFactory()
 {
+    qDeleteAll(m_plugins);
 }
 
 QWidget * PropertyEditorFactory::createEditor(AbstractValueProperty & property)
 {
+    m_editor = nullptr;
+
+    for (AbstractPropertyEditorPlugin * plugin : m_plugins)
+    {
+        property.accept(plugin);
+
+        if (m_editor)
+            return m_editor;
+    }
+
     property.accept(this);
     return m_editor;
 }
@@ -83,6 +95,20 @@ void PropertyEditorFactory::visit(reflectionzeug::FloatingPointPropertyInterface
 void PropertyEditorFactory::visit(reflectionzeug::StringPropertyInterface * property)
 {
     m_editor = new StringEditor(property);
+}
+
+void PropertyEditorFactory::addPlugin(AbstractPropertyEditorPlugin * plugin)
+{
+    if (plugin == nullptr)
+        return;
+
+    plugin.setFactory(this);
+    m_plugins.append(plugin);
+}
+
+void PropertyEditorFactory::setEditor(QWidget * editor)
+{
+    m_editor = editor;
 }
 
 } // namespace propertyguizeug

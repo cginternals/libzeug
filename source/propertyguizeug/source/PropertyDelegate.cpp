@@ -82,4 +82,9 @@ QSize PropertyDelegate::sizeHint (const QStyleOptionViewItem & option,
     return QSize(0, 27);
 }
 
+void PropertyDelegate::addPlugin(AbstractPropertyEditorPlugin * plugin)
+{
+    m_editorFactory->addPlugin(plugin);
+}
+
 } // namespace propertyguizeug
