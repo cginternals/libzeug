@@ -11,12 +11,6 @@ T AbstractProperty::option(const std::string & key, const T & defaultValue) cons
     return hasOption(key) ? option(key).value<T>(defaultValue) : defaultValue;
 }
 
-template <typename T>
-void AbstractProperty::setOption(const std::string & key, const T & value)
-{
-    setOption(key, Variant::fromValue<T>(value));
-}
-
 template <class Property>
 Property * AbstractProperty::as()
 {

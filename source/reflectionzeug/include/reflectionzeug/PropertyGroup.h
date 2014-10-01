@@ -75,6 +75,8 @@ public:
     template <typename Type>
     const Property<Type> * property(const std::string & path) const;
 
+    const std::unordered_map<std::string, AbstractProperty *> & properties() const;
+
     PropertyGroup * group(const std::string & path);
     const PropertyGroup * group(const std::string & path) const;
 

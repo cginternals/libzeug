@@ -48,11 +48,20 @@ Variant PropertyGroup::toVariant() const
 bool PropertyGroup::fromVariant(const Variant & value)
 {
     const VariantMap * map = value.toMap();
+
+    if (!map)
+    {
+        return false;
+    }
+
     bool success = true;
 
     for (const std::pair<std::string, AbstractProperty*> & pair : m_propertiesMap)
     {
-        success &= pair.second->fromVariant(map->at(pair.first));
+        if (map->count(pair.first) > 0)
+        {
+            success &= pair.second->fromVariant(map->at(pair.first));
+        }
     }
 
     return success;
@@ -308,5 +317,10 @@ PropertyGroup * PropertyGroup::ensureGroup(const std::vector<std::string> & path
     else
         return group->ensureGroup(std::vector<std::string>(path.begin() + 1, path.end()));
 }
-    
+
+const std::unordered_map<std::string, AbstractProperty *> & PropertyGroup::properties() const
+{
+    return m_propertiesMap;
+}
+
 } // namespace reflectionzeug
