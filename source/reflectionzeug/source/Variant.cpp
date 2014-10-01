@@ -184,28 +184,4 @@ const VariantMap * Variant::toMap() const
     return ptr<VariantMap>();
 }
 
-bool Variant::setValue(const Variant & variant)
-{
-    if (isNull())
-    {
-        return false;
-    }
-
-    if (m_content->type() == variant.m_content->type())
-    {
-        delete m_content;
-
-        m_content = variant.m_content->clone();
-
-        return true;
-    }
-
-    if (variant.m_content->canConvert(m_content->type()))
-    {
-        return variant.m_content->convert(m_content->type(), m_content); // TODO: validate, ugliest hack imaginable
-    }
-
-    return false;
-}
-
 } // namespace reflectionzeug
