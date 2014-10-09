@@ -21,7 +21,6 @@ public:
     virtual reflectionzeug::Variant evaluate(const std::string & code);
 
 protected:
-    reflectionzeug::Variant popDuktapeValue();
 
 protected:
     duk_context * m_context;

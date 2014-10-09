@@ -10,6 +10,32 @@ using namespace reflectionzeug;
 namespace scriptzeug
 {
 
+
+static Variant fromDukValue(duk_context * context, duk_idx_t index = -1)
+{
+    Variant value;
+    duk_int_t type = duk_get_type(context, index);
+
+    switch(type)
+    {
+        case DUK_TYPE_BOOLEAN:
+            value = Variant(duk_get_boolean(context, index));
+            break;
+        case DUK_TYPE_NUMBER:
+            value = Variant(duk_get_number(context, index));
+            break;
+        case DUK_TYPE_STRING:
+            value = Variant(duk_get_string(context, index));
+            break;
+        default:
+            value = Variant();
+            break;
+    }
+
+    return value;
+}
+
+
 DuktapeScriptContext::DuktapeScriptContext(ScriptContext * scriptContext)
 : AbstractScriptContext(scriptContext)
 {
@@ -35,34 +61,11 @@ Variant DuktapeScriptContext::evaluate(const std::string & code)
         return Variant();
     }
 
-    Variant value = popDuktapeValue();
-
-    return value;
-}
-
-Variant DuktapeScriptContext::popDuktapeValue()
-{
-    Variant value;
-    duk_int_t type = duk_get_type(m_context, -1);
-
-    switch(type)
-    {
-        case DUK_TYPE_BOOLEAN:
-            value = Variant(duk_get_boolean(m_context, -1));
-            break;
-        case DUK_TYPE_NUMBER:
-            value = Variant(duk_get_number(m_context, -1));
-            break;
-        case DUK_TYPE_STRING:
-            value = Variant(duk_get_string(m_context, -1));
-            break;
-        default:
-            value = Variant();
-            break;
-    }
-
+    Variant value = fromDukValue(m_context);
     duk_pop(m_context);
+
     return value;
 }
+
 
 } // namespace scriptzeug
