@@ -21,6 +21,7 @@ public:
     virtual reflectionzeug::Variant evaluate(const std::string & code);
 
 protected:
+    void registerObj(duk_idx_t parentId, reflectionzeug::PropertyGroup * obj);
 
 protected:
     duk_context * m_context;
