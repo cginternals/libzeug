@@ -33,11 +33,12 @@ void PropertyPainter::drawValue(QPainter * painter,
 
     property.accept(this);
 
-    std::string prefix = property.option<std::string>("prefix", "");
-    std::string suffix = property.option<std::string>("suffix", "");
-
     if (!m_drawn)
+    {
+        std::string prefix = property.option<std::string>("prefix", "");
+        std::string suffix = property.option<std::string>("suffix", "");
         this->drawString(QString::fromStdString(prefix + property.toString() + suffix));
+    }
 }
 
 void PropertyPainter::drawString(const QString & string)
