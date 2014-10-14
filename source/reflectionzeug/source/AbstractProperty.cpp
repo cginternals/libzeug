@@ -62,11 +62,6 @@ void AbstractProperty::setOption(const std::string & key, const Variant & value)
     m_options[key] = value;
 }
 
-void AbstractProperty::setOption(const std::string & key, const char * string)
-{
-    setOption(key, Variant::fromValue<std::string>(string));
-}
-
 bool AbstractProperty::removeOption(const std::string & key)
 {
     if (!this->hasOption(key))

@@ -38,6 +38,7 @@ Variant::Variant(float value)
 :   m_content(new VariantHolder<float>(value))
 {
 }
+
 Variant::Variant(double value)
 :   m_content(new VariantHolder<double>(value))
 {
@@ -93,6 +94,11 @@ Variant::Variant(unsigned long long value)
 {
 }
 
+Variant::Variant(const std::vector<std::string> & value)
+:   m_content(new VariantHolder<std::vector<std::string>>(value))
+{
+}
+
 Variant::Variant(const VariantArray & array)
 :   m_content(new VariantHolder<VariantArray>(array))
 {
@@ -114,7 +120,7 @@ Variant::Variant(VariantMap && map)
 }
 
 Variant::Variant(const Variant & variant)
-:   m_content(!variant.m_content ? nullptr : variant.m_content->clone())
+:   m_content(variant.m_content ? variant.m_content->clone() : nullptr)
 {
 }
 
@@ -126,10 +132,9 @@ Variant::Variant(Variant && variant)
 
 Variant & Variant::operator=(const Variant & variant)
 {
-    if (m_content)
-        delete m_content;
-        
-    m_content = !variant.m_content ? nullptr : variant.m_content->clone();
+    delete m_content;
+
+    m_content = variant.m_content ? variant.m_content->clone() : nullptr;
     return *this;
 }
 
@@ -141,8 +146,7 @@ Variant & Variant::operator=(Variant && variant)
 
 Variant::~Variant()
 {
-    if (m_content)
-        delete m_content;
+    delete m_content;
 }
 
 bool Variant::isNull() const
