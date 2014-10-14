@@ -14,9 +14,11 @@ namespace scriptzeug
 static Variant fromDukValue(duk_context * context, duk_idx_t index = -1)
 {
     // Function
-    if (duk_is_c_function(context, index)) { //TODO
-        // AbstractFunction *funcptr = static_cast<AbstractFunction *>(duk_get_c_function(context, index));
-        // return Variant::fromValue<AbstractFunction *>(funcptr);
+    if (duk_is_c_function(context, index)) {
+        duk_get_prop_string(context, index, "function_pointer");
+        AbstractFunction * funcptr = static_cast<AbstractFunction *>(duk_get_pointer(context, -1));
+        duk_pop(context);
+        return Variant::fromValue<AbstractFunction *>(funcptr);
     }
 
     // Number
@@ -325,13 +327,10 @@ static duk_ret_t setProperty(duk_context * context)
 
 static duk_ret_t wrapFunction(duk_context * context)
 {
-    duk_int_t magic = (unsigned int) duk_get_current_magic(context) & 0xffffU;
-
     duk_idx_t nargs = duk_get_top(context);
 
-    duk_push_global_stash(context);
-    duk_push_int(context, magic);
-    duk_get_prop(context, -2);
+    duk_push_current_function(context);
+    duk_get_prop_string(context, -1, "function_pointer");
     void * ptr = duk_get_pointer(context, -1);
 
     duk_pop_2(context);
@@ -415,7 +414,7 @@ void DuktapeScriptContext::registerObj(duk_idx_t parentId, PropertyGroup * obj)
                                             "});\n"
                                             "return obj;\n"
                                         "}";
-                                        
+
     duk_eval_string_noresult(m_context, defineAccessor.c_str());
 
     // Create empty object on the stack
@@ -459,36 +458,9 @@ void DuktapeScriptContext::registerObj(duk_idx_t parentId, PropertyGroup * obj)
         for (std::vector<AbstractFunction *>::const_iterator it = funcs.begin(); it != funcs.end(); ++it) {
             AbstractFunction * func = *it;
 
-            duk_push_global_stash(m_context);
-
-            if (!duk_has_prop_string(m_context, -1, "currentIndex"))
-            {
-                duk_push_int(m_context, 0);
-                duk_put_prop_string(m_context, -2, "currentIndex");
-            }
-
-            duk_get_prop_string(m_context, -1, "currentIndex");
-            duk_int_t currentIndex = duk_get_int(m_context, -1);
-            duk_pop(m_context);
-
-            if (currentIndex >= 65535)
-            {
-                std::cerr << "Error: Limit for registering functions reached (65536)." << std::endl;
-                duk_pop(m_context);
-                continue;
-            }
-
-            duk_push_int(m_context, currentIndex + 1);
-            duk_put_prop_string(m_context, -2, "currentIndex");
-
-            duk_push_int(m_context, currentIndex);
-            duk_push_pointer(m_context, static_cast<void *>(func));
-            duk_put_prop(m_context, -3);
-            duk_pop(m_context);
-
             duk_push_c_function(m_context, wrapFunction, DUK_VARARGS);
-            duk_set_magic(m_context, -1, currentIndex);
-
+            duk_push_pointer(m_context, static_cast<void *>(func));
+            duk_put_prop_string(m_context, -2, "function_pointer");
             duk_put_prop_string(m_context, objIndex, func->name().c_str());
         }
     }
