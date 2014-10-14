@@ -13,29 +13,61 @@ namespace scriptzeug
 
 static Variant fromDukValue(duk_context * context, duk_idx_t index = -1)
 {
-    Variant value;
-    duk_int_t type = duk_get_type(context, index);
-
-    switch(type)
-    {
-        case DUK_TYPE_BOOLEAN:
-            value = Variant(duk_get_boolean(context, index));
-            break;
-        case DUK_TYPE_NUMBER:
-            value = Variant(duk_get_number(context, index));
-            break;
-        case DUK_TYPE_STRING:
-            value = Variant(duk_get_string(context, index));
-            break;
-        default:
-            value = Variant();
-            break;
+    // Function
+    if (duk_is_c_function(context, index)) { //TODO
+        // AbstractFunction *funcptr = static_cast<AbstractFunction *>(duk_get_c_function(context, index));
+        // return Variant::fromValue<AbstractFunction *>(funcptr);
     }
 
-    return value;
+    // Number
+    else if (duk_is_number(context, index)) {
+        double value = duk_get_number(context, index);
+        return Variant(value);
+    }
+
+    // Bool
+    else if (duk_is_boolean(context, index)) {
+        bool value = duk_get_boolean(context, index);
+        return Variant(value);
+    }
+
+    // String
+    else if (duk_is_string(context, index)) {
+        const char *str = duk_get_string(context, index);
+        return Variant(str);
+    }
+
+    // Array
+    else if (duk_is_array(context, index)) {
+        VariantArray array;
+        for (unsigned int i = 0; i < duk_get_length(context, index); ++i)
+        {
+            duk_get_prop_index(context, index, i);
+            array.push_back(fromDukValue(context));
+            duk_pop(context);
+        }
+        return array;
+    }
+
+    // Object
+    else if (duk_is_object(context, index)) {
+        VariantMap map;
+
+        duk_enum(context, index, 0);
+        while (duk_next(context, -1, 1)) {
+            map.insert({ fromDukValue(context, -2).value<std::string>(), fromDukValue(context, -1) });
+            duk_pop_2(context);
+        }
+        duk_pop(context);
+
+        return Variant(map);
+    }
+
+    // Undefined
+    return Variant();
 }
 
-static void pushToDukStack(duk_context * context, Variant & var)
+static void pushToDukStack(duk_context * context, const Variant & var)
 {
     if (var.hasType<char*>()) {
         duk_push_string(context, var.value<char*>());
@@ -61,6 +93,26 @@ static void pushToDukStack(duk_context * context, Variant & var)
         duk_push_boolean(context, var.value<bool>());
     }
 
+    else if (var.hasType<VariantArray>()) {
+        VariantArray variantArray = var.value<VariantArray>();
+        duk_idx_t arr_idx = duk_push_array(context);
+        for (unsigned int i=0; i<variantArray.size(); i++) {
+            pushToDukStack(context, variantArray.at(i));
+            duk_put_prop_index(context, arr_idx, i);
+        }
+    }
+
+    else if (var.hasType<VariantMap>()) {
+        VariantMap variantMap = var.value<VariantMap>();
+
+        for (const std::pair<std::string, Variant> & pair : variantMap)
+        {
+            duk_push_object(context);
+            pushToDukStack(context, pair.second);
+            duk_put_prop_string(context, -2, pair.first.c_str());
+        }
+    }
+
     else if (var.canConvert<double>()) {
         duk_push_number(context, var.value<double>());
     }
@@ -68,54 +120,6 @@ static void pushToDukStack(duk_context * context, Variant & var)
     else if (var.canConvert<std::string>()) {
         duk_push_string(context, var.value<std::string>().c_str());
     }
-
-    else {
-        std::cout << var.isMap() << " " << std::endl;
-    }
-}
-
-static duk_ret_t wrapFunction(duk_context * context)
-{
-    duk_int_t magic = (unsigned int) duk_get_current_magic(context) & 0xffffU;
-
-    duk_idx_t nargs = duk_get_top(context);
-
-    duk_push_global_stash(context);
-    duk_push_int(context, magic);
-    duk_get_prop(context, -2);
-    void * ptr = duk_get_pointer(context, -1);
-
-    duk_pop(context);
-    duk_pop(context);
-
-    if (ptr)
-    {
-        AbstractFunction * func = static_cast<AbstractFunction *>(ptr);
-
-        std::vector<Variant> arguments(nargs);
-        for (int i = 0; i < nargs; ++i){
-            arguments[i] = fromDukValue(context, 0);
-            duk_remove(context, 0);
-        }
-
-        Variant value = func->call(arguments);
-
-        if (!value.isNull())
-        {
-            pushToDukStack(context, value);
-            return 1;
-        } else {
-            return 0;
-        }
-    } else {
-        std::cerr << "Error: No valid pointer found." << std::endl;
-        return DUK_RET_ERROR;
-    }
-
-    return 0;   /*  1 = return value at top
-                 *  0 = return 'undefined'
-                 * <0 = throw error (use DUK_RET_xxx constants)
-                 */
 }
 
 static Variant getPropertyValue(AbstractProperty * property)
@@ -262,8 +266,7 @@ static duk_ret_t getProperty(duk_context * context)
     duk_push_this(context);
     duk_get_prop_string(context, -1, "object_pointer");
     void * ptr = duk_get_pointer(context, -1);
-    duk_pop(context);
-    duk_pop(context);
+    duk_pop_2(context);
     reflectionzeug::Object * obj = static_cast<reflectionzeug::Object *>(ptr);
 
     if (obj) {
@@ -271,12 +274,10 @@ static duk_ret_t getProperty(duk_context * context)
         duk_push_current_function(context);
         duk_get_prop_string(context, -1, "property_name");
         std::string propName = duk_get_string(context, -1);
-        duk_pop(context);
-        duk_pop(context);
+        duk_pop_2(context);
         AbstractProperty * property = obj->property(propName);
 
         if (property) {
-            // Get property value
             Variant value = getPropertyValue(property);
 
             // Set return value
@@ -300,8 +301,7 @@ static duk_ret_t setProperty(duk_context * context)
     duk_push_this(context);
     duk_get_prop_string(context, -1, "object_pointer");
     void * ptr = duk_get_pointer(context, -1);
-    duk_pop(context);
-    duk_pop(context);
+    duk_pop_2(context);
     reflectionzeug::Object * obj = static_cast<reflectionzeug::Object *>(ptr);
 
     if (obj) {
@@ -309,12 +309,10 @@ static duk_ret_t setProperty(duk_context * context)
         duk_push_current_function(context);
         duk_get_prop_string(context, -1, "property_name");
         std::string propName = duk_get_string(context, -1);
-        duk_pop(context);
-        duk_pop(context);
+        duk_pop_2(context);
         AbstractProperty * property = obj->property(propName);
 
         if (property) {
-            // Set property value
             setPropertyValue(property, value);
         }
     }
@@ -324,6 +322,50 @@ static duk_ret_t setProperty(duk_context * context)
                  * <0 = throw error (use DUK_RET_xxx constants)
                  */
 }
+
+static duk_ret_t wrapFunction(duk_context * context)
+{
+    duk_int_t magic = (unsigned int) duk_get_current_magic(context) & 0xffffU;
+
+    duk_idx_t nargs = duk_get_top(context);
+
+    duk_push_global_stash(context);
+    duk_push_int(context, magic);
+    duk_get_prop(context, -2);
+    void * ptr = duk_get_pointer(context, -1);
+
+    duk_pop_2(context);
+
+    if (ptr)
+    {
+        AbstractFunction * func = static_cast<AbstractFunction *>(ptr);
+
+        std::vector<Variant> arguments(nargs);
+        for (int i = 0; i < nargs; ++i){
+            arguments[i] = fromDukValue(context, 0);
+            duk_remove(context, 0);
+        }
+
+        Variant value = func->call(arguments);
+
+        if (!value.isNull())
+        {
+            pushToDukStack(context, value);
+            return 1;
+        } else {
+            return 0;
+        }
+    } else {
+        std::cerr << "Error: No valid pointer found." << std::endl;
+        return DUK_RET_ERROR;
+    }
+
+    return 0;   /*  1 = return value at top
+                 *  0 = return 'undefined'
+                 * <0 = throw error (use DUK_RET_xxx constants)
+                 */
+}
+
 
 
 DuktapeScriptContext::DuktapeScriptContext(ScriptContext * scriptContext)
@@ -373,6 +415,7 @@ void DuktapeScriptContext::registerObj(duk_idx_t parentId, PropertyGroup * obj)
                                             "});\n"
                                             "return obj;\n"
                                         "}";
+                                        
     duk_eval_string_noresult(m_context, defineAccessor.c_str());
 
     // Create empty object on the stack
@@ -463,36 +506,6 @@ void DuktapeScriptContext::registerObj(duk_idx_t parentId, PropertyGroup * obj)
 
     // Register object in parent object (global if it is no sub-object)
     duk_put_prop_string(m_context, parentId, obj->name().c_str());
-
-    // // Register object properties as real accessors, e.g. obj.prop as getter and obj.prop = X as setter
-    // for (unsigned int i=0; i<obj->count(); i++) {
-    //     // Get property
-    //     AbstractProperty * prop = obj->at(i);
-    //     std::string propName = prop->name();
-
-    //     // Check if property is a property group
-    //     PropertyGroup * group = dynamic_cast< PropertyGroup * >(prop);
-    //     if (!group) {
-    //         std::string propertyAccessorRegistration = "Object.defineProperty(" + obj->name() + ", '" + propName + "', {\n"
-    //             "enumerable: false,\n"
-    //             "configurable: false,\n"
-    //             "get: function () {\n"
-    //                 "return this.property_" + propName + "_get();\n"
-    //             "},\n"
-    //             "set: function (v) {\n"
-    //                 "this.property_" + propName + "_set(v);\n"
-    //             "}\n"
-    //         "});";
-
-    //         std::cerr << duk_get_top(m_context) << std::endl;
-    //         duk_eval_string(m_context, propertyAccessorRegistration.c_str());
-    //         std::cerr << duk_get_top(m_context) << std::endl;
-    //         duk_pop(m_context);
-    //         std::cerr << duk_get_top(m_context) << std::endl;
-
-    //         // evaluate(propertyAccessorRegistration);
-    //     }
-    // }
 }
 
 
