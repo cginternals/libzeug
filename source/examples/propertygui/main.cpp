@@ -63,6 +63,7 @@ int main(int argc, char *argv[])
     
     width->setOption("minimum", widget->minimumWidth());
     width->setOption("maximum", widget->maximumWidth());
+    width->setOption("suffix", " pixel");
 
     auto * height = size->addProperty<int>("Height",
         [widget] () -> int {
@@ -74,6 +75,18 @@ int main(int argc, char *argv[])
 
     height->setOption("minimum", widget->minimumHeight());
     height->setOption("maximum", widget->maximumHeight());
+    height->setOption("suffix", " pixel");
+
+    auto * aspect = size->addProperty<float>("Aspect",
+        [widget] () -> float {
+            return static_cast<float>(widget->width()) / widget->height();
+        },
+        [widget] (const float & aspect) {
+            int width = static_cast<int>(aspect * widget->height());
+            widget->resize(width, widget->height());
+        });
+    aspect->setOption("step", 0.1f);
+    aspect->setOption("suffix", " w/h");
 
     auto * minimumSize = size->addProperty<std::array<int, 2>>("minimumSize",
         [widget] (size_t i) -> int {
