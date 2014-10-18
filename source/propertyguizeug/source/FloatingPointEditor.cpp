@@ -33,7 +33,7 @@ FloatingPointEditor::FloatingPointEditor(FloatingPointPropertyInterface * proper
         maximum = std::numeric_limits<double>::max();
     
     m_spinBox->setRange(minimum, maximum);
-	
+    
     if (m_property->hasOption("step"))
         m_spinBox->setSingleStep(m_property->option("step").value<double>());
         
@@ -44,6 +44,16 @@ FloatingPointEditor::FloatingPointEditor(FloatingPointPropertyInterface * proper
         precision = 3;
         
     m_spinBox->setDecimals(precision);
+
+    std::string prefix;
+    if (m_property->hasOption("prefix"))
+        prefix = m_property->option("prefix").value<std::string>();
+    m_spinBox->setPrefix(QString::fromStdString(prefix));
+
+    std::string suffix;
+    if (m_property->hasOption("suffix"))
+        suffix = m_property->option("suffix").value<std::string>();
+    m_spinBox->setSuffix(QString::fromStdString(suffix));
     
     m_spinBox->setValue(m_property->toDouble());
     

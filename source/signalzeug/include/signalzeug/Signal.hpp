@@ -60,7 +60,7 @@ Connection Signal<Arguments...>::connect(Signal& signal) const
 template <typename... Arguments>
 Connection Signal<Arguments...>::onFire(std::function<void()> callback) const
 {
-	return connect([callback](Arguments... arguments) 
+	return connect([callback](Arguments... /*arguments*/) 
 	{
 		callback();
 	});
