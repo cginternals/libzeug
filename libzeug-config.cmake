@@ -116,6 +116,7 @@ find(propertygui propertyguizeug/propertyguizeug_api.h ${LIB_PATHS})
 find(io          iozeug/iozeug_api.h                   ${LIB_PATHS})
 find(threading   threadingzeug/threadingzeug_api.h     ${LIB_PATHS})
 find(script      scriptzeug/scriptzeug_api.h           ${LIB_PATHS})
+find(logging     loggingzeug/loggingzeug_api.h         ${LIB_PATHS})
 
 # DEBUG
 #message("LIBZEUG_INCLUDES  = ${LIBZEUG_INCLUDES}")
