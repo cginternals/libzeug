@@ -106,10 +106,10 @@ static void pushToDukStack(duk_context * context, const Variant & var)
 
     else if (var.hasType<VariantMap>()) {
         VariantMap variantMap = var.value<VariantMap>();
+        duk_push_object(context);
 
         for (const std::pair<std::string, Variant> & pair : variantMap)
         {
-            duk_push_object(context);
             pushToDukStack(context, pair.second);
             duk_put_prop_string(context, -2, pair.first.c_str());
         }
