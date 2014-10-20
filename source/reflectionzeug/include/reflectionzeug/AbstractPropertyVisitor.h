@@ -1,4 +1,3 @@
-
 #pragma once
 
 #include <reflectionzeug/reflectionzeug_api.h>
@@ -17,7 +16,6 @@ class REFLECTIONZEUG_API AbstractPropertyVisitor
 {
 public:
     virtual ~AbstractPropertyVisitor() = 0;
-
 };
 
 } // namespace reflectionzeug

@@ -1,10 +1,8 @@
-
 #include <reflectionzeug/ColorPropertyInterface.h>
 
 #include <iostream>
 
 #include <reflectionzeug/PropertyCategoryVisitor.h>
-
 
 namespace reflectionzeug
 {

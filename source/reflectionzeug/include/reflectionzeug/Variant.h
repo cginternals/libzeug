@@ -1,4 +1,3 @@
-
 #pragma once
 
 #include <map>
@@ -7,7 +6,6 @@
 #include <vector>
 
 #include <reflectionzeug/reflectionzeug_api.h>
-
 
 namespace reflectionzeug
 {

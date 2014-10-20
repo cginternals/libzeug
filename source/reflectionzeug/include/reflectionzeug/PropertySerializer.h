@@ -1,11 +1,9 @@
-
 #pragma once
 
 #include <deque>
 #include <fstream>
 
 #include <reflectionzeug/reflectionzeug_api.h>
-
 
 namespace reflectionzeug
 {
@@ -37,7 +35,6 @@ protected:
 protected:
     std::fstream m_fstream;
     std::deque<std::string> m_pathStack;
-
 };
     
 } // namespace reflectionzeug

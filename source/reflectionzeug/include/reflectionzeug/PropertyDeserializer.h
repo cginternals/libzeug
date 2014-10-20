@@ -32,7 +32,6 @@ protected:
     PropertyGroup * m_rootGroup;
     PropertyGroup * m_currentGroup;
     std::string m_currentValue;
-
 };
 
 } // namespace reflectionzeug

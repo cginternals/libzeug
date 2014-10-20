@@ -1,4 +1,3 @@
-
 #include <reflectionzeug/FilePathProperty.h>
 
 namespace reflectionzeug

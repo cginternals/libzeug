@@ -1,8 +1,6 @@
-
 #pragma once
 
 #include <reflectionzeug/Variant.h>
-
 
 namespace reflectionzeug
 {

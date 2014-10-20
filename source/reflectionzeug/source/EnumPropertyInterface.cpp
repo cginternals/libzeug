@@ -1,6 +1,6 @@
+#include <reflectionzeug/EnumPropertyInterface.h>
 
 #include <reflectionzeug/PropertyCategoryVisitor.h>
-#include <reflectionzeug/EnumPropertyInterface.h>
 
 namespace reflectionzeug
 {

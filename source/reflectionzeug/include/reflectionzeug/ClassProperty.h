@@ -1,4 +1,3 @@
-
 #pragma once
 
 #include <sstream>
@@ -28,7 +27,6 @@ public:
     
     virtual std::string toString() const;
     virtual bool fromString(const std::string & string);
-
 };
 
 } // namespace reflectionzeug

@@ -1,4 +1,3 @@
-
 #include <reflectionzeug/AbstractPropertyVisitor.h>
 
 namespace reflectionzeug

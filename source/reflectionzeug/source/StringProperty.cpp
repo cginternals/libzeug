@@ -1,4 +1,3 @@
-
 #include <reflectionzeug/StringProperty.h>
 
 namespace reflectionzeug
