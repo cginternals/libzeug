@@ -27,7 +27,7 @@ AbstractProperty::~AbstractProperty()
 
 std::string AbstractProperty::name() const
 {
-    return option("name").value<std::string>();
+    return m_name;
 }
     
 bool AbstractProperty::setName(const std::string & name)
@@ -35,18 +35,13 @@ bool AbstractProperty::setName(const std::string & name)
     if (!util::matchesRegex(name, s_nameRegexString))
         return false;
     
-    setOption("name", name);
+    m_name = name;
     return true;
 }
     
 bool AbstractProperty::hasName() const
 {
-    return hasOption("name") && name().size() > 0;
-}
-
-bool AbstractProperty::hasOption(const std::string & key) const
-{
-    return m_options.count(key) != 0;
+    return !m_name.empty();
 }
 
 Variant AbstractProperty::option(const std::string & key) const
@@ -62,6 +57,11 @@ void AbstractProperty::setOption(const std::string & key, const Variant & value)
     m_options[key] = value;
 }
 
+void AbstractProperty::setOptions(const VariantMap & map)
+{
+    m_options.insert(map.begin(), map.end());
+}
+
 bool AbstractProperty::removeOption(const std::string & key)
 {
     if (!this->hasOption(key))
@@ -71,9 +71,9 @@ bool AbstractProperty::removeOption(const std::string & key)
     return true;
 }
 
-void AbstractProperty::setOptions(const VariantMap & map)
+bool AbstractProperty::hasOption(const std::string & key) const
 {
-    m_options.insert(map.begin(), map.end());
+    return m_options.count(key) != 0;
 }
 
 AbstractValueProperty * AbstractProperty::asValue()
