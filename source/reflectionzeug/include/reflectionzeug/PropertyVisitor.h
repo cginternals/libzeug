@@ -1,4 +1,3 @@
-
 #pragma once
 
 #include <reflectionzeug/AbstractPropertyVisitor.h>
@@ -6,7 +5,6 @@
 
 namespace reflectionzeug
 {
-
 
 /**
  * Convenience template class. Pass a list of types as template arguments 
@@ -35,7 +33,6 @@ class PropertyVisitor<Type> : public virtual AbstractPropertyVisitor
 {
 public:
     virtual void visit(Property<Type> * property) = 0;
-    
 };
 
 } // namespace reflectionzeug

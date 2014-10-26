@@ -4,7 +4,6 @@
 
 #include <reflectionzeug/reflectionzeug_api.h>
 
-
 namespace reflectionzeug
 {
 

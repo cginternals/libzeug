@@ -1,4 +1,3 @@
-
 #pragma once
 
 #include <sstream>
@@ -6,7 +5,6 @@
 #include <reflectionzeug/Variant.h>
 #include <reflectionzeug/specialization_helpers.h>
 #include <reflectionzeug/util.h>
-
 
 namespace reflectionzeug
 {

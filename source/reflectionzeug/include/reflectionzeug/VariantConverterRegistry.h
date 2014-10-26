@@ -1,4 +1,3 @@
-
 #pragma once
 
 #include <functional>
@@ -8,7 +7,6 @@
 #include <unordered_map>
 
 #include <reflectionzeug/specialization_helpers.h>
-
 
 namespace reflectionzeug
 {

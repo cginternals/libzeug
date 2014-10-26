@@ -1,9 +1,7 @@
-
 #pragma once
 
 #include <reflectionzeug/NumberProperty.h>
 #include <reflectionzeug/SignedIntegralPropertyInterface.h>
-
 
 namespace reflectionzeug
 {
@@ -32,7 +30,6 @@ public:
 
 protected:
     virtual std::string matchRegex() const;
-
 };
 
 } // namespace reflectionzeug

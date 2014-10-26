@@ -1,4 +1,4 @@
-
+#include <reflectionzeug/PropertyDeserializer.h>
 
 #ifdef USE_STD_REGEX
     #include <regex>
@@ -17,9 +17,7 @@
 
 #include <reflectionzeug/Property.h>
 #include <reflectionzeug/PropertyGroup.h>
-
 #include <reflectionzeug/util.h>
-#include <reflectionzeug/PropertyDeserializer.h>
 
 using namespace loggingzeug;
 

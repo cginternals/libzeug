@@ -3,7 +3,6 @@
 #include <array>
 #include <type_traits>
 
-
 namespace reflectionzeug
 {
    
@@ -43,7 +42,7 @@ struct is_special_array<Type, std::array<Type, Size>> : public std::true_type {}
 template <typename Condition, typename Type>
 struct value_accessor : public std::enable_if<Condition::value, Type> {};
 
-}
+} // namespace detail
 
     
 /** 

@@ -1,7 +1,6 @@
-
-#include <reflectionzeug/PropertyCategoryVisitor.h>
 #include <reflectionzeug/StringPropertyInterface.h>
 
+#include <reflectionzeug/PropertyCategoryVisitor.h>
 
 namespace reflectionzeug
 {

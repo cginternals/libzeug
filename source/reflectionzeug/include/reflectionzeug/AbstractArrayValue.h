@@ -1,8 +1,6 @@
-
 #pragma once
 
 #include <array>
-
 
 namespace reflectionzeug
 {
@@ -21,7 +19,6 @@ public:
 
     virtual Type get(size_t i) const = 0;
     virtual void set(size_t i, const Type & value) = 0;
-
 };
 
 } // namespace reflectionzeug

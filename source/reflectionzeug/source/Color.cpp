@@ -1,10 +1,9 @@
-
+#include <reflectionzeug/Color.h>
 
 #include <cassert>
 #include <sstream>
 #include <iomanip>
 
-#include <reflectionzeug/Color.h>
 #include <reflectionzeug/util.h>
 
 namespace reflectionzeug

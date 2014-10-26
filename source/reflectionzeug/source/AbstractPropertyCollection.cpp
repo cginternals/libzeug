@@ -1,6 +1,4 @@
-
 #include <reflectionzeug/AbstractPropertyCollection.h>
-
 
 namespace reflectionzeug
 {

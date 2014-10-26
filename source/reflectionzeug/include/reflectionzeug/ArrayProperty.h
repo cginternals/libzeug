@@ -1,4 +1,3 @@
-
 #pragma once
 
 #include <type_traits>
@@ -96,7 +95,6 @@ private:
 private:
     std::unique_ptr<AbstractArrayValue<Type, Size>> m_array;
     std::array<Property<Type> *, Size> m_properties;
-
 };
 
 } // namespace reflectionzeug

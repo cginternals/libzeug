@@ -1,4 +1,3 @@
-
 #pragma once
 
 #include <reflectionzeug/FilePathProperty.h>

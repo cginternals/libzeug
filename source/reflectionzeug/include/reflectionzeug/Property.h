@@ -1,4 +1,3 @@
-
 #pragma once
 
 #include <reflectionzeug/property_declaration.h>
@@ -17,7 +16,6 @@
 #include <reflectionzeug/Color.h>
 
 #include <reflectionzeug/specialization_helpers.h>
-
 
 namespace reflectionzeug
 {

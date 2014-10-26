@@ -2,9 +2,7 @@
 #pragma once
 
 #include <functional>
-
 #include <reflectionzeug/AbstractArrayValue.h>
-
 
 namespace reflectionzeug
 {

@@ -1,15 +1,12 @@
 #pragma once
 
-
 #include <string>
 #include <vector>
 #include <reflectionzeug/PropertyGroup.h>
 #include <reflectionzeug/Function.h>
 
-
 namespace reflectionzeug
 {
-
 
 /** \brief Base class for reflectable classes that can expose properties and functions
  */
@@ -38,6 +35,5 @@ public:
 protected:
     std::vector<AbstractFunction *> m_functions;
 };
-
 
 } // namespace reflectionzeug
