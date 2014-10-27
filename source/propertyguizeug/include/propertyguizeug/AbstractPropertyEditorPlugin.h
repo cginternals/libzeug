@@ -1,17 +1,17 @@
-
 #pragma once
 
 #include <reflectionzeug/AbstractPropertyVisitor.h>
 
 #include <propertyguizeug/propertyguizeug_api.h>
 
+class QWidget;
 
 namespace propertyguizeug
 {
 
 class PropertyEditorFactory;
 
-class PROPERTYGUIZEUG_API AbstractPropertyEditorPlugin : public virtual AbstractPropertyVisitor
+class PROPERTYGUIZEUG_API AbstractPropertyEditorPlugin : public virtual reflectionzeug::AbstractPropertyVisitor
 {
 public:
     AbstractPropertyEditorPlugin();

@@ -16,6 +16,9 @@ namespace propertyguizeug
 class PROPERTYGUIZEUG_API ValueEditor : public PropertyEditor
 {
 public:
+    using PropertyType = reflectionzeug::AbstractValueProperty;
+    
+public:
     ValueEditor(reflectionzeug::AbstractValueProperty * property, QWidget * parent = nullptr);
     virtual ~ValueEditor();
     

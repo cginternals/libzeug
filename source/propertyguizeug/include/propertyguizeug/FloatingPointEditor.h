@@ -21,6 +21,9 @@ namespace propertyguizeug
 class PROPERTYGUIZEUG_API FloatingPointEditor : public PropertyEditor
 {
 public:
+    using PropertyType = reflectionzeug::FloatingPointPropertyInterface;
+    
+public:
     FloatingPointEditor(reflectionzeug::FloatingPointPropertyInterface * property, QWidget * parent = nullptr);
 
 protected:

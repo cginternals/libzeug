@@ -24,6 +24,9 @@ class ULongLongSpinBox;
 class PROPERTYGUIZEUG_API UnsignedIntegralEditor : public PropertyEditor
 {
 public:
+    using PropertyType = reflectionzeug::UnsignedIntegralPropertyInterface;
+
+public:
     UnsignedIntegralEditor(reflectionzeug::UnsignedIntegralPropertyInterface * property, 
                            QWidget * parent = nullptr);
 

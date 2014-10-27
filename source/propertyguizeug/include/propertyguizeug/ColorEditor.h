@@ -21,6 +21,9 @@ class ColorButton;
 class PROPERTYGUIZEUG_API ColorEditor : public PropertyEditor
 {
 public:
+    using PropertyType = reflectionzeug::ColorPropertyInterface;
+
+public:
     ColorEditor(reflectionzeug::ColorPropertyInterface * property, QWidget * parent = nullptr);
     virtual ~ColorEditor();
     

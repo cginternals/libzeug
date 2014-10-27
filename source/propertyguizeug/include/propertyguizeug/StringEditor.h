@@ -25,6 +25,9 @@ namespace propertyguizeug
 class PROPERTYGUIZEUG_API StringEditor : public PropertyEditor
 {
 public:
+    using PropertyType = reflectionzeug::StringPropertyInterface;
+    
+public:
     StringEditor(reflectionzeug::StringPropertyInterface * property, QWidget * parent = nullptr);
 
 protected:

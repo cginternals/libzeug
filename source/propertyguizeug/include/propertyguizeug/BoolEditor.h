@@ -13,6 +13,9 @@ namespace propertyguizeug
 class PROPERTYGUIZEUG_API BoolEditor : public PropertyEditor
 {
 public:
+    using PropertyType = reflectionzeug::Property<bool>;
+
+public:
     BoolEditor(reflectionzeug::Property<bool> * property, QWidget * parent = nullptr);
     virtual ~BoolEditor();
 

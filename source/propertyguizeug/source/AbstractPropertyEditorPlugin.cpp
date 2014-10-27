@@ -1,4 +1,3 @@
-
 #include <propertyguizeug/AbstractPropertyEditorPlugin.h>
 
 #include <cassert>

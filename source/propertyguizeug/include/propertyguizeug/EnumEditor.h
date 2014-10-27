@@ -15,6 +15,9 @@ namespace propertyguizeug
 class PROPERTYGUIZEUG_API EnumEditor : public PropertyEditor
 {
 public:
+    using PropertyType = reflectionzeug::EnumPropertyInterface;
+
+public:
     EnumEditor(reflectionzeug::EnumPropertyInterface * property, QWidget * parent = nullptr);
     virtual ~EnumEditor();
     
