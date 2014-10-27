@@ -4,9 +4,9 @@
 
 #include <typeinfo>
 
+#include <reflectionzeug/AccessorValue.h>
 #include <reflectionzeug/PropertyVisitor.h>
 #include <reflectionzeug/StoredValue.h>
-#include <reflectionzeug/AccessorValue.h>
 #include <reflectionzeug/Variant.h>
 
 namespace reflectionzeug
@@ -82,7 +82,7 @@ void ValueProperty<Type>::setValue(const Type & value)
 template <typename Type>
 void ValueProperty<Type>::accept(AbstractPropertyVisitor * visitor)
 {
-    auto * typedVisitor = dynamic_cast<PropertyVisitor<Type> *>(visitor);
+    auto * typedVisitor = visitor->asVisitor<Property<Type>>();
 
     if (typedVisitor == nullptr)
         return AbstractValueProperty::accept(visitor);

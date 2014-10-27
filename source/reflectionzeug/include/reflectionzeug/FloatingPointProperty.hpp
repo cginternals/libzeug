@@ -22,7 +22,7 @@ FloatingPointProperty<Type>::~FloatingPointProperty()
 template <typename Type>
 void FloatingPointProperty<Type>::accept(AbstractPropertyVisitor * visitor)
 {
-    auto * typedVisitor = dynamic_cast<PropertyVisitor<Type> *>(visitor);
+    auto * typedVisitor = visitor->asVisitor<Property<Type>>();
     
     if (typedVisitor == nullptr)
         return FloatingPointPropertyInterface::accept(visitor);

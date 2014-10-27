@@ -1,5 +1,7 @@
 #include <reflectionzeug/ColorProperty.h>
 
+#include <reflectionzeug/PropertyVisitor.h>
+
 namespace reflectionzeug
 {
 
@@ -9,7 +11,7 @@ ColorProperty::~ColorProperty()
 
 void ColorProperty::accept(AbstractPropertyVisitor * visitor)
 {
-    auto * typedVisitor = dynamic_cast<PropertyVisitor<Color> *>(visitor);
+    auto * typedVisitor = visitor->asVisitor<Property<Color>>();
     
     if (typedVisitor == nullptr)
         return ColorPropertyInterface::accept(visitor);

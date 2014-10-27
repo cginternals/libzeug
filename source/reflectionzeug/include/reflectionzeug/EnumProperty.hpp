@@ -25,7 +25,7 @@ EnumProperty<Enum>::~EnumProperty()
 template <typename Type>
 void EnumProperty<Type>::accept(AbstractPropertyVisitor * visitor)
 {
-    auto * typedVisitor = dynamic_cast<PropertyVisitor<Type> *>(visitor);
+    auto * typedVisitor = visitor->asVisitor<Property<Type>>();
     
     if (typedVisitor == nullptr)
         return EnumPropertyInterface::accept(visitor);

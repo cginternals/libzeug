@@ -8,7 +8,6 @@
 #include <propertyguizeug/propertyguizeug_api.h>
 
 #include <reflectionzeug/PropertyVisitor.h>
-#include <reflectionzeug/PropertyCategoryVisitor.h>
 
 class QPainter;
 
@@ -23,8 +22,9 @@ namespace propertyguizeug
 {
    
 class PROPERTYGUIZEUG_API PropertyPainter : 
-    public reflectionzeug::PropertyVisitor<bool, reflectionzeug::Color>,
-    public reflectionzeug::PropertyCategoryVisitor<reflectionzeug::AbstractValueProperty>
+    public reflectionzeug::PropertyVisitor<reflectionzeug::AbstractValueProperty, 
+                                           reflectionzeug::Property<bool>, 
+                                           reflectionzeug::Property<reflectionzeug::Color>>
 {
 public:
     PropertyPainter();

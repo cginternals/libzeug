@@ -75,7 +75,7 @@ ArrayProperty<Type, Size>::~ArrayProperty()
 template <typename Type, size_t Size>
 void ArrayProperty<Type, Size>::accept(AbstractPropertyVisitor * visitor)
 {
-    auto * typedVisitor = dynamic_cast<PropertyVisitor<std::array<Type, Size>> *>(visitor);
+    auto * typedVisitor = visitor->asVisitor<Property<std::array<Type, Size>>>();
 
     if (typedVisitor == nullptr)
         return AbstractValueProperty::accept(visitor);

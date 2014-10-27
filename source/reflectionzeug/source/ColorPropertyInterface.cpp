@@ -2,14 +2,14 @@
 
 #include <iostream>
 
-#include <reflectionzeug/PropertyCategoryVisitor.h>
+#include <reflectionzeug/PropertyVisitor.h>
 
 namespace reflectionzeug
 {
 
 void ColorPropertyInterface::accept(AbstractPropertyVisitor * visitor)
 {
-    auto * typedVisitor = dynamic_cast<PropertyCategoryVisitor<ColorPropertyInterface> *>(visitor);
+    auto * typedVisitor = visitor->asVisitor<ColorPropertyInterface>();
 
     if (typedVisitor == nullptr)
         return AbstractValueProperty::accept(visitor);

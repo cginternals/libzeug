@@ -1,5 +1,7 @@
 #include <reflectionzeug/StringProperty.h>
 
+#include <reflectionzeug/PropertyVisitor.h>
+
 namespace reflectionzeug
 {
 
@@ -9,7 +11,7 @@ StringProperty::~StringProperty()
 
 void StringProperty::accept(AbstractPropertyVisitor * visitor)
 {
-    auto * typedVisitor = dynamic_cast<PropertyVisitor<std::string> *>(visitor);
+    auto * typedVisitor = visitor->asVisitor<Property<std::string>>();
     
     if (typedVisitor == nullptr)
         return StringPropertyInterface::accept(visitor);
