@@ -127,24 +127,24 @@ public:
     }; \
     }
     
-#define P_PROPERTY_SPEC_MULTIPLE(PropertyTypeTemplate, Trait) \
+#define P_PROPERTY_SPEC_MULTIPLE(PropertyType) \
     namespace reflectionzeug \
     { \
     template <typename Type> \
-    class Property<Type, EnableIf<Trait<Type>>> : public PropertyTypeTemplate<Type> \
+    class Property<Type, EnableIf<typename PropertyType<Type>::Trait>> : public PropertyType<Type> \
     { \
     public: \
         template <typename... Args> \
         Property(const std::string & name, Args&&... args) : \
             AbstractProperty(name), \
-            PropertyTypeTemplate<Type>(std::forward<Args>(args)...) {} \
+            PropertyType<Type>(std::forward<Args>(args)...) {} \
     \
         virtual void accept(AbstractPropertyVisitor * visitor) \
         { \
             auto * typedVisitor = visitor->asVisitor<Property<Type>>(); \
     \
             if (typedVisitor == nullptr) \
-                return PropertyTypeTemplate<Type>::accept(visitor); \
+                return PropertyType<Type>::accept(visitor); \
     \
             typedVisitor->visit(this); \
         } \
@@ -156,9 +156,9 @@ P_PROPERTY_SPEC_SINGLE(reflectionzeug::StringProperty)
 P_PROPERTY_SPEC_SINGLE(reflectionzeug::ColorProperty)
 P_PROPERTY_SPEC_SINGLE(reflectionzeug::FilePathProperty)
 
-P_PROPERTY_SPEC_MULTIPLE(reflectionzeug::UnsignedIntegralProperty, reflectionzeug::isUnsignedIntegral)
-P_PROPERTY_SPEC_MULTIPLE(reflectionzeug::SignedIntegralProperty, reflectionzeug::isSignedIntegral)
-P_PROPERTY_SPEC_MULTIPLE(reflectionzeug::FloatingPointProperty, reflectionzeug::isFloatingPoint)
-P_PROPERTY_SPEC_MULTIPLE(reflectionzeug::EnumProperty, std::is_enum)
+P_PROPERTY_SPEC_MULTIPLE(reflectionzeug::UnsignedIntegralProperty)
+P_PROPERTY_SPEC_MULTIPLE(reflectionzeug::SignedIntegralProperty)
+P_PROPERTY_SPEC_MULTIPLE(reflectionzeug::FloatingPointProperty)
+P_PROPERTY_SPEC_MULTIPLE(reflectionzeug::EnumProperty)
 
 /** \} */

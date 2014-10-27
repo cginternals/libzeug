@@ -9,7 +9,6 @@
 #include <reflectionzeug/Property.h>
 #include <reflectionzeug/AccessorArrayValue.h>
 #include <reflectionzeug/StoredArrayValue.h>
-#include <reflectionzeug/PropertyVisitor.h>
 #include <reflectionzeug/util.h>
 #include <reflectionzeug/Variant.h>
 

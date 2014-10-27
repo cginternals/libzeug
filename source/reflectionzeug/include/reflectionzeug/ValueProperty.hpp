@@ -5,7 +5,6 @@
 #include <typeinfo>
 
 #include <reflectionzeug/AccessorValue.h>
-#include <reflectionzeug/PropertyVisitor.h>
 #include <reflectionzeug/StoredValue.h>
 #include <reflectionzeug/Variant.h>
 
