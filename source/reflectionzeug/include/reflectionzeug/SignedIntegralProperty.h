@@ -1,9 +1,8 @@
-
 #pragma once
 
 #include <reflectionzeug/NumberProperty.h>
 #include <reflectionzeug/SignedIntegralPropertyInterface.h>
-
+#include <reflectionzeug/specialization_helpers.h>
 
 namespace reflectionzeug
 {
@@ -20,6 +19,9 @@ template <typename Type>
 class SignedIntegralProperty : public SignedIntegralPropertyInterface, public NumberProperty<Type>
 {
 public:
+    using Trait = isSignedIntegral<Type>;
+    
+public:
     template <typename... Arguments>
     SignedIntegralProperty(Arguments&&... args);
     
@@ -32,7 +34,6 @@ public:
 
 protected:
     virtual std::string matchRegex() const;
-
 };
 
 } // namespace reflectionzeug

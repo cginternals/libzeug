@@ -1,7 +1,6 @@
-
 #include <reflectionzeug/BoolProperty.h>
-#include <reflectionzeug/util.h>
 
+#include <reflectionzeug/util.h>
 
 namespace reflectionzeug
 {

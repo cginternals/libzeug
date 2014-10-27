@@ -1,4 +1,3 @@
-
 #pragma once
 
 #include <reflectionzeug/UnsignedIntegralProperty.h>
@@ -23,12 +22,7 @@ UnsignedIntegralProperty<Type>::~UnsignedIntegralProperty()
 template <typename Type>
 void UnsignedIntegralProperty<Type>::accept(AbstractPropertyVisitor * visitor)
 {
-    auto * typedVisitor = dynamic_cast<PropertyVisitor<Type> *>(visitor);
-    
-    if (typedVisitor == nullptr)
-        return UnsignedIntegralPropertyInterface::accept(visitor);
-    
-    typedVisitor->visit(reinterpret_cast<Property<Type> *>(this));
+    UnsignedIntegralPropertyInterface::accept(visitor);
 }
 
 template <typename Type>

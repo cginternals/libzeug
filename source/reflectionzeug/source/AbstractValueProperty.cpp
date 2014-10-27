@@ -1,10 +1,9 @@
+#include <reflectionzeug/AbstractValueProperty.h>
 
 #include <typeinfo>
 #include <iostream>
 
-#include <reflectionzeug/AbstractValueProperty.h>
-#include <reflectionzeug/PropertyCategoryVisitor.h>
-
+#include <reflectionzeug/PropertyVisitor.h>
 
 namespace reflectionzeug
 {
@@ -16,7 +15,7 @@ bool AbstractValueProperty::isValue() const
 
 void AbstractValueProperty::accept(AbstractPropertyVisitor * visitor)
 {
-    auto * typedVisitor = dynamic_cast<PropertyCategoryVisitor<AbstractValueProperty> *>(visitor);
+    auto * typedVisitor = visitor->asVisitor<AbstractValueProperty>();
 
     if (typedVisitor == nullptr)
     {

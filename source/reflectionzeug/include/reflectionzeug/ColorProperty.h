@@ -1,4 +1,3 @@
-
 #pragma once
 
 #include <reflectionzeug/reflectionzeug_api.h>
@@ -14,6 +13,9 @@ namespace reflectionzeug
  */
 class ColorProperty : public ColorPropertyInterface, public ValueProperty<Color>
 {
+public:
+    using Type = Color;
+    
 public:
     template <typename... Arguments>
     ColorProperty(Arguments&&... args);

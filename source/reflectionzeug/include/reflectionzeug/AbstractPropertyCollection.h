@@ -1,8 +1,6 @@
-
 #pragma once
 
 #include <reflectionzeug/AbstractProperty.h>
-
 
 namespace reflectionzeug
 {
@@ -25,7 +23,6 @@ public:
 
     virtual void forEach(const std::function<void(AbstractProperty &)> & functor) = 0;
     virtual void forEach(const std::function<void(const AbstractProperty &)> & functor) const = 0;
-
 };
 
-} // namespace relfectionzeug
+} // namespace reflectionzeug

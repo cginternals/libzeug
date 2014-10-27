@@ -1,9 +1,7 @@
-
 #include <reflectionzeug/PropertyGroup.h>
 
 #include <cassert>
 #include <algorithm>
-
 
 namespace reflectionzeug
 {

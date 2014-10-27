@@ -1,11 +1,10 @@
-
 #pragma once
 
 #include <set>
 #include <vector>
 
+#include <reflectionzeug/property_declaration.h>
 #include <reflectionzeug/PropertyVisitor.h>
-#include <reflectionzeug/PropertyCategoryVisitor.h>
 
 namespace reflectionzeug
 {
@@ -25,9 +24,8 @@ class FilePath;
 */
 class StandardPropertyVisitor :
     public PropertyVisitor<
-        bool,
-        FilePath>,
-    public PropertyCategoryVisitor<
+        Property<bool>,
+        Property<FilePath>,
         AbstractValueProperty,
         ColorPropertyInterface,
         EnumPropertyInterface,

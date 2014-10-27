@@ -9,10 +9,8 @@
 #include <reflectionzeug/Property.h>
 #include <reflectionzeug/AccessorArrayValue.h>
 #include <reflectionzeug/StoredArrayValue.h>
-#include <reflectionzeug/PropertyVisitor.h>
 #include <reflectionzeug/util.h>
 #include <reflectionzeug/Variant.h>
-
 
 namespace reflectionzeug
 {
@@ -71,17 +69,6 @@ ArrayProperty<Type, Size>::~ArrayProperty()
 {
     for (Property<Type> * property : m_properties)
         delete property;
-}
-
-template <typename Type, size_t Size>
-void ArrayProperty<Type, Size>::accept(AbstractPropertyVisitor * visitor)
-{
-    auto * typedVisitor = dynamic_cast<PropertyVisitor<std::array<Type, Size>> *>(visitor);
-
-    if (typedVisitor == nullptr)
-        return AbstractValueProperty::accept(visitor);
-
-    typedVisitor->visit(reinterpret_cast<Property<std::array<Type, Size>> *>(this));
 }
 
 template <typename Type, size_t Size>

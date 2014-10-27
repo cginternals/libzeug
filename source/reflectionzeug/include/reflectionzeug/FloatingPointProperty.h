@@ -1,9 +1,8 @@
-
 #pragma once
 
 #include <reflectionzeug/NumberProperty.h>
 #include <reflectionzeug/FloatingPointPropertyInterface.h>
-
+#include <reflectionzeug/specialization_helpers.h>
 
 namespace reflectionzeug
 {
@@ -19,6 +18,9 @@ namespace reflectionzeug
 template <typename Type>
 class FloatingPointProperty : public FloatingPointPropertyInterface, public NumberProperty<Type>
 {
+public:
+    using Trait = isFloatingPoint<Type>;
+    
 public:
     template <typename... Arguments>
     FloatingPointProperty(Arguments&&... args);

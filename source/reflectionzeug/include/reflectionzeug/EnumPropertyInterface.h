@@ -1,4 +1,3 @@
-
 #pragma once
 
 #include <string>
@@ -6,7 +5,6 @@
 
 #include <reflectionzeug/reflectionzeug_api.h>
 #include <reflectionzeug/AbstractValueProperty.h>
-
 
 namespace reflectionzeug
 {
@@ -22,7 +20,6 @@ class REFLECTIONZEUG_API EnumPropertyInterface : public virtual AbstractValuePro
 {
 public:
     virtual void accept(AbstractPropertyVisitor * visitor);
-
 };
 
 } // namespace reflectionzeug

@@ -1,9 +1,7 @@
-
 #pragma once
 
 #include <reflectionzeug/reflectionzeug_api.h>
 #include <reflectionzeug/ValueProperty.h>
-
 
 namespace reflectionzeug
 {
@@ -15,6 +13,9 @@ namespace reflectionzeug
 class BoolProperty : public ValueProperty<bool>
 {
 public:
+    using Type = bool;
+    
+public:
     template <typename... Arguments>
     BoolProperty(Arguments&&... args);
 
@@ -22,7 +23,6 @@ public:
     REFLECTIONZEUG_API virtual bool fromString(const std::string & string);
 
     REFLECTIONZEUG_API void toggleValue();
-
 };
 
 } // namespace reflectionzeug

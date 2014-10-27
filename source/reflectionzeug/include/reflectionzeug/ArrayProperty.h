@@ -1,4 +1,3 @@
-
 #pragma once
 
 #include <type_traits>
@@ -59,8 +58,6 @@ public:
 
     virtual ~ArrayProperty() = 0;
 
-    virtual void accept(AbstractPropertyVisitor * visitor);
-
     virtual size_t type() const;
 
     virtual std::string toString() const;
@@ -96,7 +93,6 @@ private:
 private:
     std::unique_ptr<AbstractArrayValue<Type, Size>> m_array;
     std::array<Property<Type> *, Size> m_properties;
-
 };
 
 } // namespace reflectionzeug

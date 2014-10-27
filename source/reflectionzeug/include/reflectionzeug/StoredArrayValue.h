@@ -1,8 +1,6 @@
-
 #pragma once
 
 #include <reflectionzeug/AbstractArrayValue.h>
-
 
 namespace reflectionzeug
 {
@@ -24,7 +22,6 @@ public:
     
 private:
     std::array<Type, Size> m_array;
-    
 };
 
 } // namespace reflectionzeug

@@ -1,4 +1,3 @@
-
 #pragma once
 
 #include <memory>
@@ -7,7 +6,6 @@
 
 #include <reflectionzeug/reflectionzeug_api.h>
 #include <reflectionzeug/AbstractValueProperty.h>
-
 
 namespace reflectionzeug
 {
@@ -54,8 +52,6 @@ public:
 
     virtual Type value() const;
     virtual void setValue(const Type & value);
-
-    virtual void accept(AbstractPropertyVisitor * visitor);
 
     virtual size_t type() const;
 

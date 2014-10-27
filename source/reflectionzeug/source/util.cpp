@@ -1,3 +1,4 @@
+#include <reflectionzeug/util.h>
 
 #ifdef USE_STD_REGEX
     #include <regex>
@@ -12,8 +13,6 @@
 #include <cctype>
 #include <cassert>
 #include <algorithm>
-
-#include <reflectionzeug/util.h>
 
 namespace reflectionzeug
 {

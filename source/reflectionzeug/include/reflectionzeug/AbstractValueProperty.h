@@ -1,11 +1,9 @@
-
 #pragma once
 
 #include <signalzeug/Signal.h>
 
 #include <reflectionzeug/AbstractProperty.h>
 #include <reflectionzeug/AbstractPropertyVisitor.h>
-
 
 namespace reflectionzeug
 {
@@ -46,7 +44,6 @@ public:
     virtual bool fromVariant(const Variant & variant) = 0;
     
     signalzeug::Signal<> valueChanged;
-
 };
 
 } // namespace reflectionzeug

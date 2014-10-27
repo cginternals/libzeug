@@ -1,4 +1,3 @@
-
 #pragma once
 
 #include <reflectionzeug/ValueProperty.h>
@@ -9,7 +8,7 @@ namespace reflectionzeug
 /**
  * \brief An intermediate class for numeric property types.
  *
- * It sets two option in the constructor
+ * Two option are set in the constructor:
  * - minimum (Type): initialized to the lowest value of Type
  * - maximum (Type): initialized to the greates value of Type
  *

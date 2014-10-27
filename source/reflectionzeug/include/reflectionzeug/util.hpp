@@ -1,10 +1,8 @@
-
 #pragma once
 
 #include <reflectionzeug/util.h>
 
 #include <sstream>
-
 
 namespace reflectionzeug
 {

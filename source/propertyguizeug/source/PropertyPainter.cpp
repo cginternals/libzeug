@@ -33,24 +33,28 @@ void PropertyPainter::drawValue(QPainter * painter,
 
     property.accept(this);
 
-	if (!m_drawn)
-		this->drawString(QString::fromStdString(property.toString()));
+    if (!m_drawn)
+    {
+        std::string prefix = property.option<std::string>("prefix", "");
+        std::string suffix = property.option<std::string>("suffix", "");
+        this->drawString(QString::fromStdString(prefix + property.toString() + suffix));
+    }
 }
 
 void PropertyPainter::drawString(const QString & string)
 {
-	const QWidget * widget = m_option.widget;
-	QStyle * style = widget ? widget->style() : QApplication::style();
+    const QWidget * widget = m_option.widget;
+    QStyle * style = widget ? widget->style() : QApplication::style();
 
-	m_option.text = string;
-	style->drawControl(QStyle::CE_ItemViewItem, &m_option, m_painter, widget);
+    m_option.text = string;
+    style->drawControl(QStyle::CE_ItemViewItem, &m_option, m_painter, widget);
 }
 
 void PropertyPainter::drawItemViewBackground()
 {
-	const QWidget * widget = m_option.widget;
-	QStyle * style = widget ? widget->style() : QApplication::style();
-	style->drawControl(QStyle::CE_ItemViewItem, &m_option, m_painter, widget);
+    const QWidget * widget = m_option.widget;
+    QStyle * style = widget ? widget->style() : QApplication::style();
+    style->drawControl(QStyle::CE_ItemViewItem, &m_option, m_painter, widget);
 }
     
 void PropertyPainter::visit(reflectionzeug::AbstractValueProperty * property)
@@ -60,7 +64,7 @@ void PropertyPainter::visit(reflectionzeug::AbstractValueProperty * property)
 
 void PropertyPainter::visit(Property<bool> * property)
 {
-	this->drawItemViewBackground();
+    this->drawItemViewBackground();
 
     QStyleOptionButton opt;
     opt.state = property->value() ? QStyle::State_On : QStyle::State_Off;
@@ -68,8 +72,8 @@ void PropertyPainter::visit(Property<bool> * property)
     opt.rect = m_option.rect;
     opt.rect.setLeft(opt.rect.left()/* + PropertyEditor::s_horizontalMargin */);
 
-	const QWidget * widget = m_option.widget;
-	QStyle * style = widget ? widget->style() : QApplication::style();
+    const QWidget * widget = m_option.widget;
+    QStyle * style = widget ? widget->style() : QApplication::style();
     style->drawControl(QStyle::CE_CheckBox, &opt, m_painter, widget);
     
     m_drawn = true;
@@ -77,7 +81,7 @@ void PropertyPainter::visit(Property<bool> * property)
 
 void PropertyPainter::visit(Property<Color> * property)
 {
-	this->drawItemViewBackground();
+    this->drawItemViewBackground();
     
     const Color & color = property->value();
 
