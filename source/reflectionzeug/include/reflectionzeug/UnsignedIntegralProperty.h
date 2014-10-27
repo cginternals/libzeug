@@ -16,7 +16,7 @@ namespace reflectionzeug
  */
 template <typename Type>
 class UnsignedIntegralProperty : public UnsignedIntegralPropertyInterface, public NumberProperty<Type>
-{
+{    
 public:
     template <typename... Arguments>
     UnsignedIntegralProperty(Arguments&&... args);

@@ -22,12 +22,7 @@ SignedIntegralProperty<Type>::~SignedIntegralProperty()
 template <typename Type>
 void SignedIntegralProperty<Type>::accept(AbstractPropertyVisitor * visitor)
 {
-    auto * typedVisitor = visitor->asVisitor<Property<Type>>();
-    
-    if (typedVisitor == nullptr)
-        return SignedIntegralPropertyInterface::accept(visitor);
-    
-    typedVisitor->visit(reinterpret_cast<Property<Type> *>(this));
+    SignedIntegralPropertyInterface::accept(visitor);
 }
 
 template <typename Type>

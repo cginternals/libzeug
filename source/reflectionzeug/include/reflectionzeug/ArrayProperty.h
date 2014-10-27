@@ -58,8 +58,6 @@ public:
 
     virtual ~ArrayProperty() = 0;
 
-    virtual void accept(AbstractPropertyVisitor * visitor);
-
     virtual size_t type() const;
 
     virtual std::string toString() const;

@@ -16,6 +16,9 @@ namespace reflectionzeug
 class FilePathProperty : public ClassProperty<FilePath>
 {
 public:
+    using Type = FilePath;
+    
+public:
     template <typename... Arguments>
     FilePathProperty(Arguments&&... args);
 

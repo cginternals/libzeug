@@ -11,12 +11,7 @@ ColorProperty::~ColorProperty()
 
 void ColorProperty::accept(AbstractPropertyVisitor * visitor)
 {
-    auto * typedVisitor = visitor->asVisitor<Property<Color>>();
-    
-    if (typedVisitor == nullptr)
-        return ColorPropertyInterface::accept(visitor);
-    
-    typedVisitor->visit(reinterpret_cast<Property<Color> *>(this));
+    ColorPropertyInterface::accept(visitor);
 }
 
 Color ColorProperty::toColor() const

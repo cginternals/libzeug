@@ -11,12 +11,7 @@ StringProperty::~StringProperty()
 
 void StringProperty::accept(AbstractPropertyVisitor * visitor)
 {
-    auto * typedVisitor = visitor->asVisitor<Property<std::string>>();
-    
-    if (typedVisitor == nullptr)
-        return StringPropertyInterface::accept(visitor);
-    
-    typedVisitor->visit(reinterpret_cast<Property<std::string> *>(this));
+    StringPropertyInterface::accept(visitor);
 }
 
 std::string StringProperty::toString() const

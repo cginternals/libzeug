@@ -73,17 +73,6 @@ ArrayProperty<Type, Size>::~ArrayProperty()
 }
 
 template <typename Type, size_t Size>
-void ArrayProperty<Type, Size>::accept(AbstractPropertyVisitor * visitor)
-{
-    auto * typedVisitor = visitor->asVisitor<Property<std::array<Type, Size>>>();
-
-    if (typedVisitor == nullptr)
-        return AbstractValueProperty::accept(visitor);
-
-    typedVisitor->visit(reinterpret_cast<Property<std::array<Type, Size>> *>(this));
-}
-
-template <typename Type, size_t Size>
 size_t ArrayProperty<Type, Size>::stype()
 {
     static size_t type = typeid(std::array<Type, Size>).hash_code();

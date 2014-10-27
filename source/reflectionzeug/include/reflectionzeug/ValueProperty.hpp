@@ -80,17 +80,6 @@ void ValueProperty<Type>::setValue(const Type & value)
 }
 
 template <typename Type>
-void ValueProperty<Type>::accept(AbstractPropertyVisitor * visitor)
-{
-    auto * typedVisitor = visitor->asVisitor<Property<Type>>();
-
-    if (typedVisitor == nullptr)
-        return AbstractValueProperty::accept(visitor);
-
-    typedVisitor->visit(reinterpret_cast<Property<Type> *>(this));
-}
-
-template <typename Type>
 size_t ValueProperty<Type>::stype()
 {
     static size_t type = typeid(Type).hash_code();
