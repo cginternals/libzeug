@@ -8,6 +8,7 @@
 
 #include <reflectionzeug/EnumPropertyInterface.h>
 #include <reflectionzeug/ValueProperty.h>
+#include <reflectionzeug/specialization_helpers.h>
 
 namespace reflectionzeug
 {

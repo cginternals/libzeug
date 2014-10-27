@@ -13,10 +13,6 @@
 #include <reflectionzeug/ArrayProperty.h>
 #include <reflectionzeug/EnumProperty.h>
 
-#include <reflectionzeug/Color.h>
-
-#include <reflectionzeug/specialization_helpers.h>
-
 /** 
  * \defgroup property_specializations Property Specializations
  * \brief All possible template specializations of Property
