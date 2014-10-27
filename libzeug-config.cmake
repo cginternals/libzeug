@@ -34,6 +34,11 @@
 # LIBZEUG_SCRIPT_LIBRARY_DEBUG
 # LIBZEUG_SCRIPT_INCLUDE_DIR
 
+# LIBZEUG_LOGGING_LIBRARY
+# LIBZEUG_LOGGING_LIBRARY_RELEASE
+# LIBZEUG_LOGGING_LIBRARY_DEBUG
+# LIBZEUG_LOGGING_INCLUDE_DIR
+
 
 
 include(FindPackageHandleStandardArgs)
@@ -116,6 +121,7 @@ find(propertygui propertyguizeug/propertyguizeug_api.h ${LIB_PATHS})
 find(io          iozeug/iozeug_api.h                   ${LIB_PATHS})
 find(threading   threadingzeug/threadingzeug_api.h     ${LIB_PATHS})
 find(script      scriptzeug/scriptzeug_api.h           ${LIB_PATHS})
+find(logging     loggingzeug/loggingzeug_api.h         ${LIB_PATHS})
 
 # DEBUG
 #message("LIBZEUG_INCLUDES  = ${LIBZEUG_INCLUDES}")
