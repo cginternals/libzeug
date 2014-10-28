@@ -1,14 +1,15 @@
 #pragma once
 
-#include <reflectionzeug/Property.h>
+#include <sstream>
+#include <type_traits>
 
 #include <glm/glm.hpp>
 #include <glm/gtc/type_ptr.hpp>
 
-#include <sstream>
-#include <type_traits>
+#include <reflectionzeug/Property.h>
 
-namespace {
+namespace 
+{
 
 template <typename T, unsigned Count>
 std::string toString(const T * data)
@@ -60,20 +61,20 @@ bool fromString(const std::string & string, T * data)
     return true;
 }
 
-}
-
-namespace reflectionzeug {
-
-template <>
-class Property<glm::vec2> : public ValueProperty<glm::vec2>
+class Vec2Property : public reflectionzeug::ValueProperty<glm::vec2>
 {
 public:
-    template <typename... Args>
-    Property(const std::string & name, Args&&... args) :
-        AbstractProperty(name),
-        ValueProperty<glm::vec2>(std::forward<Args>(args)...) {}
+    using Type = glm::vec2;
+    
+public:
+    template <typename... Arguments>
+    Vec2Property::Vec2Property(Arguments&&... args)
+    :   ValueProperty<glm::vec2>(std::forward<Arguments>(args)...) {}
 
-    virtual std::string toString() const override { return ::toString<glm::vec2::value_type, 2u>(glm::value_ptr(this->value())); }
+    virtual std::string toString() const override 
+    {
+        return ::toString<glm::vec2::value_type, 2>(glm::value_ptr(this->value())); 
+    }
 
     virtual bool fromString(const std::string & string) override
     {
@@ -87,15 +88,20 @@ public:
 };
 
 template <>
-class Property<glm::ivec2> : public ValueProperty<glm::ivec2>
+class IVec2Property : public reflectionzeug::ValueProperty<glm::ivec2>
 {
 public:
-    template <typename... Args>
-    Property(const std::string & name, Args&&... args) :
-        AbstractProperty(name),
-        ValueProperty<glm::ivec2>(std::forward<Args>(args)...) {}
+    using Type = glm::ivec2;
+    
+public:
+    template <typename... Arguments>
+    IVec2Property::IVec2Property(Arguments&&... args)
+    :   ValueProperty<glm::ivec2>(std::forward<Arguments>(args)...) {}
 
-    virtual std::string toString() const override { return ::toString<glm::ivec2::value_type, 2>(glm::value_ptr(value())); }
+    virtual std::string toString() const override 
+    { 
+        return ::toString<glm::ivec2::value_type, 2>(glm::value_ptr(value())); 
+    }
 
     virtual bool fromString(const std::string & string) override
     {
@@ -109,15 +115,20 @@ public:
 };
 
 template <>
-class Property<glm::vec3> : public ValueProperty<glm::vec3>
+class Vec3Property : public ValueProperty<glm::vec3>
 {
 public:
-    template <typename... Args>
-    Property(const std::string & name, Args&&... args) :
-        AbstractProperty(name),
-        ValueProperty<glm::vec3>(std::forward<Args>(args)...) {}
+    using Type = glm::vec3;
+    
+public:
+    template <typename... Arguments>
+    Vec3Property::Vec3Property(Arguments&&... args)
+    :   ValueProperty<glm::vec3>(std::forward<Arguments>(args)...) {}
 
-    virtual std::string toString() const override { return ::toString<glm::vec3::value_type, 3>(glm::value_ptr(value())); }
+    virtual std::string toString() const override 
+    { 
+        return ::toString<glm::vec3::value_type, 3>(glm::value_ptr(value()));
+    }
 
     virtual bool fromString(const std::string & string) override
     {
@@ -131,15 +142,20 @@ public:
 };
 
 template <>
-class Property<glm::vec4> : public ValueProperty<glm::vec4>
+class Vec4Property : public ValueProperty<glm::vec4>
 {
 public:
-    template <typename... Args>
-    Property(const std::string & name, Args&&... args) :
-        AbstractProperty(name),
-        ValueProperty<glm::vec4>(std::forward<Args>(args)...) {}
+    using Type = glm::vec4;
+    
+public:
+    template <typename... Arguments>
+    Vec4Property::Vec4Property(Arguments&&... args)
+    :   ValueProperty<glm::vec4>(std::forward<Arguments>(args)...) {}
 
-    virtual std::string toString() const override { return ::toString<glm::vec4::value_type, 4>(glm::value_ptr(value())); }
+    virtual std::string toString() const override 
+    { 
+        return ::toString<glm::vec4::value_type, 4>(glm::value_ptr(value())); 
+    }
 
     virtual bool fromString(const std::string & string) override
     {
@@ -152,4 +168,9 @@ public:
     }
 };
 
-}
+} // namespace
+
+P_PROPERTY_SPEC_SINGLE(Vec2Property)
+P_PROPERTY_SPEC_SINGLE(IVec2Property)
+P_PROPERTY_SPEC_SINGLE(Vec3Property)
+P_PROPERTY_SPEC_SINGLE(Vec4Property)

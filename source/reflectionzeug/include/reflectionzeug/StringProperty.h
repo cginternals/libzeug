@@ -14,6 +14,9 @@ namespace reflectionzeug
 class StringProperty : public StringPropertyInterface, public ValueProperty<std::string>
 {
 public:
+    using Type = std::string;
+    
+public:
     template <typename... Arguments>
     StringProperty(Arguments&&... args);
     

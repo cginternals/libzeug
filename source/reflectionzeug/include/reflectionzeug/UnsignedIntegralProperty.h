@@ -2,6 +2,7 @@
 
 #include <reflectionzeug/NumberProperty.h>
 #include <reflectionzeug/UnsignedIntegralPropertyInterface.h>
+#include <reflectionzeug/specialization_helpers.h>
 
 namespace reflectionzeug
 {
@@ -16,7 +17,10 @@ namespace reflectionzeug
  */
 template <typename Type>
 class UnsignedIntegralProperty : public UnsignedIntegralPropertyInterface, public NumberProperty<Type>
-{
+{    
+public:
+    using Trait = isUnsignedIntegral<Type>;
+    
 public:
     template <typename... Arguments>
     UnsignedIntegralProperty(Arguments&&... args);

@@ -71,6 +71,7 @@ set(headers
     ${header_path}/AbstractProperty.hpp
     ${header_path}/AbstractPropertyCollection.h
     ${header_path}/AbstractPropertyVisitor.h
+    ${header_path}/AbstractPropertyVisitor.hpp
     ${header_path}/AbstractValue.h
     ${header_path}/AbstractValueProperty.h
     ${header_path}/AccessorArrayValue.h
@@ -101,7 +102,6 @@ set(headers
     ${header_path}/NumberProperty.hpp
     ${header_path}/Object.h
     ${header_path}/Property.h
-    ${header_path}/PropertyCategoryVisitor.h
     ${header_path}/PropertyDeserializer.h
     ${header_path}/PropertyGroup.h
     ${header_path}/PropertyGroup.hpp

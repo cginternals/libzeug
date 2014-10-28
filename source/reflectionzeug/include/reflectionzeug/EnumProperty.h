@@ -2,10 +2,13 @@
 
 #include <utility>
 #include <map>
+#include <type_traits>
 #include <vector>
+
 
 #include <reflectionzeug/EnumPropertyInterface.h>
 #include <reflectionzeug/ValueProperty.h>
+#include <reflectionzeug/specialization_helpers.h>
 
 namespace reflectionzeug
 {
@@ -21,6 +24,9 @@ namespace reflectionzeug
 template <typename Enum>
 class EnumProperty : public EnumPropertyInterface, public ValueProperty<Enum>
 {
+public:
+    using Trait = std::is_enum<Enum>;
+    
 public:
     template <typename... Arguments>
     EnumProperty(Arguments&&... args);
