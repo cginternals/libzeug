@@ -167,6 +167,11 @@ static Local<Value> toV8Value(Isolate *isolate, const Variant &arg)
         value = v;
     }
 
+    else if (arg.hasType<float>()) {
+        Local<Number> v = Number::New(isolate, arg.value<float>());
+        value = v;
+    }
+
     else if (arg.hasType<bool>()) {
         Local<Boolean> v = Boolean::New(isolate, arg.value<bool>());
         value = v;
