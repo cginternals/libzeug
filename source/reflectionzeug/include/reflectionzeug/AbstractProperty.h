@@ -1,7 +1,5 @@
-
 #pragma once
 
-#include <assert.h>
 #include <string>
 #include <set>
 
@@ -29,7 +27,8 @@ class REFLECTIONZEUG_API AbstractProperty
 {
 public:
     static const std::string s_nameRegexString;
-    
+
+public:
     AbstractProperty();
     AbstractProperty(const std::string & name);
     
@@ -41,16 +40,26 @@ public:
     std::string name() const;
     bool setName(const std::string & name);
     bool hasName() const;
-
-    bool hasOption(const std::string & key) const;
-    Variant option(const std::string & key) const;
+    
+    /**
+     * \name Additional meta informations 
+     * Add additional meta information to your properties.
+     * Use options to add, e.g., minimum and maximum values, 
+     * affixes or flags. These can be used to configure editor widgets.
+     */
+    /** \{ */
+    
     template <typename T>
     T option(const std::string & key, const T & defaultValue) const;
-    void setOption(const std::string & key, const Variant & value);
-    bool removeOption(const std::string & key);
     
+    Variant option(const std::string & key) const;
+    void setOption(const std::string & key, const Variant & value);
     void setOptions(const VariantMap & map);
-
+    bool removeOption(const std::string & key);
+    bool hasOption(const std::string & key) const;
+    
+    /** \} */
+    
     /**
      * \name Convenience casting methods
      * Use them, when you need to cast to sub classes.
@@ -78,9 +87,10 @@ public:
     virtual bool isGroup() const;
     
     /** \} */
-private:
-    VariantMap m_options;
     
+private:
+    std::string m_name;
+    VariantMap m_options;
 };
     
 } // namespace reflectionzeug

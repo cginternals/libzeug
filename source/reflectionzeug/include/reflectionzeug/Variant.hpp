@@ -1,4 +1,3 @@
-
 #pragma once
 
 #include <reflectionzeug/Variant.h>
@@ -7,7 +6,6 @@
 
 #include <reflectionzeug/VariantHolder.h>
 #include <reflectionzeug/VariantConverterRegistry.h>
-
 
 namespace reflectionzeug
 {

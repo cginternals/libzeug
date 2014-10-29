@@ -13,7 +13,6 @@
 #include <reflectionzeug/util.h>
 #include <reflectionzeug/Variant.h>
 
-
 namespace reflectionzeug
 {
 

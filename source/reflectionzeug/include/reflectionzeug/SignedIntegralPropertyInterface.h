@@ -1,9 +1,7 @@
-
 #pragma once
 
 #include <reflectionzeug/reflectionzeug_api.h>
 #include <reflectionzeug/AbstractValueProperty.h>
-
 
 namespace reflectionzeug
 {
@@ -22,7 +20,6 @@ public:
 
     virtual long long toLongLong() const = 0;
     virtual bool fromLongLong(long long integral) = 0;
-
 };
 
 } // namespace reflectionzeug

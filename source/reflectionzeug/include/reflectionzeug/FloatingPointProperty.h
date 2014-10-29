@@ -1,9 +1,7 @@
-
 #pragma once
 
 #include <reflectionzeug/NumberProperty.h>
 #include <reflectionzeug/FloatingPointPropertyInterface.h>
-
 
 namespace reflectionzeug
 {

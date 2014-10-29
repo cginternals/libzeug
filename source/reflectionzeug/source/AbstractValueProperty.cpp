@@ -1,10 +1,9 @@
+#include <reflectionzeug/AbstractValueProperty.h>
 
 #include <typeinfo>
 #include <iostream>
 
-#include <reflectionzeug/AbstractValueProperty.h>
 #include <reflectionzeug/PropertyCategoryVisitor.h>
-
 
 namespace reflectionzeug
 {

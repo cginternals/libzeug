@@ -1,11 +1,9 @@
-
 #pragma once
 
 #include <string>
 #include <vector>
 
 #include <reflectionzeug/reflectionzeug_api.h>
-
 
 namespace reflectionzeug
 {

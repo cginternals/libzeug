@@ -1,9 +1,7 @@
-
 #pragma once
 
 #include <reflectionzeug/reflectionzeug_api.h>
 #include <reflectionzeug/ValueProperty.h>
-
 
 namespace reflectionzeug
 {
@@ -22,7 +20,6 @@ public:
     REFLECTIONZEUG_API virtual bool fromString(const std::string & string);
 
     REFLECTIONZEUG_API void toggleValue();
-
 };
 
 } // namespace reflectionzeug

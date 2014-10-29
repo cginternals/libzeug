@@ -1,6 +1,4 @@
-
 #include <reflectionzeug/Variant.h>
-
 
 namespace reflectionzeug
 {

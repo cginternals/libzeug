@@ -1,6 +1,6 @@
+#include <reflectionzeug/FloatingPointPropertyInterface.h>
 
 #include <reflectionzeug/PropertyCategoryVisitor.h>
-#include <reflectionzeug/FloatingPointPropertyInterface.h>
 
 namespace reflectionzeug
 {

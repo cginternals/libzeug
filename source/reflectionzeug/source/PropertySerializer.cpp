@@ -1,3 +1,4 @@
+#include <reflectionzeug/PropertySerializer.h>
 
 #include <sstream>
 #include <iostream>
@@ -7,8 +8,6 @@
 #include <reflectionzeug/AbstractValueProperty.h>
 #include <reflectionzeug/PropertyGroup.h>
 #include <reflectionzeug/util.h>
-
-#include <reflectionzeug/PropertySerializer.h>
 
 using namespace loggingzeug;
 

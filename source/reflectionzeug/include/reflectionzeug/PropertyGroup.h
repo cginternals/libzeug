@@ -1,4 +1,3 @@
-
 #pragma once
 
 #include <vector>
@@ -9,7 +8,6 @@
 #include <reflectionzeug/reflectionzeug_api.h>
 #include <reflectionzeug/property_declaration.h>
 #include <reflectionzeug/AbstractPropertyCollection.h>
-
 
 namespace reflectionzeug
 {

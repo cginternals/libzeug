@@ -1,9 +1,7 @@
-
 #pragma once
 
 #include <reflectionzeug/AbstractPropertyVisitor.h>
 #include <reflectionzeug/property_declaration.h>
-
 
 namespace reflectionzeug
 {
@@ -37,7 +35,6 @@ class PropertyCategoryVisitor<PropertyCategory> : public virtual AbstractPropert
 {
 public:
     virtual void visit(PropertyCategory * property) = 0;
-    
 };
 
 } // namespace reflectionzeug

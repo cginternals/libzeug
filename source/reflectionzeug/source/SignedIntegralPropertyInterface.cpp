@@ -1,6 +1,6 @@
+#include <reflectionzeug/SignedIntegralPropertyInterface.h>
 
 #include <reflectionzeug/PropertyCategoryVisitor.h>
-#include <reflectionzeug/SignedIntegralPropertyInterface.h>
 
 namespace reflectionzeug
 {
