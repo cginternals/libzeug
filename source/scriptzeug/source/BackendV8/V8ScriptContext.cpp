@@ -83,6 +83,12 @@ static Variant fromV8Value(Isolate *isolate, Local<Value> arg)
 {
     // Function
     if (arg->IsFunction()) { // Remember: A function is also an object, so check for functions first
+        // [TODO] This produces a memory leak, since the pointer to the function object will never be deleted.
+        //        A solution would be to wrap a ref_ptr into the variant, but since there are also function objects
+        //        which are not memory-managed (e.g., a C-function that has been passed to the scripting engine),
+        //        it would be hard to determine the right use of function-variants.
+        //        The script context could of course manage a list of created functions an delete them on destruction,
+        //        but that would not solve the problem of "memory leak" while the program is running.
         Handle<v8::Function> func = v8::Handle<v8::Function>::Cast(arg);
         JSScriptFunction *function = new JSScriptFunction(isolate, func);
         return Variant::fromValue<AbstractFunction *>(function);
