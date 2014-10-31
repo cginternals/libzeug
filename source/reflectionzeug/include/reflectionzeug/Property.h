@@ -106,7 +106,7 @@ struct PropertyClass<T, EnableIf<typename EnumProperty<T>::Trait>>
 template <typename Type>
 class Property : public PropertyClass<Type>::Type
 {
-    static_assert(std::is_base_of<AbstractProperty, typename PropertyClass<Type>::Type>::value,
+    static_assert(std::is_base_of<AbstractValueProperty, typename PropertyClass<Type>::Type>::value,
                   "Super class must inherit from AbstractValueProperty");
 
 public:
