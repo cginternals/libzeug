@@ -2,6 +2,7 @@
 
 #include <reflectionzeug/property_declaration.h>
 
+#include <reflectionzeug/AbstractValueProperty.h>
 #include <reflectionzeug/BoolProperty.h>
 #include <reflectionzeug/ClassProperty.h>
 #include <reflectionzeug/ColorProperty.h>
@@ -48,113 +49,87 @@
 namespace reflectionzeug
 {
 
-template <typename Type, typename>
-class Property : public ClassProperty<Type>
+template <typename T, typename = void>
+struct PropertyClass
 {
-public:
-    template <typename... Args>
-    Property(const std::string & name, Args&&... args) : 
-        AbstractProperty(name),
-        ClassProperty<Type>(std::forward<Args>(args)...) {}
+    using Type = ClassProperty<T>;
+};
 
-    virtual void accept(AbstractPropertyVisitor * visitor)
-    {
-        auto * typedVisitor = visitor->asVisitor<Property<Type>>();
+template <>
+struct PropertyClass<typename BoolProperty::Type>
+{
+    using Type = BoolProperty;
+};
 
-        if (typedVisitor == nullptr)
-            return ClassProperty<Type>::accept(visitor);
+template <>
+struct PropertyClass<typename StringProperty::Type>
+{
+    using Type = StringProperty;
+};
 
-        typedVisitor->visit(this);
-    }
+template <>
+struct PropertyClass<typename FilePathProperty::Type>
+{
+    using Type = FilePathProperty;
+};
+
+template <typename T>
+struct PropertyClass<T, EnableIf<isArray<T>>>
+{
+    using Type = ArrayProperty<typename T::value_type, std::tuple_size<T>::value>;
+};
+
+template <typename T>
+struct PropertyClass<T, EnableIf<typename UnsignedIntegralProperty<T>::Trait>>
+{
+    using Type = UnsignedIntegralProperty<T>;
+};
+
+template <typename T>
+struct PropertyClass<T, EnableIf<typename SignedIntegralProperty<T>::Trait>>
+{
+    using Type = SignedIntegralProperty<T>;
+};
+
+template <typename T>
+struct PropertyClass<T, EnableIf<typename FloatingPointProperty<T>::Trait>>
+{
+    using Type = FloatingPointProperty<T>;
+};
+
+template <typename T>
+struct PropertyClass<T, EnableIf<typename EnumProperty<T>::Trait>>
+{
+    using Type = EnumProperty<T>;
 };
 
 template <typename Type>
-class Property<Type, EnableIf<isArray<Type>>> : public ArrayProperty<typename Type::value_type, std::tuple_size<Type>::value>
+class Property : public PropertyClass<Type>::Type
 {
+    static_assert(std::is_base_of<AbstractProperty, typename PropertyClass<Type>::Type>::value,
+                  "Super class must inherit from AbstractValueProperty");
+
 public:
-    using SuperClass = ArrayProperty<typename Type::value_type, std::tuple_size<Type>::value>;
-public:
-    Property(const std::string & name, const Type & array) :
+    Property(const std::string & name, const Type & value) :
         AbstractProperty(name),
-        ArrayProperty<typename Type::value_type, std::tuple_size<Type>::value>(array) {}
-    
+        PropertyClass<Type>::Type(value) {}
+
     template <typename... Args>
     Property(const std::string & name, Args&&... args) : 
         AbstractProperty(name),
-        SuperClass(std::forward<Args>(args)...) {}
+        PropertyClass<Type>::Type(std::forward<Args>(args)...) {}
 
     virtual void accept(AbstractPropertyVisitor * visitor)
     {
         auto * typedVisitor = visitor->asVisitor<Property<Type>>();
 
         if (typedVisitor == nullptr)
-            return SuperClass::accept(visitor);
+            return PropertyClass<Type>::Type::accept(visitor);
 
         typedVisitor->visit(this);
     }
 };
 
 } // namespace reflectionzeug
-
-#define P_PROPERTY_SPEC_SINGLE(PropertyType) \
-    namespace reflectionzeug \
-    { \
-    template <> \
-    class Property<typename PropertyType::Type> : public PropertyType \
-    { \
-    public: \
-        using Type = typename PropertyType::Type; \
-    \
-    public: \
-        template <typename... Args> \
-        Property(const std::string & name, Args&&... args) : \
-            AbstractProperty(name), \
-            PropertyType(std::forward<Args>(args)...) {} \
-    \
-        virtual void accept(AbstractPropertyVisitor * visitor) \
-        { \
-            auto * typedVisitor = visitor->asVisitor<Property<Type>>(); \
-    \
-            if (typedVisitor == nullptr) \
-                return PropertyType::accept(visitor); \
-    \
-            typedVisitor->visit(this); \
-        } \
-    }; \
-    }
-    
-#define P_PROPERTY_SPEC_MULTIPLE(PropertyType) \
-    namespace reflectionzeug \
-    { \
-    template <typename Type> \
-    class Property<Type, EnableIf<typename PropertyType<Type>::Trait>> : public PropertyType<Type> \
-    { \
-    public: \
-        template <typename... Args> \
-        Property(const std::string & name, Args&&... args) : \
-            AbstractProperty(name), \
-            PropertyType<Type>(std::forward<Args>(args)...) {} \
-    \
-        virtual void accept(AbstractPropertyVisitor * visitor) \
-        { \
-            auto * typedVisitor = visitor->asVisitor<Property<Type>>(); \
-    \
-            if (typedVisitor == nullptr) \
-                return PropertyType<Type>::accept(visitor); \
-    \
-            typedVisitor->visit(this); \
-        } \
-    }; \
-    }
-    
-P_PROPERTY_SPEC_SINGLE(reflectionzeug::BoolProperty)
-P_PROPERTY_SPEC_SINGLE(reflectionzeug::StringProperty)
-P_PROPERTY_SPEC_SINGLE(reflectionzeug::ColorProperty)
-P_PROPERTY_SPEC_SINGLE(reflectionzeug::FilePathProperty)
-
-P_PROPERTY_SPEC_MULTIPLE(reflectionzeug::UnsignedIntegralProperty)
-P_PROPERTY_SPEC_MULTIPLE(reflectionzeug::SignedIntegralProperty)
-P_PROPERTY_SPEC_MULTIPLE(reflectionzeug::FloatingPointProperty)
-P_PROPERTY_SPEC_MULTIPLE(reflectionzeug::EnumProperty)
 
 /** \} */
