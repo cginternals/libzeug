@@ -56,19 +56,25 @@ struct PropertyClass
 };
 
 template <>
-struct PropertyClass<typename BoolProperty::Type>
+struct PropertyClass<BoolProperty::Type>
 {
     using Type = BoolProperty;
 };
 
 template <>
-struct PropertyClass<typename StringProperty::Type>
+struct PropertyClass<ColorProperty::Type>
+{
+	using Type = ColorProperty;
+};
+
+template <>
+struct PropertyClass<StringProperty::Type>
 {
     using Type = StringProperty;
 };
 
 template <>
-struct PropertyClass<typename FilePathProperty::Type>
+struct PropertyClass<FilePathProperty::Type>
 {
     using Type = FilePathProperty;
 };
@@ -80,27 +86,27 @@ struct PropertyClass<T, EnableIf<isArray<T>>>
 };
 
 template <typename T>
-struct PropertyClass<T, EnableIf<typename UnsignedIntegralProperty<T>::Trait>>
+struct PropertyClass<T, EnableIf<std::is_enum<T>>>
+{
+	using Type = EnumProperty<T>;
+};
+
+template <typename T>
+struct PropertyClass<T, EnableIf<isUnsignedIntegral<T>>>
 {
     using Type = UnsignedIntegralProperty<T>;
 };
 
 template <typename T>
-struct PropertyClass<T, EnableIf<typename SignedIntegralProperty<T>::Trait>>
+struct PropertyClass<T, EnableIf<isSignedIntegral<T>>>
 {
     using Type = SignedIntegralProperty<T>;
 };
 
 template <typename T>
-struct PropertyClass<T, EnableIf<typename FloatingPointProperty<T>::Trait>>
+struct PropertyClass<T, EnableIf<isFloatingPoint<T>>>
 {
     using Type = FloatingPointProperty<T>;
-};
-
-template <typename T>
-struct PropertyClass<T, EnableIf<typename EnumProperty<T>::Trait>>
-{
-    using Type = EnumProperty<T>;
 };
 
 template <typename Type>
