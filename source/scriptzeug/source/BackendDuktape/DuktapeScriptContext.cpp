@@ -47,7 +47,7 @@ public:
         duk_call(m_context, args.size());
 
         Variant value = fromDukValue(m_context, -1);
-        duk_pop(m_context);
+        duk_pop_2(m_context);
         return value;
     }
 
