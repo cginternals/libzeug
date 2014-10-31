@@ -2,7 +2,7 @@
 #include <scriptzeug/Backend/AbstractScriptContext.h>
 #include "BackendDuktape/DuktapeScriptContext.h"
 #ifdef LIBZEUG_USE_V8
-    #include "BackendJavaScript/JSScriptContext.h"
+    #include "BackendV8/V8ScriptContext.h"
 #endif
 
 
@@ -26,7 +26,7 @@ ScriptContext::ScriptContext(const std::string & backend)
     // V8
 #ifdef LIBZEUG_USE_V8
     else if (backend == "v8") {
-        m_backend = new JSScriptContext(this);
+        m_backend = new V8ScriptContext(this);
     }
 #endif
 }

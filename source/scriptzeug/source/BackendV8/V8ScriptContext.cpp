@@ -3,7 +3,7 @@
 #include <reflectionzeug/Variant.h>
 #include <reflectionzeug/Function.h>
 #include "scriptzeug/ScriptContext.h"
-#include "BackendJavaScript/JSScriptContext.h"
+#include "BackendV8/V8ScriptContext.h"
 
 
 using namespace v8;
@@ -411,7 +411,7 @@ static void setProperty(Local<String> propertyName, Local<Value> value, const Pr
 }
 
 
-JSScriptContext::JSScriptContext(ScriptContext *scriptContext)
+V8ScriptContext::V8ScriptContext(ScriptContext *scriptContext)
 : AbstractScriptContext(scriptContext)
 , m_isolate(nullptr)
 {
@@ -431,7 +431,7 @@ JSScriptContext::JSScriptContext(ScriptContext *scriptContext)
     m_context.Reset(m_isolate, context);
 }
 
-JSScriptContext::~JSScriptContext()
+V8ScriptContext::~V8ScriptContext()
 {
     // Destroy global context
     m_context.Reset();
@@ -440,7 +440,7 @@ JSScriptContext::~JSScriptContext()
 
 }
 
-void JSScriptContext::registerObject(PropertyGroup * obj)
+void V8ScriptContext::registerObject(PropertyGroup * obj)
 {
     // Enter scope
     Locker locker(m_isolate);
@@ -455,7 +455,7 @@ void JSScriptContext::registerObject(PropertyGroup * obj)
     registerObj(global, obj);
 }
 
-Variant JSScriptContext::evaluate(const std::string & code)
+Variant V8ScriptContext::evaluate(const std::string & code)
 {
     // Enter scope
     Locker locker(m_isolate);
@@ -480,7 +480,7 @@ Variant JSScriptContext::evaluate(const std::string & code)
     } else return fromV8Value(m_isolate, result);
 }
 
-void JSScriptContext::registerObj(Handle<v8::Object> parent, PropertyGroup * obj)
+void V8ScriptContext::registerObj(Handle<v8::Object> parent, PropertyGroup * obj)
 {
     // Create object template
     Handle<ObjectTemplate> templ = ObjectTemplate::New();

@@ -7,7 +7,7 @@ message(STATUS "Lib ${target}")
 #
 
 find_package(V8)
-option(LIBZEUG_USE_V8 "Use V8 for JavaScript backend" ${V8_FOUND})
+option(LIBZEUG_USE_V8 "Compile V8 JavaScript backend" ${V8_FOUND})
 
 #
 # Includes
@@ -80,10 +80,10 @@ set(sources
 
 if (LIBZEUG_USE_V8 AND V8_FOUND)
     set(sources ${sources}
-        ${source_path}/BackendJavaScript/JSScriptContext.cpp
+        ${source_path}/BackendV8/V8ScriptContext.cpp
     )
     set(headers ${headers}
-        ${source_path}/BackendJavaScript/JSScriptContext.h
+        ${source_path}/BackendV8/V8ScriptContext.h
     )
 endif()
 
