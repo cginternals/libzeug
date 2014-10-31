@@ -2,7 +2,6 @@
 
 #include <reflectionzeug/NumberProperty.h>
 #include <reflectionzeug/SignedIntegralPropertyInterface.h>
-#include <reflectionzeug/specialization_helpers.h>
 
 namespace reflectionzeug
 {
@@ -18,9 +17,6 @@ namespace reflectionzeug
 template <typename Type>
 class SignedIntegralProperty : public SignedIntegralPropertyInterface, public NumberProperty<Type>
 {
-public:
-    using Trait = isSignedIntegral<Type>;
-    
 public:
     template <typename... Arguments>
     SignedIntegralProperty(Arguments&&... args);
