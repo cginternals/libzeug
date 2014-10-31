@@ -2,7 +2,6 @@
 
 #include <utility>
 #include <map>
-#include <type_traits>
 #include <vector>
 
 #include <reflectionzeug/EnumPropertyInterface.h>
