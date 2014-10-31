@@ -201,6 +201,10 @@ static void pushToDukStack(duk_context * context, const Variant & var)
         duk_push_number(context, var.value<double>());
     }
 
+    else if (var.canConvert<int>()) {
+        duk_push_number(context, var.value<int>());
+    }
+
     else if (var.canConvert<std::string>()) {
         duk_push_string(context, var.value<std::string>().c_str());
     }
