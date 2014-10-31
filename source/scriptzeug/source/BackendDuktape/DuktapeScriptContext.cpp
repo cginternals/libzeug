@@ -6,19 +6,92 @@
 #include "BackendDuktape/DuktapeScriptContext.h"
 
 
+static const char * c_duktapeFunctionPointerKey = "function_pointer";
+static const char * c_duktapeStashFreeFunctionIndexKey = "duktape_next_function_index";
+
+
 using namespace reflectionzeug;
 namespace scriptzeug
 {
 
 
+static Variant fromDukValue(duk_context * context, duk_idx_t index);
+static void pushToDukStack(duk_context * context, const Variant & var);
+
+
+class DuktapeFunction : public reflectionzeug::AbstractFunction
+{
+public:
+    DuktapeFunction(duk_context * context, int funcIndex)
+    : AbstractFunction("")
+    , m_context(context)
+    , m_duktapeStashIndex(funcIndex)
+    {
+    }
+
+    virtual AbstractFunction *clone()
+    {
+        return new DuktapeFunction(m_context, m_duktapeStashIndex);
+    }
+
+    virtual Variant call(const std::vector<Variant> & args)
+    {
+        duk_push_global_stash(m_context);
+        duk_get_prop_index(m_context, -1, m_duktapeStashIndex);
+
+        for (Variant var : args)
+        {
+            pushToDukStack(m_context, var);
+        }
+
+        duk_call(m_context, args.size());
+
+        Variant value = fromDukValue(m_context, -1);
+        duk_pop(m_context);
+        return value;
+    }
+
+protected:
+    duk_context *   m_context;
+    int             m_duktapeStashIndex;
+};
+
+
 static Variant fromDukValue(duk_context * context, duk_idx_t index = -1)
 {
-    // Function
+    // Duktape/C function
     if (duk_is_c_function(context, index)) {
-        duk_get_prop_string(context, index, "function_pointer");
+        duk_get_prop_string(context, index, c_duktapeFunctionPointerKey);
         AbstractFunction * funcptr = static_cast<AbstractFunction *>(duk_get_pointer(context, -1));
         duk_pop(context);
         return Variant::fromValue<AbstractFunction *>(funcptr);
+    }
+
+    // Ecmascript function - will be stored in global stash for access from C++ later.
+    if (duk_is_ecmascript_function(context, index)) {
+        // Global stash - Only accessible from C/C++ code, not visible from Ecmascript environment.
+        duk_push_global_stash(context);
+
+        // Get next free index for function objects in global stash
+        if (!duk_get_prop_string(context, -1, c_duktapeStashFreeFunctionIndexKey))
+        {
+            duk_pop(context); // Pop 'undefined' from the stack that was pushed automatically
+            duk_push_int(context, 0);
+        }
+
+        int funcIndex = duk_get_int(context, -1);
+
+        // Update index for function objects storage in global stash
+        duk_push_int(context, funcIndex+1);
+        duk_put_prop_string(context, -3, c_duktapeStashFreeFunctionIndexKey);
+
+        // Copy function object to the top and put it as property into global stash
+        duk_dup(context, -3);
+        duk_put_prop(context, -3);
+        duk_pop(context);
+
+        DuktapeFunction *function = new DuktapeFunction(context, funcIndex);
+        return Variant::fromValue<AbstractFunction *>(function);
     }
 
     // Number
@@ -66,6 +139,15 @@ static Variant fromDukValue(duk_context * context, duk_idx_t index = -1)
     }
 
     // Undefined
+    else if (duk_is_undefined(context, index)) {
+        return Variant();
+    }
+
+    std::cerr << "Unknown type found: " << duk_get_type(context, index) << std::endl;
+    std::cerr << "Duktape stack dump:" << std::endl;
+    duk_dump_context_stderr(context);
+
+    // Unknown
     return Variant();
 }
 
@@ -179,7 +261,6 @@ static Variant getPropertyValue(AbstractProperty * property)
         value = Variant(array);
     }
 
-    // Return value
     return value;
 }
 
@@ -330,7 +411,7 @@ static duk_ret_t wrapFunction(duk_context * context)
     duk_idx_t nargs = duk_get_top(context);
 
     duk_push_current_function(context);
-    duk_get_prop_string(context, -1, "function_pointer");
+    duk_get_prop_string(context, -1, c_duktapeFunctionPointerKey);
     void * ptr = duk_get_pointer(context, -1);
 
     duk_pop_2(context);
@@ -460,7 +541,7 @@ void DuktapeScriptContext::registerObj(duk_idx_t parentId, PropertyGroup * obj)
 
             duk_push_c_function(m_context, wrapFunction, DUK_VARARGS);
             duk_push_pointer(m_context, static_cast<void *>(func));
-            duk_put_prop_string(m_context, -2, "function_pointer");
+            duk_put_prop_string(m_context, -2, c_duktapeFunctionPointerKey);
             duk_put_prop_string(m_context, objIndex, func->name().c_str());
         }
     }
