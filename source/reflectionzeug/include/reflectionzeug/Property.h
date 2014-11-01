@@ -115,6 +115,9 @@ class Property : public PropertyClass<Type>::Type
     static_assert(std::is_base_of<AbstractValueProperty, typename PropertyClass<Type>::Type>::value,
                   "Super class must inherit from AbstractValueProperty");
 
+    static_assert(isPlain<Type>::value,
+                  "Type must not have any specifiers and must not be a reference.");
+                  
 public:
     Property(const std::string & name, const Type & value) :
         AbstractProperty(name),
