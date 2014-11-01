@@ -174,25 +174,25 @@ namespace reflectionzeug
 {
 
 template <>
-struct PropertyClass<typename Vec2Property::Type>
+struct PropertyClass<Vec2Property::Type>
 {
     using Type = Vec2Property;
 };
 
 template <>
-struct PropertyClass<typename IVec2Property::Type>
+struct PropertyClass<IVec2Property::Type>
 {
     using Type = IVec2Property;
 };
 
 template <>
-struct PropertyClass<typename Vec3Property::Type>
+struct PropertyClass<Vec3Property::Type>
 {
     using Type = Vec3Property;
 };
 
 template <>
-struct PropertyClass<typename Vec4Property::Type>
+struct PropertyClass<Vec4Property::Type>
 {
     using Type = Vec4Property;
 };
