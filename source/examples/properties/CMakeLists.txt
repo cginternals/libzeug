@@ -2,13 +2,9 @@
 set(target propertyexample)
 message(STATUS "Example ${target}")
 
-#
 # External libraries
-#
 
-#
 # Includes
-#
 
 include_directories(
 )
@@ -19,22 +15,16 @@ include_directories(
     ${CMAKE_SOURCE_DIR}/source/reflectionzeug/include
 )
 
-#
 # Libraries
-#
 
 set(libs
     reflectionzeug
 	signalzeug
 )
 
-#
 # Compiler definitions
-#
 
-#
 # Sources
-#
 
 set(sources
     main.cpp
@@ -43,9 +33,7 @@ set(sources
     SomeObject.h
 )
 
-#
 # Build executable
-#
 
 add_executable(${target} ${sources})
 
@@ -62,9 +50,7 @@ set_target_properties(${target}
     LINK_FLAGS_RELEASE          "${DEFAULT_LINKER_FLAGS_RELEASE}"
     DEBUG_POSTFIX               "d${DEBUG_POSTFIX}")
 
-#
 # Deployment
-#
 
 install(TARGETS ${target}
     RUNTIME DESTINATION ${INSTALL_EXAMPLES}

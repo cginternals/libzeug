@@ -2,16 +2,14 @@
 set(target scriptzeug)
 message(STATUS "Lib ${target}")
 
-#
+
 # External libraries
-#
 
 find_package(V8)
 option(LIBZEUG_USE_V8 "Use V8 for JavaScript backend" ${V8_FOUND})
 
-#
+
 # Includes
-#
 
 if (LIBZEUG_USE_V8 AND V8_FOUND)
     include_directories(
@@ -27,9 +25,8 @@ include_directories(
     ${CMAKE_CURRENT_SOURCE_DIR}/source
 )
 
-#
+
 # Libraries
-#
 
 set(libs
     reflectionzeug
@@ -42,9 +39,8 @@ if (LIBZEUG_USE_V8 AND V8_FOUND)
     )
 endif()
 
-#
+
 # Compiler definitions
-#
 
 if (OPTION_BUILD_STATIC)
     add_definitions("-DSCRIPTZEUG_STATIC")
@@ -56,9 +52,8 @@ if (LIBZEUG_USE_V8 AND V8_FOUND)
     add_definitions("-DLIBZEUG_USE_V8")
 endif()
 
-#
+
 # Sources
-#
 
 set(header_path "${CMAKE_CURRENT_SOURCE_DIR}/include/${target}")
 set(source_path "${CMAKE_CURRENT_SOURCE_DIR}/source")
@@ -91,9 +86,8 @@ source_group_by_path(${header_path} "\\\\.h$|\\\\.hpp$"
 source_group_by_path(${source_path} "\\\\.cpp$|\\\\.c$|\\\\.h$|\\\\.hpp$" 
     ${source_group} ${sources})
 
-#
+
 # Build library
-#
 
 if(OPTION_BUILD_STATIC)
     add_library(${target} ${headers} ${sources})
@@ -115,9 +109,8 @@ set_target_properties(${target}
     DEBUG_POSTFIX               "d${DEBUG_POSTFIX}"
     INCLUDE_PATH                "${header_path}")
 
-#
+
 # Deployment
-#
 
 # Library
 install(TARGETS ${target}
