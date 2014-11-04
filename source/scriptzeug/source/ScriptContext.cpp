@@ -1,8 +1,10 @@
 #include <scriptzeug/ScriptContext.h>
-#include <scriptzeug/Backend/AbstractScriptContext.h>
-#include "BackendDuktape/DuktapeScriptContext.h"
+#include <scriptzeug/backend/AbstractScriptContext.h>
+
+#include "backend-duktape/DuktapeScriptContext.h"
+
 #ifdef LIBZEUG_USE_V8
-    #include "BackendV8/V8ScriptContext.h"
+    #include "backend-v8/V8ScriptContext.h"
 #endif
 
 

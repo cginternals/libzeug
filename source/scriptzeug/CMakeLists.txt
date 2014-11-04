@@ -52,6 +52,11 @@ if (LIBZEUG_USE_V8 AND V8_FOUND)
     add_definitions("-DLIBZEUG_USE_V8")
 endif()
 
+if (WIN32)
+    add_definitions("-DNOMINMAX")
+endif()
+
+
 
 # Sources
 
@@ -61,24 +66,24 @@ set(source_path "${CMAKE_CURRENT_SOURCE_DIR}/source")
 set(headers
     ${header_path}/scriptzeug_api.h
     ${header_path}/ScriptContext.h
-    ${header_path}/Backend/AbstractScriptContext.h
-    ${source_path}/BackendDuktape/duktape-1.0.0/duktape.h
-    ${source_path}/BackendDuktape/DuktapeScriptContext.h
+    ${header_path}/backend/AbstractScriptContext.h
 )
 
 set(sources
     ${source_path}/ScriptContext.cpp
-    ${source_path}/Backend/AbstractScriptContext.cpp
-    ${source_path}/BackendDuktape/duktape-1.0.0/duktape.c
-    ${source_path}/BackendDuktape/DuktapeScriptContext.cpp
+    ${source_path}/backend/AbstractScriptContext.cpp
+    ${source_path}/backend-duktape/duktape-1.0.0/duktape.c
+    ${source_path}/backend-duktape/duktape-1.0.0/duktape.h
+    ${source_path}/backend-duktape/DuktapeScriptContext.cpp
+    ${source_path}/backend-duktape/DuktapeScriptContext.h
 )
 
 if (LIBZEUG_USE_V8 AND V8_FOUND)
     set(sources ${sources}
-        ${source_path}/BackendV8/V8ScriptContext.cpp
+        ${source_path}/backend-v8/V8ScriptContext.cpp
     )
     set(headers ${headers}
-        ${source_path}/BackendV8/V8ScriptContext.h
+        ${source_path}/backend-v8/V8ScriptContext.h
     )
 endif()
 

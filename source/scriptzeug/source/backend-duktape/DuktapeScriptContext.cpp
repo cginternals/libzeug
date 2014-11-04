@@ -1,13 +1,19 @@
+#include "DuktapeScriptContext.h"
+
 #include <functional>
+
 #include <reflectionzeug/Object.h>
 #include <reflectionzeug/Variant.h>
 #include <reflectionzeug/Function.h>
+
 #include "scriptzeug/ScriptContext.h"
-#include "BackendDuktape/DuktapeScriptContext.h"
 
 
-static const char * c_duktapeFunctionPointerKey = "function_pointer";
-static const char * c_duktapeStashFreeFunctionIndexKey = "duktape_next_function_index";
+namespace
+{
+    const char * c_duktapeFunctionPointerKey = "function_pointer";
+    const char * c_duktapeStashFreeFunctionIndexKey = "duktape_next_function_index";
+}
 
 
 using namespace reflectionzeug;
@@ -108,7 +114,7 @@ static Variant fromDukValue(duk_context * context, duk_idx_t index = -1)
 
     // Bool
     else if (duk_is_boolean(context, index)) {
-        bool value = duk_get_boolean(context, index);
+        bool value = duk_get_boolean(context, index) > 0;
         return Variant(value);
     }
 
