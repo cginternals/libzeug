@@ -13,7 +13,7 @@ namespace reflectionzeug
  *
  * \ingroup property_hierarchy
  */
-class REFLECTIONZEUG_API SignedIntegralPropertyInterface : public virtual AbstractValueProperty
+class REFLECTIONZEUG_API SignedIntegralPropertyInterface : public AbstractValueProperty
 {
 public:    
     virtual void accept(AbstractPropertyVisitor * visitor);

@@ -84,6 +84,18 @@ void ArrayProperty<Type, Size>::accept(AbstractPropertyVisitor * visitor)
 }
 
 template <typename Type, size_t Size>
+bool ArrayProperty<Type, Size>::isCollection() const
+{
+	return AbstractPropertyCollection::isCollection();
+}
+
+template <typename Type, size_t Size>
+bool ArrayProperty<Type, Size>::isValue() const
+{
+	return AbstractValueProperty::isValue();
+}
+
+template <typename Type, size_t Size>
 size_t ArrayProperty<Type, Size>::stype()
 {
     static size_t type = typeid(std::array<Type, Size>).hash_code();

@@ -16,7 +16,7 @@ namespace reflectionzeug
  *
  * \ingroup property_hierarchy
  */
-class REFLECTIONZEUG_API EnumPropertyInterface : public virtual AbstractValueProperty
+class REFLECTIONZEUG_API EnumPropertyInterface : public AbstractValueProperty
 {
 public:
     virtual void accept(AbstractPropertyVisitor * visitor);

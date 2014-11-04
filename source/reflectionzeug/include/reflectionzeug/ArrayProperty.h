@@ -60,6 +60,9 @@ public:
 
     virtual void accept(AbstractPropertyVisitor * visitor);
 
+	virtual bool isCollection() const;
+	virtual bool isValue() const;
+
     virtual size_t type() const;
 
     virtual std::string toString() const;

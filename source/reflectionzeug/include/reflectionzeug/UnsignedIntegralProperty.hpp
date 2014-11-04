@@ -10,7 +10,7 @@ namespace reflectionzeug
 template <typename Type>
 template <typename... Arguments>
 UnsignedIntegralProperty<Type>::UnsignedIntegralProperty(Arguments&&... args)
-:   NumberProperty<Type>(std::forward<Arguments>(args)...)
+:   NumberProperty<Type, UnsignedIntegralPropertyInterface>(std::forward<Arguments>(args)...)
 {
 }
     
