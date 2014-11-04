@@ -2,7 +2,7 @@
 
 #include "duktape-1.0.0/duktape.h"
 
-#include <scriptzeug/Backend/AbstractScriptContext.h>
+#include <scriptzeug/backend/AbstractScriptContext.h>
 
 
 namespace scriptzeug
