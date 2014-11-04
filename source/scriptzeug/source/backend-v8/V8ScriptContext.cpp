@@ -3,7 +3,7 @@
 #include <reflectionzeug/Variant.h>
 #include <reflectionzeug/Function.h>
 #include "scriptzeug/ScriptContext.h"
-#include "BackendV8/V8ScriptContext.h"
+#include "backend-v8/V8ScriptContext.h"
 
 
 using namespace v8;
