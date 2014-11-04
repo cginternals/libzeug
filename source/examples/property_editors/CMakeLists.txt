@@ -2,15 +2,13 @@
 set(target property_editors)
 message(STATUS "Example ${target}")
 
-#
 # External libraries
-#
 
-find_package(Qt5 COMPONENTS Core Gui Widgets REQUIRED)
+find_package(Qt5Core    5.1 REQUIRED)
+find_package(Qt5Gui     5.1 REQUIRED)
+find_package(Qt5Widgets 5.1 REQUIRED)
 
-#
 # Includes
-#
 
 include_directories(
 )
@@ -22,41 +20,28 @@ include_directories(
     ${CMAKE_SOURCE_DIR}/source/propertyguizeug/include
 )
 
-#
 # Libraries
-#
 
 set(libs
     propertyguizeug
 	signalzeug
 	reflectionzeug
-    # this target link libraries somehow fixes the include directories for used qt modules.
-    # (not nice! since it obfuscates the common cmake way to link 3rdp libraries..., 
-    #  but seems to be intended by qt: http://qt-project.org/doc/qt-5/cmake-manual.html)
-    Qt5::Core
-    Qt5::Gui
-    Qt5::Widgets
 )
 
-#
 # Compiler definitions
-#
 
-#
 # Sources
-#
 
 set(sources
     main.cpp
 )
 
-#
 # Build executable
-#
 
 add_executable(${target} ${sources})
 
 target_link_libraries(${target} ${libs})
+qt5_use_modules(${target} Core Gui Widgets)
 
 set_target_properties(${target}
     PROPERTIES
@@ -69,9 +54,7 @@ set_target_properties(${target}
     LINK_FLAGS_RELEASE          "${DEFAULT_LINKER_FLAGS_RELEASE}"
     DEBUG_POSTFIX               "d${DEBUG_POSTFIX}")
 
-#
 # Deployment
-#
 
 install(TARGETS ${target}
     RUNTIME DESTINATION ${INSTALL_EXAMPLES}

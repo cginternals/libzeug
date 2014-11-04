@@ -2,15 +2,15 @@
 set(target propertyguizeug)
 message(STATUS "Lib ${target}")
 
-#
+
 # External libraries
-#
 
-find_package(Qt5 COMPONENTS Core Gui Widgets REQUIRED)
+find_package(Qt5Core    5.1 REQUIRED)
+find_package(Qt5Gui     5.1 REQUIRED)
+find_package(Qt5Widgets 5.1 REQUIRED)
 
-#
+
 # Includes
-#
 
 include_directories(
 )
@@ -22,24 +22,16 @@ include_directories(
     ${CMAKE_CURRENT_SOURCE_DIR}/include
 )
 
-#
+
 # Libraries
-#
 
 set(libs
     reflectionzeug
 	signalzeug
-    # this target link libraries somehow fixes the include directories for used qt modules.
-    # (not nice! since it obfuscates the common cmake way to link 3rdp libraries..., 
-    #  but seems to be intended by qt: http://qt-project.org/doc/qt-5/cmake-manual.html)
-    Qt5::Core
-    Qt5::Gui
-    Qt5::Widgets
 )
 
-#
+
 # Compiler definitions
-#
 
 if (OPTION_BUILD_STATIC)
     add_definitions("-DPROPERTYGUIZEUG_STATIC")
@@ -119,6 +111,7 @@ else()
 endif()
 
 target_link_libraries(${target} ${libs})
+qt5_use_modules(${target} Core Gui Widgets)
 
 set_target_properties(${target}
     PROPERTIES

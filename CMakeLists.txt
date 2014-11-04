@@ -2,11 +2,11 @@
 # Test for minimum required CMake version 2.8.12
 cmake_minimum_required(VERSION 2.8.12 FATAL_ERROR)
 
-#
+
 # Project description and (meta) information
-#
 
 set(META_PROJECT_NAME        "libzeug")
+set(META_PROJECT_DESCRIPTION "C++ sanctuary for small but powerful and frequently required, stand alone features.")
 set(META_VERSION_MAJOR       "0")
 set(META_VERSION_MINOR       "1")
 set(META_VERSION_PATCH       "0")
@@ -25,22 +25,24 @@ set(CMAKE_CONFIGURATION_TYPES "Debug;Release" CACHE STRING "Limited Configs" FOR
 project(${META_PROJECT_NAME} C CXX)
 
 
-
-
-#
 # Configuration options
-#
 
 option(OPTION_PORTABLE_INSTALL     "Install into a self-contained directory" OFF)
 option(OPTION_BUILD_STATIC         "Build static libraries" OFF)
-option(OPTION_BUILD_EXAMPLES       "Build examples" ON)
+option(OPTION_BUILD_EXAMPLES       "Build examples" OFF)
 option(OPTION_BUILD_WITH_STD_REGEX "Build with std lib regex classes" ON)
 option(OPTION_USE_OPENMP           "Use OpenMP in threadingzeug::parallel_for" ON)
 
 
-#
+if(OPTION_BUILD_STATIC)
+   set(BUILD_SHARED_LIBS OFF)
+   message("Note: ${META_PROJECT_NAME_UPPER}_STATIC needs to be defined for static linking.")
+else()
+    set(BUILD_SHARED_LIBS ON)
+endif()
+
+
 # CMake configuration
-#
 
 # Include cmake modules from ./cmake
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} ${CMAKE_CURRENT_SOURCE_DIR}/cmake)
@@ -51,9 +53,6 @@ set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR})
 set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR})
 
 
-# Project
-project(${META_PROJECT_NAME} C CXX)
-
 # Generate folders for IDE targets (e.g., VisualStudio solutions)
 set_property(GLOBAL PROPERTY USE_FOLDERS ON)
 set(IDE_FOLDER "")  # Put projects in root folder by default
@@ -63,9 +62,7 @@ include(cmake/Custom.cmake)
 include(cmake/GitRevision.cmake)
 
 
-#
 # Platform and architecture setup
-#
 
 # Architecture (32/64 bit)
 set(X64 OFF)
@@ -95,11 +92,7 @@ else()
 endif()
 
 
-
-
-#
-# Deployment/installation setup
-#
+# Installation paths
 set(project ${META_PROJECT_NAME})
 if(WIN32)
     set(INSTALL_ROOT          ".")                      # C:\Programme\<project>
@@ -145,22 +138,17 @@ else()
     endif()
 endif()
 
+
+# Global deployment
+
+# Add a revision file containing the git-head tag for cpack and install
+create_revision_file(${CMAKE_BINARY_DIR}/revision ${INSTALL_ROOT})
 # Install the project meta files
 install(FILES libzeug-config.cmake DESTINATION ${INSTALL_ROOT})
 install(FILES AUTHORS DESTINATION ${INSTALL_ROOT})
 install(FILES LICENSE DESTINATION ${INSTALL_ROOT})
 
-# Add a revision file containing the git-head tag for cpack and install. The function
-# "create_revision_file (...)" is defined in cmake/GitRevision.cmake
-create_revision_file(${CMAKE_BINARY_DIR}/revision ${INSTALL_ROOT})
-
-
-
-
-#
-# Include subdirectories that contain project sources, documentation files, and packaging scripts
-#
-
+# Include projects
 add_subdirectory(source)
 add_subdirectory(docs)
 add_subdirectory(packages)
