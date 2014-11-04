@@ -15,7 +15,7 @@ namespace reflectionzeug
  * \ingroup property_hierarchy
  */
 template <typename Type>
-class UnsignedIntegralProperty : public UnsignedIntegralPropertyInterface, public NumberProperty<Type>
+class UnsignedIntegralProperty : public NumberProperty<Type, UnsignedIntegralPropertyInterface>
 {
 public:
     template <typename... Arguments>

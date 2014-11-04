@@ -12,15 +12,15 @@
 namespace reflectionzeug
 {
 
-template <typename Type>
-ValueProperty<Type>::ValueProperty(const Type & value)
+template <typename Type, typename SuperClass>
+ValueProperty<Type, SuperClass>::ValueProperty(const Type & value)
 :   m_value(new StoredValue<Type>(value))
 {
     init();
 }
 
-template <typename Type>
-ValueProperty<Type>::ValueProperty(
+template <typename Type, typename SuperClass>
+ValueProperty<Type, SuperClass>::ValueProperty(
     const std::function<Type ()> & getter,
     const std::function<void(const Type &)> & setter)
 :   m_value(new AccessorValue<Type>(getter, setter))
@@ -28,9 +28,9 @@ ValueProperty<Type>::ValueProperty(
     init();
 }
 
-template <typename Type>
+template <typename Type, typename SuperClass>
 template <class Object>
-ValueProperty<Type>::ValueProperty(
+ValueProperty<Type, SuperClass>::ValueProperty(
     Object * object, 
     const Type & (Object::*getter_pointer)() const,
     void (Object::*setter_pointer)(const Type &))
@@ -39,9 +39,9 @@ ValueProperty<Type>::ValueProperty(
     init();
 }
     
-template <typename Type>
+template <typename Type, typename SuperClass>
 template <class Object>
-ValueProperty<Type>::ValueProperty(
+ValueProperty<Type, SuperClass>::ValueProperty(
     Object * object, 
     Type (Object::*getter_pointer)() const,
     void (Object::*setter_pointer)(const Type &))
@@ -50,9 +50,9 @@ ValueProperty<Type>::ValueProperty(
     init();
 }
     
-template <typename Type>
+template <typename Type, typename SuperClass>
 template <class Object>
-ValueProperty<Type>::ValueProperty(
+ValueProperty<Type, SuperClass>::ValueProperty(
     Object * object, 
     Type (Object::*getter_pointer)() const,
     void (Object::*setter_pointer)(Type))
@@ -61,26 +61,26 @@ ValueProperty<Type>::ValueProperty(
     init();
 }
     
-template <typename Type>
-ValueProperty<Type>::~ValueProperty()
+template <typename Type, typename SuperClass>
+ValueProperty<Type, SuperClass>::~ValueProperty()
 {
 }
 
-template <typename Type>
-Type ValueProperty<Type>::value() const
+template <typename Type, typename SuperClass>
+Type ValueProperty<Type, SuperClass>::value() const
 {
     return m_value->get();
 }
 
-template <typename Type>
-void ValueProperty<Type>::setValue(const Type & value)
+template <typename Type, typename SuperClass>
+void ValueProperty<Type, SuperClass>::setValue(const Type & value)
 {
     m_value->set(value);
     this->ValueProperty::valueChanged(value);
 }
 
-template <typename Type>
-void ValueProperty<Type>::accept(AbstractPropertyVisitor * visitor)
+template <typename Type, typename SuperClass>
+void ValueProperty<Type, SuperClass>::accept(AbstractPropertyVisitor * visitor)
 {
     auto * typedVisitor = dynamic_cast<PropertyVisitor<Type> *>(visitor);
 
@@ -90,27 +90,27 @@ void ValueProperty<Type>::accept(AbstractPropertyVisitor * visitor)
     typedVisitor->visit(reinterpret_cast<Property<Type> *>(this));
 }
 
-template <typename Type>
-size_t ValueProperty<Type>::stype()
+template <typename Type, typename SuperClass>
+size_t ValueProperty<Type, SuperClass>::stype()
 {
     static size_t type = typeid(Type).hash_code();
     return type;
 }
 
-template <typename Type>
-size_t ValueProperty<Type>::type() const
+template <typename Type, typename SuperClass>
+size_t ValueProperty<Type, SuperClass>::type() const
 {
     return stype();
 }
 
-template <typename Type>
-Variant ValueProperty<Type>::toVariant() const
+template <typename Type, typename SuperClass>
+Variant ValueProperty<Type, SuperClass>::toVariant() const
 {
     return Variant::fromValue<Type>(m_value->get());
 }
 
-template <typename Type>
-bool ValueProperty<Type>::fromVariant(const Variant & variant)
+template <typename Type, typename SuperClass>
+bool ValueProperty<Type, SuperClass>::fromVariant(const Variant & variant)
 {
     if (!variant.canConvert<Type>())
         return false;
@@ -119,10 +119,10 @@ bool ValueProperty<Type>::fromVariant(const Variant & variant)
     return true;
 }
 
-template <typename Type>
-void ValueProperty<Type>::init()
+template <typename Type, typename SuperClass>
+void ValueProperty<Type, SuperClass>::init()
 {
-    ValueProperty<Type>::valueChanged.connect([this] (const Type &)
+    this->valueChanged.connect([this] (const Type &)
     {
         this->AbstractValueProperty::valueChanged();
     });

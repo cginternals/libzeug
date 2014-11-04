@@ -19,7 +19,7 @@ namespace reflectionzeug
  * \ingroup property_hierarchy
  */
 template <typename Enum>
-class EnumProperty : public EnumPropertyInterface, public ValueProperty<Enum>
+class EnumProperty : public ValueProperty<Enum, EnumPropertyInterface>
 {
 public:
     template <typename... Arguments>
