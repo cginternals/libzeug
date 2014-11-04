@@ -1,6 +1,7 @@
 #pragma once
 
 #include <memory>
+#include <type_traits>
 
 #include <signalzeug/Signal.h>
 
@@ -21,9 +22,12 @@ class AbstractValue;
  * \see AbstractValue
  * \ingroup property_hierarchy
  */
-template <typename Type>
-class ValueProperty : public virtual AbstractValueProperty
+template <typename Type, typename SuperClass = AbstractValueProperty>
+class ValueProperty : public SuperClass
 {
+    static_assert(std::is_base_of<AbstractValueProperty, SuperClass>::value,
+                  "Super class must inherit from AbstractValueProperty");
+
 public:
     static size_t stype();
 

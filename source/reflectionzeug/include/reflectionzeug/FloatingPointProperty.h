@@ -15,7 +15,7 @@ namespace reflectionzeug
  * \ingroup property_hierarchy
  */
 template <typename Type>
-class FloatingPointProperty : public FloatingPointPropertyInterface, public NumberProperty<Type>
+class FloatingPointProperty : public NumberProperty<Type, FloatingPointPropertyInterface>
 {
 public:
     template <typename... Arguments>
