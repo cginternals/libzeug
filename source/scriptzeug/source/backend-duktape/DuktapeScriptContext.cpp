@@ -11,6 +11,7 @@
 
 namespace
 {
+    const char * c_duktapeObjectPointerKey = "object_pointer";
     const char * c_duktapeFunctionPointerKey = "function_pointer";
     const char * c_duktapeStashFreeFunctionIndexKey = "duktape_next_function_index";
 }
@@ -142,12 +143,21 @@ static Variant fromDukValue(duk_context * context, duk_idx_t index = -1)
 
         duk_enum(context, index, 0);
         while (duk_next(context, -1, 1)) {
-            map.insert({ fromDukValue(context, -2).value<std::string>(), fromDukValue(context, -1) });
+            // Prevent the pointer to the C++ object that is stored in the Ecmascript Object from being serialized.
+            if (!(duk_is_pointer(context, -1) && fromDukValue(context, -2).value<std::string>() == c_duktapeObjectPointerKey))
+            {
+                map.insert({ fromDukValue(context, -2).value<std::string>(), fromDukValue(context, -1) });
+            }
             duk_pop_2(context);
         }
         duk_pop(context);
 
         return Variant(map);
+    }
+
+    // Pointer
+    else if (duk_is_pointer(context, index)) {
+        return Variant::fromValue<void *>(duk_get_pointer(context, index));
     }
 
     // Undefined
@@ -363,7 +373,7 @@ static duk_ret_t getProperty(duk_context * context)
 {
     // Get object
     duk_push_this(context);
-    duk_get_prop_string(context, -1, "object_pointer");
+    duk_get_prop_string(context, -1, c_duktapeObjectPointerKey);
     void * ptr = duk_get_pointer(context, -1);
     duk_pop_2(context);
     reflectionzeug::Object * obj = static_cast<reflectionzeug::Object *>(ptr);
@@ -398,7 +408,7 @@ static duk_ret_t setProperty(duk_context * context)
 
     // Get object
     duk_push_this(context);
-    duk_get_prop_string(context, -1, "object_pointer");
+    duk_get_prop_string(context, -1, c_duktapeObjectPointerKey);
     void * ptr = duk_get_pointer(context, -1);
     duk_pop_2(context);
     reflectionzeug::Object * obj = static_cast<reflectionzeug::Object *>(ptr);
@@ -518,7 +528,7 @@ void DuktapeScriptContext::registerObj(duk_idx_t parentId, PropertyGroup * obj)
     duk_idx_t objIndex = duk_push_object(m_context);
 
     duk_push_pointer(m_context, static_cast<void *>(obj));
-    duk_put_prop_string(m_context, -2, "object_pointer");
+    duk_put_prop_string(m_context, -2, c_duktapeObjectPointerKey);
 
     // Register object properties
     for (unsigned int i=0; i<obj->count(); i++) {
