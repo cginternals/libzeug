@@ -9,6 +9,7 @@
 #include <reflectionzeug/Property.h>
 #include <reflectionzeug/AccessorArrayValue.h>
 #include <reflectionzeug/StoredArrayValue.h>
+#include <reflectionzeug/PropertyVisitor.h>
 #include <reflectionzeug/util.h>
 #include <reflectionzeug/Variant.h>
 
@@ -69,6 +70,18 @@ ArrayProperty<Type, Size>::~ArrayProperty()
 {
     for (Property<Type> * property : m_properties)
         delete property;
+}
+
+template <typename Type, size_t Size>
+bool ArrayProperty<Type, Size>::isCollection() const
+{
+	return AbstractPropertyCollection::isCollection();
+}
+
+template <typename Type, size_t Size>
+bool ArrayProperty<Type, Size>::isValue() const
+{
+	return AbstractValueProperty::isValue();
 }
 
 template <typename Type, size_t Size>

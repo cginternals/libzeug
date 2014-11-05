@@ -2,9 +2,7 @@
 set(target variantexample)
 message(STATUS "Example ${target}")
 
-#
 # Includes
-#
 
 include_directories(
 )
@@ -14,29 +12,21 @@ include_directories(
     ${CMAKE_SOURCE_DIR}/source/reflectionzeug/include
 )
 
-#
 # Libraries
-#
 
 set(libs
     reflectionzeug
 )
 
-#
 # Compiler definitions
-#
 
-#
 # Sources
-#
 
 set(sources
     main.cpp
 )
 
-#
 # Build executable
-#
 
 add_executable(${target} ${sources})
 
@@ -53,9 +43,7 @@ set_target_properties(${target}
     LINK_FLAGS_RELEASE          "${DEFAULT_LINKER_FLAGS_RELEASE}"
     DEBUG_POSTFIX               "d${DEBUG_POSTFIX}")
 
-#
 # Deployment
-#
 
 install(TARGETS ${target}
     RUNTIME DESTINATION ${INSTALL_EXAMPLES}

@@ -11,7 +11,7 @@ namespace reflectionzeug
  * \brief Property implementation for strings.
  * \ingroup property_hierarchy
  */
-class ColorProperty : public ColorPropertyInterface, public ValueProperty<Color>
+class ColorProperty : public ValueProperty<Color, ColorPropertyInterface>
 {
 public:
     using Type = Color;

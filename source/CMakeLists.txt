@@ -11,9 +11,7 @@ include_directories(
 )
 
 
-#
 # Qt5
-#
 
 # good resource: http://www.kdab.com/using-cmake-with-qt-5/
 
@@ -30,9 +28,7 @@ set(AUTOMOC_MOC_OPTIONS PROPERTIES FOLDER CMakeAutomocTargets)
 set_property(GLOBAL PROPERTY AUTOMOC_FOLDER CMakeAutomocTargets)
 
 
-#
 # Projects
-#
 
 # Libraries
 set(IDE_FOLDER "")

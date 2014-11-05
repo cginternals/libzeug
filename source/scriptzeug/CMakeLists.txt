@@ -2,16 +2,14 @@
 set(target scriptzeug)
 message(STATUS "Lib ${target}")
 
-#
+
 # External libraries
-#
 
 find_package(V8)
-option(LIBZEUG_USE_V8 "Use V8 for JavaScript backend" ${V8_FOUND})
+option(LIBZEUG_USE_V8 "Compile V8 JavaScript backend" ${V8_FOUND})
 
-#
+
 # Includes
-#
 
 if (LIBZEUG_USE_V8 AND V8_FOUND)
     include_directories(
@@ -27,9 +25,8 @@ include_directories(
     ${CMAKE_CURRENT_SOURCE_DIR}/source
 )
 
-#
+
 # Libraries
-#
 
 set(libs
     reflectionzeug
@@ -42,9 +39,8 @@ if (LIBZEUG_USE_V8 AND V8_FOUND)
     )
 endif()
 
-#
+
 # Compiler definitions
-#
 
 if (OPTION_BUILD_STATIC)
     add_definitions("-DSCRIPTZEUG_STATIC")
@@ -56,9 +52,13 @@ if (LIBZEUG_USE_V8 AND V8_FOUND)
     add_definitions("-DLIBZEUG_USE_V8")
 endif()
 
-#
+if (WIN32)
+    add_definitions("-DNOMINMAX")
+endif()
+
+
+
 # Sources
-#
 
 set(header_path "${CMAKE_CURRENT_SOURCE_DIR}/include/${target}")
 set(source_path "${CMAKE_CURRENT_SOURCE_DIR}/source")
@@ -66,20 +66,24 @@ set(source_path "${CMAKE_CURRENT_SOURCE_DIR}/source")
 set(headers
     ${header_path}/scriptzeug_api.h
     ${header_path}/ScriptContext.h
-    ${header_path}/Backend/AbstractScriptContext.h
+    ${header_path}/backend/AbstractScriptContext.h
 )
 
 set(sources
     ${source_path}/ScriptContext.cpp
-    ${source_path}/Backend/AbstractScriptContext.cpp
+    ${source_path}/backend/AbstractScriptContext.cpp
+    ${source_path}/backend-duktape/duktape-1.0.0/duktape.c
+    ${source_path}/backend-duktape/duktape-1.0.0/duktape.h
+    ${source_path}/backend-duktape/DuktapeScriptContext.cpp
+    ${source_path}/backend-duktape/DuktapeScriptContext.h
 )
 
 if (LIBZEUG_USE_V8 AND V8_FOUND)
     set(sources ${sources}
-        ${source_path}/BackendJavaScript/JSScriptContext.cpp
+        ${source_path}/backend-v8/V8ScriptContext.cpp
     )
     set(headers ${headers}
-        ${source_path}/BackendJavaScript/JSScriptContext.h
+        ${source_path}/backend-v8/V8ScriptContext.h
     )
 endif()
 
@@ -91,9 +95,8 @@ source_group_by_path(${header_path} "\\\\.h$|\\\\.hpp$"
 source_group_by_path(${source_path} "\\\\.cpp$|\\\\.c$|\\\\.h$|\\\\.hpp$" 
     ${source_group} ${sources})
 
-#
+
 # Build library
-#
 
 if(OPTION_BUILD_STATIC)
     add_library(${target} ${headers} ${sources})
@@ -115,9 +118,8 @@ set_target_properties(${target}
     DEBUG_POSTFIX               "d${DEBUG_POSTFIX}"
     INCLUDE_PATH                "${header_path}")
 
-#
+
 # Deployment
-#
 
 # Library
 install(TARGETS ${target}

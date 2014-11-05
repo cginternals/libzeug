@@ -1,7 +1,10 @@
 #include <scriptzeug/ScriptContext.h>
-#include <scriptzeug/Backend/AbstractScriptContext.h>
+#include <scriptzeug/backend/AbstractScriptContext.h>
+
+#include "backend-duktape/DuktapeScriptContext.h"
+
 #ifdef LIBZEUG_USE_V8
-    #include "BackendJavaScript/JSScriptContext.h"
+    #include "backend-v8/V8ScriptContext.h"
 #endif
 
 
@@ -14,9 +17,19 @@ ScriptContext::ScriptContext(const std::string & backend)
 : m_backend(nullptr)
 {
     // Create backend
+
+    // Javascript (default: duktape)
+
+    // Duktape
+    if (backend == "duktape" || backend == "javascript" || backend == "js") {
+        m_backend = new DuktapeScriptContext(this);
+    }
+
+    // V8
 #ifdef LIBZEUG_USE_V8
-    if (backend == "javascript")
-        m_backend = new JSScriptContext(this);
+    else if (backend == "v8") {
+        m_backend = new V8ScriptContext(this);
+    }
 #endif
 }
 

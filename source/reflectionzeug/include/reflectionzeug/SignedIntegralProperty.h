@@ -15,7 +15,7 @@ namespace reflectionzeug
  * \ingroup property_hierarchy
  */
 template <typename Type>
-class SignedIntegralProperty : public SignedIntegralPropertyInterface, public NumberProperty<Type>
+class SignedIntegralProperty : public NumberProperty<Type, SignedIntegralPropertyInterface>
 {
 public:
     template <typename... Arguments>

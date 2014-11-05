@@ -10,10 +10,10 @@
 namespace reflectionzeug
 {
 
-template <typename Type>
+template <typename Type, typename SuperClass>
 template <typename... Arguments>
-NumberProperty<Type>::NumberProperty(Arguments&&... args)
-:   ValueProperty<Type>(std::forward<Arguments>(args)...)
+NumberProperty<Type, SuperClass>::NumberProperty(Arguments&&... args)
+:   ValueProperty<Type, SuperClass>(std::forward<Arguments>(args)...)
 {
     this->setOptions({
         { "min", Variant(std::numeric_limits<Type>::min()) },
@@ -21,19 +21,19 @@ NumberProperty<Type>::NumberProperty(Arguments&&... args)
     });
 }
 
-template <typename Type>
-NumberProperty<Type>::~NumberProperty()
+template <typename Type, typename SuperClass>
+NumberProperty<Type, SuperClass>::~NumberProperty()
 {
 }
 
-template <typename Type>
-std::string NumberProperty<Type>::toString() const
+template <typename Type, typename SuperClass>
+std::string NumberProperty<Type, SuperClass>::toString() const
 {
     return util::toString(this->value());
 }
 
-template <typename Type>
-bool NumberProperty<Type>::fromString(const std::string & string)
+template <typename Type, typename SuperClass>
+bool NumberProperty<Type, SuperClass>::fromString(const std::string & string)
 {
     if (!util::matchesRegex(string, matchRegex()))
         return false;

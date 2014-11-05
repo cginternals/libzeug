@@ -2,13 +2,9 @@
 set(target scriptexample)
 message(STATUS "Example ${target}")
 
-#
 # External libraries
-#
 
-#
 # Includes
-#
 
 include_directories(
 )
@@ -20,9 +16,7 @@ include_directories(
     ${CMAKE_SOURCE_DIR}/source/scriptzeug/include
 )
 
-#
 # Libraries
-#
 
 set(libs
     scriptzeug
@@ -30,21 +24,15 @@ set(libs
 	reflectionzeug
 )
 
-#
 # Compiler definitions
-#
 
-#
 # Sources
-#
 
 set(sources
     main.cpp
 )
 
-#
 # Build executable
-#
 
 add_executable(${target} ${sources})
 
@@ -61,9 +49,7 @@ set_target_properties(${target}
     LINK_FLAGS_RELEASE          "${DEFAULT_LINKER_FLAGS_RELEASE}"
     DEBUG_POSTFIX               "d${DEBUG_POSTFIX}")
 
-#
 # Deployment
-#
 
 install(TARGETS ${target}
     RUNTIME DESTINATION ${INSTALL_EXAMPLES}

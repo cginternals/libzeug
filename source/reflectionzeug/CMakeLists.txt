@@ -2,18 +2,16 @@
 set(target reflectionzeug)
 message(STATUS "Lib ${target}")
 
-#
+
 # External libraries
-#
 
 # Fallback: Use boost regex
 if(NOT OPTION_BUILD_WITH_STD_REGEX)
     find_package(Boost COMPONENTS regex REQUIRED)
 endif()
 
-#
+
 # Includes
-#
 
 if(NOT OPTION_BUILD_WITH_STD_REGEX)
     include_directories(${Boost_INCLUDE_DIRS})
@@ -26,9 +24,8 @@ include_directories(
     ${CMAKE_CURRENT_SOURCE_DIR}/include
 )
 
-#
+
 # Libraries
-#
 
 set(libs
     signalzeug
@@ -37,14 +34,11 @@ set(libs
 
 if(NOT OPTION_BUILD_WITH_STD_REGEX)
     link_directories(${Boost_LIBRARY_DIR})
-    set(libs ${libs}
-        ${Boost_LIBRARIES}
-    )
+    set(libs ${libs} ${Boost_LIBRARIES})
 endif()
 
-#
+
 # Compiler definitions
-#
 
 if (OPTION_BUILD_STATIC)
     add_definitions("-DREFLECTIONZEUG_STATIC")
@@ -56,9 +50,8 @@ if(OPTION_BUILD_WITH_STD_REGEX)
     add_definitions("-DUSE_STD_REGEX")
 endif()
 
-#
+
 # Sources
-#
 
 set(header_path "${CMAKE_CURRENT_SOURCE_DIR}/include/${target}")
 set(source_path "${CMAKE_CURRENT_SOURCE_DIR}/source")
@@ -171,9 +164,8 @@ source_group_by_path(${header_path} "\\\\.h$|\\\\.hpp$"
 source_group_by_path(${source_path} "\\\\.cpp$|\\\\.c$|\\\\.h$|\\\\.hpp$"
     ${source_group} ${sources})
 
-#
+
 # Build library
-#
 
 if(OPTION_BUILD_STATIC)
     add_library(${target} ${headers} ${sources})
@@ -195,9 +187,8 @@ set_target_properties(${target}
     DEBUG_POSTFIX               "d${DEBUG_POSTFIX}"
     INCLUDE_PATH                "${header_path}")
 
-#
+
 # Deployment
-#
 
 # Library
 install(TARGETS ${target}

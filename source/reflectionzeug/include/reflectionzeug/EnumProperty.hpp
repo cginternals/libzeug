@@ -12,7 +12,7 @@ namespace reflectionzeug
 template <typename Enum>
 template <typename... Arguments>
 EnumProperty<Enum>::EnumProperty(Arguments&&... args)
-:   ValueProperty<Enum>(std::forward<Arguments>(args)...)
+:   ValueProperty<Enum, EnumPropertyInterface>(std::forward<Arguments>(args)...)
 {
     this->setStrings(EnumDefaultStrings<Enum>()());
 }
@@ -64,7 +64,7 @@ void EnumProperty<Enum>::setStrings(const std::map<Enum, std::string> & pairs)
         strings.push_back(pair.second);
     }
 
-    setOption("strings", strings);
+    this->setOption("strings", strings);
 }
 
 } // namespace reflectionzeug

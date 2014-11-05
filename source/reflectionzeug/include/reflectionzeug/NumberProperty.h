@@ -14,8 +14,8 @@ namespace reflectionzeug
  *
  * \ingroup property_hierarchy
  */
-template <typename Type>
-class NumberProperty : public ValueProperty<Type>
+template <typename Type, typename SuperClass = AbstractValueProperty>
+class NumberProperty : public ValueProperty<Type, SuperClass>
 {
 public:
     template <typename... Arguments>

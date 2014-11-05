@@ -10,7 +10,7 @@ namespace reflectionzeug
 template <typename Type>
 template <typename... Arguments>
 FloatingPointProperty<Type>::FloatingPointProperty(Arguments&&... args)
-:   NumberProperty<Type>(std::forward<Arguments>(args)...)
+:   NumberProperty<Type, FloatingPointPropertyInterface>(std::forward<Arguments>(args)...)
 {
 }
 

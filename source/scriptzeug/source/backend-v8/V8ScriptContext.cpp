@@ -3,7 +3,7 @@
 #include <reflectionzeug/Variant.h>
 #include <reflectionzeug/Function.h>
 #include "scriptzeug/ScriptContext.h"
-#include "BackendJavaScript/JSScriptContext.h"
+#include "backend-v8/V8ScriptContext.h"
 
 
 using namespace v8;
@@ -83,6 +83,12 @@ static Variant fromV8Value(Isolate *isolate, Local<Value> arg)
 {
     // Function
     if (arg->IsFunction()) { // Remember: A function is also an object, so check for functions first
+        // [TODO] This produces a memory leak, since the pointer to the function object will never be deleted.
+        //        A solution would be to wrap a ref_ptr into the variant, but since there are also function objects
+        //        which are not memory-managed (e.g., a C-function that has been passed to the scripting engine),
+        //        it would be hard to determine the right use of function-variants.
+        //        The script context could of course manage a list of created functions an delete them on destruction,
+        //        but that would not solve the problem of "memory leak" while the program is running.
         Handle<v8::Function> func = v8::Handle<v8::Function>::Cast(arg);
         JSScriptFunction *function = new JSScriptFunction(isolate, func);
         return Variant::fromValue<AbstractFunction *>(function);
@@ -164,6 +170,11 @@ static Local<Value> toV8Value(Isolate *isolate, const Variant &arg)
 
     else if (arg.hasType<double>()) {
         Local<Number> v = Number::New(isolate, arg.value<double>());
+        value = v;
+    }
+
+    else if (arg.hasType<float>()) {
+        Local<Number> v = Number::New(isolate, arg.value<float>());
         value = v;
     }
 
@@ -406,7 +417,7 @@ static void setProperty(Local<String> propertyName, Local<Value> value, const Pr
 }
 
 
-JSScriptContext::JSScriptContext(ScriptContext *scriptContext)
+V8ScriptContext::V8ScriptContext(ScriptContext *scriptContext)
 : AbstractScriptContext(scriptContext)
 , m_isolate(nullptr)
 {
@@ -426,7 +437,7 @@ JSScriptContext::JSScriptContext(ScriptContext *scriptContext)
     m_context.Reset(m_isolate, context);
 }
 
-JSScriptContext::~JSScriptContext()
+V8ScriptContext::~V8ScriptContext()
 {
     // Destroy global context
     m_context.Reset();
@@ -435,7 +446,7 @@ JSScriptContext::~JSScriptContext()
 
 }
 
-void JSScriptContext::registerObject(PropertyGroup * obj)
+void V8ScriptContext::registerObject(PropertyGroup * obj)
 {
     // Enter scope
     Locker locker(m_isolate);
@@ -450,7 +461,7 @@ void JSScriptContext::registerObject(PropertyGroup * obj)
     registerObj(global, obj);
 }
 
-Variant JSScriptContext::evaluate(const std::string & code)
+Variant V8ScriptContext::evaluate(const std::string & code)
 {
     // Enter scope
     Locker locker(m_isolate);
@@ -475,7 +486,7 @@ Variant JSScriptContext::evaluate(const std::string & code)
     } else return fromV8Value(m_isolate, result);
 }
 
-void JSScriptContext::registerObj(Handle<v8::Object> parent, PropertyGroup * obj)
+void V8ScriptContext::registerObj(Handle<v8::Object> parent, PropertyGroup * obj)
 {
     // Create object template
     Handle<ObjectTemplate> templ = ObjectTemplate::New();

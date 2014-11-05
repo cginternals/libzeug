@@ -58,6 +58,9 @@ public:
 
     virtual ~ArrayProperty() = 0;
 
+	virtual bool isCollection() const;
+	virtual bool isValue() const;
+
     virtual size_t type() const;
 
     virtual std::string toString() const;

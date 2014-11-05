@@ -9,13 +9,13 @@ namespace scriptzeug
 {
 
 
-/** \brief JavaScript scripting context
+/** \brief V8 (Ecmascript) scripting context
  */
-class SCRIPTZEUG_API JSScriptContext : public AbstractScriptContext
+class SCRIPTZEUG_API V8ScriptContext : public AbstractScriptContext
 {
 public:
-    JSScriptContext(ScriptContext * scriptContext);
-    virtual ~JSScriptContext();
+    V8ScriptContext(ScriptContext * scriptContext);
+    virtual ~V8ScriptContext();
 
     virtual void registerObject(reflectionzeug::PropertyGroup * obj);
     virtual reflectionzeug::Variant evaluate(const std::string & code);

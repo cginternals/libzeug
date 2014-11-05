@@ -7,7 +7,7 @@ namespace reflectionzeug
 
 template <typename... Arguments>
 StringProperty::StringProperty(Arguments&&... args)
-:   ValueProperty<std::string>(std::forward<Arguments>(args)...)
+:   ValueProperty<std::string, StringPropertyInterface>(std::forward<Arguments>(args)...)
 {
 }
 
