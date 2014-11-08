@@ -148,6 +148,11 @@ install(FILES libzeug-config.cmake DESTINATION ${INSTALL_ROOT})
 install(FILES AUTHORS DESTINATION ${INSTALL_ROOT})
 install(FILES LICENSE DESTINATION ${INSTALL_ROOT})
 
+# Data files
+if(OPTION_BUILD_EXAMPLES)
+	install(DIRECTORY ${CMAKE_SOURCE_DIR}/data DESTINATION ${INSTALL_DATA} COMPONENT examples)
+endif()
+
 # Include projects
 add_subdirectory(source)
 add_subdirectory(docs)
