@@ -68,8 +68,8 @@ public:
     
 public:
     template <typename... Arguments>
-    Vec2Property::Vec2Property(Arguments&&... args)
-    :   ValueProperty<glm::vec2>(std::forward<Arguments>(args)...) {}
+    Vec2Property(Arguments&&... args)
+    : reflectionzeug::ValueProperty<glm::vec2>(std::forward<Arguments>(args)...) {}
 
     virtual std::string toString() const override 
     {
@@ -87,7 +87,6 @@ public:
     }
 };
 
-template <>
 class IVec2Property : public reflectionzeug::ValueProperty<glm::ivec2>
 {
 public:
@@ -95,8 +94,8 @@ public:
     
 public:
     template <typename... Arguments>
-    IVec2Property::IVec2Property(Arguments&&... args)
-    :   ValueProperty<glm::ivec2>(std::forward<Arguments>(args)...) {}
+    IVec2Property(Arguments&&... args)
+    : reflectionzeug::ValueProperty<glm::ivec2>(std::forward<Arguments>(args)...) {}
 
     virtual std::string toString() const override 
     { 
@@ -114,16 +113,15 @@ public:
     }
 };
 
-template <>
-class Vec3Property : public ValueProperty<glm::vec3>
+class Vec3Property : public reflectionzeug::ValueProperty<glm::vec3>
 {
 public:
     using Type = glm::vec3;
     
 public:
     template <typename... Arguments>
-    Vec3Property::Vec3Property(Arguments&&... args)
-    :   ValueProperty<glm::vec3>(std::forward<Arguments>(args)...) {}
+    Vec3Property(Arguments&&... args)
+    : reflectionzeug::ValueProperty<glm::vec3>(std::forward<Arguments>(args)...) {}
 
     virtual std::string toString() const override 
     { 
@@ -141,16 +139,15 @@ public:
     }
 };
 
-template <>
-class Vec4Property : public ValueProperty<glm::vec4>
+class Vec4Property : public reflectionzeug::ValueProperty<glm::vec4>
 {
 public:
     using Type = glm::vec4;
     
 public:
     template <typename... Arguments>
-    Vec4Property::Vec4Property(Arguments&&... args)
-    :   ValueProperty<glm::vec4>(std::forward<Arguments>(args)...) {}
+    Vec4Property(Arguments&&... args)
+    : reflectionzeug::ValueProperty<glm::vec4>(std::forward<Arguments>(args)...) {}
 
     virtual std::string toString() const override 
     { 
