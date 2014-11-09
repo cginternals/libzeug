@@ -13,6 +13,9 @@ namespace reflectionzeug
 class BoolProperty : public ValueProperty<bool>
 {
 public:
+    using Type = bool;
+    
+public:
     template <typename... Arguments>
     BoolProperty(Arguments&&... args);
 

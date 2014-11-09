@@ -80,17 +80,6 @@ void ValueProperty<Type, SuperClass>::setValue(const Type & value)
 }
 
 template <typename Type, typename SuperClass>
-void ValueProperty<Type, SuperClass>::accept(AbstractPropertyVisitor * visitor)
-{
-    auto * typedVisitor = dynamic_cast<PropertyVisitor<Type> *>(visitor);
-
-    if (typedVisitor == nullptr)
-        return AbstractValueProperty::accept(visitor);
-
-    typedVisitor->visit(reinterpret_cast<Property<Type> *>(this));
-}
-
-template <typename Type, typename SuperClass>
 size_t ValueProperty<Type, SuperClass>::stype()
 {
     static size_t type = typeid(Type).hash_code();

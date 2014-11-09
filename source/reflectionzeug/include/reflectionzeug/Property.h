@@ -2,6 +2,7 @@
 
 #include <reflectionzeug/property_declaration.h>
 
+#include <reflectionzeug/AbstractValueProperty.h>
 #include <reflectionzeug/BoolProperty.h>
 #include <reflectionzeug/ClassProperty.h>
 #include <reflectionzeug/ColorProperty.h>
@@ -12,13 +13,6 @@
 #include <reflectionzeug/StringProperty.h>
 #include <reflectionzeug/ArrayProperty.h>
 #include <reflectionzeug/EnumProperty.h>
-
-#include <reflectionzeug/Color.h>
-
-#include <reflectionzeug/specialization_helpers.h>
-
-namespace reflectionzeug
-{
 
 /** 
  * \defgroup property_specializations Property Specializations
@@ -52,110 +46,99 @@ namespace reflectionzeug
  */
 /** \{ */
 
-template <typename Type, typename>
-class Property : public ClassProperty<Type>
+namespace reflectionzeug
 {
-public:
-    template <typename... Args>
-    Property(const std::string & name, Args&&... args) : 
-        AbstractProperty(name),
-        ClassProperty<Type>(std::forward<Args>(args)...) {}
+
+template <typename T, typename = void>
+struct PropertyClass
+{
+    using Type = ClassProperty<T>;
 };
 
 template <>
-class Property<bool> : public BoolProperty
+struct PropertyClass<BoolProperty::Type>
 {
-public:
-    template <typename... Args>
-    Property(const std::string & name, Args&&... args) : 
-        AbstractProperty(name),
-        BoolProperty(std::forward<Args>(args)...) {}
+    using Type = BoolProperty;
 };
 
 template <>
-class Property<std::string> : public StringProperty
+struct PropertyClass<ColorProperty::Type>
 {
-public:
-    template <typename... Args>
-    Property(const std::string & name, Args&&... args) : 
-        AbstractProperty(name),
-        StringProperty(std::forward<Args>(args)...) {}
+	using Type = ColorProperty;
 };
 
 template <>
-class Property<Color> : public ColorProperty
+struct PropertyClass<StringProperty::Type>
 {
-public:
-    template <typename... Args>
-    Property(const std::string & name, Args&&... args) : 
-        AbstractProperty(name),
-        ColorProperty(std::forward<Args>(args)...) {}
+    using Type = StringProperty;
 };
 
 template <>
-class Property<FilePath> : public FilePathProperty
+struct PropertyClass<FilePathProperty::Type>
 {
-public:
-    template <typename... Args>
-    Property(const std::string & name, Args&&... args) : 
-        AbstractProperty(name),
-        FilePathProperty(std::forward<Args>(args)...) {}
+    using Type = FilePathProperty;
+};
+
+template <typename T>
+struct PropertyClass<T, EnableIf<isArray<T>>>
+{
+    using Type = ArrayProperty<typename T::value_type, std::tuple_size<T>::value>;
+};
+
+template <typename T>
+struct PropertyClass<T, EnableIf<std::is_enum<T>>>
+{
+	using Type = EnumProperty<T>;
+};
+
+template <typename T>
+struct PropertyClass<T, EnableIf<isUnsignedIntegral<T>>>
+{
+    using Type = UnsignedIntegralProperty<T>;
+};
+
+template <typename T>
+struct PropertyClass<T, EnableIf<isSignedIntegral<T>>>
+{
+    using Type = SignedIntegralProperty<T>;
+};
+
+template <typename T>
+struct PropertyClass<T, EnableIf<isFloatingPoint<T>>>
+{
+    using Type = FloatingPointProperty<T>;
 };
 
 template <typename Type>
-class Property<Type, EnableIf<isUnsignedIntegral<Type>>> : public UnsignedIntegralProperty<Type>
+class Property : public PropertyClass<Type>::Type
 {
+    static_assert(std::is_base_of<AbstractValueProperty, typename PropertyClass<Type>::Type>::value,
+                  "Super class must inherit from AbstractValueProperty");
+
+    static_assert(isPlain<Type>::value,
+                  "Type must not have any specifiers and must not be a reference.");
+                  
 public:
+    Property(const std::string & name, const Type & value) :
+        AbstractProperty(name),
+        PropertyClass<Type>::Type(value) {}
+
     template <typename... Args>
     Property(const std::string & name, Args&&... args) : 
         AbstractProperty(name),
-        UnsignedIntegralProperty<Type>(std::forward<Args>(args)...) {}
-};
+        PropertyClass<Type>::Type(std::forward<Args>(args)...) {}
 
-template <typename Type>
-class Property<Type, EnableIf<isSignedIntegral<Type>>> : public SignedIntegralProperty<Type>
-{
-public:
-    template <typename... Args>
-    Property(const std::string & name, Args&&... args) : 
-        AbstractProperty(name),
-        SignedIntegralProperty<Type>(std::forward<Args>(args)...) {}
-};
+    virtual void accept(AbstractPropertyVisitor * visitor)
+    {
+        auto * typedVisitor = visitor->asVisitor<Property<Type>>();
 
-template <typename Type>
-class Property<Type, EnableIf<isFloatingPoint<Type>>> : public FloatingPointProperty<Type>
-{
-public:
-    template <typename... Args>
-    Property(const std::string & name, Args&&... args) : 
-        AbstractProperty(name), 
-        FloatingPointProperty<Type>(std::forward<Args>(args)...) {}
-};
+        if (typedVisitor == nullptr)
+            return PropertyClass<Type>::Type::accept(visitor);
 
-template <typename Type>
-class Property<Type, EnableIf<isArray<Type>>> : public ArrayProperty<typename Type::value_type, std::tuple_size<Type>::value>
-{
-public:
-    Property(const std::string & name, const Type & array) :
-        AbstractProperty(name),
-        ArrayProperty<typename Type::value_type, std::tuple_size<Type>::value>(array) {}
-    
-    template <typename... Args>
-    Property(const std::string & name, Args&&... args) : 
-        AbstractProperty(name),
-        ArrayProperty<typename Type::value_type, std::tuple_size<Type>::value>(std::forward<Args>(args)...) {}
+        typedVisitor->visit(this);
+    }
 };
-
-template <typename Type>
-class Property<Type, EnableIf<std::is_enum<Type>>> : public EnumProperty<Type>
-{
-public:
-    template <typename... Args>
-    Property(const std::string & name, Args&&... args) : 
-        AbstractProperty(name),
-        EnumProperty<Type>(std::forward<Args>(args)...) {}
-};
-
-/** \} */
 
 } // namespace reflectionzeug
+
+/** \} */

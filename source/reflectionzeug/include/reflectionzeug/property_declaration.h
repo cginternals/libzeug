@@ -3,7 +3,7 @@
 namespace reflectionzeug
 {
 
-template <typename Type, typename = void>
+template <typename Type>
 class Property;
 
 } // namespace reflectionzeug

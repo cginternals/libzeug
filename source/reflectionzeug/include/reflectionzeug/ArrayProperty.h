@@ -58,8 +58,6 @@ public:
 
     virtual ~ArrayProperty() = 0;
 
-    virtual void accept(AbstractPropertyVisitor * visitor);
-
 	virtual bool isCollection() const;
 	virtual bool isValue() const;
 

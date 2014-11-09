@@ -90,6 +90,11 @@ struct isSignedIntegral : public And<std::is_integral<Type>::value,
 template <typename Type>
 struct isFloatingPoint : public And<std::is_floating_point<Type>::value,
                                     Neg<std::is_same<Type, long double>>::value> {};
+                                    
+template <typename Type>
+struct isPlain : public And<Neg<std::is_reference<Type>>::value,
+                            Neg<std::is_const<Type>>::value,
+                            Neg<std::is_volatile<Type>>::value> {};
 
 /** \} */
     

@@ -57,8 +57,6 @@ public:
     virtual Type value() const;
     virtual void setValue(const Type & value);
 
-    virtual void accept(AbstractPropertyVisitor * visitor);
-
     virtual size_t type() const;
 
     virtual Variant toVariant() const override;
