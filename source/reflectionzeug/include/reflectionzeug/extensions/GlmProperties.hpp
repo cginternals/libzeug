@@ -12,7 +12,7 @@ namespace
 {
 
 template <typename T, unsigned Count>
-std::string toString(const T * data)
+std::string glmToString(const T * data)
 {
     std::stringstream ss;
 
@@ -32,7 +32,7 @@ std::string toString(const T * data)
 }
 
 template <typename T, unsigned Count>
-bool fromString(const std::string & string, T * data)
+bool glmFromString(const std::string & string, T * data)
 {
     std::string elementRegex = std::is_integral<T>::value ? "(-|\\+)?\\d+" : "(-|\\+)?\\d+\\.?\\d*";
 
@@ -73,13 +73,13 @@ public:
 
     virtual std::string toString() const override 
     {
-        return ::toString<glm::vec2::value_type, 2>(glm::value_ptr(this->value())); 
+        return glmToString<glm::vec2::value_type, 2>(glm::value_ptr(this->value())); 
     }
 
     virtual bool fromString(const std::string & string) override
     {
         glm::vec2 value;
-        if (!::fromString<glm::vec2::value_type, 2>(string, glm::value_ptr(value)))
+        if (!glmFromString<glm::vec2::value_type, 2>(string, glm::value_ptr(value)))
             return false;
 
         setValue(value);
@@ -99,13 +99,13 @@ public:
 
     virtual std::string toString() const override 
     { 
-        return ::toString<glm::ivec2::value_type, 2>(glm::value_ptr(value())); 
+        return glmToString<glm::ivec2::value_type, 2>(glm::value_ptr(value())); 
     }
 
     virtual bool fromString(const std::string & string) override
     {
         glm::ivec2 value;
-        if (!::fromString<glm::ivec2::value_type, 2>(string, glm::value_ptr(value)))
+        if (!glmFromString<glm::ivec2::value_type, 2>(string, glm::value_ptr(value)))
             return false;
 
         setValue(value);
@@ -125,13 +125,13 @@ public:
 
     virtual std::string toString() const override 
     { 
-        return ::toString<glm::vec3::value_type, 3>(glm::value_ptr(value()));
+        return glmToString<glm::vec3::value_type, 3>(glm::value_ptr(value()));
     }
 
     virtual bool fromString(const std::string & string) override
     {
         glm::vec3 value;
-        if (!::fromString<glm::vec3::value_type, 3>(string, glm::value_ptr(value)))
+        if (!glmFromString<glm::vec3::value_type, 3>(string, glm::value_ptr(value)))
             return false;
 
         setValue(value);
@@ -151,13 +151,13 @@ public:
 
     virtual std::string toString() const override 
     { 
-        return ::toString<glm::vec4::value_type, 4>(glm::value_ptr(value())); 
+        return glmToString<glm::vec4::value_type, 4>(glm::value_ptr(value())); 
     }
 
     virtual bool fromString(const std::string & string) override
     {
         glm::vec4 value;
-        if (!::fromString<glm::vec4::value_type, 4>(string, glm::value_ptr(value)))
+        if (!glmFromString<glm::vec4::value_type, 4>(string, glm::value_ptr(value)))
             return false;
 
         setValue(value);
