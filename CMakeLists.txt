@@ -95,32 +95,32 @@ endif()
 # Installation paths
 set(project ${META_PROJECT_NAME})
 if(WIN32)
-    set(INSTALL_ROOT          ".")                      # C:\Programme\<project>
-    set(INSTALL_DATA          ".")                      # C:\Programme\<project>
-    set(INSTALL_BIN           ".")                      # C:\Programme\<project>
-    set(INSTALL_SHARED        ".")                      # C:\Programme\<project>
-    set(INSTALL_LIB           "lib")                    # C:\Programme\<project>\lib
-    set(INSTALL_INCLUDE       "include")                # C:\Programme\<project>\include
-    set(INSTALL_DOC           "doc")                    # C:\Programme\<project>\doc
-    set(INSTALL_SHORTCUTS     "")                       # Not available under Windows
-    set(INSTALL_ICONS         "")                       # Not available under Windows
-    set(INSTALL_INIT          "")                       # Not available under Windows
-    set(INSTALL_EXAMPLES      ".")                      # C:\Programme\<project>
+    set(INSTALL_ROOT          ".")                         # C:\Programme\<project>
+    set(INSTALL_EXAMPLES      "bin")                       # C:\Programme\<project>
+    set(INSTALL_DATA          "bin")                       # C:\Programme\<project>
+    set(INSTALL_BIN           "bin")                       # C:\Programme\<project>
+    set(INSTALL_SHARED        ".")                         # C:\Programme\<project>
+    set(INSTALL_LIB           "lib")                       # C:\Programme\<project>\lib
+    set(INSTALL_INCLUDE       "include")                   # C:\Programme\<project>\include
+    set(INSTALL_DOC           "doc")                       # C:\Programme\<project>\doc
+    set(INSTALL_SHORTCUTS     ".")                         # Not available under Windows
+    set(INSTALL_ICONS         ".")                         # Not available under Windows
+    set(INSTALL_INIT          ".")                         # Not available under Windows
 else()
-    set(INSTALL_ROOT          "share/${project}")       # /usr/[local]/share/<project>
-    set(INSTALL_DATA          "share/${project}")       # /usr/[local]/share/<project>
-    set(INSTALL_BIN           "bin")                    # /usr/[local]/bin
-    set(INSTALL_SHARED        "lib")                    # /usr/[local]/lib
-    set(INSTALL_LIB           "lib")                    # /usr/[local]/lib
-    set(INSTALL_INCLUDE       "include")                # /usr/[local]/include
-    set(INSTALL_DOC           "share/doc/${project}")   # /usr/[local]/share/doc/<project>
-    set(INSTALL_SHORTCUTS     "share/applications")     # /usr/[local]/share/applications
-    set(INSTALL_ICONS         "share/pixmaps")          # /usr/[local]/share/pixmaps
-    set(INSTALL_INIT          "/etc/init")              # /etc/init (upstart init scripts)
-    set(INSTALL_EXAMPLES      "share/${project}")       # /usr/[local]/share/<project>
+    set(INSTALL_ROOT          "share/${project}")          # /usr/[local]/share/<project>
+    set(INSTALL_EXAMPLES      "share/${project}/examples") # /usr/[local]/share/<project>
+    set(INSTALL_DATA          "share/${project}/examples") # /usr/[local]/share/<project>
+    set(INSTALL_BIN           "bin")                       # /usr/[local]/bin
+    set(INSTALL_SHARED        "lib")                       # /usr/[local]/lib
+    set(INSTALL_LIB           "lib")                       # /usr/[local]/lib
+    set(INSTALL_INCLUDE       "include")                   # /usr/[local]/include
+    set(INSTALL_DOC           "share/doc/${project}")      # /usr/[local]/share/doc/<project>
+    set(INSTALL_SHORTCUTS     "share/applications")        # /usr/[local]/share/applications
+    set(INSTALL_ICONS         "share/pixmaps")             # /usr/[local]/share/pixmaps
+    set(INSTALL_INIT          "/etc/init")                 # /etc/init (upstart init scripts)
 
-    # Adjust target paths for Local installs
-    if(OPTION_LOCAL_INSTALL)
+    # Adjust target paths for portable installs
+    if(OPTION_PORTABLE_INSTALL)
         # Put binaries in root directory and keep data directory name
         set(INSTALL_ROOT                      ".")           # /<INSTALL_PREFIX>
         set(INSTALL_BIN                       ".")           # /<INSTALL_PREFIX>
