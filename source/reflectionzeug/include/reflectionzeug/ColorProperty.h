@@ -24,6 +24,9 @@ public:
 
     REFLECTIONZEUG_API virtual void accept(AbstractPropertyVisitor * visitor);
 
+    REFLECTIONZEUG_API virtual std::string toString() const;
+    REFLECTIONZEUG_API virtual bool fromString(const std::string & string);
+
     REFLECTIONZEUG_API virtual Color toColor() const;
     REFLECTIONZEUG_API virtual bool fromColor(const Color & color);
 };

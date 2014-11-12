@@ -19,9 +19,6 @@ class REFLECTIONZEUG_API ColorPropertyInterface : public AbstractValueProperty
 {
 public:
     virtual void accept(AbstractPropertyVisitor * visitor);
-    
-    virtual std::string toString() const;
-    virtual bool fromString(const std::string & string);
 
     virtual Color toColor() const = 0;
     virtual bool fromColor(const Color & color) = 0;
