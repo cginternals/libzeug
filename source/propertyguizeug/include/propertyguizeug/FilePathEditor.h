@@ -1,4 +1,3 @@
-
 #pragma once
 
 #include <QString>
@@ -8,8 +7,6 @@
 #include <propertyguizeug/PropertyEditor.h>
 
 class QLineEdit;
-class QFileDialog;
-class QHBoxLayout;
 
 namespace reflectionzeug 
 {
@@ -31,8 +28,8 @@ namespace propertyguizeug
 class PROPERTYGUIZEUG_API FilePathEditor : public PropertyEditor
 {
 public:
-    FilePathEditor(reflectionzeug::Property<reflectionzeug::FilePath> * property, QWidget * parent = nullptr);
-    virtual ~FilePathEditor();
+    FilePathEditor(reflectionzeug::Property<reflectionzeug::FilePath> * property, 
+                   QWidget * parent = nullptr);
     
     void setFilePath();
     void handleItemActivated(const QString & text);
@@ -45,11 +42,10 @@ public:
 private:
     static const QString s_openFileDialog;
 
-protected:
+private:
     QLineEdit * m_lineEdit;
     bool m_dialogOpened;
     QString m_uniqueIdentifier;
-
     QString m_filePathFromDialog;
     
     reflectionzeug::Property<reflectionzeug::FilePath> * m_property;

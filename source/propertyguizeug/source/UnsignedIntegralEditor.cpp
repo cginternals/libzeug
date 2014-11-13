@@ -1,11 +1,10 @@
+#include <propertyguizeug/UnsignedIntegralEditor.h>
 
 #include <QHBoxLayout>
 
 #include <reflectionzeug/UnsignedIntegralPropertyInterface.h>
 
-#include <propertyguizeug/UnsignedIntegralEditor.h>
 #include <propertyguizeug/ULongLongSpinBox.h>
-
 
 namespace propertyguizeug
 {
@@ -44,10 +43,6 @@ UnsignedIntegralEditor::UnsignedIntegralEditor(
         {
             m_property->fromULongLong(value);
         });
-}
-    
-UnsignedIntegralEditor::~UnsignedIntegralEditor()
-{
 }
     
 } // namespace propertyguizeug

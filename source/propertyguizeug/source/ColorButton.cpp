@@ -1,4 +1,3 @@
-
 #include <propertyguizeug/ColorButton.h>
 
 #include <QColorDialog>
@@ -7,11 +6,22 @@
 
 #include "TransparencyBackgroundBrush.hpp"
 
-
 namespace propertyguizeug
 {
 
 const QSize ColorButton::s_fixedSize = QSize(19, 19);
+
+void ColorButton::paint(QPainter * painter, const QPoint & topLeft, const QColor & color)
+{
+    QPixmap pixmap(s_fixedSize);
+    pixmap.fill(color);
+
+    QRect rect(topLeft, s_fixedSize);
+
+    painter->setBrushOrigin(topLeft);
+    painter->fillRect(rect, TransparencyBackgroundBrush());
+    painter->drawPixmap(rect, pixmap);
+}
 
 ColorButton::ColorButton(QWidget * parent, const QColor & initialColor)
 :	QLabel(parent)
@@ -29,10 +39,6 @@ ColorButton::ColorButton(QWidget * parent, const QColor & initialColor)
 	this->setColor(initialColor);
 }
 
-ColorButton::~ColorButton()
-{
-}
-
 const QColor & ColorButton::color() const
 {
 	return m_color;
@@ -42,18 +48,6 @@ void ColorButton::setColor(const QColor & color)
 {
 	m_color = color;
 	updateColor();
-}
-
-void ColorButton::paint(QPainter * painter, const QPoint & topLeft, const QColor & color)
-{
-    QPixmap pixmap(s_fixedSize);
-    pixmap.fill(color);
-
-    QRect rect(topLeft, s_fixedSize);
-
-    painter->setBrushOrigin(topLeft);
-    painter->fillRect(rect, TransparencyBackgroundBrush());
-    painter->drawPixmap(rect, pixmap);
 }
 
 void ColorButton::mousePressEvent(QMouseEvent * event)

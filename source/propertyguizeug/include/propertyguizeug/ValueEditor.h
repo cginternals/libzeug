@@ -1,4 +1,3 @@
-
 #pragma once
 
 #include <propertyguizeug/PropertyEditor.h>
@@ -17,11 +16,10 @@ class PROPERTYGUIZEUG_API ValueEditor : public PropertyEditor
 {
 public:
     ValueEditor(reflectionzeug::AbstractValueProperty * property, QWidget * parent = nullptr);
-    virtual ~ValueEditor();
     
     void editingFinished();
 
-protected:
+private:
     QLineEdit * m_lineEdit;
     
     reflectionzeug::AbstractValueProperty * m_property;

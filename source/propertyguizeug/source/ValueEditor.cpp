@@ -21,10 +21,6 @@ ValueEditor::ValueEditor(AbstractValueProperty * property, QWidget * parent)
     m_lineEdit->setText(QString::fromStdString(m_property->toString()));
     this->connect(m_lineEdit, &QLineEdit::editingFinished, this, &ValueEditor::editingFinished);
 }
-
-ValueEditor::~ValueEditor()
-{   
-}
     
 void ValueEditor::editingFinished()
 {

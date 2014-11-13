@@ -1,3 +1,4 @@
+#include <propertyguizeug/PropertyEditorFactory.h>
 
 #include <reflectionzeug/Property.h>
 
@@ -11,19 +12,12 @@
 #include <propertyguizeug/SignedIntegralEditor.h>
 #include <propertyguizeug/FloatingPointEditor.h>
 
-#include <propertyguizeug/PropertyEditorFactory.h>
-
-
 using namespace reflectionzeug;
 namespace propertyguizeug
 {
     
 PropertyEditorFactory::PropertyEditorFactory()
 :   m_editor(nullptr)
-{
-}
-
-PropertyEditorFactory::~PropertyEditorFactory()
 {
 }
 

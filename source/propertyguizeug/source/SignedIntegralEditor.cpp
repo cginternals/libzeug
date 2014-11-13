@@ -1,11 +1,10 @@
+#include <propertyguizeug/SignedIntegralEditor.h>
 
 #include <QHBoxLayout>
 
 #include <reflectionzeug/SignedIntegralPropertyInterface.h>
 
-#include <propertyguizeug/SignedIntegralEditor.h>
 #include <propertyguizeug/LongLongSpinBox.h>
-
 
 namespace propertyguizeug
 {

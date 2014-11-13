@@ -1,13 +1,11 @@
-
 #pragma once
 
 #include <QStyleOptionViewItem>
 
 #include <reflectionzeug/property_declaration.h>
+#include <reflectionzeug/PropertyVisitor.h>
 
 #include <propertyguizeug/propertyguizeug_api.h>
-
-#include <reflectionzeug/PropertyVisitor.h>
 
 class QPainter;
 
@@ -28,7 +26,6 @@ class PROPERTYGUIZEUG_API PropertyPainter :
 {
 public:
     PropertyPainter();
-    virtual ~PropertyPainter();
 
     void drawValue(QPainter * painter, 
                    const QStyleOptionViewItem & option,
@@ -38,14 +35,13 @@ public:
     virtual void visit(reflectionzeug::Property<bool> * property);
     virtual void visit(reflectionzeug::Property<reflectionzeug::Color> * property);
     
-protected:
+private:
 	void drawString(const QString & string);
 	void drawItemViewBackground();
 
     bool m_drawn;
     QPainter * m_painter;
     QStyleOptionViewItem m_option;
-    
 };
 
 } // namespace propertyguizeug

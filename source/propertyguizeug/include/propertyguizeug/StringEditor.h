@@ -1,4 +1,3 @@
-
 #pragma once
 
 #include <reflectionzeug/property_declaration.h>
@@ -9,10 +8,8 @@ class QWidget;
 
 namespace reflectionzeug
 {
-
-class StringPropertyInterface;
-
-} // namespace reflectionzeug
+    class StringPropertyInterface;
+}
 
 namespace propertyguizeug
 {
@@ -33,9 +30,8 @@ protected:
     
     void setString(const QString & text);
 
-protected:    
+private:    
     reflectionzeug::StringPropertyInterface * m_property;
-    
 };
 
 } // namespace propertyguizeug

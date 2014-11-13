@@ -1,4 +1,3 @@
-
 #pragma once
 
 #include <reflectionzeug/property_declaration.h>
@@ -15,7 +14,6 @@ class PROPERTYGUIZEUG_API PropertyEditorFactory : public reflectionzeug::Standar
 {
 public:
     PropertyEditorFactory();
-    virtual ~PropertyEditorFactory();
 
     QWidget * createEditor(reflectionzeug::AbstractValueProperty & property);
     QWidget * createEditorWithParent(reflectionzeug::AbstractValueProperty & property, QWidget * parent);

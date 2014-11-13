@@ -1,8 +1,6 @@
-
 #pragma once
 
 #include <propertyguizeug/PropertyEditor.h>
-
 
 namespace reflectionzeug
 {
@@ -16,11 +14,10 @@ class PROPERTYGUIZEUG_API EnumEditor : public PropertyEditor
 {
 public:
     EnumEditor(reflectionzeug::EnumPropertyInterface * property, QWidget * parent = nullptr);
-    virtual ~EnumEditor();
     
     void setString(const QString & text);
 
-protected:
+private:
     reflectionzeug::EnumPropertyInterface * m_property;
 };
 

@@ -1,14 +1,13 @@
+#include <propertyguizeug/FilePathEditor.h>
 
-#include <QHBoxLayout>
-#include <QSettings>
-#include <QFileDialog>
-#include <QVariant>
 #include <QCompleter>
+#include <QFileDialog>
+#include <QHBoxLayout>
 #include <QLineEdit>
+#include <QSettings>
+#include <QVariant>
 
 #include <reflectionzeug/Property.h>
-
-#include <propertyguizeug/FilePathEditor.h>
 
 using namespace reflectionzeug;
 namespace propertyguizeug
@@ -46,10 +45,6 @@ FilePathEditor::FilePathEditor(Property<FilePath> * property, QWidget * parent)
     this->connect(m_lineEdit, &QLineEdit::selectionChanged, [this] () {
         m_lineEdit->completer()->complete();
     });
-}
-
-FilePathEditor::~FilePathEditor()
-{
 }
     
 QStringList FilePathEditor::recentlyUsedFilePaths()

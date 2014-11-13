@@ -1,11 +1,10 @@
+#include <propertyguizeug/StringEditor.h>
 
-#include <QLineEdit>
 #include <QComboBox>
 #include <QHBoxLayout>
+#include <QLineEdit>
 
 #include <reflectionzeug/Property.h>
-
-#include <propertyguizeug/StringEditor.h>
 
 using namespace reflectionzeug;
 namespace propertyguizeug

@@ -1,8 +1,6 @@
-
 #pragma once
 
 #include <propertyguizeug/PropertyEditor.h>
-
 
 namespace reflectionzeug
 {
@@ -27,9 +25,7 @@ public:
     UnsignedIntegralEditor(reflectionzeug::UnsignedIntegralPropertyInterface * property, 
                            QWidget * parent = nullptr);
 
-    virtual ~UnsignedIntegralEditor();
-
-protected:
+private:
     ULongLongSpinBox * m_spinBox;
     
     reflectionzeug::UnsignedIntegralPropertyInterface * m_property;

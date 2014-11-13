@@ -1,18 +1,14 @@
 #pragma once
 
-#include <QHash>
-#include <QList>
 #include <QAbstractItemModel>
 
 #include <propertyguizeug/propertyguizeug_api.h>
-
 
 namespace reflectionzeug 
 {
     class AbstractProperty;
     class PropertyGroup;
 }
-
 
 namespace propertyguizeug
 {

@@ -1,10 +1,8 @@
-
 #pragma once
 
 #include <QStyledItemDelegate>
 
 #include <propertyguizeug/propertyguizeug_api.h>
-
 
 namespace propertyguizeug
 {
@@ -35,10 +33,9 @@ public:
     virtual QSize sizeHint(const QStyleOptionViewItem & option,
                             const QModelIndex & index) const;
 
-protected:
+private:
     PropertyEditorFactory * m_editorFactory;
     PropertyPainter * m_propertyPainter;
-    
 };
 
 } // namespace propertyguizeug

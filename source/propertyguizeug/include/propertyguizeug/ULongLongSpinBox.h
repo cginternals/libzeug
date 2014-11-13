@@ -1,10 +1,8 @@
-
 #pragma once
 
 #include <QAbstractSpinBox>
 
 #include <propertyguizeug/propertyguizeug_api.h>
-
 
 namespace propertyguizeug
 {
@@ -56,7 +54,6 @@ private:
     qulonglong m_max;
     qulonglong m_step;
     qulonglong m_value;
-    
 };
     
 } // namespace propertyguizeug

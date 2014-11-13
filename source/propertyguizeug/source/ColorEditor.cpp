@@ -1,3 +1,4 @@
+#include <propertyguizeug/ColorEditor.h>
 
 #include <QColorDialog>
 #include <QLineEdit>
@@ -5,11 +6,9 @@
 #include <QHBoxLayout>
 #include <QRegExpValidator>
 
+#include <reflectionzeug/ColorPropertyInterface.h>
 #include <reflectionzeug/Property.h>
 
-#include <reflectionzeug/ColorPropertyInterface.h>
-
-#include <propertyguizeug/ColorEditor.h>
 #include <propertyguizeug/ColorButton.h>
 
 using namespace reflectionzeug;
@@ -40,17 +39,15 @@ ColorEditor::ColorEditor(reflectionzeug::ColorPropertyInterface * property, QWid
     this->connect(m_button, &ColorButton::pressed, this, &ColorEditor::openColorPicker);
     this->connect(m_lineEdit, &QLineEdit::editingFinished, this, &ColorEditor::parseColor);
 }
-
-ColorEditor::~ColorEditor()
-{
-}
     
 void ColorEditor::openColorPicker()
 {
-    QColor qcolor = QColorDialog::getColor(this->qcolor(),
-                                           m_button,
-                                           "Choose Color",
-                                           QColorDialog::ShowAlphaChannel);
+    QColor qcolor = QColorDialog::getColor(
+        this->qcolor(),
+        m_button,
+        "Choose Color",
+        QColorDialog::ShowAlphaChannel);
+        
     if (qcolor.isValid())
         this->setQColor(qcolor);
 }

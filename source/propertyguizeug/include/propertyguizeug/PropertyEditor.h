@@ -1,4 +1,3 @@
-
 #pragma once
 
 #include <QWidget>
@@ -14,14 +13,12 @@ class PROPERTYGUIZEUG_API PropertyEditor : public QWidget
 {
 public:
 	PropertyEditor(QWidget * parent = nullptr);
-	virtual ~PropertyEditor();
 
 protected:
 	QBoxLayout * boxLayout();
 	
 private:
 	QBoxLayout * m_layout;
-
 };
 
 } // namespace propertyguizeug

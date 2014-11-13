@@ -1,3 +1,4 @@
+#include <propertyguizeug/FloatingPointEditor.h>
 
 #include <limits>
 
@@ -5,8 +6,6 @@
 #include <QDoubleSpinBox>
 
 #include <reflectionzeug/Property.h>
-
-#include <propertyguizeug/FloatingPointEditor.h>
 
 using namespace reflectionzeug;
 namespace propertyguizeug

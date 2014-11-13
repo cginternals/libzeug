@@ -1,11 +1,10 @@
+#include <propertyguizeug/EnumEditor.h>
 
 #include <QHBoxLayout>
 #include <QComboBox>
 #include <QVector>
 
 #include <reflectionzeug/EnumPropertyInterface.h>
-
-#include <propertyguizeug/EnumEditor.h>
 
 using namespace reflectionzeug;
 namespace propertyguizeug
@@ -36,10 +35,6 @@ EnumEditor::EnumEditor(
     this->boxLayout()->addWidget(comboBox);
     
     this->connect(comboBox, &QComboBox::currentTextChanged, this, &EnumEditor::setString);
-}
-
-EnumEditor::~EnumEditor()
-{
 }
     
 void EnumEditor::setString(const QString & text)

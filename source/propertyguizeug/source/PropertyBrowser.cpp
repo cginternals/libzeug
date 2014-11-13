@@ -1,3 +1,4 @@
+#include <propertyguizeug/PropertyBrowser.h>
 
 #include <cassert>
 
@@ -8,10 +9,7 @@
 #include <propertyguizeug/PropertyEditorFactory.h>
 #include <propertyguizeug/PropertyPainter.h>
 
-#include <propertyguizeug/PropertyBrowser.h>
-
 #include "PropertyItem.h"
-
 
 using namespace reflectionzeug;
 

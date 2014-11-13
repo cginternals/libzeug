@@ -1,4 +1,3 @@
-
 #include "PropertyItem.h"
 
 #include <functional>
@@ -8,7 +7,6 @@
 #include <reflectionzeug/Property.h>
 
 #include <propertyguizeug/PropertyModel.h>
-
 
 using namespace reflectionzeug;
 namespace propertyguizeug

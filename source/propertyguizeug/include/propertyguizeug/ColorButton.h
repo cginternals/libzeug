@@ -1,11 +1,9 @@
-
 #pragma once
 
-#include <QLabel>
 #include <QColor>
+#include <QLabel>
 
 #include <propertyguizeug/propertyguizeug_api.h>
-
 
 namespace propertyguizeug
 {
@@ -15,8 +13,11 @@ class PROPERTYGUIZEUG_API ColorButton : public QLabel
 	Q_OBJECT
 
 public:
+    static const QSize s_fixedSize;
+    static void paint(QPainter * painter, const QPoint & topLeft, const QColor & color);
+    
+public:
 	ColorButton(QWidget * parent = nullptr, const QColor & initialColor = Qt::black);
-	virtual ~ColorButton();
 
 	virtual const QColor & color() const;
 	void setColor(const QColor & color);
@@ -24,16 +25,12 @@ public:
 signals:
     void pressed();
 
-public:
-    static void paint(QPainter * painter, const QPoint & topLeft, const QColor & color);
-    static const QSize s_fixedSize;
-
 protected:
 	virtual void mousePressEvent(QMouseEvent * event);
     void updateColor();
     
+private:
     QColor m_color;
-
 };
 
 } // namespace propertyguizeug

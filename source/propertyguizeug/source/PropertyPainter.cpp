@@ -1,14 +1,11 @@
+#include <propertyguizeug/PropertyPainter.h>
 
 #include <QApplication>
 #include <QPainter>
 
 #include <reflectionzeug/Property.h>
 
-#include <propertyguizeug/PropertyEditor.h>
-
 #include <propertyguizeug/ColorButton.h>
-#include <propertyguizeug/PropertyPainter.h>
-
 
 using namespace reflectionzeug;
 namespace propertyguizeug
@@ -17,10 +14,6 @@ namespace propertyguizeug
 PropertyPainter::PropertyPainter()
 :   m_drawn(false)
 ,   m_painter(nullptr)
-{
-}
-
-PropertyPainter::~PropertyPainter()
 {
 }
 
