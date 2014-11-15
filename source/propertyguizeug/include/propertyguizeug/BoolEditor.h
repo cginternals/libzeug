@@ -5,11 +5,19 @@
 #include <propertyguizeug/propertyguizeug_api.h>
 #include <propertyguizeug/PropertyEditor.h>
 
+class QPainter;
+class QStyleOptionViewItem;
+
 namespace propertyguizeug
 {
     
 class PROPERTYGUIZEUG_API BoolEditor : public PropertyEditor
 {
+public:
+    static void paint(QPainter * painter, 
+                      const QStyleOptionViewItem & option, 
+                      reflectionzeug::Property<bool> & property);
+
 public:
     BoolEditor(reflectionzeug::Property<bool> * property, 
                QWidget * parent = nullptr);

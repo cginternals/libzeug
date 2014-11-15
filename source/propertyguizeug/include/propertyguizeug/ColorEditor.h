@@ -6,6 +6,8 @@
 
 class QColor;
 class QLineEdit;
+class QPainter;
+class QStyleOptionViewItem;
 
 namespace reflectionzeug 
 {
@@ -20,6 +22,11 @@ class ColorButton;
 
 class PROPERTYGUIZEUG_API ColorEditor : public PropertyEditor
 {
+public:
+    static void paint(QPainter * painter, 
+                      const QStyleOptionViewItem & option, 
+                      reflectionzeug::ColorPropertyInterface & property);
+
 public:
     ColorEditor(reflectionzeug::ColorPropertyInterface * property, 
                 QWidget * parent = nullptr);

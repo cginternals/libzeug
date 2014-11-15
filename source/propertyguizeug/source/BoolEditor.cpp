@@ -1,6 +1,9 @@
 #include <propertyguizeug/BoolEditor.h>
 
+#include <QApplication>
 #include <QCheckBox>
+#include <QStyleOptionButton>
+#include <QStyleOptionViewItem>
 
 #include <reflectionzeug/Property.h>
 
@@ -8,6 +11,22 @@ using namespace reflectionzeug;
 namespace propertyguizeug
 {
     
+void BoolEditor::paint(
+    QPainter * painter, 
+    const QStyleOptionViewItem & option, 
+    Property<bool> & property)
+{
+    auto opt = QStyleOptionButton{};
+    opt.state = property.value() ? QStyle::State_On : QStyle::State_Off;
+    opt.state |= QStyle::State_Enabled;
+    opt.rect = option.rect;
+    opt.rect.setLeft(opt.rect.left()/* + PropertyEditor::s_horizontalMargin */);
+
+    auto widget = option.widget;
+    auto style = widget ? widget->style() : QApplication::style();
+    style->drawControl(QStyle::CE_CheckBox, &opt, painter, widget);
+}
+                      
 BoolEditor::BoolEditor(Property<bool> * property, QWidget * parent)
 :   PropertyEditor{parent}
 ,   m_property{property}

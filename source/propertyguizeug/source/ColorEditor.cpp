@@ -1,11 +1,14 @@
 #include <propertyguizeug/ColorEditor.h>
 
+#include <QApplication>
 #include <QColor>
 #include <QColorDialog>
 #include <QLineEdit>
 #include <QLabel>
 #include <QHBoxLayout>
+#include <QPainter>
 #include <QRegExpValidator>
+#include <QStyleOptionViewItem>
 
 #include <reflectionzeug/ColorPropertyInterface.h>
 
@@ -31,6 +34,34 @@ Color toColor(const QColor & color)
 namespace propertyguizeug
 {
 
+void ColorEditor::paint(
+    QPainter * painter, 
+    const QStyleOptionViewItem & option, 
+    ColorPropertyInterface & property)
+{
+    auto color = property.toColor();
+    auto qcolor = toQColor(color);
+                  
+    auto topLeft = QPoint{option.rect.left(), option.rect.top() + 4};
+
+    ColorButton::paint(painter, topLeft, qcolor);
+    
+    auto rect = option.rect;
+    rect.setLeft(option.rect.left() + 
+                 ColorButton::s_fixedSize.width() + 4);
+
+    auto widget = option.widget;
+    auto style = widget ? widget->style() : QApplication::style();
+    style->drawItemText(
+        painter,
+        rect,
+        Qt::AlignVCenter,
+        option.palette,
+        true,
+        QString::fromStdString(property.toString()),
+        QPalette::Text);
+}
+                      
 ColorEditor::ColorEditor(ColorPropertyInterface * property, QWidget * parent)
 :   PropertyEditor{parent}
 ,   m_property{property}

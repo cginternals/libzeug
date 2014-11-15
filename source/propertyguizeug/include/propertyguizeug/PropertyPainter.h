@@ -12,17 +12,17 @@ class QPainter;
 namespace reflectionzeug 
 {
     class AbstractValueProperty;
-    class Color;
-    class FilePath;
+    class ColorPropertyInterface;
 }
 
 namespace propertyguizeug
 {
    
 class PROPERTYGUIZEUG_API PropertyPainter : 
-    public reflectionzeug::PropertyVisitor<reflectionzeug::AbstractValueProperty, 
-                                           reflectionzeug::Property<bool>, 
-                                           reflectionzeug::Property<reflectionzeug::Color>>
+    public reflectionzeug::PropertyVisitor<
+        reflectionzeug::AbstractValueProperty, 
+        reflectionzeug::Property<bool>, 
+        reflectionzeug::ColorPropertyInterface>
 {
 public:
     PropertyPainter();
@@ -33,7 +33,7 @@ public:
 
     virtual void visit(reflectionzeug::AbstractValueProperty * property);
     virtual void visit(reflectionzeug::Property<bool> * property);
-    virtual void visit(reflectionzeug::Property<reflectionzeug::Color> * property);
+    virtual void visit(reflectionzeug::ColorPropertyInterface * property);
     
 private:
 	void drawString(const QString & string);
