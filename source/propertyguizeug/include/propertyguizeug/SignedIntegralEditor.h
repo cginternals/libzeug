@@ -9,8 +9,6 @@ namespace reflectionzeug
 
 namespace propertyguizeug
 {
-    
-class LongLongSpinBox;
 
 /** \brief Editor for signed integral point properties
  *
@@ -25,9 +23,7 @@ public:
     SignedIntegralEditor(reflectionzeug::SignedIntegralPropertyInterface * property, 
                          QWidget * parent = nullptr);
 
-private:
-    LongLongSpinBox * m_spinBox;
-    
+private:    
     reflectionzeug::SignedIntegralPropertyInterface * m_property;
 };
 

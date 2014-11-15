@@ -24,7 +24,7 @@ class PROPERTYGUIZEUG_API StringEditor : public PropertyEditor
 public:
     StringEditor(reflectionzeug::StringPropertyInterface * property, QWidget * parent = nullptr);
 
-protected:
+private:
     QWidget * createComboBox();
     QWidget * createLineEdit();
     

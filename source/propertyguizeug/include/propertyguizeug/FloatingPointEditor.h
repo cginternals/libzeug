@@ -4,8 +4,6 @@
 
 #include <propertyguizeug/PropertyEditor.h>
 
-class QDoubleSpinBox;
-
 namespace reflectionzeug
 {
     class FloatingPointPropertyInterface;
@@ -29,8 +27,6 @@ public:
                         QWidget * parent = nullptr);
 
 private:
-    QDoubleSpinBox * m_spinBox;
-    
     reflectionzeug::FloatingPointPropertyInterface * m_property;
 };
 

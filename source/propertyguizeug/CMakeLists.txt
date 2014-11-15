@@ -89,6 +89,8 @@ set(sources
     ${source_path}/TransparencyBackgroundBrush.hpp
     ${source_path}/ULongLongSpinBox.cpp
     ${source_path}/UnsignedIntegralEditor.cpp
+    ${source_path}/util.cpp
+    ${source_path}/util.h
     ${source_path}/ValueEditor.cpp
 )
 

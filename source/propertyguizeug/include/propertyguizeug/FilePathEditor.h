@@ -20,10 +20,8 @@ namespace propertyguizeug
  *
  * Supported options:
  * - uniqueidentifier (std::string): used to save recent files with QSettings
- *
- * Supported flags:
- * - shouldexist
- * - isfile
+ * - shouldexist (bool)
+ * - isfile (bool)
  */    
 class PROPERTYGUIZEUG_API FilePathEditor : public PropertyEditor
 {

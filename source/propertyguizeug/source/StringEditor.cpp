@@ -1,45 +1,42 @@
 #include <propertyguizeug/StringEditor.h>
 
 #include <QComboBox>
-#include <QHBoxLayout>
 #include <QLineEdit>
 
 #include <reflectionzeug/Property.h>
+
+#include "util.h"
 
 using namespace reflectionzeug;
 namespace propertyguizeug
 {
     
 StringEditor::StringEditor(StringPropertyInterface * property, QWidget * parent)
-:   PropertyEditor(parent)
-,   m_property(property)
+:   PropertyEditor{parent}
+,   m_property{property}
 {   
-    QWidget * widget;
+    QWidget * widget = nullptr;
 
     if (m_property->hasOption("choices"))
         widget = createComboBox();
     else
         widget = createLineEdit();
 
-    this->boxLayout()->addWidget(widget);
-    this->setFocusProxy(widget);
+    addWidget(widget);
+    setFocusProxy(widget);
 }
 
 QWidget * StringEditor::createComboBox()
 {
-    QComboBox * comboBox = new QComboBox(this);
+    auto comboBox = new QComboBox{this};
 
-    std::vector<std::string> choices = m_property->option("choices").value<std::vector<std::string>>();
-    
-    QStringList items;
-    for (const std::string & item : choices)
-        items << QString::fromStdString(item);
+    auto choices = m_property->option("choices").value<std::vector<std::string>>();
 
-    comboBox->addItems(items);
+    comboBox->addItems(util::toQStringList(choices));
     comboBox->setCurrentText(QString::fromStdString(m_property->toString()));
     
-    typedef void (QComboBox::*ActivatedPtr) (const QString &);
-    connect(comboBox, (ActivatedPtr)(&QComboBox::activated),
+    using StringActivatedPtr = void (QComboBox::*) (const QString &);
+    connect(comboBox, static_cast<StringActivatedPtr>(&QComboBox::activated),
             this, &StringEditor::setString);
 
     return comboBox;
@@ -47,7 +44,7 @@ QWidget * StringEditor::createComboBox()
 
 QWidget * StringEditor::createLineEdit()
 {
-    QLineEdit * lineEdit = new QLineEdit(this);
+    auto lineEdit = new QLineEdit{this};
     
     lineEdit->setText(QString::fromStdString(m_property->toString()));
     

@@ -4,21 +4,9 @@
 
 #include <reflectionzeug/EnumPropertyInterface.h>
 
+#include "util.h"
+
 using namespace reflectionzeug;
-
-namespace 
-{
-
-QStringList toQStringList(const std::vector<std::string> & list)
-{
-    auto qlist = QStringList{};
-    for (auto string : list)
-        qlist << QString::fromStdString(string);
-    return qlist;
-}
-
-} // namespace
-
 namespace propertyguizeug
 {
     
@@ -35,7 +23,7 @@ EnumEditor::EnumEditor(
         strings = property->strings();
     
     auto comboBox = new QComboBox{this};
-    comboBox->addItems(toQStringList(strings));
+    comboBox->addItems(util::toQStringList(strings));
     comboBox->setCurrentText(QString::fromStdString(m_property->toString()));
     
     addWidget(comboBox);
