@@ -13,7 +13,8 @@ namespace propertyguizeug
 class PROPERTYGUIZEUG_API EnumEditor : public PropertyEditor
 {
 public:
-    EnumEditor(reflectionzeug::EnumPropertyInterface * property, QWidget * parent = nullptr);
+    EnumEditor(reflectionzeug::EnumPropertyInterface * property, 
+               QWidget * parent = nullptr);
     
     void setString(const QString & text);
 

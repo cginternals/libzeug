@@ -4,7 +4,7 @@
 
 #include <propertyguizeug/propertyguizeug_api.h>
 
-class QBoxLayout;
+class QHBoxLayout;
 
 namespace propertyguizeug
 {
@@ -15,10 +15,11 @@ public:
 	PropertyEditor(QWidget * parent = nullptr);
 
 protected:
-	QBoxLayout * boxLayout();
+    void addWidget(QWidget * widget);
+	QHBoxLayout * boxLayout();
 	
 private:
-	QBoxLayout * m_layout;
+	QHBoxLayout * m_layout;
 };
 
 } // namespace propertyguizeug

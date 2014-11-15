@@ -1,40 +1,48 @@
 #include <propertyguizeug/EnumEditor.h>
 
-#include <QHBoxLayout>
 #include <QComboBox>
-#include <QVector>
 
 #include <reflectionzeug/EnumPropertyInterface.h>
 
 using namespace reflectionzeug;
+
+namespace 
+{
+
+QStringList toQStringList(const std::vector<std::string> & list)
+{
+    auto qlist = QStringList{};
+    for (auto string : list)
+        qlist << QString::fromStdString(string);
+    return qlist;
+}
+
+} // namespace
+
 namespace propertyguizeug
 {
     
 EnumEditor::EnumEditor(
     reflectionzeug::EnumPropertyInterface * property, 
     QWidget * parent)
-:   PropertyEditor(parent)
-,   m_property(property)
+:   PropertyEditor{parent}
+,   m_property{property}
 {
-    QStringList list;
-
-    std::vector<std::string> strings;
-    if (property->hasOption("choices"))
-        strings = property->option("choices").value<std::vector<std::string>>();
+    auto strings = std::vector<std::string>{};
+    if (property->hasChoices())
+        strings = property->choicesStrings();
     else
-        strings = property->option("strings").value<std::vector<std::string>>();
-
-    for (const std::string & string : strings)
-        list << QString::fromStdString(string);
+        strings = property->strings();
     
-    QComboBox * comboBox = new QComboBox(this);
-    comboBox->addItems(list);
-    this->setFocusProxy(comboBox);
+    auto comboBox = new QComboBox{this};
+    comboBox->addItems(toQStringList(strings));
     comboBox->setCurrentText(QString::fromStdString(m_property->toString()));
     
-    this->boxLayout()->addWidget(comboBox);
+    addWidget(comboBox);
+    setFocusProxy(comboBox);
     
-    this->connect(comboBox, &QComboBox::currentTextChanged, this, &EnumEditor::setString);
+    connect(comboBox, &QComboBox::currentTextChanged, 
+            this, &EnumEditor::setString);
 }
     
 void EnumEditor::setString(const QString & text)
