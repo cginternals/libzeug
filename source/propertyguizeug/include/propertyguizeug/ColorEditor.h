@@ -4,6 +4,7 @@
 
 #include <propertyguizeug/PropertyEditor.h>
 
+class QColor;
 class QLineEdit;
 
 namespace reflectionzeug 
@@ -20,17 +21,18 @@ class ColorButton;
 class PROPERTYGUIZEUG_API ColorEditor : public PropertyEditor
 {
 public:
-    ColorEditor(reflectionzeug::ColorPropertyInterface * property, QWidget * parent = nullptr);
+    ColorEditor(reflectionzeug::ColorPropertyInterface * property, 
+                QWidget * parent = nullptr);
     
     void openColorPicker();
     void parseColor();
 
 private:
-    QColor qcolor() const;
+    QColor qColor() const;
     void setQColor(const QColor & qcolor);
     void setColor(const reflectionzeug::Color & color);
     
-private:
+private:  
     ColorButton * m_button;
     QLineEdit * m_lineEdit;
     
