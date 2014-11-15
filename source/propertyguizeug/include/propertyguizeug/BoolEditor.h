@@ -14,6 +14,8 @@ namespace propertyguizeug
 class PROPERTYGUIZEUG_API BoolEditor : public PropertyEditor
 {
 public:
+    using Type = reflectionzeug::Property<bool>;
+
     static void paint(QPainter * painter, 
                       const QStyleOptionViewItem & option, 
                       reflectionzeug::Property<bool> & property);

@@ -23,6 +23,8 @@ class ColorButton;
 class PROPERTYGUIZEUG_API ColorEditor : public PropertyEditor
 {
 public:
+    using Type = reflectionzeug::ColorPropertyInterface;
+
     static void paint(QPainter * painter, 
                       const QStyleOptionViewItem & option, 
                       reflectionzeug::ColorPropertyInterface & property);

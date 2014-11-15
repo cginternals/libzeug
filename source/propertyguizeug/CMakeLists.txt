@@ -61,6 +61,7 @@ set(headers
     ${header_path}/PropertyEditorFactory.h
     ${header_path}/PropertyModel.h
     ${header_path}/PropertyPainter.h
+    ${header_path}/PropertyPainterPlugin.h
     ${header_path}/SignedIntegralEditor.h
     ${header_path}/StringEditor.h
     ${header_path}/ULongLongSpinBox.h
