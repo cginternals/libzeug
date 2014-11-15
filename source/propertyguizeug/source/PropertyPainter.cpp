@@ -51,7 +51,7 @@ void PropertyPainter::addPlugin(AbstractPropertyPainterPlugin * plugin)
 {
     assert(plugin);
     plugin->setPainter(this);
-    m_plugins << plugin;
+    m_plugins.prepend(plugin);
 }
 
 QPainter * PropertyPainter::painter() const

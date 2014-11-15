@@ -15,7 +15,8 @@ namespace propertyguizeug
 class PROPERTYGUIZEUG_API ValueEditor : public PropertyEditor
 {
 public:
-    ValueEditor(reflectionzeug::AbstractValueProperty * property, QWidget * parent = nullptr);
+    ValueEditor(reflectionzeug::AbstractValueProperty * property, 
+                QWidget * parent = nullptr);
     
     void editingFinished();
 

@@ -26,6 +26,9 @@ namespace propertyguizeug
 class PROPERTYGUIZEUG_API FilePathEditor : public PropertyEditor
 {
 public:
+    using Type = reflectionzeug::Property<reflectionzeug::FilePath>;
+    
+public:
     FilePathEditor(reflectionzeug::Property<reflectionzeug::FilePath> * property, 
                    QWidget * parent = nullptr);
     

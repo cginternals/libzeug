@@ -22,7 +22,11 @@ namespace propertyguizeug
 class PROPERTYGUIZEUG_API StringEditor : public PropertyEditor
 {
 public:
-    StringEditor(reflectionzeug::StringPropertyInterface * property, QWidget * parent = nullptr);
+    using Type = reflectionzeug::StringPropertyInterface;
+    
+public:
+    StringEditor(reflectionzeug::StringPropertyInterface * property, 
+                 QWidget * parent = nullptr);
 
 private:
     QWidget * createComboBox();

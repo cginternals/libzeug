@@ -1,5 +1,6 @@
 #pragma once
 
+#include <QList>
 #include <QStyleOptionViewItem>
 
 #include <propertyguizeug/propertyguizeug_api.h>

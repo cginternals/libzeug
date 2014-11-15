@@ -20,6 +20,9 @@ namespace propertyguizeug
 class PROPERTYGUIZEUG_API UnsignedIntegralEditor : public PropertyEditor
 {
 public:
+    using Type = reflectionzeug::UnsignedIntegralPropertyInterface;
+    
+public:
     UnsignedIntegralEditor(reflectionzeug::UnsignedIntegralPropertyInterface * property, 
                            QWidget * parent = nullptr);
 

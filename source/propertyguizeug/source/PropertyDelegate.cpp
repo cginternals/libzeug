@@ -65,7 +65,7 @@ QWidget * PropertyDelegate::createEditor(QWidget * parent,
     if (!property->isValue())
         return QStyledItemDelegate::createEditor(parent, option, index);
 
-    return m_editorFactory->createEditorWithParent(*property->asValue(), parent);
+    return m_editorFactory->createEditor(*property->asValue(), parent);
 }
 
 void PropertyDelegate::updateEditorGeometry(QWidget * editor, const QStyleOptionViewItem & option,
