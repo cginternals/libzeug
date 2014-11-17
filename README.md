@@ -69,10 +69,8 @@ The currently implemented property types are `bool`, `float`, `double`, `std::st
 scriptzeug
 ----------
 
-configure V8 in Win with x64 and no i18n:
-`python build\gyp_v8 -Dtarget_arch=x64 -Dv8_enable_i18n_support=0 -Dcomponent=shared_library`
-build:
-`msbuild /p:Configuration=Release tools\gyp\v8.sln`
+scriptzeug offers a scripting environment to which one can register reflectionzeug objects that then can be manipulated within a scripting language.
+Currently implemented as scripting environment is Javascript, both with [V8](https://code.google.com/p/v8/) (must be compiled and provided externally) and [Duktape](http://duktape.org/) (default, included in scriptzeug).
 
 
 signalzeug
