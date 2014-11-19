@@ -140,37 +140,37 @@ struct VariantConverterInit<std::string>
     }
 };
 
-template <>
-struct VariantConverterInit<std::vector<std::string>>
+template <typename T>
+struct VariantConverterInit<std::vector<T>>
 {
     void operator()()
     {
-        Variant::registerConverter<std::vector<std::string>, std::string>(toString);
-        Variant::registerConverter<std::vector<std::string>, VariantArray>(toVariantArray);
+        Variant::registerConverter<std::vector<T>, std::string>(toString);
+        Variant::registerConverter<std::vector<T>, VariantArray>(toVariantArray);
 
     }
 
-    static std::string toString(const std::vector<std::string> & strings)
+    static std::string toString(const std::vector<T> & elements)
     {
-        std::string json = "[";
+        std::string out = "[";
         bool first = true;
-        for (std::string value : strings) 
+        for (T value : elements)
         {
             if (!first)
             {
-                json += ", ";
+                out += ", ";
             }
-            json += "\"" + value + "\"";
+            out += "\"" + Variant(value).value<std::string>() + "\"";
             first = false;
         }
-        json += "]";
-        return json;
+        out += "]";
+        return out;
     }
 
-    static VariantArray toVariantArray(const std::vector<std::string> & strings)
+    static VariantArray toVariantArray(const std::vector<T> & elements)
     {
         VariantArray array;
-        for (std::string value : strings) 
+        for (T value : elements)
         {
             array.push_back(value);
         }
