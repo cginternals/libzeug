@@ -141,6 +141,44 @@ struct VariantConverterInit<std::string>
 };
 
 template <>
+struct VariantConverterInit<std::vector<std::string>>
+{
+    void operator()()
+    {
+        Variant::registerConverter<std::vector<std::string>, std::string>(toString);
+        Variant::registerConverter<std::vector<std::string>, VariantArray>(toVariantArray);
+
+    }
+
+    static std::string toString(const std::vector<std::string> & strings)
+    {
+        std::string json = "[";
+        bool first = true;
+        for (std::string value : strings) 
+        {
+            if (!first)
+            {
+                json += ", ";
+            }
+            json += "\"" + value + "\"";
+            first = false;
+        }
+        json += "]";
+        return json;
+    }
+
+    static VariantArray toVariantArray(const std::vector<std::string> & strings)
+    {
+        VariantArray array;
+        for (std::string value : strings) 
+        {
+            array.push_back(value);
+        }
+        return array;
+    }
+};
+
+template <>
 struct VariantConverterInit<VariantArray>
 {
     void operator()()
