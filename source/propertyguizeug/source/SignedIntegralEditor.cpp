@@ -7,6 +7,18 @@
 namespace propertyguizeug
 {
 
+void SignedIntegralEditor::paint(
+    QPainter * painter, 
+    const QStyleOptionViewItem & option, 
+    reflectionzeug::SignedIntegralPropertyInterface & property)
+{
+    const auto prefix = QString::fromStdString(property.option<std::string>("prefix", ""));
+    const auto suffix = QString::fromStdString(property.option<std::string>("suffix", ""));
+    const auto valueString = QString::fromStdString(property.toString());
+    
+    drawString(prefix + valueString + suffix, painter, option);
+}
+
 SignedIntegralEditor::SignedIntegralEditor(
     reflectionzeug::SignedIntegralPropertyInterface * property, 
     QWidget * parent)

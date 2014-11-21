@@ -10,7 +10,10 @@
 #include <propertyguizeug/BoolEditor.h>
 #include <propertyguizeug/ColorEditor.h>
 #include <propertyguizeug/FloatingPointEditor.h>
+#include <propertyguizeug/SignedIntegralEditor.h>
+#include <propertyguizeug/UnsignedIntegralEditor.h>
 #include <propertyguizeug/PropertyPainterPlugin.h>
+
 
 using namespace reflectionzeug;
 namespace propertyguizeug
@@ -23,7 +26,9 @@ PropertyPainter::PropertyPainter()
     addPlugin(new PropertyPainterPlugin<
         BoolEditor, 
         ColorEditor, 
-        FloatingPointEditor>{});
+        FloatingPointEditor,
+        SignedIntegralEditor,
+        UnsignedIntegralEditor>{});
 }
 
 void PropertyPainter::drawValue(QPainter * painter, 
