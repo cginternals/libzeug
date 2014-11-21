@@ -152,7 +152,7 @@ struct VariantConverterInit<std::vector<T>>
 
     static std::string toString(const std::vector<T> & elements)
     {
-        return Variant(toVariantArray(elements)).template value<std::string>();
+        return Variant(toVariantArray(elements)).value<std::string>();
     }
 
     static VariantArray toVariantArray(const std::vector<T> & elements)
