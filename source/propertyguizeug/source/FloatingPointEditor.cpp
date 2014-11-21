@@ -9,6 +9,21 @@
 using namespace reflectionzeug;
 namespace propertyguizeug
 {
+
+const int FloatingPointEditor::s_defaultPrecision = 3;
+
+void FloatingPointEditor::paint(
+    QPainter * painter, 
+    const QStyleOptionViewItem & option, 
+    reflectionzeug::FloatingPointPropertyInterface & property)
+{
+    const auto prefix = QString::fromStdString(property.option<std::string>("prefix", ""));
+    const auto suffix = QString::fromStdString(property.option<std::string>("suffix", ""));
+    const auto precision = property.option<double>("precision", s_defaultPrecision);
+    const auto valueString = QString::number(property.toDouble(), 'f', precision);
+    
+    drawString(prefix + valueString + suffix, painter, option);
+}
     
 FloatingPointEditor::FloatingPointEditor(
     FloatingPointPropertyInterface * property, 
@@ -43,7 +58,7 @@ FloatingPointEditor::FloatingPointEditor(
     if (m_property->hasOption("precision"))
         precision = m_property->option("precision").value<uint>();
     else
-        precision = 3;
+        precision = s_defaultPrecision;
         
     spinBox->setDecimals(precision);
 

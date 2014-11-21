@@ -14,6 +14,6 @@ QStringList toQStringList(const std::vector<std::string> & list)
     return qlist;
 }
 
-} // namespace propertyguizeug
+} // namespace util
 
 } // namespace propertyguizeug

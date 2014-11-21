@@ -13,6 +13,6 @@ namespace util
 
 QStringList toQStringList(const std::vector<std::string> & list);
 
-} // namespace propertyguizeug
+} // namespace util
 
 } // namespace propertyguizeug

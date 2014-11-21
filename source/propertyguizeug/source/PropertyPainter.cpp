@@ -9,6 +9,7 @@
 
 #include <propertyguizeug/BoolEditor.h>
 #include <propertyguizeug/ColorEditor.h>
+#include <propertyguizeug/FloatingPointEditor.h>
 #include <propertyguizeug/PropertyPainterPlugin.h>
 
 using namespace reflectionzeug;
@@ -19,7 +20,10 @@ PropertyPainter::PropertyPainter()
 :   m_drawn{false}
 ,   m_painter{nullptr}
 {
-    addPlugin(new PropertyPainterPlugin<BoolEditor, ColorEditor>{});
+    addPlugin(new PropertyPainterPlugin<
+        BoolEditor, 
+        ColorEditor, 
+        FloatingPointEditor>{});
 }
 
 void PropertyPainter::drawValue(QPainter * painter, 
@@ -40,11 +44,7 @@ void PropertyPainter::drawValue(QPainter * painter,
     }
 
     if (!m_drawn)
-    {
-        auto prefix = property.option<std::string>("prefix", "");
-        auto suffix = property.option<std::string>("suffix", "");
-        this->drawString(QString::fromStdString(prefix + property.toString() + suffix));
-    }
+        this->drawString(QString::fromStdString(property.toString()));
 }
 
 void PropertyPainter::addPlugin(AbstractPropertyPainterPlugin * plugin)

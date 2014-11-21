@@ -25,9 +25,16 @@ class PROPERTYGUIZEUG_API FloatingPointEditor : public PropertyEditor
 public:
     using Type = reflectionzeug::FloatingPointPropertyInterface;
     
+    static void paint(QPainter * painter, 
+                      const QStyleOptionViewItem & option, 
+                      reflectionzeug::FloatingPointPropertyInterface & property);
+    
 public:
     FloatingPointEditor(reflectionzeug::FloatingPointPropertyInterface * property, 
                         QWidget * parent = nullptr);
+                        
+private:
+    static const int s_defaultPrecision;
 
 private:
     reflectionzeug::FloatingPointPropertyInterface * m_property;

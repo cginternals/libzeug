@@ -87,6 +87,7 @@ int main(int argc, char *argv[])
         });
     aspect->setOption("step", 0.1f);
     aspect->setOption("suffix", " w/h");
+    aspect->setOption("precision", 4);
 
     auto * minimumSize = size->addProperty<std::array<int, 2>>("minimumSize",
         [widget] (size_t i) -> int {
