@@ -1,5 +1,7 @@
 #pragma once
 
+#include <memory>
+
 #include <QTreeView>
 
 #include <propertyguizeug/propertyguizeug_api.h>
@@ -31,10 +33,16 @@ public:
     void setRoot(reflectionzeug::PropertyGroup * root);
     void setAlwaysExpandGroups(bool b);
     
+    template <typename... Editors>
+    void addEditorPlugin();
+
+    template <typename... Editors>
+    void addPainterPlugin();
+
+protected slots:
     void addEditorPlugin(AbstractPropertyEditorPlugin * plugin);
     void addPainterPlugin(AbstractPropertyPainterPlugin * plugin);
 
-protected slots:
     void onRowsInserted(const QModelIndex & parentIndex, int first, int last);
 
 private:
@@ -47,3 +55,5 @@ private:
 };
     
 } // namespace propertyguizeug
+
+#include <propertyguizeug/PropertyBrowser.hpp>

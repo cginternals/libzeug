@@ -56,6 +56,7 @@ set(headers
     ${header_path}/FloatingPointEditor.h
     ${header_path}/LongLongSpinBox.h
     ${header_path}/PropertyBrowser.h
+    ${header_path}/PropertyBrowser.hpp
     ${header_path}/PropertyDelegate.h
     ${header_path}/PropertyEditor.h
     ${header_path}/PropertyEditorFactory.h
