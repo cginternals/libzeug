@@ -4,6 +4,7 @@
 
 #include <reflectionzeug/AbstractProperty.h>
 
+#include <propertyguizeug/DPIScalingHelper.h>
 #include <propertyguizeug/PropertyEditorFactory.h>
 #include <propertyguizeug/PropertyPainter.h>
 
@@ -24,8 +25,9 @@ AbstractProperty * retrieveProperty(const QModelIndex & index)
 namespace propertyguizeug
 {
 
-PropertyDelegate::PropertyDelegate(QWidget * parent)
+PropertyDelegate::PropertyDelegate(DPIScalingHelper * helper, QWidget * parent)
 :   QStyledItemDelegate{parent}
+,   m_helper{helper}
 ,   m_editorFactory{new PropertyEditorFactory{}}
 ,   m_propertyPainter{new PropertyPainter{}}
 {
@@ -71,10 +73,10 @@ void PropertyDelegate::updateEditorGeometry(QWidget * editor, const QStyleOption
     editor->setGeometry(option.rect);
 }
 
-QSize PropertyDelegate::sizeHint (const QStyleOptionViewItem & option,
+QSize PropertyDelegate::sizeHint(const QStyleOptionViewItem & option,
     const QModelIndex & index) const
 {
-    return QSize(0, 27);
+    return QSize(0, 27 * m_helper->dpiBasedScale());
 }
 
 void PropertyDelegate::addEditorPlugin(AbstractPropertyEditorPlugin * plugin)

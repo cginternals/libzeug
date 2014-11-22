@@ -16,6 +16,7 @@ namespace propertyguizeug
 
 class AbstractPropertyEditorPlugin;
 class AbstractPropertyPainterPlugin;
+class DPIScalingHelper;
 class PropertyDelegate;
 
 class PROPERTYGUIZEUG_API PropertyBrowser : public QTreeView
@@ -40,16 +41,19 @@ public:
     void addPainterPlugin();
 
 protected slots:
-    void addEditorPlugin(AbstractPropertyEditorPlugin * plugin);
-    void addPainterPlugin(AbstractPropertyPainterPlugin * plugin);
-
     void onRowsInserted(const QModelIndex & parentIndex, int first, int last);
 
+protected:
+    virtual void showEvent(QShowEvent * event);
+
 private:
+    void addEditorPlugin(AbstractPropertyEditorPlugin * plugin);
+    void addPainterPlugin(AbstractPropertyPainterPlugin * plugin);
     void initView();
     void expandAllGroups();
     
 private:    
+    DPIScalingHelper * m_scalingHelper;
     PropertyDelegate * m_delegate;
     bool m_alwaysExpandGroups;
 };

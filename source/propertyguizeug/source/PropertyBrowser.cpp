@@ -4,6 +4,7 @@
 
 #include <reflectionzeug/AbstractProperty.h>
 
+#include <propertyguizeug/DPIScalingHelper.h>
 #include <propertyguizeug/PropertyModel.h>
 #include <propertyguizeug/PropertyDelegate.h>
 
@@ -32,7 +33,9 @@ PropertyBrowser::PropertyBrowser(QWidget * parent)
 PropertyBrowser::PropertyBrowser(
     PropertyGroup * root,
     QWidget * parent)
-:   m_delegate{new PropertyDelegate{this}}
+:   QTreeView(parent)
+,   m_scalingHelper{new DPIScalingHelper{this}}
+,   m_delegate{new PropertyDelegate{m_scalingHelper, this}}
 ,   m_alwaysExpandGroups{false}
 {
     setRoot(root);
@@ -63,6 +66,16 @@ void PropertyBrowser::setRoot(reflectionzeug::PropertyGroup * root)
     }
 }
 
+void PropertyBrowser::setAlwaysExpandGroups(bool b)
+{
+    m_alwaysExpandGroups = b;
+}
+
+void PropertyBrowser::showEvent(QShowEvent * event)
+{
+    m_scalingHelper->widgetShown();
+}
+
 void PropertyBrowser::onRowsInserted(const QModelIndex & parentIndex, int first, int last)
 {
     QAbstractItemModel * model = this->model();
@@ -79,11 +92,6 @@ void PropertyBrowser::onRowsInserted(const QModelIndex & parentIndex, int first,
         if (property->isGroup() && model->hasChildren(index))
             expand(index);
     }
-}
-
-void PropertyBrowser::setAlwaysExpandGroups(bool b)
-{
-    m_alwaysExpandGroups = b;
 }
 
 void PropertyBrowser::addEditorPlugin(AbstractPropertyEditorPlugin * plugin)
