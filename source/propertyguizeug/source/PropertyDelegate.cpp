@@ -80,7 +80,8 @@ void PropertyDelegate::updateEditorGeometry(QWidget * editor, const QStyleOption
 QSize PropertyDelegate::sizeHint(const QStyleOptionViewItem & option,
     const QModelIndex & index) const
 {
-	return QSize(0, 27 * m_helper->dpiBasedScale());
+    auto size = QStyledItemDelegate::sizeHint(option, index);
+	return {size.width(), static_cast<int>(size.height() * 1.5)};
 }
 
 void PropertyDelegate::addEditorPlugin(AbstractPropertyEditorPlugin * plugin)
