@@ -42,8 +42,8 @@ void DPIScalingHelper::widgetShown()
     connect(window, &QWindow::screenChanged,
         [this] () 
         {
-            auto newDpiBasedScale = dpiBasedScale();
-            auto newDevicePixelRatio = devicePixelRatio();
+            auto newDpiBasedScale = fetchDpiBasedScale();
+            auto newDevicePixelRatio = fetchDevicePixelRatio();
 
             if (newDpiBasedScale != m_dpiBasedScale ||
                 newDevicePixelRatio != m_devicePixelRatio)

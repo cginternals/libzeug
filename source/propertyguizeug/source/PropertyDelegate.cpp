@@ -93,9 +93,4 @@ void PropertyDelegate::addPainterPlugin(AbstractPropertyPainterPlugin * plugin)
     m_propertyPainter->addPlugin(plugin);
 }
 
-void PropertyDelegate::changeSizeHint(const QModelIndex & index)
-{
-	emit sizeHintChanged(index);
-}
-
 } // namespace propertyguizeug
