@@ -42,6 +42,7 @@ public:
 
 protected slots:
     void onRowsInserted(const QModelIndex & parentIndex, int first, int last);
+	void onDpiChanged();
 
 protected:
     virtual void showEvent(QShowEvent * event);

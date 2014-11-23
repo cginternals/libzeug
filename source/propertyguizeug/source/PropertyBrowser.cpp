@@ -42,6 +42,9 @@ PropertyBrowser::PropertyBrowser(
     setItemDelegateForColumn(1, m_delegate);
     
     initView();
+
+	connect(m_scalingHelper, &DPIScalingHelper::dpiChanged,
+		    this, &PropertyBrowser::onDpiChanged);
 }
 
 PropertyBrowser::~PropertyBrowser()
@@ -92,6 +95,20 @@ void PropertyBrowser::onRowsInserted(const QModelIndex & parentIndex, int first,
         if (property->isGroup() && model->hasChildren(index))
             expand(index);
     }
+}
+
+void PropertyBrowser::onDpiChanged()
+{
+	auto model = this->model();
+
+	QModelIndexList indexes = model->match(model->index(0, 0), Qt::DisplayRole, "*", -1, Qt::MatchWildcard | Qt::MatchRecursive);
+	for (QModelIndex index : indexes)
+	{
+		if (!index.isValid())
+			continue;
+
+		m_delegate->changeSizeHint(index);
+	}
 }
 
 void PropertyBrowser::addEditorPlugin(AbstractPropertyEditorPlugin * plugin)

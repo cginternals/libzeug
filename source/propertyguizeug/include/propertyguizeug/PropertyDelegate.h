@@ -33,6 +33,8 @@ public:
 
     virtual QSize sizeHint(const QStyleOptionViewItem & option,
                             const QModelIndex & index) const;
+
+	void changeSizeHint(const QModelIndex & index);
                             
     void addEditorPlugin(AbstractPropertyEditorPlugin * plugin);
     void addPainterPlugin(AbstractPropertyPainterPlugin * plugin);

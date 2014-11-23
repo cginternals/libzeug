@@ -37,8 +37,6 @@ void PropertyPainter::drawValue(QPainter * painter,
     m_drawn = false;
     m_painter = painter;
     m_option = option;
-    
-    drawItemViewBackground();
 
     for (auto plugin : m_plugins)
     {
@@ -76,18 +74,17 @@ void PropertyPainter::setDrawn()
 
 void PropertyPainter::drawString(const QString & string)
 {
-    auto widget = m_option.widget;
-    auto style = widget ? widget->style() : QApplication::style();
+	auto widget = m_option.widget;
+	auto style = widget ? widget->style() : QApplication::style();
 
-    m_option.text = string;
-    style->drawControl(QStyle::CE_ItemViewItem, &m_option, m_painter, widget);
-}
-
-void PropertyPainter::drawItemViewBackground()
-{
-    auto widget = m_option.widget;
-    auto style = widget ? widget->style() : QApplication::style();
-    style->drawControl(QStyle::CE_ItemViewItem, &m_option, m_painter, widget);
+	style->drawItemText(
+		m_painter,
+		m_option.rect,
+		Qt::AlignVCenter,
+		m_option.palette,
+		true,
+		string,
+		QPalette::Text);
 }
     
 } // namespace propertyguizeug

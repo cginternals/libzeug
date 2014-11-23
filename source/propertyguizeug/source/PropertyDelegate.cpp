@@ -2,6 +2,8 @@
 
 #include <cassert>
 
+#include <QApplication>
+
 #include <reflectionzeug/AbstractProperty.h>
 
 #include <propertyguizeug/DPIScalingHelper.h>
@@ -45,13 +47,15 @@ void PropertyDelegate::paint(QPainter * painter,
    const QStyleOptionViewItem & option,
    const QModelIndex & index) const
 {
-    AbstractProperty * property = retrieveProperty(index);
+    QStyledItemDelegate::paint(painter, option, index);
 
-    if (!property->isValue())
-        return QStyledItemDelegate::paint(painter, option, index);
+	AbstractProperty * property = retrieveProperty(index);
+
+	if (!property->isValue())
+		return;
 
 	QStyleOptionViewItem opt = option;
-	this->initStyleOption(&opt, index);
+	initStyleOption(&opt, index);
 
 	m_propertyPainter->drawValue(painter, opt, *property->asValue());
 }
@@ -76,7 +80,7 @@ void PropertyDelegate::updateEditorGeometry(QWidget * editor, const QStyleOption
 QSize PropertyDelegate::sizeHint(const QStyleOptionViewItem & option,
     const QModelIndex & index) const
 {
-    return QSize(0, 27 * m_helper->dpiBasedScale());
+	return QSize(0, 27 * m_helper->dpiBasedScale());
 }
 
 void PropertyDelegate::addEditorPlugin(AbstractPropertyEditorPlugin * plugin)
@@ -87,6 +91,11 @@ void PropertyDelegate::addEditorPlugin(AbstractPropertyEditorPlugin * plugin)
 void PropertyDelegate::addPainterPlugin(AbstractPropertyPainterPlugin * plugin)
 {
     m_propertyPainter->addPlugin(plugin);
+}
+
+void PropertyDelegate::changeSizeHint(const QModelIndex & index)
+{
+	emit sizeHintChanged(index);
 }
 
 } // namespace propertyguizeug
