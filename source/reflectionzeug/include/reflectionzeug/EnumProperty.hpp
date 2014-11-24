@@ -49,22 +49,46 @@ bool EnumProperty<Enum>::fromString(const std::string & string)
 }
 
 template <typename Enum>
+bool EnumProperty<Enum>::hasChoices() const
+{
+    return !m_choices.empty();
+}
+
+template <typename Enum>
+const std::vector<Enum> & EnumProperty<Enum>::choices() const
+{
+    return m_choices;
+}
+
+template <typename Enum>
+std::vector<std::string> EnumProperty<Enum>::choicesStrings() const
+{
+    std::vector<std::string> strings;
+    for (auto choice : m_choices)
+        strings.push_back(m_stringMap.at(choice));
+    return strings;
+}
+
+template <typename Enum>
+std::vector<std::string> EnumProperty<Enum>::strings() const
+{
+    std::vector<std::string> strings;
+    for (auto element : m_stringMap)
+        strings.push_back(element.second);
+    return strings;
+}
+
+template <typename Enum>
 void EnumProperty<Enum>::setStrings(const std::map<Enum, std::string> & pairs)
 {
     m_stringMap = pairs;
-
     m_enumMap.clear();
-
-    std::vector<std::string> strings;
 
     for (const std::pair<Enum, std::string> & pair : pairs)
     {
         assert(m_enumMap.count(pair.second) == 0);
         m_enumMap.insert(std::make_pair(pair.second, pair.first));
-        strings.push_back(pair.second);
     }
-
-    this->setOption("strings", strings);
 }
 
 } // namespace reflectionzeug

@@ -1,11 +1,12 @@
-
 #pragma once
 
 #include <QWidget>
 
 #include <propertyguizeug/propertyguizeug_api.h>
 
-class QBoxLayout;
+class QHBoxLayout;
+class QPainter;
+class QStyleOptionViewItem;
 
 namespace propertyguizeug
 {
@@ -13,15 +14,19 @@ namespace propertyguizeug
 class PROPERTYGUIZEUG_API PropertyEditor : public QWidget
 {
 public:
+    static void drawString(const QString & string, 
+                           QPainter * painter, 
+                           const QStyleOptionViewItem & option);
+
+public:
 	PropertyEditor(QWidget * parent = nullptr);
-	virtual ~PropertyEditor();
 
 protected:
-	QBoxLayout * boxLayout();
+    void addWidget(QWidget * widget);
+	QHBoxLayout * boxLayout();
 	
 private:
-	QBoxLayout * m_layout;
-
+	QHBoxLayout * m_layout;
 };
 
 } // namespace propertyguizeug

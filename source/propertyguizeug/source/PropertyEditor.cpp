@@ -1,27 +1,39 @@
+#include <propertyguizeug/PropertyEditor.h>
 
-#include <QChildEvent>
-#include <QKeyEvent>
 #include <QApplication>
 #include <QHBoxLayout>
-
-#include <propertyguizeug/PropertyEditor.h>
+#include <QStyleOptionViewItem>
 
 namespace propertyguizeug
 {
+
+void PropertyEditor::drawString(
+    const QString & string, 
+    QPainter * painter, 
+    const QStyleOptionViewItem & option)
+{
+    auto widget = option.widget;
+    auto style = widget ? widget->style() : QApplication::style();
+    
+    auto optionWithText = option;
+    optionWithText.text = string;
+    style->drawControl(QStyle::CE_ItemViewItem, &optionWithText, painter, widget);
+}
 	
 PropertyEditor::PropertyEditor(QWidget * parent)
-:	QWidget(parent)
-,	m_layout(new QHBoxLayout(this))
+:	QWidget{parent}
+,	m_layout{new QHBoxLayout{this}}
 {
     m_layout->setContentsMargins(0, 0, 0, 0);
     m_layout->setSpacing(0);
 }
 
-PropertyEditor::~PropertyEditor()
+void PropertyEditor::addWidget(QWidget * widget)
 {
+    m_layout->addWidget(widget);
 }
 
-QBoxLayout * PropertyEditor::boxLayout()
+QHBoxLayout * PropertyEditor::boxLayout()
 {
 	return m_layout;
 }

@@ -1,12 +1,10 @@
+#include <propertyguizeug/ULongLongSpinBox.h>
 
-#include <limits>
 #include <algorithm>
+#include <limits>
 
 #include <QLineEdit>
 #include <QLocale>
-
-#include <propertyguizeug/ULongLongSpinBox.h>
-
 
 namespace propertyguizeug
 {
@@ -189,6 +187,5 @@ qulonglong ULongLongSpinBox::validateAndInterpret(
 
     return num;
 }
-
     
 } // namespace propertyguizeug

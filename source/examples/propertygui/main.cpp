@@ -87,7 +87,10 @@ int main(int argc, char *argv[])
         });
     aspect->setOption("step", 0.1f);
     aspect->setOption("suffix", " w/h");
-
+    aspect->setOption("precision", 4);
+    
+    const char * sizeTitles[] = { "Width", "Height" };
+    
     auto * minimumSize = size->addProperty<std::array<int, 2>>("minimumSize",
         [widget] (size_t i) -> int {
             switch (i)
@@ -113,8 +116,10 @@ int main(int argc, char *argv[])
                 
             }
         });
-
+    
     minimumSize->setOption("title", "Minimum Size");
+    for (size_t i = 0; i < minimumSize->count(); ++i)
+        minimumSize->at(i)->setOption("title", sizeTitles[i]);
 
     auto * maximumSize = size->addProperty<std::array<int, 2>>("maximumSize",
         [widget](size_t i) -> int {
@@ -141,8 +146,12 @@ int main(int argc, char *argv[])
                 height->setOption("maximum", size);
             }
         });
-
+      
     maximumSize->setOption("title", "Maximum Size");
+    for (size_t i = 0; i < maximumSize->count(); ++i)
+        maximumSize->at(i)->setOption("title", sizeTitles[i]);
+
+    
 
     auto * windowTitle = settings->addProperty<std::string>("windowTitle",
         [widget]() {
@@ -189,16 +198,6 @@ int main(int argc, char *argv[])
     Property<FilePath> * filePath = settings->addProperty<FilePath>("filePath", "");
     filePath->setOption("uniqueidentifier", "settings/filePath");
     filePath->setOption("tooltip", "A file path with no meaning.");
-
-    QPushButton button("Add");
-
-    QObject::connect(&button, &QAbstractButton::pressed, [settings] ()
-        {
-            static int i = 0;
-            settings->addProperty<int>("_" + std::to_string(i++), 12);
-        });
-    
-    button.show();
 
     PropertyDeserializer deserializer;
     deserializer.deserialize(*settings, SETTINGS_PATH);

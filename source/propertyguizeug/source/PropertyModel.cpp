@@ -1,14 +1,11 @@
-
 #include <propertyguizeug/PropertyModel.h>
 
 #include <iostream>
-#include <QDebug>
 
-#include <reflectionzeug/PropertyGroup.h>
 #include <reflectionzeug/Property.h>
+#include <reflectionzeug/PropertyGroup.h>
 
 #include "PropertyItem.h"
-
 
 namespace
 {

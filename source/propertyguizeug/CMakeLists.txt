@@ -56,11 +56,14 @@ set(headers
     ${header_path}/FloatingPointEditor.h
     ${header_path}/LongLongSpinBox.h
     ${header_path}/PropertyBrowser.h
+    ${header_path}/PropertyBrowser.hpp
     ${header_path}/PropertyDelegate.h
     ${header_path}/PropertyEditor.h
     ${header_path}/PropertyEditorFactory.h
+    ${header_path}/PropertyEditorPlugin.h
     ${header_path}/PropertyModel.h
     ${header_path}/PropertyPainter.h
+    ${header_path}/PropertyPainterPlugin.h
     ${header_path}/SignedIntegralEditor.h
     ${header_path}/StringEditor.h
     ${header_path}/ULongLongSpinBox.h
@@ -89,6 +92,8 @@ set(sources
     ${source_path}/TransparencyBackgroundBrush.hpp
     ${source_path}/ULongLongSpinBox.cpp
     ${source_path}/UnsignedIntegralEditor.cpp
+    ${source_path}/util.cpp
+    ${source_path}/util.h
     ${source_path}/ValueEditor.cpp
 )
 
