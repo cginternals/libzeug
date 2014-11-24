@@ -140,6 +140,32 @@ struct VariantConverterInit<std::string>
     }
 };
 
+template <typename T>
+struct VariantConverterInit<std::vector<T>>
+{
+    void operator()()
+    {
+        Variant::registerConverter<std::vector<T>, std::string>(toString);
+        Variant::registerConverter<std::vector<T>, VariantArray>(toVariantArray);
+
+    }
+
+    static std::string toString(const std::vector<T> & elements)
+    {
+        return Variant(toVariantArray(elements)).value<std::string>();
+    }
+
+    static VariantArray toVariantArray(const std::vector<T> & elements)
+    {
+        VariantArray array;
+        for (T value : elements)
+        {
+            array.push_back(value);
+        }
+        return array;
+    }
+};
+
 template <>
 struct VariantConverterInit<VariantArray>
 {
