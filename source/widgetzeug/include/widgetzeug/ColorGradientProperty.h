@@ -8,7 +8,6 @@
 
 #include <widgetzeug/ColorGradient.h>
 
-
 namespace 
 {
 
@@ -90,19 +89,15 @@ bool fromString(const std::string & string, widgetzeug::ColorGradient & gradient
     gradient = newGradient;
     return true;
 }
-
-} // namespace
-
-namespace reflectionzeug 
-{
-
-template <>
-class Property<widgetzeug::ColorGradient> : public ValueProperty<widgetzeug::ColorGradient>
+    
+class ColorGradientProperty : public reflectionzeug::ValueProperty<widgetzeug::ColorGradient>
 {
 public:
+    using Type = widgetzeug::ColorGradient;
+
+public:
     template <typename... Args>
-    Property(const std::string & name, Args&&... args) : 
-        AbstractProperty(name),
+    ColorGradientProperty(Args&&... args) : 
         ValueProperty<widgetzeug::ColorGradient>(std::forward<Args>(args)...) {}
 
     virtual std::string toString() const 
@@ -119,6 +114,17 @@ public:
         this->setValue(value);
         return true;
     }
+};
+
+} // namespace
+
+namespace reflectionzeug 
+{
+
+template <>
+struct PropertyClass<widgetzeug::ColorGradient>
+{
+    using Type = ColorGradientProperty;
 };
 
 } // namespace widgetzeug

@@ -7,10 +7,12 @@
 #include <reflectionzeug/Property.h>
 #include <reflectionzeug/PropertyGroup.h>
 #include <propertyguizeug/PropertyBrowser.h>
-
+#include <widgetzeug/ColorGradient.h>
+#include <widgetzeug/ColorGradientProperty.h>
 
 using namespace reflectionzeug;
 using namespace propertyguizeug;
+using namespace widgetzeug;
 
 enum class MyEnum { One, Two, Three };
 
@@ -150,6 +152,10 @@ int main(int argc, char *argv[])
         { MyEnum::Two, "Two" },
         { MyEnum::Three, "Three" }
     });
+    
+    subGroup->addProperty<ColorGradient>("gradient", ColorGradient::fromList({ 
+        QColor{Qt::black},
+        QColor{Qt::white}}));
 
     PropertyBrowser browser;
     browser.setRoot(&group);

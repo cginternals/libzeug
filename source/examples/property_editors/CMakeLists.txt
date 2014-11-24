@@ -18,11 +18,13 @@ include_directories(
     ${CMAKE_SOURCE_DIR}/source/signalzeug/include
     ${CMAKE_SOURCE_DIR}/source/reflectionzeug/include
     ${CMAKE_SOURCE_DIR}/source/propertyguizeug/include
+    ${CMAKE_SOURCE_DIR}/source/widgetzeug/include
 )
 
 # Libraries
 
 set(libs
+    widgetzeug
     propertyguizeug
 	signalzeug
 	reflectionzeug
