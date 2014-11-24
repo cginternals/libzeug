@@ -1,4 +1,3 @@
-
 #include <propertyguizeug/PropertyDelegate.h>
 
 #include <cassert>
@@ -9,7 +8,6 @@
 #include <propertyguizeug/PropertyPainter.h>
 
 #include "PropertyItem.h"
-
 
 using namespace reflectionzeug;
 
@@ -26,13 +24,10 @@ AbstractProperty * retrieveProperty(const QModelIndex & index)
 namespace propertyguizeug
 {
 
-PropertyDelegate::PropertyDelegate(
-    PropertyEditorFactory * editorFactory,
-    PropertyPainter * painter,
-    QWidget * parent)
-:   QStyledItemDelegate(parent)
-,   m_editorFactory(editorFactory)
-,   m_propertyPainter(painter)
+PropertyDelegate::PropertyDelegate(QWidget * parent)
+:   QStyledItemDelegate{parent}
+,   m_editorFactory{new PropertyEditorFactory{}}
+,   m_propertyPainter{new PropertyPainter{}}
 {
     assert(m_editorFactory != nullptr);
     assert(m_propertyPainter != nullptr);
@@ -67,7 +62,7 @@ QWidget * PropertyDelegate::createEditor(QWidget * parent,
     if (!property->isValue())
         return QStyledItemDelegate::createEditor(parent, option, index);
 
-    return m_editorFactory->createEditorWithParent(*property->asValue(), parent);
+    return m_editorFactory->createEditor(*property->asValue(), parent);
 }
 
 void PropertyDelegate::updateEditorGeometry(QWidget * editor, const QStyleOptionViewItem & option,
@@ -80,6 +75,16 @@ QSize PropertyDelegate::sizeHint (const QStyleOptionViewItem & option,
     const QModelIndex & index) const
 {
     return QSize(0, 27);
+}
+
+void PropertyDelegate::addEditorPlugin(AbstractPropertyEditorPlugin * plugin)
+{
+    m_editorFactory->addPlugin(plugin);
+}
+
+void PropertyDelegate::addPainterPlugin(AbstractPropertyPainterPlugin * plugin)
+{
+    m_propertyPainter->addPlugin(plugin);
 }
 
 } // namespace propertyguizeug

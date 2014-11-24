@@ -20,6 +20,11 @@ class REFLECTIONZEUG_API EnumPropertyInterface : public AbstractValueProperty
 {
 public:
     virtual void accept(AbstractPropertyVisitor * visitor);
+    
+    virtual bool hasChoices() const = 0;
+    virtual std::vector<std::string> choicesStrings() const = 0;
+    
+    virtual std::vector<std::string> strings() const = 0;
 };
 
 } // namespace reflectionzeug

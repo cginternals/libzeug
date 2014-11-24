@@ -1,12 +1,10 @@
+#include <propertyguizeug/LongLongSpinBox.h>
 
 #include <limits>
 #include <algorithm>
 
 #include <QLineEdit>
 #include <QLocale>
-
-#include <propertyguizeug/LongLongSpinBox.h>
-
 
 namespace propertyguizeug
 {

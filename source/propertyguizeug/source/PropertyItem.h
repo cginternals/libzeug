@@ -1,10 +1,8 @@
-
 #pragma once
 
 #include <QList>
 
 #include <signalzeug/Connection.h>
-
 
 namespace reflectionzeug
 {
