@@ -44,8 +44,8 @@ set(header_path "${CMAKE_CURRENT_SOURCE_DIR}/include/${target}")
 set(source_path "${CMAKE_CURRENT_SOURCE_DIR}/source")
 
 set(api_includes
-    ${header_path}/widgetzeug_api.h
-    
+    ${header_path}/widgetzeug_api.h   
+    # color widgets
     ${header_path}/ColorGradient.h
     ${header_path}/ColorGradientProperty.h
     ${header_path}/ColorGradientStop.h
@@ -53,15 +53,22 @@ set(api_includes
     ${header_path}/ColorSchemePresetsWidget.h
     ${header_path}/DpiAwareGraphicsView.h
     ${header_path}/RGBABrush.hpp
+    # script widgets
     ${header_path}/ECMA26251_Completer.h
     ${header_path}/ECMA26251_SyntaxHighlighter.h
     ${header_path}/ScriptCompleter.h
     ${header_path}/ScriptPromptWidget.h
     ${header_path}/ScriptSyntaxHighlighter.h
-
+    # log widgets
+    ${header_path}/AbstractMessageReceiver.h
+    ${header_path}/MessageHandler.h
+    ${header_path}/MessageStatusWidget.h
+    ${header_path}/MessageWidget.h
 )
 
 set(sources
+    ${source_path}/util.hpp
+    # color widgets
     ${source_path}/ColorGradient.cpp
     ${source_path}/ColorGradientStop.cpp
     ${source_path}/ColorScheme.cpp
@@ -76,14 +83,16 @@ set(sources
     ${source_path}/DpiAwareGraphicsView.cpp
     ${source_path}/SingleColorSchemeGraphicsView.cpp
     ${source_path}/SingleColorSchemeGraphicsView.h
-
+    # script widgets
     ${source_path}/ECMA26251_Completer.cpp
     ${source_path}/ECMA26251_SyntaxHighlighter.cpp
     ${source_path}/ScriptCompleter.cpp
     ${source_path}/ScriptPromptWidget.cpp
     ${source_path}/ScriptSyntaxHighlighter.cpp
-
-    ${source_path}/util.hpp
+    # log widgets
+    ${source_path}/MessageHandler.cpp
+    ${source_path}/MessageStatusWidget.cpp
+    ${source_path}/MessageWidget.cpp
 )
 
 # Group source files
