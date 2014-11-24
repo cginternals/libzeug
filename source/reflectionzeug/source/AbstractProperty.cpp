@@ -76,6 +76,11 @@ bool AbstractProperty::hasOption(const std::string & key) const
     return m_options.count(key) != 0;
 }
 
+const VariantMap & AbstractProperty::options() const
+{
+    return m_options;
+}
+
 AbstractValueProperty * AbstractProperty::asValue()
 {
     return dynamic_cast<AbstractValueProperty *>(this);
