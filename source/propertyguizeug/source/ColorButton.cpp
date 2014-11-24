@@ -9,34 +9,46 @@
 namespace propertyguizeug
 {
 
-const QSize ColorButton::s_fixedSize = QSize(19, 19);
-
-void ColorButton::paint(QPainter * painter, const QPoint & topLeft, const QColor & color)
+QSize ColorButton::sizeFromFontHeight(int height, bool forWidget)
 {
-    QPixmap pixmap(s_fixedSize);
+    static const auto widgetFactor = 1.52;
+    static const auto paintFactor = 1.1875;
+    const auto extent = height * (forWidget ? widgetFactor : paintFactor);
+    return {extent, extent};
+}
+
+void ColorButton::paint(
+    QPainter * painter, 
+    const QPoint & topLeft, 
+    const QColor & color)
+{
+    const auto metrics = painter->fontMetrics();
+    const auto size = sizeFromFontHeight(metrics.height(), false);
+    const auto rect = QRect{topLeft, size};
+
+    auto pixmap = QPixmap{size};
     pixmap.fill(color);
 
-    QRect rect(topLeft, s_fixedSize);
-
+    painter->save();
     painter->setBrushOrigin(topLeft);
     painter->fillRect(rect, TransparencyBackgroundBrush());
     painter->drawPixmap(rect, pixmap);
+    painter->restore();
 }
 
 ColorButton::ColorButton(QWidget * parent, const QColor & initialColor)
-:	QLabel(parent)
+:   QLabel{parent}
 {
-    this->setFrameStyle(QFrame::NoFrame);
-	this->setAutoFillBackground(true);
-    
-    this->setFixedSize(s_fixedSize);
+    const auto metrics = fontMetrics();
+    auto palette = QPalette{};
+    palette.setBrush(QPalette::Background, QBrush(TransparencyBackgroundBrush()));
 
-	QPalette palette;
-	palette.setBrush(QPalette::Background, QBrush(TransparencyBackgroundBrush()));
+    setFrameStyle(QFrame::NoFrame);
+	setAutoFillBackground(true);
+    setFixedSize(sizeFromFontHeight(metrics.height(), true));
 	setBackgroundRole(QPalette::Background);
 	setPalette(palette);
-
-	this->setColor(initialColor);
+	setColor(initialColor);
 }
 
 const QColor & ColorButton::color() const
@@ -52,12 +64,13 @@ void ColorButton::setColor(const QColor & color)
 
 void ColorButton::mousePressEvent(QMouseEvent * event)
 {
-    emit this->pressed();
+    emit pressed();
 }
 
 void ColorButton::updateColor() 
 {
-	QPixmap pixmap(s_fixedSize);
+    const auto metrics = fontMetrics();
+    auto pixmap = QPixmap{sizeFromFontHeight(metrics.height(), true)};
     pixmap.fill(m_color);
 	setPixmap(pixmap);
 }
