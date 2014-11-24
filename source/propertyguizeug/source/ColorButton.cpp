@@ -11,9 +11,9 @@ namespace propertyguizeug
 
 QSize ColorButton::sizeFromFontHeight(int height, bool forWidget)
 {
-    static const auto widgetFactor = 1.52;
+    static const auto widgetFactor = 1.1875;//1.52;
     static const auto paintFactor = 1.1875;
-    const auto extent = height * (forWidget ? widgetFactor : paintFactor);
+    const auto extent = static_cast<int>(height * (forWidget ? widgetFactor : paintFactor));
     return {extent, extent};
 }
 
