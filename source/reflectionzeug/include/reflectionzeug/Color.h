@@ -37,7 +37,8 @@ public:
 
     std::string asHex(bool alpha) const;
 
-    std::string toString(bool alpha = true) const;
+    std::string toString() const;
+    std::string toString(bool alpha) const;
 
 protected:
     union {

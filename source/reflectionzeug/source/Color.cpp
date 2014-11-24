@@ -124,6 +124,11 @@ std::string Color::asHex(bool alpha) const
     return stream.str();
 }
 
+std::string Color::toString() const
+{
+    return asHex(true);
+}
+
 std::string Color::toString(bool alpha) const
 {
     return asHex(alpha);
