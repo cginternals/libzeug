@@ -45,6 +45,7 @@ set(source_path "${CMAKE_CURRENT_SOURCE_DIR}/source")
 
 set(api_includes
     ${header_path}/widgetzeug_api.h
+    
     ${header_path}/ColorGradient.h
     ${header_path}/ColorGradientProperty.h
     ${header_path}/ColorGradientStop.h
@@ -52,6 +53,12 @@ set(api_includes
     ${header_path}/ColorSchemePresetsWidget.h
     ${header_path}/DpiAwareGraphicsView.h
     ${header_path}/RGBABrush.hpp
+    ${header_path}/ECMA26251_Completer.h
+    ${header_path}/ECMA26251_SyntaxHighlighter.h
+    ${header_path}/ScriptCompleter.h
+    ${header_path}/ScriptPromptWidget.h
+    ${header_path}/ScriptSyntaxHighlighter.h
+
 )
 
 set(sources
@@ -69,6 +76,13 @@ set(sources
     ${source_path}/DpiAwareGraphicsView.cpp
     ${source_path}/SingleColorSchemeGraphicsView.cpp
     ${source_path}/SingleColorSchemeGraphicsView.h
+
+    ${source_path}/ECMA26251_Completer.cpp
+    ${source_path}/ECMA26251_SyntaxHighlighter.cpp
+    ${source_path}/ScriptCompleter.cpp
+    ${source_path}/ScriptPromptWidget.cpp
+    ${source_path}/ScriptSyntaxHighlighter.cpp
+
     ${source_path}/util.hpp
 )
 
