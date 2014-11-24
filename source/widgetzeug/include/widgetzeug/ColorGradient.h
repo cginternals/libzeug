@@ -33,7 +33,7 @@ public:
         const QList<QColor> & colors, 
         ColorGradientType type = ColorGradientType::Linear);
 
-	static const QString typeString(const ColorGradientType type);
+	static QString typeString(const ColorGradientType type);
 
 public:
 	ColorGradient(ColorGradientType type = ColorGradientType::Linear);

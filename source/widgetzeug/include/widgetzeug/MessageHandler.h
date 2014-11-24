@@ -35,20 +35,20 @@ class WIDGETZEUG_API MessageHandler : public QObject
 public:
     static MessageHandler * instance();
 
-    static void setPrintToConsole(const bool enable);
+    static void setPrintToConsole(bool enable);
     static void setPrintToConsole(
-        const QtMsgType type
-    ,   const bool enable);    
-    static const bool printsToConsole(const QtMsgType type);
+        QtMsgType type
+    ,   bool enable);    
+    static bool printsToConsole(QtMsgType type);
 
-    static void setPrintToFile(const bool enable);
+    static void setPrintToFile(bool enable);
     static void setPrintToFile(
-        const QtMsgType type
-    ,   const bool enable);
-    static const bool printsToFile(const QtMsgType type);
+        QtMsgType type
+    ,   bool enable);
+    static bool printsToFile(QtMsgType type);
 
     static void setFileName(const QString & fileName);
-    static const QString fileName();
+    static QString fileName();
 
     static void attach(AbstractMessageReceiver & receiver);
     static void dettach(AbstractMessageReceiver & receiver);
@@ -58,8 +58,8 @@ private:
     virtual ~MessageHandler();
 
 protected:
-    void printToConsole(const bool enable);
-    void printToFile(const bool enable);
+    void printToConsole(bool enable);
+    void printToFile(bool enable);
 
     QTextStream * fstream();
 

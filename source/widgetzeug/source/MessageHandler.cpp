@@ -72,7 +72,7 @@ void MessageHandler::setFileName(const QString & fileName)
         file.setFileName(fileName);
 }
 
-const QString MessageHandler::fileName()
+QString MessageHandler::fileName()
 {
     return instance()->m_file.fileName();
 }
@@ -127,7 +127,7 @@ void MessageHandler::setPrintToConsole(
     flags[type] = enable;
 }
 
-const bool MessageHandler::printsToConsole(const QtMsgType type)
+bool MessageHandler::printsToConsole(const QtMsgType type)
 {
     const typedPrintFlags &flags(instance()->m_printToConsole);
     if(!flags.contains(type))
@@ -150,7 +150,7 @@ void MessageHandler::setPrintToFile(
     flags[type] = enable;
 }
 
-const bool MessageHandler::printsToFile(const QtMsgType type)
+bool MessageHandler::printsToFile(const QtMsgType type)
 {
     const typedPrintFlags &flags(instance()->m_printToFile);
     if(!flags.contains(type))

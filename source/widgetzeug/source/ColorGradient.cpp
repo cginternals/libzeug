@@ -112,7 +112,7 @@ ColorGradientType ColorGradient::type() const
     return m_type;
 }
 
-const QString ColorGradient::typeString(const ColorGradientType type)
+QString ColorGradient::typeString(const ColorGradientType type)
 {
 	switch (type)
 	{
