@@ -47,15 +47,17 @@ void ColorEditor::paint(
     auto buttonRect = QRect{option.rect.topLeft(), buttonSize};
     buttonRect.moveCenter({buttonRect.center().x(), option.rect.center().y()});
     const auto topLeft = buttonRect.topLeft();
-
-    ColorButton::paint(painter, topLeft, qcolor);
+    
+    auto widget = option.widget;
+    auto style = widget ? widget->style() : QApplication::style();
+    
+    ColorButton::paint(painter, style, topLeft, qcolor);
 
     auto rect = option.rect;
     rect.setLeft(option.rect.left() + 
                  buttonSize.width() + 4);
 
-    auto widget = option.widget;
-    auto style = widget ? widget->style() : QApplication::style();
+    
     style->drawItemText(
         painter,
         rect,

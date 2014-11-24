@@ -16,7 +16,8 @@ public:
     static QSize sizeFromFontHeight(int height, bool forWidget);
 
     static void paint(
-        QPainter * painter, 
+        QPainter * painter,
+        QStyle * style, 
         const QPoint & topLeft, 
         const QColor & color);
     

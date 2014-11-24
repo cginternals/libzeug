@@ -3,6 +3,7 @@
 #include <QColorDialog>
 #include <QGridLayout>
 #include <QPainter>
+#include <QStyle>
 
 #include "TransparencyBackgroundBrush.hpp"
 
@@ -18,12 +19,13 @@ QSize ColorButton::sizeFromFontHeight(int height, bool forWidget)
 }
 
 void ColorButton::paint(
-    QPainter * painter, 
+    QPainter * painter,
+    QStyle * style,
     const QPoint & topLeft, 
     const QColor & color)
 {
     const auto metrics = painter->fontMetrics();
-    const auto size = sizeFromFontHeight(metrics.height(), false);
+    const auto size = QSize{19, 19};
     const auto rect = QRect{topLeft, size};
 
     auto pixmap = QPixmap{size};
@@ -33,6 +35,7 @@ void ColorButton::paint(
     painter->setBrushOrigin(topLeft);
     painter->fillRect(rect, TransparencyBackgroundBrush());
     painter->drawPixmap(rect, pixmap);
+    style->drawItemPixmap(painter, rect, Qt::AlignVCenter, pixmap);
     painter->restore();
 }
 
