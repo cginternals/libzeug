@@ -1,7 +1,5 @@
 #pragma once
 
-#include <memory>
-
 #include <QTreeView>
 
 #include <propertyguizeug/propertyguizeug_api.h>
@@ -16,7 +14,6 @@ namespace propertyguizeug
 
 class AbstractPropertyEditorPlugin;
 class AbstractPropertyPainterPlugin;
-class DPIScalingHelper;
 class PropertyDelegate;
 
 class PROPERTYGUIZEUG_API PropertyBrowser : public QTreeView
@@ -53,7 +50,6 @@ private:
     void expandAllGroups();
     
 private:    
-    DPIScalingHelper * m_scalingHelper;
     PropertyDelegate * m_delegate;
     bool m_alwaysExpandGroups;
 };

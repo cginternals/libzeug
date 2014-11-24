@@ -2,9 +2,11 @@
 
 #include <cassert>
 
+#include <QWindow>
+#include <QScreen>
+
 #include <reflectionzeug/AbstractProperty.h>
 
-#include <propertyguizeug/DPIScalingHelper.h>
 #include <propertyguizeug/PropertyModel.h>
 #include <propertyguizeug/PropertyDelegate.h>
 
@@ -34,7 +36,6 @@ PropertyBrowser::PropertyBrowser(
     PropertyGroup * root,
     QWidget * parent)
 :   QTreeView(parent)
-,   m_scalingHelper{new DPIScalingHelper{this}}
 ,   m_delegate{new PropertyDelegate{this}}
 ,   m_alwaysExpandGroups{false}
 {
@@ -42,9 +43,6 @@ PropertyBrowser::PropertyBrowser(
     setItemDelegateForColumn(1, m_delegate);
     
     initView();
-
-	connect(m_scalingHelper, &DPIScalingHelper::dpiChanged,
-		    this, &PropertyBrowser::reset);
 }
 
 PropertyBrowser::~PropertyBrowser()
@@ -75,8 +73,15 @@ void PropertyBrowser::setAlwaysExpandGroups(bool b)
 }
 
 void PropertyBrowser::showEvent(QShowEvent * event)
-{
-    m_scalingHelper->widgetShown();
+{    
+    auto window = windowHandle();
+    
+    if (!window)
+        window = nativeParentWidget()->windowHandle();
+
+    connect(window, &QWindow::screenChanged, 
+            this, &PropertyBrowser::reset,
+            Qt::UniqueConnection);
 }
 
 void PropertyBrowser::onRowsInserted(const QModelIndex & parentIndex, int first, int last)
