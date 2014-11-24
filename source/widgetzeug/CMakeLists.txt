@@ -17,6 +17,7 @@ include_directories(
     BEFORE
     ${CMAKE_CURRENT_BINARY_DIR}
     ${CMAKE_CURRENT_SOURCE_DIR}/include
+    ${CMAKE_CURRENT_SOURCE_DIR}/source
     ${CMAKE_SOURCE_DIR}/source/reflectionzeug/include
 )
 
@@ -92,6 +93,9 @@ endif()
 
 qt5_use_modules(${target} Core Gui Widgets)
 target_link_libraries(${target} ${libs})
+
+# qt fix - 4244 -> 'argument' : conversion from 'type1' to 'type2', possible loss of data
+set(DEFAULT_COMPILE_FLAGS ${DEFAULT_COMPILE_FLAGS} " /wd4244")
 
 set_target_properties(${target}
     PROPERTIES

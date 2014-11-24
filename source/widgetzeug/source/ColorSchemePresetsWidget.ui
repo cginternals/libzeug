@@ -92,7 +92,7 @@
       </widget>
      </item>
      <item>
-      <widget class="glwhite::SingleColorSchemeGraphicsView" name="colorSchemePreview">
+      <widget class="widgetzeug::SingleColorSchemeGraphicsView" name="colorSchemePreview">
        <property name="sizePolicy">
         <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
          <horstretch>1</horstretch>
@@ -117,7 +117,7 @@
     </layout>
    </item>
    <item>
-    <widget class="glwhite::ColorSchemeGraphicsView" name="graphicsView">
+    <widget class="widgetzeug::ColorSchemeGraphicsView" name="graphicsView">
      <property name="autoFillBackground">
       <bool>false</bool>
      </property>
@@ -209,14 +209,14 @@
  </widget>
  <customwidgets>
   <customwidget>
-   <class>glwhite::ColorSchemeGraphicsView</class>
+   <class>widgetzeug::ColorSchemeGraphicsView</class>
    <extends>QGraphicsView</extends>
-   <header>ColorSchemeGraphicsView.h</header>
+   <header>widgetzeug/ColorSchemeGraphicsView.h</header>
   </customwidget>
   <customwidget>
-   <class>glwhite::SingleColorSchemeGraphicsView</class>
+   <class>widgetzeug::SingleColorSchemeGraphicsView</class>
    <extends>QGraphicsView</extends>
-   <header>SingleColorSchemeGraphicsView.h</header>
+   <header>widgetzeug/SingleColorSchemeGraphicsView.h</header>
   </customwidget>
  </customwidgets>
  <tabstops>
