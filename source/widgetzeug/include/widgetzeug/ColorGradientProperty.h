@@ -12,7 +12,7 @@
 namespace 
 {
 
-	std::string toString(const widgetzeug::ColorGradient & gradient)
+std::string toString(const widgetzeug::ColorGradient & gradient)
 {
     QJsonObject jsonGradient;
 	jsonGradient.insert("type", widgetzeug::ColorGradient::typeString(gradient.type()));
@@ -32,7 +32,7 @@ namespace
     return QJsonDocument(jsonGradient).toJson(QJsonDocument::Compact).data();
 }
 
-	bool fromString(const std::string & string, widgetzeug::ColorGradient & gradient)
+bool fromString(const std::string & string, widgetzeug::ColorGradient & gradient)
 {
     QJsonDocument json = QJsonDocument::fromJson(QByteArray(string.c_str()));
 
