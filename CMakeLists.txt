@@ -1,5 +1,4 @@
 
-# Test for minimum required CMake version 2.8.12
 cmake_minimum_required(VERSION 2.8.12 FATAL_ERROR)
 
 
@@ -8,7 +7,7 @@ cmake_minimum_required(VERSION 2.8.12 FATAL_ERROR)
 set(META_PROJECT_NAME        "libzeug")
 set(META_PROJECT_DESCRIPTION "C++ sanctuary for small but powerful and frequently required, stand alone features.")
 set(META_VERSION_MAJOR       "0")
-set(META_VERSION_MINOR       "1")
+set(META_VERSION_MINOR       "5")
 set(META_VERSION_PATCH       "0")
 set(META_VERSION             "${META_VERSION_MAJOR}.${META_VERSION_MINOR}.${META_VERSION_PATCH}")
 set(META_AUTHOR_ORGANIZATION "hpicgs group")
@@ -27,9 +26,11 @@ project(${META_PROJECT_NAME} C CXX)
 
 # Configuration options
 
-option(OPTION_PORTABLE_INSTALL     "Install into a self-contained directory" OFF)
-option(OPTION_BUILD_STATIC         "Build static libraries" OFF)
-option(OPTION_BUILD_EXAMPLES       "Build examples" OFF)
+option(OPTION_PORTABLE_INSTALL "Install into a self-contained directory" OFF)
+option(OPTION_BUILD_STATIC     "Build static libraries" OFF)
+option(OPTION_BUILD_TESTS      "Build tests (if gmock and gtest are found)" ON)
+option(OPTION_BUILD_EXAMPLES   "Build examples" OFF)
+
 option(OPTION_BUILD_WITH_STD_REGEX "Build with std lib regex classes" ON)
 option(OPTION_USE_OPENMP           "Use OpenMP in threadingzeug::parallel_for" ON)
 
@@ -62,7 +63,7 @@ include(cmake/Custom.cmake)
 include(cmake/GitRevision.cmake)
 
 
-# Platform and architecture setup
+# Platform and architecture
 
 # Architecture (32/64 bit)
 set(X64 OFF)
@@ -91,41 +92,40 @@ else()
     message(WARNING "Unsupported platform/compiler combination")
 endif()
 
-
 # Installation paths
 set(project ${META_PROJECT_NAME})
 if(WIN32)
-    set(INSTALL_ROOT          ".")                         # C:\Programme\<project>
-    set(INSTALL_EXAMPLES      "bin")                       # C:\Programme\<project>
-    set(INSTALL_DATA          "bin")                       # C:\Programme\<project>
-    set(INSTALL_BIN           "bin")                       # C:\Programme\<project>
-    set(INSTALL_SHARED        ".")                         # C:\Programme\<project>
-    set(INSTALL_LIB           "lib")                       # C:\Programme\<project>\lib
-    set(INSTALL_INCLUDE       "include")                   # C:\Programme\<project>\include
-    set(INSTALL_DOC           "doc")                       # C:\Programme\<project>\doc
-    set(INSTALL_SHORTCUTS     ".")                         # Not available under Windows
-    set(INSTALL_ICONS         ".")                         # Not available under Windows
-    set(INSTALL_INIT          ".")                         # Not available under Windows
+    set(INSTALL_ROOT      ".")                         # C:\Programme\<project>
+    set(INSTALL_EXAMPLES  "bin")                       # C:\Programme\<project>
+    set(INSTALL_DATA      "bin")                       # C:\Programme\<project>
+    set(INSTALL_BIN       "bin")                       # C:\Programme\<project>
+    set(INSTALL_SHARED    ".")                         # C:\Programme\<project>
+    set(INSTALL_LIB       "lib")                       # C:\Programme\<project>\lib
+    set(INSTALL_INCLUDE   "include")                   # C:\Programme\<project>\include
+    set(INSTALL_DOC       "doc")                       # C:\Programme\<project>\doc
+    set(INSTALL_SHORTCUTS ".")                         # Not available under Windows
+    set(INSTALL_ICONS     ".")                         # Not available under Windows
+    set(INSTALL_INIT      ".")                         # Not available under Windows
 else()
-    set(INSTALL_ROOT          "share/${project}")          # /usr/[local]/share/<project>
-    set(INSTALL_EXAMPLES      "share/${project}/examples") # /usr/[local]/share/<project>
-    set(INSTALL_DATA          "share/${project}/examples") # /usr/[local]/share/<project>
-    set(INSTALL_BIN           "bin")                       # /usr/[local]/bin
-    set(INSTALL_SHARED        "lib")                       # /usr/[local]/lib
-    set(INSTALL_LIB           "lib")                       # /usr/[local]/lib
-    set(INSTALL_INCLUDE       "include")                   # /usr/[local]/include
-    set(INSTALL_DOC           "share/doc/${project}")      # /usr/[local]/share/doc/<project>
-    set(INSTALL_SHORTCUTS     "share/applications")        # /usr/[local]/share/applications
-    set(INSTALL_ICONS         "share/pixmaps")             # /usr/[local]/share/pixmaps
-    set(INSTALL_INIT          "/etc/init")                 # /etc/init (upstart init scripts)
+    set(INSTALL_ROOT      "share/${project}")          # /usr/[local]/share/<project>
+    set(INSTALL_EXAMPLES  "share/${project}/examples") # /usr/[local]/share/<project>/examples
+    set(INSTALL_DATA      "share/${project}/examples") # /usr/[local]/share/<project>
+    set(INSTALL_BIN       "bin")                       # /usr/[local]/bin
+    set(INSTALL_SHARED    "lib")                       # /usr/[local]/lib
+    set(INSTALL_LIB       "lib")                       # /usr/[local]/lib
+    set(INSTALL_INCLUDE   "include")                   # /usr/[local]/include
+    set(INSTALL_DOC       "share/doc/${project}")      # /usr/[local]/share/doc/<project>
+    set(INSTALL_SHORTCUTS "share/applications")        # /usr/[local]/share/applications
+    set(INSTALL_ICONS     "share/pixmaps")             # /usr/[local]/share/pixmaps
+    set(INSTALL_INIT      "/etc/init")                 # /etc/init (upstart init scripts)
 
     # Adjust target paths for portable installs
     if(OPTION_PORTABLE_INSTALL)
         # Put binaries in root directory and keep data directory name
-        set(INSTALL_ROOT                      ".")           # /<INSTALL_PREFIX>
-        set(INSTALL_BIN                       ".")           # /<INSTALL_PREFIX>
-        set(INSTALL_DATA                      ".")           # /<INSTALL_PREFIX>
-        set(INSTALL_EXAMPLES                  ".")           # /<INSTALL_PREFIX>
+        set(INSTALL_ROOT     ".") # <INSTALL_PREFIX>/
+        set(INSTALL_EXAMPLES ".") # <INSTALL_PREFIX>/
+        set(INSTALL_DATA     ".") # <INSTALL_PREFIX>/
+        set(INSTALL_BIN      ".") # <INSTALL_PREFIX>/
 
         # We have to change the RPATH of binaries to achieve a usable local install.
         # [TODO] For binaries, "$ORIGIN/lib" is right, so that libraries are found in ./lib.
