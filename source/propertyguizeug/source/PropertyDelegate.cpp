@@ -6,7 +6,6 @@
 
 #include <reflectionzeug/AbstractProperty.h>
 
-#include <propertyguizeug/DPIScalingHelper.h>
 #include <propertyguizeug/PropertyEditorFactory.h>
 #include <propertyguizeug/PropertyPainter.h>
 
@@ -27,9 +26,8 @@ AbstractProperty * retrieveProperty(const QModelIndex & index)
 namespace propertyguizeug
 {
 
-PropertyDelegate::PropertyDelegate(DPIScalingHelper * helper, QWidget * parent)
+PropertyDelegate::PropertyDelegate(QWidget * parent)
 :   QStyledItemDelegate{parent}
-,   m_helper{helper}
 ,   m_editorFactory{new PropertyEditorFactory{}}
 ,   m_propertyPainter{new PropertyPainter{}}
 {

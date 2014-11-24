@@ -9,14 +9,13 @@ namespace propertyguizeug
 
 class AbstractPropertyEditorPlugin;
 class AbstractPropertyPainterPlugin;
-class DPIScalingHelper;
 class PropertyEditorFactory;
 class PropertyPainter;
 
 class PROPERTYGUIZEUG_API PropertyDelegate : public QStyledItemDelegate
 {
 public:
-    PropertyDelegate(DPIScalingHelper * helper, QWidget * parent = nullptr);
+    PropertyDelegate(QWidget * parent = nullptr);
 
     virtual ~PropertyDelegate();
 
@@ -38,7 +37,6 @@ public:
     void addPainterPlugin(AbstractPropertyPainterPlugin * plugin);
 
 private:
-    DPIScalingHelper * m_helper;
     PropertyEditorFactory * m_editorFactory;
     PropertyPainter * m_propertyPainter;
 };

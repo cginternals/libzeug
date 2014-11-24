@@ -43,7 +43,7 @@ void ColorEditor::paint(
     auto qcolor = toQColor(color);
 
     const auto metrics = option.widget->fontMetrics();
-    const auto buttonSize = ColorButton::sizeFromFontHeight(metrics.height(), false);
+    const auto buttonSize = ColorButton::sizeFromFontHeight(metrics.height());
     auto buttonRect = QRect{option.rect.topLeft(), buttonSize};
     buttonRect.moveCenter({buttonRect.center().x(), option.rect.center().y()});
     const auto topLeft = buttonRect.topLeft();
@@ -51,7 +51,7 @@ void ColorEditor::paint(
     auto widget = option.widget;
     auto style = widget ? widget->style() : QApplication::style();
     
-    ColorButton::paint(painter, style, topLeft, qcolor);
+    ColorButton::paint(painter, topLeft, qcolor);
 
     auto rect = option.rect;
     rect.setLeft(option.rect.left() + 

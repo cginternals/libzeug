@@ -10,22 +10,20 @@
 namespace propertyguizeug
 {
 
-QSize ColorButton::sizeFromFontHeight(int height, bool forWidget)
+QSize ColorButton::sizeFromFontHeight(int height)
 {
-    static const auto widgetFactor = 1.1875;//1.52;
-    static const auto paintFactor = 1.1875;
-    const auto extent = static_cast<int>(height * (forWidget ? widgetFactor : paintFactor));
+    static const auto factor = 1.1875f;
+    const auto extent = static_cast<int>(height * factor);
     return {extent, extent};
 }
 
 void ColorButton::paint(
     QPainter * painter,
-    QStyle * style,
     const QPoint & topLeft, 
     const QColor & color)
 {
     const auto metrics = painter->fontMetrics();
-    const auto size = QSize{19, 19};
+    const auto size = sizeFromFontHeight(metrics.height());
     const auto rect = QRect{topLeft, size};
 
     auto pixmap = QPixmap{size};
@@ -35,7 +33,6 @@ void ColorButton::paint(
     painter->setBrushOrigin(topLeft);
     painter->fillRect(rect, TransparencyBackgroundBrush());
     painter->drawPixmap(rect, pixmap);
-    style->drawItemPixmap(painter, rect, Qt::AlignVCenter, pixmap);
     painter->restore();
 }
 
@@ -43,12 +40,13 @@ ColorButton::ColorButton(QWidget * parent, const QColor & initialColor)
 :   QLabel{parent}
 {
     const auto metrics = fontMetrics();
+
     auto palette = QPalette{};
     palette.setBrush(QPalette::Background, QBrush(TransparencyBackgroundBrush()));
 
     setFrameStyle(QFrame::NoFrame);
 	setAutoFillBackground(true);
-    setFixedSize(sizeFromFontHeight(metrics.height(), true));
+    setFixedSize(sizeFromFontHeight(metrics.height()));
 	setBackgroundRole(QPalette::Background);
 	setPalette(palette);
 	setColor(initialColor);
@@ -73,7 +71,7 @@ void ColorButton::mousePressEvent(QMouseEvent * event)
 void ColorButton::updateColor() 
 {
     const auto metrics = fontMetrics();
-    auto pixmap = QPixmap{sizeFromFontHeight(metrics.height(), true)};
+    auto pixmap = QPixmap{sizeFromFontHeight(metrics.height())};
     pixmap.fill(m_color);
 	setPixmap(pixmap);
 }

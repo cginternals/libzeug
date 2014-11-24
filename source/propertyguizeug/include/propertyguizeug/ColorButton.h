@@ -13,11 +13,10 @@ class PROPERTYGUIZEUG_API ColorButton : public QLabel
 	Q_OBJECT
 
 public:
-    static QSize sizeFromFontHeight(int height, bool forWidget);
+    static QSize sizeFromFontHeight(int height);
 
     static void paint(
         QPainter * painter,
-        QStyle * style, 
         const QPoint & topLeft, 
         const QColor & color);
     

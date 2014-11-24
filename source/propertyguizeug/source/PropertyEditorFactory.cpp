@@ -35,9 +35,14 @@ PropertyEditorFactory::PropertyEditorFactory()
         UnsignedIntegralEditor>{});
 }
 
-QWidget * PropertyEditorFactory::createEditor(AbstractValueProperty & property)
+QWidget * PropertyEditorFactory::createEditor(
+    AbstractValueProperty & property, 
+    QWidget * parent)
 {
+    assert(parent);
+    
     m_editor = nullptr;
+    m_parentWidget = parent;
 
     for (auto plugin : m_plugins)
     {
@@ -48,18 +53,9 @@ QWidget * PropertyEditorFactory::createEditor(AbstractValueProperty & property)
     }
 
     if (!m_editor)
-        m_editor = new ValueEditor{&property};
+        m_editor = new ValueEditor{&property, m_parentWidget};
 
     return m_editor;
-}
-
-QWidget * PropertyEditorFactory::createEditor(
-    AbstractValueProperty & property, 
-    QWidget * parent)
-{
-	QWidget * editor = createEditor(property);
-	editor->setParent(parent);
-	return editor;
 }
 
 void PropertyEditorFactory::addPlugin(AbstractPropertyEditorPlugin * plugin)
@@ -72,6 +68,11 @@ void PropertyEditorFactory::addPlugin(AbstractPropertyEditorPlugin * plugin)
 void PropertyEditorFactory::setEditor(QWidget * editor)
 {
     m_editor = editor;
+}
+
+QWidget * PropertyEditorFactory::parentWidget() const
+{
+    return m_parentWidget;
 }
 
 } // namespace propertyguizeug

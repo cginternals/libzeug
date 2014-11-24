@@ -36,7 +36,8 @@ class PropertyEditorPlugin<Editor> :
 public:
     virtual void visit(typename Editor::Type * property)
     {
-        this->factory()->setEditor(new Editor(property));
+        auto factory = this->factory();
+        factory->setEditor(new Editor(property, factory->parentWidget()));
     }
 };
 

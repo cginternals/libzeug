@@ -35,7 +35,7 @@ PropertyBrowser::PropertyBrowser(
     QWidget * parent)
 :   QTreeView(parent)
 ,   m_scalingHelper{new DPIScalingHelper{this}}
-,   m_delegate{new PropertyDelegate{m_scalingHelper, this}}
+,   m_delegate{new PropertyDelegate{this}}
 ,   m_alwaysExpandGroups{false}
 {
     setRoot(root);
