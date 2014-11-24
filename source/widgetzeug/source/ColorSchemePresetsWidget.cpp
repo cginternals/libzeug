@@ -16,8 +16,8 @@
 #include <widgetzeug/ColorScheme.h>
 
 #include "ui_ColorSchemePresetsWidget.h"
-#include <widgetzeug/ColorSchemeGraphicsItem.h>
-#include <widgetzeug/ColorSchemeGraphicsView.h>
+#include "ColorSchemeGraphicsItem.h"
+#include "ColorSchemeGraphicsView.h"
 
 
 namespace widgetzeug

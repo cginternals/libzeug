@@ -1,3 +1,4 @@
+
 #include <widgetzeug/ColorGradient.h>
 
 #include <algorithm>
@@ -8,7 +9,8 @@
 
 #include <widgetzeug/ColorScheme.h>
 
-#include <widgetzeug/util.hpp>
+#include "util.hpp"
+
 
 namespace 
 {

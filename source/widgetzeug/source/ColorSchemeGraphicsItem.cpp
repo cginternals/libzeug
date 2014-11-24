@@ -1,4 +1,5 @@
-#include <widgetzeug/ColorSchemeGraphicsItem.h>
+
+#include "ColorSchemeGraphicsItem.h"
 
 #include <QGraphicsScene>
 #include <QGraphicsRectItem>

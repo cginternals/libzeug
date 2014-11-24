@@ -1,4 +1,5 @@
-#include <widgetzeug/ColorSchemeGraphicsItemGroup.h>
+
+#include "ColorSchemeGraphicsItemGroup.h"
 
 #include <functional>
 #include <limits>
@@ -9,7 +10,7 @@
 
 #include <widgetzeug/DpiAwareGraphicsView.h>
 
-#include <widgetzeug/ColorSchemeGraphicsItem.h>
+#include "ColorSchemeGraphicsItem.h"
 
 
 namespace widgetzeug

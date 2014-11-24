@@ -1,12 +1,13 @@
-#include <widgetzeug/ColorSchemeGraphicsView.h>
+
+#include "ColorSchemeGraphicsView.h"
 
 #include <cassert>
 
 #include <QDebug>
 #include <QMouseEvent>
 
-#include <widgetzeug/ColorSchemeGraphicsItem.h>
-#include <widgetzeug/ColorSchemeGraphicsItemGroup.h>
+#include "ColorSchemeGraphicsItem.h"
+#include "ColorSchemeGraphicsItemGroup.h"
 
 
 namespace widgetzeug

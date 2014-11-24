@@ -211,12 +211,12 @@
   <customwidget>
    <class>widgetzeug::ColorSchemeGraphicsView</class>
    <extends>QGraphicsView</extends>
-   <header>widgetzeug/ColorSchemeGraphicsView.h</header>
+   <header>ColorSchemeGraphicsView.h</header>
   </customwidget>
   <customwidget>
    <class>widgetzeug::SingleColorSchemeGraphicsView</class>
    <extends>QGraphicsView</extends>
-   <header>widgetzeug/SingleColorSchemeGraphicsView.h</header>
+   <header>SingleColorSchemeGraphicsView.h</header>
   </customwidget>
  </customwidgets>
  <tabstops>

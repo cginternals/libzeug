@@ -1,10 +1,11 @@
-#include <widgetzeug/SingleColorSchemeGraphicsView.h>
+
+#include "SingleColorSchemeGraphicsView.h"
 
 #include <cmath>
 
 #include <QDebug>
 
-#include <widgetzeug/ColorSchemeGraphicsItem.h>
+#include "ColorSchemeGraphicsItem.h"
 
 
 namespace widgetzeug
