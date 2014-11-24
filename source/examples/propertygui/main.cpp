@@ -177,6 +177,7 @@ int main(int argc, char *argv[])
 
     backgroundColor->setOption("title", "Background Color");
     backgroundColor->setOption("tooltip", "Sets the background color of the example window.");
+    backgroundColor->setOption("alpha", false);
 
     auto * cursorProperty = settings->addProperty<Qt::CursorShape>("Cursor",
         [widget] () 
