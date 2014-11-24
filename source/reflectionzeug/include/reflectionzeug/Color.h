@@ -35,9 +35,10 @@ public:
     unsigned int rgba() const;
     void setRgba(unsigned int rgba);
 
-    std::string asHex() const;
+    std::string asHex(bool alpha) const;
 
     std::string toString() const;
+    std::string toString(bool alpha) const;
 
 protected:
     union {

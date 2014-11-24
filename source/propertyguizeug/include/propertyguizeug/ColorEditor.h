@@ -20,6 +20,11 @@ namespace propertyguizeug
 
 class ColorButton;
 
+/** \brief Editor for Color class
+ *
+ * Supported options:
+ * - alpha (bool) = true: activates/disables the alpha channel
+ */  
 class PROPERTYGUIZEUG_API ColorEditor : public PropertyEditor
 {
 public:
@@ -44,6 +49,7 @@ private:
 private:  
     ColorButton * m_button;
     QLineEdit * m_lineEdit;
+    bool m_alpha;
     
     reflectionzeug::ColorPropertyInterface * m_property;    
 };

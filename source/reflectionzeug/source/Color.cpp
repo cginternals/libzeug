@@ -9,6 +9,26 @@
 namespace reflectionzeug
 {
 
+Color Color::fromString(const std::string & string, bool * ok)
+{
+    *ok = util::matchesRegex(string, "#([0-9A-Fa-f]{8}|[0-9A-Fa-f]{6})");
+    
+    if (!(*ok))
+        return Color();
+        
+    auto hexString = string.substr(1, string.length());
+    
+    if (hexString.size() == 6)
+        hexString = "FF" + hexString;
+
+    std::stringstream stream(hexString);
+    unsigned int colorHex;
+    stream >> std::hex >> std::uppercase;
+    stream >> colorHex;
+
+    return Color(colorHex);
+}
+
 Color::Color()
 {
 	v = 0;
@@ -34,21 +54,6 @@ Color::Color(int red, int green, int blue, int alpha)
 
 Color::~Color()
 {
-}
-
-Color Color::fromString(const std::string & string, bool * ok)
-{
-    *ok = util::matchesRegex(string, "#[0-9A-Fa-f]{8}");
-
-    if (!(*ok))
-        return Color();
-
-    std::stringstream stream(string.substr(1, string.length()));
-    unsigned int colorHex;
-    stream >> std::hex >> std::uppercase;
-    stream >> colorHex;
-
-    return Color(colorHex);
 }
 
 int Color::red() const
@@ -105,18 +110,28 @@ void Color::setRgba(unsigned int rgba)
     v = rgba;
 }
 
-std::string Color::asHex() const
+std::string Color::asHex(bool alpha) const
 {
     std::stringstream stream;
     stream << "#";
-    stream << std::hex << std::uppercase << std::setw(8) << std::setfill('0');
-    stream << this->rgba();
+    stream << std::hex << std::uppercase << std::setw(2) << std::setfill('0');
+
+    if (alpha)
+        stream << rgba();
+    else
+        stream << red() << green() << blue();
+    
     return stream.str();
 }
 
 std::string Color::toString() const
 {
-    return asHex();
+    return asHex(true);
+}
+
+std::string Color::toString(bool alpha) const
+{
+    return asHex(alpha);
 }
 
 } // namespace reflectionzeug
