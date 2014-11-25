@@ -14,10 +14,15 @@ void PropertyEditor::drawString(
 {
     auto widget = option.widget;
     auto style = widget ? widget->style() : QApplication::style();
-    
-    auto optionWithText = option;
-    optionWithText.text = string;
-    style->drawControl(QStyle::CE_ItemViewItem, &optionWithText, painter, widget);
+
+	style->drawItemText(
+		painter,
+		option.rect,
+		Qt::AlignVCenter,
+		option.palette,
+		true,
+		string,
+		QPalette::Text);
 }
 	
 PropertyEditor::PropertyEditor(QWidget * parent)

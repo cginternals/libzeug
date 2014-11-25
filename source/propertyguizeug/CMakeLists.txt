@@ -51,6 +51,7 @@ set(headers
     ${header_path}/BoolEditor.h
     ${header_path}/ColorButton.h
     ${header_path}/ColorEditor.h
+    ${header_path}/dpi_util.h
     ${header_path}/EnumEditor.h
     ${header_path}/FilePathEditor.h
     ${header_path}/FloatingPointEditor.h
@@ -75,6 +76,7 @@ set(sources
     ${source_path}/BoolEditor.cpp
     ${source_path}/ColorButton.cpp
     ${source_path}/ColorEditor.cpp
+    ${source_path}/dpi_util.cpp
     ${source_path}/EnumEditor.cpp
     ${source_path}/FilePathEditor.cpp
     ${source_path}/FloatingPointEditor.cpp

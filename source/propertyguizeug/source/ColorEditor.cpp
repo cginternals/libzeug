@@ -42,18 +42,25 @@ void ColorEditor::paint(
 {
     auto color = property.toColor();
     auto qcolor = toQColor(color);
-    auto alpha = property.option<bool>("alpha", true);
-                  
-    auto topLeft = QPoint{option.rect.left(), option.rect.top() + 4};
-
-    ColorButton::paint(painter, topLeft, qcolor);
     
-    auto rect = option.rect;
-    rect.setLeft(option.rect.left() + 
-                 ColorButton::s_fixedSize.width() + 4);
-
+    const auto alpha = property.option<bool>("alpha", true);
+                  
+    const auto metrics = option.widget->fontMetrics();
+    const auto buttonSize = ColorButton::sizeFromFontHeight(metrics.height());
+    auto buttonRect = QRect{option.rect.topLeft(), buttonSize};
+    buttonRect.moveCenter({buttonRect.center().x(), option.rect.center().y()});
+    const auto topLeft = buttonRect.topLeft();
+    
     auto widget = option.widget;
     auto style = widget ? widget->style() : QApplication::style();
+    
+    ColorButton::paint(painter, topLeft, qcolor);
+
+    auto rect = option.rect;
+    rect.setLeft(option.rect.left() + 
+                 buttonSize.width() + 4);
+
+    
     style->drawItemText(
         painter,
         rect,

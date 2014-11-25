@@ -1,7 +1,5 @@
 #pragma once
 
-#include <memory>
-
 #include <QTreeView>
 
 #include <propertyguizeug/propertyguizeug_api.h>
@@ -40,12 +38,14 @@ public:
     void addPainterPlugin();
 
 protected slots:
-    void addEditorPlugin(AbstractPropertyEditorPlugin * plugin);
-    void addPainterPlugin(AbstractPropertyPainterPlugin * plugin);
-
     void onRowsInserted(const QModelIndex & parentIndex, int first, int last);
 
+protected:
+    virtual void showEvent(QShowEvent * event);
+
 private:
+    void addEditorPlugin(AbstractPropertyEditorPlugin * plugin);
+    void addPainterPlugin(AbstractPropertyPainterPlugin * plugin);
     void initView();
     void expandAllGroups();
     

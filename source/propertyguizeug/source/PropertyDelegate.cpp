@@ -2,6 +2,8 @@
 
 #include <cassert>
 
+#include <QApplication>
+
 #include <reflectionzeug/AbstractProperty.h>
 
 #include <propertyguizeug/PropertyEditorFactory.h>
@@ -43,13 +45,15 @@ void PropertyDelegate::paint(QPainter * painter,
    const QStyleOptionViewItem & option,
    const QModelIndex & index) const
 {
-    AbstractProperty * property = retrieveProperty(index);
+    QStyledItemDelegate::paint(painter, option, index);
 
-    if (!property->isValue())
-        return QStyledItemDelegate::paint(painter, option, index);
+	AbstractProperty * property = retrieveProperty(index);
+
+	if (!property->isValue())
+		return;
 
 	QStyleOptionViewItem opt = option;
-	this->initStyleOption(&opt, index);
+	initStyleOption(&opt, index);
 
 	m_propertyPainter->drawValue(painter, opt, *property->asValue());
 }
@@ -71,10 +75,11 @@ void PropertyDelegate::updateEditorGeometry(QWidget * editor, const QStyleOption
     editor->setGeometry(option.rect);
 }
 
-QSize PropertyDelegate::sizeHint (const QStyleOptionViewItem & option,
+QSize PropertyDelegate::sizeHint(const QStyleOptionViewItem & option,
     const QModelIndex & index) const
 {
-    return QSize(0, 27);
+    auto size = QStyledItemDelegate::sizeHint(option, index);
+	return {size.width(), static_cast<int>(size.height() * 1.5)};
 }
 
 void PropertyDelegate::addEditorPlugin(AbstractPropertyEditorPlugin * plugin)

@@ -2,6 +2,9 @@
 
 #include <cassert>
 
+#include <QWindow>
+#include <QScreen>
+
 #include <reflectionzeug/AbstractProperty.h>
 
 #include <propertyguizeug/PropertyModel.h>
@@ -32,7 +35,8 @@ PropertyBrowser::PropertyBrowser(QWidget * parent)
 PropertyBrowser::PropertyBrowser(
     PropertyGroup * root,
     QWidget * parent)
-:   m_delegate{new PropertyDelegate{this}}
+:   QTreeView(parent)
+,   m_delegate{new PropertyDelegate{this}}
 ,   m_alwaysExpandGroups{false}
 {
     setRoot(root);
@@ -63,6 +67,23 @@ void PropertyBrowser::setRoot(reflectionzeug::PropertyGroup * root)
     }
 }
 
+void PropertyBrowser::setAlwaysExpandGroups(bool b)
+{
+    m_alwaysExpandGroups = b;
+}
+
+void PropertyBrowser::showEvent(QShowEvent * event)
+{    
+    auto window = windowHandle();
+    
+    if (!window)
+        window = nativeParentWidget()->windowHandle();
+
+    connect(window, &QWindow::screenChanged, 
+            this, &PropertyBrowser::reset,
+            Qt::UniqueConnection);
+}
+
 void PropertyBrowser::onRowsInserted(const QModelIndex & parentIndex, int first, int last)
 {
     QAbstractItemModel * model = this->model();
@@ -79,11 +100,6 @@ void PropertyBrowser::onRowsInserted(const QModelIndex & parentIndex, int first,
         if (property->isGroup() && model->hasChildren(index))
             expand(index);
     }
-}
-
-void PropertyBrowser::setAlwaysExpandGroups(bool b)
-{
-    m_alwaysExpandGroups = b;
 }
 
 void PropertyBrowser::addEditorPlugin(AbstractPropertyEditorPlugin * plugin)
