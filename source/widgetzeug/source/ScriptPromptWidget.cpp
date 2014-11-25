@@ -353,7 +353,7 @@ void ScriptPromptWidget::setMultiLinePaste(const bool enable)
     m_multiLinePaste = enable;
 }
 
-const bool ScriptPromptWidget::multiLinePaste() const
+bool ScriptPromptWidget::multiLinePaste() const
 {
     return m_multiLinePaste;
 }

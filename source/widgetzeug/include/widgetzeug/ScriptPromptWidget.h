@@ -29,7 +29,7 @@ public:
     virtual ~ScriptPromptWidget();
 
     void setMultiLinePaste(bool enable);
-    const bool multiLinePaste() const;
+    bool multiLinePaste() const;
 
     /*
     * Note: widget takes ownership of the highlighter and deletes it on 
