@@ -8,16 +8,16 @@
 
 #include <widgetzeug/ColorGradient.h>
 
-namespace widgetzeug
+namespace
 {
 
-std::string toString(const widgetzeug::ColorGradient & gradient)
+std::string gradientToString(const widgetzeug::ColorGradient & gradient)
 {
     QJsonObject jsonGradient;
-	jsonGradient.insert("type", widgetzeug::ColorGradient::typeString(gradient.type()));
+    jsonGradient.insert("type", widgetzeug::ColorGradient::typeString(gradient.type()));
 
     QJsonArray stops;
-	for (const widgetzeug::ColorGradientStop & stop : gradient.stops())
+    for (const widgetzeug::ColorGradientStop & stop : gradient.stops())
     {
         QJsonObject jsonStop;
         jsonStop.insert("color", stop.color().name(QColor::HexArgb));
@@ -31,7 +31,7 @@ std::string toString(const widgetzeug::ColorGradient & gradient)
     return QJsonDocument(jsonGradient).toJson(QJsonDocument::Compact).data();
 }
 
-bool fromString(const std::string & string, widgetzeug::ColorGradient & gradient)
+bool gradientFromString(const std::string & string, widgetzeug::ColorGradient & gradient)
 {
     QJsonDocument json = QJsonDocument::fromJson(QByteArray(string.c_str()));
 
@@ -46,10 +46,10 @@ bool fromString(const std::string & string, widgetzeug::ColorGradient & gradient
     if (!jsonGradient.contains("type") || !jsonGradient.value("type").isString())
         return false;
 
-	static const QMap<QString, widgetzeug::ColorGradientType> types = {
+    static const QMap<QString, widgetzeug::ColorGradientType> types = {
         { "Discrete", widgetzeug::ColorGradientType::Discrete },
         { "Linear", widgetzeug::ColorGradientType::Linear },
-        { "Matze", widgetzeug::ColorGradientType::Matze } 
+        { "Matze", widgetzeug::ColorGradientType::Matze }
     };
 
     newGradient.setType(types.value(jsonGradient.value("type").toString()));
@@ -66,7 +66,7 @@ bool fromString(const std::string & string, widgetzeug::ColorGradient & gradient
 
         QJsonObject stop = jsonStop.toObject();
 
-        if (!stop.contains("color") || 
+        if (!stop.contains("color") ||
             !stop.value("color").isString() ||
             !stop.contains("position") ||
             !stop.value("position").isDouble())
@@ -74,7 +74,7 @@ bool fromString(const std::string & string, widgetzeug::ColorGradient & gradient
 
         QColor color;
         color.setNamedColor(stop.value("color").toString());
-        
+
         qreal position = stop.value("position").toDouble();
         qreal midpoint = widgetzeug::ColorGradientStop::s_defaultMidpoint;
 
@@ -89,7 +89,12 @@ bool fromString(const std::string & string, widgetzeug::ColorGradient & gradient
     gradient = newGradient;
     return true;
 }
-    
+
+}
+
+namespace widgetzeug
+{
+
 class ColorGradientProperty : public reflectionzeug::ValueProperty<widgetzeug::ColorGradient>
 {
 public:
@@ -102,13 +107,13 @@ public:
 
     virtual std::string toString() const 
     {
-        return ::toString(this->value());
+        return gradientToString(this->value());
     }
 
     virtual bool fromString(const std::string & string)
     {
         widgetzeug::ColorGradient value;
-        if (!::fromString(string, value))
+        if (!gradientFromString(string, value))
             return false;
 
         this->setValue(value);
