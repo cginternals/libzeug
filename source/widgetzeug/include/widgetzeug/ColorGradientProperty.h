@@ -8,7 +8,7 @@
 
 #include <widgetzeug/ColorGradient.h>
 
-namespace 
+namespace widgetzeug
 {
 
 std::string toString(const widgetzeug::ColorGradient & gradient)
@@ -124,7 +124,7 @@ namespace reflectionzeug
 template <>
 struct PropertyClass<widgetzeug::ColorGradient>
 {
-    using Type = ColorGradientProperty;
+    using Type = widgetzeug::ColorGradientProperty;
 };
 
 } // namespace widgetzeug

@@ -15,7 +15,7 @@ qreal dpiBasedScale(const QPaintDevice & device)
     assert(device.logicalDpiX() == device.logicalDpiY());
     static const auto standardDpi = 96.0;
     
-    const dpi = device.logicalDpiX();
+    const auto dpi = device.logicalDpiX();
     return dpi / standardDpi;
 #endif
 }
