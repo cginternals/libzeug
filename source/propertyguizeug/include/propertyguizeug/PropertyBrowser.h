@@ -1,4 +1,3 @@
-
 #pragma once
 
 #include <QTreeView>
@@ -13,9 +12,9 @@ namespace reflectionzeug
 namespace propertyguizeug
 {
 
+class AbstractPropertyEditorPlugin;
+class AbstractPropertyPainterPlugin;
 class PropertyDelegate;
-class PropertyEditorFactory;
-class PropertyPainter;
 
 class PROPERTYGUIZEUG_API PropertyBrowser : public QTreeView
 {
@@ -27,24 +26,26 @@ public:
     PropertyBrowser(reflectionzeug::PropertyGroup * root,
                     QWidget * parent = nullptr);
     
-    PropertyBrowser(PropertyEditorFactory * editorFactory,
-                    PropertyPainter * painter,
-                    QWidget * parent = nullptr);
-    
-    PropertyBrowser(reflectionzeug::PropertyGroup * root,
-                    PropertyEditorFactory * editorFactory,
-                    PropertyPainter * painter,
-                    QWidget * parent = nullptr);
-    
     ~PropertyBrowser();
     
     void setRoot(reflectionzeug::PropertyGroup * root);
     void setAlwaysExpandGroups(bool b);
+    
+    template <typename... Editors>
+    void addEditorPlugin();
+
+    template <typename... Editors>
+    void addPainterPlugin();
 
 protected slots:
     void onRowsInserted(const QModelIndex & parentIndex, int first, int last);
 
+protected:
+    virtual void showEvent(QShowEvent * event);
+
 private:
+    void addEditorPlugin(AbstractPropertyEditorPlugin * plugin);
+    void addPainterPlugin(AbstractPropertyPainterPlugin * plugin);
     void initView();
     void expandAllGroups();
     
@@ -54,3 +55,5 @@ private:
 };
     
 } // namespace propertyguizeug
+
+#include <propertyguizeug/PropertyBrowser.hpp>

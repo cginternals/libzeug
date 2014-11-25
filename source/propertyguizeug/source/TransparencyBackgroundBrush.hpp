@@ -1,4 +1,3 @@
-
 #pragma once
 
 #include <QBrush>
@@ -12,7 +11,8 @@ inline const QBrush TransparencyBackgroundBrush()
 
 	int color, i;
 	for(unsigned short x = 0; x < size; ++x)
-		for(unsigned short y = 0; y < size; ++y) {		
+		for(unsigned short y = 0; y < size; ++y) 
+        {		
 			i = (x * size + y) * 4;
             
 			color = (x <= 5 && y <= 5) || (x > 5 && y > 5) ? 255 : 224;

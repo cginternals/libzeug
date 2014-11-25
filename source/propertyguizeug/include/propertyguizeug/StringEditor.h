@@ -1,4 +1,3 @@
-
 #pragma once
 
 #include <reflectionzeug/property_declaration.h>
@@ -9,10 +8,8 @@ class QWidget;
 
 namespace reflectionzeug
 {
-
-class StringPropertyInterface;
-
-} // namespace reflectionzeug
+    class StringPropertyInterface;
+}
 
 namespace propertyguizeug
 {
@@ -25,17 +22,20 @@ namespace propertyguizeug
 class PROPERTYGUIZEUG_API StringEditor : public PropertyEditor
 {
 public:
-    StringEditor(reflectionzeug::StringPropertyInterface * property, QWidget * parent = nullptr);
+    using Type = reflectionzeug::StringPropertyInterface;
+    
+public:
+    StringEditor(reflectionzeug::StringPropertyInterface * property, 
+                 QWidget * parent = nullptr);
 
-protected:
+private:
     QWidget * createComboBox();
     QWidget * createLineEdit();
     
     void setString(const QString & text);
 
-protected:    
+private:    
     reflectionzeug::StringPropertyInterface * m_property;
-    
 };
 
 } // namespace propertyguizeug

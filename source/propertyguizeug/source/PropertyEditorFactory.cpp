@@ -1,88 +1,78 @@
+#include <propertyguizeug/PropertyEditorFactory.h>
+
+#include <cassert>
 
 #include <reflectionzeug/Property.h>
 
-#include <propertyguizeug/StringEditor.h>
-#include <propertyguizeug/ColorEditor.h>
-#include <propertyguizeug/FilePathEditor.h>
-#include <propertyguizeug/EnumEditor.h>
 #include <propertyguizeug/BoolEditor.h>
-#include <propertyguizeug/ValueEditor.h>
-#include <propertyguizeug/UnsignedIntegralEditor.h>
-#include <propertyguizeug/SignedIntegralEditor.h>
+#include <propertyguizeug/ColorEditor.h>
+#include <propertyguizeug/EnumEditor.h>
+#include <propertyguizeug/FilePathEditor.h>
 #include <propertyguizeug/FloatingPointEditor.h>
+#include <propertyguizeug/SignedIntegralEditor.h>
+#include <propertyguizeug/StringEditor.h>
+#include <propertyguizeug/UnsignedIntegralEditor.h>
+#include <propertyguizeug/ValueEditor.h>
 
-#include <propertyguizeug/PropertyEditorFactory.h>
 
+#include <propertyguizeug/PropertyEditorPlugin.h>
 
 using namespace reflectionzeug;
 namespace propertyguizeug
 {
     
 PropertyEditorFactory::PropertyEditorFactory()
-:   m_editor(nullptr)
+:   m_editor{nullptr}
 {
+    addPlugin(new PropertyEditorPlugin<
+        BoolEditor,
+        ColorEditor,
+        EnumEditor,
+        FilePathEditor,
+        FloatingPointEditor,
+        SignedIntegralEditor,
+        StringEditor,
+        UnsignedIntegralEditor>{});
 }
 
-PropertyEditorFactory::~PropertyEditorFactory()
+QWidget * PropertyEditorFactory::createEditor(
+    AbstractValueProperty & property, 
+    QWidget * parent)
 {
-}
+    assert(parent);
+    
+    m_editor = nullptr;
+    m_parentWidget = parent;
 
-QWidget * PropertyEditorFactory::createEditor(AbstractValueProperty & property)
-{
-    property.accept(this);
+    for (auto plugin : m_plugins)
+    {
+        property.accept(plugin);
+
+        if (m_editor)
+            break;
+    }
+
+    if (!m_editor)
+        m_editor = new ValueEditor{&property, m_parentWidget};
+
     return m_editor;
 }
 
-QWidget * PropertyEditorFactory::createEditorWithParent(AbstractValueProperty & property, QWidget * parent)
+void PropertyEditorFactory::addPlugin(AbstractPropertyEditorPlugin * plugin)
 {
-	QWidget * editor = createEditor(property);
-	editor->setParent(parent);
-	return editor;
+    assert(plugin);
+    plugin->setFactory(this);
+    m_plugins.prepend(plugin);
 }
 
-void PropertyEditorFactory::visit(Property<bool> * property)
+void PropertyEditorFactory::setEditor(QWidget * editor)
 {
-    m_editor = new BoolEditor(property);
+    m_editor = editor;
 }
 
-void PropertyEditorFactory::visit(Property<FilePath> * property)
+QWidget * PropertyEditorFactory::parentWidget() const
 {
-    m_editor = new FilePathEditor(property);
-}
-
-void PropertyEditorFactory::visit(reflectionzeug::AbstractValueProperty * property)
-{
-    m_editor = new ValueEditor(property);
-}
-    
-void PropertyEditorFactory::visit(reflectionzeug::ColorPropertyInterface * property)
-{
-    m_editor = new ColorEditor(property);
-}
-
-void PropertyEditorFactory::visit(reflectionzeug::EnumPropertyInterface * property)
-{
-    m_editor = new EnumEditor(property);
-}
-
-void PropertyEditorFactory::visit(reflectionzeug::UnsignedIntegralPropertyInterface * property)
-{
-    m_editor = new UnsignedIntegralEditor(property);
-}
-
-void PropertyEditorFactory::visit(reflectionzeug::SignedIntegralPropertyInterface * property)
-{
-    m_editor = new SignedIntegralEditor(property);
-}
-
-void PropertyEditorFactory::visit(reflectionzeug::FloatingPointPropertyInterface * property)
-{
-    m_editor = new FloatingPointEditor(property);
-}
-
-void PropertyEditorFactory::visit(reflectionzeug::StringPropertyInterface * property)
-{
-    m_editor = new StringEditor(property);
+    return m_parentWidget;
 }
 
 } // namespace propertyguizeug

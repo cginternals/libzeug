@@ -1,8 +1,6 @@
-
 #pragma once
 
 #include <propertyguizeug/PropertyEditor.h>
-
 
 namespace reflectionzeug
 {
@@ -11,8 +9,6 @@ namespace reflectionzeug
 
 namespace propertyguizeug
 {
-    
-class LongLongSpinBox;
 
 /** \brief Editor for signed integral point properties
  *
@@ -20,16 +16,23 @@ class LongLongSpinBox;
  * - minimum (long long): lowest value to be accepted
  * - maximum (long long): greatest value to be accepted
  * - step (long long): step size of the spinbox
+ * - prefix (std::string): string shown before value
+ * - suffix (std::string): string shown after value
  */
 class PROPERTYGUIZEUG_API SignedIntegralEditor : public PropertyEditor
 {
 public:
+    using Type = reflectionzeug::SignedIntegralPropertyInterface;
+    
+    static void paint(QPainter * painter, 
+                      const QStyleOptionViewItem & option, 
+                      reflectionzeug::SignedIntegralPropertyInterface & property);
+    
+public:
     SignedIntegralEditor(reflectionzeug::SignedIntegralPropertyInterface * property, 
                          QWidget * parent = nullptr);
 
-protected:
-    LongLongSpinBox * m_spinBox;
-    
+private:    
     reflectionzeug::SignedIntegralPropertyInterface * m_property;
 };
 

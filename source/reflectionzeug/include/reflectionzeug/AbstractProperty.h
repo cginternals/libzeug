@@ -51,13 +51,15 @@ public:
     
     template <typename T>
     T option(const std::string & key, const T & defaultValue) const;
-    
+
     Variant option(const std::string & key) const;
     void setOption(const std::string & key, const Variant & value);
     void setOptions(const VariantMap & map);
     bool removeOption(const std::string & key);
     bool hasOption(const std::string & key) const;
-    
+
+    const VariantMap & options() const;
+
     /** \} */
     
     /**

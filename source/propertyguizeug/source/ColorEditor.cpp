@@ -1,56 +1,112 @@
+#include <propertyguizeug/ColorEditor.h>
 
+#include <cassert>
+
+#include <QApplication>
 #include <QColorDialog>
 #include <QLineEdit>
 #include <QLabel>
 #include <QHBoxLayout>
+#include <QPainter>
 #include <QRegExpValidator>
-
-#include <reflectionzeug/Property.h>
+#include <QStyleOptionViewItem>
 
 #include <reflectionzeug/ColorPropertyInterface.h>
 
-#include <propertyguizeug/ColorEditor.h>
 #include <propertyguizeug/ColorButton.h>
 
 using namespace reflectionzeug;
+
+namespace 
+{
+
+QColor toQColor(const Color & color)
+{
+    return {color.red(), color.green(), color.blue(), color.alpha()};
+}
+
+Color toColor(const QColor & color)
+{
+    return {color.red(), color.green(), color.blue(), color.alpha()};
+}
+
+} // namespace
+
 namespace propertyguizeug
 {
 
-ColorEditor::ColorEditor(reflectionzeug::ColorPropertyInterface * property, QWidget * parent)
-:   PropertyEditor(parent)
-,   m_property(property)
+void ColorEditor::paint(
+    QPainter * painter, 
+    const QStyleOptionViewItem & option, 
+    ColorPropertyInterface & property)
 {
-    const Color & color = m_property->toColor();
-    QColor qcolor(color.red(), color.green(), color.blue(), color.alpha());
+    auto color = property.toColor();
+    auto qcolor = toQColor(color);
     
-    m_lineEdit = new QLineEdit(this);
-    m_lineEdit->setText(QString::fromStdString(m_property->toString()));
+    const auto alpha = property.option<bool>("alpha", true);
+                  
+    const auto metrics = option.widget->fontMetrics();
+    const auto buttonSize = ColorButton::sizeFromFontHeight(metrics.height());
+    auto buttonRect = QRect{option.rect.topLeft(), buttonSize};
+    buttonRect.moveCenter({buttonRect.center().x(), option.rect.center().y()});
+    const auto topLeft = buttonRect.topLeft();
     
-    m_button = new ColorButton(this, qcolor);
+    auto widget = option.widget;
+    auto style = widget ? widget->style() : QApplication::style();
     
-    this->boxLayout()->setSpacing(2);
-    this->boxLayout()->addWidget(m_button);
-    this->boxLayout()->addWidget(m_lineEdit);
-    
-    this->setFocusProxy(m_lineEdit);
+    ColorButton::paint(painter, topLeft, qcolor);
 
-    QRegExpValidator * validator = new QRegExpValidator(QRegExp("#[0-9A-Fa-f]{8}"), this);
+    auto rect = option.rect;
+    rect.setLeft(option.rect.left() + 
+                 buttonSize.width() + 4);
+
+    
+    style->drawItemText(
+        painter,
+        rect,
+        Qt::AlignVCenter,
+        option.palette,
+        true,
+        QString::fromStdString(property.toColor().toString(alpha)),
+        QPalette::Text);
+}
+                      
+ColorEditor::ColorEditor(ColorPropertyInterface * property, QWidget * parent)
+:   PropertyEditor{parent}
+,   m_alpha{property->option<bool>("alpha", true)}
+,   m_property{property}
+{
+    Color color = m_property->toColor();
+    QColor qcolor = toQColor(color);
+    
+    m_lineEdit = new QLineEdit{this};
+    m_lineEdit->setText(QString::fromStdString(m_property->toColor().toString(m_alpha)));
+    
+    m_button = new ColorButton{this, qcolor};
+    
+    boxLayout()->setSpacing(2);
+    addWidget(m_button);
+    addWidget(m_lineEdit);
+    setFocusProxy(m_lineEdit);
+
+    auto hexRegex = m_alpha ? "#[0-9A-Fa-f]{8}" : "#[0-9A-Fa-f]{6}";
+    auto validator = new QRegExpValidator{QRegExp{hexRegex}, this};
     m_lineEdit->setValidator(validator);
     
     this->connect(m_button, &ColorButton::pressed, this, &ColorEditor::openColorPicker);
     this->connect(m_lineEdit, &QLineEdit::editingFinished, this, &ColorEditor::parseColor);
 }
-
-ColorEditor::~ColorEditor()
-{
-}
     
 void ColorEditor::openColorPicker()
 {
-    QColor qcolor = QColorDialog::getColor(this->qcolor(),
-                                           m_button,
-                                           "Choose Color",
-                                           QColorDialog::ShowAlphaChannel);
+    auto options = m_alpha ? QColorDialog::ShowAlphaChannel : QColorDialog::ColorDialogOptions();
+    
+    auto qcolor = QColorDialog::getColor(
+        qColor(),
+        m_button,
+        "Choose Color",
+        options);
+        
     if (qcolor.isValid())
         this->setQColor(qcolor);
 }
@@ -58,34 +114,31 @@ void ColorEditor::openColorPicker()
 void ColorEditor::parseColor()
 {
     QString text = m_lineEdit->text();
-    text.remove('#');
-
-    Color color(text.toUInt(0, 16));
+    bool ok;
+    auto color = Color::fromString(text.toStdString(), &ok);
+    assert(ok);
     this->setColor(color);
 }
     
-QColor ColorEditor::qcolor() const
+QColor ColorEditor::qColor() const
 {
-    const Color & color = m_property->toColor();
-    return QColor(color.red(), color.green(), color.blue(), color.alpha());
+    return toQColor(m_property->toColor());
 }
-    
+
 void ColorEditor::setQColor(const QColor & qcolor)
 {
-    Color color(qcolor.red(), qcolor.green(), qcolor.blue(), qcolor.alpha());
+    Color color = toColor(qcolor);
     m_property->fromColor(color);
-    
     m_button->setColor(qcolor);
-    m_lineEdit->setText(QString::fromStdString(m_property->toString()));
+    m_lineEdit->setText(QString::fromStdString(color.toString(m_alpha)));
 }
 
 void ColorEditor::setColor(const Color & color)
 {
-    QColor qcolor(color.red(), color.green(), color.blue(), color.alpha());
+    QColor qcolor = toQColor(color);
     m_property->fromColor(color);
-
     m_button->setColor(qcolor);
-    m_lineEdit->setText(QString::fromStdString(m_property->toString()));
+    m_lineEdit->setText(QString::fromStdString(color.toString(m_alpha)));
 }
 
 } // namespace propertyguizeug

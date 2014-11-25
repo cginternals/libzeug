@@ -1,7 +1,8 @@
-
 #include <propertyguizeug/PropertyDelegate.h>
 
 #include <cassert>
+
+#include <QApplication>
 
 #include <reflectionzeug/AbstractProperty.h>
 
@@ -9,7 +10,6 @@
 #include <propertyguizeug/PropertyPainter.h>
 
 #include "PropertyItem.h"
-
 
 using namespace reflectionzeug;
 
@@ -26,13 +26,10 @@ AbstractProperty * retrieveProperty(const QModelIndex & index)
 namespace propertyguizeug
 {
 
-PropertyDelegate::PropertyDelegate(
-    PropertyEditorFactory * editorFactory,
-    PropertyPainter * painter,
-    QWidget * parent)
-:   QStyledItemDelegate(parent)
-,   m_editorFactory(editorFactory)
-,   m_propertyPainter(painter)
+PropertyDelegate::PropertyDelegate(QWidget * parent)
+:   QStyledItemDelegate{parent}
+,   m_editorFactory{new PropertyEditorFactory{}}
+,   m_propertyPainter{new PropertyPainter{}}
 {
     assert(m_editorFactory != nullptr);
     assert(m_propertyPainter != nullptr);
@@ -48,13 +45,15 @@ void PropertyDelegate::paint(QPainter * painter,
    const QStyleOptionViewItem & option,
    const QModelIndex & index) const
 {
-    AbstractProperty * property = retrieveProperty(index);
+    QStyledItemDelegate::paint(painter, option, index);
 
-    if (!property->isValue())
-        return QStyledItemDelegate::paint(painter, option, index);
+	AbstractProperty * property = retrieveProperty(index);
+
+	if (!property->isValue())
+		return;
 
 	QStyleOptionViewItem opt = option;
-	this->initStyleOption(&opt, index);
+	initStyleOption(&opt, index);
 
 	m_propertyPainter->drawValue(painter, opt, *property->asValue());
 }
@@ -67,7 +66,7 @@ QWidget * PropertyDelegate::createEditor(QWidget * parent,
     if (!property->isValue())
         return QStyledItemDelegate::createEditor(parent, option, index);
 
-    return m_editorFactory->createEditorWithParent(*property->asValue(), parent);
+    return m_editorFactory->createEditor(*property->asValue(), parent);
 }
 
 void PropertyDelegate::updateEditorGeometry(QWidget * editor, const QStyleOptionViewItem & option,
@@ -76,10 +75,21 @@ void PropertyDelegate::updateEditorGeometry(QWidget * editor, const QStyleOption
     editor->setGeometry(option.rect);
 }
 
-QSize PropertyDelegate::sizeHint (const QStyleOptionViewItem & option,
+QSize PropertyDelegate::sizeHint(const QStyleOptionViewItem & option,
     const QModelIndex & index) const
 {
-    return QSize(0, 27);
+    auto size = QStyledItemDelegate::sizeHint(option, index);
+	return {size.width(), static_cast<int>(size.height() * 1.5)};
+}
+
+void PropertyDelegate::addEditorPlugin(AbstractPropertyEditorPlugin * plugin)
+{
+    m_editorFactory->addPlugin(plugin);
+}
+
+void PropertyDelegate::addPainterPlugin(AbstractPropertyPainterPlugin * plugin)
+{
+    m_propertyPainter->addPlugin(plugin);
 }
 
 } // namespace propertyguizeug

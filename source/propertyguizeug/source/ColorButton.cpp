@@ -1,36 +1,55 @@
-
 #include <propertyguizeug/ColorButton.h>
 
 #include <QColorDialog>
 #include <QGridLayout>
 #include <QPainter>
+#include <QStyle>
 
 #include "TransparencyBackgroundBrush.hpp"
-
 
 namespace propertyguizeug
 {
 
-const QSize ColorButton::s_fixedSize = QSize(19, 19);
-
-ColorButton::ColorButton(QWidget * parent, const QColor & initialColor)
-:	QLabel(parent)
+QSize ColorButton::sizeFromFontHeight(int height)
 {
-    this->setFrameStyle(QFrame::NoFrame);
-	this->setAutoFillBackground(true);
-    
-    this->setFixedSize(s_fixedSize);
-
-	QPalette palette;
-	palette.setBrush(QPalette::Background, QBrush(TransparencyBackgroundBrush()));
-	setBackgroundRole(QPalette::Background);
-	setPalette(palette);
-
-	this->setColor(initialColor);
+    static const auto factor = 1.1875f;
+    const auto extent = static_cast<int>(height * factor);
+    return {extent, extent};
 }
 
-ColorButton::~ColorButton()
+void ColorButton::paint(
+    QPainter * painter,
+    const QPoint & topLeft, 
+    const QColor & color)
 {
+    const auto metrics = painter->fontMetrics();
+    const auto size = sizeFromFontHeight(metrics.height());
+    const auto rect = QRect{topLeft, size};
+
+    auto pixmap = QPixmap{size};
+    pixmap.fill(color);
+
+    painter->save();
+    painter->setBrushOrigin(topLeft);
+    painter->fillRect(rect, TransparencyBackgroundBrush());
+    painter->drawPixmap(rect, pixmap);
+    painter->restore();
+}
+
+ColorButton::ColorButton(QWidget * parent, const QColor & initialColor)
+:   QLabel{parent}
+{
+    const auto metrics = fontMetrics();
+
+    auto palette = QPalette{};
+    palette.setBrush(QPalette::Background, QBrush(TransparencyBackgroundBrush()));
+
+    setFrameStyle(QFrame::NoFrame);
+	setAutoFillBackground(true);
+    setFixedSize(sizeFromFontHeight(metrics.height()));
+	setBackgroundRole(QPalette::Background);
+	setPalette(palette);
+	setColor(initialColor);
 }
 
 const QColor & ColorButton::color() const
@@ -44,26 +63,15 @@ void ColorButton::setColor(const QColor & color)
 	updateColor();
 }
 
-void ColorButton::paint(QPainter * painter, const QPoint & topLeft, const QColor & color)
-{
-    QPixmap pixmap(s_fixedSize);
-    pixmap.fill(color);
-
-    QRect rect(topLeft, s_fixedSize);
-
-    painter->setBrushOrigin(topLeft);
-    painter->fillRect(rect, TransparencyBackgroundBrush());
-    painter->drawPixmap(rect, pixmap);
-}
-
 void ColorButton::mousePressEvent(QMouseEvent * event)
 {
-    emit this->pressed();
+    emit pressed();
 }
 
 void ColorButton::updateColor() 
 {
-	QPixmap pixmap(s_fixedSize);
+    const auto metrics = fontMetrics();
+    auto pixmap = QPixmap{sizeFromFontHeight(metrics.height())};
     pixmap.fill(m_color);
 	setPixmap(pixmap);
 }

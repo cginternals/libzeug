@@ -1,17 +1,16 @@
+#include <propertyguizeug/PropertyBrowser.h>
 
 #include <cassert>
+
+#include <QWindow>
+#include <QScreen>
 
 #include <reflectionzeug/AbstractProperty.h>
 
 #include <propertyguizeug/PropertyModel.h>
 #include <propertyguizeug/PropertyDelegate.h>
-#include <propertyguizeug/PropertyEditorFactory.h>
-#include <propertyguizeug/PropertyPainter.h>
-
-#include <propertyguizeug/PropertyBrowser.h>
 
 #include "PropertyItem.h"
-
 
 using namespace reflectionzeug;
 
@@ -29,63 +28,34 @@ namespace propertyguizeug
 {
     
 PropertyBrowser::PropertyBrowser(QWidget * parent)
-:   PropertyBrowser(new PropertyEditorFactory(),
-                    new PropertyPainter(),
-                    parent)
+:   PropertyBrowser{nullptr, parent}
 {
-    
 }
 
 PropertyBrowser::PropertyBrowser(
     PropertyGroup * root,
     QWidget * parent)
-:   PropertyBrowser(root,
-                    new PropertyEditorFactory(),
-                    new PropertyPainter(),
-                    parent)
-{
-}
-    
-PropertyBrowser::PropertyBrowser(
-    PropertyEditorFactory * editorFactory,
-    PropertyPainter * painter,
-    QWidget * parent)
 :   QTreeView(parent)
-,   m_delegate(new PropertyDelegate(editorFactory, painter, this))
-,   m_alwaysExpandGroups(false)
+,   m_delegate{new PropertyDelegate{this}}
+,   m_alwaysExpandGroups{false}
 {
-    this->setRoot(nullptr);
-    this->setItemDelegateForColumn(1, m_delegate);
-    
-    initView();
-}
-    
-PropertyBrowser::PropertyBrowser(
-    PropertyGroup * root,
-    PropertyEditorFactory * editorFactory,
-    PropertyPainter * painter,
-    QWidget * parent)
-:   QTreeView(parent)
-,   m_delegate(new PropertyDelegate(editorFactory, painter, this))
-,   m_alwaysExpandGroups(false)
-{
-    this->setRoot(root);
-    this->setItemDelegateForColumn(1, m_delegate);
+    setRoot(root);
+    setItemDelegateForColumn(1, m_delegate);
     
     initView();
 }
 
 PropertyBrowser::~PropertyBrowser()
 {
-    delete this->model();
+    delete model();
 }
     
 void PropertyBrowser::setRoot(reflectionzeug::PropertyGroup * root)
 {   
     QAbstractItemModel * newModel = (root == nullptr) ? nullptr : new PropertyModel(root);
 
-    QAbstractItemModel * model = this->model();
-    this->setModel(newModel);
+    auto model = this->model();
+    setModel(newModel);
     delete model;
 
     if (m_alwaysExpandGroups && newModel)
@@ -93,8 +63,25 @@ void PropertyBrowser::setRoot(reflectionzeug::PropertyGroup * root)
         connect(newModel, &QAbstractItemModel::rowsInserted,
                 this, &PropertyBrowser::onRowsInserted);
 
-        this->expandAllGroups();
+        expandAllGroups();
     }
+}
+
+void PropertyBrowser::setAlwaysExpandGroups(bool b)
+{
+    m_alwaysExpandGroups = b;
+}
+
+void PropertyBrowser::showEvent(QShowEvent * event)
+{    
+    auto window = windowHandle();
+    
+    if (!window)
+        window = nativeParentWidget()->windowHandle();
+
+    connect(window, &QWindow::screenChanged, 
+            this, &PropertyBrowser::reset,
+            Qt::UniqueConnection);
 }
 
 void PropertyBrowser::onRowsInserted(const QModelIndex & parentIndex, int first, int last)
@@ -111,21 +98,26 @@ void PropertyBrowser::onRowsInserted(const QModelIndex & parentIndex, int first,
         AbstractProperty * property = retrieveProperty(index);
 
         if (property->isGroup() && model->hasChildren(index))
-            this->expand(index);
+            expand(index);
     }
 }
 
-void PropertyBrowser::setAlwaysExpandGroups(bool b)
+void PropertyBrowser::addEditorPlugin(AbstractPropertyEditorPlugin * plugin)
 {
-    m_alwaysExpandGroups = b;
+    m_delegate->addEditorPlugin(plugin);
+}
+
+void PropertyBrowser::addPainterPlugin(AbstractPropertyPainterPlugin * plugin)
+{
+    m_delegate->addPainterPlugin(plugin);
 }
     
 void PropertyBrowser::initView()
 {
-    this->setEditTriggers(QAbstractItemView::AllEditTriggers);
-    this->setAlternatingRowColors(true);
-    this->setUniformRowHeights(true);
-    this->setTabKeyNavigation(true);
+    setEditTriggers(QAbstractItemView::AllEditTriggers);
+    setAlternatingRowColors(true);
+    setUniformRowHeights(true);
+    setTabKeyNavigation(true);
 }
 
 void PropertyBrowser::expandAllGroups()
@@ -141,7 +133,7 @@ void PropertyBrowser::expandAllGroups()
         AbstractProperty * property = retrieveProperty(index);
 
         if (property->isGroup() && model->hasChildren(index))
-            this->expand(index);
+            expand(index);
     }
 }
 

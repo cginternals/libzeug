@@ -1,37 +1,51 @@
+#include <propertyguizeug/BoolEditor.h>
 
+#include <QApplication>
 #include <QCheckBox>
-#include <QBoxLayout>
+#include <QStyleOptionButton>
+#include <QStyleOptionViewItem>
 
 #include <reflectionzeug/Property.h>
-
-#include <propertyguizeug/BoolEditor.h>
 
 using namespace reflectionzeug;
 namespace propertyguizeug
 {
     
-BoolEditor::BoolEditor(Property<bool> * property, QWidget * parent)
-:   PropertyEditor(parent)
-,   m_property(property)
+void BoolEditor::paint(
+    QPainter * painter, 
+    const QStyleOptionViewItem & option, 
+    Property<bool> & property)
 {
-    QCheckBox * checkBox = new QCheckBox(this);
+    auto opt = QStyleOptionButton{};
+    opt.state = property.value() ? QStyle::State_On : QStyle::State_Off;
+    opt.state |= QStyle::State_Enabled;
+    opt.rect = option.rect;
+    opt.rect.setLeft(opt.rect.left()/* + PropertyEditor::s_horizontalMargin */);
+
+    auto widget = option.widget;
+    auto style = widget ? widget->style() : QApplication::style();
+    style->drawControl(QStyle::CE_CheckBox, &opt, painter, widget);
+}
+                      
+BoolEditor::BoolEditor(Property<bool> * property, QWidget * parent)
+:   PropertyEditor{parent}
+,   m_property{property}
+{
+    auto checkBox = new QCheckBox{this};
 
     m_property->toggleValue();
     
-    this->boxLayout()->addWidget(checkBox);
-    this->setFocusProxy(checkBox);
+    addWidget(checkBox);
+    setFocusProxy(checkBox);
 
     checkBox->setFocusPolicy(Qt::StrongFocus);
     checkBox->setCheckState(property->value() ? Qt::Checked : Qt::Unchecked);
-    this->connect(checkBox, &QCheckBox::stateChanged,
-                  [this](int state) {
-                      m_property->setValue(state == Qt::Checked);
-                  });
-}
     
-BoolEditor::~BoolEditor()
-{
-    
+    connect(checkBox, &QCheckBox::stateChanged,
+        [this](int state) 
+        {
+            m_property->setValue(state == Qt::Checked);
+        });
 }
 
 } // namespace propertyguizeug

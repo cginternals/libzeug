@@ -1,81 +1,57 @@
 
 # LIBZEUG_FOUND
-
 # LIBZEUG_LIBRARIES
 # LIBZEUG_INCLUDES
-# LIBZEUG_BINARIES (Windows only)
+# LIBZEUG_BINARIES                  (win32 only)
+# LIBZEUG_BINARY_[RELEASE|DEBUG]    (win32 only)
 
-# LIBZEUG_SIGNAL_LIBRARY
-# LIBZEUG_SIGNAL_LIBRARY_RELEASE
-# LIBZEUG_SIGNAL_LIBRARY_DEBUG
-# LIBZEUG_SIGNAL_INCLUDE_DIR
-# LIBZEUG_SIGNAL_BINARY (Windows only)
-
-# LIBZEUG_REFLECTION_LIBRARY
-# LIBZEUG_REFLECTION_LIBRARY_RELEASE
-# LIBZEUG_REFLECTION_LIBRARY_DEBUG
-# LIBZEUG_REFLECTION_INCLUDE_DIR
-# LIBZEUG_REFLECTION_BINARY (Windows only)
-
-# LIBZEUG_PROPERTYGUI_LIBRARY
-# LIBZEUG_PROPERTYGUI_LIBRARY_RELEASE
-# LIBZEUG_PROPERTYGUI_LIBRARY_DEBUG
-# LIBZEUG_PROPERTYGUI_INCLUDE_DIR
-# LIBZEUG_PROPERTYGUI_BINARY (Windows only)
-
-# LIBZEUG_IO_LIBRARY
-# LIBZEUG_IO_LIBRARY_RELEASE
-# LIBZEUG_IO_LIBRARY_DEBUG
+# LIBZEUG_IO_LIBRARIES
+# LIBZEUG_IO_LIBRARY_[RELEASE|DEBUG]
 # LIBZEUG_IO_INCLUDE_DIR
-# LIBZEUG_IO_BINARY (Windows only)
+# LIBZEUG_IO_BINARIES               (win32 only)
+# LIBZEUG_IO_BINARY_[RELEASE|DEBUG] (win32 only)
 
-# LIBZEUG_THREADING_LIBRARY
-# LIBZEUG_THREADING_LIBRARY_RELEASE
-# LIBZEUG_THREADING_LIBRARY_DEBUG
-# LIBZEUG_THREADING_INCLUDE_DIR
-# LIBZEUG_THREADING_BINARY (Windows only)
-
-# LIBZEUG_SCRIPT_LIBRARY
-# LIBZEUG_SCRIPT_LIBRARY_RELEASE
-# LIBZEUG_SCRIPT_LIBRARY_DEBUG
-# LIBZEUG_SCRIPT_INCLUDE_DIR
-# LIBZEUG_SCRIPT_BINARY (Windows only)
-
-# LIBZEUG_LOGGING_LIBRARY
-# LIBZEUG_LOGGING_LIBRARY_RELEASE
-# LIBZEUG_LOGGING_LIBRARY_DEBUG
+# LIBZEUG_LOGGING_LIBRARIES
+# LIBZEUG_LOGGING_LIBRARY_[RELEASE|DEBUG]
 # LIBZEUG_LOGGING_INCLUDE_DIR
-# LIBZEUG_LOGGING_BINARY (Windows only)
+# LIBZEUG_LOGGING_BINARIES               (win32 only)
+# LIBZEUG_LOGGING_BINARY_[RELEASE|DEBUG] (win32 only)
 
+# LIBZEUG_PROPERTYGUI_LIBRARIES
+# LIBZEUG_PROPERTYGUI_LIBRARY_[RELEASE|DEBUG]
+# LIBZEUG_PROPERTYGUI_INCLUDE_DIR
+# LIBZEUG_PROPERTYGUI_BINARIES               (win32 only)
+# LIBZEUG_PROPERTYGUI_BINARY_[RELEASE|DEBUG] (win32 only)
 
+# LIBZEUG_REFLECTION_LIBRARIES
+# LIBZEUG_REFLECTION_LIBRARY_[RELEASE|DEBUG]
+# LIBZEUG_REFLECTION_INCLUDE_DIR
+# LIBZEUG_REFLECTION_BINARIES               (win32 only)
+# LIBZEUG_REFLECTION_BINARY_[RELEASE|DEBUG] (win32 only)
 
-include(FindPackageHandleStandardArgs)
+# LIBZEUG_SCRIPT_LIBRARIES
+# LIBZEUG_SCRIPT_LIBRARY_[RELEASE|DEBUG]
+# LIBZEUG_SCRIPT_INCLUDE_DIR
+# LIBZEUG_SCRIPT_BINARIES               (win32 only)
+# LIBZEUG_SCRIPT_BINARY_[RELEASE|DEBUG] (win32 only)
 
-if(CMAKE_CURRENT_LIST_FILE)
-    get_filename_component(LIBZEUG_DIR ${CMAKE_CURRENT_LIST_FILE} PATH)
-endif()
+# LIBZEUG_SIGNAL_LIBRARIES
+# LIBZEUG_SIGNAL_LIBRARY_[RELEASE|DEBUG]
+# LIBZEUG_SIGNAL_INCLUDE_DIR
+# LIBZEUG_SIGNAL_BINARIES               (win32 only)
+# LIBZEUG_SIGNAL_BINARY_[RELEASE|DEBUG] (win32 only)
 
-file(TO_CMAKE_PATH "$ENV{PROGRAMFILES}" ENVPROGRAMFILES)
-file(TO_CMAKE_PATH "$ENV{LIBZEUG_DIR}"  ENVLIBZEUG_DIR)
+# LIBZEUG_THREADING_LIBRARIES
+# LIBZEUG_THREADING_LIBRARY_[RELEASE|DEBUG]
+# LIBZEUG_THREADING_INCLUDE_DIR
+# LIBZEUG_THREADING_BINARIES               (win32 only)
+# LIBZEUG_THREADING_BINARY_[RELEASE|DEBUG] (win32 only)
 
-set(LIB_PATHS   
-    ${LIBZEUG_DIR}/build
-    ${LIBZEUG_DIR}/build/Release
-    ${LIBZEUG_DIR}/build/Debug
-    ${LIBZEUG_DIR}/build-release
-    ${LIBZEUG_DIR}/build-debug
-    ${ENVLIBZEUG_DIR}/lib
-    ${LIBZEUG_DIR}/lib
-    ${ENVPROGRAMFILES}/libzeug/lib
-    /usr/lib
-    /usr/local/lib
-    /sw/lib
-    /opt/local/lib
-    /usr/lib64
-    /usr/local/lib64
-    /sw/lib64
-    /opt/local/lib64
-)
+# LIBZEUG_WIDGET_LIBRARIES
+# LIBZEUG_WIDGET_LIBRARY_[RELEASE|DEBUG]
+# LIBZEUG_WIDGET_INCLUDE_DIR
+# LIBZEUG_WIDGET_BINARIES               (win32 only)
+# LIBZEUG_WIDGET_BINARY_[RELEASE|DEBUG] (win32 only)
 
 macro (find LIB_NAME HEADER)
     set(HINT_PATHS ${ARGN})
@@ -112,21 +88,38 @@ macro (find LIB_NAME HEADER)
         set(${LIB_NAME_UPPER}_LIBRARY ${${LIB_NAME_UPPER}_LIBRARY_DEBUG})
     endif()
 
-    if (${LIB_NAME_UPPER}_LIBRARY AND WIN32)
-        find_file(${LIB_NAME_UPPER}_BINARY
-            NAMES ${LIBNAME}.dll
-            PATHS
-            ${LIBZEUG_DIR}/bin
-            ${LIBZEUG_DIR}/build/Release
-            ${LIBZEUG_DIR}/build/Debug
-            ${LIBZEUG_DIR}/build-release
-            ${LIBZEUG_DIR}/build-debug
-            DOC "The ${LIBNAME} binary")
+    # find binaries
+
+    set(${LIB_NAME_UPPER}_BINARIES "")
+
+    find_file(${LIB_NAME_UPPER}_BINARY_RELEASE
+        NAMES ${LIBNAME}.dll
+        PATHS
+        ${LIBZEUG_DIR}/bin
+        ${LIBZEUG_DIR}/build/Release
+        ${LIBZEUG_DIR}/build-release
+        DOC "The ${LIB_NAME_UPPER} binary")
+
+    find_file(${LIB_NAME_UPPER}_BINARY_DEBUG
+        NAMES ${LIBNAME}d.dll
+        PATHS
+        ${LIBZEUG_DIR}/bin
+        ${LIBZEUG_DIR}/build/Debug
+        ${LIBZEUG_DIR}/build-debug
+        DOC "The ${LIB_NAME_UPPER} debug binary")
+
+    if(NOT ${LIB_NAME_UPPER}_BINARY_RELEASE STREQUAL "${LIB_NAME_UPPER}_BINARY_RELEASE-NOTFOUND")
+        list(APPEND ${LIB_NAME_UPPER}_BINARIES ${${LIB_NAME_UPPER}_BINARY_RELEASE})
     endif()
 
-    set(LIBZEUG_INCLUDES  ${LIBZEUG_INCLUDES}  ${${LIB_NAME_UPPER}_INCLUDE_DIR})
-    set(LIBZEUG_LIBRARIES ${LIBZEUG_LIBRARIES} ${${LIB_NAME_UPPER}_LIBRARY})
-    set(LIBZEUG_BINARIES  ${LIBZEUG_BINARIES}  ${${LIB_NAME_UPPER}_BINARY})
+    if(NOT ${LIB_NAME_UPPER}_BINARY_DEBUG STREQUAL "${LIB_NAME_UPPER}_BINARY_DEBUG-NOTFOUND")
+        list(APPEND ${LIB_NAME_UPPER}_BINARIES ${${LIB_NAME_UPPER}_BINARY_DEBUG})
+    endif()
+
+
+    list(APPEND LIBZEUG_INCLUDES ${${LIB_NAME_UPPER}_INCLUDE_DIR})
+    list(APPEND LIBZEUG_LIBRARIES ${${LIB_NAME_UPPER}_LIBRARY})
+    list(APPEND LIBZEUG_BINARIES ${${LIB_NAME_UPPER}_BINARIES})
 
     # DEBUG
     #message("${LIB_NAME_UPPER}_INCLUDE_DIR     = ${${LIB_NAME_UPPER}_INCLUDE_DIR}")
@@ -136,17 +129,46 @@ macro (find LIB_NAME HEADER)
 
 endmacro()
 
-find(signal      signalzeug/signalzeug_api.h           ${LIB_PATHS})
-find(reflection  reflectionzeug/reflectionzeug_api.h   ${LIB_PATHS})
-find(propertygui propertyguizeug/propertyguizeug_api.h ${LIB_PATHS})
+
+if(CMAKE_CURRENT_LIST_FILE)
+    get_filename_component(LIBZEUG_DIR ${CMAKE_CURRENT_LIST_FILE} PATH)
+endif()
+
+file(TO_CMAKE_PATH "$ENV{PROGRAMFILES}" ENVPROGRAMFILES)
+file(TO_CMAKE_PATH "$ENV{LIBZEUG_DIR}"  ENVLIBZEUG_DIR)
+
+set(LIB_PATHS   
+    ${LIBZEUG_DIR}/build
+    ${LIBZEUG_DIR}/build/Release
+    ${LIBZEUG_DIR}/build/Debug
+    ${LIBZEUG_DIR}/build-release
+    ${LIBZEUG_DIR}/build-debug
+    ${ENVLIBZEUG_DIR}/lib
+    ${LIBZEUG_DIR}/lib
+    ${ENVPROGRAMFILES}/libzeug/lib
+    /usr/lib
+    /usr/local/lib
+    /sw/lib
+    /opt/local/lib
+    /usr/lib64
+    /usr/local/lib64
+    /sw/lib64
+    /opt/local/lib64
+)
+
 find(io          iozeug/iozeug_api.h                   ${LIB_PATHS})
-find(threading   threadingzeug/threadingzeug_api.h     ${LIB_PATHS})
-find(script      scriptzeug/scriptzeug_api.h           ${LIB_PATHS})
 find(logging     loggingzeug/loggingzeug_api.h         ${LIB_PATHS})
+find(propertygui propertyguizeug/propertyguizeug_api.h ${LIB_PATHS})
+find(reflection  reflectionzeug/reflectionzeug_api.h   ${LIB_PATHS})
+find(script      scriptzeug/scriptzeug_api.h           ${LIB_PATHS})
+find(signal      signalzeug/signalzeug_api.h           ${LIB_PATHS})
+find(threading   threadingzeug/threadingzeug_api.h     ${LIB_PATHS})
+find(widget      widgetzeug/widgetzeug_api.h           ${LIB_PATHS})
 
 # DEBUG
 #message("LIBZEUG_INCLUDES  = ${LIBZEUG_INCLUDES}")
 #message("LIBZEUG_LIBRARIES = ${LIBZEUG_LIBRARIES}")
 
+include(FindPackageHandleStandardArgs)
 find_package_handle_standard_args(LIBZEUG DEFAULT_MSG LIBZEUG_LIBRARIES LIBZEUG_INCLUDES)
 mark_as_advanced(LIBZEUG_FOUND)
