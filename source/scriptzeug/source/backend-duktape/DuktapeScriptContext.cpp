@@ -230,6 +230,10 @@ static void pushToDukStack(duk_context * context, const Variant & var)
     else if (var.canConvert<std::string>()) {
         duk_push_string(context, var.value<std::string>().c_str());
     }
+
+    else if (var.canConvert<Color>()) {
+        duk_push_string(context, var.value<Color>().toString().c_str());
+    }
 }
 
 static Variant getPropertyValue(AbstractProperty * property)
@@ -274,7 +278,7 @@ static Variant getPropertyValue(AbstractProperty * property)
 
     // Color
     else if (ColorPropertyInterface * prop = dynamic_cast< ColorPropertyInterface * >(property) ) {
-        value = Variant(prop->toColor().toString());
+        value = Variant::fromValue<Color>(prop->toColor());
     }
 
     // Array
