@@ -14,7 +14,7 @@ The current modules in libzeug are:
  * [signalzeug](#signalzeug)
  * [threadingzeug](#threadingzeug)
 
-The current pre-release is [libzeug-v0.1.0](https://github.com/hpicgs/libzeug/releases/tag/libzeug-v0.1).
+The current release is [libzeug-v0.5.0](https://github.com/hpicgs/libzeug/releases/tag/v0.5.0).
 
 __Our [wiki](https://github.com/hpicgs/libzeug/wiki) contains information to help you get started.__
 
