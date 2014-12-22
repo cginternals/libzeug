@@ -51,6 +51,7 @@ set(api_includes
     ${header_path}/ColorGradient.h
     ${header_path}/ColorGradientProperty.h
     ${header_path}/ColorGradientStop.h
+    ${header_path}/ColorGradientWidget.h
     ${header_path}/ColorScheme.h
     ${header_path}/ColorSchemePresetsWidget.h
     ${header_path}/DpiAwareGraphicsView.h
@@ -73,6 +74,7 @@ set(sources
     # color widgets
     ${source_path}/ColorGradient.cpp
     ${source_path}/ColorGradientStop.cpp
+    ${source_path}/ColorGradientWidget.cpp
     ${source_path}/ColorScheme.cpp
     ${source_path}/ColorSchemeGraphicsItem.cpp
     ${source_path}/ColorSchemeGraphicsItem.h  
