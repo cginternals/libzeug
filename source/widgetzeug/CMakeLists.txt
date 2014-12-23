@@ -118,9 +118,11 @@ add_library(${target} ${api_includes} ${sources})
 
 target_link_libraries(${target} ${libs})
 
-# qt fix - 4244 -> 'argument' : conversion from 'type1' to 'type2', possible loss of data
 if(MSVC)
+    # 'argument' : conversion from 'type1' to 'type2', possible loss of data (problem in qt)
     set(DEFAULT_COMPILE_FLAGS ${DEFAULT_COMPILE_FLAGS} /wd4244)
+    # -> msvc14 : declaration hides class member (problem in qt)
+    set(DEFAULT_COMPILE_FLAGS ${DEFAULT_COMPILE_FLAGS} /wd4458)
 endif()
 
 target_compile_options(${target} PRIVATE ${DEFAULT_COMPILE_FLAGS})

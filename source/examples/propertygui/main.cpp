@@ -82,8 +82,8 @@ int main(int argc, char *argv[])
             return static_cast<float>(widget->width()) / widget->height();
         },
         [widget] (const float & aspect) {
-            int width = static_cast<int>(aspect * widget->height());
-            widget->resize(width, widget->height());
+            auto w = static_cast<int>(aspect * widget->height());
+            widget->resize(w, widget->height());
         });
     aspect->setOption("step", 0.1f);
     aspect->setOption("suffix", " w/h");
