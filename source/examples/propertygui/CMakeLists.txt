@@ -23,9 +23,12 @@ include_directories(
 # Libraries
 
 set(libs
+    Qt5::Core
+    Qt5::Gui
+    Qt5::Widgets
     propertyguizeug
-	reflectionzeug
-	signalzeug
+    reflectionzeug
+    signalzeug
 )
 
 # Compiler definitions
@@ -42,7 +45,6 @@ set(sources
 add_executable(${target} ${sources})
 
 target_link_libraries(${target} ${libs})
-qt5_use_modules(${target} Core Gui Widgets)
 
 target_compile_options(${target} PRIVATE ${DEFAULT_COMPILE_FLAGS})
 
