@@ -1,15 +1,18 @@
 #pragma once
 
-#include <QGraphicsView>
+#include <QWidget>
 
 #include <widgetzeug/widgetzeug_api.h>
 #include <widgetzeug/ColorGradient.h>
 
+class QLabel;
 
 namespace widgetzeug
 {
 
-class WIDGETZEUG_API ColorGradientWidget : public QGraphicsView
+class ColorGradientStopBar;
+
+class WIDGETZEUG_API ColorGradientWidget : public QWidget
 {
 public:
     ColorGradientWidget(
@@ -18,10 +21,13 @@ public:
     
 protected:
     void resizeEvent(QResizeEvent * event) override;
-
+    
+protected:
+    void stopsChanged();
+    
 private:
-    class Scene; friend Scene;
-    Scene * m_scene;
+    QLabel * m_gradientLabel;
+    ColorGradientStopBar * m_bar;
 };
 
 } // namespace widgetzeug

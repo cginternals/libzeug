@@ -74,6 +74,10 @@ set(sources
     # color widgets
     ${source_path}/ColorGradient.cpp
     ${source_path}/ColorGradientStop.cpp
+    ${source_path}/ColorGradientStopBar.cpp
+    ${source_path}/ColorGradientStopBar.h
+    ${source_path}/ColorGradientStopWidget.cpp
+    ${source_path}/ColorGradientStopWidget.h
     ${source_path}/ColorGradientWidget.cpp
     ${source_path}/ColorScheme.cpp
     ${source_path}/ColorSchemeGraphicsItem.cpp
