@@ -23,10 +23,14 @@ ColorGradientWidget::ColorGradientWidget(
 ,   m_label{new ColorGradientLabel{m_model.get(), this}}
 ,   m_bar{new ColorGradientStopBar{m_model.get(), this}}
 {
+    auto labelLayout = new QVBoxLayout{};
+    labelLayout->setContentsMargins(6, 0, 6, 0);
+    labelLayout->addWidget(m_label);
+
     auto gradientLayoutWidget = new QWidget{};
     auto gradientLayout = new QVBoxLayout{gradientLayoutWidget};
     gradientLayout->setSpacing(1);
-    gradientLayout->addWidget(m_label);
+    gradientLayout->addLayout(labelLayout);
     gradientLayout->addWidget(m_bar);
     gradientLayoutWidget->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Preferred);
     

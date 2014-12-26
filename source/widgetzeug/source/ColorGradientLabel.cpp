@@ -5,7 +5,28 @@
 namespace
 {
 
-const int g_margin = 6;
+const QBrush TransparencyBackgroundBrush()
+{
+    const int size = 12;
+    QImage backgroundImage(size, size, QImage::Format_ARGB32);
+    unsigned char *bits = backgroundImage.bits();
+    
+    int color, i;
+    for(unsigned short x = 0; x < size; ++x)
+        for(unsigned short y = 0; y < size; ++y)
+        {
+            i = (x * size + y) * 4;
+            
+            color = (x <= 5 && y <= 5) || (x > 5 && y > 5) ? 255 : 224;
+            
+            bits[i + 2] = color;
+            bits[i + 1] = color;
+            bits[i + 0] = color;
+            bits[i + 3] = 255;
+        }
+    
+    return QBrush(backgroundImage);
+};
 
 } // namespace
 
@@ -20,7 +41,14 @@ ColorGradientLabel::ColorGradientLabel(
 {
     setScaledContents(true);
     setMinimumSize(1, 30);
-    setContentsMargins(g_margin, 0, g_margin, 0);
+    setContentsMargins(0, 0, 0, 0);
+    
+    auto palette = QPalette{};
+    palette.setBrush(QPalette::Background, QBrush(TransparencyBackgroundBrush()));
+    
+    setAutoFillBackground(true);
+    setBackgroundRole(QPalette::Background);
+    setPalette(palette);
     
     update();
 
@@ -35,7 +63,7 @@ void ColorGradientLabel::resizeEvent(QResizeEvent * event)
 
 void ColorGradientLabel::update()
 {
-    auto image = m_model->image((width() - 2 * g_margin) * devicePixelRatio());
+    auto image = m_model->image(width() * devicePixelRatio());
     auto pixmap = QPixmap::fromImage(image);
     pixmap.setDevicePixelRatio(devicePixelRatio());
     setPixmap(pixmap);

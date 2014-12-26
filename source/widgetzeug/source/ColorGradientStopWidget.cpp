@@ -65,7 +65,12 @@ void ColorGradientStopWidget::mouseReleaseEvent(QMouseEvent * event)
     if (m_initialPos != event->globalPos())
         return;
     
-    m_model->setColor(QColorDialog::getColor(m_model->color(), this));
+    m_model->setColor(QColorDialog::getColor(
+        m_model->color(),
+        this,
+        QString{},
+        QColorDialog::ShowAlphaChannel));
+        
     update();
 }
 
