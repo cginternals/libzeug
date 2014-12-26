@@ -92,8 +92,8 @@ void ColorGradientStopWidget::paintEvent(QPaintEvent * event)
     
     QPainterPath path;
     path.setFillRule(Qt::WindingFill);
-    path.addRoundedRect(1.0, 4.5, 11.0, 9.0, 2.0, 2.0);
-    QVector<QPointF> top = { {6.5, 0.0}, {12.0, 6.0}, {1.0, 6.0} };
+    path.addRoundedRect(0.5, 4.5, 12, 9.0, 2.0, 2.0);
+    QVector<QPointF> top = { {6.5, 0.0}, {12.0, 5.5}, {1.0, 5.5} };
     path.addPolygon(top);
     
     painter.drawPath(path.simplified());
