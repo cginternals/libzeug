@@ -3,9 +3,6 @@
 #include <QDebug>
 #include <QImage>
 
-#include <widgetzeug/ColorGradient.h>
-#include <widgetzeug/ColorGradientStop.h>
-
 #include "ColorGradientStopModel.h"
 #include "util.hpp"
 
@@ -13,6 +10,8 @@ namespace widgetzeug
 {
 
 ColorGradientModel::ColorGradientModel(const ColorGradient & gradient)
+:   m_type{gradient.type()}
+,   m_steps{12}
 {
     for (const auto & stop : gradient.stops())
         newStop(stop);
@@ -43,14 +42,36 @@ QList<ColorGradientStopModel *> ColorGradientModel::stopModels() const
     return models;
 }
 
+ColorGradientType ColorGradientModel::type() const
+{
+    return m_type;
+}
+
+void ColorGradientModel::setType(ColorGradientType type)
+{
+    m_type = type;
+    emit changed();
+}
+
+uint ColorGradientModel::steps() const
+{
+    return m_steps;
+}
+
+void ColorGradientModel::setSteps(uint steps)
+{
+    m_steps = steps;
+    changed();
+}
+
 QColor ColorGradientModel::interpolateColor(qreal position) const
 {
-    return gradient().interpolateColor(position);
+    return gradient().interpolateColor(position, m_steps);
 }
 
 QImage ColorGradientModel::image(uint width) const
 {
-    return gradient().image(width);
+    return gradient().image(width, m_steps);
 }
 
 ColorGradient ColorGradientModel::gradient() const
@@ -60,7 +81,7 @@ ColorGradient ColorGradientModel::gradient() const
     for (auto & model : m_stopModels)
         stops.append(model->stop());
     
-    return ColorGradient{stops};
+    return ColorGradient{stops, m_type};
 }
 
 } // namespace widgetzeug

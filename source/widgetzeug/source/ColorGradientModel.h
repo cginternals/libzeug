@@ -4,12 +4,13 @@
 
 #include <QObject>
 
+#include <widgetzeug/ColorGradient.h>
+
 class QImage;
 
 namespace widgetzeug
 {
 
-class ColorGradient;
 class ColorGradientStop;
 class ColorGradientStopModel;
 
@@ -25,6 +26,12 @@ public:
     
     QList<ColorGradientStopModel *> stopModels() const;
     
+    ColorGradientType type() const;
+    void setType(ColorGradientType type);
+    
+    uint steps() const;
+    void setSteps(uint steps);
+    
     QColor interpolateColor(qreal position) const;
     QImage image(uint width) const;
 
@@ -35,6 +42,8 @@ signals:
 
 private:
     std::vector<std::unique_ptr<ColorGradientStopModel>> m_stopModels;
+    ColorGradientType m_type;
+    uint m_steps;
 };
 
 } // namespace widgetzeug
