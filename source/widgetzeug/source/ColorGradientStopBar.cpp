@@ -40,7 +40,14 @@ ColorGradientStopBar::ColorGradientStopBar(
     setCursor(Qt::PointingHandCursor);
     
     for (auto stopModel : m_model->stopModels())
-        addStop(new ColorGradientStopWidget{stopModel, this});
+    {
+        auto stopWidget = new ColorGradientStopWidget{stopModel, this};
+        
+        connect(stopWidget, &ColorGradientStopWidget::positionChanged,
+                this, &ColorGradientStopBar::onStopPositionChanged);
+        
+        addStop(stopWidget);
+    }
 }
 
 void ColorGradientStopBar::resizeEvent(QResizeEvent * event)
