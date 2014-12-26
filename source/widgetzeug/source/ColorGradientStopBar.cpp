@@ -43,20 +43,6 @@ ColorGradientStopBar::ColorGradientStopBar(
         addStop(new ColorGradientStopWidget{stopModel, this});
 }
 
-void ColorGradientStopBar::newStop(
-    const QColor & color,
-    qreal position)
-{
-    auto stopModel = m_model->newStop({color, position});
-    auto stopWidget = new ColorGradientStopWidget{stopModel, this};
-    stopWidget->show();
-    
-    connect(stopWidget, &ColorGradientStopWidget::positionChanged,
-            this, &ColorGradientStopBar::onStopPositionChanged);
-    
-    addStop(stopWidget);
-}
-
 void ColorGradientStopBar::resizeEvent(QResizeEvent * event)
 {
     emit resized(event->size());
@@ -81,6 +67,20 @@ void ColorGradientStopBar::onStopPositionChanged(
     addStop(stopWidget);
 }
 
+void ColorGradientStopBar::newStop(
+    const QColor & color,
+    qreal position)
+{
+    auto stopModel = m_model->newStop({color, position});
+    auto stopWidget = new ColorGradientStopWidget{stopModel, this};
+    stopWidget->show();
+    
+    connect(stopWidget, &ColorGradientStopWidget::positionChanged,
+            this, &ColorGradientStopBar::onStopPositionChanged);
+    
+    addStop(stopWidget);
+}
+    
 void ColorGradientStopBar::addStop(
     widgetzeug::ColorGradientStopWidget * stopWidget)
 {

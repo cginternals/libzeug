@@ -18,10 +18,6 @@ public:
         ColorGradientModel * model,
         QWidget * parent = nullptr);
     
-    void newStop(
-        const QColor & color,
-        qreal position);
-    
 signals:
     void resized(const QSize & size);
     
@@ -33,6 +29,7 @@ protected:
     void onStopPositionChanged(ColorGradientStopWidget * stopWidget);
     
 private:
+    void newStop(const QColor & color, qreal position);
     void addStop(ColorGradientStopWidget * stopWidget);
 
 private:

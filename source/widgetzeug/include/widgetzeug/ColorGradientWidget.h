@@ -25,6 +25,8 @@ public:
     
     ~ColorGradientWidget();
     
+    ColorGradient gradient() const;
+    
 protected:
     void resizeEvent(QResizeEvent * event) override;
     

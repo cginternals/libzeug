@@ -31,9 +31,16 @@ ColorGradientWidget::ColorGradientWidget(
 
 ColorGradientWidget::~ColorGradientWidget() = default;
 
+ColorGradient ColorGradientWidget::gradient() const
+{
+    return m_model->gradient();
+}
+    
 void ColorGradientWidget::resizeEvent(QResizeEvent * event)
 {
     QWidget::resizeEvent(event);
 }
+
+
 
 } // namespace widgetzeug
