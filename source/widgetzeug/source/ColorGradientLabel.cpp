@@ -19,7 +19,7 @@ ColorGradientLabel::ColorGradientLabel(
 ,   m_model{model}
 {
     setScaledContents(true);
-    setMinimumSize(1, 1);
+    setMinimumSize(1, 30);
     setContentsMargins(g_margin, 0, g_margin, 0);
     
     update();

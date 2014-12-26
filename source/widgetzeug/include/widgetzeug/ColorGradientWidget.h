@@ -27,9 +27,6 @@ public:
     
     ColorGradient gradient() const;
     
-protected:
-    void resizeEvent(QResizeEvent * event) override;
-    
 private:
     std::unique_ptr<ColorGradientModel> m_model;
     
