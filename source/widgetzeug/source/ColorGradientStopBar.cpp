@@ -9,6 +9,8 @@
 #include <widgetzeug/ColorGradient.h>
 #include <widgetzeug/ColorGradientStop.h>
 
+#include "ColorGradientModel.h"
+#include "ColorGradientStopModel.h"
 #include "ColorGradientStopWidget.h"
 #include "util.hpp"
 
@@ -16,10 +18,10 @@ namespace
 {
 
 bool lessThan(
-    widgetzeug::ColorGradientStopWidget * stop1,
-    widgetzeug::ColorGradientStopWidget * stop2)
+    widgetzeug::ColorGradientStopWidget * widget1,
+    widgetzeug::ColorGradientStopWidget * widget2)
 {
-    return stop1->position() < stop2->position();
+    return widget1->model()->position() < widget2->model()->position();
 }
     
 } // namespace
@@ -28,88 +30,69 @@ namespace widgetzeug
 {
 
 ColorGradientStopBar::ColorGradientStopBar(
-    const QList<ColorGradientStop> & stops,
+    ColorGradientModel * model,
     QWidget * parent)
-:   QWidget(parent)
+:   QWidget{parent}
+,   m_model{model}
 {
     setMinimumWidth(100);
     setFixedHeight(15);
     setCursor(Qt::PointingHandCursor);
     
-    for (const auto & stop : stops)
-        newStop(stop.color(), stop.position());
+    for (auto stopModel : m_model->stopModels())
+        addStop(new ColorGradientStopWidget{stopModel, this});
 }
 
 void ColorGradientStopBar::newStop(
     const QColor & color,
     qreal position)
 {
-    position = clamp(position, 0.0, 1.0);
-    auto stop = new ColorGradientStopWidget{color, position, this};
-    stop->show();
+    auto stopModel = m_model->newStop({color, position});
+    auto stopWidget = new ColorGradientStopWidget{stopModel, this};
+    stopWidget->show();
     
-    connect(stop, &ColorGradientStopWidget::onPositionChanged,
-            this, &ColorGradientStopBar::stopPositionChanged);
+    connect(stopWidget, &ColorGradientStopWidget::positionChanged,
+            this, &ColorGradientStopBar::onStopPositionChanged);
     
-    connect(stop, &ColorGradientStopWidget::onColorChanged,
-            this, &ColorGradientStopBar::stopColorChanged);
-    
-    addStop(stop);
-}
-
-QList<ColorGradientStop> ColorGradientStopBar::stops() const
-{
-    auto stops = QList<ColorGradientStop>{};
-    
-    for (const auto stopWidget : m_stops)
-        stops.append({ stopWidget->color(), stopWidget->position() });
-    
-    return stops;
+    addStop(stopWidget);
 }
 
 void ColorGradientStopBar::resizeEvent(QResizeEvent * event)
 {
-    emit onResized(event->size());
+    emit resized(event->size());
 }
 
 void ColorGradientStopBar::mouseReleaseEvent(QMouseEvent * event)
 {
     auto position = static_cast<qreal>(event->pos().x() - 6.5) / (width() - 13);
-    auto color = ColorGradient{stops()}.interpolateColor(position);
+    auto color = m_model->interpolateColor(position);
     newStop(color, position);
 }
 
-void ColorGradientStopBar::stopPositionChanged(
+void ColorGradientStopBar::onStopPositionChanged(
     ColorGradientStopWidget * stopWidget)
 {
-    emit onStopsChanged();
-
-    if (std::is_sorted(m_stops.begin(), m_stops.end(), lessThan))
+    if (std::is_sorted(m_stopWidgets.begin(), m_stopWidgets.end(), lessThan))
         return;
     
-    auto stopIt = std::find(m_stops.begin(), m_stops.end(), stopWidget);
-    m_stops.erase(stopIt);
+    auto stopIt = std::find(m_stopWidgets.begin(), m_stopWidgets.end(), stopWidget);
+    m_stopWidgets.erase(stopIt);
     
     addStop(stopWidget);
-}
-
-void ColorGradientStopBar::stopColorChanged(ColorGradientStopWidget * stopWidget)
-{
-    emit onStopsChanged();
 }
 
 void ColorGradientStopBar::addStop(
     widgetzeug::ColorGradientStopWidget * stopWidget)
 {
-    auto lowerBoundIt = std::lower_bound(m_stops.begin(), m_stops.end(), stopWidget, lessThan);
-    auto upperBoundIt = std::upper_bound(m_stops.begin(), m_stops.end(), stopWidget, lessThan);
+    auto lowerBoundIt = std::lower_bound(m_stopWidgets.begin(), m_stopWidgets.end(), stopWidget, lessThan);
+    auto upperBoundIt = std::upper_bound(m_stopWidgets.begin(), m_stopWidgets.end(), stopWidget, lessThan);
     
-    if (upperBoundIt == m_stops.end())
+    if (upperBoundIt == m_stopWidgets.end())
         stopWidget->raise();
     else
         stopWidget->stackUnder(*upperBoundIt);
     
-    m_stops.insert(lowerBoundIt, stopWidget);
+    m_stopWidgets.insert(lowerBoundIt, stopWidget);
 }
 
 } // namespace widgetzeug

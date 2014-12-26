@@ -73,9 +73,15 @@ set(sources
     ${source_path}/util.hpp
     # color widgets
     ${source_path}/ColorGradient.cpp
+    ${source_path}/ColorGradientLabel.cpp
+    ${source_path}/ColorGradientLabel.h
+    ${source_path}/ColorGradientModel.cpp
+    ${source_path}/ColorGradientModel.h
     ${source_path}/ColorGradientStop.cpp
     ${source_path}/ColorGradientStopBar.cpp
     ${source_path}/ColorGradientStopBar.h
+    ${source_path}/ColorGradientStopModel.cpp
+    ${source_path}/ColorGradientStopModel.h
     ${source_path}/ColorGradientStopWidget.cpp
     ${source_path}/ColorGradientStopWidget.h
     ${source_path}/ColorGradientWidget.cpp

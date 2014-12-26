@@ -6,7 +6,7 @@
 namespace widgetzeug
 {
 
-class ColorGradientStop;
+class ColorGradientModel;
 class ColorGradientStopWidget;
 
 class ColorGradientStopBar : public QWidget
@@ -15,32 +15,29 @@ class ColorGradientStopBar : public QWidget
 
 public:
     ColorGradientStopBar(
-        const QList<ColorGradientStop> & stops,
+        ColorGradientModel * model,
         QWidget * parent = nullptr);
     
     void newStop(
         const QColor & color,
         qreal position);
     
-    QList<ColorGradientStop> stops() const;
-    
 signals:
-    void onResized(const QSize & size);
-    void onStopsChanged();
+    void resized(const QSize & size);
     
 protected:
     void resizeEvent(QResizeEvent * event) override;
     void mouseReleaseEvent(QMouseEvent * event) override;
     
 protected:
-    void stopPositionChanged(ColorGradientStopWidget * stopWidget);
-    void stopColorChanged(ColorGradientStopWidget * stopWidget);
+    void onStopPositionChanged(ColorGradientStopWidget * stopWidget);
     
 private:
     void addStop(ColorGradientStopWidget * stopWidget);
 
 private:
-    QList<ColorGradientStopWidget *> m_stops;
+    ColorGradientModel * m_model;
+    QList<ColorGradientStopWidget *> m_stopWidgets;
 };
 
 } // namespace widgetzeug

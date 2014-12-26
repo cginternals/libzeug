@@ -1,12 +1,11 @@
 #include "ColorGradientStopWidget.h"
 
-#include <cassert>
-
 #include <QColorDialog>
 #include <QMouseEvent>
 #include <QPainter>
 #include <QPainterPath>
 
+#include "ColorGradientStopModel.h"
 #include "ColorGradientStopBar.h"
 #include "util.hpp"
 
@@ -14,33 +13,24 @@ namespace widgetzeug
 {
 
 ColorGradientStopWidget::ColorGradientStopWidget(
-    const QColor & color,
-    qreal position,
+    ColorGradientStopModel * model,
     ColorGradientStopBar * bar)
 :   QWidget{bar}
-,   m_color{color}
-,   m_position{clamp(position, 0.0, 1.0)}
-,   m_pressed(false)
+,   m_model{model}
+,   m_pressed{false}
 {
-    assert(bar);
-    
     setFixedSize(13, 15);
     setCursor(Qt::ArrowCursor);
     
     updatePosition();
     
-    connect(bar, &ColorGradientStopBar::onResized,
+    connect(bar, &ColorGradientStopBar::resized,
             this, &ColorGradientStopWidget::updatePosition);
 }
 
-QColor ColorGradientStopWidget::color() const
+ColorGradientStopModel * ColorGradientStopWidget::model() const
 {
-    return m_color;
-}
-
-qreal ColorGradientStopWidget::position() const
-{
-    return m_position;
+    return m_model;
 }
 
 void ColorGradientStopWidget::mousePressEvent(QMouseEvent * event)
@@ -62,9 +52,9 @@ void ColorGradientStopWidget::mouseMoveEvent(QMouseEvent * event)
     m_mousePos = newMousePos;
     auto newX = clamp(pos().x() + diff.x(), 0, parentWidth - width());
     
-    m_position = static_cast<qreal>(newX) / (parentWidth - width());
+    m_model->setPosition(static_cast<qreal>(newX) / (parentWidth - width()));
     updatePosition();
-    emit onPositionChanged(this);
+    emit positionChanged(this);
 }
 
 void ColorGradientStopWidget::mouseReleaseEvent(QMouseEvent * event)
@@ -75,9 +65,8 @@ void ColorGradientStopWidget::mouseReleaseEvent(QMouseEvent * event)
     if (m_initialPos != event->globalPos())
         return;
     
-    m_color = QColorDialog::getColor(m_color, this);
+    m_model->setColor(QColorDialog::getColor(m_model->color(), this));
     update();
-    emit onColorChanged(this);
 }
 
 void ColorGradientStopWidget::paintEvent(QPaintEvent * event)
@@ -89,10 +78,10 @@ void ColorGradientStopWidget::paintEvent(QPaintEvent * event)
     
     auto palette = this->palette();
 
-    auto role = m_pressed ? QPalette::Midlight : QPalette::Light;
+    auto role = m_pressed ? QPalette::Dark : QPalette::Light;
     painter.setBrush(palette.brush(QPalette::Active, role));
     
-    auto pen = QPen{palette.color(QPalette::Active, QPalette::Dark)};
+    auto pen = QPen{palette.color(QPalette::Mid)};
     pen.setWidthF(1.0);
     painter.setPen(pen);
     
@@ -104,7 +93,7 @@ void ColorGradientStopWidget::paintEvent(QPaintEvent * event)
     
     painter.drawPath(path.simplified());
     
-    painter.setBrush(m_color);
+    painter.setBrush(m_model->color());
     painter.setPen(Qt::NoPen);
     
     painter.drawRect(QRectF{3.0, 7.0, 7.0, 4.0});
@@ -112,7 +101,7 @@ void ColorGradientStopWidget::paintEvent(QPaintEvent * event)
 
 void ColorGradientStopWidget::updatePosition()
 {
-    move((parentWidget()->width() - width()) * m_position, 0);
+    move((parentWidget()->width() - width()) * m_model->position(), 0);
 }
 
 } // namespace widgetzeug

@@ -80,9 +80,9 @@ ColorGradient::ColorGradient(ColorGradientType type)
 ColorGradient::ColorGradient(
     const ColorGradientStops & stops, 
     ColorGradientType type)
-:   m_stops(stops)
-,   m_type(type)
+:   m_type(type)
 {
+    setStops(stops);
 }
 
 bool ColorGradient::isValid() const

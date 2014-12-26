@@ -7,6 +7,7 @@ namespace widgetzeug
 {
 
 class ColorGradientStopBar;
+class ColorGradientStopModel;
 
 class ColorGradientStopWidget : public QWidget
 {
@@ -14,16 +15,13 @@ class ColorGradientStopWidget : public QWidget
 
 public:
     ColorGradientStopWidget(
-        const QColor & color,
-        qreal position,
+        ColorGradientStopModel * model,
         ColorGradientStopBar * bar);
     
-    QColor color() const;
-    qreal position() const;
+    ColorGradientStopModel * model() const;
     
 signals:
-    void onPositionChanged(ColorGradientStopWidget * widget);
-    void onColorChanged(ColorGradientStopWidget * widget);
+    void positionChanged(ColorGradientStopWidget * widget);
     
 protected:
     void mousePressEvent(QMouseEvent * event) override;
@@ -35,8 +33,7 @@ protected:
     void updatePosition();
     
 private:
-    QColor m_color;
-    qreal m_position;
+    ColorGradientStopModel * m_model;
     
     QPoint m_mousePos;
     QPoint m_initialPos;
