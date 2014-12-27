@@ -7,6 +7,7 @@ namespace widgetzeug
 {
 
 class ColorGradientModel;
+class ColorGradientStopModel;
 class ColorGradientStopWidget;
 
 class ColorGradientStopBar : public QWidget
@@ -30,7 +31,7 @@ protected:
     void onStopRemove(ColorGradientStopWidget * stopWidget);
     
 private:
-    void newStop(const QColor & color, qreal position);
+    void newStop(ColorGradientStopModel * stopModel);
     void addStop(ColorGradientStopWidget * stopWidget);
 
 private:

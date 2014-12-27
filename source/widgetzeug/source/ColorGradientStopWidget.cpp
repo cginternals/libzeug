@@ -6,7 +6,6 @@
 #include <QPainterPath>
 
 #include "ColorGradientStopModel.h"
-#include "ColorGradientStopBar.h"
 #include "util.hpp"
 
 namespace widgetzeug
@@ -14,8 +13,8 @@ namespace widgetzeug
 
 ColorGradientStopWidget::ColorGradientStopWidget(
     ColorGradientStopModel * model,
-    ColorGradientStopBar * bar)
-:   QWidget{bar}
+    QWidget * parent)
+:   QWidget{parent}
 ,   m_model{model}
 ,   m_mouseMoved{false}
 ,   m_pressed{false}
@@ -26,9 +25,6 @@ ColorGradientStopWidget::ColorGradientStopWidget(
     
     initPainting();
     updatePosition();
-    
-    connect(bar, &ColorGradientStopBar::resized,
-            this, &ColorGradientStopWidget::updatePosition);
 }
 
 ColorGradientStopModel * ColorGradientStopWidget::model() const
@@ -78,8 +74,9 @@ void ColorGradientStopWidget::mouseMoveEvent(QMouseEvent * event)
     
     m_mousePos = newMousePos;
     m_model->setPosition(static_cast<qreal>(newX) / (parentWidth - width()));
-
+    
     updatePosition();
+    emit positionChanged(this);
 }
 
 void ColorGradientStopWidget::mouseReleaseEvent(QMouseEvent * event)
@@ -128,7 +125,6 @@ void ColorGradientStopWidget::paintEvent(QPaintEvent * event)
 void ColorGradientStopWidget::updatePosition()
 {
     move((parentWidget()->width() - width()) * m_model->position(), 0);
-    emit positionChanged(this);
 }
 
 void ColorGradientStopWidget::initPainting()

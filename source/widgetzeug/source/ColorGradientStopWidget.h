@@ -7,7 +7,6 @@
 namespace widgetzeug
 {
 
-class ColorGradientStopBar;
 class ColorGradientStopModel;
 
 class ColorGradientStopWidget : public QWidget
@@ -17,7 +16,9 @@ class ColorGradientStopWidget : public QWidget
 public:
     ColorGradientStopWidget(
         ColorGradientStopModel * model,
-        ColorGradientStopBar * bar);
+        QWidget * parent);
+    
+    void updatePosition();
     
     ColorGradientStopModel * model() const;
     
@@ -32,8 +33,6 @@ protected:
     void paintEvent(QPaintEvent * event) override;
     
 protected:
-    void updatePosition();
-    
     void initPainting();
     void drawShape(QPainter & painter);
     void drawColorRect(QPainter & painter);
