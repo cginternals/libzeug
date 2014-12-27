@@ -40,6 +40,7 @@ public:
 
 signals:
     void changed();
+    void stopsModified();
 
 private:
     std::vector<std::unique_ptr<ColorGradientStopModel>> m_stopModels;

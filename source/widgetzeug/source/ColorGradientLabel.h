@@ -12,7 +12,7 @@ class ColorGradientLabel : public QLabel
 public:
     ColorGradientLabel(
         ColorGradientModel * model,
-        QWidget * parent = nullptr);
+        QWidget * parent);
 
 protected:
     void resizeEvent(QResizeEvent * event) override;

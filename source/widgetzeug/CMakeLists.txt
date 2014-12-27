@@ -75,6 +75,10 @@ set(sources
     ${source_path}/ColorGradient.cpp
     ${source_path}/ColorGradientLabel.cpp
     ${source_path}/ColorGradientLabel.h
+    ${source_path}/ColorGradientMidpointBar.cpp
+    ${source_path}/ColorGradientMidpointBar.h
+    ${source_path}/ColorGradientMidpointWidget.cpp
+    ${source_path}/ColorGradientMidpointWidget.h
     ${source_path}/ColorGradientModel.cpp
     ${source_path}/ColorGradientModel.h
     ${source_path}/ColorGradientStop.cpp

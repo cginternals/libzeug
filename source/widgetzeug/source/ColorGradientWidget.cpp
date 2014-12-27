@@ -8,6 +8,7 @@
 #include <widgetzeug/ColorGradient.h>
 
 #include "ColorGradientLabel.h"
+#include "ColorGradientMidpointBar.h"
 #include "ColorGradientModel.h"
 #include "ColorGradientStopBar.h"
 #include "util.hpp"
@@ -20,6 +21,7 @@ ColorGradientWidget::ColorGradientWidget(
     QWidget * parent)
 :   QWidget{parent}
 ,   m_model{make_unique<ColorGradientModel>(gradient)}
+,   m_midpointBar{new ColorGradientMidpointBar{m_model.get(), this}}
 ,   m_label{new ColorGradientLabel{m_model.get(), this}}
 ,   m_bar{new ColorGradientStopBar{m_model.get(), this}}
 {
@@ -30,6 +32,7 @@ ColorGradientWidget::ColorGradientWidget(
     auto gradientLayoutWidget = new QWidget{};
     auto gradientLayout = new QVBoxLayout{gradientLayoutWidget};
     gradientLayout->setSpacing(1);
+    gradientLayout->addWidget(m_midpointBar);
     gradientLayout->addLayout(labelLayout);
     gradientLayout->addWidget(m_bar);
     gradientLayoutWidget->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Preferred);

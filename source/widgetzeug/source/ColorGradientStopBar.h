@@ -17,7 +17,7 @@ class ColorGradientStopBar : public QWidget
 public:
     ColorGradientStopBar(
         ColorGradientModel * model,
-        QWidget * parent = nullptr);
+        QWidget * parent);
     
 signals:
     void resized(const QSize & size);

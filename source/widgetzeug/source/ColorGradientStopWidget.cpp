@@ -27,6 +27,11 @@ ColorGradientStopWidget::ColorGradientStopWidget(
     updatePosition();
 }
 
+void ColorGradientStopWidget::updatePosition()
+{
+    move(qRound((parentWidget()->width() - width()) * m_model->position()), 0);
+}
+
 ColorGradientStopModel * ColorGradientStopWidget::model() const
 {
     return m_model;
@@ -70,7 +75,7 @@ void ColorGradientStopWidget::mouseMoveEvent(QMouseEvent * event)
     
     const auto parentWidth = parentWidget()->width();
     const auto diff = newMousePos - m_mousePos;
-    const auto newX = clamp(pos().x() + diff.x(), 0, parentWidth - width());
+    const auto newX = pos().x() + diff.x();
     
     m_mousePos = newMousePos;
     m_model->setPosition(static_cast<qreal>(newX) / (parentWidth - width()));
@@ -120,11 +125,6 @@ void ColorGradientStopWidget::paintEvent(QPaintEvent * event)
         drawColorRect(painter);
     else
         drawCross(painter);
-}
-
-void ColorGradientStopWidget::updatePosition()
-{
-    move((parentWidget()->width() - width()) * m_model->position(), 0);
 }
 
 void ColorGradientStopWidget::initPainting()

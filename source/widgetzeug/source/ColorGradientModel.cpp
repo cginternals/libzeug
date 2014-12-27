@@ -29,6 +29,7 @@ ColorGradientStopModel * ColorGradientModel::newStop(
     
     auto rawPtr = model.get();
     m_stopModels.push_back(std::move(model));
+    emit stopsModified();
     return rawPtr;
 }
 
@@ -45,6 +46,7 @@ bool ColorGradientModel::removeStop(ColorGradientStopModel * model)
     
     m_stopModels.erase(it);
     emit changed();
+    emit stopsModified();
     return true;
 }
 

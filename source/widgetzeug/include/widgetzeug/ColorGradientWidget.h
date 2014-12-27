@@ -13,6 +13,7 @@ namespace widgetzeug
 {
 
 class ColorGradientLabel;
+class ColorGradientMidpointBar;
 class ColorGradientModel;
 class ColorGradientStopBar;
 
@@ -30,6 +31,7 @@ public:
 private:
     std::unique_ptr<ColorGradientModel> m_model;
     
+    ColorGradientMidpointBar * m_midpointBar;
     ColorGradientLabel * m_label;
     ColorGradientStopBar * m_bar;
 };
