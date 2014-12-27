@@ -1,10 +1,23 @@
 #include "ColorGradientModel.h"
 
-#include <QDebug>
+#include <algorithm>
+
 #include <QImage>
 
 #include "ColorGradientStopModel.h"
 #include "util.hpp"
+
+namespace
+{
+    
+bool lessThan(
+    widgetzeug::ColorGradientStopModel * model1,
+    widgetzeug::ColorGradientStopModel * model2)
+{
+    return model1->position() < model2->position();
+}
+    
+} // namespace
 
 namespace widgetzeug
 {
@@ -15,6 +28,9 @@ ColorGradientModel::ColorGradientModel(const ColorGradient & gradient)
 {
     for (const auto & stop : gradient.stops())
         newStop(stop);
+        
+    connect(this, &ColorGradientModel::stopsModified,
+            this, &ColorGradientModel::changed);
 }
 
 ColorGradientModel::~ColorGradientModel() = default;
@@ -22,42 +38,53 @@ ColorGradientModel::~ColorGradientModel() = default;
 ColorGradientStopModel * ColorGradientModel::newStop(
     const ColorGradientStop & stop)
 {
-    auto model = make_unique<ColorGradientStopModel>(stop);
+    auto model = new ColorGradientStopModel{stop, this};
     
-    connect(model.get(), &ColorGradientStopModel::changed,
+    connect(model, &ColorGradientStopModel::changed,
             this, &ColorGradientModel::changed);
     
-    auto rawPtr = model.get();
-    m_stopModels.push_back(std::move(model));
+    connect(model, &ColorGradientStopModel::positionChanged,
+        [this] ()
+        {
+            if (!std::is_sorted(m_stopModels.begin(), m_stopModels.end(), lessThan))
+            {
+                std::stable_sort(m_stopModels.begin(), m_stopModels.end(), lessThan);
+                emit this->stopsModified();
+            }
+        });
+
+    auto lowerBound = std::upper_bound(m_stopModels.begin(), m_stopModels.end(), model, lessThan);
+    m_stopModels.insert(lowerBound, model);
+    model->setCanRemove(canRemoveStop());
+    
     emit stopsModified();
-    return rawPtr;
+    
+    updateCanRemove(true);
+    return model;
+}
+
+bool ColorGradientModel::canRemoveStop() const
+{
+    return m_stopModels.count() > 2;
 }
 
 bool ColorGradientModel::removeStop(ColorGradientStopModel * model)
 {
-    auto it = std::find_if(m_stopModels.begin(), m_stopModels.end(),
-        [model] (const std::unique_ptr<ColorGradientStopModel> & stopModel)
-        {
-            return stopModel.get() == model;
-        });
+    auto it = std::find(m_stopModels.begin(), m_stopModels.end(), model);
     
     if (it == m_stopModels.end())
         return false;
     
     m_stopModels.erase(it);
-    emit changed();
     emit stopsModified();
+    
+    updateCanRemove(false);
     return true;
 }
 
 QList<ColorGradientStopModel *> ColorGradientModel::stopModels() const
 {
-    auto models = QList<ColorGradientStopModel *>{};
-    
-    for (auto & model : m_stopModels)
-        models.append(model.get());
-    
-    return models;
+    return m_stopModels;
 }
 
 ColorGradientType ColorGradientModel::type() const
@@ -102,4 +129,14 @@ ColorGradient ColorGradientModel::gradient() const
     return ColorGradient{stops, m_type};
 }
 
+void ColorGradientModel::updateCanRemove(bool more)
+{
+    if ((more && m_stopModels.count() == 3)
+        || (!more && m_stopModels.count() == 2))
+    {
+        for (auto stopModel : m_stopModels)
+            stopModel->setCanRemove(canRemoveStop());
+    }
+}
+    
 } // namespace widgetzeug

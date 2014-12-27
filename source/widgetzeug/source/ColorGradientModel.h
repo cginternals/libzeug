@@ -1,8 +1,6 @@
 #pragma once
 
-#include <memory>
-#include <vector>
-
+#include <QList>
 #include <QObject>
 
 #include <widgetzeug/ColorGradient.h>
@@ -24,6 +22,7 @@ public:
     ~ColorGradientModel();
     
     ColorGradientStopModel * newStop(const ColorGradientStop & stop);
+    bool canRemoveStop() const;
     bool removeStop(ColorGradientStopModel * model);
     QList<ColorGradientStopModel *> stopModels() const;
     
@@ -41,9 +40,12 @@ public:
 signals:
     void changed();
     void stopsModified();
+    
+private:
+    void updateCanRemove(bool more);
 
 private:
-    std::vector<std::unique_ptr<ColorGradientStopModel>> m_stopModels;
+    QList<ColorGradientStopModel *> m_stopModels;
     ColorGradientType m_type;
     uint m_steps;
 };

@@ -176,7 +176,7 @@ void ColorGradientStopWidget::drawCross(QPainter & painter)
 
 bool ColorGradientStopWidget::mousePosRemoves(const QPoint & mousePos)
 {
-    return qAbs(m_initialPos.y() - mousePos.y()) > 30;
+    return qAbs(m_initialPos.y() - mousePos.y()) > 30 && m_model->canRemove();
 }
 
 } // namespace widgetzeug

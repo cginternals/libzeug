@@ -9,19 +9,6 @@
 #include "ColorGradientMidpointWidget.h"
 #include "util.hpp"
 
-namespace
-{
-    
-bool lessThan(
-    widgetzeug::ColorGradientStopModel * model1,
-    widgetzeug::ColorGradientStopModel * model2)
-{
-    return model1->position() < model2->position();
-}
-    
-} // namespace
-
-
 namespace widgetzeug
 {
 
@@ -52,7 +39,6 @@ void ColorGradientMidpointBar::initMidpoints()
     clearMidpoints();
     
     auto stopModels = m_model->stopModels();
-    std::stable_sort(stopModels.begin(), stopModels.end(), lessThan);
     
     auto it = stopModels.begin();
     while (it != stopModels.end())
