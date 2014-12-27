@@ -33,16 +33,20 @@ protected:
     
 protected:
     void updatePosition();
+    
     void initPainting();
     void drawShape(QPainter & painter);
     void drawColorRect(QPainter & painter);
     void drawCross(QPainter & painter);
+    
+    bool mousePosRemoves(const QPoint & mousePos);
     
 private:
     ColorGradientStopModel * m_model;
     
     QPoint m_mousePos;
     QPoint m_initialPos;
+    bool m_mouseMoved;
     bool m_pressed;
     bool m_remove;
     

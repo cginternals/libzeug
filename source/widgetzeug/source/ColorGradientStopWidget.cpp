@@ -17,6 +17,7 @@ ColorGradientStopWidget::ColorGradientStopWidget(
     ColorGradientStopBar * bar)
 :   QWidget{bar}
 ,   m_model{model}
+,   m_mouseMoved{false}
 ,   m_pressed{false}
 ,   m_remove{false}
 {
@@ -43,6 +44,7 @@ void ColorGradientStopWidget::mousePressEvent(QMouseEvent * event)
     m_initialPos = m_mousePos = event->globalPos();
     m_pressed = true;
     m_remove = false;
+    m_mouseMoved = false;
     update();
 }
 
@@ -50,36 +52,44 @@ void ColorGradientStopWidget::mouseMoveEvent(QMouseEvent * event)
 {
     if (event->buttons() != Qt::LeftButton)
         return;
-        
-    if (qAbs(m_initialPos.y() - event->globalPos().y()) > 50)
+    
+    const auto newMousePos = event->globalPos();
+    m_mouseMoved = true;
+    
+    if (mousePosRemoves(newMousePos))
     {
-        m_remove = true;
-        update();
+        if (!m_remove)
+        {
+            m_remove = true;
+            update();
+        }
         return;
     }
     
-    m_remove = false;
-    update();
+    if (m_remove)
+    {
+        m_remove = false;
+        update();
+    }
     
-    auto parentWidth = parentWidget()->width();
+    const auto parentWidth = parentWidget()->width();
+    const auto diff = newMousePos - m_mousePos;
+    const auto newX = clamp(pos().x() + diff.x(), 0, parentWidth - width());
     
-    auto newMousePos = event->globalPos();
-    auto diff = newMousePos - m_mousePos;
     m_mousePos = newMousePos;
-    auto newX = clamp(pos().x() + diff.x(), 0, parentWidth - width());
-    
     m_model->setPosition(static_cast<qreal>(newX) / (parentWidth - width()));
+
     updatePosition();
-    emit positionChanged(this);
 }
 
 void ColorGradientStopWidget::mouseReleaseEvent(QMouseEvent * event)
 {
+    const auto newMousePos = event->globalPos();
     m_pressed = false;
     m_remove = false;
     update();
     
-    if (m_initialPos == event->globalPos())
+    if (!m_mouseMoved)
     {
         auto newColor = QColorDialog::getColor(
             m_model->color(),
@@ -95,9 +105,10 @@ void ColorGradientStopWidget::mouseReleaseEvent(QMouseEvent * event)
         return;
     }
     
-    if (qAbs(m_initialPos.y() - event->globalPos().y()) > 50)
+    if (mousePosRemoves(newMousePos))
     {
         emit remove(this);
+        return;
     }
 }
 
@@ -117,6 +128,7 @@ void ColorGradientStopWidget::paintEvent(QPaintEvent * event)
 void ColorGradientStopWidget::updatePosition()
 {
     move((parentWidget()->width() - width()) * m_model->position(), 0);
+    emit positionChanged(this);
 }
 
 void ColorGradientStopWidget::initPainting()
@@ -162,6 +174,11 @@ void ColorGradientStopWidget::drawCross(QPainter & painter)
 {
     painter.setPen(m_crossPen);
     painter.drawLines(m_crossLines);
+}
+
+bool ColorGradientStopWidget::mousePosRemoves(const QPoint & mousePos)
+{
+    return qAbs(m_initialPos.y() - mousePos.y()) > 30;
 }
 
 } // namespace widgetzeug
