@@ -20,7 +20,7 @@ ColorGradientStopWidget::ColorGradientStopWidget(
 ,   m_pressed{false}
 ,   m_remove{false}
 {
-    setFixedSize(13, 15);
+    setFixedSize(13, 16);
     setCursor(Qt::ArrowCursor);
     
     initPainting();
@@ -139,17 +139,17 @@ void ColorGradientStopWidget::initPainting()
     
     auto painterPath = QPainterPath{};
     painterPath.setFillRule(Qt::WindingFill);
-    painterPath.addRoundedRect(0.5, 4.5, 12, 9.0, 2.0, 2.0);
+    painterPath.addRoundedRect(0.5, 5.0, 12, 10.5, 2.0, 2.0);
     QVector<QPointF> tip = { {6.5, 0.0}, {12.0, 5.5}, {1.0, 5.5} };
     painterPath.addPolygon(tip);
     
     m_shapePath = painterPath.simplified();
     
-    m_colorRect = QRectF{3.0, 7.0, 7.0, 4.0};
+    m_colorRect = QRectF{3.0, 7.0, 7.0, 6.0};
     
     m_crossPen = QPen(palette.color(QPalette::Text));
     m_crossPen.setWidthF(2.0);
-    m_crossLines = QVector<QLineF>{{4.5, 6.5, 8.5, 10.5}, {8.5, 6.5, 4.5, 10.5}};
+    m_crossLines = QVector<QLineF>{{4.5, 8.0, 8.5, 12.0}, {8.5, 8.0, 4.5, 12.0}};
 }
 
 void ColorGradientStopWidget::drawShape(QPainter & painter)
@@ -162,7 +162,9 @@ void ColorGradientStopWidget::drawShape(QPainter & painter)
 void ColorGradientStopWidget::drawColorRect(QPainter & painter)
 {
     painter.setPen(Qt::NoPen);
-    painter.setBrush(m_model->color());
+    auto color = m_model->color();
+    color.setAlpha(255);
+    painter.setBrush(color);
     painter.drawRect(m_colorRect);
 }
 

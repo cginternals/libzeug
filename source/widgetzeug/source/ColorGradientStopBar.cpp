@@ -36,7 +36,7 @@ ColorGradientStopBar::ColorGradientStopBar(
 ,   m_model{model}
 {
     setMinimumWidth(100);
-    setFixedHeight(15);
+    setFixedHeight(16);
     setCursor(Qt::PointingHandCursor);
     
     for (auto stopModel : m_model->stopModels())
