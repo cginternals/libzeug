@@ -24,7 +24,7 @@ public:
     ~ColorGradientModel();
     
     ColorGradientStopModel * newStop(const ColorGradientStop & stop);
-    
+    bool removeStop(ColorGradientStopModel * model);
     QList<ColorGradientStopModel *> stopModels() const;
     
     ColorGradientType type() const;

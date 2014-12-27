@@ -46,6 +46,9 @@ ColorGradientStopBar::ColorGradientStopBar(
         connect(stopWidget, &ColorGradientStopWidget::positionChanged,
                 this, &ColorGradientStopBar::onStopPositionChanged);
         
+        connect(stopWidget, &ColorGradientStopWidget::remove,
+                this, &ColorGradientStopBar::onStopRemove);
+        
         addStop(stopWidget);
     }
 }
@@ -74,6 +77,14 @@ void ColorGradientStopBar::onStopPositionChanged(
     addStop(stopWidget);
 }
 
+void ColorGradientStopBar::onStopRemove(ColorGradientStopWidget * stopWidget)
+{
+    auto stopModel = stopWidget->model();
+    m_stopWidgets.removeOne(stopWidget);
+    m_model->removeStop(stopModel);
+    delete stopWidget;
+}
+
 void ColorGradientStopBar::newStop(
     const QColor & color,
     qreal position)
@@ -84,6 +95,9 @@ void ColorGradientStopBar::newStop(
     
     connect(stopWidget, &ColorGradientStopWidget::positionChanged,
             this, &ColorGradientStopBar::onStopPositionChanged);
+    
+    connect(stopWidget, &ColorGradientStopWidget::remove,
+            this, &ColorGradientStopBar::onStopRemove);
     
     addStop(stopWidget);
 }

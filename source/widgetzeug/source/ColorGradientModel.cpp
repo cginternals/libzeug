@@ -32,6 +32,22 @@ ColorGradientStopModel * ColorGradientModel::newStop(
     return rawPtr;
 }
 
+bool ColorGradientModel::removeStop(ColorGradientStopModel * model)
+{
+    auto it = std::find_if(m_stopModels.begin(), m_stopModels.end(),
+        [model] (const std::unique_ptr<ColorGradientStopModel> & stopModel)
+        {
+            return stopModel.get() == model;
+        });
+    
+    if (it == m_stopModels.end())
+        return false;
+    
+    m_stopModels.erase(it);
+    emit changed();
+    return true;
+}
+
 QList<ColorGradientStopModel *> ColorGradientModel::stopModels() const
 {
     auto models = QList<ColorGradientStopModel *>{};

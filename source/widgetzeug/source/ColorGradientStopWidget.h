@@ -22,6 +22,7 @@ public:
     
 signals:
     void positionChanged(ColorGradientStopWidget * widget);
+    void remove(ColorGradientStopWidget * widget);
     
 protected:
     void mousePressEvent(QMouseEvent * event) override;
@@ -38,6 +39,7 @@ private:
     QPoint m_mousePos;
     QPoint m_initialPos;
     bool m_pressed;
+    bool m_remove;
 };
 
 } // namespace widgetzeug

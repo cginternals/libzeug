@@ -18,6 +18,7 @@ ColorGradientStopWidget::ColorGradientStopWidget(
 :   QWidget{bar}
 ,   m_model{model}
 ,   m_pressed{false}
+,   m_remove{false}
 {
     setFixedSize(13, 15);
     setCursor(Qt::ArrowCursor);
@@ -35,8 +36,12 @@ ColorGradientStopModel * ColorGradientStopWidget::model() const
 
 void ColorGradientStopWidget::mousePressEvent(QMouseEvent * event)
 {
+    if (event->buttons() != Qt::LeftButton)
+        return;
+    
     m_initialPos = m_mousePos = event->globalPos();
     m_pressed = true;
+    m_remove = false;
     update();
 }
 
@@ -44,6 +49,15 @@ void ColorGradientStopWidget::mouseMoveEvent(QMouseEvent * event)
 {
     if (event->buttons() != Qt::LeftButton)
         return;
+        
+    if (qAbs(m_initialPos.y() - event->globalPos().y()) > 50)
+    {
+        m_remove = true;
+        update();
+        return;
+    }
+    
+    m_remove = false;
     
     auto parentWidth = parentWidget()->width();
     
@@ -60,18 +74,25 @@ void ColorGradientStopWidget::mouseMoveEvent(QMouseEvent * event)
 void ColorGradientStopWidget::mouseReleaseEvent(QMouseEvent * event)
 {
     m_pressed = false;
+    m_remove = false;
     update();
     
-    if (m_initialPos != event->globalPos())
-        return;
-    
-    m_model->setColor(QColorDialog::getColor(
-        m_model->color(),
-        this,
-        QString{},
-        QColorDialog::ShowAlphaChannel));
+    if (m_initialPos == event->globalPos())
+    {
+        m_model->setColor(QColorDialog::getColor(
+            m_model->color(),
+            this,
+            QString{},
+            QColorDialog::ShowAlphaChannel));
         
-    update();
+        update();
+        return;
+    }
+    
+    if (qAbs(m_initialPos.y() - event->globalPos().y()) > 50)
+    {
+        emit remove(this);
+    }
 }
 
 void ColorGradientStopWidget::paintEvent(QPaintEvent * event)
@@ -98,10 +119,19 @@ void ColorGradientStopWidget::paintEvent(QPaintEvent * event)
     
     painter.drawPath(path.simplified());
     
-    painter.setBrush(m_model->color());
-    painter.setPen(Qt::NoPen);
-    
-    painter.drawRect(QRectF{3.0, 7.0, 7.0, 4.0});
+    if (!m_remove)
+    {
+        painter.setBrush(m_model->color());
+        painter.setPen(Qt::NoPen);
+        painter.drawRect(QRectF{3.0, 7.0, 7.0, 4.0});
+    }
+    else
+    {
+        pen.setWidthF(2);
+        pen.setColor(palette.color(QPalette::Text));
+        painter.setPen(pen);
+        painter.drawLines(QVector<QLineF>{{4.5, 6.5, 8.5, 10.5}, {8.5, 6.5, 4.5, 10.5}});
+    }
 }
 
 void ColorGradientStopWidget::updatePosition()

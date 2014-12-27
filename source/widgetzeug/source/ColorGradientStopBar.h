@@ -27,6 +27,7 @@ protected:
     
 protected:
     void onStopPositionChanged(ColorGradientStopWidget * stopWidget);
+    void onStopRemove(ColorGradientStopWidget * stopWidget);
     
 private:
     void newStop(const QColor & color, qreal position);
