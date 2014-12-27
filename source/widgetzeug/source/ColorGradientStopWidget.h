@@ -1,6 +1,7 @@
 #pragma once
 
 #include <QColor>
+#include <QPainter>
 #include <QWidget>
 
 namespace widgetzeug
@@ -32,6 +33,10 @@ protected:
     
 protected:
     void updatePosition();
+    void initPainting();
+    void drawShape(QPainter & painter);
+    void drawColorRect(QPainter & painter);
+    void drawCross(QPainter & painter);
     
 private:
     ColorGradientStopModel * m_model;
@@ -40,6 +45,16 @@ private:
     QPoint m_initialPos;
     bool m_pressed;
     bool m_remove;
+    
+    QPen m_shapePen;
+    QBrush m_shapeBrush;
+    QBrush m_pressedShapeBrush;
+    QPainterPath m_shapePath;
+    
+    QRectF m_colorRect;
+    
+    QPen m_crossPen;
+    QVector<QLineF> m_crossLines;
 };
 
 } // namespace widgetzeug
