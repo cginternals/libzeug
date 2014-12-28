@@ -34,11 +34,14 @@ ColorGradientWidget::ColorGradientWidget(
     
     m_ui->typeComboBox->setCurrentIndex(static_cast<int>(m_model->type()));
     m_ui->stepsSpinBox->setValue(m_model->steps());
+    
+    updateStepsState();
 
     connect(m_ui->typeComboBox, static_cast<void (QComboBox::*)(int)>(&QComboBox::currentIndexChanged),
         [this] (int index)
         {
             m_model->setType(static_cast<ColorGradientType>(index));
+            updateStepsState();
         });
     
     connect(m_ui->stepsSpinBox, static_cast<void (QSpinBox::*)(int)>(&QSpinBox::valueChanged),
@@ -53,6 +56,14 @@ ColorGradientWidget::~ColorGradientWidget() = default;
 ColorGradient ColorGradientWidget::gradient() const
 {
     return m_model->gradient();
+}
+
+void ColorGradientWidget::updateStepsState()
+{
+    bool enableSteps = m_model->type() == ColorGradientType::Linear ? false : true;
+    
+    m_ui->stepsLabel->setEnabled(enableSteps);
+    m_ui->stepsSpinBox->setEnabled(enableSteps);
 }
 
 } // namespace widgetzeug

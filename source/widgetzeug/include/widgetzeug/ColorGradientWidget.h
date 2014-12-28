@@ -34,6 +34,9 @@ public:
     ColorGradient gradient() const;
     
 private:
+    void updateStepsState();
+    
+private:
     std::unique_ptr<ColorGradientModel> m_model;
     Ui_ColorGradientWidget * m_ui;
 };

@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>376</width>
-    <height>300</height>
+    <width>446</width>
+    <height>311</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -98,12 +98,21 @@
       <item>
        <widget class="QLabel" name="typeLabel">
         <property name="text">
-         <string>Type</string>
+         <string>&amp;Type</string>
+        </property>
+        <property name="buddy">
+         <cstring>typeComboBox</cstring>
         </property>
        </widget>
       </item>
       <item>
        <widget class="QComboBox" name="typeComboBox">
+        <property name="focusPolicy">
+         <enum>Qt::StrongFocus</enum>
+        </property>
+        <property name="frame">
+         <bool>true</bool>
+        </property>
         <item>
          <property name="text">
           <string>Linear</string>
@@ -122,16 +131,16 @@
        </widget>
       </item>
       <item>
-       <spacer name="horizontalSpacer">
+       <spacer name="horizontalSpacer_2">
         <property name="orientation">
          <enum>Qt::Horizontal</enum>
         </property>
         <property name="sizeType">
-         <enum>QSizePolicy::MinimumExpanding</enum>
+         <enum>QSizePolicy::Fixed</enum>
         </property>
         <property name="sizeHint" stdset="0">
          <size>
-          <width>30</width>
+          <width>20</width>
           <height>20</height>
          </size>
         </property>
@@ -140,12 +149,21 @@
       <item>
        <widget class="QLabel" name="stepsLabel">
         <property name="text">
-         <string>Discrete Steps</string>
+         <string>Discrete &amp;Steps</string>
+        </property>
+        <property name="buddy">
+         <cstring>stepsSpinBox</cstring>
         </property>
        </widget>
       </item>
       <item>
        <widget class="QSpinBox" name="stepsSpinBox">
+        <property name="enabled">
+         <bool>true</bool>
+        </property>
+        <property name="focusPolicy">
+         <enum>Qt::WheelFocus</enum>
+        </property>
         <property name="wrapping">
          <bool>false</bool>
         </property>
@@ -169,13 +187,35 @@
         </property>
        </widget>
       </item>
+      <item>
+       <spacer name="horizontalSpacer">
+        <property name="orientation">
+         <enum>Qt::Horizontal</enum>
+        </property>
+        <property name="sizeType">
+         <enum>QSizePolicy::Expanding</enum>
+        </property>
+        <property name="sizeHint" stdset="0">
+         <size>
+          <width>30</width>
+          <height>20</height>
+         </size>
+        </property>
+       </spacer>
+      </item>
      </layout>
     </widget>
    </item>
    <item>
     <widget class="Line" name="line">
      <property name="frameShadow">
-      <enum>QFrame::Raised</enum>
+      <enum>QFrame::Sunken</enum>
+     </property>
+     <property name="lineWidth">
+      <number>1</number>
+     </property>
+     <property name="midLineWidth">
+      <number>0</number>
      </property>
      <property name="orientation">
       <enum>Qt::Horizontal</enum>
@@ -241,8 +281,8 @@
    <slot>accept()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>248</x>
-     <y>254</y>
+     <x>254</x>
+     <y>291</y>
     </hint>
     <hint type="destinationlabel">
      <x>157</x>
