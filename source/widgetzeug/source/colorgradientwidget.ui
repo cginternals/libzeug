@@ -98,7 +98,7 @@
       <item>
        <widget class="QLabel" name="typeLabel">
         <property name="text">
-         <string>&amp;Type</string>
+         <string>&amp;Type:</string>
         </property>
         <property name="buddy">
          <cstring>typeComboBox</cstring>
@@ -149,7 +149,7 @@
       <item>
        <widget class="QLabel" name="stepsLabel">
         <property name="text">
-         <string>Discrete &amp;Steps</string>
+         <string>Discrete &amp;Steps:</string>
         </property>
         <property name="buddy">
          <cstring>stepsSpinBox</cstring>
