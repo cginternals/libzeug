@@ -31,6 +31,9 @@ ColorGradientWidget::ColorGradientWidget(
     m_ui->midpointBar->setModel(m_model.get());
     m_ui->label->setModel(m_model.get());
     m_ui->stopBar->setModel(m_model.get());
+    
+    m_ui->typeComboBox->setCurrentIndex(static_cast<int>(m_model->type()));
+    m_ui->stepsSpinBox->setValue(m_model->steps());
 
     connect(m_ui->typeComboBox, static_cast<void (QComboBox::*)(int)>(&QComboBox::currentIndexChanged),
         [this] (int index)

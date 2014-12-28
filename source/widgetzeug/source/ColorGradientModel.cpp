@@ -24,7 +24,7 @@ namespace widgetzeug
 
 ColorGradientModel::ColorGradientModel(const ColorGradient & gradient)
 :   m_type{gradient.type()}
-,   m_steps{12}
+,   m_steps{gradient.steps()}
 {
     for (const auto & stop : gradient.stops())
         newStop(stop);
@@ -111,12 +111,12 @@ void ColorGradientModel::setSteps(uint steps)
 
 QColor ColorGradientModel::interpolateColor(qreal position) const
 {
-    return gradient().interpolateColor(position, m_steps);
+    return gradient().interpolateColor(position);
 }
 
 QImage ColorGradientModel::image(uint width) const
 {
-    return gradient().image(width, m_steps);
+    return gradient().image(width);
 }
 
 ColorGradient ColorGradientModel::gradient() const
@@ -126,7 +126,7 @@ ColorGradient ColorGradientModel::gradient() const
     for (auto & model : m_stopModels)
         stops.append(model->stop());
     
-    return ColorGradient{stops, m_type};
+    return ColorGradient{stops, m_type, m_steps};
 }
 
 void ColorGradientModel::updateCanRemove(bool more)

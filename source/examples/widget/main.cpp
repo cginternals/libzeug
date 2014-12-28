@@ -21,7 +21,9 @@ int main(int argc, char *argv[])
     
     QWidget mainWidget;
     
-    auto gradient = ColorGradient::fromList({ { 30, 136, 229 }, { 47, 120, 108 }, { 242, 223, 149 } });
+    auto gradient = ColorGradient::fromList(
+        { { 30, 136, 229 }, { 47, 120, 108 }, { 242, 223, 149 } },
+        ColorGradientType::Discrete, 8);
 
     auto widget = new ColorGradientWidget{gradient};
     

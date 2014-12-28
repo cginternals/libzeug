@@ -47,22 +47,24 @@ namespace widgetzeug
 ColorGradient ColorGradient::fromScheme(
     ColorScheme * scheme, 
     int classes, 
-    ColorGradientType type)
+    ColorGradientType type,
+    uint steps)
 {
     if (classes > scheme->maxClasses() || classes < scheme->minClasses())
         return ColorGradient();
 
-    return fromList(scheme->colors(classes));
+    return fromList(scheme->colors(classes), type, steps);
 }
 
 ColorGradient ColorGradient::fromList(
     const QList<QColor> & colors,
-    ColorGradientType type)
+    ColorGradientType type,
+    uint steps)
 {
     if (colors.count() < s_minNumStops)
         return ColorGradient();
 
-    ColorGradient gradient(type);
+    ColorGradient gradient(type, steps);
 
     const qreal dimension = 1.0 / (colors.count() - 1);
 
@@ -72,15 +74,34 @@ ColorGradient ColorGradient::fromList(
     return gradient;
 }
 
-ColorGradient::ColorGradient(ColorGradientType type)
-:   ColorGradient(ColorGradientStops(), type)
+QString ColorGradient::typeString(const ColorGradientType type)
+{
+    switch (type)
+    {
+        case ColorGradientType::Discrete:
+            return "Discrete";
+            
+        case ColorGradientType::Linear:
+            return "Linear";
+            
+        case ColorGradientType::Matze:
+            return "Matze";
+    };
+    
+    return "";
+}
+
+ColorGradient::ColorGradient(ColorGradientType type, uint steps)
+:   ColorGradient(ColorGradientStops(), type, steps)
 {
 }
 
 ColorGradient::ColorGradient(
     const ColorGradientStops & stops, 
-    ColorGradientType type)
+    ColorGradientType type,
+    uint steps)
 :   m_type(type)
+,   m_steps(steps)
 {
     setStops(stops);
 }
@@ -112,43 +133,36 @@ ColorGradientType ColorGradient::type() const
     return m_type;
 }
 
-QString ColorGradient::typeString(const ColorGradientType type)
-{
-	switch (type)
-	{
-	case ColorGradientType::Discrete:
-		return "Discrete";
-
-	case ColorGradientType::Linear:
-		return "Linear";
-
-	case ColorGradientType::Matze:
-		return "Matze";
-	};
-
-    return "";
-}
-
 void ColorGradient::setType(ColorGradientType type)
 {
     m_type = type;
 }
 
-QColor ColorGradient::interpolateColor(qreal position, uint steps) const
+uint ColorGradient::steps() const
+{
+    return m_steps;
+}
+
+void ColorGradient::setSteps(uint steps)
+{
+    m_steps = std::max(steps, 2u);
+}
+
+QColor ColorGradient::interpolateColor(qreal position) const
 {
     if (m_type == ColorGradientType::Linear)
         return linearInterpolateColor(position);
         
-    if (steps < 2)
+    if (!isValid())
         return QColor();
             
-    qreal discretePosition = qFloor(position * steps) / (qreal)steps;
-    discretePosition *= 1.0 + 1.0 / (steps - 1);
+    qreal discretePosition = qFloor(position * m_steps) / (qreal)m_steps;
+    discretePosition *= 1.0 + 1.0 / (m_steps - 1);
     
     if (m_type == ColorGradientType::Discrete)
         return linearInterpolateColor(discretePosition);
         
-    int lightingFactor = 100 + qRound(fract(position * steps) * 10);
+    int lightingFactor = 100 + qRound(fract(position * m_steps) * 10);
     
     if (lightingFactor == 100)
         return linearInterpolateColor(discretePosition);
@@ -156,7 +170,7 @@ QColor ColorGradient::interpolateColor(qreal position, uint steps) const
     return linearInterpolateColor(discretePosition).lighter(lightingFactor);
 }
 
-QImage ColorGradient::image(uint width, uint steps) const
+QImage ColorGradient::image(uint width) const
 {
     if (!isValid())
         return QImage();
@@ -166,13 +180,13 @@ QImage ColorGradient::image(uint width, uint steps) const
     for (uint i = 0; i < width; ++i)
     {
         qreal position = (qreal)i / width;
-        image.setPixel(i, 0, interpolateColor(position, steps).rgba());
+        image.setPixel(i, 0, interpolateColor(position).rgba());
     }
 
     return image;
 }
 
-QVector<uchar> ColorGradient::bits(uint length, uint steps) const
+QVector<uchar> ColorGradient::bits(uint length) const
 {
     if (!isValid())
         return QVector<uchar>();
@@ -181,14 +195,14 @@ QVector<uchar> ColorGradient::bits(uint length, uint steps) const
     for (uint i = 0; i < length; ++i)
     {
         qreal position = (qreal)i / length;
-        QColor color = interpolateColor(position, steps);
+        QColor color = interpolateColor(position);
         bits << color.red() << color.green() << color.blue() << color.alpha();
     }
     
     return bits;
 }
 
-QVector<qreal> ColorGradient::bitsF(uint length, uint steps) const
+QVector<qreal> ColorGradient::bitsF(uint length) const
 {
     if (!isValid())
         return QVector<qreal>();
@@ -197,7 +211,7 @@ QVector<qreal> ColorGradient::bitsF(uint length, uint steps) const
     for (uint i = 0; i < length; ++i)
     {
         qreal position = (qreal)i / length;
-        QColor color = interpolateColor(position, steps);
+        QColor color = interpolateColor(position);
         bits << color.redF() << color.greenF() << color.blueF() << color.alphaF();
     }
     

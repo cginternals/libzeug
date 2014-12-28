@@ -27,20 +27,25 @@ public:
     static ColorGradient fromScheme(
 		ColorScheme * scheme, 
         int classes,
-		ColorGradientType type = ColorGradientType::Linear);
+		ColorGradientType type = ColorGradientType::Linear,
+        uint steps = 12);
 
     static ColorGradient fromList(
         const QList<QColor> & colors, 
-        ColorGradientType type = ColorGradientType::Linear);
+        ColorGradientType type = ColorGradientType::Linear,
+        uint steps = 12);
 
 	static QString typeString(const ColorGradientType type);
 
 public:
-	ColorGradient(ColorGradientType type = ColorGradientType::Linear);
+	ColorGradient(
+        ColorGradientType type = ColorGradientType::Linear,
+        uint steps = 12);
 
     ColorGradient(
 		const ColorGradientStops & stops, 
-		ColorGradientType type = ColorGradientType::Linear);
+		ColorGradientType type = ColorGradientType::Linear,
+        uint steps = 12);
 
     bool isValid() const;
 
@@ -51,11 +56,14 @@ public:
     ColorGradientType type() const;
     void setType(ColorGradientType type);
     
-    QColor interpolateColor(qreal position, uint steps = 0) const;
+    uint steps() const;
+    void setSteps(uint steps);
+
+    QColor interpolateColor(qreal position) const;
     
-    QImage image(uint width = 256, uint steps = 0) const;
-    QVector<uchar> bits(uint length, uint steps = 0) const;
-    QVector<qreal> bitsF(uint length, uint steps = 0) const;
+    QImage image(uint width = 256) const;
+    QVector<uchar> bits(uint length) const;
+    QVector<qreal> bitsF(uint length) const;
     
     bool operator==(const ColorGradient & otherGradient) const;
     bool operator!=(const ColorGradient & otherGradient) const;
@@ -66,6 +74,7 @@ private:
 private:
     ColorGradientStops m_stops;
     ColorGradientType m_type;
+    uint m_steps;
 };
 
 } // namespace widgetzeug
