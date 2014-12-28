@@ -1,13 +1,14 @@
 #pragma once
 
-#include <QLabel>
+#include <QPixmap>
+#include <QOpenGLWidget>
 
 namespace widgetzeug
 {
 
 class ColorGradientModel;
 
-class ColorGradientLabel : public QLabel
+class ColorGradientLabel : public QOpenGLWidget
 {
 public:
     ColorGradientLabel(QWidget * parent);
@@ -20,12 +21,14 @@ public:
 
 protected:
     void resizeEvent(QResizeEvent * event) override;
+    void paintEvent(QPaintEvent * event) override;
     
-public:
-    void update();
+private:
+    void updatePixmap();
 
 private:
     ColorGradientModel * m_model;
+    QPixmap m_pixmap;
 };
 
 } // namespace widgetzeug

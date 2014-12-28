@@ -1,5 +1,9 @@
 #include "ColorGradientLabel.h"
 
+#include <QDebug>
+#include <QPainter>
+#include <QPaintEvent>
+
 #include "ColorGradientModel.h"
 
 namespace
@@ -34,12 +38,10 @@ namespace widgetzeug
 {
 
 ColorGradientLabel::ColorGradientLabel(QWidget * parent)
-:   QLabel{parent}
+:   QOpenGLWidget{parent}
 ,   m_model{nullptr}
 {
-    setScaledContents(true);
     setMinimumSize(1, 30);
-    setContentsMargins(0, 0, 0, 0);
     
     auto palette = QPalette{};
     palette.setBrush(QPalette::Background, QBrush(TransparencyBackgroundBrush()));
@@ -63,9 +65,10 @@ void ColorGradientLabel::setModel(widgetzeug::ColorGradientModel * model)
         m_model->disconnect(this);
     
     m_model = model;
-    update();
+    updatePixmap();
+    
     connect(model, &ColorGradientModel::changed,
-            this, &ColorGradientLabel::update);
+            this, &ColorGradientLabel::updatePixmap);
 }
 
 void ColorGradientLabel::resizeEvent(QResizeEvent * event)
@@ -73,15 +76,21 @@ void ColorGradientLabel::resizeEvent(QResizeEvent * event)
     if (!m_model)
         return;
     
-    update();
+    updatePixmap();
 }
 
-void ColorGradientLabel::update()
+void ColorGradientLabel::paintEvent(QPaintEvent * event)
+{
+    QPainter painter{this};
+    painter.drawPixmap(event->rect(), m_pixmap, m_pixmap.rect());
+}
+
+void ColorGradientLabel::updatePixmap()
 {
     auto image = m_model->image(width() * devicePixelRatio());
-    auto pixmap = QPixmap::fromImage(image);
-    pixmap.setDevicePixelRatio(devicePixelRatio());
-    setPixmap(pixmap);
+    m_pixmap = QPixmap::fromImage(image);
+    
+    update();
 }
 
 } // namespace widgetzeug
