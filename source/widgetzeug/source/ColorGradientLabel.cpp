@@ -38,7 +38,7 @@ namespace widgetzeug
 {
 
 ColorGradientLabel::ColorGradientLabel(QWidget * parent)
-:   QOpenGLWidget{parent}
+:   QWidget{parent}
 ,   m_model{nullptr}
 {
     setMinimumSize(1, 30);
@@ -82,12 +82,12 @@ void ColorGradientLabel::resizeEvent(QResizeEvent * event)
 void ColorGradientLabel::paintEvent(QPaintEvent * event)
 {
     QPainter painter{this};
-    painter.drawPixmap(event->rect(), m_pixmap, m_pixmap.rect());
+    painter.drawPixmap(event->rect(), m_pixmap);
 }
 
 void ColorGradientLabel::updatePixmap()
 {
-    auto image = m_model->image(width() * devicePixelRatio());
+    auto image = m_model->image(width());
     m_pixmap = QPixmap::fromImage(image);
     
     update();
