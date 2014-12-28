@@ -1,6 +1,10 @@
 #include <iostream>
 
 #include <QApplication>
+#include <QLabel>
+#include <QVBoxLayout>
+#include <QPushButton>
+#include <QWidget>
 
 #include <widgetzeug/ColorGradientWidget.h>
 
@@ -14,12 +18,39 @@ int main(int argc, char *argv[])
     QApplication::setApplicationName("widgetzeug-example");
     QApplication::setOrganizationName(META_AUTHOR_ORGANIZATION);
     QApplication::setApplicationVersion(META_VERSION);
-
-    auto gradient = ColorGradient::fromList({ { 30, 136, 229 }, { 47, 120, 108 }, { 242, 223, 149 } });
     
-    ColorGradientWidget widget{gradient};
+    QWidget mainWidget;
+    
+    auto gradient = ColorGradient::fromList({ { 30, 136, 229 }, { 47, 120, 108 }, { 242, 223, 149 } });
 
-    widget.show();
+    auto widget = new ColorGradientWidget{gradient};
+    
+    auto button = new QPushButton{&mainWidget};
+    button->setText("Choose Gradient");
+    
+    auto label = new QLabel{&mainWidget};
+    label->setScaledContents(true);
+    label->setMinimumHeight(30);
+    
+    QObject::connect(button, &QPushButton::pressed,
+        [widget] ()
+        {
+            widget->open();
+        });
+    
+    QObject::connect(widget, &QDialog::accepted,
+        [widget, label] ()
+        {
+            auto gradient = widget->gradient();
+            auto image = gradient.image(100);
+            label->setPixmap(QPixmap::fromImage(image));
+        });
+    
+    auto layout = new QVBoxLayout{&mainWidget};
+    layout->addWidget(button);
+    layout->addWidget(label);
+    
+    mainWidget.show();
 
     auto result = a.exec();
     return result;

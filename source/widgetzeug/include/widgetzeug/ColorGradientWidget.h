@@ -33,9 +33,6 @@ public:
     
     ColorGradient gradient() const;
     
-signals:
-    void gradientChosen(const ColorGradient & gradient);
-    
 private:
     std::unique_ptr<ColorGradientModel> m_model;
     Ui_ColorGradientWidget * m_ui;
