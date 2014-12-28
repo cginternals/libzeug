@@ -12,22 +12,36 @@
 namespace widgetzeug
 {
 
-ColorGradientMidpointBar::ColorGradientMidpointBar(
-    ColorGradientModel * model,
-    QWidget * parent)
+ColorGradientMidpointBar::ColorGradientMidpointBar(QWidget * parent)
 :   QWidget{parent}
-,   m_model{model}
+,   m_model{nullptr}
 {
     setMinimumWidth(100);
     setFixedHeight(12);
+}
+
+ColorGradientMidpointBar::ColorGradientMidpointBar(
+    ColorGradientModel * model,
+    QWidget * parent)
+:   ColorGradientMidpointBar{parent}
+{
+    setModel(model);
+}
+
+ColorGradientMidpointBar::~ColorGradientMidpointBar() = default;
+
+void ColorGradientMidpointBar::setModel(ColorGradientModel * model)
+{
+    if (m_model)
+        m_model->disconnect(this);
+    
+    m_model = model;
     
     initMidpoints();
     
     connect(model, &ColorGradientModel::stopsModified,
             this, &ColorGradientMidpointBar::initMidpoints);
 }
-
-ColorGradientMidpointBar::~ColorGradientMidpointBar() = default;
 
 void ColorGradientMidpointBar::resizeEvent(QResizeEvent * event)
 {

@@ -2,12 +2,15 @@
 
 #include <memory>
 
-#include <QWidget>
+#include <QDialog>
 
 #include <widgetzeug/widgetzeug_api.h>
 #include <widgetzeug/ColorGradient.h>
 
+class QDialogButtonBox;
 class QLabel;
+
+class Ui_ColorGradientWidget;
 
 namespace widgetzeug
 {
@@ -17,8 +20,10 @@ class ColorGradientMidpointBar;
 class ColorGradientModel;
 class ColorGradientStopBar;
 
-class WIDGETZEUG_API ColorGradientWidget : public QWidget
+class WIDGETZEUG_API ColorGradientWidget : public QDialog
 {
+    Q_OBJECT
+
 public:
     ColorGradientWidget(
         const ColorGradient & gradient,
@@ -28,12 +33,12 @@ public:
     
     ColorGradient gradient() const;
     
+signals:
+    void gradientChosen(const ColorGradient & gradient);
+    
 private:
     std::unique_ptr<ColorGradientModel> m_model;
-    
-    ColorGradientMidpointBar * m_midpointBar;
-    ColorGradientLabel * m_label;
-    ColorGradientStopBar * m_bar;
+    Ui_ColorGradientWidget * m_ui;
 };
 
 } // namespace widgetzeug

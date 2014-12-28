@@ -28,15 +28,32 @@ bool lessThan(
 namespace widgetzeug
 {
 
-ColorGradientStopBar::ColorGradientStopBar(
-    ColorGradientModel * model,
-    QWidget * parent)
+ColorGradientStopBar::ColorGradientStopBar(QWidget * parent)
 :   QWidget{parent}
-,   m_model{model}
+,   m_model{nullptr}
 {
     setMinimumWidth(100);
     setFixedHeight(16);
     setCursor(Qt::PointingHandCursor);
+}
+
+ColorGradientStopBar::ColorGradientStopBar(
+    ColorGradientModel * model,
+    QWidget * parent)
+:   ColorGradientStopBar{parent}
+{
+    setModel(model);
+}
+
+void ColorGradientStopBar::setModel(widgetzeug::ColorGradientModel * model)
+{
+    if (m_model)
+    {
+        qDeleteAll(m_stopWidgets);
+        m_stopWidgets.clear();
+    }
+    
+    m_model = model;
     
     for (auto stopModel : m_model->stopModels())
         newStop(stopModel);
@@ -49,6 +66,9 @@ void ColorGradientStopBar::resizeEvent(QResizeEvent * event)
 
 void ColorGradientStopBar::mouseReleaseEvent(QMouseEvent * event)
 {
+    if (!m_model)
+        return;
+    
     auto position = static_cast<qreal>(event->pos().x() - 6.5) / (width() - 13);
     auto color = m_model->interpolateColor(position);
     

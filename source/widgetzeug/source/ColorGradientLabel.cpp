@@ -33,11 +33,9 @@ const QBrush TransparencyBackgroundBrush()
 namespace widgetzeug
 {
 
-ColorGradientLabel::ColorGradientLabel(
-    ColorGradientModel * model,
-    QWidget * parent)
+ColorGradientLabel::ColorGradientLabel(QWidget * parent)
 :   QLabel{parent}
-,   m_model{model}
+,   m_model{nullptr}
 {
     setScaledContents(true);
     setMinimumSize(1, 30);
@@ -49,15 +47,32 @@ ColorGradientLabel::ColorGradientLabel(
     setAutoFillBackground(true);
     setBackgroundRole(QPalette::Background);
     setPalette(palette);
-    
-    update();
+}
 
+ColorGradientLabel::ColorGradientLabel(
+    ColorGradientModel * model,
+    QWidget * parent)
+:   ColorGradientLabel{parent}
+{
+    setModel(model);
+}
+
+void ColorGradientLabel::setModel(widgetzeug::ColorGradientModel * model)
+{
+    if (m_model)
+        m_model->disconnect(this);
+    
+    m_model = model;
+    update();
     connect(model, &ColorGradientModel::changed,
             this, &ColorGradientLabel::update);
 }
 
 void ColorGradientLabel::resizeEvent(QResizeEvent * event)
 {
+    if (!m_model)
+        return;
+    
     update();
 }
 

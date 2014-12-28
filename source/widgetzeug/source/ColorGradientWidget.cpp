@@ -1,6 +1,7 @@
 #include <widgetzeug/ColorGradientWidget.h>
 
 #include <QComboBox>
+#include <QDialogButtonBox>
 #include <QFormLayout>
 #include <QSpinBox>
 #include <QVBoxLayout>
@@ -13,60 +14,31 @@
 #include "ColorGradientStopBar.h"
 #include "util.hpp"
 
+#include "ui_ColorGradientWidget.h"
+
 namespace widgetzeug
 {
 
 ColorGradientWidget::ColorGradientWidget(
     const ColorGradient & gradient,
     QWidget * parent)
-:   QWidget{parent}
+:   QDialog{parent}
 ,   m_model{make_unique<ColorGradientModel>(gradient)}
-,   m_midpointBar{new ColorGradientMidpointBar{m_model.get(), this}}
-,   m_label{new ColorGradientLabel{m_model.get(), this}}
-,   m_bar{new ColorGradientStopBar{m_model.get(), this}}
+,   m_ui(new Ui_ColorGradientWidget{})
 {
-    auto labelLayout = new QVBoxLayout{};
-    labelLayout->setContentsMargins(6, 0, 6, 0);
-    labelLayout->addWidget(m_label);
+    m_ui->setupUi(this);
+    
+    m_ui->midpointBar->setModel(m_model.get());
+    m_ui->label->setModel(m_model.get());
+    m_ui->stopBar->setModel(m_model.get());
 
-    auto gradientLayoutWidget = new QWidget{};
-    auto gradientLayout = new QVBoxLayout{gradientLayoutWidget};
-    gradientLayout->setSpacing(1);
-    gradientLayout->addWidget(m_midpointBar);
-    gradientLayout->addLayout(labelLayout);
-    gradientLayout->addWidget(m_bar);
-    gradientLayoutWidget->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Preferred);
-    
-    auto comboBox = new QComboBox{};
-    comboBox->addItems({"Linear", "Discrete", "Matze"});
-    comboBox->setCurrentIndex(static_cast<int>(m_model->type()));
-    
-    auto spinBox = new QSpinBox{};
-    spinBox->setValue(m_model->steps());
-    spinBox->setMinimum(3);
-    spinBox->setMaximum(256);
-    
-    auto formLayoutWidget = new QWidget{};
-    formLayoutWidget->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Fixed);
-    
-    auto formLayout = new QFormLayout{formLayoutWidget};
-    formLayout->addRow("Type", comboBox);
-    formLayout->addRow("Steps", spinBox);
-    
-    auto mainLayout = new QVBoxLayout{this};
-    mainLayout->setMargin(0);
-    mainLayout->setSpacing(0);
-    mainLayout->addWidget(gradientLayoutWidget);
-    mainLayout->addWidget(formLayoutWidget);
-    
-    
-    connect(comboBox, static_cast<void (QComboBox::*)(int)>(&QComboBox::currentIndexChanged),
+    connect(m_ui->typeComboBox, static_cast<void (QComboBox::*)(int)>(&QComboBox::currentIndexChanged),
         [this] (int index)
         {
             m_model->setType(static_cast<ColorGradientType>(index));
         });
     
-    connect(spinBox, static_cast<void (QSpinBox::*)(int)>(&QSpinBox::valueChanged),
+    connect(m_ui->stepsSpinBox, static_cast<void (QSpinBox::*)(int)>(&QSpinBox::valueChanged),
         [this] (int value)
         {
             m_model->setSteps(value);

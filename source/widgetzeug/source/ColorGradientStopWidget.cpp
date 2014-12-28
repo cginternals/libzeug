@@ -140,7 +140,7 @@ void ColorGradientStopWidget::initPainting()
     auto painterPath = QPainterPath{};
     painterPath.setFillRule(Qt::WindingFill);
     painterPath.addRoundedRect(0.5, 5.0, 12, 10.5, 2.0, 2.0);
-    QVector<QPointF> tip = { {6.5, 0.0}, {12.0, 5.5}, {1.0, 5.5} };
+    QVector<QPointF> tip = { {6.5, 0.0}, {12.0, 5.7}, {1.0, 5.7} };
     painterPath.addPolygon(tip);
     
     m_shapePath = painterPath.simplified();

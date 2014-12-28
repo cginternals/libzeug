@@ -89,6 +89,7 @@ set(sources
     ${source_path}/ColorGradientStopWidget.cpp
     ${source_path}/ColorGradientStopWidget.h
     ${source_path}/ColorGradientWidget.cpp
+    ${source_path}/ColorGradientWidget.ui
     ${source_path}/ColorScheme.cpp
     ${source_path}/ColorSchemeGraphicsItem.cpp
     ${source_path}/ColorSchemeGraphicsItem.h  

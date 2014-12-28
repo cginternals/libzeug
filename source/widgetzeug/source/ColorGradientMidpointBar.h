@@ -13,9 +13,13 @@ class ColorGradientMidpointBar : public QWidget
     Q_OBJECT
 
 public:
+    ColorGradientMidpointBar(QWidget * parent);
+
     ColorGradientMidpointBar(
         ColorGradientModel * model,
         QWidget * parent);
+    
+    void setModel(ColorGradientModel * model);
     
     ~ColorGradientMidpointBar();
     
