@@ -37,7 +37,7 @@ int main(int argc, char *argv[])
     QObject::connect(button, &QPushButton::pressed,
         [widget] ()
         {
-            widget->open();
+            widget->show();
         });
     
     QObject::connect(widget, &QDialog::accepted,
@@ -49,6 +49,7 @@ int main(int argc, char *argv[])
         });
     
     auto layout = new QVBoxLayout{&mainWidget};
+    layout->setSizeConstraint(QLayout::SetFixedSize);
     layout->addWidget(button);
     layout->addWidget(label);
     
