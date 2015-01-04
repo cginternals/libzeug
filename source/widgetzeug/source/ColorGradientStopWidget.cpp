@@ -11,6 +11,8 @@
 namespace widgetzeug
 {
 
+const QSize ColorGradientStopWidget::s_size = {13, 16};
+
 ColorGradientStopWidget::ColorGradientStopWidget(
     ColorGradientStopModel * model,
     QWidget * parent)
@@ -20,7 +22,7 @@ ColorGradientStopWidget::ColorGradientStopWidget(
 ,   m_pressed{false}
 ,   m_remove{false}
 {
-    setFixedSize(13, 16);
+    setFixedSize(s_size);
     setCursor(Qt::ArrowCursor);
     
     initPainting();

@@ -13,6 +13,9 @@ class ColorGradientMidpointWidget : public QWidget
     Q_OBJECT
 
 public:
+    static const QSize s_size;
+
+public:
     ColorGradientMidpointWidget(
         ColorGradientStopModel * mainModel,
         ColorGradientStopModel * nextModel,
@@ -32,8 +35,7 @@ private:
 private:
     ColorGradientStopModel * m_mainModel;
     ColorGradientStopModel * m_nextModel;
-
-    QPoint m_initialPos;
+    
     QPoint m_mousePos;
     bool m_pressed;
     

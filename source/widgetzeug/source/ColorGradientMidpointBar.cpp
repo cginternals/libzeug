@@ -16,8 +16,7 @@ ColorGradientMidpointBar::ColorGradientMidpointBar(QWidget * parent)
 :   QWidget{parent}
 ,   m_model{nullptr}
 {
-    setMinimumWidth(100);
-    setFixedHeight(12);
+    setFixedHeight(ColorGradientMidpointWidget::s_size.height());
 }
 
 ColorGradientMidpointBar::ColorGradientMidpointBar(

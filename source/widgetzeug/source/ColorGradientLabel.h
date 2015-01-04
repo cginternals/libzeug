@@ -29,6 +29,7 @@ private:
 private:
     ColorGradientModel * m_model;
     QPixmap m_pixmap;
+    QBrush m_backgroundBrush;
 };
 
 } // namespace widgetzeug

@@ -14,6 +14,9 @@ class ColorGradientStopWidget : public QWidget
     Q_OBJECT
 
 public:
+    static const QSize s_size;
+
+public:
     ColorGradientStopWidget(
         ColorGradientStopModel * model,
         QWidget * parent);

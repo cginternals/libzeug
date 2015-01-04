@@ -32,8 +32,7 @@ ColorGradientStopBar::ColorGradientStopBar(QWidget * parent)
 :   QWidget{parent}
 ,   m_model{nullptr}
 {
-    setMinimumWidth(100);
-    setFixedHeight(16);
+    setFixedHeight(ColorGradientStopWidget::s_size.height());
     setCursor(Qt::PointingHandCursor);
 }
 
@@ -69,8 +68,11 @@ void ColorGradientStopBar::mouseReleaseEvent(QMouseEvent * event)
     if (!m_model)
         return;
     
-    auto position = static_cast<qreal>(event->pos().x() - 6.5) / (width() - 13);
-    auto color = m_model->interpolateColor(position);
+    const auto mouseXPos = event->pos().x();
+    const auto stopWidgetHeight = ColorGradientStopWidget::s_size.width();
+    
+    const auto position = (mouseXPos - (stopWidgetHeight / 2.0)) / (width() - stopWidgetHeight);
+    const auto color = m_model->interpolateColor(position);
     
     auto stopModel = m_model->newStop({color, position});
     newStop(stopModel);
@@ -82,7 +84,7 @@ void ColorGradientStopBar::onStopPositionChanged(
     if (std::is_sorted(m_stopWidgets.begin(), m_stopWidgets.end(), lessThan))
         return;
     
-    auto stopIt = std::find(m_stopWidgets.begin(), m_stopWidgets.end(), stopWidget);
+    const auto stopIt = std::find(m_stopWidgets.begin(), m_stopWidgets.end(), stopWidget);
     m_stopWidgets.erase(stopIt);
     
     addStop(stopWidget);

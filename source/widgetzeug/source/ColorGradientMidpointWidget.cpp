@@ -9,6 +9,8 @@
 namespace widgetzeug
 {
 
+const QSize ColorGradientMidpointWidget::s_size = {9, 12};
+
 ColorGradientMidpointWidget::ColorGradientMidpointWidget(
     ColorGradientStopModel * mainModel,
     ColorGradientStopModel * nextModel,
@@ -18,7 +20,7 @@ ColorGradientMidpointWidget::ColorGradientMidpointWidget(
 ,   m_nextModel{nextModel}
 ,   m_pressed{false}
 {
-    setFixedSize(9, 12);
+    setFixedSize(s_size);
     
     initPainting();
     updatePosition();
@@ -43,7 +45,7 @@ void ColorGradientMidpointWidget::mousePressEvent(QMouseEvent * event)
     if (event->buttons() != Qt::LeftButton)
         return;
     
-    m_initialPos = m_mousePos = event->globalPos();
+    m_mousePos = event->globalPos();
     m_pressed = true;
     update();
 }

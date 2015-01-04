@@ -39,15 +39,9 @@ namespace widgetzeug
 ColorGradientLabel::ColorGradientLabel(QWidget * parent)
 :   QGLWidget{parent}
 ,   m_model{nullptr}
+,   m_backgroundBrush{TransparencyBackgroundBrush()}
 {
     setMinimumSize(1, 30);
-    
-    auto palette = QPalette{};
-    palette.setBrush(QPalette::Background, QBrush(TransparencyBackgroundBrush()));
-    
-    setAutoFillBackground(true);
-    setBackgroundRole(QPalette::Background);
-    setPalette(palette);
 }
 
 ColorGradientLabel::ColorGradientLabel(
@@ -81,6 +75,11 @@ void ColorGradientLabel::resizeEvent(QResizeEvent * event)
 void ColorGradientLabel::paintEvent(QPaintEvent * event)
 {
     QPainter painter{this};
+    
+    painter.setPen(Qt::NoPen);
+    painter.setBrush(m_backgroundBrush);
+    painter.drawRect(event->rect());
+    
     painter.drawPixmap(event->rect(), m_pixmap);
 }
 

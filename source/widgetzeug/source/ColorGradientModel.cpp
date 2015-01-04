@@ -53,12 +53,11 @@ ColorGradientStopModel * ColorGradientModel::newStop(
             }
         });
 
-    auto lowerBound = std::upper_bound(m_stopModels.begin(), m_stopModels.end(), model, lessThan);
+    auto lowerBound = std::lower_bound(m_stopModels.begin(), m_stopModels.end(), model, lessThan);
     m_stopModels.insert(lowerBound, model);
-    model->setCanRemove(canRemoveStop());
     
     emit stopsModified();
-    
+    model->setCanRemove(canRemoveStop());
     updateCanRemove(true);
     return model;
 }
@@ -76,8 +75,9 @@ bool ColorGradientModel::removeStop(ColorGradientStopModel * model)
         return false;
     
     m_stopModels.erase(it);
-    emit stopsModified();
+    delete model;
     
+    emit stopsModified();
     updateCanRemove(false);
     return true;
 }
