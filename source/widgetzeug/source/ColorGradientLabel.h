@@ -1,14 +1,14 @@
 #pragma once
 
 #include <QPixmap>
-#include <QWidget>
+#include <QGLWidget>
 
 namespace widgetzeug
 {
 
 class ColorGradientModel;
 
-class ColorGradientLabel : public QWidget
+class ColorGradientLabel : public QGLWidget
 {
 public:
     ColorGradientLabel(QWidget * parent);
