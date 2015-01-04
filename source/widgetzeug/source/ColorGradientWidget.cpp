@@ -1,12 +1,7 @@
 #include <widgetzeug/ColorGradientWidget.h>
 
 #include <QComboBox>
-#include <QDialogButtonBox>
-#include <QFormLayout>
 #include <QSpinBox>
-#include <QVBoxLayout>
-
-#include <widgetzeug/ColorGradient.h>
 
 #include "ColorGradientLabel.h"
 #include "ColorGradientMidpointBar.h"

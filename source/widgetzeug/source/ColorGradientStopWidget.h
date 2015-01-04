@@ -1,7 +1,7 @@
 #pragma once
 
+#include <QPen>
 #include <QColor>
-#include <QPainter>
 #include <QWidget>
 
 namespace widgetzeug

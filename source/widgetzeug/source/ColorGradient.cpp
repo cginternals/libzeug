@@ -1,16 +1,13 @@
-
 #include <widgetzeug/ColorGradient.h>
 
 #include <algorithm>
 
-#include <QDebug>
 #include <QImage>
 #include <QVector4D>
 
 #include <widgetzeug/ColorScheme.h>
 
 #include "util.hpp"
-
 
 namespace 
 {

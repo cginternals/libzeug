@@ -4,7 +4,6 @@
 
 #include <widgetzeug/widgetzeug_api.h>
 
-
 namespace widgetzeug
 {
 

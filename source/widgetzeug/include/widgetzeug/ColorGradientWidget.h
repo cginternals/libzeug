@@ -7,18 +7,12 @@
 #include <widgetzeug/widgetzeug_api.h>
 #include <widgetzeug/ColorGradient.h>
 
-class QDialogButtonBox;
-class QLabel;
-
 class Ui_ColorGradientWidget;
 
 namespace widgetzeug
 {
 
-class ColorGradientLabel;
-class ColorGradientMidpointBar;
 class ColorGradientModel;
-class ColorGradientStopBar;
 
 class WIDGETZEUG_API ColorGradientWidget : public QDialog
 {

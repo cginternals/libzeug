@@ -6,7 +6,6 @@
 #include <widgetzeug/widgetzeug_api.h>
 #include <widgetzeug/ColorGradientStop.h>
 
-
 class QColor;
 class QImage;
 

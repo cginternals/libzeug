@@ -3,7 +3,6 @@
 #include <QColorDialog>
 #include <QMouseEvent>
 #include <QPainter>
-#include <QPainterPath>
 
 #include "ColorGradientStopModel.h"
 #include "util.hpp"

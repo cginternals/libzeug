@@ -1,8 +1,6 @@
-
 #include <widgetzeug/ColorGradientStop.h>
 
 #include "util.hpp"
-
 
 namespace widgetzeug
 {

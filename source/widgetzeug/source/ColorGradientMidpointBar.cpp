@@ -5,7 +5,6 @@
 #include <QResizeEvent>
 
 #include "ColorGradientModel.h"
-#include "ColorGradientStopModel.h"
 #include "ColorGradientMidpointWidget.h"
 #include "util.hpp"
 
