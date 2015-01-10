@@ -2,10 +2,92 @@
 
 #include <QColorDialog>
 #include <QMouseEvent>
+#include <QMoveEvent>
 #include <QPainter>
+#include <QPainterPath>
+#include <QStyle>
+#include <QToolTip>
 
 #include "ColorGradientStopModel.h"
 #include "util.hpp"
+
+class MyWidget : public QWidget
+{
+public:
+    MyWidget()
+    {
+        setWindowFlags(Qt::Widget | Qt::FramelessWindowHint);
+        //    widget2.setAttribute(Qt::WA_NoSystemBackground, true);
+        setAttribute(Qt::WA_TranslucentBackground, true);
+        //    widget2.setAttribute(Qt::WA_PaintOnScreen);
+        
+        auto font = this->font();
+        font.setPointSizeF(10.0);
+        setFont(font);
+    }
+
+    MyWidget(const QString & text)
+    :   MyWidget{}
+    {
+        setText(text);
+    }
+    
+    void setText(const QString & text)
+    {
+        m_text = text;
+        
+        auto boundingRect = fontMetrics().boundingRect(m_text);
+        auto newWidth = boundingRect.width();
+        if (newWidth + 20 != width())
+            setFixedSize(boundingRect.width() + 20, 23);
+        update();
+    }
+    
+    void moveTip(const QPoint & position)
+    {
+        const auto tipPos = QPoint{width() / 2, height()};
+        move(position - tipPos);
+    }
+    
+    void paintEvent(QPaintEvent * event) override
+    {
+        QPainter painter{this};
+        painter.setRenderHints(QPainter::Antialiasing);
+        
+        painter.save();
+        
+        auto shapeBrush = palette().brush(QPalette::Active, QPalette::Light);
+        painter.setBrush(shapeBrush);
+        painter.setPen(Qt::NoPen);
+        
+        painter.drawPath(shape());
+        painter.restore();
+        
+        style()->drawItemText(
+            &painter,
+            QRect{0, 0, width(), 18},
+            Qt::AlignVCenter | Qt::AlignHCenter,
+            palette(),
+            true,
+            m_text);
+    }
+    
+private:
+    QPainterPath shape()
+    {
+        auto path = QPainterPath{};
+        path.setFillRule(Qt::WindingFill);
+        
+        const auto tipPos = QPointF{width() / 2.0, static_cast<qreal>(height())};
+        
+        path.addRoundedRect(QRectF{0.0, 0.0, static_cast<qreal>(width()), 18.0}, 9.0, 9.0);
+        path.addPolygon(QVector<QPointF>{ {tipPos.x() - 3.0, 18.0}, {tipPos.x() + 3.0, 18.0}, tipPos });
+        return path;
+    }
+    
+private:
+    QString m_text;
+};
 
 namespace widgetzeug
 {
@@ -20,6 +102,7 @@ ColorGradientStopWidget::ColorGradientStopWidget(
 ,   m_mouseMoved{false}
 ,   m_pressed{false}
 ,   m_remove{false}
+,   m_tooltip{new MyWidget{}}
 {
     setFixedSize(s_size);
     setCursor(Qt::ArrowCursor);
@@ -47,6 +130,7 @@ void ColorGradientStopWidget::mousePressEvent(QMouseEvent * event)
     m_pressed = true;
     m_remove = false;
     m_mouseMoved = false;
+    m_tooltip->show();
     update();
 }
 
@@ -83,6 +167,8 @@ void ColorGradientStopWidget::mouseMoveEvent(QMouseEvent * event)
     
     updatePosition();
     emit positionChanged(this);
+    
+    m_tooltip->setText(QString{"%1%"}.arg(qRound(m_model->position() * 100)));
 }
 
 void ColorGradientStopWidget::mouseReleaseEvent(QMouseEvent * event)
@@ -91,6 +177,8 @@ void ColorGradientStopWidget::mouseReleaseEvent(QMouseEvent * event)
     m_pressed = false;
     m_remove = false;
     update();
+    
+    m_tooltip->hide();
     
     if (!m_mouseMoved)
     {
@@ -126,6 +214,11 @@ void ColorGradientStopWidget::paintEvent(QPaintEvent * event)
         drawColorRect(painter);
     else
         drawCross(painter);
+}
+
+void ColorGradientStopWidget::moveEvent(QMoveEvent * event)
+{
+    m_tooltip->moveTip(mapToGlobal({6, -4}));
 }
 
 void ColorGradientStopWidget::initPainting()

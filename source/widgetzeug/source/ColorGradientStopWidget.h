@@ -4,6 +4,8 @@
 #include <QColor>
 #include <QWidget>
 
+class MyWidget;
+
 namespace widgetzeug
 {
 
@@ -34,6 +36,7 @@ protected:
     void mouseMoveEvent(QMouseEvent * event) override;
     void mouseReleaseEvent(QMouseEvent * event) override;
     void paintEvent(QPaintEvent * event) override;
+    void moveEvent(QMoveEvent * event) override;
     
 protected:
     void initPainting();
@@ -61,6 +64,8 @@ private:
     
     QPen m_crossPen;
     QVector<QLineF> m_crossLines;
+    
+    MyWidget * m_tooltip;
 };
 
 } // namespace widgetzeug
