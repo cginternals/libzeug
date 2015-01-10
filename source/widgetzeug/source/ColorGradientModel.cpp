@@ -64,7 +64,7 @@ ColorGradientStopModel * ColorGradientModel::newStop(
 
 bool ColorGradientModel::canRemoveStop() const
 {
-    return m_stopModels.count() > 2;
+    return m_stopModels.count() > ColorGradient::s_minNumStops;
 }
 
 bool ColorGradientModel::removeStop(ColorGradientStopModel * model)
@@ -131,8 +131,8 @@ ColorGradient ColorGradientModel::gradient() const
 
 void ColorGradientModel::updateCanRemove(bool more)
 {
-    if ((more && m_stopModels.count() == 3)
-        || (!more && m_stopModels.count() == 2))
+    if ((more && m_stopModels.count() == ColorGradient::s_minNumStops + 1)
+        || (!more && m_stopModels.count() == ColorGradient::s_minNumStops))
     {
         for (auto stopModel : m_stopModels)
             stopModel->setCanRemove(canRemoveStop());
