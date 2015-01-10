@@ -2,6 +2,7 @@
 
 #include <algorithm>
 
+#include <QDebug>
 #include <QImage>
 #include <QVector4D>
 
@@ -29,11 +30,22 @@ QColor lerpColor(
     
     QVector4D result;
     if (pos > midpoint)
-        result = widgetzeug::mix(avg, vec2, (pos - midpoint) / (1.0 - midpoint));
+        result = widgetzeug::mix(avg, vec2, (pos - midpoint) / (1.0f - midpoint));
     else
         result = widgetzeug::mix(vec1, avg,  pos / midpoint);
 
     return QColor::fromRgbF(result.x(), result.y(), result.z(), result.w());
+}
+
+QColor makeLighter(const QColor & color, qreal factor)
+{
+    if (factor == 1.0)
+        return color;
+    
+    auto hueF = 0.0, saturationF = 0.0, valueF = 0.0, alphaF = 0.0;
+    color.getHsvF(&hueF, &saturationF, &valueF, &alphaF);
+    valueF = widgetzeug::clamp(valueF * factor, 0.0, 1.0);
+    return QColor::fromHsvF(hueF, saturationF, valueF, alphaF);
 }
 
 } // namespace
@@ -158,13 +170,23 @@ QColor ColorGradient::interpolateColor(qreal position) const
     
     if (m_type == ColorGradientType::Discrete)
         return linearInterpolateColor(discretePosition);
-        
-    int lightingFactor = 100 + qRound(fract(position * m_steps) * 10);
     
-    if (lightingFactor == 100)
-        return linearInterpolateColor(discretePosition);
-        
-    return linearInterpolateColor(discretePosition).lighter(lightingFactor);
+    const auto discreteColor = linearInterpolateColor(discretePosition);
+    const auto valueF = discreteColor.valueF();
+    
+    // Because valueF can't be greater 1.0, the stretchingFactor ensures
+    // that it still increases over the whole intervall.
+    const auto stretchingFactor = 1.0 / 0.15 * (1.0 / valueF - 1.0);
+
+    auto relativePosFactor = 0.0;
+    if (stretchingFactor >= 1.0)
+        relativePosFactor = fract(position * m_steps);
+    else
+        relativePosFactor = fract(position * m_steps) * stretchingFactor;
+    
+    const auto lighteningFactor = 1.0 + relativePosFactor * 0.15;
+    
+    return makeLighter(discreteColor, lighteningFactor);
 }
 
 QImage ColorGradient::image(uint width) const
