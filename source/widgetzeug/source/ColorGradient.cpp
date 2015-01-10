@@ -163,7 +163,7 @@ QColor ColorGradient::interpolateColor(qreal position) const
     if (!isValid())
         return QColor();
             
-    auto discretePosition = qFloor(position * m_steps) / static_cast<qreal>(m_steps);
+    auto discretePosition = std::floor(position * m_steps) / m_steps;
     discretePosition *= 1.0 + 1.0 / (m_steps - 1);
     
     if (m_type == ColorGradientType::Discrete)
