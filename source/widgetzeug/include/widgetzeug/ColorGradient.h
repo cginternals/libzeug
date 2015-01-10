@@ -22,29 +22,30 @@ class WIDGETZEUG_API ColorGradient
 {
 public:
     static const int s_minNumStops = 2;
+    static const int s_defaultSteps = 8;
 
     static ColorGradient fromScheme(
 		ColorScheme * scheme, 
         int classes,
 		ColorGradientType type = ColorGradientType::Linear,
-        uint steps = 12);
+        uint steps = s_defaultSteps);
 
     static ColorGradient fromList(
         const QList<QColor> & colors, 
         ColorGradientType type = ColorGradientType::Linear,
-        uint steps = 12);
+        uint steps = s_defaultSteps);
 
 	static QString typeString(const ColorGradientType type);
 
 public:
 	ColorGradient(
         ColorGradientType type = ColorGradientType::Linear,
-        uint steps = 12);
+        uint steps = s_defaultSteps);
 
     ColorGradient(
 		const ColorGradientStops & stops, 
 		ColorGradientType type = ColorGradientType::Linear,
-        uint steps = 12);
+        uint steps = s_defaultSteps);
 
     bool isValid() const;
 
@@ -64,8 +65,8 @@ public:
     QVector<uchar> bits(uint length) const;
     QVector<qreal> bitsF(uint length) const;
     
-    bool operator==(const ColorGradient & otherGradient) const;
-    bool operator!=(const ColorGradient & otherGradient) const;
+    bool operator==(const ColorGradient & rhs) const;
+    bool operator!=(const ColorGradient & rhs) const;
 
 private:
     QColor linearInterpolateColor(qreal position) const;

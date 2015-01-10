@@ -10,29 +10,30 @@
 
 #include "util.hpp"
 
+namespace widgetzeug
+{
+
 namespace 
 {
 
-QColor lerpColor(
-    const widgetzeug::ColorGradientStop & stop1, 
-    const widgetzeug::ColorGradientStop & stop2,
-    qreal position)
+QColor lerpColor(const ColorGradientStop & stop1, const ColorGradientStop & stop2, qreal position)
 {
-    qreal pos = (position - stop1.position()) / (stop2.position() - stop1.position());
-    qreal midpoint = stop1.midpoint();
+    const auto pos = (position - stop1.position()) / (stop2.position() - stop1.position());
+    const auto midpoint = stop1.midpoint();
 
-    QColor color1 = stop1.color();
-    QColor color2 = stop2.color();
+    const auto color1 = stop1.color();
+    const auto color2 = stop2.color();
 
-    QVector4D vec1(color1.redF(), color1.greenF(), color1.blueF(), color1.alphaF());
-    QVector4D vec2(color2.redF(), color2.greenF(), color2.blueF(), color2.alphaF());
-    QVector4D avg((vec1 + vec2) / 2.0f);
+    const auto vec1 = QVector4D(color1.redF(), color1.greenF(), color1.blueF(), color1.alphaF());
+    const auto vec2 = QVector4D(color2.redF(), color2.greenF(), color2.blueF(), color2.alphaF());
     
-    QVector4D result;
+    const auto avg = QVector4D{(vec1 + vec2) / 2.0f};
+    
+    auto result = QVector4D{};
     if (pos > midpoint)
-        result = widgetzeug::mix(avg, vec2, (pos - midpoint) / (1.0f - midpoint));
+        result = mix(avg, vec2, (pos - midpoint) / (1.0f - midpoint));
     else
-        result = widgetzeug::mix(vec1, avg,  pos / midpoint);
+        result = mix(vec1, avg,  pos / midpoint);
 
     return QColor::fromRgbF(result.x(), result.y(), result.z(), result.w());
 }
@@ -44,14 +45,11 @@ QColor makeLighter(const QColor & color, qreal factor)
     
     auto hueF = 0.0, saturationF = 0.0, valueF = 0.0, alphaF = 0.0;
     color.getHsvF(&hueF, &saturationF, &valueF, &alphaF);
-    valueF = widgetzeug::clamp(valueF * factor, 0.0, 1.0);
+    valueF = clamp(valueF * factor, 0.0, 1.0);
     return QColor::fromHsvF(hueF, saturationF, valueF, alphaF);
 }
 
 } // namespace
-
-namespace widgetzeug
-{
 
 ColorGradient ColorGradient::fromScheme(
     ColorScheme * scheme, 
@@ -73,11 +71,11 @@ ColorGradient ColorGradient::fromList(
     if (colors.count() < s_minNumStops)
         return ColorGradient();
 
-    ColorGradient gradient(type, steps);
+    auto gradient = ColorGradient{type, steps};
 
-    const qreal dimension = 1.0 / (colors.count() - 1);
+    const auto dimension = 1.0 / (colors.count() - 1);
 
-    for (int i = 0; i < colors.size(); ++i)
+    for (auto i = 0; i < colors.size(); ++i)
         gradient.addStop(ColorGradientStop(colors[i], dimension * i));
 
     return gradient;
@@ -101,7 +99,7 @@ QString ColorGradient::typeString(const ColorGradientType type)
 }
 
 ColorGradient::ColorGradient(ColorGradientType type, uint steps)
-:   ColorGradient(ColorGradientStops(), type, steps)
+:   ColorGradient{ColorGradientStops(), type, steps}
 {
 }
 
@@ -109,8 +107,8 @@ ColorGradient::ColorGradient(
     const ColorGradientStops & stops, 
     ColorGradientType type,
     uint steps)
-:   m_type(type)
-,   m_steps(steps)
+:   m_type{type}
+,   m_steps{steps}
 {
     setStops(stops);
 }
@@ -122,7 +120,7 @@ bool ColorGradient::isValid() const
 
 void ColorGradient::addStop(const ColorGradientStop & stop)
 {
-    ColorGradientStops::iterator it = std::lower_bound(m_stops.begin(), m_stops.end(), stop);
+    const auto it = std::lower_bound(m_stops.begin(), m_stops.end(), stop);
     m_stops.insert(it, stop);
 }
 
@@ -165,7 +163,7 @@ QColor ColorGradient::interpolateColor(qreal position) const
     if (!isValid())
         return QColor();
             
-    qreal discretePosition = qFloor(position * m_steps) / (qreal)m_steps;
+    auto discretePosition = qFloor(position * m_steps) / static_cast<qreal>(m_steps);
     discretePosition *= 1.0 + 1.0 / (m_steps - 1);
     
     if (m_type == ColorGradientType::Discrete)
@@ -194,11 +192,11 @@ QImage ColorGradient::image(uint width) const
     if (!isValid())
         return QImage();
 
-    QImage image(width, 1, QImage::Format_ARGB32);
+    auto image = QImage{static_cast<int>(width), 1, QImage::Format_ARGB32};
 
-    for (uint i = 0; i < width; ++i)
+    for (auto i = 0u; i < width; ++i)
     {
-        qreal position = (qreal)i / width;
+        const auto position = static_cast<qreal>(i) / width;
         image.setPixel(i, 0, interpolateColor(position).rgba());
     }
 
@@ -210,11 +208,11 @@ QVector<uchar> ColorGradient::bits(uint length) const
     if (!isValid())
         return QVector<uchar>();
         
-    QVector<uchar> bits;
-    for (uint i = 0; i < length; ++i)
+    auto bits = QVector<uchar>{};
+    for (auto i = 0u; i < length; ++i)
     {
-        qreal position = (qreal)i / length;
-        QColor color = interpolateColor(position);
+        const auto position = static_cast<qreal>(i) / length;
+        const auto color = interpolateColor(position);
         bits << color.red() << color.green() << color.blue() << color.alpha();
     }
     
@@ -226,11 +224,11 @@ QVector<qreal> ColorGradient::bitsF(uint length) const
     if (!isValid())
         return QVector<qreal>();
         
-    QVector<qreal> bits;
-    for (uint i = 0; i < length; ++i)
+    auto bits = QVector<qreal>{};
+    for (auto i = 0u; i < length; ++i)
     {
         qreal position = (qreal)i / length;
-        QColor color = interpolateColor(position);
+        auto color = interpolateColor(position);
         bits << color.redF() << color.greenF() << color.blueF() << color.alphaF();
     }
     
@@ -244,10 +242,10 @@ QColor ColorGradient::linearInterpolateColor(qreal position) const
     
     position = clamp(position, 0.0, 1.0);
 
-    ColorGradientStops::const_iterator lowerBound, upperBound;
-    upperBound = std::lower_bound(m_stops.begin(), 
-                                  m_stops.end(), 
-                                  ColorGradientStop(position));
+    auto upperBound = std::lower_bound(
+        m_stops.begin(),
+        m_stops.end(),
+        ColorGradientStop(position));
 
     if (upperBound == m_stops.begin())
         return upperBound->color();
@@ -255,19 +253,19 @@ QColor ColorGradient::linearInterpolateColor(qreal position) const
     if (upperBound == m_stops.end())
         return (--upperBound)->color();
 
-    lowerBound = upperBound - 1;
+    const auto lowerBound = upperBound - 1;
 
     return lerpColor(*lowerBound, *upperBound, position);
 }
 
-bool ColorGradient::operator==(const ColorGradient & otherGradient) const
+bool ColorGradient::operator==(const ColorGradient & rhs) const
 {
-    return (m_type == otherGradient.m_type) && (m_stops == otherGradient.m_stops);
+    return (m_type == rhs.m_type) && (m_stops == rhs.m_stops);
 }
 
-bool ColorGradient::operator!=(const ColorGradient & otherGradient) const
+bool ColorGradient::operator!=(const ColorGradient & rhs) const
 {
-    return !(*this == otherGradient);
+    return !(*this == rhs);
 }
 
 } // namespace widgetzeug
