@@ -239,8 +239,6 @@ void ScriptPromptWidget::process()
     updateLastInHistory();
     m_history.append(""); // add new slot for upcomming command
 
-    emit evaluate(command); // might trigger calls to print slot
-
     if (isReadOnly())
         setReadOnly(false);
 
@@ -248,6 +246,8 @@ void ScriptPromptWidget::process()
     moveCursor(QTextCursor::MoveOperation::End);
     textCursor().insertText("\n" + ROW_PREFIX);
     blockSignals(false);
+
+    emit evaluate(command); // might trigger calls to print slot
 
     ensureCursorVisible();
 

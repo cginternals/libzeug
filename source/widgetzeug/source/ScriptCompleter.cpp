@@ -17,7 +17,7 @@ ScriptCompleter::ScriptCompleter()
 {
     setCompletionMode(QCompleter::PopupCompletion);
     setCaseSensitivity(Qt::CaseSensitive);
-    setFilterMode(Qt::MatchContains);
+    setFilterMode(Qt::MatchStartsWith);
 
     setModel(m_model);
 }

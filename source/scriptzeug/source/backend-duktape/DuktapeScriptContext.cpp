@@ -291,6 +291,11 @@ static Variant getPropertyValue(AbstractProperty * property)
         value = Variant(array);
     }
 
+    // Generic ValueProperty
+    else if (AbstractValueProperty * prop = dynamic_cast< AbstractValueProperty * >(property) ) {
+        value = Variant(prop->toString());        
+    }
+
     return value;
 }
 
@@ -369,6 +374,11 @@ static void setPropertyValue(AbstractProperty * property, const Variant &value)
                     setPropertyValue(subprop, array.at(i));
                 }
             }
+        }
+
+        // Generic ValueProperty
+        else if (AbstractValueProperty * prop = dynamic_cast< AbstractValueProperty * >(property) ) {
+            prop->fromString(value.value<std::string>());
         }
     }
 }
