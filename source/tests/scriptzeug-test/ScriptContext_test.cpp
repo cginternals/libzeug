@@ -172,191 +172,179 @@ class ScriptContext_test : public testing::Test
 {
 public:
 protected:
+    virtual void SetUp()
+    {
+        m_scripting.registerObject(&m_obj);
+
+        m_scripting.scriptException.connect( [this] (const std::string & error) -> void {
+            m_error = error;
+        });
+    }
+
     ScriptContext m_scripting;
+    MyObject m_obj;
+    Variant m_result;
+    std::string m_error;
 };
 
 TEST_F(ScriptContext_test, Evaluate)
 {
-    std::string errorCatch;
-    Variant value;
+    m_result = m_scripting.evaluate("1 + 2");
+    ASSERT_EQ(3, m_result.value<int>());
 
-    m_scripting.scriptException.connect( [&] (const std::string & error) -> void {
-        errorCatch = error;
-    });
-
-    value = m_scripting.evaluate("1 + 2");
-    ASSERT_EQ(3, value.value<int>());
-
-    value = m_scripting.evaluate("asd");
-    ASSERT_TRUE(value.isNull());
-    ASSERT_EQ("ReferenceError: identifier 'asd' undefined", errorCatch);
+    m_result = m_scripting.evaluate("asd");
+    ASSERT_TRUE(m_result.isNull());
+    ASSERT_EQ("ReferenceError: identifier 'asd' undefined", m_error);
 }
 
 TEST_F(ScriptContext_test, RegisterObject_Getter)
 {
-    Variant value;
-    MyObject obj;
+    m_result = m_scripting.evaluate("obj.char");
+    ASSERT_EQ(m_obj.getChar(), m_result.value<char>());
+    m_result = m_scripting.evaluate("obj.uchar");
+    ASSERT_EQ(m_obj.getUChar(), m_result.value<unsigned char>());
+    m_result = m_scripting.evaluate("obj.int");
+    ASSERT_EQ(m_obj.getInt(), m_result.value<int>());
+    m_result = m_scripting.evaluate("obj.uint");
+    ASSERT_EQ(m_obj.getUInt(), m_result.value<unsigned int>());
+    m_result = m_scripting.evaluate("obj.long");
+    ASSERT_EQ(m_obj.getLong(), m_result.value<long>());
+    m_result = m_scripting.evaluate("obj.ulong");
+    ASSERT_EQ(m_obj.getULong(), m_result.value<unsigned long>());
+    m_result = m_scripting.evaluate("obj.longlong");
+    ASSERT_EQ(m_obj.getLongLong(), m_result.value<long long>());
+    m_result = m_scripting.evaluate("obj.ulonglong");
+    ASSERT_EQ(m_obj.getULongLong(), m_result.value<unsigned long long>());
+    m_result = m_scripting.evaluate("obj.float");
+    ASSERT_EQ(m_obj.getFloat(), m_result.value<float>());
+    m_result = m_scripting.evaluate("obj.double");
+    ASSERT_EQ(m_obj.getDouble(), m_result.value<double>());
+    m_result = m_scripting.evaluate("obj.bool");
+    ASSERT_EQ(m_obj.getBool(), m_result.value<bool>());
+    m_result = m_scripting.evaluate("obj.string");
+    ASSERT_EQ(m_obj.getString(), m_result.value<std::string>());
+    m_result = m_scripting.evaluate("obj.path");
+    ASSERT_EQ(m_obj.getPath().string(), m_result.value<std::string>());
+    m_result = m_scripting.evaluate("obj.color");
+    ASSERT_EQ(m_obj.getColor().toString(), m_result.value<std::string>());
+    m_result = m_scripting.evaluate("obj.enum");
+    ASSERT_EQ("Choice1", m_result.value<std::string>());
 
-    m_scripting.registerObject(&obj);
-
-    value = m_scripting.evaluate("obj.char");
-    ASSERT_EQ(obj.getChar(), value.value<char>());
-    value = m_scripting.evaluate("obj.uchar");
-    ASSERT_EQ(obj.getUChar(), value.value<unsigned char>());
-    value = m_scripting.evaluate("obj.int");
-    ASSERT_EQ(obj.getInt(), value.value<int>());
-    value = m_scripting.evaluate("obj.uint");
-    ASSERT_EQ(obj.getUInt(), value.value<unsigned int>());
-    value = m_scripting.evaluate("obj.long");
-    ASSERT_EQ(obj.getLong(), value.value<long>());
-    value = m_scripting.evaluate("obj.ulong");
-    ASSERT_EQ(obj.getULong(), value.value<unsigned long>());
-    value = m_scripting.evaluate("obj.longlong");
-    ASSERT_EQ(obj.getLongLong(), value.value<long long>());
-    value = m_scripting.evaluate("obj.ulonglong");
-    ASSERT_EQ(obj.getULongLong(), value.value<unsigned long long>());
-    value = m_scripting.evaluate("obj.float");
-    ASSERT_EQ(obj.getFloat(), value.value<float>());
-    value = m_scripting.evaluate("obj.double");
-    ASSERT_EQ(obj.getDouble(), value.value<double>());
-    value = m_scripting.evaluate("obj.bool");
-    ASSERT_EQ(obj.getBool(), value.value<bool>());
-    value = m_scripting.evaluate("obj.string");
-    ASSERT_EQ(obj.getString(), value.value<std::string>());
-    value = m_scripting.evaluate("obj.path");
-    ASSERT_EQ(obj.getPath().string(), value.value<std::string>());
-    value = m_scripting.evaluate("obj.color");
-    ASSERT_EQ(obj.getColor().toString(), value.value<std::string>());
-    value = m_scripting.evaluate("obj.enum");
-    ASSERT_EQ("Choice1", value.value<std::string>());
-
-    value = m_scripting.evaluate("obj.array");
-    VariantArray varArray = value.value<VariantArray>();
+    m_result = m_scripting.evaluate("obj.array");
+    VariantArray varArray = m_result.value<VariantArray>();
     for (size_t i = 0; i < varArray.size(); ++i)
     {
-        ASSERT_EQ(obj.getArray(i), varArray[i].value<int>());
+        ASSERT_EQ(m_obj.getArray(i), varArray[i].value<int>());
     }
 }
 
 TEST_F(ScriptContext_test, RegisterObject_Setter)
 {
-    Variant value;
-    MyObject obj;
-
-    m_scripting.registerObject(&obj);
-
     m_scripting.evaluate("obj.char = 127;");
-    value = m_scripting.evaluate("obj.char");
-    ASSERT_EQ(obj.getChar(), value.value<char>());
+    m_result = m_scripting.evaluate("obj.char");
+    ASSERT_EQ(m_obj.getChar(), m_result.value<char>());
     m_scripting.evaluate("obj.uchar = 212;");
-    value = m_scripting.evaluate("obj.uchar");
-    ASSERT_EQ(obj.getUChar(), value.value<unsigned char>());
+    m_result = m_scripting.evaluate("obj.uchar");
+    ASSERT_EQ(m_obj.getUChar(), m_result.value<unsigned char>());
     m_scripting.evaluate("obj.int = -30;");
-    value = m_scripting.evaluate("obj.int");
-    ASSERT_EQ(obj.getInt(), value.value<int>());
+    m_result = m_scripting.evaluate("obj.int");
+    ASSERT_EQ(m_obj.getInt(), m_result.value<int>());
     m_scripting.evaluate("obj.uint = 647380;");
-    value = m_scripting.evaluate("obj.uint");
-    ASSERT_EQ(obj.getUInt(), value.value<unsigned int>());
+    m_result = m_scripting.evaluate("obj.uint");
+    ASSERT_EQ(m_obj.getUInt(), m_result.value<unsigned int>());
     m_scripting.evaluate("obj.long = -1024 * 1024;");
-    value = m_scripting.evaluate("obj.long");
-    ASSERT_EQ(obj.getLong(), value.value<long>());
+    m_result = m_scripting.evaluate("obj.long");
+    ASSERT_EQ(m_obj.getLong(), m_result.value<long>());
     m_scripting.evaluate("obj.ulong = 1024 * 1024;");
-    value = m_scripting.evaluate("obj.ulong");
-    ASSERT_EQ(obj.getULong(), value.value<unsigned long>());
+    m_result = m_scripting.evaluate("obj.ulong");
+    ASSERT_EQ(m_obj.getULong(), m_result.value<unsigned long>());
     m_scripting.evaluate("obj.longlong = -1024 * 1024;");
-    value = m_scripting.evaluate("obj.longlong");
-    ASSERT_EQ(obj.getLongLong(), value.value<long long>());
+    m_result = m_scripting.evaluate("obj.longlong");
+    ASSERT_EQ(m_obj.getLongLong(), m_result.value<long long>());
     m_scripting.evaluate("obj.ulonglong 1024 * 1024;");
-    value = m_scripting.evaluate("obj.ulonglong");
-    ASSERT_EQ(obj.getULongLong(), value.value<unsigned long long>());
+    m_result = m_scripting.evaluate("obj.ulonglong");
+    ASSERT_EQ(m_obj.getULongLong(), m_result.value<unsigned long long>());
     m_scripting.evaluate("obj.float = -3.14");
-    value = m_scripting.evaluate("obj.float");
-    ASSERT_EQ(obj.getFloat(), value.value<float>());
+    m_result = m_scripting.evaluate("obj.float");
+    ASSERT_EQ(m_obj.getFloat(), m_result.value<float>());
     m_scripting.evaluate("obj.double = Math.PI;");
-    value = m_scripting.evaluate("obj.double");
-    ASSERT_EQ(obj.getDouble(), value.value<double>());
+    m_result = m_scripting.evaluate("obj.double");
+    ASSERT_EQ(m_obj.getDouble(), m_result.value<double>());
     m_scripting.evaluate("obj.bool = true;");
-    value = m_scripting.evaluate("obj.bool");
-    ASSERT_EQ(obj.getBool(), value.value<bool>());
+    m_result = m_scripting.evaluate("obj.bool");
+    ASSERT_EQ(m_obj.getBool(), m_result.value<bool>());
     m_scripting.evaluate("obj.string = 'checkstring';");
-    value = m_scripting.evaluate("obj.string");
-    ASSERT_EQ(obj.getString(), value.value<std::string>());
+    m_result = m_scripting.evaluate("obj.string");
+    ASSERT_EQ(m_obj.getString(), m_result.value<std::string>());
     m_scripting.evaluate("obj.path = '/path/to/some/thing';");
-    value =  m_scripting.evaluate("obj.path");
-    ASSERT_EQ(obj.getPath().string(), value.value<std::string>());
+    m_result =  m_scripting.evaluate("obj.path");
+    ASSERT_EQ(m_obj.getPath().string(), m_result.value<std::string>());
 
     m_scripting.evaluate("obj.color = '#ff6600ff';");
-    value = m_scripting.evaluate("obj.color");
-    ASSERT_EQ(obj.getColor().toString(), value.value<std::string>());
+    m_result = m_scripting.evaluate("obj.color");
+    ASSERT_EQ(m_obj.getColor().toString(), m_result.value<std::string>());
     m_scripting.evaluate("obj.color = [10, 10, 80, 255];");
-    value = m_scripting.evaluate("obj.color");
-    ASSERT_EQ(obj.getColor().toString(), value.value<std::string>());
+    m_result = m_scripting.evaluate("obj.color");
+    ASSERT_EQ(m_obj.getColor().toString(), m_result.value<std::string>());
     m_scripting.evaluate("obj.color = [];");
-    value = m_scripting.evaluate("obj.color");
-    ASSERT_EQ(obj.getColor().toString(), value.value<std::string>());
+    m_result = m_scripting.evaluate("obj.color");
+    ASSERT_EQ(m_obj.getColor().toString(), m_result.value<std::string>());
     m_scripting.evaluate("obj.color = {r: '10', g: 50, b: 100, a: 120};");
-    value = m_scripting.evaluate("obj.color");
-    ASSERT_EQ(obj.getColor().toString(), value.value<std::string>());
+    m_result = m_scripting.evaluate("obj.color");
+    ASSERT_EQ(m_obj.getColor().toString(), m_result.value<std::string>());
     m_scripting.evaluate("obj.color = {};");
-    value = m_scripting.evaluate("obj.color");
-    ASSERT_EQ(obj.getColor().toString(), value.value<std::string>());
+    m_result = m_scripting.evaluate("obj.color");
+    ASSERT_EQ(m_obj.getColor().toString(), m_result.value<std::string>());
 
     m_scripting.evaluate("obj.enum = 'Choice3';");
-    value = m_scripting.evaluate("obj.enum");
-    ASSERT_EQ(MyObject::Enum::Choice3, obj.getEnum());
-    ASSERT_EQ("Choice3", value.value<std::string>());
+    m_result = m_scripting.evaluate("obj.enum");
+    ASSERT_EQ(MyObject::Enum::Choice3, m_obj.getEnum());
+    ASSERT_EQ("Choice3", m_result.value<std::string>());
     m_scripting.evaluate("obj.enum = 'Choice5';");
-    value = m_scripting.evaluate("obj.enum");
-    ASSERT_EQ(MyObject::Enum::Choice3, obj.getEnum());
-    ASSERT_EQ("Choice3", value.value<std::string>());
+    m_result = m_scripting.evaluate("obj.enum");
+    ASSERT_EQ(MyObject::Enum::Choice3, m_obj.getEnum());
+    ASSERT_EQ("Choice3", m_result.value<std::string>());
 
     m_scripting.evaluate("obj.array = [4, 5, 6];");
-    value = m_scripting.evaluate("obj.array");
-    VariantArray varArray = value.value<VariantArray>();
+    m_result = m_scripting.evaluate("obj.array");
+    VariantArray varArray = m_result.value<VariantArray>();
     for (size_t i = 0; i < varArray.size(); ++i)
     {
-        ASSERT_EQ(obj.getArray(i), varArray[i].value<int>());
+        ASSERT_EQ(m_obj.getArray(i), varArray[i].value<int>());
     }
     m_scripting.evaluate("obj.array = [7, 8, 9, 10, 11, 12];");
-    value = m_scripting.evaluate("obj.array");
-    varArray = value.value<VariantArray>();
+    m_result = m_scripting.evaluate("obj.array");
+    varArray = m_result.value<VariantArray>();
     for (size_t i = 0; i < varArray.size(); ++i)
     {
-        ASSERT_EQ(obj.getArray(i), varArray[i].value<int>());
+        ASSERT_EQ(m_obj.getArray(i), varArray[i].value<int>());
     }
     m_scripting.evaluate("obj.array = [13, 14];");
-    value = m_scripting.evaluate("obj.array");
-    varArray = value.value<VariantArray>();
+    m_result = m_scripting.evaluate("obj.array");
+    varArray = m_result.value<VariantArray>();
     for (size_t i = 0; i < varArray.size(); ++i)
     {
-        ASSERT_EQ(obj.getArray(i), varArray[i].value<int>());
+        ASSERT_EQ(m_obj.getArray(i), varArray[i].value<int>());
     }
 }
 
 TEST_F(ScriptContext_test, RegisterObject_Methods)
 {
-    std::string errorCatch;
-    Variant value;
     MyInterface api;
-
-    m_scripting.scriptException.connect( [&] (const std::string & error) -> void {
-        errorCatch = error;
-    });
-
     m_scripting.registerObject(&api);
 
-    value = m_scripting.evaluate("api.noFunction();");
-    ASSERT_TRUE(value.isNull());
-    ASSERT_EQ("TypeError: call target not an object", errorCatch);
+    m_result = m_scripting.evaluate("api.noFunction();");
+    ASSERT_TRUE(m_result.isNull());
+    ASSERT_EQ("TypeError: call target not an object", m_error);
 
-    value = m_scripting.evaluate("api.test();");
-    ASSERT_EQ(42, value.value<int>());
+    m_result = m_scripting.evaluate("api.test();");
+    ASSERT_EQ(42, m_result.value<int>());
 
-    value = m_scripting.evaluate("api.countArgs([3.5, {a: 100, b: 200}, 12], \"asd\");");
-    ASSERT_EQ(2, value.value<int>());
-    value = m_scripting.evaluate("api.countArgs();");
-    ASSERT_EQ(0, value.value<int>());
+    m_result = m_scripting.evaluate("api.countArgs([3.5, {a: 100, b: 200}, 12], \"asd\");");
+    ASSERT_EQ(2, m_result.value<int>());
+    m_result = m_scripting.evaluate("api.countArgs();");
+    ASSERT_EQ(0, m_result.value<int>());
 
-    value = m_scripting.evaluate("api.registeredObject.successor(6);");
-    ASSERT_EQ(7, value.value<int>());
+    m_result = m_scripting.evaluate("api.registeredObject.successor(6);");
+    ASSERT_EQ(7, m_result.value<int>());
 }
