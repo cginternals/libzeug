@@ -33,6 +33,7 @@ set(libs
 set(sources
     main.cpp
     ScriptContext_test.cpp
+    ScriptContextTypes_test.cpp
 )
 
 
