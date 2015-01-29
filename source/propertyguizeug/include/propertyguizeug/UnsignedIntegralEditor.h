@@ -1,6 +1,7 @@
 #pragma once
 
 #include <propertyguizeug/PropertyEditor.h>
+#include <signalzeug/Connection.h>
 
 namespace reflectionzeug
 {
@@ -31,9 +32,11 @@ public:
 public:
     UnsignedIntegralEditor(reflectionzeug::UnsignedIntegralPropertyInterface * property, 
                            QWidget * parent = nullptr);
+    virtual ~UnsignedIntegralEditor();
 
 private:
     reflectionzeug::UnsignedIntegralPropertyInterface * m_property;
+    signalzeug::Connection m_propertyChangedConnection;
 };
 
 } // namespace propertyguizeug

@@ -54,6 +54,17 @@ UnsignedIntegralEditor::UnsignedIntegralEditor(
         {
             m_property->fromULongLong(value);
         });
+
+    m_propertyChangedConnection = m_property->valueChanged.connect(
+        [this, spinBox]()
+        {
+            spinBox->setValue(m_property->toULongLong());
+        });
 }
-    
+
+UnsignedIntegralEditor::~UnsignedIntegralEditor()
+{
+    m_propertyChangedConnection.disconnect();
+}
+
 } // namespace propertyguizeug

@@ -42,12 +42,23 @@ FilePathEditor::FilePathEditor(Property<FilePath> * property, QWidget * parent)
             this, &FilePathEditor::handleItemActivated);
     
     connect(m_lineEdit, &QLineEdit::selectionChanged, 
-        [this] () 
+        [this]()
         {
             m_lineEdit->completer()->complete();
         });
+
+    m_propertyChangedConnection = m_property->valueChanged.connect(
+        [this](const reflectionzeug::FilePath & newPath)
+        {
+            m_lineEdit->setText(QString::fromStdString(newPath.string()));
+        });
 }
-    
+
+FilePathEditor::~FilePathEditor()
+{
+    m_propertyChangedConnection.disconnect();
+}
+
 QStringList FilePathEditor::recentlyUsedFilePaths()
 {                       
     QSettings settings;

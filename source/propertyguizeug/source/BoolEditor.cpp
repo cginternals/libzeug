@@ -10,10 +10,10 @@
 using namespace reflectionzeug;
 namespace propertyguizeug
 {
-    
+
 void BoolEditor::paint(
-    QPainter * painter, 
-    const QStyleOptionViewItem & option, 
+    QPainter * painter,
+    const QStyleOptionViewItem & option,
     Property<bool> & property)
 {
     auto opt = QStyleOptionButton{};
@@ -26,7 +26,7 @@ void BoolEditor::paint(
     auto style = widget ? widget->style() : QApplication::style();
     style->drawControl(QStyle::CE_CheckBox, &opt, painter, widget);
 }
-                      
+
 BoolEditor::BoolEditor(Property<bool> * property, QWidget * parent)
 :   PropertyEditor{parent}
 ,   m_property{property}
@@ -34,18 +34,28 @@ BoolEditor::BoolEditor(Property<bool> * property, QWidget * parent)
     auto checkBox = new QCheckBox{this};
 
     m_property->toggleValue();
-    
+
     addWidget(checkBox);
     setFocusProxy(checkBox);
 
     checkBox->setFocusPolicy(Qt::StrongFocus);
     checkBox->setCheckState(property->value() ? Qt::Checked : Qt::Unchecked);
-    
+
     connect(checkBox, &QCheckBox::stateChanged,
-        [this](int state) 
+        [this](int state)
         {
             m_property->setValue(state == Qt::Checked);
         });
+    m_propertyChangedConnection = m_property->valueChanged.connect(
+        [this, checkBox](bool newValue)
+        {
+            checkBox->setCheckState(newValue ? Qt::CheckState::Checked : Qt::CheckState::Unchecked);
+        });
+}
+
+BoolEditor::~BoolEditor()
+{
+    m_propertyChangedConnection.disconnect();
 }
 
 } // namespace propertyguizeug

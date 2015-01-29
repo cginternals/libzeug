@@ -3,6 +3,7 @@
 #include <QString>
 
 #include <reflectionzeug/property_declaration.h>
+#include <signalzeug/Connection.h>
 
 #include <propertyguizeug/PropertyEditor.h>
 
@@ -31,6 +32,7 @@ public:
 public:
     FilePathEditor(reflectionzeug::Property<reflectionzeug::FilePath> * property, 
                    QWidget * parent = nullptr);
+    virtual ~FilePathEditor();
     
     void setFilePath();
     void handleItemActivated(const QString & text);
@@ -50,6 +52,7 @@ private:
     QString m_filePathFromDialog;
     
     reflectionzeug::Property<reflectionzeug::FilePath> * m_property;
+    signalzeug::Connection m_propertyChangedConnection;
 };
 
 } // namespace propertyguizeug

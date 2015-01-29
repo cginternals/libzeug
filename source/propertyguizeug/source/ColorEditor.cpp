@@ -12,6 +12,7 @@
 #include <QStyleOptionViewItem>
 
 #include <reflectionzeug/ColorPropertyInterface.h>
+#include <reflectionzeug/Color.h>
 
 #include <propertyguizeug/ColorButton.h>
 
@@ -95,6 +96,20 @@ ColorEditor::ColorEditor(ColorPropertyInterface * property, QWidget * parent)
     
     this->connect(m_button, &ColorButton::pressed, this, &ColorEditor::openColorPicker);
     this->connect(m_lineEdit, &QLineEdit::editingFinished, this, &ColorEditor::parseColor);
+
+    m_propertyChangedConnection = m_property->valueChanged.connect(
+        [this]()
+        {
+            Color color = m_property->toColor();
+            QColor qcolor = toQColor(color);
+            m_button->setColor(qcolor);
+            m_lineEdit->setText(QString::fromStdString(color.toString(m_alpha)));
+        });
+}
+
+ColorEditor::~ColorEditor()
+{
+    m_propertyChangedConnection.disconnect();
 }
     
 void ColorEditor::openColorPicker()

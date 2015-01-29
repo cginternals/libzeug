@@ -79,6 +79,17 @@ FloatingPointEditor::FloatingPointEditor(
         {
             m_property->fromDouble(d);
         });
+
+    m_propertyChangedConnection = m_property->valueChanged.connect(
+        [this, spinBox]()
+        {
+            spinBox->setValue(m_property->toDouble());
+        });
+}
+
+FloatingPointEditor::~FloatingPointEditor()
+{
+    m_propertyChangedConnection.disconnect();
 }
 
 } // namespace propertyguizeug

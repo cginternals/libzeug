@@ -1,6 +1,7 @@
 #pragma once
 
 #include <reflectionzeug/property_declaration.h>
+#include <signalzeug/Connection.h>
 
 #include <propertyguizeug/propertyguizeug_api.h>
 #include <propertyguizeug/PropertyEditor.h>
@@ -23,9 +24,11 @@ public:
 public:
     BoolEditor(reflectionzeug::Property<bool> * property, 
                QWidget * parent = nullptr);
+    virtual ~BoolEditor();
 
 private:
     reflectionzeug::Property<bool> * m_property;
+    signalzeug::Connection m_propertyChangedConnection;
 };
 
 } // namespace propertyguizeug

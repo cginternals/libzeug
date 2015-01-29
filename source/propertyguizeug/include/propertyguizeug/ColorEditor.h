@@ -1,6 +1,7 @@
 #pragma once
 
 #include <reflectionzeug/property_declaration.h>
+#include <signalzeug/Connection.h>
 
 #include <propertyguizeug/PropertyEditor.h>
 
@@ -37,6 +38,7 @@ public:
 public:
     ColorEditor(reflectionzeug::ColorPropertyInterface * property, 
                 QWidget * parent = nullptr);
+    virtual ~ColorEditor();
     
     void openColorPicker();
     void parseColor();
@@ -51,7 +53,8 @@ private:
     QLineEdit * m_lineEdit;
     bool m_alpha;
     
-    reflectionzeug::ColorPropertyInterface * m_property;    
+    reflectionzeug::ColorPropertyInterface * m_property;
+    signalzeug::Connection m_propertyChangedConnection;
 };
 
 } // namespace propertyguizeug
