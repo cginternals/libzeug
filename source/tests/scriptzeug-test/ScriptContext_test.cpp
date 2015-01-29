@@ -98,7 +98,7 @@ TEST_F(ScriptContext_test, ErrorHandling)
 
     m_result = m_scripting.evaluate("api.noFunction();");
     ASSERT_TRUE(m_result.isNull());
-    ASSERT_EQ("TypeError: call target not an object", m_error);
+    ASSERT_EQ("TypeError: not callable", m_error);
 
     m_result = m_scripting.evaluate("var causesRangeError = new Array(-1);");
     ASSERT_TRUE(m_result.isNull());
