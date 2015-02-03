@@ -24,12 +24,19 @@ protected:
     void paintEvent(QPaintEvent * event) override;
     
 private:
+    static const uint s_bucketSize = 6u;
+
     void updatePixmap();
+    QList<qreal> generateBuckets(uint numBuckets);
 
 private:
     ColorGradientModel * m_model;
     QPixmap m_pixmap;
     QBrush m_backgroundBrush;
+    
+    // WIP
+    QPainterPath m_path;
+    QList<qreal> m_buckets;
 };
 
 } // namespace widgetzeug
