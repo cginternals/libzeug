@@ -17,7 +17,10 @@ public:
         ColorGradientModel * model,
         QWidget * parent);
     
+    ~ColorGradientLabel();
+    
     void setModel(ColorGradientModel * model);
+    void setHistogram(const QList<uint> & histogram);
 
 protected:
     void resizeEvent(QResizeEvent * event) override;
@@ -25,18 +28,23 @@ protected:
     
 private:
     static const uint s_bucketSize = 6u;
-
-    void updatePixmap();
+    
     QList<qreal> generateBuckets(uint numBuckets);
+    void updateHistogram();
+    void updatePixmap();
+    
+    void paintGradient(const QRect & paintRect, QPainter & painter);
+    void paintHistogram(QPainter & painter);
 
 private:
     ColorGradientModel * m_model;
-    QPixmap m_pixmap;
-    QBrush m_backgroundBrush;
+    QList<uint> m_histogram;
     
-    // WIP
-    QPainterPath m_path;
-    QList<qreal> m_buckets;
+    QPixmap m_gradientPixmap;
+    QBrush m_backgroundBrush;
+    QPainterPath m_histogramPath;
+    
+    QMetaObject::Connection m_modelConnection;
 };
 
 } // namespace widgetzeug

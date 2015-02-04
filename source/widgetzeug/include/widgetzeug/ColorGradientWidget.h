@@ -27,6 +27,8 @@ public:
     
     ColorGradient gradient() const;
     
+    void setHistogram(const QList<uint> & histogram);
+    
 private:
     void updateStepsState();
     

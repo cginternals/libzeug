@@ -53,6 +53,11 @@ ColorGradient ColorGradientWidget::gradient() const
     return m_model->gradient();
 }
 
+void ColorGradientWidget::setHistogram(const QList<uint> & histogram)
+{
+    m_ui->label->setHistogram(histogram);
+}
+
 void ColorGradientWidget::updateStepsState()
 {
     bool enableSteps = m_model->type() == ColorGradientType::Linear ? false : true;
