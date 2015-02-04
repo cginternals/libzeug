@@ -74,6 +74,7 @@ void ColorGradientLabel::setModel(widgetzeug::ColorGradientModel * model)
     
     m_model = model;
     updatePixmap();
+    repaint();
     
     m_modelConnection = connect(model, &ColorGradientModel::changed,
         [this] ()

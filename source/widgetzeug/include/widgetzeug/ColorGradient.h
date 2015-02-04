@@ -8,6 +8,7 @@
 
 class QColor;
 class QImage;
+class QJsonObject;
 
 namespace widgetzeug
 {
@@ -21,6 +22,7 @@ enum class ColorGradientType : char { Linear, Discrete, Matze /* ToDo: rename :D
 class WIDGETZEUG_API ColorGradient
 {
 public:
+    static const auto s_defaultType = ColorGradientType::Linear;
     static const int s_minNumStops = 2;
     static const int s_defaultSteps = 8;
 
@@ -34,6 +36,8 @@ public:
         const QList<QColor> & colors, 
         ColorGradientType type = ColorGradientType::Linear,
         uint steps = s_defaultSteps);
+    
+    static ColorGradient fromJson(const QJsonObject & jsonObject);
 
 	static QString typeString(const ColorGradientType type);
 
@@ -67,6 +71,8 @@ public:
     
     bool operator==(const ColorGradient & rhs) const;
     bool operator!=(const ColorGradient & rhs) const;
+    
+    QJsonObject toJson() const;
 
 private:
     QColor linearInterpolateColor(qreal position) const;

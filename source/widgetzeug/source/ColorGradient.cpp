@@ -4,6 +4,9 @@
 
 #include <QDebug>
 #include <QImage>
+#include <QJsonDocument>
+#include <QJsonObject>
+#include <QJsonArray>
 #include <QVector4D>
 
 #include <widgetzeug/ColorScheme.h>
@@ -78,6 +81,66 @@ ColorGradient ColorGradient::fromList(
     for (auto i = 0; i < colors.size(); ++i)
         gradient.addStop(ColorGradientStop(colors[i], dimension * i));
 
+    return gradient;
+}
+
+ColorGradient ColorGradient::fromJson(const QJsonObject & jsonObject)
+{
+    static const auto types = QMap<QString, ColorGradientType>{
+        { "Discrete", ColorGradientType::Discrete },
+        { "Linear", ColorGradientType::Linear },
+        { "Matze", ColorGradientType::Matze }
+    };
+    
+    if (jsonObject.isEmpty())
+        return {};
+    
+    auto gradient = ColorGradient{};
+    
+    auto value = QJsonValue{};
+    
+    if (!jsonObject.contains("type") || !jsonObject.value("type").isString())
+        gradient.setType(s_defaultType);
+    else
+        gradient.setType(types.value(jsonObject.value("type").toString()));
+    
+    if (!jsonObject.contains("steps") || !jsonObject.value("steps").isDouble())
+        gradient.setSteps(s_defaultSteps);
+    else
+        gradient.setSteps(jsonObject.value("steps").toDouble());
+    
+    if (!jsonObject.contains("stops") || !jsonObject.value("stops").isArray())
+        return {};
+    
+    auto stops = ColorGradientStops{};
+    auto jsonStops = jsonObject.value("stops").toArray();
+    for (const QJsonValue & jsonStop : jsonStops)
+    {
+        if (!jsonStop.isObject())
+            return {};
+        
+        auto stop = jsonStop.toObject();
+        
+        if (!stop.contains("color") ||
+            !stop.value("color").isString() ||
+            !stop.contains("position") ||
+            !stop.value("position").isDouble())
+            return {};
+        
+        auto color = QColor{};
+        color.setNamedColor(stop.value("color").toString());
+        
+        const auto position = stop.value("position").toDouble();
+        auto midpoint = ColorGradientStop::s_defaultMidpoint;
+        
+        if (stop.contains("midpoint") &&
+            stop.value("midpoint").isDouble())
+            midpoint = stop.value("midpoint").toDouble();
+        
+        stops.append(ColorGradientStop{color, position, midpoint});
+    }
+    
+    gradient.setStops(stops);
     return gradient;
 }
 
@@ -172,17 +235,27 @@ QColor ColorGradient::interpolateColor(qreal position) const
     const auto discreteColor = linearInterpolateColor(discretePosition);
     const auto valueF = discreteColor.valueF();
     
-    // Because valueF can't be greater 1.0, the stretchingFactor ensures
-    // that it still increases over the whole intervall.
-    const auto stretchingFactor = 1.0 / 0.15 * (1.0 / valueF - 1.0);
-
-    auto relativePosFactor = 0.0;
-    if (stretchingFactor >= 1.0)
-        relativePosFactor = fract(position * m_steps);
-    else
-        relativePosFactor = fract(position * m_steps) * stretchingFactor;
+    const auto positionInsideStep = fract(position * m_steps);
     
-    const auto lighteningFactor = 1.0 + relativePosFactor * 0.15;
+    auto lighteningFactor = 1.0;
+    
+    if (positionInsideStep >= 0.7)
+        lighteningFactor = 1.0 + (positionInsideStep - 0.7) * (1.0 / 0.3) * 0.15;
+    
+    if (positionInsideStep <= 0.3)
+        lighteningFactor = 1.0 - (1.0 - positionInsideStep * (1.0 / 0.3)) * 0.15;
+
+//    // Because valueF can't be greater 1.0, the stretchingFactor ensures
+//    // that it still increases over the whole intervall.
+//    const auto stretchingFactor = 1.0 / 0.15 * (1.0 / valueF - 1.0);
+//
+//    auto relativePosFactor = 0.0;
+//    if (stretchingFactor >= 1.0)
+//        relativePosFactor = fract(position * m_steps);
+//    else
+//        relativePosFactor = fract(position * m_steps) * stretchingFactor;
+//    
+//    const auto lighteningFactor = 1.0 + relativePosFactor * 0.15;
     
     return makeLighter(discreteColor, lighteningFactor);
 }
@@ -266,6 +339,28 @@ bool ColorGradient::operator==(const ColorGradient & rhs) const
 bool ColorGradient::operator!=(const ColorGradient & rhs) const
 {
     return !(*this == rhs);
+}
+
+QJsonObject ColorGradient::toJson() const
+{
+    auto jsonGradient = QJsonObject{};
+    jsonGradient.insert("type", typeString(m_type));
+    
+    if (m_type != ColorGradientType::Linear)
+        jsonGradient.insert("steps", static_cast<int>(m_steps));
+    
+    auto stops = QJsonArray{};
+    for (const widgetzeug::ColorGradientStop & stop : m_stops)
+    {
+        auto jsonStop = QJsonObject{};
+        jsonStop.insert("color", stop.color().name(QColor::HexArgb));
+        jsonStop.insert("position", stop.position());
+        jsonStop.insert("midpoint", stop.midpoint());
+        stops.append(jsonStop);
+    }
+    
+    jsonGradient.insert("stops", stops);
+    return jsonGradient;
 }
 
 } // namespace widgetzeug

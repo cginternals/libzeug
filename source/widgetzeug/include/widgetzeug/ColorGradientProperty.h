@@ -13,22 +13,7 @@ namespace
 
 std::string gradientToString(const widgetzeug::ColorGradient & gradient)
 {
-    QJsonObject jsonGradient;
-    jsonGradient.insert("type", widgetzeug::ColorGradient::typeString(gradient.type()));
-
-    QJsonArray stops;
-    for (const widgetzeug::ColorGradientStop & stop : gradient.stops())
-    {
-        QJsonObject jsonStop;
-        jsonStop.insert("color", stop.color().name(QColor::HexArgb));
-        jsonStop.insert("position", stop.position());
-        jsonStop.insert("midpoint", stop.midpoint());
-        stops.append(jsonStop);
-    }
-
-    jsonGradient.insert("stops", stops);
-
-    return QJsonDocument(jsonGradient).toJson(QJsonDocument::Compact).data();
+    return QJsonDocument(gradient.toJson()).toJson(QJsonDocument::Compact).data();
 }
 
 bool gradientFromString(const std::string & string, widgetzeug::ColorGradient & gradient)
@@ -38,56 +23,8 @@ bool gradientFromString(const std::string & string, widgetzeug::ColorGradient & 
     if (json.isNull() || json.isEmpty() || !json.isObject())
         return false;
 
-    widgetzeug::ColorGradient newGradient;
-
-    QJsonObject jsonGradient = json.object();
-
-    QJsonValue value;
-    if (!jsonGradient.contains("type") || !jsonGradient.value("type").isString())
-        return false;
-
-    static const QMap<QString, widgetzeug::ColorGradientType> types = {
-        { "Discrete", widgetzeug::ColorGradientType::Discrete },
-        { "Linear", widgetzeug::ColorGradientType::Linear },
-        { "Matze", widgetzeug::ColorGradientType::Matze }
-    };
-
-    newGradient.setType(types.value(jsonGradient.value("type").toString()));
-
-    if (!jsonGradient.contains("stops") || !jsonGradient.value("stops").isArray())
-        return false;
-
-    widgetzeug::ColorGradientStops stops;
-    QJsonArray jsonStops = jsonGradient.value("stops").toArray();
-    for (const QJsonValue & jsonStop : jsonStops)
-    {
-        if (!jsonStop.isObject())
-            return false;
-
-        QJsonObject stop = jsonStop.toObject();
-
-        if (!stop.contains("color") ||
-            !stop.value("color").isString() ||
-            !stop.contains("position") ||
-            !stop.value("position").isDouble())
-            return false;
-
-        QColor color;
-        color.setNamedColor(stop.value("color").toString());
-
-        qreal position = stop.value("position").toDouble();
-        qreal midpoint = widgetzeug::ColorGradientStop::s_defaultMidpoint;
-
-        if (stop.contains("midpoint") &&
-            stop.value("midpoint").isDouble())
-            midpoint = stop.value("midpoint").toDouble();
-
-        stops.append(widgetzeug::ColorGradientStop(color, position, midpoint));
-    }
-
-    newGradient.setStops(stops);
-    gradient = newGradient;
-    return true;
+    gradient = widgetzeug::ColorGradient::fromJson(json.object());
+    return gradient.isValid();
 }
 
 }

@@ -29,8 +29,13 @@ public:
     
     void setHistogram(const QList<uint> & histogram);
     
+protected:
+    void loadFromJson();
+    void saveToJson();
+    
 private:
     void updateStepsState();
+    void setModel(std::unique_ptr<ColorGradientModel> && model);
     
 private:
     std::unique_ptr<ColorGradientModel> m_model;
