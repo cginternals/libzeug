@@ -54,6 +54,18 @@ QColor makeLighter(const QColor & color, qreal factor)
 
 } // namespace
 
+const auto ColorGradient::s_typeStringMap = QMap<ColorGradientType, QString>{
+        { ColorGradientType::Linear, "Linear" },
+        { ColorGradientType::Discrete, "Discrete" },
+        { ColorGradientType::Cornsweet, "Cornsweet" }
+    };
+    
+const auto ColorGradient::s_stringTypeMap = QMap<QString, ColorGradientType>{
+        { "Discrete", ColorGradientType::Discrete },
+        { "Linear", ColorGradientType::Linear },
+        { "Cornsweet", ColorGradientType::Cornsweet }
+    };
+
 ColorGradient ColorGradient::fromScheme(
     ColorScheme * scheme, 
     int classes, 
@@ -86,12 +98,6 @@ ColorGradient ColorGradient::fromList(
 
 ColorGradient ColorGradient::fromJson(const QJsonObject & jsonObject)
 {
-    static const auto types = QMap<QString, ColorGradientType>{
-        { "Discrete", ColorGradientType::Discrete },
-        { "Linear", ColorGradientType::Linear },
-        { "Matze", ColorGradientType::Matze }
-    };
-    
     if (jsonObject.isEmpty())
         return {};
     
@@ -102,7 +108,7 @@ ColorGradient ColorGradient::fromJson(const QJsonObject & jsonObject)
     if (!jsonObject.contains("type") || !jsonObject.value("type").isString())
         gradient.setType(s_defaultType);
     else
-        gradient.setType(types.value(jsonObject.value("type").toString()));
+        gradient.setType(s_stringTypeMap.value(jsonObject.value("type").toString()));
     
     if (!jsonObject.contains("steps") || !jsonObject.value("steps").isDouble())
         gradient.setSteps(s_defaultSteps);
@@ -146,19 +152,7 @@ ColorGradient ColorGradient::fromJson(const QJsonObject & jsonObject)
 
 QString ColorGradient::typeString(const ColorGradientType type)
 {
-    switch (type)
-    {
-        case ColorGradientType::Discrete:
-            return "Discrete";
-            
-        case ColorGradientType::Linear:
-            return "Linear";
-            
-        case ColorGradientType::Matze:
-            return "Matze";
-    };
-    
-    return "";
+    return s_typeStringMap.value(type, "");
 }
 
 ColorGradient::ColorGradient(ColorGradientType type, uint steps)
@@ -232,30 +226,22 @@ QColor ColorGradient::interpolateColor(qreal position) const
     if (m_type == ColorGradientType::Discrete)
         return linearInterpolateColor(discretePosition);
     
+    static const auto maxLighteningFactor = 0.4;
+    static const auto percentage = 0.2;
     const auto discreteColor = linearInterpolateColor(discretePosition);
-    const auto valueF = discreteColor.valueF();
-    
     const auto positionInsideStep = fract(position * m_steps);
     
     auto lighteningFactor = 1.0;
-    
-    if (positionInsideStep >= 0.7)
-        lighteningFactor = 1.0 + (positionInsideStep - 0.7) * (1.0 / 0.3) * 0.15;
-    
-    if (positionInsideStep <= 0.3)
-        lighteningFactor = 1.0 - (1.0 - positionInsideStep * (1.0 / 0.3)) * 0.15;
-
-//    // Because valueF can't be greater 1.0, the stretchingFactor ensures
-//    // that it still increases over the whole intervall.
-//    const auto stretchingFactor = 1.0 / 0.15 * (1.0 / valueF - 1.0);
-//
-//    auto relativePosFactor = 0.0;
-//    if (stretchingFactor >= 1.0)
-//        relativePosFactor = fract(position * m_steps);
-//    else
-//        relativePosFactor = fract(position * m_steps) * stretchingFactor;
-//    
-//    const auto lighteningFactor = 1.0 + relativePosFactor * 0.15;
+    if (positionInsideStep >= (1.0 - percentage))
+    {
+        const auto positionEdge = (positionInsideStep - (1.0 - percentage)) / percentage;
+        lighteningFactor = 1.0 - std::pow(positionEdge, 3.0) * maxLighteningFactor;
+    }
+    else if (positionInsideStep <= percentage)
+    {
+        const auto positionEdge = 1.0 - positionInsideStep / percentage;
+        lighteningFactor = 1.0 + std::pow(positionEdge, 3.0) * maxLighteningFactor;
+    }
     
     return makeLighter(discreteColor, lighteningFactor);
 }

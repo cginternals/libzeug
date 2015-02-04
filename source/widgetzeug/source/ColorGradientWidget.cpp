@@ -29,6 +29,8 @@ ColorGradientWidget::ColorGradientWidget(
     
     setModel(make_unique<ColorGradientModel>(gradient));
     
+    m_ui->typeComboBox->addItems(ColorGradient::s_typeStringMap.values());
+    
     connect(m_ui->typeComboBox, static_cast<void (QComboBox::*)(int)>(&QComboBox::currentIndexChanged),
         [this] (int index)
         {

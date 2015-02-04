@@ -137,21 +137,6 @@
         <property name="frame">
          <bool>true</bool>
         </property>
-        <item>
-         <property name="text">
-          <string>Linear</string>
-         </property>
-        </item>
-        <item>
-         <property name="text">
-          <string>Discrete</string>
-         </property>
-        </item>
-        <item>
-         <property name="text">
-          <string>Matze</string>
-         </property>
-        </item>
        </widget>
       </item>
       <item>

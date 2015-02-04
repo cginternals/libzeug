@@ -17,7 +17,7 @@ class ColorScheme;
 
 using ColorGradientStops = QList<ColorGradientStop>;
 
-enum class ColorGradientType : char { Linear, Discrete, Matze /* ToDo: rename :D */ }; 
+enum class ColorGradientType : char { Linear, Discrete, Cornsweet };
 
 class WIDGETZEUG_API ColorGradient
 {
@@ -25,6 +25,8 @@ public:
     static const auto s_defaultType = ColorGradientType::Linear;
     static const int s_minNumStops = 2;
     static const int s_defaultSteps = 8;
+    static const QMap<ColorGradientType, QString> s_typeStringMap;
+    static const QMap<QString, ColorGradientType> s_stringTypeMap;
 
     static ColorGradient fromScheme(
 		ColorScheme * scheme, 
