@@ -23,6 +23,9 @@ public:
     
     void updatePosition();
     
+signals:
+    void positionChanged();
+    
 protected:
     void mousePressEvent(QMouseEvent * event) override;
     void mouseMoveEvent(QMouseEvent * event) override;

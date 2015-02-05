@@ -69,6 +69,8 @@ void ColorGradientMidpointBar::initMidpoints()
         connect(this, &ColorGradientMidpointBar::resized,
                 widget, &ColorGradientMidpointWidget::updatePosition);
         
+        connect(widget, &ColorGradientMidpointWidget::positionChanged, [this] () { update(); });
+        
         m_stopWidgets.append(widget);
     }
 }

@@ -68,6 +68,7 @@ void ColorGradientMidpointWidget::mouseMoveEvent(QMouseEvent * event)
     m_mainModel->setMidpoint(midpoint);
     m_mousePos = newMousePos;
     updatePosition();
+    emit positionChanged();
 }
 
 void ColorGradientMidpointWidget::mouseReleaseEvent(QMouseEvent * event)
