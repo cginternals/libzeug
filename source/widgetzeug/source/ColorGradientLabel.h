@@ -27,7 +27,7 @@ protected:
     void paintEvent(QPaintEvent * event) override;
     
 private:
-    static const uint s_bucketSize = 6u;
+    static const uint s_bucketSize = 3u;
     
     QList<qreal> generateBuckets(uint numBuckets);
     void updateHistogram();
@@ -43,6 +43,8 @@ private:
     QPixmap m_gradientPixmap;
     QBrush m_backgroundBrush;
     QPainterPath m_histogramPath;
+    uint m_numBuckets;
+    uint m_actualBucketSize;
     
     QMetaObject::Connection m_modelConnection;
 };

@@ -130,7 +130,7 @@ void ColorGradientLabel::paintHistogram(QPainter & painter)
         return;
 
     const auto width = this->width();
-    const auto widthScale = 1.0 + static_cast<qreal>(width % s_bucketSize) / width;
+    const auto widthScale = width / static_cast<qreal>(m_numBuckets * m_actualBucketSize);
 
     painter.save();
 
@@ -149,24 +149,34 @@ QList<qreal> ColorGradientLabel::generateBuckets(uint numBuckets)
 {
     auto buckets = QList<qreal>{};
     
-    const auto invNumBuckets = 1.0 / numBuckets;
-    
-    auto histogram_index = 0;
-    for (auto bucket_i = 0u; bucket_i < numBuckets; ++bucket_i)
+    if (numBuckets < m_histogram.size())
     {
-        const auto norm_bucket_i = static_cast<qreal>(bucket_i) / numBuckets;
-        auto value = 0u, count = 0u;
+        const auto invNumBuckets = 1.0 / numBuckets;
         
-        while (static_cast<qreal>(histogram_index) / m_histogram.size() < (norm_bucket_i + invNumBuckets))
+        auto histogram_index = 0;
+        for (auto bucket_i = 0u; bucket_i < numBuckets; ++bucket_i)
         {
-            count += 1;
-            value += m_histogram[histogram_index++];
+            const auto norm_bucket_i = static_cast<qreal>(bucket_i) / numBuckets;
+            auto value = 0u, count = 0u;
+            
+            while (static_cast<qreal>(histogram_index) / m_histogram.size() < (norm_bucket_i + invNumBuckets))
+            {
+                count += 1;
+                value += m_histogram[histogram_index++];
+            }
+            
+            buckets << value / count;
         }
         
-        buckets << value / count;
+        assert(histogram_index == m_histogram.size());
     }
-    
-    assert(histogram_index == m_histogram.size());
+    else
+    {
+        std::copy(
+            m_histogram.begin(),
+            m_histogram.end(),
+            std::back_inserter(buckets));
+    }
     
     auto min = std::numeric_limits<qreal>::max(), max = 0.0;
     for (const auto & value : buckets)
@@ -204,6 +214,9 @@ void ColorGradientLabel::updateHistogram()
 
     const auto buckets = generateBuckets(width() / s_bucketSize);
     
+    m_numBuckets = buckets.size();
+    m_actualBucketSize = width() / m_numBuckets;
+    
     static const auto offset = 2u;
     
     const auto height = this->height();
@@ -221,7 +234,7 @@ void ColorGradientLabel::updateHistogram()
         const auto y = paddingTop + (1.0 - value) * maxRange;
         
         m_histogramPath.lineTo(currentX, y);
-        currentX += s_bucketSize;
+        currentX += m_actualBucketSize;
         m_histogramPath.lineTo(currentX, y);
     }
     
