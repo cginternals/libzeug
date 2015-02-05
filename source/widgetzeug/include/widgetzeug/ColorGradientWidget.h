@@ -30,7 +30,7 @@ public:
     void setHistogram(const QList<uint> & histogram);
     
 protected:
-    void loadFromJson();
+    void loadFromJson(const QString & fileName);
     void saveToJson();
     
 private:

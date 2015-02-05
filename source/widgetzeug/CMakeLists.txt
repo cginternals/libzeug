@@ -51,7 +51,7 @@ set(header_path "${CMAKE_CURRENT_SOURCE_DIR}/include/${target}")
 set(source_path "${CMAKE_CURRENT_SOURCE_DIR}/source")
 
 set(api_includes
-    ${header_path}/widgetzeug_api.h   
+    ${header_path}/widgetzeug_api.h
     # color widgets
     ${header_path}/ColorGradient.h
     ${header_path}/ColorGradientProperty.h
@@ -59,6 +59,7 @@ set(api_includes
     ${header_path}/ColorGradientWidget.h
     ${header_path}/ColorScheme.h
     ${header_path}/ColorSchemePresetsWidget.h
+    ${header_path}/DataWidget.h
     ${header_path}/DpiAwareGraphicsView.h
     ${header_path}/RGBABrush.hpp
     # script widgets
@@ -97,13 +98,15 @@ set(sources
     ${source_path}/ColorGradientWidget.ui
     ${source_path}/ColorScheme.cpp
     ${source_path}/ColorSchemeGraphicsItem.cpp
-    ${source_path}/ColorSchemeGraphicsItem.h  
+    ${source_path}/ColorSchemeGraphicsItem.h
     ${source_path}/ColorSchemeGraphicsItemGroup.cpp
     ${source_path}/ColorSchemeGraphicsItemGroup.h
     ${source_path}/ColorSchemeGraphicsView.cpp
     ${source_path}/ColorSchemeGraphicsView.h
     ${source_path}/ColorSchemePresetsWidget.cpp
     ${source_path}/ColorSchemePresetsWidget.ui
+    ${source_path}/DataWidget.cpp
+    ${source_path}/DataWidget.ui
     ${source_path}/DpiAwareGraphicsView.cpp
     ${source_path}/SingleColorSchemeGraphicsView.cpp
     ${source_path}/SingleColorSchemeGraphicsView.h
@@ -122,9 +125,9 @@ set(sources
 # Group source files
 set(header_group "Header Files (API)")
 set(source_group "Source Files")
-source_group_by_path(${header_path} "\\\\.h$|\\\\.hpp$" 
+source_group_by_path(${header_path} "\\\\.h$|\\\\.hpp$"
     ${header_group} ${api_includes})
-source_group_by_path(${source_path} "\\\\.cpp$|\\\\.c$|\\\\.h$|\\\\.hpp$" 
+source_group_by_path(${source_path} "\\\\.cpp$|\\\\.c$|\\\\.h$|\\\\.hpp$"
     ${source_group} ${sources})
 
 
