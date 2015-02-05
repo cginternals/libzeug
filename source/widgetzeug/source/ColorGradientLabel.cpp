@@ -74,13 +74,13 @@ void ColorGradientLabel::setModel(widgetzeug::ColorGradientModel * model)
     
     m_model = model;
     updatePixmap();
-    repaint();
+    update();
     
     m_modelConnection = connect(model, &ColorGradientModel::changed,
         [this] ()
         {
             updatePixmap();
-            repaint();
+            update();
         });
 }
 
@@ -89,7 +89,7 @@ void ColorGradientLabel::setHistogram(const QList<uint> & histogram)
     m_histogram = histogram;
 
     updateHistogram();
-    repaint();
+    update();
 }
 
 void ColorGradientLabel::resizeEvent(QResizeEvent * event)
@@ -100,7 +100,7 @@ void ColorGradientLabel::resizeEvent(QResizeEvent * event)
     updateHistogram();
     updatePixmap();
     
-    repaint();
+    update();
 }
 
 void ColorGradientLabel::paintEvent(QPaintEvent * event)

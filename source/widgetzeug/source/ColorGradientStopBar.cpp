@@ -81,6 +81,8 @@ void ColorGradientStopBar::mouseReleaseEvent(QMouseEvent * event)
 void ColorGradientStopBar::onStopPositionChanged(
     ColorGradientStopWidget * stopWidget)
 {
+    update();
+
     if (std::is_sorted(m_stopWidgets.begin(), m_stopWidgets.end(), lessThan))
         return;
     
