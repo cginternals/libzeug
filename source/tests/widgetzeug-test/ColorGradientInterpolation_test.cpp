@@ -46,11 +46,11 @@ TEST_F(ColorGradientInterpolation_test, DiscretePureColors)
 
 TEST_F(ColorGradientInterpolation_test, MatzePureColors)
 {
-    m_gradient.setType(widgetzeug::ColorGradientType::Matze);
+    m_gradient.setType(widgetzeug::ColorGradientType::Cornsweet);
     m_gradient.setSteps(3u);
-    ASSERT_EQ(m_colors[0], m_gradient.interpolateColor(0.0));
-    ASSERT_EQ(m_colors[1], m_gradient.interpolateColor(1.0 / 3));
-    ASSERT_EQ(m_colors[2], m_gradient.interpolateColor(2.0 / 3));
+    ASSERT_EQ(m_colors[0], m_gradient.interpolateColor(0.5 / 3));
+    ASSERT_EQ(m_colors[1], m_gradient.interpolateColor(1.5 / 3));
+    ASSERT_EQ(m_colors[2], m_gradient.interpolateColor(2.5 / 3));
 }
 
 /** TODO: This passes right now, but it very fragile.
