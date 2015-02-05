@@ -23,7 +23,7 @@ ColorGradientWidget::ColorGradientWidget(
     const ColorGradient & gradient,
     QWidget * parent)
 :   QDialog{parent}
-,   m_ui(new Ui_ColorGradientWidget{})
+,   m_ui(new Ui_ColorGradientWidget())
 {
     m_ui->setupUi(this);
     
