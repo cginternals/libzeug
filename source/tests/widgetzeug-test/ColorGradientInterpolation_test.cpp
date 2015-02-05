@@ -44,7 +44,7 @@ TEST_F(ColorGradientInterpolation_test, DiscretePureColors)
     ASSERT_EQ(m_colors[2], m_gradient.interpolateColor(1.0));
 }
 
-TEST_F(ColorGradientInterpolation_test, MatzePureColors)
+TEST_F(ColorGradientInterpolation_test, CornsweetPureColors)
 {
     m_gradient.setType(widgetzeug::ColorGradientType::Cornsweet);
     m_gradient.setSteps(3u);
