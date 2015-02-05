@@ -216,6 +216,33 @@
     </widget>
    </item>
    <item>
+    <widget class="QWidget" name="dataLayoutWidget" native="true">
+     <property name="sizePolicy">
+      <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+       <horstretch>0</horstretch>
+       <verstretch>0</verstretch>
+      </sizepolicy>
+     </property>
+     <layout class="QHBoxLayout" name="horizontalLayout_4">
+      <property name="leftMargin">
+       <number>18</number>
+      </property>
+      <property name="topMargin">
+       <number>0</number>
+      </property>
+      <property name="rightMargin">
+       <number>18</number>
+      </property>
+      <property name="bottomMargin">
+       <number>0</number>
+      </property>
+      <item>
+       <widget class="widgetzeug::DataWidget" name="dataWidget" native="true"/>
+      </item>
+     </layout>
+    </widget>
+   </item>
+   <item>
     <widget class="Line" name="line">
      <property name="frameShadow">
       <enum>QFrame::Sunken</enum>
@@ -246,9 +273,6 @@
       <property name="bottomMargin">
        <number>16</number>
       </property>
-      <item>
-       <widget class="widgetzeug::DataWidget" name="dataWidget" native="true"/>
-      </item>
       <item>
        <widget class="QDialogButtonBox" name="buttonBox">
         <property name="orientation">

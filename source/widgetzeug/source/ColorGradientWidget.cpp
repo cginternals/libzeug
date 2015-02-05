@@ -2,10 +2,9 @@
 
 #include <QComboBox>
 #include <QFile>
-#include <QFileDialog>
 #include <QJsonDocument>
 #include <QJsonObject>
-#include <QMessageBox>
+#include <QKeyEvent>
 #include <QSpinBox>
 
 #include "ColorGradientLabel.h"
@@ -47,6 +46,10 @@ ColorGradientWidget::ColorGradientWidget(
     connect(
         m_ui->dataWidget, &DataWidget::fileChanged,
         this, &ColorGradientWidget::loadFromJson);
+    
+    connect(
+        m_ui->dataWidget, &DataWidget::exportPressed,
+        this, &ColorGradientWidget::saveToJson);
 }
 
 ColorGradientWidget::~ColorGradientWidget() = default;
@@ -61,42 +64,39 @@ void ColorGradientWidget::setHistogram(const QList<uint> & histogram)
     m_ui->label->setHistogram(histogram);
 }
 
+void ColorGradientWidget::keyPressEvent(QKeyEvent * event)
+{
+    if (event->key() == Qt::Key_Enter || event->key() == Qt::Key_Return)
+        return;
+    
+    QDialog::keyPressEvent(event);
+}
+
 void ColorGradientWidget::loadFromJson(const QString & fileName)
 {
     QFile jsonFile{fileName};
 
     if (!jsonFile.open(QFile::ReadOnly))
-    {
-        QMessageBox::information(this, {}, "File could not be opened.");
         return;
-    }
 
     const auto jsonDocument = QJsonDocument::fromJson(jsonFile.readAll());
 
     if (jsonDocument.isNull() || jsonDocument.isEmpty() || !jsonDocument.isObject())
-    {
-        QMessageBox::information(this, {}, "Json is ill-formed.");
         return;
-    }
 
     const auto gradient = ColorGradient::fromJson(jsonDocument.object());
     setModel(make_unique<ColorGradientModel>(gradient));
 }
 
-void ColorGradientWidget::saveToJson()
+void ColorGradientWidget::saveToJson(const QString & fileName)
 {
-    const auto fileName = QFileDialog::getSaveFileName(this);
-
     if (fileName.isNull())
         return;
 
     QFile jsonFile{fileName};
 
     if (!jsonFile.open(QFile::WriteOnly))
-    {
-        QMessageBox::information(this, {}, "Could not write to file.");
         return;
-    }
 
     const auto jsonDocument = QJsonDocument{gradient().toJson()};
     jsonFile.write(jsonDocument.toJson());

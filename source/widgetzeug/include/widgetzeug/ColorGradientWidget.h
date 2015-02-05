@@ -30,8 +30,10 @@ public:
     void setHistogram(const QList<uint> & histogram);
     
 protected:
+    void keyPressEvent(QKeyEvent * event) override;
+    
     void loadFromJson(const QString & fileName);
-    void saveToJson();
+    void saveToJson(const QString & fileName);
     
 private:
     void updateStepsState();
