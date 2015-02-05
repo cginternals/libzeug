@@ -72,8 +72,8 @@ set(headers
 set(sources
     ${source_path}/ScriptContext.cpp
     ${source_path}/backend/AbstractScriptContext.cpp
-    ${source_path}/backend-duktape/duktape-1.0.0/duktape.c
-    ${source_path}/backend-duktape/duktape-1.0.0/duktape.h
+    ${source_path}/backend-duktape/duktape-1.1.0/duktape.c
+    ${source_path}/backend-duktape/duktape-1.1.0/duktape.h
     ${source_path}/backend-duktape/DuktapeScriptContext.cpp
     ${source_path}/backend-duktape/DuktapeScriptContext.h
 )
@@ -105,6 +105,12 @@ else()
 endif()
 
 target_link_libraries(${target} ${libs})
+
+
+if(MSVC)
+    # -> msvc14 : declaration hides previous local decl (problem in duktape)
+    set(DEFAULT_COMPILE_FLAGS ${DEFAULT_COMPILE_FLAGS} /wd4456)
+endif()
 
 target_compile_options(${target} PRIVATE ${DEFAULT_COMPILE_FLAGS})
 

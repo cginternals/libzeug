@@ -11,9 +11,10 @@
 
 namespace
 {
-    const char * c_duktapeObjectPointerKey = "object_pointer";
-    const char * c_duktapeFunctionPointerKey = "function_pointer";
-    const char * c_duktapeStashFreeFunctionIndexKey = "duktape_next_function_index";
+    const char * c_duktapeObjectPointerKey = "duk_object_pointer";
+    const char * c_duktapeFunctionPointerKey = "duk_function_pointer";
+    const char * c_duktapePropertyNameKey = "duk_property_name";
+    const char * c_duktapeStashFreeFunctionIndexKey = "duk_next_function_index";
 }
 
 
@@ -391,7 +392,7 @@ static duk_ret_t getProperty(duk_context * context)
     if (obj) {
         // Get property
         duk_push_current_function(context);
-        duk_get_prop_string(context, -1, "property_name");
+        duk_get_prop_string(context, -1, c_duktapePropertyNameKey);
         std::string propName = duk_get_string(context, -1);
         duk_pop_2(context);
         AbstractProperty * property = obj->property(propName);
@@ -426,7 +427,7 @@ static duk_ret_t setProperty(duk_context * context)
     if (obj) {
         // Get property
         duk_push_current_function(context);
-        duk_get_prop_string(context, -1, "property_name");
+        duk_get_prop_string(context, -1, c_duktapePropertyNameKey);
         std::string propName = duk_get_string(context, -1);
         duk_pop_2(context);
         AbstractProperty * property = obj->property(propName);
@@ -523,17 +524,6 @@ Variant DuktapeScriptContext::evaluate(const std::string & code)
 
 void DuktapeScriptContext::registerObj(duk_idx_t parentId, PropertyGroup * obj)
 {
-    // Helper Ecmascript function
-    const std::string defineAccessor = "function defineAccessor(obj, key, set, get) {\n"
-                                            "Object.defineProperty(obj, key, {\n"
-                                                "enumerable: true, configurable: true,\n"
-                                                "set: set, get: get\n"
-                                            "});\n"
-                                            "return obj;\n"
-                                        "}";
-
-    duk_eval_string_noresult(m_context, defineAccessor.c_str());
-
     // Create empty object on the stack
     duk_idx_t objIndex = duk_push_object(m_context);
 
@@ -549,22 +539,19 @@ void DuktapeScriptContext::registerObj(duk_idx_t parentId, PropertyGroup * obj)
         // Check if property is a property group
         PropertyGroup * group = dynamic_cast< PropertyGroup * >(prop);
         if (!group) {
-            duk_eval_string(m_context, "defineAccessor");
-            // Obj
-            duk_dup(m_context, -2);
             // Key (for accessor)
             duk_push_string(m_context, propName.c_str());
-            // Setter function object
-            duk_push_c_function(m_context, setProperty, 1);
-            duk_push_string(m_context, propName.c_str());
-            duk_put_prop_string(m_context, -2, "property_name");
             // Getter function object
             duk_push_c_function(m_context, getProperty, 0);
             duk_push_string(m_context, propName.c_str());
-            duk_put_prop_string(m_context, -2, "property_name");
+            duk_put_prop_string(m_context, -2, c_duktapePropertyNameKey);
+            // Setter function object
+            duk_push_c_function(m_context, setProperty, 1);
+            duk_push_string(m_context, propName.c_str());
+            duk_put_prop_string(m_context, -2, c_duktapePropertyNameKey);
 
-            duk_call(m_context, 4);
-            duk_remove(m_context, -1);
+            // Define property with getter/setter
+            duk_def_prop(m_context, objIndex, DUK_DEFPROP_HAVE_GETTER | DUK_DEFPROP_HAVE_SETTER);
         }
     }
 

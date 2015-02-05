@@ -16,8 +16,8 @@ NumberProperty<Type, SuperClass>::NumberProperty(Arguments&&... args)
 :   ValueProperty<Type, SuperClass>(std::forward<Arguments>(args)...)
 {
     this->setOptions({
-        { "min", Variant(std::numeric_limits<Type>::min()) },
-        { "max", Variant(std::numeric_limits<Type>::max()) }
+        { "minimum", Variant(std::numeric_limits<Type>::min()) },
+        { "maximum", Variant(std::numeric_limits<Type>::max()) }
     });
 }
 
