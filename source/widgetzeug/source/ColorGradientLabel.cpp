@@ -149,7 +149,7 @@ QList<qreal> ColorGradientLabel::generateBuckets(uint numBuckets)
 {
     auto buckets = QList<qreal>{};
     
-    if (numBuckets < m_histogram.size())
+    if (numBuckets < static_cast<unsigned int>(m_histogram.size()))
     {
         const auto invNumBuckets = 1.0 / numBuckets;
         
