@@ -216,7 +216,7 @@
     </widget>
    </item>
    <item>
-    <widget class="QWidget" name="dataLayoutWidget" native="true">
+    <widget class="QWidget" name="dataLinkLayoutWidget" native="true">
      <property name="sizePolicy">
       <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
        <horstretch>0</horstretch>
@@ -237,7 +237,7 @@
        <number>0</number>
       </property>
       <item>
-       <widget class="widgetzeug::DataWidget" name="dataWidget" native="true"/>
+       <widget class="widgetzeug::DataLinkWidget" name="dataLinkWidget" native="true"/>
       </item>
      </layout>
     </widget>
@@ -308,9 +308,9 @@
    <container>1</container>
   </customwidget>
   <customwidget>
-   <class>widgetzeug::DataWidget</class>
+   <class>widgetzeug::DataLinkWidget</class>
    <extends>QWidget</extends>
-   <header>widgetzeug/DataWidget.h</header>
+   <header>widgetzeug/DataLinkWidget.h</header>
    <container>1</container>
   </customwidget>
  </customwidgets>

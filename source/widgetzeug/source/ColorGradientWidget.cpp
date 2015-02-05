@@ -42,13 +42,13 @@ ColorGradientWidget::ColorGradientWidget(
         {
             m_model->setSteps(value);
         });
-    
+
     connect(
-        m_ui->dataWidget, &DataWidget::fileChanged,
+        m_ui->dataLinkWidget, &DataLinkWidget::fileChanged,
         this, &ColorGradientWidget::loadFromJson);
-    
+
     connect(
-        m_ui->dataWidget, &DataWidget::exportPressed,
+        m_ui->dataLinkWidget, &DataLinkWidget::exportPressed,
         this, &ColorGradientWidget::saveToJson);
 }
 
@@ -68,7 +68,7 @@ void ColorGradientWidget::keyPressEvent(QKeyEvent * event)
 {
     if (event->key() == Qt::Key_Enter || event->key() == Qt::Key_Return)
         return;
-    
+
     QDialog::keyPressEvent(event);
 }
 

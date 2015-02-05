@@ -59,7 +59,7 @@ set(api_includes
     ${header_path}/ColorGradientWidget.h
     ${header_path}/ColorScheme.h
     ${header_path}/ColorSchemePresetsWidget.h
-    ${header_path}/DataWidget.h
+    ${header_path}/DataLinkWidget.h
     ${header_path}/DpiAwareGraphicsView.h
     ${header_path}/RGBABrush.hpp
     # script widgets
@@ -105,8 +105,8 @@ set(sources
     ${source_path}/ColorSchemeGraphicsView.h
     ${source_path}/ColorSchemePresetsWidget.cpp
     ${source_path}/ColorSchemePresetsWidget.ui
-    ${source_path}/DataWidget.cpp
-    ${source_path}/DataWidget.ui
+    ${source_path}/DataLinkWidget.cpp
+    ${source_path}/DataLinkWidget.ui
     ${source_path}/DpiAwareGraphicsView.cpp
     ${source_path}/SingleColorSchemeGraphicsView.cpp
     ${source_path}/SingleColorSchemeGraphicsView.h
