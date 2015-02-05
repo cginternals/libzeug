@@ -54,13 +54,13 @@ QColor makeLighter(const QColor & color, qreal factor)
 
 } // namespace
 
-const auto ColorGradient::s_typeStringMap = QMap<ColorGradientType, QString>{
+const QMap<ColorGradientType, QString> ColorGradient::s_typeStringMap = {
         { ColorGradientType::Linear, "Linear" },
         { ColorGradientType::Discrete, "Discrete" },
         { ColorGradientType::Cornsweet, "Cornsweet" }
     };
     
-const auto ColorGradient::s_stringTypeMap = QMap<QString, ColorGradientType>{
+const QMap<QString, ColorGradientType> ColorGradient::s_stringTypeMap = {
         { "Discrete", ColorGradientType::Discrete },
         { "Linear", ColorGradientType::Linear },
         { "Cornsweet", ColorGradientType::Cornsweet }

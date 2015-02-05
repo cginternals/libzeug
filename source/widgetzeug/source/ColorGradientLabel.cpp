@@ -152,7 +152,7 @@ QList<qreal> ColorGradientLabel::generateBuckets(uint numBuckets)
     const auto invNumBuckets = 1.0 / numBuckets;
     
     auto histogram_index = 0;
-    for (auto bucket_i = 0; bucket_i < numBuckets; ++bucket_i)
+    for (auto bucket_i = 0u; bucket_i < numBuckets; ++bucket_i)
     {
         const auto norm_bucket_i = static_cast<qreal>(bucket_i) / numBuckets;
         auto value = 0u, count = 0u;
