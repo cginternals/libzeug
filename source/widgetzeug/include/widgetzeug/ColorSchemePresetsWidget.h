@@ -54,6 +54,8 @@ class WIDGETZEUG_API ColorSchemePresetsWidget : public QWidget
     Q_OBJECT
 
 public:
+    // ToDo: add DataLinkWidget ...
+
     static ColorSchemePresetsWidget * fromJson(QFile & file, QWidget * parent = nullptr);
 
 public:

@@ -41,6 +41,11 @@ add_executable(${target} ${sources})
 target_link_libraries(${target} ${libs})
 qt5_use_modules(${target} Core Gui Widgets)
 
+if(MSVC)
+    # -> msvc14 : declaration hides class member (problem in qt)
+    set(DEFAULT_COMPILE_FLAGS ${DEFAULT_COMPILE_FLAGS} /wd4458)
+endif()
+
 target_compile_options(${target} PRIVATE ${DEFAULT_COMPILE_FLAGS})
 
 set_target_properties(${target}

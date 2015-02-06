@@ -9,6 +9,7 @@
 
 #include "ui_DataLinkWidget.h"
 
+
 namespace widgetzeug
 {
 
@@ -30,6 +31,7 @@ public:
     }
 };
 
+
 DataLinkWidget::DataLinkWidget(QWidget * parent)
 :   m_ui{new Ui_DataLinkWidget()}
 ,   m_watcher{new QFileSystemWatcher{this}}
@@ -37,71 +39,31 @@ DataLinkWidget::DataLinkWidget(QWidget * parent)
 {
     m_ui->setupUi(this);
 
-    connect(
-        m_ui->dialogButton, &QPushButton::pressed,
-        this, &DataLinkWidget::onButtonPressed);
+    // ToDo: use settings to preserve list of recent files - therefor this needs an identifier...
+    // ToDO: also redo selection of last file -> or allow to modify from outside..
+    // ToDo: combo box should not be editable -> introduces further errors, minimize ways of usage
 
-    connect(
-        m_ui->comboBox, static_cast<void (QComboBox::*)(int)>(&QComboBox::currentIndexChanged),
-        this, &DataLinkWidget::onComboBoxCurrentIndexChanged);
-
-    connect(
-        m_watcher, &QFileSystemWatcher::fileChanged,
+    connect(m_watcher, &QFileSystemWatcher::fileChanged,
         this, &DataLinkWidget::fileChanged);
 
-    connect(
-        m_ui->checkBox, &QCheckBox::stateChanged,
-        this, &DataLinkWidget::onCheckBoxChanged);
-
-    connect(
-        m_ui->exportButton, &QPushButton::pressed,
-        [this] () { emit exportPressed(m_ui->comboBox->currentText()); });
-
-    m_ui->comboBox->setValidator(new FileExistsValidator{m_ui->comboBox});
-    m_ui->checkBox->setCheckState(m_watchFile ? Qt::Checked : Qt::Unchecked);
+    m_ui->dataComboBox->setValidator(new FileExistsValidator{m_ui->dataComboBox});
+    m_ui->autoCheckBox->setCheckState(m_watchFile ? Qt::Checked : Qt::Unchecked);
 }
 
-void DataLinkWidget::onButtonPressed()
+QString DataLinkWidget::linkedFileName() const
 {
-    const auto fileName = QFileDialog::getOpenFileName(this);
-
-    if (fileName.isNull())
-        return;
-
-    const auto fileInfo = QFileInfo{fileName};
-
-    if (!fileInfo.exists() || !fileInfo.isFile())
-        return;
-
-    auto comboBox = m_ui->comboBox;
-
-    if (!fileNameExists(fileName))
-        comboBox->addItem(fileName);
-
-    comboBox->setCurrentIndex(comboBox->findText(fileName));
+    return m_ui->dataComboBox->currentText();
 }
 
-void DataLinkWidget::onComboBoxCurrentIndexChanged(int index)
-{
-    updateWatcher();
-    emit fileChanged(m_ui->comboBox->currentText());
+bool DataLinkWidget::linkedFileExists() const
+{   
+    return QFile::exists(linkedFileName());
 }
 
-void DataLinkWidget::onCheckBoxChanged(int state)
+bool DataLinkWidget::isRecent(const QString & fileName)
 {
-    auto checkState = static_cast<Qt::CheckState>(state);
-    m_watchFile = checkState == Qt::Checked;
-
-    if (m_watchFile)
-        emit fileChanged(m_ui->comboBox->currentText());
-
-    updateWatcher();
-}
-
-bool DataLinkWidget::fileNameExists(const QString & fileName)
-{
-    for (auto i = 0; i < m_ui->comboBox->count(); ++i)
-        if (fileName == m_ui->comboBox->itemText(i))
+    for (auto i = 0; i < m_ui->dataComboBox->count(); ++i)
+        if (fileName == m_ui->dataComboBox->itemText(i))
             return true;
 
     return false;
@@ -109,10 +71,71 @@ bool DataLinkWidget::fileNameExists(const QString & fileName)
 
 void DataLinkWidget::updateWatcher()
 {
+    // ToDo: work with Absolute File path! -> starting application from different locations...
     if (!m_watchFile && !m_watcher->files().isEmpty())
         m_watcher->removePaths(m_watcher->files());
     else
-        m_watcher->addPath(m_ui->comboBox->currentText());
+        m_watcher->addPath(m_ui->dataComboBox->currentText()); 
 }
+
+bool DataLinkWidget::browse()
+{
+    // ToDo: use Settings for last Data Folder - use application folder initially
+    // ToDO: validate file existance... - 
+    // ToDo: allow for passing filters and dialog title
+
+    const auto fileName = QFileDialog::getOpenFileName(this);
+
+    if (fileName.isEmpty())
+        return false;
+
+    const auto fi = QFileInfo { fileName };
+    //if (!fi.exists() || !fi.isFile())
+    //    return;
+
+    auto comboBox = m_ui->dataComboBox;
+    if (!isRecent(fileName))
+        comboBox->addItem(fileName, fi.absoluteFilePath());
+
+    comboBox->setCurrentIndex(comboBox->findText(fileName));
+
+    return true;
+}
+
+void DataLinkWidget::export()
+{
+    if (linkedFileName().isEmpty())
+        browse();
+
+    emit exportPressed(m_ui->dataComboBox->currentText());
+}
+
+void DataLinkWidget::on_browsePushButton_clicked(bool)
+{
+    browse();
+}
+
+void DataLinkWidget::on_exportPushButton_clicked(bool)
+{
+    export();
+}
+
+void DataLinkWidget::on_dataComboBox_currentIndexChanged(const int index)
+{
+    updateWatcher();
+    emit fileChanged(m_ui->dataComboBox->currentText());
+}
+
+void DataLinkWidget::on_autoCheckBox_stateChanged(const int state)
+{
+    auto checkState = static_cast<Qt::CheckState>(state);
+    m_watchFile = checkState == Qt::Checked;
+
+    if (m_watchFile)
+        emit fileChanged(m_ui->dataComboBox->currentText());
+
+    updateWatcher();
+}
+
 
 } // namespace widgetzeug

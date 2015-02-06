@@ -6,40 +6,45 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>533</width>
-    <height>311</height>
+    <width>816</width>
+    <height>612</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>Color Gradient</string>
   </property>
-  <layout class="QVBoxLayout" name="verticalLayout">
-   <property name="leftMargin">
-    <number>0</number>
-   </property>
-   <property name="topMargin">
-    <number>0</number>
-   </property>
-   <property name="rightMargin">
-    <number>0</number>
-   </property>
-   <property name="bottomMargin">
-    <number>0</number>
-   </property>
+  <layout class="QVBoxLayout" name="verticalLayout_2">
+   <item>
+    <widget class="widgetzeug::DataLinkWidget" name="dataLinkWidget" native="true">
+     <property name="sizePolicy">
+      <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+       <horstretch>0</horstretch>
+       <verstretch>0</verstretch>
+      </sizepolicy>
+     </property>
+    </widget>
+   </item>
+   <item>
+    <widget class="Line" name="line_2">
+     <property name="orientation">
+      <enum>Qt::Horizontal</enum>
+     </property>
+    </widget>
+   </item>
    <item>
     <widget class="QWidget" name="gradientLayoutWidget" native="true">
-     <layout class="QVBoxLayout" name="verticalLayout_2">
+     <layout class="QVBoxLayout" name="verticalLayout">
       <property name="spacing">
-       <number>1</number>
+       <number>0</number>
       </property>
       <property name="leftMargin">
-       <number>12</number>
+       <number>0</number>
       </property>
       <property name="topMargin">
-       <number>8</number>
+       <number>0</number>
       </property>
       <property name="rightMargin">
-       <number>12</number>
+       <number>0</number>
       </property>
       <property name="bottomMargin">
        <number>0</number>
@@ -87,13 +92,15 @@
           <number>0</number>
          </property>
          <item>
-          <widget class="widgetzeug::ColorGradientLabel" name="label" native="true"/>
+          <widget class="widgetzeug::ColorGradientLabel" name="label" native="true">
+          </widget>
          </item>
         </layout>
        </widget>
       </item>
       <item>
-       <widget class="widgetzeug::ColorGradientStopBar" name="stopBar" native="true"/>
+       <widget class="widgetzeug::ColorGradientStopBar" name="stopBar" native="true">
+       </widget>
       </item>
      </layout>
     </widget>
@@ -216,33 +223,6 @@
     </widget>
    </item>
    <item>
-    <widget class="QWidget" name="dataLinkLayoutWidget" native="true">
-     <property name="sizePolicy">
-      <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
-       <horstretch>0</horstretch>
-       <verstretch>0</verstretch>
-      </sizepolicy>
-     </property>
-     <layout class="QHBoxLayout" name="horizontalLayout_4">
-      <property name="leftMargin">
-       <number>18</number>
-      </property>
-      <property name="topMargin">
-       <number>0</number>
-      </property>
-      <property name="rightMargin">
-       <number>18</number>
-      </property>
-      <property name="bottomMargin">
-       <number>0</number>
-      </property>
-      <item>
-       <widget class="widgetzeug::DataLinkWidget" name="dataLinkWidget" native="true"/>
-      </item>
-     </layout>
-    </widget>
-   </item>
-   <item>
     <widget class="Line" name="line">
      <property name="frameShadow">
       <enum>QFrame::Sunken</enum>
@@ -259,31 +239,13 @@
     </widget>
    </item>
    <item>
-    <widget class="QWidget" name="buttonBoxLayoutWidget" native="true">
-     <property name="sizePolicy">
-      <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
-       <horstretch>0</horstretch>
-       <verstretch>0</verstretch>
-      </sizepolicy>
+    <widget class="QDialogButtonBox" name="buttonBox">
+     <property name="orientation">
+      <enum>Qt::Horizontal</enum>
      </property>
-     <layout class="QHBoxLayout" name="horizontalLayout_3">
-      <property name="topMargin">
-       <number>0</number>
-      </property>
-      <property name="bottomMargin">
-       <number>16</number>
-      </property>
-      <item>
-       <widget class="QDialogButtonBox" name="buttonBox">
-        <property name="orientation">
-         <enum>Qt::Horizontal</enum>
-        </property>
-        <property name="standardButtons">
-         <set>QDialogButtonBox::Cancel|QDialogButtonBox::Ok</set>
-        </property>
-       </widget>
-      </item>
-     </layout>
+     <property name="standardButtons">
+      <set>QDialogButtonBox::Cancel|QDialogButtonBox::Ok</set>
+     </property>
     </widget>
    </item>
   </layout>

@@ -28,6 +28,7 @@ public:
     
     ColorGradientType type() const;
     void setType(ColorGradientType type);
+    void setType(const QVariant & variant);
     
     uint steps() const;
     void setSteps(uint steps);

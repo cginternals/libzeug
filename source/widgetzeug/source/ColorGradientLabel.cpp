@@ -19,10 +19,11 @@ namespace
 
 const QBrush TransparencyBackgroundBrush()
 {
-    const int size = 12;
-    QImage backgroundImage(size, size, QImage::Format_ARGB32);
-    unsigned char *bits = backgroundImage.bits();
+    static const auto size = 12;
     
+    QImage backgroundImage(size, size, QImage::Format_ARGB32);
+    auto bits = backgroundImage.bits();
+
     int color, i;
     for(unsigned short x = 0; x < size; ++x)
         for(unsigned short y = 0; y < size; ++y)

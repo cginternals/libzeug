@@ -54,17 +54,36 @@ QColor makeLighter(const QColor & color, qreal factor)
 
 } // namespace
 
-const QMap<ColorGradientType, QString> ColorGradient::s_typeStringMap = {
-        { ColorGradientType::Linear, "Linear" },
-        { ColorGradientType::Discrete, "Discrete" },
-        { ColorGradientType::Cornsweet, "Cornsweet" }
-    };
-    
-const QMap<QString, ColorGradientType> ColorGradient::s_stringTypeMap = {
+
+const QString ColorGradient::typeString(ColorGradientType type)
+{
+    static const QMap<ColorGradientType, QString> identifiersByType = {
+        { ColorGradientType::Cornsweet, "Cornsweet" },
+        { ColorGradientType::Discrete,  "Discrete" },
+        { ColorGradientType::Linear,    "Linear" } };
+
+    return identifiersByType.value(type);
+}
+
+ColorGradientType ColorGradient::type(const QString & identifier)
+{
+    static const QMap<QString, ColorGradientType> typesIdentifier = {
+        { "Cornsweet", ColorGradientType::Cornsweet},
         { "Discrete", ColorGradientType::Discrete },
-        { "Linear", ColorGradientType::Linear },
-        { "Cornsweet", ColorGradientType::Cornsweet }
-    };
+        { "Linear", ColorGradientType::Linear } };
+
+    return typesIdentifier.value(identifier);
+}
+
+const QVector<ColorGradientType> & ColorGradient::types()
+{
+    static const QVector<ColorGradientType> types = {
+        ColorGradientType::Cornsweet, 
+        ColorGradientType::Discrete,
+        ColorGradientType::Linear };
+
+    return types;
+}
 
 ColorGradient ColorGradient::fromScheme(
     ColorScheme * scheme, 
@@ -108,8 +127,8 @@ ColorGradient ColorGradient::fromJson(const QJsonObject & jsonObject)
     if (!jsonObject.contains("type") || !jsonObject.value("type").isString())
         gradient.setType(s_defaultType);
     else
-        gradient.setType(s_stringTypeMap.value(jsonObject.value("type").toString()));
-    
+        gradient.setType(type(jsonObject.value("type").toString()));
+
     if (!jsonObject.contains("steps") || !jsonObject.value("steps").isDouble())
         gradient.setSteps(s_defaultSteps);
     else
@@ -150,10 +169,6 @@ ColorGradient ColorGradient::fromJson(const QJsonObject & jsonObject)
     return gradient;
 }
 
-QString ColorGradient::typeString(const ColorGradientType type)
-{
-    return s_typeStringMap.value(type, "");
-}
 
 ColorGradient::ColorGradient(ColorGradientType type, uint steps)
 :   ColorGradient{ColorGradientStops(), type, steps}
@@ -211,6 +226,10 @@ void ColorGradient::setSteps(uint steps)
 {
     m_steps = std::max(steps, 2u);
 }
+
+// ToDo: rename interpolate
+// ToDo: reduce use of magic numbers
+// ToDo: refine cornsweet
 
 QColor ColorGradient::interpolateColor(qreal position) const
 {

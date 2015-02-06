@@ -50,8 +50,7 @@ int main(int argc, char *argv[])
     QObject::connect(widget, &QDialog::accepted,
         [widget, label] ()
         {
-            auto gradient = widget->gradient();
-            auto image = gradient.image(100);
+            auto image = widget->gradient().image(100);
             label->setPixmap(QPixmap::fromImage(image));
         });
     

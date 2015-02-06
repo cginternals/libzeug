@@ -14,6 +14,10 @@ namespace widgetzeug
 
 class ColorGradientModel;
 
+// ToDo: Document
+// ToDo: merge midpoint bar with stop bar
+// ToDo: fix insertion
+
 class WIDGETZEUG_API ColorGradientWidget : public QDialog
 {
     Q_OBJECT
@@ -28,7 +32,11 @@ public:
     ColorGradient gradient() const;
     
     void setHistogram(const QList<uint> & histogram);
-    
+
+protected slots:
+    void on_typeComboBox_currentIndexChanged(int index);
+    void on_stepsSpinBox_valueChanged(int value);
+
 protected:
     void keyPressEvent(QKeyEvent * event) override;
     

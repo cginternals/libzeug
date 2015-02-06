@@ -1,11 +1,14 @@
 #include <widgetzeug/ColorGradientWidget.h>
 
+#include <type_traits>
+
 #include <QComboBox>
 #include <QFile>
 #include <QJsonDocument>
 #include <QJsonObject>
 #include <QKeyEvent>
 #include <QSpinBox>
+#include <QVariant>
 
 #include "ColorGradientLabel.h"
 #include "ColorGradientMidpointBar.h"
@@ -14,6 +17,11 @@
 #include "util.hpp"
 
 #include "ui_ColorGradientWidget.h"
+
+namespace
+{
+    using Gradient_underlying_type = std::underlying_type<widgetzeug::ColorGradientType>::type;
+}
 
 namespace widgetzeug
 {
@@ -26,29 +34,15 @@ ColorGradientWidget::ColorGradientWidget(
 {
     m_ui->setupUi(this);
 
+    for (auto type : ColorGradient::types())
+        m_ui->typeComboBox->addItem(ColorGradient::typeString(type), static_cast<Gradient_underlying_type>(type));
+
     setModel(make_unique<ColorGradientModel>(gradient));
 
-    m_ui->typeComboBox->addItems(ColorGradient::s_typeStringMap.values());
-
-    connect(m_ui->typeComboBox, static_cast<void (QComboBox::*)(int)>(&QComboBox::currentIndexChanged),
-        [this] (int index)
-        {
-            m_model->setType(static_cast<ColorGradientType>(index));
-            updateStepsState();
-        });
-
-    connect(m_ui->stepsSpinBox, static_cast<void (QSpinBox::*)(int)>(&QSpinBox::valueChanged),
-        [this] (int value)
-        {
-            m_model->setSteps(value);
-        });
-
-    connect(
-        m_ui->dataLinkWidget, &DataLinkWidget::fileChanged,
+    connect(m_ui->dataLinkWidget, &DataLinkWidget::fileChanged,
         this, &ColorGradientWidget::loadFromJson);
 
-    connect(
-        m_ui->dataLinkWidget, &DataLinkWidget::exportPressed,
+    connect(m_ui->dataLinkWidget, &DataLinkWidget::exportPressed,
         this, &ColorGradientWidget::saveToJson);
 }
 
@@ -104,7 +98,7 @@ void ColorGradientWidget::saveToJson(const QString & fileName)
 
 void ColorGradientWidget::updateStepsState()
 {
-    bool enableSteps = m_model->type() == ColorGradientType::Linear ? false : true;
+    const bool enableSteps = static_cast<ColorGradientType>(m_model->type()) != ColorGradientType::Linear;
 
     m_ui->stepsLabel->setEnabled(enableSteps);
     m_ui->stepsSpinBox->setEnabled(enableSteps);
@@ -118,10 +112,30 @@ void ColorGradientWidget::setModel(std::unique_ptr<ColorGradientModel> && model)
     m_ui->label->setModel(m_model.get());
     m_ui->stopBar->setModel(m_model.get());
 
-    m_ui->typeComboBox->setCurrentIndex(static_cast<int>(m_model->type()));
+    const auto index = m_ui->typeComboBox->findData(static_cast<Gradient_underlying_type>(m_model->type()));
+    m_ui->typeComboBox->setCurrentIndex(index);
+
     m_ui->stepsSpinBox->setValue(m_model->steps());
 
     updateStepsState();
 }
+
+void ColorGradientWidget::on_typeComboBox_currentIndexChanged(const int index)
+{    
+    if (!m_model)
+        return;
+
+    m_model->setType(m_ui->typeComboBox->itemData(index));
+    updateStepsState();
+};
+
+void ColorGradientWidget::on_stepsSpinBox_valueChanged(const int value)
+{
+    if (!m_model)
+        return;
+
+    m_model->setSteps(value);
+};
+
 
 } // namespace widgetzeug

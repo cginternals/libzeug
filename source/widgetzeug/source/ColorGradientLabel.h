@@ -27,7 +27,7 @@ protected:
     void paintEvent(QPaintEvent * event) override;
     
 private:
-    static const uint s_bucketSize = 6u;
+    static const uint s_bucketSize = 1u;
     
     QList<qreal> generateBuckets(uint numBuckets);
     void updateHistogram();

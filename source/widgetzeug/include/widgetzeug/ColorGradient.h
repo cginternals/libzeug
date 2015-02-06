@@ -19,14 +19,14 @@ using ColorGradientStops = QList<ColorGradientStop>;
 
 enum class ColorGradientType : char { Linear, Discrete, Cornsweet };
 
+
 class WIDGETZEUG_API ColorGradient
 {
 public:
     static const auto s_defaultType = ColorGradientType::Linear;
-    static const int s_minNumStops = 2;
+
+    static const int s_minNumStops  = 2;
     static const int s_defaultSteps = 8;
-    static const QMap<ColorGradientType, QString> s_typeStringMap;
-    static const QMap<QString, ColorGradientType> s_stringTypeMap;
 
     static ColorGradient fromScheme(
 		ColorScheme * scheme, 
@@ -41,7 +41,10 @@ public:
     
     static ColorGradient fromJson(const QJsonObject & jsonObject);
 
-	static QString typeString(const ColorGradientType type);
+    static const QString typeString(ColorGradientType type);
+    static ColorGradientType type(const QString & identifier);
+
+    static const QVector<ColorGradientType> & types();
 
 public:
 	ColorGradient(
@@ -54,6 +57,8 @@ public:
         uint steps = s_defaultSteps);
 
     bool isValid() const;
+
+    // ToDo: fix midpoint position on adding stops...
 
     void addStop(const ColorGradientStop & stop);
     void setStops(const ColorGradientStops & stops);

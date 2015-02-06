@@ -3,6 +3,7 @@
 #include <algorithm>
 
 #include <QImage>
+#include <QVariant>
 
 #include "ColorGradientStopModel.h"
 #include "util.hpp"
@@ -95,6 +96,14 @@ ColorGradientType ColorGradientModel::type() const
 void ColorGradientModel::setType(ColorGradientType type)
 {
     m_type = type;
+    emit changed();
+}
+
+void ColorGradientModel::setType(const QVariant & variant)
+{
+    using Gradient_underlying_type = std::underlying_type<widgetzeug::ColorGradientType>::type;
+
+    m_type = static_cast<ColorGradientType>(variant.value<Gradient_underlying_type>());
     emit changed();
 }
 

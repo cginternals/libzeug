@@ -18,21 +18,32 @@ class WIDGETZEUG_API DataLinkWidget : public QWidget
 public:
     DataLinkWidget(QWidget * parent = nullptr);
 
+    QString linkedFileName() const;
+    bool linkedFileExists() const;
+
+    bool browse();
+    void export();
+
 signals:
+    // ToDo: rename signals
     void fileChanged(const QString & fileName);
     void exportPressed(const QString & fileName);
 
-protected:
-    void onButtonPressed();
-    void onComboBoxCurrentIndexChanged(int index);
-    void onCheckBoxChanged(int state);
+protected slots:
+    void on_dataComboBox_currentIndexChanged(int index);
+
+    void on_browsePushButton_clicked(bool);
+    void on_exportPushButton_clicked(bool);
+
+    void on_autoCheckBox_stateChanged(int state);
 
 private:
-    bool fileNameExists(const QString & fileName);
+    bool isRecent(const QString & fileName);
     void updateWatcher();
 
 private:
     Ui_DataLinkWidget * m_ui;
+
     QFileSystemWatcher * m_watcher;
     bool m_watchFile;
 };
