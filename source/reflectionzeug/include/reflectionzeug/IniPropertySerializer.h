@@ -1,9 +1,11 @@
 #pragma once
 
+#include <reflectionzeug/reflectionzeug_api.h>
+
+#include <reflectionzeug/AbstractPropertySerializer.h>
+
 #include <deque>
 #include <fstream>
-
-#include <reflectionzeug/reflectionzeug_api.h>
 
 namespace reflectionzeug
 {
@@ -13,16 +15,16 @@ class PropertyGroup;
     
 /**
  * \brief Saves values of a property hierachy in an INI like file format.
- * \see PropertyDeserializer
+ * \see IniPropertyDeserializer
  */
     
-class REFLECTIONZEUG_API PropertySerializer
+class REFLECTIONZEUG_API IniPropertySerializer : public AbstractPropertySerializer
 {
 public:
-    PropertySerializer();
-    virtual ~PropertySerializer();
+    IniPropertySerializer();
+    virtual ~IniPropertySerializer();
 
-    bool serialize(PropertyGroup & group, const std::string & filePath);
+    virtual bool serialize(PropertyGroup & group, const std::string & filePath) override;
     
 protected:
     void serializeValue(const AbstractValueProperty & property);

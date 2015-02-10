@@ -1,4 +1,4 @@
-#include <reflectionzeug/PropertySerializer.h>
+#include <reflectionzeug/IniPropertySerializer.h>
 
 #include <sstream>
 #include <iostream>
@@ -14,15 +14,15 @@ using namespace loggingzeug;
 namespace reflectionzeug
 {
     
-PropertySerializer::PropertySerializer()
+IniPropertySerializer::IniPropertySerializer()
 {
 }
 
-PropertySerializer::~PropertySerializer()
+IniPropertySerializer::~IniPropertySerializer()
 {
 }
     
-bool PropertySerializer::serialize(PropertyGroup & group, const std::string & filePath)
+bool IniPropertySerializer::serialize(PropertyGroup & group, const std::string & filePath)
 {
     m_fstream.open(filePath, std::ios_base::out);
     
@@ -53,13 +53,13 @@ bool PropertySerializer::serialize(PropertyGroup & group, const std::string & fi
     return true;
 }
     
-void PropertySerializer::serializeValue(const AbstractValueProperty & property)
+void IniPropertySerializer::serializeValue(const AbstractValueProperty & property)
 {
     m_fstream << currentPath() << property.name();
     m_fstream << "=" << property.toString() << std::endl;
 }
 
-void PropertySerializer::serializeGroup(const PropertyGroup & group)
+void IniPropertySerializer::serializeGroup(const PropertyGroup & group)
 {
     group.forEach(
         [this] (const AbstractProperty & property) 
@@ -75,17 +75,17 @@ void PropertySerializer::serializeGroup(const PropertyGroup & group)
         });
 }
 
-void PropertySerializer::pushGroupToPath(const PropertyGroup & group)
+void IniPropertySerializer::pushGroupToPath(const PropertyGroup & group)
 {
     m_pathStack.push_back(group.name());
 }
 
-void PropertySerializer::popGroupFromPath()
+void IniPropertySerializer::popGroupFromPath()
 {
     m_pathStack.pop_back();
 }
 
-std::string PropertySerializer::currentPath() const
+std::string IniPropertySerializer::currentPath() const
 {
     std::stringstream stream;
 

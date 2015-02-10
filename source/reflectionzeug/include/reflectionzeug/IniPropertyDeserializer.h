@@ -2,7 +2,7 @@
 
 #include <reflectionzeug/reflectionzeug_api.h>
 
-#include <string>
+#include <reflectionzeug/AbstractPropertyDeserializer.h>
 
 namespace reflectionzeug
 {
@@ -11,15 +11,15 @@ class PropertyGroup;
 
 /**
  * \brief Loads values of a property hierachy from an INI like file format.
- * \see PropertySerializer
+ * \see IniPropertySerializer
  */
-class REFLECTIONZEUG_API PropertyDeserializer
+class REFLECTIONZEUG_API IniPropertyDeserializer : public AbstractPropertyDeserializer
 {
 public:
-    PropertyDeserializer();
-    virtual ~PropertyDeserializer();
+    IniPropertyDeserializer();
+    virtual ~IniPropertyDeserializer();
 
-    bool deserialize(PropertyGroup & group, const std::string & filePath);
+    virtual bool deserialize(PropertyGroup & group, const std::string & filePath) override;
 
 protected:
     bool isGroupDeclaration(const std::string & line);

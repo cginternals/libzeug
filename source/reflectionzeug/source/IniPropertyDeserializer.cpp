@@ -1,4 +1,4 @@
-#include <reflectionzeug/PropertyDeserializer.h>
+#include <reflectionzeug/IniPropertyDeserializer.h>
 
 #ifdef USE_STD_REGEX
     #include <regex>
@@ -24,18 +24,18 @@ using namespace loggingzeug;
 namespace reflectionzeug
 {
 
-PropertyDeserializer::PropertyDeserializer()
+IniPropertyDeserializer::IniPropertyDeserializer()
 :   m_rootGroup(nullptr)
 ,   m_currentGroup(nullptr)
 ,   m_currentValue("")
 {
 }
 
-PropertyDeserializer::~PropertyDeserializer()
+IniPropertyDeserializer::~IniPropertyDeserializer()
 {
 }
 
-bool PropertyDeserializer::deserialize(PropertyGroup & group, const std::string & filePath)
+bool IniPropertyDeserializer::deserialize(PropertyGroup & group, const std::string & filePath)
 {
     std::fstream fstream;
     fstream.open(filePath, std::ios_base::in);
@@ -58,14 +58,14 @@ bool PropertyDeserializer::deserialize(PropertyGroup & group, const std::string 
     return noErrorsOccured;
 }
 
-bool PropertyDeserializer::isGroupDeclaration(const std::string & line)
+bool IniPropertyDeserializer::isGroupDeclaration(const std::string & line)
 {
     static const regex_namespace::regex groupRegex("\\[" + AbstractProperty::s_nameRegexString + "\\]");
 
     return regex_namespace::regex_match(line, groupRegex);
 }
 
-bool PropertyDeserializer::isPropertyDeclaration(const std::string & line)
+bool IniPropertyDeserializer::isPropertyDeclaration(const std::string & line)
 {
     static const regex_namespace::regex propertyRegex(AbstractProperty::s_nameRegexString +
                                           "(\\/" +
@@ -75,7 +75,7 @@ bool PropertyDeserializer::isPropertyDeclaration(const std::string & line)
     return regex_namespace::regex_match(line, propertyRegex);
 }
 
-bool PropertyDeserializer::updateCurrentGroup(const std::string & line)
+bool IniPropertyDeserializer::updateCurrentGroup(const std::string & line)
 {
     std::string groupName = line.substr(1, line.length() - 2);
 
@@ -95,7 +95,7 @@ bool PropertyDeserializer::updateCurrentGroup(const std::string & line)
     return false;
 }
 
-bool PropertyDeserializer::setPropertyValue(const std::string & line)
+bool IniPropertyDeserializer::setPropertyValue(const std::string & line)
 {
     if (!m_currentGroup) {
         critical() << "Could not parse line\"" << line << "\"" << "because no existing group was declared" << std::endl;
