@@ -7,6 +7,7 @@
 #include <deque>
 #include <fstream>
 #include <functional>
+#include <vector>
 
 namespace reflectionzeug
 {
@@ -34,6 +35,7 @@ protected:
 protected:
     std::fstream m_fstream;
     unsigned int m_nestingLevel;
+    std::vector<unsigned int> m_elementCount;
     std::function<void(PropertyGroup &)> m_serialize;
 
 };
