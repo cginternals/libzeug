@@ -21,7 +21,9 @@ class StringPropertyInterface;
 class Color;
 class FilePath;
 
-/** \brief Part of the Visitor Pattern implementation.
+/**
+ * \brief Set the value of supported ValueProperties to the value of the passed Variant
+ * \see JsonPropertyDeserializer
 */
 class SetValuePropertyVisitor :
     public PropertyVisitor<

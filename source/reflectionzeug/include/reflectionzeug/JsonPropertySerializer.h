@@ -4,7 +4,6 @@
 
 #include <reflectionzeug/AbstractPropertySerializer.h>
 
-#include <deque>
 #include <fstream>
 #include <functional>
 #include <vector>

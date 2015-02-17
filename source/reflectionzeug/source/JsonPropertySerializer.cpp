@@ -1,6 +1,5 @@
 #include <reflectionzeug/JsonPropertySerializer.h>
 
-#include <sstream>
 #include <iostream>
 
 #include <loggingzeug/logging.h>
