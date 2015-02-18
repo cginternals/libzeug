@@ -55,11 +55,16 @@ Variant AbstractProperty::option(const std::string & key) const
 void AbstractProperty::setOption(const std::string & key, const Variant & value)
 {
     m_options[key] = value;
+    optionChanged(key);
 }
 
 void AbstractProperty::setOptions(const VariantMap & map)
 {
-    m_options.insert(map.begin(), map.end());
+    for (auto pair : map)
+    {
+        m_options[pair.first] = pair.second;
+        optionChanged(pair.first);
+    }
 }
 
 bool AbstractProperty::removeOption(const std::string & key)
@@ -68,6 +73,7 @@ bool AbstractProperty::removeOption(const std::string & key)
         return false;
         
     m_options.erase(key);
+    optionChanged(key);
     return true;
 }
 

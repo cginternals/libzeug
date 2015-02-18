@@ -5,6 +5,7 @@
 
 #include <reflectionzeug/reflectionzeug_api.h>
 #include <reflectionzeug/Variant.h>
+#include <signalzeug/Signal.h>
 
 namespace reflectionzeug
 {
@@ -59,6 +60,11 @@ public:
     bool hasOption(const std::string & key) const;
 
     const VariantMap & options() const;
+
+    /**
+     * Is fired if an option of the name passed as argument is set or removed
+     */
+    signalzeug::Signal<const std::string &> optionChanged;
 
     /** \} */
     
