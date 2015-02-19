@@ -1,6 +1,6 @@
 #pragma once
 
-#include <QGraphicsView>
+#include <QWidget>
 
 #include <widgetzeug/widgetzeug_api.h>
 #include <widgetzeug/DpiAware.h>
@@ -10,15 +10,15 @@ namespace widgetzeug
 {
 
 /** 
- * @brief QGraphicsView that implementsDpiAware trait
+ * @brief QWidget that implments the DpiAware trait
  */
-class WIDGETZEUG_API DpiAwareGraphicsView : public QGraphicsView, protected DpiAware
+
+class WIDGETZEUG_API DpiAwareWidget : public QWidget, protected DpiAware
 {
     Q_OBJECT
 
 public:
-    DpiAwareGraphicsView(QWidget * parent = nullptr);
-    DpiAwareGraphicsView(QGraphicsScene * scene, QWidget * parent = 0);
+    DpiAwareWidget(QWidget * parent = nullptr);
 
     virtual qreal dpiBasedScale() const;
     virtual qreal devicePixelRatio() const;

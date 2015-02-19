@@ -19,10 +19,10 @@ namespace widgetzeug
 ColorSchemeGraphicsItemGroup::ColorSchemeGraphicsItemGroup(
     const QString & identifier,
     const DpiAwareGraphicsView * view)
-:   m_label(new QGraphicsTextItem(identifier, this))
-,   m_view(view)
-,   m_minClasses(std::numeric_limits<int>::max())
-,   m_maxClasses(0)
+: m_label{ new QGraphicsTextItem(identifier, this) }
+, m_view{ view }
+, m_minClasses{ std::numeric_limits<int>::max() }
+, m_maxClasses{ 0 }
 {
     m_label->setRotation(-90);
     m_label->setOpacity(0.33);
@@ -52,7 +52,7 @@ void ColorSchemeGraphicsItemGroup::addScheme(ColorScheme * scheme)
     if (m_schemeGraphicsItems.contains(scheme))
         return;
 
-    ColorSchemeGraphicsItem * item = new ColorSchemeGraphicsItem(m_view, scheme);
+    auto item = new ColorSchemeGraphicsItem(m_view, scheme);
     item->setY(-item->boundingRect().height());
     
     item->setParentItem(this);
@@ -82,7 +82,7 @@ bool ColorSchemeGraphicsItemGroup::setSelected(ColorScheme * scheme)
     if (!m_schemes.contains(scheme))
         return false;
         
-    ColorSchemeGraphicsItem * item = m_schemeGraphicsItems.value(scheme);
+    auto item = m_schemeGraphicsItems.value(scheme);
     item->setSelected(true);
     return true;
 }
@@ -90,7 +90,7 @@ bool ColorSchemeGraphicsItemGroup::setSelected(ColorScheme * scheme)
 QList<ColorSchemeGraphicsItem *> ColorSchemeGraphicsItemGroup::schemeGraphicsItems() const
 {
     QList<ColorSchemeGraphicsItem *> items;
-    for (ColorScheme * scheme : m_schemes)
+    for (auto scheme : m_schemes)
         items.append(m_schemeGraphicsItems.value(scheme));
     return items;
 }
@@ -108,7 +108,7 @@ void ColorSchemeGraphicsItemGroup::update(
 
     for (ColorScheme * scheme : m_schemes)
     {
-        ColorSchemeGraphicsItem * item = m_schemeGraphicsItems.value(scheme);
+        auto item = m_schemeGraphicsItems.value(scheme);
 
         item->updateVisibility(typeFilter, classesFilter);
 
@@ -117,8 +117,7 @@ void ColorSchemeGraphicsItemGroup::update(
 
         item->setX(left);
 
-        left += item->boundingRect().width();
-        left += m_view->invDevicePixelRatio();
+        left += 1.0 / m_view->devicePixelRatio() + item->boundingRect().width();
     }
 }
 
@@ -143,11 +142,12 @@ void ColorSchemeGraphicsItemGroup::updateVisibility(
     ColorScheme::ColorSchemeTypes typeFilter, 
     int classesFilter)
 {
-    bool isVisible = true;
+    auto isVisible = true;
+
     isVisible &= !m_schemes.isEmpty();
-    isVisible &= bool(typeFilter & m_types);
+    isVisible &= static_cast<bool>(typeFilter & m_types);
     isVisible &= m_minClasses <= classesFilter && m_maxClasses >= classesFilter;
-    
+
     setVisible(isVisible);
 }
 

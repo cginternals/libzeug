@@ -20,35 +20,36 @@ namespace widgetzeug
 class ColorSchemeGraphicsItem;
 class ColorSchemeGraphicsView;
 
-/** \brief Widget that shows a list of predefined color schemes.
-*
-* The color schemes can be inserted in named groups, and be filtered by type 
-* and number of data classes. Neither has an effect on the selected color 
-* scheme. Further, a simulated color vision deficiency preview can be applied,
-* aiding the selection process.
-*
-* The complete widget can be retrieved from a Json format (based on the Json 
-* provided by the ColorBrewer 2.0: \see http://colorbrewer2.org 
-* © Cynthia Brewer, Mark Harrower and The Pennsylvania State University)
-*
-* Json example (colorbrewer json format, extended by named categories):
-* \code{.json}
-* {
-*   "sequential\nmulti-hue": {
-*     "categorie-index": 0,
-*     "OrRd": {"3": ["(254,232,200)", "(253,187,132)", "(227, 74, 51)"], "4": ["(254,240,217)", "(253,204,138)", "(252,141, 89)", "(215, 48, 31)"], ..., "type": "seq"} ,
-*     "PuBu": {"3": ["(236,231,242)", "(166,189,219)", "( 43,140,190)"], "4": ["(241,238,246)", "(189,201,225)", "(116,169,207)", "(  5,112,176)"], ..., "type": "seq"} ,
-*     ...
-*   },
-*   "sequential\nsingle-hue": {
-*     "categorie-index": 1,
-*     "Oranges":  {"3": ["(254,230,206)", "(253,174,107)", "(230, 85, 13)"], "4": ["(254,237,222)", "(253,190,133)", "(253,141,60)", "(217,71,1)"], ..., "type": "seq"} ,
-*     ...
-*   },
-*   ...
-* }
-* \endcode
-*/
+/** 
+ * @brief Widget that shows a list of predefined color schemes.
+ *
+ * The color schemes can be inserted in named groups, and be filtered by type
+ * and number of data classes. Neither has an effect on the selected color 
+ * scheme. Further, a simulated color vision deficiency preview can be applied,
+ * aiding the selection process.
+ *
+ * The complete widget can be retrieved from a Json format (based on the Json 
+ * provided by the ColorBrewer 2.0: \see http://colorbrewer2.org 
+ * © Cynthia Brewer, Mark Harrower and The Pennsylvania State University)
+ *
+ * Json example (colorbrewer json format, extended by named categories):
+ * @code{.json}
+ * {
+ *   "sequential\nmulti-hue": {
+ *     "categorie-index": 0,
+ *     "OrRd": {"3": ["(254,232,200)", "(253,187,132)", "(227, 74, 51)"], "4": ["(254,240,217)", "(253,204,138)", "(252,141, 89)", "(215, 48, 31)"], ..., "type": "seq"} ,
+ *     "PuBu": {"3": ["(236,231,242)", "(166,189,219)", "( 43,140,190)"], "4": ["(241,238,246)", "(189,201,225)", "(116,169,207)", "(  5,112,176)"], ..., "type": "seq"} ,
+ *     ...
+ *   },
+ *   "sequential\nsingle-hue": {
+ *     "categorie-index": 1,
+ *     "Oranges":  {"3": ["(254,230,206)", "(253,174,107)", "(230, 85, 13)"], "4": ["(254,237,222)", "(253,190,133)", "(253,141,60)", "(217,71,1)"], ..., "type": "seq"} ,
+ *     ...
+ *   },
+ *   ...
+ * }
+ * @endcode
+ */
 class WIDGETZEUG_API ColorSchemePresetsWidget : public QWidget
 {
     Q_OBJECT
@@ -56,7 +57,8 @@ class WIDGETZEUG_API ColorSchemePresetsWidget : public QWidget
 public:
     // ToDo: add DataLinkWidget ...
 
-    static ColorSchemePresetsWidget * fromJson(QFile & file, QWidget * parent = nullptr);
+    static ColorSchemePresetsWidget * fromJson(const QString & fileName, QWidget * parent = nullptr);
+    static ColorSchemePresetsWidget * fromJson(const QJsonObject & json, QWidget * parent = nullptr);
 
 public:
     ColorSchemePresetsWidget(QWidget * parent = nullptr);

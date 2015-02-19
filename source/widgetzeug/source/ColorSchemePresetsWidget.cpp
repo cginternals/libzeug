@@ -47,8 +47,9 @@ ColorSchemePresetsWidget::~ColorSchemePresetsWidget()
 {
 }
 
-ColorSchemePresetsWidget * ColorSchemePresetsWidget::fromJson(QFile & file, QWidget * parent)
+ColorSchemePresetsWidget * ColorSchemePresetsWidget::fromJson(const QString & fileName, QWidget * parent)
 {
+    QFile file(fileName);
     if (!file.exists() || !file.open(QIODevice::ReadOnly | QIODevice::Text))
         return nullptr;
 
@@ -58,27 +59,34 @@ ColorSchemePresetsWidget * ColorSchemePresetsWidget::fromJson(QFile & file, QWid
     QJsonDocument doc = QJsonDocument::fromJson(json.toUtf8());
     QJsonObject groups = doc.object();
 
+    return fromJson(groups, parent);
+}
+
+ColorSchemePresetsWidget * ColorSchemePresetsWidget::fromJson(const QJsonObject & json, QWidget * parent)
+{
     ColorSchemePresetsWidget * widget = new ColorSchemePresetsWidget(parent);
 
     QMultiMap<int, QString> indexedCategories;
     
-    static const QString CATEGORIE_INDEX("categorie-index");
+    static const QString CATEGORY_INDEX("category-index");
 
-    for (const QString & group : groups.keys())
+    for (const QString & group : json.keys())
     {
-        QJsonObject schemes = groups[group].toObject();
-        const int index = schemes.value(CATEGORIE_INDEX).toInt();
+        QJsonObject schemes = json[group].toObject();
+        const int index = schemes.value(CATEGORY_INDEX).toInt();
 
         indexedCategories.insertMulti(index, group);
     }
     for (const int index : indexedCategories.keys())
+    {
         for (const QString & group : indexedCategories.values(index))
         {
-            QJsonObject schemes = groups[group].toObject();
-            schemes.take(CATEGORIE_INDEX);
+            QJsonObject schemes = json[group].toObject();
+            schemes.take(CATEGORY_INDEX);
             for (const QString & identifier : schemes.keys())
                 widget->insertScheme(group, ColorScheme::fromJson(identifier, schemes));
         }
+    }
 
 	widget->ensureDefaultSelection();
 

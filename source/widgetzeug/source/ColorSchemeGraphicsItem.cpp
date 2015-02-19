@@ -136,19 +136,20 @@ void ColorSchemeGraphicsItem::updateRects()
         QGraphicsRectItem * rect = new QGraphicsRectItem(this);
         
         QPen pen = s_pen;
-        pen.setWidthF(m_view->invDevicePixelRatio());
+        pen.setWidthF(1.0 / m_view->devicePixelRatio());
         rect->setPen(pen);
-        
+
         rect->setRect(padding, padding + i * rectSize.height(), rectSize.width(), rectSize.height());
         
         m_rects << rect;
     }
-    
+
     updateBrushes();
     updateTooltips();
 
-    m_frame->setRect(0, 0, rectSize.width() + 2 * padding + m_view->invDevicePixelRatio(),
-        rectSize.height() * m_classes + 2 * padding + m_view->invDevicePixelRatio());
+    const auto invRatio = 1.0 / m_view->devicePixelRatio();
+    m_frame->setRect(0, 0, rectSize.width() + 2.0 * padding + invRatio,
+        rectSize.height() * m_classes + 2.0 * padding + invRatio);
     
     update();
 }
@@ -200,7 +201,7 @@ void ColorSchemeGraphicsItem::updateTooltips()
     }
     
     QString tooltip = QString("%1 – %2").arg(m_scheme->identifier());
-    
+
     for (int i = 0; i < m_classes; ++i)
     {
         //QColor color = m_scheme->colors(m_classes)[i];

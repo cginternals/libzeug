@@ -60,7 +60,9 @@ set(api_includes
     ${header_path}/ColorScheme.h
     ${header_path}/ColorSchemePresetsWidget.h
     ${header_path}/DataLinkWidget.h
+    ${header_path}/DpiAware.h
     ${header_path}/DpiAwareGraphicsView.h
+    ${header_path}/DpiAwareWidget.h
     ${header_path}/RGBABrush.hpp
     # script widgets
     ${header_path}/ECMA26251_Completer.h
@@ -107,7 +109,9 @@ set(sources
     ${source_path}/ColorSchemePresetsWidget.ui
     ${source_path}/DataLinkWidget.cpp
     ${source_path}/DataLinkWidget.ui
+    ${source_path}/DpiAware.cpp
     ${source_path}/DpiAwareGraphicsView.cpp
+    ${source_path}/DpiAwareWidget.cpp
     ${source_path}/SingleColorSchemeGraphicsView.cpp
     ${source_path}/SingleColorSchemeGraphicsView.h
     # script widgets
