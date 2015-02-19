@@ -40,7 +40,7 @@ bool IniPropertyDeserializer::deserialize(PropertyGroup & group, const std::stri
     std::fstream fstream;
     fstream.open(filePath, std::ios_base::in);
     if (!fstream.is_open()) {
-        critical() << "Could not open file \"" << filePath << "\"" << std::endl;
+        warning() << "Could not open file \"" << filePath << "\"" << std::endl;
         return false;
     }
 
@@ -91,14 +91,14 @@ bool IniPropertyDeserializer::updateCurrentGroup(const std::string & line)
     }
 
     m_currentGroup = nullptr;
-    critical() << "Group with name \"" << groupName << "\" does not exist" << std::endl;
+    warning() << "Group with name \"" << groupName << "\" does not exist" << std::endl;
     return false;
 }
 
 bool IniPropertyDeserializer::setPropertyValue(const std::string & line)
 {
     if (!m_currentGroup) {
-        critical() << "Could not parse line\"" << line << "\"" << "because no existing group was declared" << std::endl;
+        warning() << "Could not parse line\"" << line << "\"" << "because no existing group was declared" << std::endl;
         return false;
     }
 
@@ -110,17 +110,17 @@ bool IniPropertyDeserializer::setPropertyValue(const std::string & line)
     AbstractProperty * property = m_currentGroup->property(path);
 
     if (!property) {
-        critical() << "Property path \"" << path << "\" " << "is invalid" << std::endl;
+        warning() << "Property path \"" << path << "\" " << "is invalid" << std::endl;
         return false;
     }
 
     if (!property->isValue()) {
-        critical() << "Tried to assign value to group with name: " << property->name() << std::endl;
+        warning() << "Tried to assign value to group with name: " << property->name() << std::endl;
         return false;
     }
 
     if (!property->asValue()->fromString(util::trim(valueString, false))) {
-        critical() << "Could not convert \"" << valueString << "\" to property." << std::endl;
+        warning() << "Could not convert \"" << valueString << "\" to property." << std::endl;
         return false;
     }
 

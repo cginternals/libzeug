@@ -51,6 +51,7 @@ protected:
     PropertyGroup * m_rootGroup;
     regex_namespace::smatch m_matches;
     std::list<PropertyGroup *> m_groupStack;
+    std::string m_currentGroupName;
 };
 
 } // namespace reflectionzeug

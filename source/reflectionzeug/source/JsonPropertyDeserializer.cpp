@@ -30,7 +30,7 @@ bool JsonPropertyDeserializer::deserialize(PropertyGroup & group, const std::str
     fstream.open(filePath, std::ios_base::in);
     if (!fstream.is_open())
     {
-        critical() << "Could not open file \"" << filePath << "\"" << std::endl;
+        warning() << "Could not open file \"" << filePath << "\"" << std::endl;
         return false;
     }
 
@@ -84,38 +84,45 @@ bool JsonPropertyDeserializer::updateCurrentGroup(const std::string & line)
 {
     assert(m_rootGroup);
 
-    std::string groupName;
     if (m_rootGroup->name().compare(m_matches[1]) == 0)
     {
         m_groupStack.clear();
         m_groupStack.push_back(m_rootGroup);
+        m_currentGroupName = m_rootGroup->name();
         return true;
     }
     else
     {
-        groupName = m_matches[1];
+        m_currentGroupName = m_matches[1];
     }
 
-    if (m_groupStack.back()->groupExists(groupName))
+    if (m_groupStack.back()->groupExists(m_currentGroupName))
     {
-        m_groupStack.push_back(m_groupStack.back()->group(groupName));
+        m_groupStack.push_back(m_groupStack.back()->group(m_currentGroupName));
         return true;
     }
 
-    critical() << "Group with name \"" << groupName << "\" does not exist" << std::endl;
+    warning() << "Group with name \"" << m_currentGroupName << "\" does not exist" << std::endl;
     return false;
 }
 
 void JsonPropertyDeserializer::endGroup()
 {
-    m_groupStack.pop_back();
+    if (m_groupStack.back()->name().compare(m_currentGroupName) == 0)
+    {
+        m_groupStack.pop_back();
+        if (!m_groupStack.empty())
+        {
+            m_currentGroupName = m_groupStack.back()->name();
+        }
+    }
 }
 
 bool JsonPropertyDeserializer::setPropertyValue(const std::string & line)
 {
     if (m_groupStack.size() == 0)
     {
-        critical() << "Could not parse line\"" << line << "\"" << "because no existing group was declared" << std::endl;
+        warning() << "Could not parse line\"" << line << "\"" << "because no existing group was declared" << std::endl;
         return false;
     }
 
@@ -132,7 +139,7 @@ bool JsonPropertyDeserializer::setPropertyValue(const std::string & line)
     }
     else
     {
-        critical() << "Property is not a ValueProperty, unable to assign a value" << std::endl;
+        warning() << "Property is not a ValueProperty, unable to assign a value" << std::endl;
     }
     return true;
 }
