@@ -9,6 +9,7 @@ namespace widgetzeug
 
 class ColorSchemeGraphicsItem;
 
+
 class SingleColorSchemeGraphicsView : public DpiAwareGraphicsView
 {
 public:

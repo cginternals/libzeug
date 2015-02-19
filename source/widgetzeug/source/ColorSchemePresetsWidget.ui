@@ -6,139 +6,15 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>389</width>
-    <height>276</height>
+    <width>373</width>
+    <height>174</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>Color Scheme Presets</string>
   </property>
-  <layout class="QVBoxLayout" name="verticalLayout">
-   <item>
-    <layout class="QHBoxLayout" name="horizontalLayout_2">
-     <item>
-      <widget class="QLabel" name="classesLabel">
-       <property name="text">
-        <string># &amp;Classes:</string>
-       </property>
-       <property name="buddy">
-        <cstring>classesSpinBox</cstring>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <widget class="QSpinBox" name="classesSpinBox">
-       <property name="minimum">
-        <number>3</number>
-       </property>
-       <property name="maximum">
-        <number>12</number>
-       </property>
-       <property name="value">
-        <number>3</number>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <spacer name="horizontalSpacer">
-       <property name="orientation">
-        <enum>Qt::Horizontal</enum>
-       </property>
-       <property name="sizeHint" stdset="0">
-        <size>
-         <width>40</width>
-         <height>20</height>
-        </size>
-       </property>
-      </spacer>
-     </item>
-     <item>
-      <widget class="QLabel" name="deficiencyLabel">
-       <property name="text">
-        <string>Color De&amp;ficiency:</string>
-       </property>
-       <property name="buddy">
-        <cstring>deficiencyComboBox</cstring>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <widget class="QComboBox" name="deficiencyComboBox"/>
-     </item>
-    </layout>
-   </item>
-   <item>
-    <layout class="QHBoxLayout" name="horizontalLayout_3">
-     <property name="topMargin">
-      <number>0</number>
-     </property>
-     <item>
-      <widget class="QLabel" name="label">
-       <property name="sizePolicy">
-        <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
-         <horstretch>0</horstretch>
-         <verstretch>0</verstretch>
-        </sizepolicy>
-       </property>
-       <property name="text">
-        <string>Preview:</string>
-       </property>
-       <property name="scaledContents">
-        <bool>false</bool>
-       </property>
-       <property name="buddy">
-        <cstring>colorSchemePreview</cstring>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <widget class="widgetzeug::SingleColorSchemeGraphicsView" name="colorSchemePreview">
-       <property name="sizePolicy">
-        <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
-         <horstretch>1</horstretch>
-         <verstretch>0</verstretch>
-        </sizepolicy>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <spacer name="horizontalSpacer_2">
-       <property name="orientation">
-        <enum>Qt::Horizontal</enum>
-       </property>
-       <property name="sizeHint" stdset="0">
-        <size>
-         <width>40</width>
-         <height>20</height>
-        </size>
-       </property>
-      </spacer>
-     </item>
-    </layout>
-   </item>
-   <item>
-    <widget class="widgetzeug::ColorSchemeGraphicsView" name="graphicsView">
-     <property name="autoFillBackground">
-      <bool>false</bool>
-     </property>
-     <property name="frameShadow">
-      <enum>QFrame::Plain</enum>
-     </property>
-     <property name="verticalScrollBarPolicy">
-      <enum>Qt::ScrollBarAlwaysOff</enum>
-     </property>
-     <property name="horizontalScrollBarPolicy">
-      <enum>Qt::ScrollBarAlwaysOn</enum>
-     </property>
-     <property name="interactive">
-      <bool>true</bool>
-     </property>
-     <property name="alignment">
-      <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
-     </property>
-    </widget>
-   </item>
-   <item>
+  <layout class="QGridLayout" name="gridLayout">
+   <item row="2" column="0" colspan="5">
     <layout class="QHBoxLayout" name="horizontalLayout">
      <item>
       <widget class="QLabel" name="typesLabel">
@@ -184,7 +60,7 @@
        </property>
        <property name="sizeHint" stdset="0">
         <size>
-         <width>13</width>
+         <width>123</width>
          <height>17</height>
         </size>
        </property>
@@ -192,7 +68,7 @@
      </item>
     </layout>
    </item>
-   <item>
+   <item row="3" column="0">
     <spacer name="verticalSpacer">
      <property name="orientation">
       <enum>Qt::Vertical</enum>
@@ -204,6 +80,73 @@
       </size>
      </property>
     </spacer>
+   </item>
+   <item row="0" column="4">
+    <widget class="QComboBox" name="deficiencyComboBox"/>
+   </item>
+   <item row="1" column="0" colspan="5">
+    <widget class="widgetzeug::ColorSchemeGraphicsView" name="graphicsView">
+     <property name="autoFillBackground">
+      <bool>false</bool>
+     </property>
+     <property name="frameShadow">
+      <enum>QFrame::Plain</enum>
+     </property>
+     <property name="verticalScrollBarPolicy">
+      <enum>Qt::ScrollBarAlwaysOff</enum>
+     </property>
+     <property name="horizontalScrollBarPolicy">
+      <enum>Qt::ScrollBarAlwaysOn</enum>
+     </property>
+     <property name="interactive">
+      <bool>true</bool>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+     </property>
+    </widget>
+   </item>
+   <item row="0" column="0">
+    <widget class="QLabel" name="classesLabel">
+     <property name="text">
+      <string># &amp;Classes:</string>
+     </property>
+     <property name="buddy">
+      <cstring>classesSpinBox</cstring>
+     </property>
+    </widget>
+   </item>
+   <item row="0" column="1">
+    <widget class="QSpinBox" name="classesSpinBox"/>
+   </item>
+   <item row="0" column="2">
+    <widget class="widgetzeug::SingleColorSchemeGraphicsView" name="colorSchemePreview">
+     <property name="sizePolicy">
+      <sizepolicy hsizetype="Preferred" vsizetype="Ignored">
+       <horstretch>0</horstretch>
+       <verstretch>0</verstretch>
+      </sizepolicy>
+     </property>
+    </widget>
+   </item>
+   <item row="0" column="3">
+    <widget class="QLabel" name="deficiencyLabel">
+     <property name="sizePolicy">
+      <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
+       <horstretch>0</horstretch>
+       <verstretch>0</verstretch>
+      </sizepolicy>
+     </property>
+     <property name="text">
+      <string>De&amp;ficiency:</string>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+     </property>
+     <property name="buddy">
+      <cstring>deficiencyComboBox</cstring>
+     </property>
+    </widget>
    </item>
   </layout>
  </widget>

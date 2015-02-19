@@ -19,9 +19,6 @@
 namespace widgetzeug
 {
 
-const QSize ColorSchemeGraphicsItem::s_rectSize({ 15, 15 }); // + 1px outline each -> 16x16
-const int ColorSchemeGraphicsItem::s_padding = 2;
-
 const QBrush ColorSchemeGraphicsItem::s_selectedBrush   = QColor("#b0b0b0");
 const QBrush ColorSchemeGraphicsItem::s_hoveredBrush    = QColor("#d0d0d0");
 const QPen ColorSchemeGraphicsItem::s_pen               = QColor("#d0d0d0");
@@ -31,12 +28,14 @@ ColorSchemeGraphicsItem::ColorSchemeGraphicsItem(
     ColorScheme * scheme,
     QGraphicsItem * parent) 
 :   QGraphicsObject(parent)
-,   m_view(view)
-,   m_scheme(scheme)
-,   m_deficiency(ColorScheme::None)
-,   m_frame(new QGraphicsRectItem(this))
-,   m_selected(false)
-,   m_detailedTooltip(false)
+,   m_view{ view }
+,   m_scheme{ scheme }
+,   m_deficiency{ ColorScheme::None }
+,   m_frame{ new QGraphicsRectItem(this) }
+,   m_rectSize{ 15, 15 } // + 1px outline each -> 16x16
+,   m_padding{ 2.0 }
+,   m_selected{ false }
+,   m_detailedTooltip{ false }
 {
     setAcceptHoverEvents(true);
 
@@ -93,6 +92,34 @@ ColorScheme::ColorVisionDeficiency ColorSchemeGraphicsItem::deficiency() const
     return m_deficiency;
 }
 
+void ColorSchemeGraphicsItem::setPadding(const qreal padding)
+{
+    if (padding == m_padding)
+        return;
+
+    m_padding = padding;
+    updateRects();
+}
+
+qreal ColorSchemeGraphicsItem::padding() const
+{
+    return m_padding;
+}
+
+void ColorSchemeGraphicsItem::setRectSize(const QSizeF & size)
+{
+    if (size == m_rectSize)
+        return;
+
+    m_rectSize = size;
+    updateRects();
+}
+
+const QSizeF & ColorSchemeGraphicsItem::rectSize() const
+{
+    return m_rectSize;
+}
+
 void ColorSchemeGraphicsItem::setSelected(bool selected, bool signal)
 {
     if (selected == m_selected)
@@ -127,20 +154,20 @@ void ColorSchemeGraphicsItem::updateRects()
 {
     qDeleteAll(m_rects);
     m_rects.clear();
-    
-    const QSizeF rectSize = s_rectSize * m_view->dpiBasedScale();
-    const int padding     = s_padding  * m_view->dpiBasedScale();
+
+    const QSize rectSize = m_rectSize.toSize() * m_view->dpiBasedScale();
+    const int padding  = m_padding * m_view->dpiBasedScale(); // this is required to be an int
 
     for (int i = 0; i < m_classes; ++i)
     {
-        QGraphicsRectItem * rect = new QGraphicsRectItem(this);
-        
-        QPen pen = s_pen;
+        auto rect = new QGraphicsRectItem(this);
+
+        auto pen = s_pen;
         pen.setWidthF(1.0 / m_view->devicePixelRatio());
         rect->setPen(pen);
 
         rect->setRect(padding, padding + i * rectSize.height(), rectSize.width(), rectSize.height());
-        
+
         m_rects << rect;
     }
 
@@ -172,11 +199,11 @@ void ColorSchemeGraphicsItem::updateBrushes()
 {
     for (int i = 0; i < m_classes; ++i)
     {
-        QGraphicsRectItem * rect(m_rects[i]);
+        auto rect(m_rects[i]);
 
         if (m_scheme)
         {
-            QColor color = m_scheme->colors(m_classes)[i];
+            auto color = m_scheme->colors(m_classes)[i];
             color = ColorScheme::daltonize(color, m_deficiency);
 
             rect->setBrush(RGBABrush(color));
@@ -200,7 +227,7 @@ void ColorSchemeGraphicsItem::updateTooltips()
         return;
     }
     
-    QString tooltip = QString("%1 – %2").arg(m_scheme->identifier());
+    auto tooltip = QString("%1 – %2").arg(m_scheme->identifier());
 
     for (int i = 0; i < m_classes; ++i)
     {

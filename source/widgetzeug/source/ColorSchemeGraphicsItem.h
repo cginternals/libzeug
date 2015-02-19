@@ -22,10 +22,6 @@ class DpiAwareGraphicsView;
 class ColorSchemeGraphicsItem : public QGraphicsObject
 {
     Q_OBJECT
-
-public:
-    static const QSize s_rectSize;
-    static const int s_padding;
     
 public:
     ColorSchemeGraphicsItem(const DpiAwareGraphicsView * view,
@@ -42,6 +38,12 @@ public:
     
     void setDeficiency(ColorScheme::ColorVisionDeficiency deficiency);
     ColorScheme::ColorVisionDeficiency deficiency() const;
+
+    void setPadding(qreal padding);
+    qreal padding() const;
+
+    void setRectSize(const QSizeF & size);
+    const QSizeF & rectSize() const;
 
     void setSelected(bool selected, bool signal = false);
     bool isSelected() const;
@@ -81,6 +83,9 @@ protected:
     QList<QGraphicsRectItem *> m_rects;
     QGraphicsRectItem * m_frame;
 
+    QSizeF m_rectSize;
+    qreal m_padding;
+    
     int m_classes;
     bool m_selected;
     bool m_detailedTooltip;

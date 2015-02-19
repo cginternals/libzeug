@@ -38,6 +38,10 @@ ColorSchemePresetsWidget::ColorSchemePresetsWidget(QWidget * parent)
 
     connect(m_ui->graphicsView, &ColorSchemeGraphicsView::selectedChanged,
             this, &ColorSchemePresetsWidget::selectedChanged);
+
+    connect(m_ui->graphicsView, &ColorSchemeGraphicsView::selectedChanged, [this]() { 
+            this->m_ui->classesSpinBox->setMinimum(this->selected()->minClasses());
+            this->m_ui->classesSpinBox->setMaximum(this->selected()->maxClasses()); });
             
     connect(m_ui->graphicsView, &ColorSchemeGraphicsView::selectedChanged,
             m_ui->colorSchemePreview, &SingleColorSchemeGraphicsView::setScheme);

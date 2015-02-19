@@ -22,13 +22,15 @@ SingleColorSchemeGraphicsView::SingleColorSchemeGraphicsView(QWidget * parent)
     
     QPalette palette = this->palette();
     setBackgroundBrush(QBrush(palette.color(QPalette::Window)));
-    
+
     scene()->addItem(m_item);
-    m_item->setRotation(-90.f);
+    m_item->setRotation(-90.0);
+    m_item->setRectSize({ 7.0, 7.0 });
+    m_item->setPadding(0.0);
     m_item->setDetailedTooltip(true);
-    m_item->setPos(0.f, 
-                   m_item->boundingRect().width());
-    setFixedHeight(std::ceil(m_item->boundingRect().width()));
+    m_item->setPos(0.f, m_item->boundingRect().width());
+
+    setFixedHeight(std::ceil(m_item->boundingRect().width()) + 1);
 }
 
 void SingleColorSchemeGraphicsView::setScheme(ColorScheme * scheme)
@@ -57,9 +59,7 @@ ColorScheme::ColorVisionDeficiency SingleColorSchemeGraphicsView::deficiency() c
 void SingleColorSchemeGraphicsView::setClasses(int classes)
 {
     m_item->setClasses(classes);
-    scene()->setSceneRect(0.f, 0.f,
-                          m_item->boundingRect().height(),
-                          m_item->boundingRect().width());
+    scene()->setSceneRect(0.0, 0.0, m_item->boundingRect().height(), m_item->boundingRect().width());
     setFixedWidth(std::ceil(m_item->boundingRect().height()));
     m_item->update();
 }
