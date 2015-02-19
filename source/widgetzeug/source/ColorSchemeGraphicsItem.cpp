@@ -220,15 +220,14 @@ void ColorSchemeGraphicsItem::updateTooltips()
         setToolTip("");
         return;
     }
-        
+
     if (!m_detailedTooltip)
     {
-        setToolTip(m_scheme->identifier());
+        setToolTip(QString("%1 (%2 to %3 classes)").arg(m_scheme->identifier()).arg(m_scheme->minClasses()).arg(m_scheme->maxClasses()));
         return;
     }
     
-    auto tooltip = QString("%1 – %2").arg(m_scheme->identifier());
-
+    const auto tooltip = QString("%1 - %2").arg(m_scheme->identifier());
     for (int i = 0; i < m_classes; ++i)
     {
         //QColor color = m_scheme->colors(m_classes)[i];

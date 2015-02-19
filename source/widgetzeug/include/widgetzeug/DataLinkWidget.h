@@ -35,7 +35,7 @@ protected slots:
     void on_browsePushButton_clicked(bool);
     void on_exportPushButton_clicked(bool);
 
-    void on_autoCheckBox_stateChanged(int state);
+    void on_linkCheckBox_stateChanged(int state);
 
 private:
     bool isRecent(const QString & fileName);

@@ -47,7 +47,7 @@ DataLinkWidget::DataLinkWidget(QWidget * parent)
         this, &DataLinkWidget::fileChanged);
 
     m_ui->dataComboBox->setValidator(new FileExistsValidator{m_ui->dataComboBox});
-    m_ui->autoCheckBox->setCheckState(m_watchFile ? Qt::Checked : Qt::Unchecked);
+    m_ui->linkCheckBox->setCheckState(m_watchFile ? Qt::Checked : Qt::Unchecked);
 }
 
 QString DataLinkWidget::linkedFileName() const
@@ -126,7 +126,7 @@ void DataLinkWidget::on_dataComboBox_currentIndexChanged(const int index)
     emit fileChanged(m_ui->dataComboBox->currentText());
 }
 
-void DataLinkWidget::on_autoCheckBox_stateChanged(const int state)
+void DataLinkWidget::on_linkCheckBox_stateChanged(const int state)
 {
     auto checkState = static_cast<Qt::CheckState>(state);
     m_watchFile = checkState == Qt::Checked;

@@ -72,18 +72,18 @@ int main(int argc, char *argv[])
 
     auto gradientButton = new QPushButton{ "Color Gradient Widget" };
 
-    auto label = new QLabel{ &mainWidget };
-    label->setScaledContents(true);
-    label->setMinimumHeight(32);    
+    auto gradientLabel = new QLabel{ &mainWidget };
+    gradientLabel->setScaledContents(true);
+    gradientLabel->setMinimumHeight(32);
 
     QObject::connect(gradientButton, &QPushButton::pressed,
-        [label] () {  getOrCreateColorGradientWidget(label)->show(); });
+        [gradientLabel] () {  getOrCreateColorGradientWidget(gradientLabel)->show(); });
 
     auto layout = new QVBoxLayout{ &mainWidget };
     layout->addWidget(schemeButton);
     layout->addWidget(hline);
     layout->addWidget(gradientButton);
-    layout->addWidget(label);
+    layout->addWidget(gradientLabel);
 
     mainWidget.show();
 
