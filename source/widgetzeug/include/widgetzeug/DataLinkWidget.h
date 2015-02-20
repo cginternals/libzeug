@@ -22,7 +22,7 @@ public:
     bool linkedFileExists() const;
 
     bool browse();
-    void export();
+    void export_();
 
 signals:
     // ToDo: rename signals

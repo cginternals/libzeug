@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>364</width>
-    <height>28</height>
+    <height>34</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -67,7 +67,7 @@
    <item>
     <widget class="QCheckBox" name="linkCheckBox">
      <property name="text">
-      <string>&amp;link</string>
+      <string>&amp;Link</string>
      </property>
      <property name="checked">
       <bool>true</bool>

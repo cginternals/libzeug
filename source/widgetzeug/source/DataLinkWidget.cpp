@@ -102,8 +102,10 @@ bool DataLinkWidget::browse()
     return true;
 }
 
-void DataLinkWidget::export()
+void DataLinkWidget::export_()
 {
+    // ToDo: empty linked file name should open save dialog instead of open dialog. 
+    
     if (linkedFileName().isEmpty())
         browse();
 
@@ -117,7 +119,7 @@ void DataLinkWidget::on_browsePushButton_clicked(bool)
 
 void DataLinkWidget::on_exportPushButton_clicked(bool)
 {
-    export();
+    export_();
 }
 
 void DataLinkWidget::on_dataComboBox_currentIndexChanged(const int index)
