@@ -12,36 +12,32 @@ namespace reflectionzeug
 Color Color::fromString(const std::string & string, bool * ok)
 {
     *ok = util::matchesRegex(string, "#([0-9A-Fa-f]{8}|[0-9A-Fa-f]{6})");
-    
-    if (!(*ok))
-        return Color();
-        
+
+    if (!*ok)
+        return Color{};
+
     auto hexString = string.substr(1, string.length());
-    
+
     if (hexString.size() == 6)
         hexString = "FF" + hexString;
 
-    std::stringstream stream(hexString);
-    unsigned int colorHex;
-    stream >> std::hex >> std::uppercase;
-    stream >> colorHex;
+    auto rgba = 0u;
 
-    return Color(colorHex);
+    auto stream = std::stringstream{hexString};
+    stream >> std::hex;
+    stream >> rgba;
+
+    return Color{rgba};
 }
 
 Color::Color()
+:   m_v{0u}
 {
-	v = 0;
-}
-
-Color::Color(const Color & color)
-{
-	v = color.rgba();
 }
 
 Color::Color(unsigned int rgba)
+:   m_v{rgba}
 {
-    v = rgba;
 }
 
 Color::Color(int red, int green, int blue, int alpha)
@@ -50,10 +46,6 @@ Color::Color(int red, int green, int blue, int alpha)
     m_rgba.r = static_cast<unsigned char>(red);
     m_rgba.g = static_cast<unsigned char>(green);
     m_rgba.b = static_cast<unsigned char>(blue);
-}
-
-Color::~Color()
-{
 }
 
 int Color::red() const
@@ -102,25 +94,27 @@ void Color::setAlpha(int value)
 
 unsigned int Color::rgba() const
 {
-    return v;
+    return m_v;
 }
 
 void Color::setRgba(unsigned int rgba)
 {
-    v = rgba;
+    m_v = rgba;
 }
 
 std::string Color::asHex(bool alpha) const
 {
-    std::stringstream stream;
+    auto stream = std::stringstream{};
     stream << "#";
-    stream << std::hex << std::uppercase << std::setw(2) << std::setfill('0');
+    stream << std::hex << std::uppercase;
 
     if (alpha)
-        stream << rgba();
-    else
-        stream << red() << green() << blue();
-    
+        stream << std::setw(2) << std::setfill('0') << this->alpha();
+
+    stream << std::setw(2) << std::setfill('0') << red();
+    stream << std::setw(2) << std::setfill('0') << green();
+    stream << std::setw(2) << std::setfill('0') << blue();
+
     return stream.str();
 }
 
@@ -132,6 +126,16 @@ std::string Color::toString() const
 std::string Color::toString(bool alpha) const
 {
     return asHex(alpha);
+}
+
+bool Color::operator==(const Color & rhs) const
+{
+    return m_v == rhs.m_v;
+}
+
+bool Color::operator!=(const Color & rhs) const
+{
+    return !(*this == rhs);
 }
 
 } // namespace reflectionzeug
