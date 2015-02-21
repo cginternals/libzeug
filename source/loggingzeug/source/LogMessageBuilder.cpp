@@ -110,6 +110,12 @@ LogMessageBuilder & LogMessageBuilder::operator<<(unsigned long ul)
 	return *this;
 }
 
+LogMessageBuilder & LogMessageBuilder::operator<<(unsigned long long ul)
+{
+    *m_stream << ul;
+    return *this;
+}
+
 LogMessageBuilder & LogMessageBuilder::operator<<(unsigned char uc)
 {
     *m_stream << uc;
