@@ -16,6 +16,7 @@ namespace widgetzeug
 class ColorSchemeGraphicsItem;
 class ColorSchemeGraphicsItemGroup;
 
+
 class ColorSchemeGraphicsView : public DpiAwareGraphicsView
 {
     Q_OBJECT
@@ -25,21 +26,25 @@ public:
     virtual ~ColorSchemeGraphicsView();
 
     void createGroup(const QString & identifier);
-    void insertScheme(const QString & group, ColorScheme * scheme);
 
-    void setSelected(ColorScheme * scheme);
-    ColorScheme * selected();
+    void insertScheme(const QString & group, const ColorScheme & scheme);
+
+    void setSelected(const ColorScheme * scheme);
+    const ColorScheme * selected();
 
     void setTypeFilter(const ColorScheme::ColorSchemeTypes & types);
     const ColorScheme::ColorSchemeTypes & typeFilter() const;
 
-    void setClassesFilter(int classes);
-    int classesFilter() const;
+    void setClassesFilter(uint classes);
+    uint classesFilter() const;
 
     void setDeficiency(ColorScheme::ColorVisionDeficiency deficiency);
     ColorScheme::ColorVisionDeficiency deficiency() const;
 
-	virtual void ensureDefaultSelection();
+    uint minClasses() const;
+    uint maxClasses() const;
+
+    void ensureDefaultSelection();
 
 protected:
     virtual void keyPressEvent(QKeyEvent * event);
@@ -47,11 +52,11 @@ protected:
     void setSelectedItem(ColorSchemeGraphicsItem * item);
 
 signals:
-    void selectedChanged(ColorScheme * scheme);
+    void selectedChanged(const ColorScheme * scheme);
     
 private:
     void update();
-    QList<ColorScheme *> visibleSchemes() const;
+    QVector<const ColorScheme *> schemes(bool visible = true) const;
 
 private:
     QStringList m_groups;
@@ -61,6 +66,7 @@ private:
 
     ColorScheme::ColorSchemeTypes m_typeFilter;
     ColorScheme::ColorVisionDeficiency m_deficiency;
+
     int m_classesFilter;
 
     static const int s_padding;

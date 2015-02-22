@@ -23,7 +23,6 @@ namespace widgetzeug
  *       each inserted wrapped by a QGroupBox
  *   - A stretch as last item of the VBoxLayout
  *
-
  * Note: do not use setWidget() and widget() of QDockWidget's interface, 
  * but instead use addWidget to insert widgets into this dockable widget.
  *

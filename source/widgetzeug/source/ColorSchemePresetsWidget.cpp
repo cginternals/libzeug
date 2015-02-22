@@ -1,21 +1,19 @@
 #include <widgetzeug/ColorSchemePresetsWidget.h>
 
-#include <cassert>
+#include <assert.h>
 
 #include <QMultiMap>
-#include <QJsonDocument>
-#include <QJsonObject>
-#include <QJsonArray>
 #include <QWheelEvent>
 #include <QFile>
 #include <QScreen>
 #include <QScrollBar>
-#include <QDebug>
 #include <QWindow>
 
 #include <widgetzeug/ColorScheme.h>
+#include <widgetzeug/ColorSchemePresets.h>
 
 #include "ui_ColorSchemePresetsWidget.h"
+
 #include "ColorSchemeGraphicsItem.h"
 #include "ColorSchemeGraphicsView.h"
 
@@ -25,76 +23,37 @@ namespace widgetzeug
 
 ColorSchemePresetsWidget::ColorSchemePresetsWidget(QWidget * parent)
 :   QWidget(parent)
-,   m_ui(new Ui_ColorSchemePresetWidget)
+, m_ui{ new Ui_ColorSchemePresetWidget }
 {
-    m_ui->setupUi(this);
-    setClassesFilter(m_ui->classesSpinBox->value());
+    initialize();
+}
 
-    m_ui->deficiencyComboBox->addItem("None",        ColorScheme::None);
-    m_ui->deficiencyComboBox->addItem("Grayscale",   ColorScheme::Grayscale);
-    m_ui->deficiencyComboBox->addItem("Protanope",   ColorScheme::Protanope);
-    m_ui->deficiencyComboBox->addItem("Deuteranope", ColorScheme::Deuteranope);
-    m_ui->deficiencyComboBox->addItem("Tritanope",   ColorScheme::Tritanope);
+ColorSchemePresetsWidget::ColorSchemePresetsWidget(const ColorSchemePresets & presets, QWidget * parent)
+: QWidget(parent)
+, m_ui{ new Ui_ColorSchemePresetWidget }
+{
+    initialize();
 
-    connect(m_ui->graphicsView, &ColorSchemeGraphicsView::selectedChanged,
-            this, &ColorSchemePresetsWidget::selectedChanged);
-
-    connect(m_ui->graphicsView, &ColorSchemeGraphicsView::selectedChanged, [this]() { 
-            this->m_ui->classesSpinBox->setMinimum(this->selected()->minClasses());
-            this->m_ui->classesSpinBox->setMaximum(this->selected()->maxClasses()); });
-            
-    connect(m_ui->graphicsView, &ColorSchemeGraphicsView::selectedChanged,
-            m_ui->colorSchemePreview, &SingleColorSchemeGraphicsView::setScheme);
+    for (const auto & category : presets)
+        for (const auto & scheme : category)
+            insertScheme(category.identifier(), scheme);
 }
 
 ColorSchemePresetsWidget::~ColorSchemePresetsWidget()
 {
 }
 
-ColorSchemePresetsWidget * ColorSchemePresetsWidget::fromJson(const QString & fileName, QWidget * parent)
+void ColorSchemePresetsWidget::initialize()
 {
-    QFile file(fileName);
-    if (!file.exists() || !file.open(QIODevice::ReadOnly | QIODevice::Text))
-        return nullptr;
+    m_ui->setupUi(this);
+    setClassesFilter(m_ui->classesSpinBox->value());
 
-    const QString json = QString::fromUtf8(file.readAll());
-    file.close();
+    for (auto deficiency : ColorScheme::s_deficiencies.keys())
+        m_ui->deficiencyComboBox->addItem(ColorScheme::s_deficiencies[deficiency]
+            , static_cast<deficiency_type>(deficiency));
 
-    QJsonDocument doc = QJsonDocument::fromJson(json.toUtf8());
-    QJsonObject groups = doc.object();
-
-    return fromJson(groups, parent);
-}
-
-ColorSchemePresetsWidget * ColorSchemePresetsWidget::fromJson(const QJsonObject & json, QWidget * parent)
-{
-    ColorSchemePresetsWidget * widget = new ColorSchemePresetsWidget(parent);
-
-    QMultiMap<int, QString> indexedCategories;
-    
-    static const QString CATEGORY_INDEX("category-index");
-
-    for (const QString & group : json.keys())
-    {
-        QJsonObject schemes = json[group].toObject();
-        const int index = schemes.value(CATEGORY_INDEX).toInt();
-
-        indexedCategories.insertMulti(index, group);
-    }
-    for (const int index : indexedCategories.keys())
-    {
-        for (const QString & group : indexedCategories.values(index))
-        {
-            QJsonObject schemes = json[group].toObject();
-            schemes.take(CATEGORY_INDEX);
-            for (const QString & identifier : schemes.keys())
-                widget->insertScheme(group, ColorScheme::fromJson(identifier, schemes));
-        }
-    }
-
-	widget->ensureDefaultSelection();
-
-    return widget;
+    connect(m_ui->graphicsView, &ColorSchemeGraphicsView::selectedChanged
+        , this, &ColorSchemePresetsWidget::selectedChanged);
 }
 
 void ColorSchemePresetsWidget::createGroup(const QString & identifier)
@@ -102,17 +61,20 @@ void ColorSchemePresetsWidget::createGroup(const QString & identifier)
     m_ui->graphicsView->createGroup(identifier);
 }
 
-void ColorSchemePresetsWidget::insertScheme(const QString & group, ColorScheme * scheme)
+void ColorSchemePresetsWidget::insertScheme(const QString & group, const ColorScheme & scheme)
 {
     m_ui->graphicsView->insertScheme(group, scheme);
+
+    m_ui->classesSpinBox->setMinimum(m_ui->graphicsView->minClasses());
+    m_ui->classesSpinBox->setMaximum(m_ui->graphicsView->maxClasses());
 }
 
-void ColorSchemePresetsWidget::setSelected(ColorScheme * scheme)
+void ColorSchemePresetsWidget::setSelected(const ColorScheme * scheme)
 {
     m_ui->graphicsView->setSelected(scheme);
 }
 
-ColorScheme * ColorSchemePresetsWidget::selected()
+const ColorScheme * ColorSchemePresetsWidget::selected()
 {
     return m_ui->graphicsView->selected();
 }
@@ -122,42 +84,35 @@ void ColorSchemePresetsWidget::setTypeFilter(const ColorScheme::ColorSchemeTypes
     m_ui->graphicsView->setTypeFilter(types);
 }
 
-const ColorScheme::ColorSchemeTypes & ColorSchemePresetsWidget::typeFilter() const
+ColorScheme::ColorSchemeTypes ColorSchemePresetsWidget::typeFilter() const
 {
     return m_ui->graphicsView->typeFilter();
 }
 
-void ColorSchemePresetsWidget::setClassesFilter(int classes)
+void ColorSchemePresetsWidget::setClassesFilter(uint classes)
 {
     m_ui->graphicsView->setClassesFilter(classes);
-    m_ui->colorSchemePreview->setClasses(classes);
 }
 
-int ColorSchemePresetsWidget::classesFilter() const
+uint ColorSchemePresetsWidget::classesFilter() const
 {
     return m_ui->graphicsView->classesFilter();
 }
 
 void ColorSchemePresetsWidget::setDeficiency(ColorScheme::ColorVisionDeficiency deficiency)
 {
-    int index = m_ui->deficiencyComboBox->findData(deficiency);
+    int index = m_ui->deficiencyComboBox->findData(static_cast<deficiency_type>(deficiency));
 
-    m_ui->deficiencyComboBox->blockSignals(true);
+    m_ui->deficiencyComboBox->blockSignals(true); 
     m_ui->deficiencyComboBox->setCurrentIndex(index);
     m_ui->deficiencyComboBox->blockSignals(false);
 
     m_ui->graphicsView->setDeficiency(deficiency);
-    m_ui->colorSchemePreview->setDeficiency(deficiency);
 }
 
 ColorScheme::ColorVisionDeficiency ColorSchemePresetsWidget::deficiency() const
 {
     return m_ui->graphicsView->deficiency();
-}
-
-void ColorSchemePresetsWidget::ensureDefaultSelection()
-{
-	m_ui->graphicsView->ensureDefaultSelection();
 }
 
 void ColorSchemePresetsWidget::on_sequentialCheckBox_stateChanged(int state)
@@ -166,8 +121,6 @@ void ColorSchemePresetsWidget::on_sequentialCheckBox_stateChanged(int state)
         setTypeFilter(typeFilter() | ColorScheme::Sequential);
     else    
         setTypeFilter(typeFilter() ^ ColorScheme::Sequential);
-	
-	ensureDefaultSelection();
 }
 
 void ColorSchemePresetsWidget::on_divergingCheckBox_stateChanged(int state)
@@ -176,8 +129,6 @@ void ColorSchemePresetsWidget::on_divergingCheckBox_stateChanged(int state)
         setTypeFilter(typeFilter() | ColorScheme::Diverging);
     else
         setTypeFilter(typeFilter() ^ ColorScheme::Diverging);
-
-	ensureDefaultSelection();
 }
 
 void ColorSchemePresetsWidget::on_qualitativeCheckBox_stateChanged(int state)
@@ -186,8 +137,6 @@ void ColorSchemePresetsWidget::on_qualitativeCheckBox_stateChanged(int state)
         setTypeFilter(typeFilter() | ColorScheme::Qualitative);
     else
         setTypeFilter(typeFilter() ^ ColorScheme::Qualitative);
-
-	ensureDefaultSelection();
 }
 
 void ColorSchemePresetsWidget::on_classesSpinBox_valueChanged(int value)

@@ -1,7 +1,7 @@
 #pragma once
 
 #include <QMap>
-#include <QList>
+#include <QVector>
 #include <QFlags>
 #include <QColor>
 
@@ -23,10 +23,10 @@ namespace widgetzeug
 * on the nature of the mapped data. 
 *
 * A color scheme can either be specified programmatically or by a JsonObject.
-* Example for such an JsonObject:
+* Example for such a JsonObject:
 * \code{.json}
 * ...
-*     "OrRd": {"3": ["(254,232,200)", "(253,187,132)", "(227, 74, 51)"], "4": ["(254,240,217)", "(253,204,138)", "(252,141, 89)", "(215, 48, 31)"], ..., "type": "seq"} ,
+*     "OrRd": {"3": ["(254,232,200)", "(253,187,132)", "(227, 74, 51)"], "4": ["(254,240,217)", "(253,204,138)", "(252,141, 89)", "(215, 48, 31)"], ..., "type": "Sequential"} ,
 * ...
 * \endcode
 * }
@@ -44,13 +44,14 @@ public:
     enum ColorSchemeType
     {
         Unknown     = 0
-    ,   Sequential  = 1 // "seq"
-    ,   Diverging   = 2 // "div"
-    ,   Qualitative = 4 // "qual"
+    ,   Sequential  = 1
+    ,   Diverging   = 2
+    ,   Qualitative = 4
     };
     Q_DECLARE_FLAGS(ColorSchemeTypes, ColorSchemeType)
+    static const QMap<ColorSchemeType, QString> s_types;
 
-    enum ColorVisionDeficiency
+    enum class ColorVisionDeficiency
     {
         None
     ,   Protanope   // reds are greatly reduced   (1% men)
@@ -58,8 +59,7 @@ public:
     ,   Tritanope   // blues are greatly reduced  (0.003% population)
     ,   Grayscale   // not an actual deficiency, but useful
     };
-
-    static ColorScheme * fromJson(const QString & identifier, const QJsonObject & object);
+    static const QMap<ColorVisionDeficiency, QString> s_deficiencies;
 
     static QColor daltonize(const QColor & color, ColorVisionDeficiency deficiency);
 
@@ -67,27 +67,29 @@ public:
     ColorScheme();
     ColorScheme(const QString & identifier);
     ColorScheme(const QString & identifier, ColorSchemeType type);
+    ColorScheme(const QString & identifier, QJsonObject scheme);
 
     virtual ~ColorScheme();
 
     void setIdentifier(const QString & identifier);
     const QString & identifier() const;
 
-    void setColors(const QList<QColor> & colors);
-    const QList<QColor> colors(int classes) const;
+    void setColors(const QVector<QColor> & colors);
+    const QVector<QColor> colors(uint classes) const;
 
     void setType(ColorSchemeType type);
     ColorSchemeType type() const;
 
-    int minClasses() const;
-    int maxClasses() const;
+    uint minClasses() const;
+    uint maxClasses() const;
 
 protected:
     QString m_identifier;
     ColorSchemeType m_type;
 
-    QMap<int, QList<QColor>> m_colorsByClass;
+    QMap<uint, QVector<QColor>> m_colorsByClass;
 };
 
 } // namespace widgetzeug
 
+bool WIDGETZEUG_API operator ==(const widgetzeug::ColorScheme & a, const widgetzeug::ColorScheme & b);

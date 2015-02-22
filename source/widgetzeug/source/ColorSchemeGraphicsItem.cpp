@@ -9,10 +9,13 @@
 #include <QScreen>
 #include <QGraphicsSceneHoverEvent>
 #include <QGraphicsView>
+#include <QGraphicsWidget>
 #include <QToolTip>
 
+#include <QDebug>
+
 #include <widgetzeug/ColorScheme.h>
-#include <widgetzeug/DpiAwareGraphicsView.h>
+#include <widgetzeug/DpiAware.h>
 #include <widgetzeug/RGBABrush.hpp>
 
 
@@ -21,18 +24,16 @@ namespace widgetzeug
 
 const QBrush ColorSchemeGraphicsItem::s_selectedBrush   = QColor("#b0b0b0");
 const QBrush ColorSchemeGraphicsItem::s_hoveredBrush    = QColor("#d0d0d0");
-const QPen ColorSchemeGraphicsItem::s_pen               = QColor("#d0d0d0");
+
 
 ColorSchemeGraphicsItem::ColorSchemeGraphicsItem(
-    const DpiAwareGraphicsView * view, 
-    ColorScheme * scheme,
-    QGraphicsItem * parent) 
+    const ColorScheme & scheme, QGraphicsItem * parent) 
 :   QGraphicsObject(parent)
-,   m_view{ view }
-,   m_scheme{ scheme }
-,   m_deficiency{ ColorScheme::None }
+,   m_scheme{ &scheme }
+,   m_deficiency{ ColorScheme::ColorVisionDeficiency::None }
 ,   m_frame{ new QGraphicsRectItem(this) }
-,   m_rectSize{ 15, 15 } // + 1px outline each -> 16x16
+,   m_rectSize{ 17.0, 17.0 }
+,   m_margin{ 3.0 } 
 ,   m_padding{ 2.0 }
 ,   m_selected{ false }
 ,   m_detailedTooltip{ false }
@@ -51,22 +52,23 @@ ColorSchemeGraphicsItem::~ColorSchemeGraphicsItem()
     delete m_frame;
 }
 
-void ColorSchemeGraphicsItem::setScheme(ColorScheme * scheme)
+void ColorSchemeGraphicsItem::setScheme(const ColorScheme & scheme)
 {
-    m_scheme = scheme;
+    m_scheme = &scheme;
+
     updateBrushes();
     updateTooltips();
 }
 
-ColorScheme * ColorSchemeGraphicsItem::scheme()
+const ColorScheme * ColorSchemeGraphicsItem::scheme()
 {
     return m_scheme;
 }
 
-void ColorSchemeGraphicsItem::setClasses(const int classes)
+void ColorSchemeGraphicsItem::setClasses(const uint classes)
 {
     if (m_scheme)
-        m_classes = qBound<int>(m_scheme->minClasses(), classes, m_scheme->maxClasses());
+        m_classes = qBound<uint>(m_scheme->minClasses(), classes, m_scheme->maxClasses());
     else
         m_classes = classes;
 
@@ -90,6 +92,20 @@ void ColorSchemeGraphicsItem::setDeficiency(const ColorScheme::ColorVisionDefici
 ColorScheme::ColorVisionDeficiency ColorSchemeGraphicsItem::deficiency() const
 {
     return m_deficiency;
+}
+
+void ColorSchemeGraphicsItem::setMargin(const qreal margin)
+{
+    if (margin == m_margin)
+        return;
+
+    m_margin = margin;
+    updateRects();
+}
+
+qreal ColorSchemeGraphicsItem::margin() const
+{
+    return m_margin;
 }
 
 void ColorSchemeGraphicsItem::setPadding(const qreal padding)
@@ -129,7 +145,7 @@ void ColorSchemeGraphicsItem::setSelected(bool selected, bool signal)
     m_frame->setBrush(m_selected ? s_selectedBrush : Qt::NoBrush);
     
     if (selected && signal)
-        emit this->selected(m_scheme);
+        emit this->selected(*m_scheme);
         
     update();
 }
@@ -155,58 +171,70 @@ void ColorSchemeGraphicsItem::updateRects()
     qDeleteAll(m_rects);
     m_rects.clear();
 
-    const QSize rectSize = m_rectSize.toSize() * m_view->dpiBasedScale();
-    const int padding  = m_padding * m_view->dpiBasedScale(); // this is required to be an int
+    const auto parent = dynamic_cast<QWidget*>(parentWidget());
+    const auto dpiScale = DpiAware::dpiBasedScale(parent);
+    const auto invRatio = 1.0 / DpiAware::devicePixelRatio(parent);
 
-    for (int i = 0; i < m_classes; ++i)
+    const QSize rectSize = m_rectSize.toSize() * dpiScale;
+    const int margin  = m_margin * dpiScale; // this is required to be an int
+
+    auto pen = QPen(QPalette().dark().color());
+    pen.setWidthF(invRatio);
+
+    for (uint i = 0; i < m_classes; ++i)
     {
         auto rect = new QGraphicsRectItem(this);
 
-        auto pen = s_pen;
-        pen.setWidthF(1.0 / m_view->devicePixelRatio());
         rect->setPen(pen);
 
-        rect->setRect(padding, padding + i * rectSize.height(), rectSize.width(), rectSize.height());
-
+        rect->setRect(margin, margin + i * (rectSize.height() + m_padding), rectSize.width(), rectSize.height());
         m_rects << rect;
     }
 
     updateBrushes();
     updateTooltips();
 
-    const auto invRatio = 1.0 / m_view->devicePixelRatio();
-    m_frame->setRect(0, 0, rectSize.width() + 2.0 * padding + invRatio,
-        rectSize.height() * m_classes + 2.0 * padding + invRatio);
+    m_frame->setRect(0, 0, rectSize.width() + 2.0 * margin + invRatio,
+        rectSize.height() * m_classes + m_padding * (m_classes - 1) + 2.0 * margin + invRatio);  
     
     update();
 }
 
 void ColorSchemeGraphicsItem::updateVisibility(
     ColorScheme::ColorSchemeTypes typeFilter, 
-    int classesFilter)
+    uint classesFilter)
 {
     if (!m_scheme)
         return;
-    
+
     bool isVisible = true;
     isVisible &= typeFilter.testFlag(m_scheme->type());
     isVisible &= m_scheme->minClasses() <= classesFilter && m_scheme->maxClasses() >= classesFilter;
-    
+
     setVisible(isVisible);
 }
 
 void ColorSchemeGraphicsItem::updateBrushes()
 {
-    for (int i = 0; i < m_classes; ++i)
+    const auto parent = dynamic_cast<QWidget*>(parentWidget());
+    const auto penWidthF = 1.0 / DpiAware::devicePixelRatio(parent);
+
+    for (uint i = 0; i < m_classes; ++i)
     {
         auto rect(m_rects[i]);
 
         if (m_scheme)
         {
-            auto color = m_scheme->colors(m_classes)[i];
+            auto color = m_scheme->colors(m_classes)[m_classes - i - 1];
             color = ColorScheme::daltonize(color, m_deficiency);
 
-            rect->setBrush(RGBABrush(color));
+            auto brush = RGBABrush(color);
+
+            // this aligns the brush pattern with the rect (since there is no way to directly set the brush origin similar to a painter)
+            brush.setTransform(QTransform::fromTranslate( // who cares ... :P
+                m_margin + 1, (m_padding + penWidthF) * static_cast<qreal>(i) + m_margin + 1));
+
+            rect->setBrush(brush);
         }
         else
             rect->setBrush(Qt::NoBrush);
@@ -228,7 +256,7 @@ void ColorSchemeGraphicsItem::updateTooltips()
     }
     
     const auto tooltip = QString("%1 - %2").arg(m_scheme->identifier());
-    for (int i = 0; i < m_classes; ++i)
+    for (uint i = 0; i < m_classes; ++i)
     {
         //QColor color = m_scheme->colors(m_classes)[i];
         m_rects[i]->setToolTip(tooltip.arg(m_scheme->colors(m_classes)[i].name(QColor::HexArgb)));
