@@ -48,8 +48,23 @@ QWidget * StringEditor::createLineEdit()
     
     lineEdit->setText(QString::fromStdString(m_property->toString()));
     
-    connect(lineEdit, &QLineEdit::textEdited,
-            this, &StringEditor::setString);
+    auto deferred = false;
+    if (m_property->hasOption("deferred"))
+        deferred = m_property->option("deferred").value<bool>();
+
+    if (deferred)
+    {
+        connect(lineEdit, &QLineEdit::editingFinished,
+            [this, lineEdit]
+        {
+            setString(lineEdit->text());
+        });
+    }
+    else
+    {
+        connect(lineEdit, &QLineEdit::textEdited,
+                this, &StringEditor::setString);
+    }
     
     return lineEdit;
 }

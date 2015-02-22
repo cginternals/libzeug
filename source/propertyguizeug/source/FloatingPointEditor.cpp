@@ -73,12 +73,27 @@ FloatingPointEditor::FloatingPointEditor(
     spinBox->setSuffix(QString::fromStdString(suffix));
     
     spinBox->setValue(m_property->toDouble());
+
+    auto deferred = false;
+    if (m_property->hasOption("deferred"))
+        deferred = m_property->option("deferred").value<bool>();
     
-    connect(spinBox, static_cast<void (QDoubleSpinBox::*)(double)>(&QDoubleSpinBox::valueChanged),
-        [this] (double d) 
-        {
-            m_property->fromDouble(d);
-        });
+    if (deferred)
+    {
+        connect(spinBox, &QAbstractSpinBox::editingFinished,
+            [this, spinBox]
+            {
+                m_property->fromDouble(spinBox->value());
+            });
+    }
+    else
+    {
+        connect(spinBox, static_cast<void (QDoubleSpinBox::*)(double)>(&QDoubleSpinBox::valueChanged),
+            [this] (double d) 
+            {
+                m_property->fromDouble(d);
+            });
+    }
 }
 
 } // namespace propertyguizeug

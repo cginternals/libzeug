@@ -49,11 +49,26 @@ UnsignedIntegralEditor::UnsignedIntegralEditor(
     if (m_property->hasOption("step"))
         spinBox->setStep(m_property->option("step").value<qulonglong>());
     
-    connect(spinBox, &ULongLongSpinBox::valueChanged,
-        [this] (const qulonglong & value) 
+    auto deferred = false;
+    if (m_property->hasOption("deferred"))
+        deferred = m_property->option("deferred").value<bool>();
+
+    if (deferred)
+    {
+        connect(spinBox, &QAbstractSpinBox::editingFinished,
+            [this, spinBox]
         {
-            m_property->fromULongLong(value);
+            m_property->fromULongLong(spinBox->value());
         });
+    }
+    else
+    {
+        connect(spinBox, &ULongLongSpinBox::valueChanged,
+            [this](const qulonglong & value)
+            {
+                m_property->fromULongLong(value);
+            });
+    }
 }
     
 } // namespace propertyguizeug
