@@ -52,18 +52,22 @@ set(source_path "${CMAKE_CURRENT_SOURCE_DIR}/source")
 
 set(api_includes
     ${header_path}/widgetzeug_api.h
+    ${header_path}/RGBABrush.hpp
     # color widgets
     ${header_path}/ColorGradient.h
     ${header_path}/ColorGradientProperty.h
     ${header_path}/ColorGradientStop.h
     ${header_path}/ColorGradientWidget.h
     ${header_path}/ColorScheme.h
+	${header_path}/ColorSchemeLabel.h
+    ${header_path}/ColorSchemePresets.h
     ${header_path}/ColorSchemePresetsWidget.h
+    # multi-purpose widgets
     ${header_path}/DataLinkWidget.h
+    ${header_path}/DockableScrollAreaWidget.h
     ${header_path}/DpiAware.h
     ${header_path}/DpiAwareGraphicsView.h
     ${header_path}/DpiAwareWidget.h
-    ${header_path}/RGBABrush.hpp
     # script widgets
     ${header_path}/ECMA26251_Completer.h
     ${header_path}/ECMA26251_SyntaxHighlighter.h
@@ -105,15 +109,17 @@ set(sources
     ${source_path}/ColorSchemeGraphicsItemGroup.h
     ${source_path}/ColorSchemeGraphicsView.cpp
     ${source_path}/ColorSchemeGraphicsView.h
+    ${source_path}/ColorSchemeLabel.cpp
+    ${source_path}/ColorSchemePresets.cpp
     ${source_path}/ColorSchemePresetsWidget.cpp
     ${source_path}/ColorSchemePresetsWidget.ui
+    # multi-purpose widgets
     ${source_path}/DataLinkWidget.cpp
     ${source_path}/DataLinkWidget.ui
+    ${source_path}/DockableScrollAreaWidget.cpp
     ${source_path}/DpiAware.cpp
     ${source_path}/DpiAwareGraphicsView.cpp
     ${source_path}/DpiAwareWidget.cpp
-    ${source_path}/SingleColorSchemeGraphicsView.cpp
-    ${source_path}/SingleColorSchemeGraphicsView.h
     # script widgets
     ${source_path}/ECMA26251_Completer.cpp
     ${source_path}/ECMA26251_SyntaxHighlighter.cpp
