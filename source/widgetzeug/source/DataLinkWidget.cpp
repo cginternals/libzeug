@@ -102,12 +102,12 @@ bool DataLinkWidget::browse()
     return true;
 }
 
-void DataLinkWidget::export()
+void DataLinkWidget::save()
 {
     if (linkedFileName().isEmpty())
         browse();
 
-    emit exportPressed(m_ui->dataComboBox->currentText());
+    emit save(m_ui->dataComboBox->currentText());
 }
 
 void DataLinkWidget::on_browsePushButton_clicked(bool)
@@ -115,9 +115,9 @@ void DataLinkWidget::on_browsePushButton_clicked(bool)
     browse();
 }
 
-void DataLinkWidget::on_exportPushButton_clicked(bool)
+void DataLinkWidget::on_savePushButton_clicked(bool)
 {
-    export();
+    save();
 }
 
 void DataLinkWidget::on_dataComboBox_currentIndexChanged(const int index)

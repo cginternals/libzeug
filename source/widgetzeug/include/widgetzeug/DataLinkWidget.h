@@ -22,18 +22,18 @@ public:
     bool linkedFileExists() const;
 
     bool browse();
-    void export();
+    void save();
 
 signals:
     // ToDo: rename signals
     void fileChanged(const QString & fileName);
-    void exportPressed(const QString & fileName);
+    void save(const QString & fileName);
 
 protected slots:
     void on_dataComboBox_currentIndexChanged(int index);
 
     void on_browsePushButton_clicked(bool);
-    void on_exportPushButton_clicked(bool);
+    void on_savePushButton_clicked(bool);
 
     void on_linkCheckBox_stateChanged(int state);
 
