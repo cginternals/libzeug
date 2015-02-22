@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>816</width>
-    <height>612</height>
+    <width>370</width>
+    <height>300</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -92,15 +92,13 @@
           <number>0</number>
          </property>
          <item>
-          <widget class="widgetzeug::ColorGradientLabel" name="label" native="true">
-          </widget>
+          <widget class="widgetzeug::ColorGradientLabel" name="label" native="true"/>
          </item>
         </layout>
        </widget>
       </item>
       <item>
-       <widget class="widgetzeug::ColorGradientStopBar" name="stopBar" native="true">
-       </widget>
+       <widget class="widgetzeug::ColorGradientStopBar" name="stopBar" native="true"/>
       </item>
      </layout>
     </widget>
@@ -115,13 +113,13 @@
      </property>
      <layout class="QHBoxLayout" name="horizontalLayout">
       <property name="leftMargin">
-       <number>18</number>
+       <number>0</number>
       </property>
       <property name="topMargin">
        <number>0</number>
       </property>
       <property name="rightMargin">
-       <number>18</number>
+       <number>0</number>
       </property>
       <property name="bottomMargin">
        <number>0</number>
@@ -240,6 +238,12 @@
    </item>
    <item>
     <widget class="QDialogButtonBox" name="buttonBox">
+     <property name="sizePolicy">
+      <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+       <horstretch>0</horstretch>
+       <verstretch>0</verstretch>
+      </sizepolicy>
+     </property>
      <property name="orientation">
       <enum>Qt::Horizontal</enum>
      </property>
