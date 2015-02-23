@@ -49,9 +49,7 @@ UnsignedIntegralEditor::UnsignedIntegralEditor(
     if (m_property->hasOption("step"))
         spinBox->setStep(m_property->option("step").value<qulonglong>());
     
-    auto deferred = false;
-    if (m_property->hasOption("deferred"))
-        deferred = m_property->option("deferred").value<bool>();
+    const auto deferred = m_property->option<bool>("deferred", false);
 
     if (deferred)
     {

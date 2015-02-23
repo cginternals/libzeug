@@ -74,9 +74,7 @@ FloatingPointEditor::FloatingPointEditor(
     
     spinBox->setValue(m_property->toDouble());
 
-    auto deferred = false;
-    if (m_property->hasOption("deferred"))
-        deferred = m_property->option("deferred").value<bool>();
+    const auto deferred = m_property->option<bool>("deferred", false);
     
     if (deferred)
     {
