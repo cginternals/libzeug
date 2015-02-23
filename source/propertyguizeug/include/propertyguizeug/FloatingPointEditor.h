@@ -21,6 +21,7 @@ namespace propertyguizeug
  * - precision (uint): number of decimals used
  * - prefix (std::string): string shown before value
  * - suffix (std::string): string shown after value 
+ * - deferred (bool): defer changing the property's value until enter is pressed
  */
 class PROPERTYGUIZEUG_API FloatingPointEditor : public PropertyEditor
 {
