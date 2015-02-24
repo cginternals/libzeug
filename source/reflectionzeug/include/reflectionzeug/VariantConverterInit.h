@@ -5,6 +5,7 @@
 #include <reflectionzeug/Variant.h>
 #include <reflectionzeug/specialization_helpers.h>
 #include <reflectionzeug/util.h>
+#include <reflectionzeug/FilePath.h>
 
 namespace reflectionzeug
 {
@@ -84,7 +85,7 @@ template <typename ValueType>
 struct VariantConverterInit<ValueType, EnableIf<std::is_floating_point<ValueType>>>
 {
     void operator()()
-    {   
+    {
         Variant::registerConverter<ValueType, bool>(toBool);
 
         Variant::registerConverter<ValueType, char>();
@@ -108,6 +109,21 @@ struct VariantConverterInit<ValueType, EnableIf<std::is_floating_point<ValueType
     static bool toBool(const ValueType & value)
     {
         return value != 0;
+    }
+};
+
+template <>
+struct VariantConverterInit<FilePath>
+{
+    void operator()()
+    {
+        Variant::registerConverter<FilePath, std::string>(
+            [](const FilePath & path) -> std::string
+                {
+                    std::string str(path.toString());
+                    return str;
+                }
+        );
     }
 };
 
@@ -178,7 +194,7 @@ struct VariantConverterInit<VariantArray>
     {
         if (array.empty())
             return "[]";
-            
+
         std::stringstream stream;
         stream << "[";
 

@@ -63,6 +63,8 @@ set(headers
     ${header_path}/AbstractProperty.h
     ${header_path}/AbstractProperty.hpp
     ${header_path}/AbstractPropertyCollection.h
+    ${header_path}/AbstractPropertyDeserializer.h
+    ${header_path}/AbstractPropertySerializer.h
     ${header_path}/AbstractPropertyVisitor.h
     ${header_path}/AbstractPropertyVisitor.hpp
     ${header_path}/AbstractValue.h
@@ -91,15 +93,19 @@ set(headers
     ${header_path}/FloatingPointProperty.hpp
     ${header_path}/FloatingPointPropertyInterface.h
     ${header_path}/Function.h
+    ${header_path}/IniPropertyDeserializer.h
+    ${header_path}/IniPropertySerializer.h
+    ${header_path}/JsonPropertyDeserializer.h
+    ${header_path}/JsonPropertySerializer.h
+    ${header_path}/JsonSerializationVisitor.h
     ${header_path}/NumberProperty.h
     ${header_path}/NumberProperty.hpp
     ${header_path}/Object.h
     ${header_path}/Property.h
-    ${header_path}/PropertyDeserializer.h
     ${header_path}/PropertyGroup.h
     ${header_path}/PropertyGroup.hpp
-    ${header_path}/PropertySerializer.h
     ${header_path}/PropertyVisitor.h
+    ${header_path}/SetValuePropertyVisitor.h
     ${header_path}/SignedIntegralProperty.h
     ${header_path}/SignedIntegralProperty.hpp
     ${header_path}/SignedIntegralPropertyInterface.h
@@ -134,6 +140,8 @@ set(headers
 set(sources
     ${source_path}/AbstractProperty.cpp
     ${source_path}/AbstractPropertyCollection.cpp
+    ${source_path}/AbstractPropertyDeserializer.cpp
+    ${source_path}/AbstractPropertySerializer.cpp
     ${source_path}/AbstractPropertyVisitor.cpp
     ${source_path}/AbstractValueProperty.cpp
     ${source_path}/BoolProperty.cpp
@@ -144,10 +152,14 @@ set(sources
     ${source_path}/FilePath.cpp
     ${source_path}/FilePathProperty.cpp
     ${source_path}/FloatingPointPropertyInterface.cpp
+    ${source_path}/IniPropertyDeserializer.cpp
+    ${source_path}/IniPropertySerializer.cpp
+    ${source_path}/JsonPropertyDeserializer.cpp
+    ${source_path}/JsonPropertySerializer.cpp
+    ${source_path}/JsonSerializationVisitor.cpp
     ${source_path}/Object.cpp
-    ${source_path}/PropertyDeserializer.cpp
     ${source_path}/PropertyGroup.cpp
-    ${source_path}/PropertySerializer.cpp
+    ${source_path}/SetValuePropertyVisitor.cpp
     ${source_path}/StringProperty.cpp
     ${source_path}/StringPropertyInterface.cpp
     ${source_path}/SignedIntegralPropertyInterface.cpp
