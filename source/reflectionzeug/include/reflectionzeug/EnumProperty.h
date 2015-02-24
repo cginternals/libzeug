@@ -45,18 +45,6 @@ private:
     std::vector<Enum> m_choices;
 };
 
-/**
- * \brief Specialize this template to provide default string mapping for an enum.
- */
-template <typename Enum>
-struct EnumDefaultStrings
-{
-    std::map<Enum, std::string> operator()()
-    {
-        return std::map<Enum, std::string>();
-    }
-};
-
 } // namespace reflectionzeug
 
 #include <reflectionzeug/EnumProperty.hpp>

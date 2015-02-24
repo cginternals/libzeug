@@ -6,6 +6,8 @@
 #include <reflectionzeug/specialization_helpers.h>
 #include <reflectionzeug/util.h>
 #include <reflectionzeug/FilePath.h>
+#include <reflectionzeug/EnumDefaultStrings.h>
+#include <reflectionzeug/Color.h>
 
 namespace reflectionzeug
 {
@@ -109,6 +111,34 @@ struct VariantConverterInit<ValueType, EnableIf<std::is_floating_point<ValueType
     static bool toBool(const ValueType & value)
     {
         return value != 0;
+    }
+};
+
+template <typename Enum>
+struct VariantConverterInit<Enum, EnableIf<std::is_enum<Enum>>>
+{
+    void operator()()
+    {
+        Variant::registerConverter<Enum, std::string>(
+            [](const Enum & value) -> std::string
+                {
+                    return EnumDefaultStrings<Enum>()().at(value);
+                }
+        );
+    }
+};
+
+template <>
+struct VariantConverterInit<Color>
+{
+    void operator()()
+    {
+        Variant::registerConverter<Color, std::string>(
+            [](const Color & color) -> std::string
+                {
+                    return color.toString();
+                }
+        );
     }
 };
 

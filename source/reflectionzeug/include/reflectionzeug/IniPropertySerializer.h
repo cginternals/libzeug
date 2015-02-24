@@ -2,7 +2,7 @@
 
 #include <reflectionzeug/reflectionzeug_api.h>
 
-#include <reflectionzeug/AbstractPropertySerializer.h>
+#include <reflectionzeug/AbstractSerializer.h>
 
 #include <deque>
 #include <fstream>
@@ -18,7 +18,7 @@ class PropertyGroup;
  * \see IniPropertyDeserializer
  */
     
-class REFLECTIONZEUG_API IniPropertySerializer : public AbstractPropertySerializer
+class REFLECTIONZEUG_API IniPropertySerializer : public AbstractSerializer
 {
 public:
     IniPropertySerializer();

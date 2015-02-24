@@ -2,40 +2,40 @@
 
 #include <reflectionzeug/reflectionzeug_api.h>
 
-#include <reflectionzeug/AbstractPropertySerializer.h>
+#include <reflectionzeug/AbstractSerializer.h>
+#include <reflectionzeug/Variant.h>
 
-#include <fstream>
-#include <functional>
 #include <vector>
 
 namespace reflectionzeug
 {
-
-class AbstractValueProperty;
-class PropertyGroup;
     
 /**
  * \brief Saves values of a property hierachy in a JSON file.
  * \see JsonPropertyDeserializer
  */
     
-class REFLECTIONZEUG_API JsonPropertySerializer : public AbstractPropertySerializer
+class REFLECTIONZEUG_API JsonPropertySerializer : public AbstractSerializer
 {
 public:
-    JsonPropertySerializer();
+    JsonPropertySerializer(std::ostream & stream);
     virtual ~JsonPropertySerializer();
 
-    virtual bool serialize(PropertyGroup & group, const std::string & filePath) override;
+    virtual bool serialize(Variant & variant) override;
     
 protected:
-    void serializeValue(AbstractValueProperty & property);
+    void serializeVariant(Variant & variant);
+    void serializeMap(const VariantMap * map);
+    void serializeArray(const VariantArray * array);
+    void serializeValue(Variant & value);
+    void writeJsonString(Variant & value);
     std::string indent(unsigned int nestingLevel);
+    void endLine();
 
 protected:
-    std::fstream m_fstream;
+    std::ostream & m_ostream;
     unsigned int m_nestingLevel;
     std::vector<unsigned int> m_elementCount;
-    std::function<void(PropertyGroup &)> m_serialize;
 
 };
     

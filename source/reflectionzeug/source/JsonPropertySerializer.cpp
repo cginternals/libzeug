@@ -4,10 +4,6 @@
 
 #include <loggingzeug/logging.h>
 
-#include <reflectionzeug/AbstractValueProperty.h>
-#include <reflectionzeug/JsonSerializationVisitor.h>
-#include <reflectionzeug/ValueProperty.h>
-#include <reflectionzeug/PropertyGroup.h>
 #include <reflectionzeug/util.h>
 
 using namespace loggingzeug;
@@ -15,77 +11,116 @@ using namespace loggingzeug;
 namespace reflectionzeug
 {
     
-JsonPropertySerializer::JsonPropertySerializer()
-    : m_nestingLevel(0)
+JsonPropertySerializer::JsonPropertySerializer(std::ostream & stream)
+    : m_ostream(stream)
+    , m_nestingLevel(0)
 {
-    m_serialize =
-        [this](PropertyGroup & group)
-        {
-            m_elementCount[m_nestingLevel]--;
-
-            m_fstream << indent(m_nestingLevel);
-            if (!group.name().empty())
-            {
-                m_fstream << "\"" << group.name() << "\": ";
-            }
-            m_fstream << "{" << std::endl;
-
-            m_nestingLevel++;
-            m_elementCount.push_back(group.asCollection()->count());
-
-            group.forEachValue(
-                [this](AbstractValueProperty & property)
-                {
-                    m_elementCount[m_nestingLevel]--;
-                    serializeValue(property);
-                }
-            );
-
-            group.forEachGroup(m_serialize);
-            m_nestingLevel--;
-            m_fstream << indent(m_nestingLevel) << "}";
-            if (m_elementCount.at(m_nestingLevel) > 0)
-            {
-                m_fstream << ",";
-            }
-            m_fstream << std::endl;
-            m_elementCount.pop_back();
-        };
 }
 
 JsonPropertySerializer::~JsonPropertySerializer()
 {
 }
-    
-bool JsonPropertySerializer::serialize(PropertyGroup & group, const std::string & filePath)
+
+bool JsonPropertySerializer::serialize(Variant & variant)
 {
-    m_fstream.open(filePath, std::ios_base::out);
-    
-    if (!m_fstream.is_open()) {
-        critical() << "Could not write to file \"" << filePath << "\"" << std::endl;
-        return false;
-    }
     m_nestingLevel = 0;
     m_elementCount.push_back(1);
 
-    m_serialize(group);
+    serializeVariant(variant);
 
     m_elementCount.clear();
-    m_fstream.close();
     return true;
 }
-    
-void JsonPropertySerializer::serializeValue(AbstractValueProperty & property)
+
+void JsonPropertySerializer::serializeVariant(Variant & variant)
 {
-    JsonSerializationVisitor visitor;
-    property.accept(&visitor);
-    std::string valueString = visitor.propertyValue();
-    m_fstream << indent(m_nestingLevel) << "\"" << property.name() << "\": " << valueString;
-    if (m_elementCount.at(m_nestingLevel) > 0)
+    if (variant.isMap())
     {
-        m_fstream << ",";
+        serializeMap(variant.toMap());
     }
-    m_fstream << std::endl;
+    else if (variant.isArray())
+    {
+        serializeArray(variant.toArray());
+    }
+    else
+    {
+        serializeValue(variant);
+    }
+}
+
+void JsonPropertySerializer::serializeMap(const VariantMap * map)
+{
+    m_ostream << "{" << std::endl;
+
+    m_nestingLevel++;
+    m_elementCount.push_back(map->size());
+    for (auto stringVariantPair : *map)
+    {
+        m_ostream << indent(m_nestingLevel) << "\"" << stringVariantPair.first << "\": ";
+        serializeVariant(stringVariantPair.second);
+    }
+    m_elementCount.pop_back();
+    m_nestingLevel--;
+
+    m_ostream << indent(m_nestingLevel) << "}";
+    endLine();
+}
+
+void JsonPropertySerializer::serializeArray(const VariantArray * array)
+{
+    m_ostream << "[" << std::endl;
+
+    m_nestingLevel++;
+    m_elementCount.push_back(array->size());
+    for (auto variant : *array)
+    {
+        serializeVariant(variant);
+    }
+    m_elementCount.pop_back();
+    m_nestingLevel--;
+
+    m_ostream << indent(m_nestingLevel) << "]";
+    endLine();
+}
+    
+void JsonPropertySerializer::serializeValue(Variant & value)
+{
+    writeJsonString(value);
+    endLine();
+}
+
+void JsonPropertySerializer::writeJsonString(Variant & value)
+{
+    if (value.isNull())
+    {
+        m_ostream << "null";
+    }
+    else if (value.hasType<bool>() && value.canConvert<bool>())
+    {
+        m_ostream << (value.value<bool>() ? "true" : "false");
+    }
+    else if ((value.hasType<float>() || value.hasType<double>()) &&
+             value.canConvert<double>())
+    {
+        m_ostream << value.value<double>();
+    }
+    else if ((value.hasType<char>() || value.hasType<unsigned char>() ||
+             value.hasType<int>() || value.hasType<unsigned int>() ||
+             value.hasType<long>() || value.hasType<unsigned long>() ||
+             value.hasType<long long>() || value.hasType<unsigned long long>()) &&
+             value.canConvert<long long>())
+    {
+        m_ostream << value.value<long long>();
+    }
+    else if (value.canConvert<std::string>())
+    {
+        m_ostream << "\"" << value.value<std::string>() << "\"";
+    }
+    else
+    {
+        critical() << "Could not serialize value, please register appropriate converter." << std::endl;
+        m_ostream << "null";
+    }
 }
 
 std::string JsonPropertySerializer::indent(unsigned int nestingLevel)
@@ -96,6 +131,16 @@ std::string JsonPropertySerializer::indent(unsigned int nestingLevel)
         str += "    ";
     }
     return str;
+}
+
+void JsonPropertySerializer::endLine()
+{
+    m_elementCount[m_nestingLevel]--;
+    if (m_elementCount.at(m_nestingLevel) > 0)
+    {
+        m_ostream << ",";
+    }
+    m_ostream << std::endl;
 }
 
 } // namespace reflectionzeug

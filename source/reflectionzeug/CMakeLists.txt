@@ -64,7 +64,7 @@ set(headers
     ${header_path}/AbstractProperty.hpp
     ${header_path}/AbstractPropertyCollection.h
     ${header_path}/AbstractPropertyDeserializer.h
-    ${header_path}/AbstractPropertySerializer.h
+    ${header_path}/AbstractSerializer.h
     ${header_path}/AbstractPropertyVisitor.h
     ${header_path}/AbstractPropertyVisitor.hpp
     ${header_path}/AbstractValue.h
@@ -83,6 +83,7 @@ set(headers
     ${header_path}/ColorProperty.h
     ${header_path}/ColorProperty.hpp
     ${header_path}/ColorPropertyInterface.h
+    ${header_path}/EnumDefaultStrings.h
     ${header_path}/EnumProperty.h
     ${header_path}/EnumProperty.hpp
     ${header_path}/EnumPropertyInterface.h
@@ -135,13 +136,14 @@ set(headers
     ${header_path}/util.h
     ${header_path}/util.hpp
     ${header_path}/extensions/GlmProperties.hpp
+    ${header_path}/extensions/GlmVariantConverterInit.h
 )
 
 set(sources
     ${source_path}/AbstractProperty.cpp
     ${source_path}/AbstractPropertyCollection.cpp
     ${source_path}/AbstractPropertyDeserializer.cpp
-    ${source_path}/AbstractPropertySerializer.cpp
+    ${source_path}/AbstractSerializer.cpp
     ${source_path}/AbstractPropertyVisitor.cpp
     ${source_path}/AbstractValueProperty.cpp
     ${source_path}/BoolProperty.cpp
