@@ -23,7 +23,7 @@ Color Color::fromString(const std::string & string, bool * ok)
 
     auto rgba = 0u;
 
-    auto stream = std::stringstream{hexString};
+    std::stringstream stream{hexString};
     stream >> std::hex;
     stream >> rgba;
 
@@ -104,7 +104,7 @@ void Color::setRgba(unsigned int rgba)
 
 std::string Color::asHex(bool alpha) const
 {
-    auto stream = std::stringstream{};
+    std::stringstream stream{};
     stream << "#";
     stream << std::hex << std::uppercase;
 
