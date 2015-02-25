@@ -8,6 +8,9 @@
 #include <widgetzeug/ColorGradientProperty.h>
 
 
+using namespace reflectionzeug;
+using namespace widgetzeug;
+
 class ColorGradientProperty_test : public testing::Test
 {
 public:
@@ -15,15 +18,20 @@ public:
 
 TEST_F(ColorGradientProperty_test, StringSerialization)
 {
-    widgetzeug::ColorGradient gradient = widgetzeug::ColorGradient::fromList({ 
+    auto gradient = ColorGradient::fromList({
         { 221, 69, 76 }, 
         { 47, 120, 224 }, 
         { 172, 221, 122 } });
         
-    widgetzeug::ColorGradient invalidGradient;
+    auto invalidGradient = ColorGradient{};
     
-    auto * property1 = new reflectionzeug::Property<widgetzeug::ColorGradient>("gradient", gradient);
-    auto * property2 = new reflectionzeug::Property<widgetzeug::ColorGradient>("gradient", invalidGradient);
+    auto property1 = new Property<ColorGradient>("gradient",
+        [&gradient]() { return gradient; },
+        [&gradient](const ColorGradient & value) { gradient = value; });
+    
+    auto property2 = new Property<ColorGradient>("gradient",
+        [&invalidGradient]() { return invalidGradient; },
+        [&invalidGradient](const ColorGradient & value) { invalidGradient = value; });
     
     ASSERT_TRUE(property2->fromString(property1->toString()));
     ASSERT_EQ(gradient, property2->value());

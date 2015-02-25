@@ -48,6 +48,12 @@ REFLECTIONZEUG_API std::vector<std::string> split(const std::string & input, cha
 
 } // namespace util
 
+template<typename T, typename... Args>
+std::unique_ptr<T> make_unique(Args&&... args)
+{
+    return std::unique_ptr<T>(new T(std::forward<Args>(args)...));
+}
+
 } // namespace reflectionzeug
 
 #include <reflectionzeug/util.hpp>

@@ -14,11 +14,8 @@ class BoolProperty : public ValueProperty<bool>
 {
 public:
     using Type = bool;
-    
-public:
-    template <typename... Arguments>
-    BoolProperty(Arguments&&... args);
 
+public:
     REFLECTIONZEUG_API virtual std::string toString() const;
     REFLECTIONZEUG_API virtual bool fromString(const std::string & string);
 
@@ -26,5 +23,3 @@ public:
 };
 
 } // namespace reflectionzeug
-
-#include <reflectionzeug/BoolProperty.hpp>
