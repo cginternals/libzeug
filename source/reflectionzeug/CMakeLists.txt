@@ -97,7 +97,7 @@ set(headers
     ${header_path}/IniPropertyDeserializer.h
     ${header_path}/IniPropertySerializer.h
     ${header_path}/JsonPropertyDeserializer.h
-    ${header_path}/JsonPropertySerializer.h
+    ${header_path}/JsonVariantSerializer.h
     ${header_path}/JsonSerializationVisitor.h
     ${header_path}/NumberProperty.h
     ${header_path}/NumberProperty.hpp
@@ -157,7 +157,7 @@ set(sources
     ${source_path}/IniPropertyDeserializer.cpp
     ${source_path}/IniPropertySerializer.cpp
     ${source_path}/JsonPropertyDeserializer.cpp
-    ${source_path}/JsonPropertySerializer.cpp
+    ${source_path}/JsonVariantSerializer.cpp
     ${source_path}/JsonSerializationVisitor.cpp
     ${source_path}/Object.cpp
     ${source_path}/PropertyGroup.cpp

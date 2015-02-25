@@ -1,4 +1,4 @@
-#include <reflectionzeug/JsonPropertySerializer.h>
+#include <reflectionzeug/JsonVariantSerializer.h>
 
 #include <iostream>
 
@@ -11,22 +11,22 @@ using namespace loggingzeug;
 namespace reflectionzeug
 {
     
-JsonPropertySerializer::JsonPropertySerializer()
+JsonVariantSerializer::JsonVariantSerializer()
     : m_nestingLevel(0)
 {
 }
 
-JsonPropertySerializer::~JsonPropertySerializer()
+JsonVariantSerializer::~JsonVariantSerializer()
 {
 }
 
-void JsonPropertySerializer::serialize(Variant & variant, std::ostream * outStream)
+void JsonVariantSerializer::serialize(Variant & variant, std::ostream * outStream)
 {
     m_outStream = outStream;
     startSerializing(variant);
 }
 
-std::string JsonPropertySerializer::serialize(Variant & variant)
+std::string JsonVariantSerializer::serialize(Variant & variant)
 {
     if (!m_stringStream.get())
     {
@@ -37,7 +37,7 @@ std::string JsonPropertySerializer::serialize(Variant & variant)
     return m_stringStream->str();
 }
 
-std::ostream & JsonPropertySerializer::stream()
+std::ostream & JsonVariantSerializer::stream()
 {
     if (m_outStream)
     {
@@ -53,7 +53,7 @@ std::ostream & JsonPropertySerializer::stream()
     }
 }
 
-void JsonPropertySerializer::startSerializing(Variant & variant)
+void JsonVariantSerializer::startSerializing(Variant & variant)
 {
     m_nestingLevel = 0;
     m_elementCount.push_back(1);
@@ -63,7 +63,7 @@ void JsonPropertySerializer::startSerializing(Variant & variant)
     m_elementCount.clear();
 }
 
-void JsonPropertySerializer::serializeVariant(Variant & variant)
+void JsonVariantSerializer::serializeVariant(Variant & variant)
 {
     if (variant.isMap())
     {
@@ -79,7 +79,7 @@ void JsonPropertySerializer::serializeVariant(Variant & variant)
     }
 }
 
-void JsonPropertySerializer::serializeMap(const VariantMap * map)
+void JsonVariantSerializer::serializeMap(const VariantMap * map)
 {
     stream() << "{" << std::endl;
 
@@ -97,7 +97,7 @@ void JsonPropertySerializer::serializeMap(const VariantMap * map)
     endLine();
 }
 
-void JsonPropertySerializer::serializeArray(const VariantArray * array)
+void JsonVariantSerializer::serializeArray(const VariantArray * array)
 {
     stream() << "[" << std::endl;
 
@@ -114,13 +114,13 @@ void JsonPropertySerializer::serializeArray(const VariantArray * array)
     endLine();
 }
     
-void JsonPropertySerializer::serializeValue(Variant & value)
+void JsonVariantSerializer::serializeValue(Variant & value)
 {
     writeJsonString(value);
     endLine();
 }
 
-void JsonPropertySerializer::writeJsonString(Variant & value)
+void JsonVariantSerializer::writeJsonString(Variant & value)
 {
     if (value.isNull())
     {
@@ -154,7 +154,7 @@ void JsonPropertySerializer::writeJsonString(Variant & value)
     }
 }
 
-std::string JsonPropertySerializer::indent(unsigned int nestingLevel)
+std::string JsonVariantSerializer::indent(unsigned int nestingLevel)
 {
     std::string str;
     for (unsigned int i = 0; i < nestingLevel; i++)
@@ -164,7 +164,7 @@ std::string JsonPropertySerializer::indent(unsigned int nestingLevel)
     return str;
 }
 
-void JsonPropertySerializer::endLine()
+void JsonVariantSerializer::endLine()
 {
     m_elementCount[m_nestingLevel]--;
     if (m_elementCount.at(m_nestingLevel) > 0)

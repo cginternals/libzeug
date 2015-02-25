@@ -16,11 +16,11 @@ namespace reflectionzeug
  * \see JsonPropertyDeserializer
  */
     
-class REFLECTIONZEUG_API JsonPropertySerializer : public AbstractSerializer
+class REFLECTIONZEUG_API JsonVariantSerializer : public AbstractSerializer
 {
 public:
-    JsonPropertySerializer();
-    virtual ~JsonPropertySerializer();
+    JsonVariantSerializer();
+    virtual ~JsonVariantSerializer();
 
     virtual void serialize(Variant & variant, std::ostream * outStream) override;
     virtual std::string serialize(Variant & variant) override;
