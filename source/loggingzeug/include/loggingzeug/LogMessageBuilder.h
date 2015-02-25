@@ -64,6 +64,7 @@ public:
     LogMessageBuilder & operator<<(long l);
     LogMessageBuilder & operator<<(long long l);
     LogMessageBuilder & operator<<(unsigned long ul);
+    LogMessageBuilder & operator<<(unsigned long long ull);
     LogMessageBuilder & operator<<(unsigned char uc);
     LogMessageBuilder & operator<<(const void * pointer);
 
