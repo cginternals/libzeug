@@ -5,6 +5,7 @@
 #include <reflectionzeug/AbstractSerializer.h>
 #include <reflectionzeug/Variant.h>
 
+#include <memory>
 #include <vector>
 
 namespace reflectionzeug
@@ -18,12 +19,15 @@ namespace reflectionzeug
 class REFLECTIONZEUG_API JsonPropertySerializer : public AbstractSerializer
 {
 public:
-    JsonPropertySerializer(std::ostream & stream);
+    JsonPropertySerializer();
     virtual ~JsonPropertySerializer();
 
-    virtual bool serialize(Variant & variant) override;
+    virtual void serialize(Variant & variant, std::ostream * outStream) override;
+    virtual std::string serialize(Variant & variant) override;
     
 protected:
+    std::ostream & stream();
+    void startSerializing(Variant & variant);
     void serializeVariant(Variant & variant);
     void serializeMap(const VariantMap * map);
     void serializeArray(const VariantArray * array);
@@ -33,7 +37,8 @@ protected:
     void endLine();
 
 protected:
-    std::ostream & m_ostream;
+    std::ostream * m_outStream;
+    std::unique_ptr<std::ostringstream> m_stringStream;
     unsigned int m_nestingLevel;
     std::vector<unsigned int> m_elementCount;
 

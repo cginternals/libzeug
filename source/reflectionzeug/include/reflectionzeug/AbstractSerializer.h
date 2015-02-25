@@ -23,7 +23,8 @@ public:
     virtual ~AbstractSerializer();
 
     virtual bool serialize(PropertyGroup & group, const std::string & filePath) { return false; }
-    virtual bool serialize(Variant & variant) { return false; }
+    virtual void serialize(Variant & variant, std::ostream * outStream) { }
+    virtual std::string serialize(Variant & variant) { return ""; }
 
 };
     
