@@ -75,7 +75,7 @@ int main(int argc, char *argv[])
         { "step", Variant(0.5f) },
         { "precision", Variant(1u) }
     });
-        subGroup->addProperty(floatProperty);
+    subGroup->addProperty(floatProperty);
     
     auto doubleValue = 0.0;
     auto doubleProperty = newProperty("double", doubleValue);
