@@ -60,6 +60,7 @@ set(headers
     ${header_path}/reflectionzeug_api.h
     
     ${header_path}/AbstractArrayValue.h
+    ${header_path}/AbstractDeserializer.h
     ${header_path}/AbstractProperty.h
     ${header_path}/AbstractProperty.hpp
     ${header_path}/AbstractPropertyCollection.h

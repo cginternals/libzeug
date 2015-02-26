@@ -3,10 +3,10 @@
 #include <reflectionzeug/reflectionzeug_api.h>
 
 #include <reflectionzeug/AbstractSerializer.h>
-#include <reflectionzeug/Variant.h>
 
-#include <memory>
 #include <vector>
+
+#include <reflectionzeug/Variant.h>
 
 namespace reflectionzeug
 {
@@ -22,23 +22,22 @@ public:
     JsonVariantSerializer();
     virtual ~JsonVariantSerializer();
 
-    virtual void serialize(Variant & variant, std::ostream * outStream) override;
-    virtual std::string serialize(Variant & variant) override;
+    virtual void writeToStream(Variant & variant, std::ostream & outStream) override;
+    virtual void writeToFile(Variant & variant, const std::string & filePath) override;
+    virtual std::string writeToString(Variant & variant) override;
     
 protected:
-    std::ostream & stream();
-    void startSerializing(Variant & variant);
-    void serializeVariant(Variant & variant);
-    void serializeMap(const VariantMap * map);
-    void serializeArray(const VariantArray * array);
-    void serializeValue(Variant & value);
-    void writeJsonString(Variant & value);
+    void serialize(Variant & variant, std::ostream & stream);
+    void serializeVariant(Variant & variant, std::ostream & stream);
+    void serializeMap(const VariantMap * map, std::ostream & stream);
+    void serializeArray(const VariantArray * array, std::ostream & stream);
+    void serializeValue(Variant & value, std::ostream & stream);
+    void writeJsonString(Variant & value, std::ostream & stream);
+
     std::string indent(unsigned int nestingLevel);
-    void endLine();
+    void endLine(std::ostream & stream);
 
 protected:
-    std::ostream * m_outStream;
-    std::unique_ptr<std::ostringstream> m_stringStream;
     unsigned int m_nestingLevel;
     std::vector<unsigned int> m_elementCount;
 

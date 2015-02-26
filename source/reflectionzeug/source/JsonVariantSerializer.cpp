@@ -1,10 +1,12 @@
 #include <reflectionzeug/JsonVariantSerializer.h>
 
-#include <iostream>
+#include <memory>
+#include <ostream>
+#include <fstream>
+#include <sstream>
 
 #include <loggingzeug/logging.h>
 
-#include <reflectionzeug/util.h>
 
 using namespace loggingzeug;
 
@@ -20,120 +22,112 @@ JsonVariantSerializer::~JsonVariantSerializer()
 {
 }
 
-void JsonVariantSerializer::serialize(Variant & variant, std::ostream * outStream)
+void JsonVariantSerializer::writeToStream(Variant & variant, std::ostream & outStream)
 {
-    m_outStream = outStream;
-    startSerializing(variant);
+    serialize(variant, outStream);
 }
 
-std::string JsonVariantSerializer::serialize(Variant & variant)
+void JsonVariantSerializer::writeToFile(Variant & variant, const std::string & filePath)
 {
-    if (!m_stringStream.get())
+    auto fileStream = std::unique_ptr<std::ofstream>(new std::ofstream(filePath));
+    if (fileStream->is_open())
     {
-        m_stringStream = std::unique_ptr<std::ostringstream>(new std::ostringstream());
-    }
-    startSerializing(variant);
-
-    return m_stringStream->str();
-}
-
-std::ostream & JsonVariantSerializer::stream()
-{
-    if (m_outStream)
-    {
-        return *m_outStream;
-    }
-    else if(m_stringStream.get())
-    {
-        return *m_stringStream;
+        serialize(variant, *fileStream);
     }
     else
     {
-        assert(false);
+        critical() << "Could not open stream. Aborted writing to file: \"" << filePath << "\".";
     }
 }
 
-void JsonVariantSerializer::startSerializing(Variant & variant)
+std::string JsonVariantSerializer::writeToString(Variant & variant)
+{
+    auto stringStream = std::unique_ptr<std::ostringstream>(new std::ostringstream());
+    serialize(variant, *stringStream);
+    return stringStream->str();
+}
+
+void JsonVariantSerializer::serialize(Variant & variant, std::ostream & stream)
 {
     m_nestingLevel = 0;
     m_elementCount.push_back(1);
 
-    serializeVariant(variant);
+    serializeVariant(variant, stream);
 
     m_elementCount.clear();
 }
 
-void JsonVariantSerializer::serializeVariant(Variant & variant)
+void JsonVariantSerializer::serializeVariant(Variant & variant, std::ostream & stream)
 {
     if (variant.isMap())
     {
-        serializeMap(variant.toMap());
+        serializeMap(variant.toMap(), stream);
     }
     else if (variant.isArray())
     {
-        serializeArray(variant.toArray());
+        serializeArray(variant.toArray(), stream);
     }
     else
     {
-        serializeValue(variant);
+        serializeValue(variant, stream);
     }
 }
 
-void JsonVariantSerializer::serializeMap(const VariantMap * map)
+void JsonVariantSerializer::serializeMap(const VariantMap * map, std::ostream & stream)
 {
-    stream() << "{" << std::endl;
+    stream << "{" << std::endl;
 
     m_nestingLevel++;
     m_elementCount.push_back(map->size());
     for (auto stringVariantPair : *map)
     {
-        stream() << indent(m_nestingLevel) << "\"" << stringVariantPair.first << "\": ";
-        serializeVariant(stringVariantPair.second);
+        stream << indent(m_nestingLevel) << "\"" << stringVariantPair.first << "\": ";
+        serializeVariant(stringVariantPair.second, stream);
     }
     m_elementCount.pop_back();
     m_nestingLevel--;
 
-    stream() << indent(m_nestingLevel) << "}";
-    endLine();
+    stream << indent(m_nestingLevel) << "}";
+    endLine(stream);
 }
 
-void JsonVariantSerializer::serializeArray(const VariantArray * array)
+void JsonVariantSerializer::serializeArray(const VariantArray * array, std::ostream & stream)
 {
-    stream() << "[" << std::endl;
+    stream << "[" << std::endl;
 
     m_nestingLevel++;
     m_elementCount.push_back(array->size());
     for (auto variant : *array)
     {
-        serializeVariant(variant);
+        serializeVariant(variant, stream);
     }
     m_elementCount.pop_back();
     m_nestingLevel--;
 
-    stream() << indent(m_nestingLevel) << "]";
-    endLine();
+    stream << indent(m_nestingLevel) << "]";
+    endLine(stream);
 }
     
-void JsonVariantSerializer::serializeValue(Variant & value)
+void JsonVariantSerializer::serializeValue(Variant & value, std::ostream & stream)
 {
-    writeJsonString(value);
-    endLine();
+    writeJsonString(value, stream);
+    endLine(stream);
 }
 
-void JsonVariantSerializer::writeJsonString(Variant & value)
+void JsonVariantSerializer::writeJsonString(Variant & value, std::ostream & stream)
 {
     if (value.isNull())
     {
-        stream() << "null";
+        stream << "null";
     }
     else if (value.hasType<bool>() && value.canConvert<bool>())
     {
-        stream() << (value.value<bool>() ? "true" : "false");
+        stream << (value.value<bool>() ? "true" : "false");
     }
     else if ((value.hasType<float>() || value.hasType<double>()) &&
              value.canConvert<double>())
     {
-        stream() << value.value<double>();
+        stream << value.value<double>();
     }
     else if ((value.hasType<char>() || value.hasType<unsigned char>() ||
              value.hasType<int>() || value.hasType<unsigned int>() ||
@@ -141,16 +135,16 @@ void JsonVariantSerializer::writeJsonString(Variant & value)
              value.hasType<long long>() || value.hasType<unsigned long long>()) &&
              value.canConvert<long long>())
     {
-        stream() << value.value<long long>();
+        stream << value.value<long long>();
     }
     else if (value.canConvert<std::string>())
     {
-        stream() << "\"" << value.value<std::string>() << "\"";
+        stream << "\"" << value.value<std::string>() << "\"";
     }
     else
     {
         critical() << "Could not serialize value, please register appropriate converter." << std::endl;
-        stream() << "null";
+        stream << "null";
     }
 }
 
@@ -164,14 +158,14 @@ std::string JsonVariantSerializer::indent(unsigned int nestingLevel)
     return str;
 }
 
-void JsonVariantSerializer::endLine()
+void JsonVariantSerializer::endLine(std::ostream & stream)
 {
     m_elementCount[m_nestingLevel]--;
     if (m_elementCount.at(m_nestingLevel) > 0)
     {
-        stream() << ",";
+        stream << ",";
     }
-    stream() << std::endl;
+    stream << std::endl;
 }
 
 } // namespace reflectionzeug

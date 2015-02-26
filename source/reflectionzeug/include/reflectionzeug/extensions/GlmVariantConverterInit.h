@@ -4,8 +4,6 @@
 
 #include <glm/glm.hpp>
 
-#include <loggingzeug/logging.h>
-
 #include <reflectionzeug/Variant.h>
 
 namespace reflectionzeug
@@ -56,7 +54,6 @@ struct GlmVariantConverterInit<glm::vec3>
 {
     void operator()()
     {
-        loggingzeug::debug() << "register glm::vec3 converter";
         Variant::registerConverter<glm::vec3, std::string>(toString);
     }
 
@@ -124,7 +121,6 @@ void initializeGlmVariantConverters()
     GlmVariantConverterInit<glm::ivec3>()();
     GlmVariantConverterInit<glm::vec4>()();
     GlmVariantConverterInit<glm::ivec4>()();
-    loggingzeug::debug() << "registered all glm converters";
 }
 
 } // namespace reflectionzeug
