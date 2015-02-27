@@ -1,7 +1,7 @@
 #pragma once
 
 #include <reflectionzeug/property_declaration.h>
-#include <signalzeug/Connection.h>
+#include <signalzeug/ScopedConnection.h>
 
 #include <propertyguizeug/PropertyEditor.h>
 
@@ -54,7 +54,7 @@ private:
     bool m_alpha;
     
     reflectionzeug::ColorPropertyInterface * m_property;
-    signalzeug::Connection m_propertyChangedConnection;
+    signalzeug::ScopedConnection m_propertyChangedConnection;
 };
 
 } // namespace propertyguizeug

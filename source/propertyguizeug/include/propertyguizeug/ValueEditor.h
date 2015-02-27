@@ -1,7 +1,7 @@
 #pragma once
 
 #include <propertyguizeug/PropertyEditor.h>
-#include <signalzeug/Connection.h>
+#include <signalzeug/ScopedConnection.h>
 
 class QLineEdit;
 
@@ -26,7 +26,7 @@ private:
     QLineEdit * m_lineEdit;
     
     reflectionzeug::AbstractValueProperty * m_property;
-    signalzeug::Connection m_propertyChangedConnection;
+    signalzeug::ScopedConnection m_propertyChangedConnection;
 };
 
 } // namespace propertyguizeug

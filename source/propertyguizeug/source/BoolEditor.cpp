@@ -55,7 +55,6 @@ BoolEditor::BoolEditor(Property<bool> * property, QWidget * parent)
 
 BoolEditor::~BoolEditor()
 {
-    m_propertyChangedConnection.disconnect();
 }
 
 } // namespace propertyguizeug

@@ -3,7 +3,7 @@
 #include <QString>
 
 #include <reflectionzeug/property_declaration.h>
-#include <signalzeug/Connection.h>
+#include <signalzeug/ScopedConnection.h>
 
 #include <propertyguizeug/PropertyEditor.h>
 
@@ -52,7 +52,7 @@ private:
     QString m_filePathFromDialog;
     
     reflectionzeug::Property<reflectionzeug::FilePath> * m_property;
-    signalzeug::Connection m_propertyChangedConnection;
+    signalzeug::ScopedConnection m_propertyChangedConnection;
 };
 
 } // namespace propertyguizeug

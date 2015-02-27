@@ -109,7 +109,6 @@ ColorEditor::ColorEditor(ColorPropertyInterface * property, QWidget * parent)
 
 ColorEditor::~ColorEditor()
 {
-    m_propertyChangedConnection.disconnect();
 }
     
 void ColorEditor::openColorPicker()

@@ -64,7 +64,6 @@ UnsignedIntegralEditor::UnsignedIntegralEditor(
 
 UnsignedIntegralEditor::~UnsignedIntegralEditor()
 {
-    m_propertyChangedConnection.disconnect();
 }
 
 } // namespace propertyguizeug

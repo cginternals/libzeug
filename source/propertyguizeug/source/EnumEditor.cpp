@@ -41,7 +41,6 @@ EnumEditor::EnumEditor(
 
 EnumEditor::~EnumEditor()
 {
-    m_propertyChangedConnection.disconnect();
 }
     
 void EnumEditor::setString(const QString & text)

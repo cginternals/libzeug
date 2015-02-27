@@ -28,7 +28,6 @@ StringEditor::StringEditor(StringPropertyInterface * property, QWidget * parent)
 
 StringEditor::~StringEditor()
 {
-    m_propertyChangedConnection.disconnect();
 }
 
 QWidget * StringEditor::createComboBox()

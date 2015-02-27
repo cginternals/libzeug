@@ -1,7 +1,7 @@
 #pragma once
 
 #include <reflectionzeug/property_declaration.h>
-#include <signalzeug/Connection.h>
+#include <signalzeug/ScopedConnection.h>
 
 #include <propertyguizeug/propertyguizeug_api.h>
 #include <propertyguizeug/PropertyEditor.h>
@@ -28,7 +28,7 @@ public:
 
 private:
     reflectionzeug::Property<bool> * m_property;
-    signalzeug::Connection m_propertyChangedConnection;
+    signalzeug::ScopedConnection m_propertyChangedConnection;
 };
 
 } // namespace propertyguizeug

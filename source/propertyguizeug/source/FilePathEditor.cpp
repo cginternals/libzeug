@@ -56,7 +56,6 @@ FilePathEditor::FilePathEditor(Property<FilePath> * property, QWidget * parent)
 
 FilePathEditor::~FilePathEditor()
 {
-    m_propertyChangedConnection.disconnect();
 }
 
 QStringList FilePathEditor::recentlyUsedFilePaths()

@@ -30,7 +30,6 @@ ValueEditor::ValueEditor(AbstractValueProperty * property, QWidget * parent)
 
 ValueEditor::~ValueEditor()
 {
-    m_propertyChangedConnection.disconnect();
 }
     
 void ValueEditor::editingFinished()

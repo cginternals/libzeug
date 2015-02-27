@@ -1,7 +1,7 @@
 #pragma once
 
 #include <reflectionzeug/property_declaration.h>
-#include <signalzeug/Connection.h>
+#include <signalzeug/ScopedConnection.h>
 
 #include <propertyguizeug/PropertyEditor.h>
 
@@ -33,13 +33,12 @@ public:
 private:
     QWidget * createComboBox();
     QWidget * createLineEdit();
-    
-    void onPropertyChanged(std::string newValue);
+
     void setString(const QString & text);
 
 private:    
     reflectionzeug::StringPropertyInterface * m_property;
-    signalzeug::Connection m_propertyChangedConnection;
+    signalzeug::ScopedConnection m_propertyChangedConnection;
 };
 
 } // namespace propertyguizeug

@@ -1,7 +1,7 @@
 #pragma once
 
 #include <propertyguizeug/PropertyEditor.h>
-#include <signalzeug/Connection.h>
+#include <signalzeug/ScopedConnection.h>
 
 namespace reflectionzeug
 {
@@ -25,7 +25,7 @@ public:
 
 private:
     reflectionzeug::EnumPropertyInterface * m_property;
-    signalzeug::Connection m_propertyChangedConnection;
+    signalzeug::ScopedConnection m_propertyChangedConnection;
 };
 
 } // namespace propertyguizeug

@@ -89,7 +89,6 @@ FloatingPointEditor::FloatingPointEditor(
 
 FloatingPointEditor::~FloatingPointEditor()
 {
-    m_propertyChangedConnection.disconnect();
 }
 
 } // namespace propertyguizeug
