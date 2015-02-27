@@ -61,9 +61,6 @@ public:
 
     const VariantMap & options() const;
 
-    /**
-     * Is fired if an option of the name passed as argument is set or removed
-     */
     signalzeug::Signal<const std::string &> optionChanged;
 
     /** \} */

@@ -60,7 +60,7 @@ void AbstractProperty::setOption(const std::string & key, const Variant & value)
 
 void AbstractProperty::setOptions(const VariantMap & map)
 {
-    for (auto pair : map)
+    for (const auto & pair : map)
     {
         m_options[pair.first] = pair.second;
         optionChanged(pair.first);
