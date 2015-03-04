@@ -4,7 +4,7 @@
 using namespace reflectionzeug;
 
 MyObject::MyObject()
-:   Object{"my_object"}
+:   Object{std::string("my_object")}
 ,   m_intValue{-13}
 ,   m_enumValue{MyEnum::Value1}
 ,   m_floatArray{0.5f, 1.0f, 0.3f}

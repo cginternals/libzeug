@@ -113,7 +113,7 @@ void serializingProperties()
         object.setValue<bool>("sub_group/bool_value", false);
         
         // Serialize property hierarchies with the PropertySerializer ...
-        auto serializer = PropertySerializer{};
+        PropertySerializer serializer{};
         serializer.serialize(object, INI_PATH);
     }
 

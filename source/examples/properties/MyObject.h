@@ -29,10 +29,11 @@ private:
 };
 
 
+namespace reflectionzeug {
 // Define string mapping for MyEnum.
 // Will be used in fromString() / toString() methods.
 template <>
-struct reflectionzeug::EnumDefaultStrings<MyEnum>
+struct EnumDefaultStrings<MyEnum>
 {
     std::map<MyEnum, std::string> operator()()
     {
@@ -44,3 +45,5 @@ struct reflectionzeug::EnumDefaultStrings<MyEnum>
         };
     }
 };
+
+}
