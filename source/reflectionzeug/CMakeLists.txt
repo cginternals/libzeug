@@ -64,7 +64,6 @@ set(headers
     ${header_path}/AbstractProperty.h
     ${header_path}/AbstractProperty.hpp
     ${header_path}/AbstractPropertyCollection.h
-    ${header_path}/AbstractPropertyDeserializer.h
     ${header_path}/AbstractSerializer.h
     ${header_path}/AbstractPropertyVisitor.h
     ${header_path}/AbstractPropertyVisitor.hpp
@@ -97,8 +96,8 @@ set(headers
     ${header_path}/Function.h
     ${header_path}/IniPropertyDeserializer.h
     ${header_path}/IniPropertySerializer.h
-    ${header_path}/JsonPropertyDeserializer.h
-    ${header_path}/JsonVariantSerializer.h
+    ${header_path}/JsonToVariantDeserializer.h
+    ${header_path}/JsonFromVariantSerializer.h
     ${header_path}/JsonSerializationVisitor.h
     ${header_path}/NumberProperty.h
     ${header_path}/NumberProperty.hpp
@@ -133,6 +132,7 @@ set(headers
     ${header_path}/VariantHolder.h
     ${header_path}/VariantHolder.hpp
     ${header_path}/property_declaration.h
+    ${header_path}/regex_namespace.h
     ${header_path}/specialization_helpers.h
     ${header_path}/util.h
     ${header_path}/util.hpp
@@ -143,7 +143,6 @@ set(headers
 set(sources
     ${source_path}/AbstractProperty.cpp
     ${source_path}/AbstractPropertyCollection.cpp
-    ${source_path}/AbstractPropertyDeserializer.cpp
     ${source_path}/AbstractSerializer.cpp
     ${source_path}/AbstractPropertyVisitor.cpp
     ${source_path}/AbstractValueProperty.cpp
@@ -157,8 +156,8 @@ set(sources
     ${source_path}/FloatingPointPropertyInterface.cpp
     ${source_path}/IniPropertyDeserializer.cpp
     ${source_path}/IniPropertySerializer.cpp
-    ${source_path}/JsonPropertyDeserializer.cpp
-    ${source_path}/JsonVariantSerializer.cpp
+    ${source_path}/JsonToVariantDeserializer.cpp
+    ${source_path}/JsonFromVariantSerializer.cpp
     ${source_path}/JsonSerializationVisitor.cpp
     ${source_path}/Object.cpp
     ${source_path}/PropertyGroup.cpp

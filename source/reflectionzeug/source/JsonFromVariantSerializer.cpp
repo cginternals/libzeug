@@ -1,4 +1,4 @@
-#include <reflectionzeug/JsonVariantSerializer.h>
+#include <reflectionzeug/JsonFromVariantSerializer.h>
 
 #include <memory>
 #include <ostream>
@@ -13,21 +13,21 @@ using namespace loggingzeug;
 namespace reflectionzeug
 {
     
-JsonVariantSerializer::JsonVariantSerializer()
+JsonFromVariantSerializer::JsonFromVariantSerializer()
     : m_nestingLevel(0)
 {
 }
 
-JsonVariantSerializer::~JsonVariantSerializer()
+JsonFromVariantSerializer::~JsonFromVariantSerializer()
 {
 }
 
-void JsonVariantSerializer::writeToStream(Variant & variant, std::ostream & outStream)
+void JsonFromVariantSerializer::writeToStream(Variant & variant, std::ostream & outStream)
 {
     serialize(variant, outStream);
 }
 
-void JsonVariantSerializer::writeToFile(Variant & variant, const std::string & filePath)
+void JsonFromVariantSerializer::writeToFile(Variant & variant, const std::string & filePath)
 {
     auto fileStream = std::unique_ptr<std::ofstream>(new std::ofstream(filePath));
     if (fileStream->is_open())
@@ -40,14 +40,14 @@ void JsonVariantSerializer::writeToFile(Variant & variant, const std::string & f
     }
 }
 
-std::string JsonVariantSerializer::writeToString(Variant & variant)
+std::string JsonFromVariantSerializer::writeToString(Variant & variant)
 {
     auto stringStream = std::unique_ptr<std::ostringstream>(new std::ostringstream());
     serialize(variant, *stringStream);
     return stringStream->str();
 }
 
-void JsonVariantSerializer::serialize(Variant & variant, std::ostream & stream)
+void JsonFromVariantSerializer::serialize(Variant & variant, std::ostream & stream)
 {
     m_nestingLevel = 0;
     m_elementCount.push_back(1);
@@ -57,7 +57,7 @@ void JsonVariantSerializer::serialize(Variant & variant, std::ostream & stream)
     m_elementCount.clear();
 }
 
-void JsonVariantSerializer::serializeVariant(Variant & variant, std::ostream & stream)
+void JsonFromVariantSerializer::serializeVariant(Variant & variant, std::ostream & stream)
 {
     if (variant.isMap())
     {
@@ -73,7 +73,7 @@ void JsonVariantSerializer::serializeVariant(Variant & variant, std::ostream & s
     }
 }
 
-void JsonVariantSerializer::serializeMap(const VariantMap * map, std::ostream & stream)
+void JsonFromVariantSerializer::serializeMap(const VariantMap * map, std::ostream & stream)
 {
     stream << "{" << std::endl;
 
@@ -91,7 +91,7 @@ void JsonVariantSerializer::serializeMap(const VariantMap * map, std::ostream & 
     endLine(stream);
 }
 
-void JsonVariantSerializer::serializeArray(const VariantArray * array, std::ostream & stream)
+void JsonFromVariantSerializer::serializeArray(const VariantArray * array, std::ostream & stream)
 {
     stream << "[" << std::endl;
 
@@ -108,13 +108,13 @@ void JsonVariantSerializer::serializeArray(const VariantArray * array, std::ostr
     endLine(stream);
 }
     
-void JsonVariantSerializer::serializeValue(Variant & value, std::ostream & stream)
+void JsonFromVariantSerializer::serializeValue(Variant & value, std::ostream & stream)
 {
     writeJsonString(value, stream);
     endLine(stream);
 }
 
-void JsonVariantSerializer::writeJsonString(Variant & value, std::ostream & stream)
+void JsonFromVariantSerializer::writeJsonString(Variant & value, std::ostream & stream)
 {
     if (value.isNull())
     {
@@ -148,7 +148,7 @@ void JsonVariantSerializer::writeJsonString(Variant & value, std::ostream & stre
     }
 }
 
-std::string JsonVariantSerializer::indent(unsigned int nestingLevel)
+std::string JsonFromVariantSerializer::indent(unsigned int nestingLevel)
 {
     std::string str;
     for (unsigned int i = 0; i < nestingLevel; i++)
@@ -158,7 +158,7 @@ std::string JsonVariantSerializer::indent(unsigned int nestingLevel)
     return str;
 }
 
-void JsonVariantSerializer::endLine(std::ostream & stream)
+void JsonFromVariantSerializer::endLine(std::ostream & stream)
 {
     m_elementCount[m_nestingLevel]--;
     if (m_elementCount.at(m_nestingLevel) > 0)

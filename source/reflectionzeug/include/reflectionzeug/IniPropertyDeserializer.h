@@ -2,7 +2,7 @@
 
 #include <reflectionzeug/reflectionzeug_api.h>
 
-#include <reflectionzeug/AbstractPropertyDeserializer.h>
+#include <reflectionzeug/AbstractDeserializer.h>
 
 namespace reflectionzeug
 {
@@ -13,7 +13,7 @@ class PropertyGroup;
  * \brief Loads values of a property hierachy from an INI like file format.
  * \see IniPropertySerializer
  */
-class REFLECTIONZEUG_API IniPropertyDeserializer : public AbstractPropertyDeserializer
+class REFLECTIONZEUG_API IniPropertyDeserializer : public AbstractDeserializer
 {
 public:
     IniPropertyDeserializer();

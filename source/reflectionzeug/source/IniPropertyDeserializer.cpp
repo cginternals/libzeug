@@ -1,15 +1,5 @@
 #include <reflectionzeug/IniPropertyDeserializer.h>
 
-#ifdef USE_STD_REGEX
-    #include <regex>
-
-    namespace regex_namespace = std;
-#else
-    #include <boost/regex.hpp>
-
-    namespace regex_namespace = boost;
-#endif
-
 #include <iostream>
 #include <fstream>
 
@@ -17,6 +7,7 @@
 
 #include <reflectionzeug/Property.h>
 #include <reflectionzeug/PropertyGroup.h>
+#include <reflectionzeug/regex_namespace.h>
 #include <reflectionzeug/util.h>
 
 using namespace loggingzeug;

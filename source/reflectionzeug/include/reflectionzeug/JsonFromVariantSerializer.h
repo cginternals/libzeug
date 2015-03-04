@@ -13,14 +13,14 @@ namespace reflectionzeug
     
 /**
  * \brief Saves values of a property hierachy in a JSON file.
- * \see JsonPropertyDeserializer
+ * \see JsonToVariantDeserializer
  */
     
-class REFLECTIONZEUG_API JsonVariantSerializer : public AbstractSerializer
+class REFLECTIONZEUG_API JsonFromVariantSerializer : public AbstractSerializer
 {
 public:
-    JsonVariantSerializer();
-    virtual ~JsonVariantSerializer();
+    JsonFromVariantSerializer();
+    virtual ~JsonFromVariantSerializer();
 
     virtual void writeToStream(Variant & variant, std::ostream & outStream) override;
     virtual void writeToFile(Variant & variant, const std::string & filePath) override;

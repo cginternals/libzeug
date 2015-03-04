@@ -23,7 +23,7 @@ class FilePath;
 
 /**
  * \brief Set the value of supported ValueProperties to the value of the passed Variant
- * \see JsonPropertyDeserializer
+ * \see JsonToVariantDeserializer
 */
 class SetValuePropertyVisitor :
     public PropertyVisitor<

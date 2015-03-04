@@ -178,6 +178,20 @@ struct VariantConverterInit<std::string>
         Variant::registerConverter<std::string, float>(util::fromString<float>);
         Variant::registerConverter<std::string, double>(util::fromString<double>);
         Variant::registerConverter<std::string, long double>(util::fromString<long double>);
+
+        Variant::registerConverter<std::string, FilePath>(
+            [](const std::string & str) -> FilePath
+                {
+                    return FilePath(str);
+                }
+        );
+        Variant::registerConverter<std::string, Color>(
+            [](const std::string & str) -> Color
+                {
+                    bool ok = true;
+                    return Color::fromString(str, &ok);
+                }
+        );
     }
 
     static bool toBool(const std::string & string)
