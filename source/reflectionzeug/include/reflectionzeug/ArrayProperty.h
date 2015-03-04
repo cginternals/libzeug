@@ -1,7 +1,6 @@
 #pragma once
 
 #include <type_traits>
-#include <memory>
 #include <array>
 #include <functional>
 
@@ -13,16 +12,13 @@
 
 namespace reflectionzeug
 {
-    
-template <typename, size_t>
-class AbstractArrayValue;
 
 /**
  * \brief Property implementation that stores an std::array.
  *
- * It can either store the value itself or access it through 
+ * It can either store the value itself or access it through
  * element-based getter and setter.
- * It uses the property implementations of the single value properties, 
+ * It uses the property implementations of the single value properties,
  * therefore any single value type is also supported as the element type in arrays.
  *
  * \ingroup property_hierarchy
@@ -36,26 +32,7 @@ public:
     static size_t stype();
 
 public:
-    ArrayProperty(const std::array<Type, Size> & array);
-
-    ArrayProperty(const std::function<Type (size_t)> & getter,
-                  const std::function<void(size_t, const Type &)> & setter);
-    
-    template <class Object>
-    ArrayProperty(Object * object, 
-                  const Type & (Object::*getter_pointer)(size_t) const,
-                  void (Object::*setter_pointer)(size_t, const Type &));
-    
-    template <class Object>
-    ArrayProperty(Object * object, 
-                  Type (Object::*getter_pointer)(size_t) const,
-                  void (Object::*setter_pointer)(size_t, const Type &));
-    
-    template <class Object>
-    ArrayProperty(Object * object, 
-                  Type (Object::*getter_pointer)(size_t) const,
-                  void (Object::*setter_pointer)(size_t, Type));
-
+    ArrayProperty();
     virtual ~ArrayProperty() = 0;
 
 	virtual bool isCollection() const;
@@ -71,7 +48,7 @@ public:
 
     virtual Property<Type> * at(size_t i);
     virtual const Property<Type> * at(size_t i) const;
-    
+
     virtual bool isEmpty() const;
     virtual size_t count() const;
     virtual int indexOf(const AbstractProperty * property) const;
@@ -90,11 +67,27 @@ public:
 
     signalzeug::Signal<const std::array<Type, Size> &> valueChanged;
 
-private:
-    void init();
+protected:
+    void setAccessors(const std::function<Type (size_t)> & getter,
+                      const std::function<void(size_t, const Type &)> & setter);
 
+    template <class Object>
+    void setAccessors(Object * object,
+                      const Type & (Object::*getter_pointer)(size_t) const,
+                      void (Object::*setter_pointer)(size_t, const Type &));
+
+    template <class Object>
+    void setAccessors(Object * object,
+                      Type (Object::*getter_pointer)(size_t) const,
+                      void (Object::*setter_pointer)(size_t, const Type &));
+
+    template <class Object>
+    void setAccessors(Object * object,
+                      Type (Object::*getter_pointer)(size_t) const,
+                      void (Object::*setter_pointer)(size_t, Type));
 private:
-    std::unique_ptr<AbstractArrayValue<Type, Size>> m_array;
+    std::function<Type (size_t)> m_getter;
+    std::function<void(size_t, const Type &)> m_setter;
     std::array<Property<Type> *, Size> m_properties;
 };
 

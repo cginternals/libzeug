@@ -9,13 +9,6 @@ namespace reflectionzeug
 {
 
 template <typename Type>
-template <typename... Arguments>
-ClassProperty<Type>::ClassProperty(Arguments&&... args)
-:   ValueProperty<Type>(std::forward<Arguments>(args)...)
-{
-}
-
-template <typename Type>
 ClassProperty<Type>::~ClassProperty()
 {
 }

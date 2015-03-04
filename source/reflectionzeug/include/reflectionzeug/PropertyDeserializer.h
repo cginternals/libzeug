@@ -17,8 +17,7 @@ class REFLECTIONZEUG_API PropertyDeserializer
 {
 public:
     PropertyDeserializer();
-    virtual ~PropertyDeserializer();
-
+    
     bool deserialize(PropertyGroup & group, const std::string & filePath);
 
 protected:

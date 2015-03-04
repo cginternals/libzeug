@@ -31,10 +31,6 @@ PropertyDeserializer::PropertyDeserializer()
 {
 }
 
-PropertyDeserializer::~PropertyDeserializer()
-{
-}
-
 bool PropertyDeserializer::deserialize(PropertyGroup & group, const std::string & filePath)
 {
     std::fstream fstream;
