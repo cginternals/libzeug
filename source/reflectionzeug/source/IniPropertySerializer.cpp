@@ -13,7 +13,7 @@ using namespace loggingzeug;
 
 namespace reflectionzeug
 {
-    
+
 IniPropertySerializer::IniPropertySerializer()
 {
 }

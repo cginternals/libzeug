@@ -21,13 +21,11 @@ template <typename Enum>
 class EnumProperty : public ValueProperty<Enum, EnumPropertyInterface>
 {
 public:
-    template <typename... Arguments>
-    EnumProperty(Arguments&&... args);
-
+    EnumProperty();
     virtual ~EnumProperty() = 0;
 
     virtual void accept(AbstractPropertyVisitor * visitor);
-    
+
     virtual std::string toString() const;
     virtual bool fromString(const std::string & string);
 
@@ -35,10 +33,10 @@ public:
     const std::vector<Enum> & choices() const;
     void setChoices(const std::vector<Enum> & choices);
     virtual std::vector<std::string> choicesStrings() const;
-    
+
     virtual std::vector<std::string> strings() const;
     void setStrings(const std::map<Enum, std::string> & pairs);
-    
+
 private:
     std::map<Enum, std::string> m_stringMap;
     std::map<std::string, Enum> m_enumMap;
