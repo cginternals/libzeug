@@ -98,7 +98,6 @@ set(headers
     ${header_path}/IniPropertySerializer.h
     ${header_path}/JsonToVariantDeserializer.h
     ${header_path}/JsonFromVariantSerializer.h
-    ${header_path}/JsonSerializationVisitor.h
     ${header_path}/NumberProperty.h
     ${header_path}/NumberProperty.hpp
     ${header_path}/Object.h
@@ -106,7 +105,6 @@ set(headers
     ${header_path}/PropertyGroup.h
     ${header_path}/PropertyGroup.hpp
     ${header_path}/PropertyVisitor.h
-    ${header_path}/SetValuePropertyVisitor.h
     ${header_path}/SignedIntegralProperty.h
     ${header_path}/SignedIntegralProperty.hpp
     ${header_path}/SignedIntegralPropertyInterface.h
@@ -158,10 +156,8 @@ set(sources
     ${source_path}/IniPropertySerializer.cpp
     ${source_path}/JsonToVariantDeserializer.cpp
     ${source_path}/JsonFromVariantSerializer.cpp
-    ${source_path}/JsonSerializationVisitor.cpp
     ${source_path}/Object.cpp
     ${source_path}/PropertyGroup.cpp
-    ${source_path}/SetValuePropertyVisitor.cpp
     ${source_path}/StringProperty.cpp
     ${source_path}/StringPropertyInterface.cpp
     ${source_path}/SignedIntegralPropertyInterface.cpp

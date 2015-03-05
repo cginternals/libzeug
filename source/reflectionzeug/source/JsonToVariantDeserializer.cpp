@@ -6,9 +6,7 @@
 
 #include <loggingzeug/logging.h>
 
-#include <reflectionzeug/SetValuePropertyVisitor.h>
-#include <reflectionzeug/Property.h>
-#include <reflectionzeug/PropertyGroup.h>
+#include <reflectionzeug/AbstractProperty.h>
 #include <reflectionzeug/regex_namespace.h>
 #include <reflectionzeug/util.h>
 
@@ -245,7 +243,6 @@ void JsonToVariantDeserializer::endArray()
 
 Variant JsonToVariantDeserializer::constructVariant(const std::string & value) const
 {
-    debug() << "constructing variant from value " << value;
     // subexpressions
     static const std::string r_ulonglong = "(?:0|[1-9]\\d*)";
     static const std::string r_longlong = "-?" + r_ulonglong;
