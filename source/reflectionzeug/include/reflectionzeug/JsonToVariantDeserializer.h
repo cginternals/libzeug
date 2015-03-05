@@ -4,11 +4,10 @@
 
 #include <reflectionzeug/AbstractDeserializer.h>
 
-
 #include <list>
+#include <vector>
 
 #include <reflectionzeug/Variant.h>
-#include <reflectionzeug/regex_namespace.h>
 
 namespace reflectionzeug
 {
@@ -37,26 +36,32 @@ public:
 protected:
     Variant deserialize(std::istream & inStream, bool & successFlag);
 
+    bool match(const std::string & regexString, const std::string & line);
+
     bool isMapDeclaration(const std::string & line);
     bool isMapEnd(const std::string & line);
 
     bool isArrayDeclaration(const std::string &line);
     bool isArrayEnd(const std::string &line);
 
+    bool isKeyValueDeclaration(const std::string & line);
     bool isValueDeclaration(const std::string & line);
+
+    bool isKeyValue(Variant variant) const;
+    bool isValue(Variant variant) const;
 
     bool insert(Variant variant);
 
+    void updateGroupList(Variant * variant);
+
     void endMap();
     void endArray();
-
-    //bool setPropertyValue(const std::string & line);
 
     Variant constructVariant(const std::string & value) const;
 
 protected:
     Variant m_rootVariant;
-    regex_namespace::smatch m_matches;
+    std::vector<std::string> m_matches;
     std::list<Variant *> m_variantGroupList;
     Variant * m_currentVariant;
 };

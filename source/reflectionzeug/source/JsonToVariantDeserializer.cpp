@@ -9,6 +9,7 @@
 #include <reflectionzeug/SetValuePropertyVisitor.h>
 #include <reflectionzeug/Property.h>
 #include <reflectionzeug/PropertyGroup.h>
+#include <reflectionzeug/regex_namespace.h>
 #include <reflectionzeug/util.h>
 
 using namespace loggingzeug;
@@ -74,43 +75,63 @@ Variant JsonToVariantDeserializer::deserialize(std::istream & inStream, bool & s
 
     for (std::string line; std::getline(inStream, line);)
     {
-        debug() << line;
+        m_matches.clear();
         if (isMapDeclaration(line))
         {
             successFlag = insert(Variant::map()) && successFlag;
         }
         else if (isMapEnd(line))
+        {
             endMap();
+        }
         else if (isArrayDeclaration(line))
         {
             successFlag = insert(Variant::array()) && successFlag;
         }
         else if (isArrayEnd(line))
+        {
             endArray();
+        }
+        else if (isKeyValueDeclaration(line))
+        {
+            successFlag = insert(constructVariant(m_matches.at(2))) && successFlag;
+        }
         else if (isValueDeclaration(line))
         {
-            successFlag = insert(constructVariant(m_matches[2])) && successFlag;
+            successFlag = insert(constructVariant(m_matches.at(1))) && successFlag;
         }
     }
 
     return m_rootVariant;
 }
 
+bool JsonToVariantDeserializer::match(const std::string & regexString, const std::string & line)
+{
+    regex_namespace::regex regExpr(regexString);
+    auto matches = regex_namespace::smatch();
+    bool foundMatch = regex_namespace::regex_match(line, matches, regExpr);
+
+    for (auto match : matches)
+    {
+        if (match.str().compare("") != 0)
+            m_matches.push_back(match.str());
+    }
+    return foundMatch;
+}
+
 bool JsonToVariantDeserializer::isMapDeclaration(const std::string & line)
 {
     // match '"GROUPNAME": {' and '{'
     // captures GROUPNAME
-    static const regex_namespace::regex mapRegex(
+    static const std::string mapRegex(
             "^\\s*(?:\"(" + AbstractProperty::s_nameRegexString + ")\": )?\\{$");
-    m_matches = regex_namespace::smatch();
-    return regex_namespace::regex_match(line, m_matches, mapRegex);
+    return match(mapRegex, line);
 }
 
 bool JsonToVariantDeserializer::isMapEnd(const std::string &line)
 {
     // match solitary '}' and '},'
     static const regex_namespace::regex mapRegex("^\\s*\\},?$");
-
     return regex_namespace::regex_match(line, mapRegex);
 }
 
@@ -118,28 +139,58 @@ bool JsonToVariantDeserializer::isArrayDeclaration(const std::string & line)
 {
     // match '"GROUPNAME": [' and '['
     // captures GROUPNAME
-    static const regex_namespace::regex arrayRegex(
+    static const std::string arrayRegex(
             "^\\s*(?:\"(" + AbstractProperty::s_nameRegexString + ")\": )?\\[$");
-    m_matches = regex_namespace::smatch();
-    return regex_namespace::regex_match(line, m_matches, arrayRegex);
+    return match(arrayRegex, line);
 }
 
 bool JsonToVariantDeserializer::isArrayEnd(const std::string &line)
 {
     // match solitary ']' and '],'
     static const regex_namespace::regex arrayRegex("^\\s*\\],?$");
-
     return regex_namespace::regex_match(line, arrayRegex);
+}
+
+bool JsonToVariantDeserializer::isKeyValueDeclaration(const std::string & line)
+{
+    // match '"NAME": VALUE' pair with VALUE being either string, number or boolean
+    // captures NAME and VALUE
+    static const std::string keyValueRegex(
+            "^\\s*\"(" + AbstractProperty::s_nameRegexString + ")\": (\".*\"|\\d+(?:\\.?\\d+)?|(?:true|false|null)),?$");
+    return match(keyValueRegex, line);
 }
 
 bool JsonToVariantDeserializer::isValueDeclaration(const std::string & line)
 {
-    // match '"NAME": VALUE' pair with VALUE being either string, number or boolean
-    // captures NAME and VALUE
-    static const regex_namespace::regex valueRegex(
-            "^\\s*\"(" + AbstractProperty::s_nameRegexString + ")\": (\".*\"|\\d+(?:\\.?\\d+)?|(?:true|false|null)),?$");
-    m_matches = regex_namespace::smatch();
-    return regex_namespace::regex_match(line, m_matches, valueRegex);
+    // match 'VALUE' with VALUE being either string, number or boolean
+    // captures VALUE
+    static const std::string valueRegex(
+            "^\\s*(\".*\"|\\d+(?:\\.?\\d+)?|(?:true|false|null)),?$");
+    return match(valueRegex, line);
+}
+
+bool JsonToVariantDeserializer::isKeyValue(Variant variant) const
+{
+    if (variant.isArray() || variant.isMap())
+    {
+        return m_matches.size() == 2;
+    }
+    else
+    {
+        return m_matches.size() == 3;
+    }
+}
+
+bool JsonToVariantDeserializer::isValue(Variant variant) const
+{
+    if (variant.isArray() || variant.isMap())
+    {
+        return m_matches.size() == 1;
+    }
+    else
+    {
+        return m_matches.size() == 2;
+    }
 }
 
 bool JsonToVariantDeserializer::insert(Variant variant)
@@ -147,27 +198,24 @@ bool JsonToVariantDeserializer::insert(Variant variant)
     if (m_variantGroupList.empty())
     {
         m_rootVariant = variant;
-        if (m_rootVariant.isArray() || m_rootVariant.isMap())
-        {
-            m_variantGroupList.push_back(&m_rootVariant);
-        }
+        updateGroupList(&m_rootVariant);
     }
     else if (m_variantGroupList.back()->isMap())
     {
-        auto variantMap = m_variantGroupList.back()->toMap();
-        variantMap->insert(std::pair<std::string, Variant>(m_matches[1], variant));
-        if (variantMap->at(m_matches[1]).isArray() || variantMap->at(m_matches[1]).isMap())
+        if (isKeyValue(variant))
         {
-            m_variantGroupList.push_back(&(variantMap->at(m_matches[1])));
+            auto variantMap = m_variantGroupList.back()->toMap();
+            variantMap->insert(std::pair<std::string, Variant>(m_matches.at(1), variant));
+            updateGroupList(&(variantMap->at(m_matches.at(1))));
         }
     }
     else if (m_variantGroupList.back()->isArray())
     {
-        auto variantArray = m_variantGroupList.back()->toArray();
-        variantArray->push_back(variant);
-        if (variantArray->back().isArray() || variantArray->back().isMap())
+        if (isValue(variant))
         {
-            m_variantGroupList.push_back(&(variantArray->back()));
+            auto variantArray = m_variantGroupList.back()->toArray();
+            variantArray->push_back(variant);
+            updateGroupList(&(variantArray->back()));
         }
     }
     else
@@ -175,6 +223,14 @@ bool JsonToVariantDeserializer::insert(Variant variant)
         return false;
     }
     return true;
+}
+
+void JsonToVariantDeserializer::updateGroupList(Variant * variant)
+{
+    if (variant->isArray() || variant->isMap())
+    {
+        m_variantGroupList.push_back(variant);
+    }
 }
 
 void JsonToVariantDeserializer::endMap()
@@ -187,34 +243,9 @@ void JsonToVariantDeserializer::endArray()
     m_variantGroupList.pop_back();
 }
 
-//bool JsonToVariantDeserializer::setPropertyValue(const std::string & line)
-//{
-//    if (m_variantGroupList.size() == 0)
-//    {
-//        warning() << "Could not parse line\"" << line << "\"" << "because no existing group was declared" << std::endl;
-//        return false;
-//    }
-
-//    assert(m_matches.size() == 3);
-//    std::string name = m_matches[1];
-//    std::string value = m_matches[2];
-
-//    AbstractValueProperty * valueProperty = dynamic_cast<AbstractValueProperty *>(m_variantGroupList.back()->property(name));
-//    if (valueProperty)
-//    {
-//        static SetValuePropertyVisitor visitor;
-//        visitor.setVariant(constructVariant(value));
-//        valueProperty->accept(&visitor);
-//    }
-//    else
-//    {
-//        warning() << "Property is not a ValueProperty, unable to assign a value" << std::endl;
-//    }
-//    return true;
-//}
-
 Variant JsonToVariantDeserializer::constructVariant(const std::string & value) const
 {
+    debug() << "constructing variant from value " << value;
     // subexpressions
     static const std::string r_ulonglong = "(?:0|[1-9]\\d*)";
     static const std::string r_longlong = "-?" + r_ulonglong;

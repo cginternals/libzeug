@@ -99,6 +99,7 @@ void JsonFromVariantSerializer::serializeArray(const VariantArray * array, std::
     m_elementCount.push_back(array->size());
     for (auto variant : *array)
     {
+        stream << indent(m_nestingLevel);
         serializeVariant(variant, stream);
     }
     m_elementCount.pop_back();

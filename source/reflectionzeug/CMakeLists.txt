@@ -168,6 +168,7 @@ set(sources
     ${source_path}/UnsignedIntegralPropertyInterface.cpp
     ${source_path}/util.cpp
     ${source_path}/Variant.cpp
+    ${source_path}/extensions/GlmVariantConverterInit.cpp
 )
 
 # Group source files
