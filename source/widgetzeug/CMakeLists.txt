@@ -56,6 +56,7 @@ set(api_includes
     ${header_path}/ColorGradientStop.h
     ${header_path}/ColorScheme.h
     ${header_path}/ColorSchemePresetsWidget.h
+    ${header_path}/DockableScrollAreaWidget.h
     ${header_path}/DpiAwareGraphicsView.h
     ${header_path}/RGBABrush.hpp
     # script widgets
@@ -85,6 +86,7 @@ set(sources
     ${source_path}/ColorSchemeGraphicsView.h
     ${source_path}/ColorSchemePresetsWidget.cpp
     ${source_path}/ColorSchemePresetsWidget.ui
+    ${source_path}/DockableScrollAreaWidget.cpp
     ${source_path}/DpiAwareGraphicsView.cpp
     ${source_path}/SingleColorSchemeGraphicsView.cpp
     ${source_path}/SingleColorSchemeGraphicsView.h
