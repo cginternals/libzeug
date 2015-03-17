@@ -3,6 +3,8 @@
 
 #include <assert.h>
 
+#include <QKeyEvent>
+
 #include <widgetzeug/ColorScheme.h>
 
 #include "ColorSchemeGraphicsItem.h"
@@ -42,12 +44,6 @@ void ColorSchemeGraphicsView::clear()
 
     scene()->clear();
     scene()->update();
-
-    //resetCachedContent();
-    //resetTransform();
-    //update();
-
-    qDebug() << "ColorSchemeGraphicsView::clear()";
 }
 
 void ColorSchemeGraphicsView::createGroup(const QString & identifier)
@@ -77,12 +73,12 @@ void ColorSchemeGraphicsView::insertScheme(const QString & group, const ColorSch
     m_maxClasses = qMax(scheme->maxClasses(), m_maxClasses);
 
     m_graphicsItemGroups.value(group)->addScheme(scheme);
+
+	//update();
 }
 
 void ColorSchemeGraphicsView::update()
 {
-    qWarning() << "ColorSchemeGraphicsView::update() " << m_groups;
-
     auto left = 0;
 
     for (const auto & identifier : m_groups)
@@ -113,42 +109,42 @@ void ColorSchemeGraphicsView::update()
 
 void ColorSchemeGraphicsView::keyPressEvent(QKeyEvent * event)
 {
-    /*auto offset = 0;
+    //auto offset = 0;
 
-    switch (event->key()) 
-    {
-    case Qt::Key_Right:
-        offset =  1;
-        break;
+    //switch (event->key()) 
+    //{
+    //case Qt::Key_Right:
+    //    offset =  1;
+    //    break;
 
-    case Qt::Key_Left:
-        offset = -1;
-        break;            
+    //case Qt::Key_Left:
+    //    offset = -1;
+    //    break;            
 
-    default:
-        break;
-    }
-    
-    if (!offset)
-        return;
-        
-    if (!m_selectedItem)
-    {
-        setSelected(schemes().first());
-        return;
-    }
+    //default:
+    //    break;
+    //}
+    //
+    //if (!offset)
+    //    return;
+    //    
+    //if (!m_selectedItem)
+    //{
+    //    setSelected(schemes().first());
+    //    return;
+    //}
 
-    auto S = schemes();
-    auto index = S.indexOf(m_selectedItem->scheme());
-    index += offset;
+    //auto S = schemes();
+    //auto index = S.indexOf(m_selectedItem->scheme());
+    //index += offset;
 
-    if (index < 0)
-        index = S.count() - 1;
-    if (index >= S.count())
-        index = 0;
+    //if (index < 0)
+    //    index = S.count() - 1;
+    //if (index >= S.count())
+    //    index = 0;
 
-    setSelected(S.at(index));
-    ensureVisible(m_selectedItem, 20 * dpiBasedScale(), 0);*/
+    //setSelected(S.at(index));
+    //ensureVisible(m_selectedItem, 20 * dpiBasedScale(), 0);*/
 }
 
 void ColorSchemeGraphicsView::setSelected(const ColorScheme * scheme)

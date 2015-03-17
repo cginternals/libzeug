@@ -61,7 +61,7 @@ public:
     ColorScheme(const QString & identifier, ColorSchemeType type);
     ColorScheme(const QString & identifier, QJsonObject scheme);
 
-    virtual ~ColorScheme();
+    virtual ~ColorScheme() = default;
 
     bool operator==(const ColorScheme & scheme) const;
 

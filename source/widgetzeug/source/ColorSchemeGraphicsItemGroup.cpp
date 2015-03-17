@@ -6,7 +6,6 @@
 
 #include <QGraphicsTextItem>
 #include <QString>
-#include <QDebug>
 
 #include <widgetzeug/DpiAwareGraphicsView.h>
 
@@ -26,13 +25,6 @@ ColorSchemeGraphicsItemGroup::ColorSchemeGraphicsItemGroup(
 {
     m_label->setRotation(-90);
     m_label->setOpacity(0.5);
-
-    qWarning() << "group  " << this;
-}
-
-ColorSchemeGraphicsItemGroup::~ColorSchemeGraphicsItemGroup()
-{
-    qWarning() << "~group " << this;
 }
 
 QRectF ColorSchemeGraphicsItemGroup::boundingRect() const

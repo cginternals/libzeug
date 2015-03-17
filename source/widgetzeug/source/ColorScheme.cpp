@@ -27,10 +27,6 @@ const QMap<ColorVisionDeficiency, QString> ColorScheme::s_deficiencies = {
     { ColorVisionDeficiency::Grayscale, "Grayscale" } };
 
 
-// ToDo: remove when debugging is done
-static auto num_instances = 0;
-
-
 ColorScheme::ColorScheme()
 : ColorScheme{ "", Unknown }
 {
@@ -45,16 +41,11 @@ ColorScheme::ColorScheme(const QString & identifier, ColorSchemeType type)
 : m_identifier{ identifier }
 , m_type{ type }
 {
-	++num_instances;
-	qDebug() << "\t*ColorScheme " << static_cast<void*>(this) << " " << num_instances;
 }
 
 ColorScheme::ColorScheme(const QString & identifier, QJsonObject scheme)
 : m_identifier{ identifier }
 {
-	++num_instances;
-	qDebug() << "\t*ColorScheme " << static_cast<void*>(this) << " " << num_instances;
-
     if (scheme.isEmpty())
     {
         qWarning() << qPrintable("Cannot retrieve color scheme \"" + identifier + "\" from Json object: object is empty.");
@@ -104,12 +95,6 @@ ColorScheme::ColorScheme(const QString & identifier, QJsonObject scheme)
         }
         setColors(colors);
     }
-}
-
-ColorScheme::~ColorScheme()
-{
-	--num_instances;
-	qDebug() << "\t~ColorScheme " << static_cast<void*>(this) << " " << num_instances;
 }
 
 bool ColorScheme::operator==(const ColorScheme & scheme) const
