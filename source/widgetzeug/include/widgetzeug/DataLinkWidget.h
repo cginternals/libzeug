@@ -55,13 +55,12 @@ protected slots:
 protected:
     bool isRecent(const QString & fileName) const;
 
-    inline QCompleter * completer();
+    QCompleter * completer();
 
     void updateWatcher();
 
 private:
     QString m_path; ///< path of the lastly typed fileName
-    QString m_fileName; ///< fileName of the last emited fileChanged
 
     QFileSystemWatcher * m_watcher;
     bool m_watchFile;

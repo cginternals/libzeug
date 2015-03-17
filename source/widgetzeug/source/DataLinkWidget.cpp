@@ -52,37 +52,30 @@ DataLinkWidget::DataLinkWidget(QWidget * parent)
     
     m_ui->linkCheckBox->setChecked(m_watchFile);
 
-    m_ui->fileNameComboBox->setValidator(new FileExistsValidator{ m_ui->fileNameComboBox });
-    m_ui->fileNameComboBox->setCompleter(new QCompleter);
+    m_ui->fileNameComboBox->setValidator(new FileExistsValidator{m_ui->fileNameComboBox});
+    m_ui->fileNameComboBox->setCompleter(new QCompleter{});
 
     connect(m_watcher, &QFileSystemWatcher::fileChanged, this, &DataLinkWidget::fileChanged);
 
     // register every file change to prevent unnecassary fileChanged emits
-    connect(this, &DataLinkWidget::fileChanged, [&](const QString & fileName) { 
-        m_fileName = fileName; });
+    connect(this, &DataLinkWidget::fileChanged, [this] (const QString & fileName)
+        {
+            qWarning() << "fileChanged() >> " << fileName;
+        });
 }
 
 DataLinkWidget::~DataLinkWidget() = default;
 
 void DataLinkWidget::addFileName(const QString & fileName_, const bool setCurrent)
 {
-	const auto emit_changed = m_ui->fileNameComboBox->count() == 0;
-
     if (!isRecent(fileName_))
-    {
-        m_ui->fileNameComboBox->blockSignals(true);
         m_ui->fileNameComboBox->addItem(fileName_);
-        m_ui->fileNameComboBox->blockSignals(false);
-    }
 
     if (!setCurrent)
         return;
 
     const auto index = m_ui->fileNameComboBox->findText(fileName_);
     m_ui->fileNameComboBox->setCurrentIndex(index); // triggers not if current index is index
-	
-    if (emit_changed)
-		emit fileChanged(fileName());
 }
 
 void DataLinkWidget::setFileName(const QString & fileName)
@@ -143,19 +136,12 @@ void DataLinkWidget::updateWatcher()
 
 bool DataLinkWidget::browse()
 {
-    const auto fileName = QFileDialog::getOpenFileName(this, windowTitle(), QString(), m_filter, nullptr, { QFileDialog::ExistingFile });
+    const auto fileName = QFileDialog::getOpenFileName(this, windowTitle(), QString{}, {});
 
     if (fileName.isEmpty())
         return false;
-
-    const auto fi = QFileInfo { fileName };
-
-    auto comboBox = m_ui->fileNameComboBox;
-    if (!isRecent(fileName))
-        m_ui->fileNameComboBox->addItem(fileName, fi.absoluteFilePath());
-
-    comboBox->setCurrentIndex(comboBox->findText(fileName));
-
+    
+    setFileName(fileName);
     return true;
 }
 
@@ -164,7 +150,7 @@ void DataLinkWidget::save()
     if (fileName().isEmpty())
         browse();
 
-    emit save(m_ui->fileNameComboBox->currentText());
+    emit save(fileName());
 }
 
 void DataLinkWidget::on_browsePushButton_clicked(bool)
@@ -179,19 +165,16 @@ void DataLinkWidget::on_savePushButton_clicked(bool)
 
 void DataLinkWidget::on_fileNameComboBox_currentIndexChanged(const QString & text)
 {
-    if (fileName().isEmpty() || m_fileName == fileName())
+    if (fileName().isEmpty())
         return;
 
-    qWarning() << fileName() << " (" << m_fileName << ")";
-
     updateWatcher();
-
     emit fileChanged(fileName());
 }
 
 void DataLinkWidget::on_fileNameComboBox_editTextChanged(const QString & text)
 {
-    const auto fi = QFileInfo(text);
+    const auto fi = QFileInfo{text};
     const auto path = fi.path().isEmpty() ? QDir::currentPath() : fi.path();
 
     if (path == m_path)
@@ -201,12 +184,13 @@ void DataLinkWidget::on_fileNameComboBox_editTextChanged(const QString & text)
 
     // add all files in current path
     m_path = path;
-    QDirIterator iterator(m_path);
+    QDirIterator iterator{m_path};
 
-    QStringList list;
+    auto list = QStringList{};
     while (iterator.hasNext())
     {
         const auto next = iterator.next();
+        
         if (next.endsWith(".") || next.endsWith(".."))
             continue;
 
@@ -224,7 +208,7 @@ void DataLinkWidget::on_fileNameComboBox_editTextChanged(const QString & text)
             list << text;
     }
 
-    completer()->setModel(new QStringListModel(list));
+    completer()->setModel(new QStringListModel{list});
 }
 
 void DataLinkWidget::on_linkCheckBox_stateChanged(const int state)
