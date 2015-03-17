@@ -22,9 +22,9 @@ public:
     AbstractSerializer();
     virtual ~AbstractSerializer();
 
-    virtual void writeToStream(Variant & variant, std::ostream & outStream) { }
-    virtual void writeToFile(Variant & variant, const std::string & filePath) { }
-    virtual std::string writeToString(Variant & variant) { return ""; }
+    virtual void writeToStream(const Variant & variant, std::ostream & outStream) { }
+    virtual void writeToFile(const Variant & variant, const std::string & filePath) { }
+    virtual std::string writeToString(const Variant & variant) { return ""; }
 
     // deprecated
     virtual bool serialize(PropertyGroup & group, const std::string & filePath) { return false; }

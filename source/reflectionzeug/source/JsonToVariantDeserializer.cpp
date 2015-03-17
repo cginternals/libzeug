@@ -15,14 +15,6 @@ using namespace loggingzeug;
 namespace reflectionzeug
 {
 
-JsonToVariantDeserializer::JsonToVariantDeserializer()
-{
-}
-
-JsonToVariantDeserializer::~JsonToVariantDeserializer()
-{
-}
-
 Variant JsonToVariantDeserializer::fromStream(std::istream & inStream)
 {
     bool successFlag = true;
@@ -42,16 +34,16 @@ Variant JsonToVariantDeserializer::fromFile(const std::string & filePath)
 
 Variant JsonToVariantDeserializer::fromFile(const std::string & filePath, bool & successFlag)
 {
-    auto stream = std::unique_ptr<std::ifstream>(new std::ifstream(filePath));
-    if (stream->is_open())
-    {
-        return deserialize(*stream, successFlag);
-    }
-    else
+    std::ifstream stream {filePath};
+
+    if (!stream.is_open())
     {
         critical() << "Could not open stream from file: \"" << filePath << "\"";
-        return Variant();
+        successFlag = false;
+        return Variant{};
     }
+
+    return deserialize(stream, successFlag);
 }
 
 Variant JsonToVariantDeserializer::fromString(const std::string & str)

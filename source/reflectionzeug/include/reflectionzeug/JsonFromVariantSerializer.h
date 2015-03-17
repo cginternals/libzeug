@@ -22,17 +22,17 @@ public:
     JsonFromVariantSerializer();
     virtual ~JsonFromVariantSerializer();
 
-    virtual void writeToStream(Variant & variant, std::ostream & outStream) override;
-    virtual void writeToFile(Variant & variant, const std::string & filePath) override;
-    virtual std::string writeToString(Variant & variant) override;
+    virtual void writeToStream(const Variant & variant, std::ostream & outStream) override;
+    virtual void writeToFile(const Variant & variant, const std::string & filePath) override;
+    virtual std::string writeToString(const Variant & variant) override;
     
 protected:
-    void serialize(Variant & variant, std::ostream & stream);
-    void serializeVariant(Variant & variant, std::ostream & stream);
+    void serialize(const Variant & variant, std::ostream & stream);
+    void serializeVariant(const Variant & variant, std::ostream & stream);
     void serializeMap(const VariantMap * map, std::ostream & stream);
     void serializeArray(const VariantArray * array, std::ostream & stream);
-    void serializeValue(Variant & value, std::ostream & stream);
-    void writeJsonString(Variant & value, std::ostream & stream);
+    void serializeValue(const Variant & value, std::ostream & stream);
+    void writeJsonString(const Variant & value, std::ostream & stream);
 
     std::string indent(unsigned int nestingLevel);
     void endLine(std::ostream & stream);
