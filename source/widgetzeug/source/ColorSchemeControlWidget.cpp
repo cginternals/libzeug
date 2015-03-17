@@ -132,15 +132,15 @@ void ColorSchemeControlWidget::onFileChanged(const QString & fileName)
 
 	if (!m_lastPresetsFileName.isEmpty() && m_lastPresetsFileName == fileName)
 		return;
-    
-    m_lastPresetsFileName = fileName;
-    
+        
     auto presets = make_unique<ColorSchemePresets>(fileName);
     m_dataLinkWidget->setFileIssue(!presets->isValid());
     
     if (!presets->isValid())
         return;
-    
+
+    m_lastPresetsFileName = fileName;
+
     m_presets = std::move(presets);
 
 	const auto enabled = static_cast<bool>(m_presets);

@@ -87,15 +87,15 @@ void ColorSchemePresets::reload()
 
 	auto doc = QJsonDocument::fromJson(json.toUtf8(), jsonParseError.get());
 
-	static const auto warning = QString("Cannot retrieve color scheme presets from Json \"%1\": ").arg(m_fileName);
+	static const auto warning = QString("Cannot retrieve color scheme presets from Json \"%1\": ");
 	if (jsonParseError->error != QJsonParseError::NoError)
 	{
-		qWarning() << qPrintable(warning + jsonParseError->errorString());
+        qWarning() << qPrintable(warning.arg(m_fileName) + jsonParseError->errorString());
 		return;
 	}
 	if (!doc.isObject())
 	{
-		qWarning() << qPrintable(warning + " document is not an object.");
+        qWarning() << qPrintable(warning.arg(m_fileName) + " document is not an object.");
 		return;
 	}
     auto presets = doc.object();

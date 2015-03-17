@@ -165,11 +165,11 @@ void DataLinkWidget::on_savePushButton_clicked(bool)
 
 void DataLinkWidget::on_fileNameComboBox_currentIndexChanged(const QString & text)
 {
-	if (fileName().isEmpty() || !m_lastEmitedFileName.compare(fileName()))
+	if (text.isEmpty() || !m_lastEmitedFileName.compare(text))
         return;
 
     updateWatcher();
-    emit fileChanged(fileName());
+    emit fileChanged(text);
 }
 
 void DataLinkWidget::on_fileNameComboBox_editTextChanged(const QString & text)
