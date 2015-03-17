@@ -53,7 +53,6 @@ DataLinkWidget::DataLinkWidget(QWidget * parent)
     m_ui->linkCheckBox->setChecked(m_watchFile);
 
     m_ui->fileNameComboBox->setValidator(new FileExistsValidator{m_ui->fileNameComboBox});
-    m_ui->fileNameComboBox->setCompleter(new QCompleter{});
 
     connect(m_watcher, &QFileSystemWatcher::fileChanged, this, &DataLinkWidget::fileChanged);
 
@@ -130,7 +129,7 @@ void DataLinkWidget::updateWatcher()
     }
     else
     {
-        m_watcher->addPath(m_ui->fileNameComboBox->currentText());
+        m_watcher->addPath(fileName());
     }
 }
 
@@ -174,7 +173,7 @@ void DataLinkWidget::on_fileNameComboBox_currentIndexChanged(const QString & tex
 
 void DataLinkWidget::on_fileNameComboBox_editTextChanged(const QString & text)
 {
-    const auto fi = QFileInfo{text};
+    const auto fi = QFileInfo{ text };
     const auto path = fi.path().isEmpty() ? QDir::currentPath() : fi.path();
 
 	if (path == m_path)
@@ -204,14 +203,12 @@ void DataLinkWidget::on_fileNameComboBox_editTextChanged(const QString & text)
     // add recent items contained in fileNameComboBox
     for (auto i = 0; i < m_ui->fileNameComboBox->count(); ++i)
     {
-        const auto text = m_ui->fileNameComboBox->itemText(i);
-        if (!list.contains(text))
-            list << text;
+        const auto item = m_ui->fileNameComboBox->itemText(i);
+        if (!list.contains(item))
+            list << item;
     }
 
-	completer()->blockSignals(true);
     completer()->setModel(new QStringListModel{list});
-	completer()->blockSignals(false);
 }
 
 void DataLinkWidget::on_linkCheckBox_stateChanged(const int state)
@@ -220,7 +217,7 @@ void DataLinkWidget::on_linkCheckBox_stateChanged(const int state)
     m_watchFile = checkState == Qt::Checked;
 
     if (m_watchFile)
-        emit fileChanged(m_ui->fileNameComboBox->currentText());
+        emit fileChanged(fileName());
 
     updateWatcher();
 }

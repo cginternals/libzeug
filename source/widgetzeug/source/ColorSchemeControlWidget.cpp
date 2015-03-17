@@ -130,12 +130,9 @@ void ColorSchemeControlWidget::onFileChanged(const QString & fileName)
 {
 	// this slot should be called by data link widget's file changes
 
-	if (!m_lastPresetsFileName.isEmpty() && m_lastPresetsFileName == fileName)
-		return;
-        
     auto presets = make_unique<ColorSchemePresets>(fileName);
     m_dataLinkWidget->setFileIssue(!presets->isValid());
-    
+
     if (!presets->isValid())
         return;
 
