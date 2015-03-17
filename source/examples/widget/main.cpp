@@ -87,6 +87,8 @@ int main(int argc, char *argv[])
     
     enableDarkFusionStyle();
     
+    qApp->setAttribute(Qt::AA_UseHighDpiPixmaps);
+
 	QWidget widget;
 
 	QPushButton schemeButton{ QObject::tr("Color &Scheme") };

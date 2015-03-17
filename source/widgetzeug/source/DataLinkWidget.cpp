@@ -10,6 +10,7 @@
 #include <QDirIterator>
 #include <QCompleter>
 #include <QStringListModel>
+#include <QStyle>
 #include <QFileSystemModel>
 
 #include "ui_DataLinkWidget.h"
@@ -38,10 +39,15 @@ public:
 
 
 DataLinkWidget::DataLinkWidget(QWidget * parent)
-:   m_ui{new Ui_DataLinkWidget()}
-,   m_watcher{ new QFileSystemWatcher{ this } }
+:   m_ui{new Ui_DataLinkWidget{}}
+,   m_watcher{new QFileSystemWatcher{this}}
 {
     m_ui->setupUi(this);
+    
+    auto warningLabel = m_ui->fileNameWarningLabel;
+    const auto icon = style()->standardIcon(QStyle::SP_MessageBoxWarning);
+    const auto iconExtent = static_cast<int>(warningLabel->height() * 0.5f);
+    warningLabel->setPixmap(icon.pixmap(iconExtent));
 
     m_ui->fileNameComboBox->setValidator(new FileExistsValidator{ m_ui->fileNameComboBox });
     m_ui->fileNameComboBox->setCompleter(new QCompleter);
@@ -92,8 +98,7 @@ QString DataLinkWidget::fileName() const
 
 void DataLinkWidget::setFileIssue(const bool enable)
 {
-	// ToDo: provide some feedback that the file cannot be used
-	// -> an appropriate log message should alread be sent ... so not required here
+    m_ui->fileNameWarningLabel->setVisible(enable);
 }
 
 void DataLinkWidget::setFilter(const QString & filter)
