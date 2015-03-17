@@ -25,6 +25,7 @@
 //#include <widgetzeug/ColorSchemeLabel.h>
 #include <widgetzeug/ColorSchemePresets.h>
 #include <widgetzeug/ColorSchemeControlWidget.h>
+#include <widgetzeug/dark_fusion_style.hpp>
 
 #include "libzeug-version.h"
 
@@ -73,8 +74,6 @@ QWidget * getOrCreateColorScemeControlWidget()
 //}
 
 
-#include "TextEdit.h"
-
 #include <QCompleter>
 #include <QStringListModel>
 
@@ -85,6 +84,8 @@ int main(int argc, char *argv[])
     QApplication::setApplicationName("widgetzeug-example");
     QApplication::setOrganizationName(META_AUTHOR_ORGANIZATION);
     QApplication::setApplicationVersion(META_VERSION);
+    
+    enableDarkFusionStyle();
     
 	QWidget widget;
 
