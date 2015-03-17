@@ -173,7 +173,7 @@ void DataLinkWidget::on_fileNameComboBox_currentIndexChanged(const QString & tex
 
 void DataLinkWidget::on_fileNameComboBox_editTextChanged(const QString & text)
 {
-    const auto fi = QFileInfo{ text };
+    const auto fi = QFileInfo{text};
     const auto path = fi.path().isEmpty() ? QDir::currentPath() : fi.path();
 
 	if (path == m_path)
@@ -184,7 +184,7 @@ void DataLinkWidget::on_fileNameComboBox_editTextChanged(const QString & text)
     // add all files in current path
 
 	m_path = path;
-	QDirIterator iterator{ m_path };
+	QDirIterator iterator{m_path};
 
     auto list = QStringList{};
     while (iterator.hasNext())

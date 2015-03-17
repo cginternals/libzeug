@@ -72,6 +72,7 @@ void ColorSchemeControlWidget::setScheme(const ColorScheme & scheme)
 {
     m_colorSchemePresetsWidget->setSelected(scheme);
 }
+
 const ColorScheme * ColorSchemeControlWidget::scheme()
 {
     return m_colorSchemePresetsWidget->selected();
@@ -81,6 +82,7 @@ void ColorSchemeControlWidget::setTypeFilter(const ColorScheme::ColorSchemeTypes
 {
     m_colorSchemePresetsWidget->setTypeFilter(types);
 }
+
 ColorScheme::ColorSchemeTypes ColorSchemeControlWidget::typeFilter() const
 {
     return m_colorSchemePresetsWidget->typeFilter();
@@ -90,6 +92,7 @@ void ColorSchemeControlWidget::setClasses(const uint classes)
 {
 	m_colorSchemeWidget->setClasses(classes);
 }
+
 uint ColorSchemeControlWidget::classes() const
 {
 	return m_colorSchemeWidget->classes();
