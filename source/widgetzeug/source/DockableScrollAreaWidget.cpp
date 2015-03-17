@@ -14,7 +14,7 @@ DockableScrollAreaWidget::DockableScrollAreaWidget(const QString & title, QWidge
 , m_scrollArea{ new QScrollArea }
 , m_vbox{ new QVBoxLayout }
 {
-    layout()->setContentsMargins(0, 0, 0, 0);
+	layout()->setContentsMargins(0, 0, 0, 0);
 
     m_vbox->addStretch();
     
@@ -45,6 +45,7 @@ void DockableScrollAreaWidget::addWidget(QWidget * widget)
     group->setLayout(new QVBoxLayout());
 
     group->layout()->addWidget(widget);
+	group->layout()->setContentsMargins(0, 0, 0, 0);
 
     m_vbox->insertWidget(m_vbox->count() - 1, group);
 }

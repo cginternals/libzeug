@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>271</width>
-    <height>122</height>
+    <height>140</height>
    </rect>
   </property>
   <property name="minimumSize">
@@ -20,33 +20,18 @@
    <string>Color Scheme Presets</string>
   </property>
   <layout class="QGridLayout" name="gridLayout">
-   <property name="leftMargin">
-    <number>0</number>
-   </property>
-   <property name="topMargin">
-    <number>0</number>
-   </property>
-   <property name="rightMargin">
-    <number>0</number>
-   </property>
-   <property name="bottomMargin">
-    <number>0</number>
-   </property>
-   <item row="0" column="0">
-    <widget class="QLabel" name="classesLabel">
+   <item row="2" column="0">
+    <widget class="QLabel" name="typesLabel">
      <property name="text">
-      <string>&amp;Classes Filter:</string>
+      <string>&amp;Types Filter:</string>
      </property>
      <property name="alignment">
       <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
      </property>
      <property name="buddy">
-      <cstring>classesSpinBox</cstring>
+      <cstring>divergingCheckBox</cstring>
      </property>
     </widget>
-   </item>
-   <item row="0" column="1">
-    <widget class="QSpinBox" name="classesSpinBox"/>
    </item>
    <item row="0" column="2">
     <widget class="QLabel" name="deficiencyLabel">
@@ -67,8 +52,24 @@
      </property>
     </widget>
    </item>
+   <item row="0" column="0">
+    <widget class="QLabel" name="classesLabel">
+     <property name="text">
+      <string>&amp;Classes Filter:</string>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+     </property>
+     <property name="buddy">
+      <cstring>classesSpinBox</cstring>
+     </property>
+    </widget>
+   </item>
    <item row="0" column="3">
     <widget class="QComboBox" name="deficiencyComboBox"/>
+   </item>
+   <item row="0" column="1">
+    <widget class="QSpinBox" name="classesSpinBox"/>
    </item>
    <item row="1" column="0" colspan="4">
     <widget class="widgetzeug::ColorSchemeGraphicsView" name="graphicsView">
@@ -95,19 +96,6 @@
      </property>
      <property name="alignment">
       <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
-     </property>
-    </widget>
-   </item>
-   <item row="2" column="0">
-    <widget class="QLabel" name="typesLabel">
-     <property name="text">
-      <string>&amp;Types Filter:</string>
-     </property>
-     <property name="alignment">
-      <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-     </property>
-     <property name="buddy">
-      <cstring>divergingCheckBox</cstring>
      </property>
     </widget>
    </item>
