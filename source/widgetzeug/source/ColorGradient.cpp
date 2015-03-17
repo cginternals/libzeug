@@ -85,35 +85,35 @@ const QVector<ColorGradientType> & ColorGradient::types()
     return types;
 }
 
-ColorGradient ColorGradient::fromScheme(
-    ColorScheme * scheme, 
-    int classes, 
-    ColorGradientType type,
-    uint steps)
-{
-    if (classes > scheme->maxClasses() || classes < scheme->minClasses())
-        return ColorGradient();
+//ColorGradient ColorGradient::fromScheme(
+//    ColorScheme * scheme, 
+//    uint classes, 
+//    ColorGradientType type,
+//    uint steps)
+//{
+//    if (classes > scheme->maxClasses() || classes < scheme->minClasses())
+//        return ColorGradient();
+//
+//    return fromList(scheme->colors(classes), type, steps);
+//}
 
-    return fromList(scheme->colors(classes), type, steps);
-}
-
-ColorGradient ColorGradient::fromList(
-    const QList<QColor> & colors,
-    ColorGradientType type,
-    uint steps)
-{
-    if (colors.count() < s_minNumStops)
-        return ColorGradient();
-
-    auto gradient = ColorGradient{type, steps};
-
-    const auto dimension = 1.0 / (colors.count() - 1);
-
-    for (auto i = 0; i < colors.size(); ++i)
-        gradient.addStop(ColorGradientStop(colors[i], dimension * i));
-
-    return gradient;
-}
+//ColorGradient ColorGradient::fromList(
+//    const QList<QColor> & colors,
+//    ColorGradientType type,
+//    uint steps)
+//{
+//    if (colors.count() < s_minNumStops)
+//        return ColorGradient();
+//
+//    auto gradient = ColorGradient{type, steps};
+//
+//    const auto dimension = 1.0 / (colors.count() - 1);
+//
+//    for (auto i = 0; i < colors.size(); ++i)
+//        gradient.addStop(ColorGradientStop(colors[i], dimension * i));
+//
+//    return gradient;
+//}
 
 ColorGradient ColorGradient::fromJson(const QJsonObject & jsonObject)
 {

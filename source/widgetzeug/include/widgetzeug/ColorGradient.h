@@ -28,16 +28,16 @@ public:
     static const int s_minNumStops  = 2;
     static const int s_defaultSteps = 8;
 
-    static ColorGradient fromScheme(
-		ColorScheme * scheme, 
-        int classes,
-		ColorGradientType type = ColorGradientType::Linear,
-        uint steps = s_defaultSteps);
+  //  static ColorGradient fromScheme(
+		//ColorScheme * scheme, 
+  //      uint classes,
+		//ColorGradientType type = ColorGradientType::Linear,
+  //      uint steps = s_defaultSteps);
 
-    static ColorGradient fromList(
-        const QList<QColor> & colors, 
-        ColorGradientType type = ColorGradientType::Linear,
-        uint steps = s_defaultSteps);
+    //static ColorGradient fromList(
+    //    const QList<QColor> & colors, 
+    //    ColorGradientType type = ColorGradientType::Linear,
+    //    uint steps = s_defaultSteps);
     
     static ColorGradient fromJson(const QJsonObject & jsonObject);
 
