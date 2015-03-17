@@ -26,11 +26,14 @@ const QBrush ColorSchemeGraphicsItem::s_selectedBrush   = QColor("#b0b0b0");
 const QBrush ColorSchemeGraphicsItem::s_hoveredBrush    = QColor("#d0d0d0");
 
 
+// ToDo: remove when debugging is done
+static auto num_instances = 0;
+
 ColorSchemeGraphicsItem::ColorSchemeGraphicsItem(
     const ColorScheme & scheme, QGraphicsItem * parent) 
 :   QGraphicsObject(parent)
-,   m_scheme{ &scheme }
-,   m_deficiency{ ColorScheme::ColorVisionDeficiency::None }
+,   m_scheme{ scheme }
+,   m_deficiency{ ColorVisionDeficiency::None }
 ,   m_frame{ new QGraphicsRectItem(this) }
 ,   m_rectSize{ 17.0, 17.0 }
 ,   m_margin{ 3.0 } 
@@ -38,6 +41,9 @@ ColorSchemeGraphicsItem::ColorSchemeGraphicsItem(
 ,   m_selected{ false }
 ,   m_detailedTooltip{ false }
 {
+	++num_instances;
+	qDebug() << "\t*ColorSchemeGraphicsItem " << static_cast<void*>(this) << " " << num_instances;
+
     setAcceptHoverEvents(true);
 
     m_frame->setBrush(Qt::NoBrush);
@@ -50,27 +56,27 @@ ColorSchemeGraphicsItem::~ColorSchemeGraphicsItem()
 {
     qDeleteAll(m_rects);
     delete m_frame;
+
+	--num_instances;
+	qDebug() << "\t~ColorSchemeGraphicsItem " << static_cast<void*>(this) << " " << num_instances;
 }
 
-void ColorSchemeGraphicsItem::setScheme(const ColorScheme & scheme)
-{
-    m_scheme = &scheme;
+//void ColorSchemeGraphicsItem::setScheme(const ColorScheme & scheme)
+//{
+//    m_scheme = &scheme;
+//
+//    updateBrushes();
+//    updateTooltips();
+//}
 
-    updateBrushes();
-    updateTooltips();
-}
-
-const ColorScheme * ColorSchemeGraphicsItem::scheme()
+const ColorScheme & ColorSchemeGraphicsItem::scheme()
 {
     return m_scheme;
 }
 
 void ColorSchemeGraphicsItem::setClasses(const uint classes)
 {
-    if (m_scheme)
-        m_classes = qBound<uint>(m_scheme->minClasses(), classes, m_scheme->maxClasses());
-    else
-        m_classes = classes;
+    m_classes = qBound<uint>(m_scheme.minClasses(), classes, m_scheme.maxClasses());
 
     updateRects();
 }
@@ -80,7 +86,7 @@ int ColorSchemeGraphicsItem::classes() const
     return m_classes;
 }
 
-void ColorSchemeGraphicsItem::setDeficiency(const ColorScheme::ColorVisionDeficiency deficiency)
+void ColorSchemeGraphicsItem::setDeficiency(const ColorVisionDeficiency deficiency)
 {
     if (deficiency == m_deficiency)
         return;
@@ -89,7 +95,7 @@ void ColorSchemeGraphicsItem::setDeficiency(const ColorScheme::ColorVisionDefici
     updateBrushes();
 }
 
-ColorScheme::ColorVisionDeficiency ColorSchemeGraphicsItem::deficiency() const
+ColorVisionDeficiency ColorSchemeGraphicsItem::deficiency() const
 {
     return m_deficiency;
 }
@@ -136,16 +142,16 @@ const QSizeF & ColorSchemeGraphicsItem::rectSize() const
     return m_rectSize;
 }
 
-void ColorSchemeGraphicsItem::setSelected(bool selected, bool signal)
+void ColorSchemeGraphicsItem::setSelected(const bool status, const bool signal)
 {
-    if (selected == m_selected)
+    if (status == m_selected)
         return;
 
-    m_selected = selected;
+    m_selected = status;
     m_frame->setBrush(m_selected ? s_selectedBrush : Qt::NoBrush);
-    
-    if (selected && signal)
-        emit this->selected(*m_scheme);
+
+    if (status && signal)
+        emit selected(this);
         
     update();
 }
@@ -204,12 +210,10 @@ void ColorSchemeGraphicsItem::updateVisibility(
     ColorScheme::ColorSchemeTypes typeFilter, 
     uint classesFilter)
 {
-    if (!m_scheme)
-        return;
-
     bool isVisible = true;
-    isVisible &= typeFilter.testFlag(m_scheme->type());
-    isVisible &= m_scheme->minClasses() <= classesFilter && m_scheme->maxClasses() >= classesFilter;
+    isVisible &= typeFilter.testFlag(m_scheme.type());
+    isVisible &= m_scheme.minClasses() <= classesFilter 
+        && m_scheme.maxClasses() >= classesFilter;
 
     setVisible(isVisible);
 }
@@ -223,43 +227,33 @@ void ColorSchemeGraphicsItem::updateBrushes()
     {
         auto rect(m_rects[i]);
 
-        if (m_scheme)
-        {
-            auto color = m_scheme->colors(m_classes)[m_classes - i - 1];
-            color = ColorScheme::daltonize(color, m_deficiency);
+        auto color = m_scheme.colors(m_classes)[m_classes - i - 1];
+        color = daltonize(color, m_deficiency);
 
-            auto brush = RGBABrush(color);
+        auto brush = RGBABrush(color);
 
-            // this aligns the brush pattern with the rect (since there is no way to directly set the brush origin similar to a painter)
-            brush.setTransform(QTransform::fromTranslate( // who cares ... :P
-                m_margin + 1, (m_padding + penWidthF) * static_cast<qreal>(i) + m_margin + 1));
+        // this aligns the brush pattern with the rect (since there is no way to directly set the brush origin similar to a painter)
+        brush.setTransform(QTransform::fromTranslate( // who cares ... :P
+            m_margin + 1, (m_padding + penWidthF) * static_cast<qreal>(i) + m_margin + 1));
 
-            rect->setBrush(brush);
-        }
-        else
-            rect->setBrush(Qt::NoBrush);
+        rect->setBrush(brush);
     }
 }
 
 void ColorSchemeGraphicsItem::updateTooltips()
 {
-    if (!m_scheme)
-    {
-        setToolTip("");
-        return;
-    }
-
     if (!m_detailedTooltip)
     {
-        setToolTip(QString("%1 (%2 to %3 classes)").arg(m_scheme->identifier()).arg(m_scheme->minClasses()).arg(m_scheme->maxClasses()));
+        setToolTip(QString("%1 (%2 to %3 classes)").arg(m_scheme.identifier())
+            .arg(m_scheme.minClasses()).arg(m_scheme.maxClasses()));
         return;
     }
     
-    const auto tooltip = QString("%1 - %2").arg(m_scheme->identifier());
+    const auto tooltip = QString("%1 - %2").arg(m_scheme.identifier());
     for (uint i = 0; i < m_classes; ++i)
     {
         //QColor color = m_scheme->colors(m_classes)[i];
-        m_rects[i]->setToolTip(tooltip.arg(m_scheme->colors(m_classes)[i].name(QColor::HexArgb)));
+        m_rects[i]->setToolTip(tooltip.arg(m_scheme.colors(m_classes)[i].name(QColor::HexArgb)));
     }
 }
 

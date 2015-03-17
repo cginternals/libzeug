@@ -4,7 +4,9 @@
 #include <QStringList>
 
 #include <widgetzeug/widgetzeug_api.h>
+
 #include <widgetzeug/ColorScheme.h>
+#include <widgetzeug/ColorVisionDeficiency.h>
 #include <widgetzeug/DpiAwareGraphicsView.h>
 
 
@@ -23,11 +25,13 @@ class ColorSchemeGraphicsView : public DpiAwareGraphicsView
 
 public:
     ColorSchemeGraphicsView(QWidget * parent = nullptr);
-    virtual ~ColorSchemeGraphicsView();
+    virtual ~ColorSchemeGraphicsView() = default;
+
+    void clear();
 
     void createGroup(const QString & identifier);
 
-    void insertScheme(const QString & group, const ColorScheme & scheme);
+    void insertScheme(const QString & group, const ColorScheme * scheme);
 
     void setSelected(const ColorScheme * scheme);
     const ColorScheme * selected();
@@ -38,36 +42,39 @@ public:
     void setClassesFilter(uint classes);
     uint classesFilter() const;
 
-    void setDeficiency(ColorScheme::ColorVisionDeficiency deficiency);
-    ColorScheme::ColorVisionDeficiency deficiency() const;
+    void setDeficiency(ColorVisionDeficiency deficiency);
+    ColorVisionDeficiency deficiency() const;
 
     uint minClasses() const;
     uint maxClasses() const;
 
     void ensureDefaultSelection();
-
-protected:
-    virtual void keyPressEvent(QKeyEvent * event);
-
     void setSelectedItem(ColorSchemeGraphicsItem * item);
 
 signals:
     void selectedChanged(const ColorScheme * scheme);
-    
-private:
-    void update();
-    QVector<const ColorScheme *> schemes(bool visible = true) const;
 
-private:
+protected:
+    virtual void keyPressEvent(QKeyEvent * event);
+
+protected:
+    //QVector<const ColorScheme &> schemes(bool visible = true) const;
+
+    void update();
+
+protected:
     QStringList m_groups;
     QMap<QString, ColorSchemeGraphicsItemGroup *> m_graphicsItemGroups;
 
     ColorSchemeGraphicsItem * m_selectedItem;
 
     ColorScheme::ColorSchemeTypes m_typeFilter;
-    ColorScheme::ColorVisionDeficiency m_deficiency;
+    ColorVisionDeficiency m_deficiency;
 
-    int m_classesFilter;
+
+    uint m_classesFilter;
+    uint m_minClasses;
+    uint m_maxClasses;
 
     static const int s_padding;
 };

@@ -4,9 +4,12 @@
 
 #include <widgetzeug/widgetzeug_api.h>
 
+
 class QFileSystemWatcher;
+class QCompleter;
 
 class Ui_DataLinkWidget;
+
 
 namespace widgetzeug
 {
@@ -17,9 +20,16 @@ class WIDGETZEUG_API DataLinkWidget : public QWidget
 
 public:
     DataLinkWidget(QWidget * parent = nullptr);
+    virtual ~DataLinkWidget();
 
-    QString linkedFileName() const;
-    bool linkedFileExists() const;
+    void addFileName(const QString & fileName, bool setCurrent = false);
+    void setFileName(const QString & fileName);
+    QString fileName() const;
+
+    void setFilter(const QString & filter);
+
+    void setReadOnly(bool enabled);
+    bool readOnly() const;
 
     bool browse();
     void save();
@@ -30,22 +40,31 @@ signals:
     void save(const QString & fileName);
 
 protected slots:
-    void on_dataComboBox_currentIndexChanged(int index);
+    void on_fileNameComboBox_currentIndexChanged(const QString & text);
+    void on_fileNameComboBox_editTextChanged(const QString & text);
 
     void on_browsePushButton_clicked(bool);
     void on_savePushButton_clicked(bool);
 
     void on_linkCheckBox_stateChanged(int state);
 
-private:
-    bool isRecent(const QString & fileName);
+protected:
+    bool isRecent(const QString & fileName) const;
+
+    inline QCompleter * completer();
+
     void updateWatcher();
 
 private:
-    Ui_DataLinkWidget * m_ui;
+    QString m_path; ///< path of the lastly typed fileName
+    QString m_fileName; ///< fileName of the last emited fileChanged
 
     QFileSystemWatcher * m_watcher;
     bool m_watchFile;
+
+    QString m_filter;
+
+    Ui_DataLinkWidget * m_ui;
 };
 
 } // namespace widgetzeug

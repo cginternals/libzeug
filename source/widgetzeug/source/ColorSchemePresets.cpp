@@ -1,6 +1,9 @@
 
 #include <widgetzeug/ColorSchemePresets.h>
 
+#include <memory>
+
+#include <QMultiMap>
 #include <QFile>
 #include <QDebug>
 
@@ -14,13 +17,9 @@
 namespace widgetzeug
 {
 
-ColorSchemeGroup::ColorSchemeGroup()
-: m_identifier{ "" }
-{
-}
-
 ColorSchemeGroup::ColorSchemeGroup(const QString & identifier, const QJsonObject & schemes)
-: m_identifier{ identifier }
+: QVector<ColorScheme *>()
+, m_identifier{ identifier }
 {
     if (schemes.isEmpty())
     {
@@ -28,8 +27,13 @@ ColorSchemeGroup::ColorSchemeGroup(const QString & identifier, const QJsonObject
         return;
     }
 
-    for (const QString & identifier : schemes.keys())
-        append(ColorScheme(identifier, schemes.value(identifier).toObject()));   
+    for (const QString & i : schemes.keys())
+        push_back(new ColorScheme(i, schemes.value(i).toObject()));
+}
+
+ColorSchemeGroup::~ColorSchemeGroup()
+{
+    qDeleteAll(*this);
 }
 
 const QString & ColorSchemeGroup::identifier() const
@@ -38,13 +42,46 @@ const QString & ColorSchemeGroup::identifier() const
 }
 
 
-ColorSchemePresets::ColorSchemePresets()
-{
-}
+// ToDo: remove when debugging is done
+static auto num_instances = 0;
+
 
 ColorSchemePresets::ColorSchemePresets(const QString & fileName)
+: QVector<ColorSchemeGroup *>()
+, m_fileName{ fileName }
 {
-    QFile file{ fileName };
+	++num_instances;
+	qDebug() << "\t*ColorSchemePresets " << static_cast<void*>(this) << " " << num_instances;
+
+    reload();
+}
+
+ColorSchemePresets::~ColorSchemePresets()
+{
+    qDeleteAll(*this);
+	--num_instances;
+	qDebug() << "\t~ColorSchemePresets " << static_cast<void*>(this) << " " << num_instances;
+}
+
+void ColorSchemePresets::setFileName(const QString & fileName)
+{
+    if (m_fileName == fileName)
+        return;
+
+    m_fileName = fileName;
+    reload();
+}
+
+const QString & ColorSchemePresets::fileName() const
+{
+    return m_fileName;
+}
+
+void ColorSchemePresets::reload()
+{
+    clear();
+
+    QFile file{ m_fileName };
 
     if (!file.exists() || !file.open(QIODevice::ReadOnly | QIODevice::Text))
         return;
@@ -55,11 +92,6 @@ ColorSchemePresets::ColorSchemePresets(const QString & fileName)
     auto doc = QJsonDocument::fromJson(json.toUtf8());
     auto presets = doc.object();
 
-    initialize(presets);
-}
-
-ColorSchemePresets::ColorSchemePresets(const QJsonObject & presets)
-{
     initialize(presets);
 }
 
@@ -98,7 +130,7 @@ void ColorSchemePresets::initialize(const QJsonObject & presets)
             auto schemes = presets.value(identifier).toObject();
             schemes.take(CATEGORY_INDEX);
 
-            append(ColorSchemeGroup(identifier, schemes));
+            push_back(new ColorSchemeGroup(identifier, schemes));
         }
     }
 }

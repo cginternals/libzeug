@@ -5,6 +5,7 @@
 #include <QMap>
 
 #include <widgetzeug/ColorScheme.h>
+#include <widgetzeug/ColorVisionDeficiency.h>
 
 
 class QGraphicsTextItem;
@@ -13,9 +14,9 @@ class QString;
 namespace widgetzeug
 {
 
-class ColorScheme;
 class ColorSchemeGraphicsItem;
 class DpiAwareGraphicsView;
+
 
 class ColorSchemeGraphicsItemGroup : public QGraphicsObject
 {
@@ -28,15 +29,15 @@ public:
     virtual ~ColorSchemeGraphicsItemGroup();
     
     virtual QRectF boundingRect() const;
-    
+
     virtual void paint(QPainter * painter
         , const QStyleOptionGraphicsItem * option
         , QWidget * widget = nullptr);
 
     void addScheme(const ColorScheme * scheme);
-
     bool hasScheme(const ColorScheme * scheme) const;
-    ColorSchemeGraphicsItem * schemeGraphicsItem(const ColorScheme * scheme) const;
+
+    ColorSchemeGraphicsItem * graphicsItem(const ColorScheme * scheme) const;
 
     bool setSelected(const ColorScheme * scheme);
 
@@ -45,23 +46,21 @@ public:
     void update(ColorScheme::ColorSchemeTypes typeFilter, uint classesFilter);
     void updateRects();
 
-    void setDeficiency(ColorScheme::ColorVisionDeficiency deficiency);
-
-protected slots:
-    void onSelected(const ColorScheme & scheme);
+    void setDeficiency(ColorVisionDeficiency deficiency);
 
 signals:
     void selected(ColorSchemeGraphicsItem * item);
 
 private:
-    void updateVisibility(ColorScheme::ColorSchemeTypes typeFilter
+    void setVisibility(ColorScheme::ColorSchemeTypes typeFilter
         , uint classesFilter);
 
 private:
     QGraphicsTextItem * m_label;
     const DpiAwareGraphicsView * m_view;
 
-    QMap<const ColorScheme *, ColorSchemeGraphicsItem *> m_itemsByScheme;
+    using ItemsByScheme = QMap<const ColorScheme *, ColorSchemeGraphicsItem *>;
+    ItemsByScheme m_itemsByScheme;
 
     ColorScheme::ColorSchemeTypes m_types;
     uint m_minClasses;

@@ -32,70 +32,10 @@
    <property name="bottomMargin">
     <number>0</number>
    </property>
-   <item row="0" column="3">
-    <widget class="QComboBox" name="deficiencyComboBox"/>
-   </item>
-   <item row="0" column="1">
-    <widget class="QSpinBox" name="classesSpinBox"/>
-   </item>
-   <item row="2" column="0" colspan="4">
-    <layout class="QHBoxLayout" name="horizontalLayout">
-     <item>
-      <widget class="QLabel" name="typesLabel">
-       <property name="text">
-        <string>Types:</string>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <widget class="QCheckBox" name="divergingCheckBox">
-       <property name="text">
-        <string>&amp;diverging</string>
-       </property>
-       <property name="checked">
-        <bool>true</bool>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <widget class="QCheckBox" name="sequentialCheckBox">
-       <property name="text">
-        <string>&amp;sequential</string>
-       </property>
-       <property name="checked">
-        <bool>true</bool>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <widget class="QCheckBox" name="qualitativeCheckBox">
-       <property name="text">
-        <string>&amp;qualitative</string>
-       </property>
-       <property name="checked">
-        <bool>true</bool>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <spacer name="horizontalSpacer">
-       <property name="orientation">
-        <enum>Qt::Horizontal</enum>
-       </property>
-       <property name="sizeHint" stdset="0">
-        <size>
-         <width>63</width>
-         <height>17</height>
-        </size>
-       </property>
-      </spacer>
-     </item>
-    </layout>
-   </item>
    <item row="0" column="0">
     <widget class="QLabel" name="classesLabel">
      <property name="text">
-      <string># &amp;Classes:</string>
+      <string>&amp;Classes Filter:</string>
      </property>
      <property name="alignment">
       <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
@@ -104,6 +44,31 @@
       <cstring>classesSpinBox</cstring>
      </property>
     </widget>
+   </item>
+   <item row="0" column="1">
+    <widget class="QSpinBox" name="classesSpinBox"/>
+   </item>
+   <item row="0" column="2">
+    <widget class="QLabel" name="deficiencyLabel">
+     <property name="sizePolicy">
+      <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
+       <horstretch>0</horstretch>
+       <verstretch>0</verstretch>
+      </sizepolicy>
+     </property>
+     <property name="text">
+      <string>De&amp;ficiency:</string>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+     </property>
+     <property name="buddy">
+      <cstring>deficiencyComboBox</cstring>
+     </property>
+    </widget>
+   </item>
+   <item row="0" column="3">
+    <widget class="QComboBox" name="deficiencyComboBox"/>
    </item>
    <item row="1" column="0" colspan="4">
     <widget class="widgetzeug::ColorSchemeGraphicsView" name="graphicsView">
@@ -133,24 +98,58 @@
      </property>
     </widget>
    </item>
-   <item row="0" column="2">
-    <widget class="QLabel" name="deficiencyLabel">
-     <property name="sizePolicy">
-      <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
-       <horstretch>0</horstretch>
-       <verstretch>0</verstretch>
-      </sizepolicy>
-     </property>
+   <item row="2" column="0">
+    <widget class="QLabel" name="typesLabel">
      <property name="text">
-      <string>De&amp;ficiency:</string>
+      <string>&amp;Types Filter:</string>
      </property>
      <property name="alignment">
       <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
      </property>
      <property name="buddy">
-      <cstring>deficiencyComboBox</cstring>
+      <cstring>divergingCheckBox</cstring>
      </property>
     </widget>
+   </item>
+   <item row="2" column="1" colspan="3">
+    <layout class="QHBoxLayout" name="horizontalLayout">
+     <item>
+      <widget class="QCheckBox" name="divergingCheckBox">
+       <property name="text">
+        <string>&amp;diverging</string>
+       </property>
+       <property name="checked">
+        <bool>true</bool>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QCheckBox" name="sequentialCheckBox">
+       <property name="text">
+        <string>&amp;sequential</string>
+       </property>
+       <property name="checked">
+        <bool>true</bool>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QCheckBox" name="qualitativeCheckBox">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
+       <property name="text">
+        <string>&amp;qualitative</string>
+       </property>
+       <property name="checked">
+        <bool>true</bool>
+       </property>
+      </widget>
+     </item>
+    </layout>
    </item>
   </layout>
  </widget>

@@ -11,13 +11,13 @@ class QJsonObject;
 
 
 namespace widgetzeug
-{
+{ 
 
-class WIDGETZEUG_API ColorSchemeGroup : public QVector<ColorScheme>
+class WIDGETZEUG_API ColorSchemeGroup : public QVector<ColorScheme *>
 {
 public:
-    ColorSchemeGroup();
     ColorSchemeGroup(const QString & identifier, const QJsonObject & schemes);
+    virtual ~ColorSchemeGroup();
 
     const QString & identifier() const;
 
@@ -26,7 +26,7 @@ protected:
 };
 
 /**
-* A color scheme presets can be retrieved from a Json format (based on the Json
+* A color scheme presets are retrieved from a JSON (based on the JSON
 * provided by the ColorBrewer 2.0: \see http://colorbrewer2.org
 * © Cynthia Brewer, Mark Harrower and The Pennsylvania State University)
 *
@@ -53,15 +53,24 @@ protected:
 * }
 * @endcode
 */
-class WIDGETZEUG_API ColorSchemePresets : public QVector<ColorSchemeGroup>
+class WIDGETZEUG_API ColorSchemePresets : public QVector<ColorSchemeGroup *>
 {
 public:
     ColorSchemePresets();
     ColorSchemePresets(const QString & fileName);
-    ColorSchemePresets(const QJsonObject & presets);
+
+    virtual ~ColorSchemePresets();
+
+    void setFileName(const QString & fileName);
+    const QString & fileName() const;
+
+    void reload();
 
 protected:
     void initialize(const QJsonObject & presets);
+
+    QString m_fileName;
 };
+
 
 } // namespace widgetzeug

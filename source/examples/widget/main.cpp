@@ -1,4 +1,6 @@
+
 #include <iostream>
+#include <memory>
 
 #include <QApplication>
 #include <QStyleFactory>
@@ -20,43 +22,30 @@
 
 #include <widgetzeug/DataLinkWidget.h>
 
-#include <widgetzeug/ColorSchemeLabel.h>
+//#include <widgetzeug/ColorSchemeLabel.h>
 #include <widgetzeug/ColorSchemePresets.h>
-#include <widgetzeug/ColorSchemePresetsWidget.h>
+#include <widgetzeug/ColorSchemeControlWidget.h>
 
 #include "libzeug-version.h"
 
 
 using namespace widgetzeug;
 
-DockableScrollAreaWidget * g_CSPDockWidget{ nullptr };
 
-ColorSchemePresets g_colorSchemePresets;
-ColorSchemePresetsWidget * g_colorSchemePresetsWidget{ nullptr };
-DataLinkWidget * g_colorSchemePresetsDataLink{ nullptr };
+ColorSchemeControlWidget * g_colorSchemeControlWidget{ nullptr };
 
-
-QWidget * getOrCreateCSPDockWidget(ColorSchemeLabel * label, QSpinBox * spinBox)
+QWidget * getOrCreateColorScemeControlWidget()
 {
-    if (g_CSPDockWidget)
-        return g_CSPDockWidget;
+	if (g_colorSchemeControlWidget)
+		return g_colorSchemeControlWidget;
 
-    g_colorSchemePresetsDataLink = new DataLinkWidget();
-    g_colorSchemePresetsDataLink->setDisabled(true);
+	g_colorSchemeControlWidget = new ColorSchemeControlWidget(QObject::tr("Color Scheme Controler"));
+	g_colorSchemeControlWidget->setFileName("data/colorbrewer.json");
 
-    g_colorSchemePresetsWidget = new ColorSchemePresetsWidget(g_colorSchemePresets);
-
-    g_colorSchemePresetsWidget->setSelected(&g_colorSchemePresets[0][4]);
-
-    g_CSPDockWidget = new DockableScrollAreaWidget(QObject::tr("Color Scheme Presets"));
-    g_CSPDockWidget->addWidget(g_colorSchemePresetsDataLink);
-    g_CSPDockWidget->addWidget(g_colorSchemePresetsWidget);
-
-    QObject::connect(g_colorSchemePresetsWidget, &ColorSchemePresetsWidget::selectedChanged
-		, label, &ColorSchemeLabel::setScheme);
-
-    return g_CSPDockWidget;
+	return g_colorSchemeControlWidget;
 }
+
+
 
 //ColorGradientWidget * getOrCreateColorGradientWidget(QLabel * label)
 //{
@@ -83,6 +72,13 @@ QWidget * getOrCreateCSPDockWidget(ColorSchemeLabel * label, QSpinBox * spinBox)
 //    return widget;
 //}
 
+
+#include "TextEdit.h"
+
+#include <QCompleter>
+#include <QStringListModel>
+
+
 int main(int argc, char *argv[])
 {
     QApplication app(argc, argv);
@@ -90,51 +86,32 @@ int main(int argc, char *argv[])
     QApplication::setOrganizationName(META_AUTHOR_ORGANIZATION);
     QApplication::setApplicationVersion(META_VERSION);
     
+	QWidget widget;
 
-    QWidget mainWidget;
+	QPushButton schemeButton{ QObject::tr("Color &Scheme") };
+	schemeButton.setCheckable(true);
 
-    auto schemeButton = new QPushButton{ "Color Scheme" };
-	auto classesSpinBox = new QSpinBox;
+    QObject::connect(&schemeButton, &QPushButton::toggled, [&schemeButton]() {
+		schemeButton.isChecked() ? getOrCreateColorScemeControlWidget()->show() : getOrCreateColorScemeControlWidget()->hide(); });
 
-    ColorSchemePresets presets{ "data/colorbrewer.json" };
-	auto schemeLabel = new ColorSchemeLabel;
+	QPushButton gradientButton{ QObject::tr("Color &Gradient") };
+	gradientButton.setCheckable(true);
 
-    g_colorSchemePresets = ColorSchemePresets("data/colorbrewer.json");
-    schemeLabel->setScheme(&g_colorSchemePresets[0][4]);
+	gradientButton.setDisabled(true);
+	// ToDo
 
-    QObject::connect(schemeButton, &QPushButton::pressed, [schemeLabel, classesSpinBox]() {
-        getOrCreateCSPDockWidget(schemeLabel, classesSpinBox)->show(); });
-
-    QObject::connect(classesSpinBox, static_cast<void (QSpinBox::*)(int)>(&QSpinBox::valueChanged)
-        , [schemeLabel](int value) { schemeLabel->setClasses(static_cast<uint>(value)); });
-
-    classesSpinBox->setValue(6);
-
-    auto hline = new QFrame;
-    hline->setFrameShape(QFrame::HLine);
-    hline->setFrameShadow(QFrame::Sunken);
-
-
-    auto gradientButton = new QPushButton{ "Color Gradient" };
-
-	//auto gradientLabel = new QLabel;
- //   gradientLabel->setScaledContents(true);
- //   gradientLabel->setMinimumHeight(32);
-
-  //  QObject::connect(gradientButton, &QPushButton::pressed, [gradientLabel] () {  
-		//getOrCreateColorGradientWidget(gradientLabel)->show(); });
-
+	QPushButton closeButton{ QObject::tr("Close E&xample") };
+	QObject::connect(&closeButton, &QPushButton::pressed, []() {
+		QApplication::quit(); });
 
 	auto layout = new QVBoxLayout;
-    layout->addWidget(schemeButton);
-	layout->addWidget(classesSpinBox);
-	layout->addWidget(schemeLabel);
-    layout->addWidget(hline);
-    layout->addWidget(gradientButton);
-    //layout->addWidget(gradientLabel);
-	
-	mainWidget.setLayout(layout);
-    mainWidget.show();
+    layout->addWidget(&schemeButton);
+    layout->addWidget(&gradientButton);
+	layout->addWidget(&closeButton);
+
+
+	widget.setLayout(layout);
+	widget.show();
 
     auto result = app.exec();
 

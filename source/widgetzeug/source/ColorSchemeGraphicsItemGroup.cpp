@@ -6,6 +6,7 @@
 
 #include <QGraphicsTextItem>
 #include <QString>
+#include <QDebug>
 
 #include <widgetzeug/DpiAwareGraphicsView.h>
 
@@ -25,15 +26,24 @@ ColorSchemeGraphicsItemGroup::ColorSchemeGraphicsItemGroup(
 {
     m_label->setRotation(-90);
     m_label->setOpacity(0.5);
+
+    qWarning() << "group  " << this;
 }
 
 ColorSchemeGraphicsItemGroup::~ColorSchemeGraphicsItemGroup()
 {
+    qWarning() << "~group " << this;
 }
 
 QRectF ColorSchemeGraphicsItemGroup::boundingRect() const
 {
-    return QRectF();
+    return QRect();
+    /*auto rect = m_label->boundingRect();
+
+    for (const auto item : m_itemsByScheme.values())
+        rect = rect.united(item->boundingRect());
+
+    return rect;*/
 }
 
 void ColorSchemeGraphicsItemGroup::paint(QPainter * painter, 
@@ -43,7 +53,7 @@ void ColorSchemeGraphicsItemGroup::paint(QPainter * painter,
 
 void ColorSchemeGraphicsItemGroup::addScheme(const ColorScheme * scheme)
 {
-    if (m_itemsByScheme.contains(scheme))
+    if (!scheme || m_itemsByScheme.contains(scheme))
         return;
 
     auto item = new ColorSchemeGraphicsItem(*scheme);
@@ -51,9 +61,8 @@ void ColorSchemeGraphicsItemGroup::addScheme(const ColorScheme * scheme)
 
     item->setParentItem(this);
     connect(item, &ColorSchemeGraphicsItem::selected
-        , this, &ColorSchemeGraphicsItemGroup::onSelected);
+        , this, &ColorSchemeGraphicsItemGroup::selected);
 
-    //m_schemes.append(scheme);
     m_itemsByScheme.insert(scheme, item);
 
     m_types |= scheme->type();
@@ -63,16 +72,30 @@ void ColorSchemeGraphicsItemGroup::addScheme(const ColorScheme * scheme)
 
 bool ColorSchemeGraphicsItemGroup::hasScheme(const ColorScheme * scheme) const
 {
+    if (!scheme)
+        return false;
+
     return m_itemsByScheme.contains(scheme);
 }
 
-ColorSchemeGraphicsItem * ColorSchemeGraphicsItemGroup::schemeGraphicsItem(const ColorScheme * scheme) const
+ColorSchemeGraphicsItem * ColorSchemeGraphicsItemGroup::graphicsItem(const ColorScheme * scheme) const
 {
+    if (!hasScheme(scheme))
+        return nullptr;
+
     return m_itemsByScheme.value(scheme);
 }
 
 bool ColorSchemeGraphicsItemGroup::setSelected(const ColorScheme * scheme)
 {
+    if (!scheme)
+    {
+        for (auto item : m_itemsByScheme.values())
+            item->setSelected(false);
+
+        return true;
+    }
+
     if (!m_itemsByScheme.contains(scheme))
         return false;
 
@@ -91,7 +114,7 @@ void ColorSchemeGraphicsItemGroup::update(
     ColorScheme::ColorSchemeTypes typeFilter, 
     uint classesFilter)
 {
-    updateVisibility(typeFilter, classesFilter);
+    setVisibility(typeFilter, classesFilter);
 
     if (!isVisible())
         return;
@@ -117,23 +140,19 @@ void ColorSchemeGraphicsItemGroup::updateRects()
         item->updateRects();
 }
 
-void ColorSchemeGraphicsItemGroup::onSelected(const ColorScheme & scheme)
-{
-   emit selected(m_itemsByScheme[&scheme]);
-}
-
-void ColorSchemeGraphicsItemGroup::setDeficiency(ColorScheme::ColorVisionDeficiency deficiency)
+void ColorSchemeGraphicsItemGroup::setDeficiency(const ColorVisionDeficiency deficiency)
 {
    for (auto item : m_itemsByScheme)
         item->setDeficiency(deficiency);
 }
 
-void ColorSchemeGraphicsItemGroup::updateVisibility(
+
+void ColorSchemeGraphicsItemGroup::setVisibility(
     ColorScheme::ColorSchemeTypes typeFilter, const uint classesFilter)
 {
     auto isVisible = true;
 
-   isVisible &= !m_itemsByScheme.keys().isEmpty();
+    isVisible &= !m_itemsByScheme.isEmpty();
     isVisible &= static_cast<bool>(typeFilter & m_types);
     isVisible &= m_minClasses <= classesFilter && m_maxClasses >= classesFilter;
 

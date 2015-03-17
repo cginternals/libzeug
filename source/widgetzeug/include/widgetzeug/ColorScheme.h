@@ -8,6 +8,8 @@
 class QJsonObject;
 
 #include <widgetzeug/widgetzeug_api.h>
+#include <widgetzeug/ColorVisionDeficiency.h>
+
 
 namespace widgetzeug
 {
@@ -51,17 +53,7 @@ public:
     Q_DECLARE_FLAGS(ColorSchemeTypes, ColorSchemeType)
     static const QMap<ColorSchemeType, QString> s_types;
 
-    enum class ColorVisionDeficiency
-    {
-        None
-    ,   Protanope   // reds are greatly reduced   (1% men)
-    ,   Deuteranope // greens are greatly reduced (1% men)
-    ,   Tritanope   // blues are greatly reduced  (0.003% population)
-    ,   Grayscale   // not an actual deficiency, but useful
-    };
     static const QMap<ColorVisionDeficiency, QString> s_deficiencies;
-
-    static QColor daltonize(const QColor & color, ColorVisionDeficiency deficiency);
 
 public:
     ColorScheme();
@@ -70,6 +62,8 @@ public:
     ColorScheme(const QString & identifier, QJsonObject scheme);
 
     virtual ~ColorScheme();
+
+    bool operator==(const ColorScheme & scheme) const;
 
     void setIdentifier(const QString & identifier);
     const QString & identifier() const;
@@ -92,4 +86,4 @@ protected:
 
 } // namespace widgetzeug
 
-bool WIDGETZEUG_API operator ==(const widgetzeug::ColorScheme & a, const widgetzeug::ColorScheme & b);
+//bool WIDGETZEUG_API operator ==(const widgetzeug::ColorScheme & a, const widgetzeug::ColorScheme & b);

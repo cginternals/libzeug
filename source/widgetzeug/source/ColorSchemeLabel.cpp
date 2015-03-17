@@ -9,6 +9,7 @@
 #include <QPalette>
 
 
+#include <widgetzeug/ColorScheme.h>
 #include <widgetzeug/DpiAware.h>
 #include <widgetzeug/RGBABrush.hpp>
 
@@ -25,7 +26,7 @@ const QSizeF ColorSchemeLabel::s_defaultRectSize{ 18.0, 18.0 };
 QPixmap ColorSchemeLabel::pixmap(
     const ColorScheme * scheme
 ,   const uint classes
-,   const ColorScheme::ColorVisionDeficiency deficiency
+,   const ColorVisionDeficiency deficiency
 ,   const qreal padding
 ,   const QSizeF & size
 ,   QWidget * parent)
@@ -52,7 +53,7 @@ QPixmap ColorSchemeLabel::pixmap(
             if (colors.isEmpty())
                 painter.setBrush(Qt::NoBrush);
             else
-                painter.setBrush(RGBABrush(ColorScheme::daltonize(colors[i], deficiency)));           
+                painter.setBrush(RGBABrush(daltonize(colors[i], deficiency)));           
 
             R.moveLeft((R.width() + padding * dpiScale) * i);
             painter.setBrushOrigin(R.left() + pen.widthF(), R.bottom());
@@ -65,7 +66,7 @@ QPixmap ColorSchemeLabel::pixmap(
 ColorSchemeLabel::ColorSchemeLabel(QWidget * parent)
 :   QLabel(parent)
 , m_scheme{ nullptr }
-, m_deficiency{ ColorScheme::ColorVisionDeficiency::None }
+, m_deficiency{ ColorVisionDeficiency::None }
 , m_classes(1)
 , m_rectSize{ s_defaultRectSize }
 , m_padding{ s_defaultPadding }
@@ -90,7 +91,7 @@ void ColorSchemeLabel::setClasses(const uint classes)
     updatePixmap();
 }
 
-void ColorSchemeLabel::setDeficiency(const ColorScheme::ColorVisionDeficiency deficiency)
+void ColorSchemeLabel::setDeficiency(const ColorVisionDeficiency deficiency)
 {
     if (deficiency == m_deficiency)
         return;
