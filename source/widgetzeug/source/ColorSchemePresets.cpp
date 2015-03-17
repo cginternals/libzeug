@@ -9,7 +9,7 @@
 
 #include <QJsonObject>
 #include <QJsonDocument>
-
+#include <QJsonParseError>
 
 #include <widgetzeug/ColorScheme.h>
 
@@ -80,6 +80,8 @@ const QString & ColorSchemePresets::fileName() const
 
 void ColorSchemePresets::reload()
 {
+	m_valid = false;
+
     clear();
 
     QFile file{ m_fileName };
@@ -90,7 +92,21 @@ void ColorSchemePresets::reload()
     const auto json = QString::fromUtf8(file.readAll());
     file.close();
 
-    auto doc = QJsonDocument::fromJson(json.toUtf8());
+	std::unique_ptr<QJsonParseError> jsonParseError{ new QJsonParseError };
+
+	auto doc = QJsonDocument::fromJson(json.toUtf8(), jsonParseError.get());
+
+	static const auto warning = QString("Cannot retrieve color scheme presets from Json \"%1\": ").arg(m_fileName);
+	if (jsonParseError->error != QJsonParseError::NoError)
+	{
+		qWarning() << qPrintable(warning + jsonParseError->errorString());
+		return;
+	}
+	if (!doc.isObject())
+	{
+		qWarning() << qPrintable(warning + " document is not an object.");
+		return;
+	}
     auto presets = doc.object();
 
     m_valid = initialize(presets);
@@ -139,7 +155,10 @@ bool ColorSchemePresets::initialize(const QJsonObject & presets)
             push_back(new ColorSchemeGroup(identifier, schemes));
         }
     }
-	return true;
+
+	// ToDo: add json parse error log
+
+	return !isEmpty();
 }
 
 } // namespace widgetzeug
