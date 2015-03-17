@@ -31,7 +31,7 @@ public:
     virtual ~ColorSchemeGraphicsItem();
 
     //void setScheme(const ColorScheme & scheme);
-    const ColorScheme & scheme();
+    const ColorScheme & scheme() const;
 
     void setClasses(uint classes);
     int classes() const;

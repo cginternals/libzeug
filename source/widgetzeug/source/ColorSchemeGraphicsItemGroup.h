@@ -59,9 +59,11 @@ private:
     QGraphicsTextItem * m_label;
     const DpiAwareGraphicsView * m_view;
 
+    QList<ColorSchemeGraphicsItem *> m_items;
+
     using ItemsByScheme = QMap<const ColorScheme *, ColorSchemeGraphicsItem *>;
     ItemsByScheme m_itemsByScheme;
-
+    
     ColorScheme::ColorSchemeTypes m_types;
     uint m_minClasses;
     uint m_maxClasses;

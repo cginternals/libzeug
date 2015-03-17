@@ -58,7 +58,7 @@ ColorSchemeGraphicsItem::~ColorSchemeGraphicsItem()
 //    updateTooltips();
 //}
 
-const ColorScheme & ColorSchemeGraphicsItem::scheme()
+const ColorScheme & ColorSchemeGraphicsItem::scheme() const
 {
     return m_scheme;
 }

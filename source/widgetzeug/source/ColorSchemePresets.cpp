@@ -27,7 +27,10 @@ ColorSchemeGroup::ColorSchemeGroup(const QString & identifier, const QJsonObject
         return;
     }
 
-    for (const QString & i : schemes.keys())
+    auto & identifiers = schemes.keys();
+    identifiers.sort();
+
+    for (const QString & i : identifiers)
         push_back(new ColorScheme(i, schemes.value(i).toObject()));
 }
 
@@ -115,7 +118,6 @@ bool ColorSchemePresets::initialize(const QJsonObject & presets)
     auto categoryNamesByIndex = QMultiMap<int, QString>();
 
     static const auto CATEGORY_INDEX = QString{ "index" };
-
 
     for (const auto & identifier : presets.keys())
     {

@@ -57,6 +57,11 @@ void ColorSchemeGraphicsItemGroup::addScheme(const ColorScheme * scheme)
 
     m_itemsByScheme.insert(scheme, item);
 
+    auto i = 0; // use insertion sort ...
+    while (i < m_items.count() && m_items[i]->scheme().identifier().compare(scheme->identifier(), Qt::CaseInsensitive) < 0)
+        ++i;
+    m_items.insert(i, item);
+
     m_types |= scheme->type();
     m_minClasses = qMin(m_minClasses, scheme->minClasses());
     m_maxClasses = qMax(m_maxClasses, scheme->maxClasses());
@@ -82,7 +87,7 @@ bool ColorSchemeGraphicsItemGroup::setSelected(const ColorScheme * scheme)
 {
     if (!scheme)
     {
-        for (auto item : m_itemsByScheme.values())
+        for (auto item : m_items)
             item->setSelected(false);
 
         return true;
@@ -99,7 +104,7 @@ bool ColorSchemeGraphicsItemGroup::setSelected(const ColorScheme * scheme)
 
 QList<ColorSchemeGraphicsItem *> ColorSchemeGraphicsItemGroup::items() const
 {
-    return m_itemsByScheme.values();
+    return m_items;
 }
 
 void ColorSchemeGraphicsItemGroup::update(
@@ -113,7 +118,7 @@ void ColorSchemeGraphicsItemGroup::update(
         
     qreal left = m_label->boundingRect().height();
 
-    for (auto item : m_itemsByScheme.values())
+    for (auto item : m_items)
     {
         item->updateVisibility(typeFilter, classesFilter);
 
@@ -128,13 +133,13 @@ void ColorSchemeGraphicsItemGroup::update(
 
 void ColorSchemeGraphicsItemGroup::updateRects()
 {
-    for (auto item : m_itemsByScheme)
+    for (auto item : m_items)
         item->updateRects();
 }
 
 void ColorSchemeGraphicsItemGroup::setDeficiency(const ColorVisionDeficiency deficiency)
 {
-   for (auto item : m_itemsByScheme)
+    for (auto item : m_items)
         item->setDeficiency(deficiency);
 }
 
@@ -144,7 +149,7 @@ void ColorSchemeGraphicsItemGroup::setVisibility(
 {
     auto isVisible = true;
 
-    isVisible &= !m_itemsByScheme.isEmpty();
+    isVisible &= !m_items.isEmpty();
     isVisible &= static_cast<bool>(typeFilter & m_types);
     isVisible &= m_minClasses <= classesFilter && m_maxClasses >= classesFilter;
 
