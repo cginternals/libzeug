@@ -90,10 +90,6 @@ protected:
     uint m_classes;
     bool m_selected;
     bool m_detailedTooltip;
-
-    static const QBrush s_selectedBrush;
-    static const QBrush s_hoveredBrush;
-    static const QPen s_pen;
 };
 
 } // namespace widgetzeug

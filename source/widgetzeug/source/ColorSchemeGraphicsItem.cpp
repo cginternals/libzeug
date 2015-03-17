@@ -20,10 +20,6 @@
 namespace widgetzeug
 {
 
-const QBrush ColorSchemeGraphicsItem::s_selectedBrush   = QColor("#b0b0b0");
-const QBrush ColorSchemeGraphicsItem::s_hoveredBrush    = QColor("#d0d0d0");
-
-
 ColorSchemeGraphicsItem::ColorSchemeGraphicsItem(
     const ColorScheme & scheme, QGraphicsItem * parent) 
 :   QGraphicsObject(parent)
@@ -49,14 +45,6 @@ ColorSchemeGraphicsItem::~ColorSchemeGraphicsItem()
     qDeleteAll(m_rects);
     delete m_frame;
 }
-
-//void ColorSchemeGraphicsItem::setScheme(const ColorScheme & scheme)
-//{
-//    m_scheme = &scheme;
-//
-//    updateBrushes();
-//    updateTooltips();
-//}
 
 const ColorScheme & ColorSchemeGraphicsItem::scheme() const
 {
@@ -137,7 +125,7 @@ void ColorSchemeGraphicsItem::setSelected(const bool status, const bool signal)
         return;
 
     m_selected = status;
-    m_frame->setBrush(m_selected ? s_selectedBrush : Qt::NoBrush);
+    m_frame->setBrush(m_selected ? QPalette().highlight() : Qt::NoBrush);
 
     if (status && signal)
         emit selected(this);
@@ -240,10 +228,7 @@ void ColorSchemeGraphicsItem::updateTooltips()
     
     const auto tooltip = QString("%1 - %2").arg(m_scheme.identifier());
     for (uint i = 0; i < m_classes; ++i)
-    {
-        //QColor color = m_scheme->colors(m_classes)[i];
         m_rects[i]->setToolTip(tooltip.arg(m_scheme.colors(m_classes)[i].name(QColor::HexArgb)));
-    }
 }
 
 QRectF ColorSchemeGraphicsItem::boundingRect() const
@@ -260,7 +245,7 @@ void ColorSchemeGraphicsItem::paint(
 
 void ColorSchemeGraphicsItem::hoverEnterEvent(QGraphicsSceneHoverEvent * event)
 {
-    m_frame->setBrush(s_hoveredBrush);
+    m_frame->setBrush(QPalette().highlight());
     event->accept();
 
     update();
@@ -268,7 +253,7 @@ void ColorSchemeGraphicsItem::hoverEnterEvent(QGraphicsSceneHoverEvent * event)
 
 void ColorSchemeGraphicsItem::hoverLeaveEvent(QGraphicsSceneHoverEvent * event)
 {
-    m_frame->setBrush(isSelected() ? s_selectedBrush : Qt::NoBrush);
+    m_frame->setBrush(isSelected() ? QPalette().highlight() : Qt::NoBrush);
     event->accept();
 
     update();
