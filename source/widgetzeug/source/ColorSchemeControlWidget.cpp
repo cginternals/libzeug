@@ -3,8 +3,6 @@
 
 #include <assert.h>
 
-#include <QDebug>
-
 #include <widgetzeug/ColorScheme.h>
 #include <widgetzeug/ColorSchemePresets.h>
 #include <widgetzeug/ColorSchemePresetsWidget.h>
@@ -38,7 +36,10 @@ ColorSchemeControlWidget::ColorSchemeControlWidget(
     addWidget(m_dataLinkWidget);
 
 	connect(m_colorSchemeWidget, &ColorSchemeWidget::classesChanged
-		, this, &ColorSchemeControlWidget::onClassesChanged);
+        , this, &ColorSchemeControlWidget::classesChanged);
+
+    connect(m_colorSchemeWidget, &ColorSchemeWidget::invertedChanged
+        , this, &ColorSchemeControlWidget::invertedChanged);
 
     connect(m_colorSchemePresetsWidget, &ColorSchemePresetsWidget::selectedChanged
         , this, &ColorSchemeControlWidget::onSelectedChanged);
@@ -53,14 +54,31 @@ ColorSchemeControlWidget::ColorSchemeControlWidget(
 {
 }
 
+void ColorSchemeControlWidget::addFileName(const QString & fileName, bool active)
+{
+    m_dataLinkWidget->addFileName(fileName, active);
+}
 void ColorSchemeControlWidget::setFileName(const QString & fileName)
 {
 	m_dataLinkWidget->setFileName(fileName);
 }
-
 const QString & ColorSchemeControlWidget::fileName() const
 {
 	return m_presets->fileName();
+}
+
+QStringList ColorSchemeControlWidget::fileNames() const
+{
+    return m_dataLinkWidget->fileNames();
+}
+
+void ColorSchemeControlWidget::setFileLinked(const bool linked)
+{
+    m_dataLinkWidget->setFileLinked(linked);
+}
+bool ColorSchemeControlWidget::fileLinked() const
+{
+    return m_dataLinkWidget->fileLinked();
 }
 
 const ColorSchemePresets * ColorSchemeControlWidget::presets() const
@@ -72,7 +90,7 @@ void ColorSchemeControlWidget::setScheme(const ColorScheme & scheme)
 {
     m_colorSchemePresetsWidget->setSelected(scheme);
 }
-const ColorScheme * ColorSchemeControlWidget::scheme()
+const ColorScheme * ColorSchemeControlWidget::scheme() const
 {
     return m_colorSchemePresetsWidget->selected();
 }
@@ -93,6 +111,15 @@ void ColorSchemeControlWidget::setClasses(const uint classes)
 uint ColorSchemeControlWidget::classes() const
 {
 	return m_colorSchemeWidget->classes();
+}
+
+void ColorSchemeControlWidget::setInverted(const bool invert)
+{
+    m_colorSchemeWidget->setInverted(invert);
+}
+bool ColorSchemeControlWidget::inverted() const
+{
+    return m_colorSchemeWidget->inverted();
 }
 
 void ColorSchemeControlWidget::setClassesFilter(const uint classes)
@@ -119,11 +146,6 @@ void ColorSchemeControlWidget::onSelectedChanged(const ColorScheme * scheme)
 {
 	m_colorSchemeWidget->setScheme(scheme);
 	emit schemeChanged(scheme);
-}
-
-void ColorSchemeControlWidget::onClassesChanged(uint classes)
-{
-	emit classesChanged(classes);
 }
 
 void ColorSchemeControlWidget::onFileChanged(const QString & fileName)

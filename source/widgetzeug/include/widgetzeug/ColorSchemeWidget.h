@@ -26,6 +26,9 @@ public:
 	void setClasses(uint classes);
 	uint classes() const;
 
+    void setInverted(bool invert);
+    bool inverted() const;
+
 	void setDeficiency(ColorVisionDeficiency deficiency);
 
 signals:

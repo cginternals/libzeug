@@ -56,6 +56,19 @@ uint ColorSchemeWidget::classes() const
 	return m_ui->classesSpinBox->value();
 }
 
+void ColorSchemeWidget::setInverted(const bool invert)
+{
+    m_ui->invertedCheckBox->blockSignals(true);
+    m_ui->invertedCheckBox->setChecked(invert);
+    m_ui->invertedCheckBox->blockSignals(false);
+
+    m_ui->schemeLabel->setInverted(invert);
+}
+bool ColorSchemeWidget::inverted() const
+{
+    return m_ui->invertedCheckBox->isChecked();
+}
+
 void ColorSchemeWidget::on_classesSpinBox_valueChanged(int value)
 {
 	m_ui->schemeLabel->setClasses(value);

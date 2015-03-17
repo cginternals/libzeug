@@ -24,9 +24,14 @@ public:
     DataLinkWidget(QWidget * parent = nullptr);
     virtual ~DataLinkWidget();
 
-    void addFileName(const QString & fileName, bool setCurrent = false);
+    void addFileName(const QString & fileName, bool active = false);
     void setFileName(const QString & fileName);
     QString fileName() const;
+
+    QStringList fileNames() const;
+
+    void setFileLinked(bool linked);
+    bool fileLinked() const;
 
 	void setFileIssue(bool enable);
 

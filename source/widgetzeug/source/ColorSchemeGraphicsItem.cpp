@@ -6,7 +6,6 @@
 #include <QPen>
 #include <QPainter>
 #include <QApplication>
-#include <QScreen>
 #include <QGraphicsSceneHoverEvent>
 #include <QGraphicsView>
 #include <QGraphicsWidget>

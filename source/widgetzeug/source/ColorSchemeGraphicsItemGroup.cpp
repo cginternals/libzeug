@@ -30,12 +30,6 @@ ColorSchemeGraphicsItemGroup::ColorSchemeGraphicsItemGroup(
 QRectF ColorSchemeGraphicsItemGroup::boundingRect() const
 {
     return QRect();
-    /*auto rect = m_label->boundingRect();
-
-    for (const auto item : m_itemsByScheme.values())
-        rect = rect.united(item->boundingRect());
-
-    return rect;*/
 }
 
 void ColorSchemeGraphicsItemGroup::paint(QPainter * painter, 

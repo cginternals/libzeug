@@ -38,7 +38,7 @@ public:
 
     void setDeficiency(ColorVisionDeficiency deficiency);
     void setClasses(uint classes);
-    void setInverted(bool inverted);
+    void setInverted(bool invert);
 
     void setPadding(qreal padding);
     void setRectSize(const QSizeF & size);

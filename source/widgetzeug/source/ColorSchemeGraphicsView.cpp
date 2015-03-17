@@ -10,8 +10,6 @@
 #include "ColorSchemeGraphicsItem.h"
 #include "ColorSchemeGraphicsItemGroup.h"
 
-#include <QDebug>
-
 
 namespace widgetzeug
 {
@@ -117,16 +115,15 @@ void ColorSchemeGraphicsView::keyPressEvent(QKeyEvent * event)
 
     QList<ColorSchemeGraphicsItem*> items;
 
-    for (const QString & identifier : m_groups)
+    for (const auto & identifier : m_groups)
     {
-        ColorSchemeGraphicsItemGroup * group = m_graphicsItemGroups.value(identifier);
-        for (ColorSchemeGraphicsItem * item : group->items())
+        auto group = m_graphicsItemGroups.value(identifier);
+        for (auto item : group->items())
             if (item->isVisible())
                 items << item;
     }
 
     assert(items.contains(m_selectedItem));
-
 
     auto index = items.indexOf(m_selectedItem);
 
@@ -143,7 +140,6 @@ void ColorSchemeGraphicsView::keyPressEvent(QKeyEvent * event)
     default:
         break;
     }
-
     setSelectedItem(items[index]);
 }
 

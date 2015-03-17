@@ -9,8 +9,6 @@
 #include <QDirIterator>
 #include <QCompleter>
 #include <QStringListModel>
-#include <QStyle>
-#include <QFileSystemModel>
 
 #include "util.hpp"
 #include "ui_DataLinkWidget.h"
@@ -65,12 +63,12 @@ DataLinkWidget::DataLinkWidget(QWidget * parent)
 
 DataLinkWidget::~DataLinkWidget() = default;
 
-void DataLinkWidget::addFileName(const QString & fileName_, const bool setCurrent)
+void DataLinkWidget::addFileName(const QString & fileName_, const bool active)
 {
     if (!isRecent(fileName_))
         m_ui->fileNameComboBox->addItem(fileName_);
 
-    if (!setCurrent)
+    if (!active)
         return;
 
     const auto index = m_ui->fileNameComboBox->findText(fileName_);
@@ -81,10 +79,28 @@ void DataLinkWidget::setFileName(const QString & fileName)
 {
     addFileName(fileName, true);
 }
-
 QString DataLinkWidget::fileName() const
 {
     return m_ui->fileNameComboBox->currentText();
+}
+
+QStringList DataLinkWidget::fileNames() const
+{
+    QStringList names;
+
+    for (auto i = 0; i < m_ui->fileNameComboBox->count(); ++i)
+        names << m_ui->fileNameComboBox->itemText(i);
+
+    return names;
+}
+
+void DataLinkWidget::setFileLinked(const bool linked)
+{
+    m_ui->linkCheckBox->setChecked(linked);
+}
+bool DataLinkWidget::fileLinked() const
+{
+    return m_ui->linkCheckBox->isChecked();
 }
 
 void DataLinkWidget::setFileIssue(const bool enable)

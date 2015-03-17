@@ -5,26 +5,15 @@
 #include <QApplication>
 #include <QStyleFactory>
 
-#include <QLabel>
 #include <QVBoxLayout>
 #include <QPushButton>
-#include <QSpinBox>
 #include <QWidget>
-#include <QFrame>
-#include <QFile>
-
-#include <QDockWidget>
-#include <QScrollArea>
 
 #include <widgetzeug/DockableScrollAreaWidget.h>
-
-#include <widgetzeug/ColorGradientWidget.h>
-
-#include <widgetzeug/DataLinkWidget.h>
-
-//#include <widgetzeug/ColorSchemeLabel.h>
-#include <widgetzeug/ColorSchemePresets.h>
 #include <widgetzeug/ColorSchemeControlWidget.h>
+
+#include <widgetzeug/ControlWidgetSettings.h>
+
 #include <widgetzeug/dark_fusion_style.hpp>
 
 #include "libzeug-version.h"
@@ -40,8 +29,10 @@ QWidget * getOrCreateColorScemeControlWidget()
 	if (g_colorSchemeControlWidget)
 		return g_colorSchemeControlWidget;
 
-	g_colorSchemeControlWidget = new ColorSchemeControlWidget(QObject::tr("Color Scheme Controler"));
+	g_colorSchemeControlWidget = new ColorSchemeControlWidget(QObject::tr("Color Scheme Controller"));
 	g_colorSchemeControlWidget->setFileName("data/colorbrewer.json");
+
+    ControlWidgetSettings::restore("Color Scheme Controller", *g_colorSchemeControlWidget);
 
 	return g_colorSchemeControlWidget;
 }
@@ -112,11 +103,13 @@ int main(int argc, char *argv[])
     layout->addWidget(&gradientButton);
 	layout->addWidget(&closeButton);
 
-
 	widget.setLayout(layout);
 	widget.show();
 
     auto result = app.exec();
+
+    if (g_colorSchemeControlWidget)
+        ControlWidgetSettings::store("Color Scheme Controller", *g_colorSchemeControlWidget);
 
     return result;
 }

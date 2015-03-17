@@ -91,6 +91,10 @@ const ColorScheme * ColorSchemePresetsWidget::selected()
 
 void ColorSchemePresetsWidget::setTypeFilter(const ColorScheme::ColorSchemeTypes & types)
 {
+    m_ui->sequentialCheckBox->setChecked(types.testFlag(ColorScheme::Sequential));
+    m_ui->divergingCheckBox->setChecked(types.testFlag(ColorScheme::Diverging));
+    m_ui->qualitativeCheckBox->setChecked(types.testFlag(ColorScheme::Qualitative));
+
     m_ui->graphicsView->setTypeFilter(types);
 }
 
@@ -101,6 +105,7 @@ ColorScheme::ColorSchemeTypes ColorSchemePresetsWidget::typeFilter() const
 
 void ColorSchemePresetsWidget::setClassesFilter(const uint classes)
 {
+    m_ui->classesSpinBox->setValue(classes);
     m_ui->graphicsView->setClassesFilter(classes);
 }
 

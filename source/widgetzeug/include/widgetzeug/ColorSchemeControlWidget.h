@@ -30,19 +30,28 @@ public:
 
     virtual ~ColorSchemeControlWidget() = default;
 
+    void addFileName(const QString & fileName, bool asCurrent = false);
 	void setFileName(const QString & fileName);
 	const QString & fileName() const;
+
+    QStringList fileNames() const;
+
+    void setFileLinked(bool linked);
+    bool fileLinked() const;
 
 	const ColorSchemePresets * presets() const;
 
     void setScheme(const ColorScheme & scheme);
-    const ColorScheme * scheme();
+    const ColorScheme * scheme() const;
 
     void setTypeFilter(const ColorScheme::ColorSchemeTypes & types);
     ColorScheme::ColorSchemeTypes typeFilter() const;
 
 	void setClasses(uint classes);
 	uint classes() const;
+
+    void setInverted(bool invert);
+    bool inverted() const;
 
     void setClassesFilter(uint classes);
     uint classesFilter() const;
@@ -53,10 +62,10 @@ public:
 signals:
     void schemeChanged(const ColorScheme * scheme);
 	void classesChanged(uint classes);
+    void invertedChanged(bool invert);
 
 protected slots:
 	void onSelectedChanged(const ColorScheme * scheme);
-	void onClassesChanged(uint classes);
 	void onFileChanged(const QString & fileName);
 
 protected:

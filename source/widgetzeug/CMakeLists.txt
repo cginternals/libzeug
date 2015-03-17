@@ -54,6 +54,8 @@ set(api_includes
     ${header_path}/widgetzeug_api.h
     ${header_path}/RGBABrush.hpp
     ${header_path}/dark_fusion_style.hpp
+
+    ${header_path}/ControlWidgetSettings.h
     # color widgets
     #${header_path}/ColorGradient.h
     #${header_path}/ColorGradientProperty.h
@@ -87,6 +89,8 @@ set(api_includes
 
 set(sources
     ${source_path}/util.hpp
+
+    ${source_path}/ControlWidgetSettings.cpp
     # color widgets
     #${source_path}/ColorGradient.cpp
     #${source_path}/ColorGradientLabel.cpp
