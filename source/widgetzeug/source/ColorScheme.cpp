@@ -109,7 +109,7 @@ ColorScheme::ColorScheme(const QString & identifier, QJsonObject scheme)
 ColorScheme::~ColorScheme()
 {
 	--num_instances;
-	qDebug() << "num_instances [~ColorScheme] " << num_instances;
+	qDebug() << "\t~ColorScheme " << static_cast<void*>(this) << " " << num_instances;
 }
 
 bool ColorScheme::operator==(const ColorScheme & scheme) const

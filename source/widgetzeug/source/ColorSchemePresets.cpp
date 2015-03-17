@@ -49,6 +49,7 @@ static auto num_instances = 0;
 ColorSchemePresets::ColorSchemePresets(const QString & fileName)
 : QVector<ColorSchemeGroup *>()
 , m_fileName{ fileName }
+, m_valid{ false }
 {
 	++num_instances;
 	qDebug() << "\t*ColorSchemePresets " << static_cast<void*>(this) << " " << num_instances;
@@ -92,10 +93,15 @@ void ColorSchemePresets::reload()
     auto doc = QJsonDocument::fromJson(json.toUtf8());
     auto presets = doc.object();
 
-    initialize(presets);
+    m_valid = initialize(presets);
 }
 
-void ColorSchemePresets::initialize(const QJsonObject & presets)
+bool ColorSchemePresets::isValid() const
+{
+	return m_valid;
+}
+
+bool ColorSchemePresets::initialize(const QJsonObject & presets)
 {
     static const auto warning = QString("Cannot retrieve color scheme category \"%1\" from Json object: ");
 
@@ -110,13 +116,13 @@ void ColorSchemePresets::initialize(const QJsonObject & presets)
         if (schemes.isEmpty())
         {
             qWarning() << qPrintable(warning.arg(identifier) + "value object is empty.");
-            return;
+            return false;
         }
 
         if (!schemes.contains(CATEGORY_INDEX))
         {
             qWarning() << qPrintable(warning.arg(identifier) + "value object is missing category index.");
-            return;
+            return false;
         }
 
         const auto index = schemes.value(CATEGORY_INDEX).toInt();
@@ -133,6 +139,7 @@ void ColorSchemePresets::initialize(const QJsonObject & presets)
             push_back(new ColorSchemeGroup(identifier, schemes));
         }
     }
+	return true;
 }
 
 } // namespace widgetzeug

@@ -46,7 +46,7 @@ DataLinkWidget::DataLinkWidget(QWidget * parent)
     m_ui->fileNameComboBox->setValidator(new FileExistsValidator{ m_ui->fileNameComboBox });
     m_ui->fileNameComboBox->setCompleter(new QCompleter);
 
-    //    connect(m_watcher, &QFileSystemWatcher::fileChanged, this, &DataLinkWidget::fileChanged);   
+    // connect(m_watcher, &QFileSystemWatcher::fileChanged, this, &DataLinkWidget::fileChanged);   
 
     // register every file change to prevent unnecassary fileChanged emits
     connect(this, &DataLinkWidget::fileChanged, [&](const QString & fileName) { 
@@ -59,21 +59,25 @@ DataLinkWidget::~DataLinkWidget()
     delete m_ui;
 }
 
-void DataLinkWidget::addFileName(const QString & fileName, const bool setCurrent)
+void DataLinkWidget::addFileName(const QString & fileName_, const bool setCurrent)
 {
-    if (!isRecent(fileName))
+	const auto emit_changed = m_ui->fileNameComboBox->count() == 0;
+
+    if (!isRecent(fileName_))
     {
         m_ui->fileNameComboBox->blockSignals(true);
-        m_ui->fileNameComboBox->addItem(fileName);
+        m_ui->fileNameComboBox->addItem(fileName_);
         m_ui->fileNameComboBox->blockSignals(false);
     }
 
     if (!setCurrent)
         return;
 
-    const auto index = m_ui->fileNameComboBox->findText(fileName);
+    const auto index = m_ui->fileNameComboBox->findText(fileName_);
 
-    m_ui->fileNameComboBox->setCurrentIndex(index);
+    m_ui->fileNameComboBox->setCurrentIndex(index); // triggers not if current index is index
+	if (emit_changed)
+		emit fileChanged(fileName());
 }
 
 void DataLinkWidget::setFileName(const QString & fileName)
@@ -84,6 +88,12 @@ void DataLinkWidget::setFileName(const QString & fileName)
 QString DataLinkWidget::fileName() const
 {
     return m_ui->fileNameComboBox->currentText();
+}
+
+void DataLinkWidget::setFileIssue(const bool enable)
+{
+	// ToDo: provide some feedback that the file cannot be used
+	// -> an appropriate log message should alread be sent ... so not required here
 }
 
 void DataLinkWidget::setFilter(const QString & filter)

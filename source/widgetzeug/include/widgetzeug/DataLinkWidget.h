@@ -26,6 +26,8 @@ public:
     void setFileName(const QString & fileName);
     QString fileName() const;
 
+	void setFileIssue(bool enable);
+
     void setFilter(const QString & filter);
 
     void setReadOnly(bool enabled);

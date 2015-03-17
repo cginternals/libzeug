@@ -54,22 +54,7 @@ ColorSchemeControlWidget::ColorSchemeControlWidget(
 
 void ColorSchemeControlWidget::setFileName(const QString & fileName)
 {
-	if (m_presets.get() && m_presets->fileName() == fileName)
-		return;
-
-	m_presets.reset(new ColorSchemePresets{ fileName });
-	m_dataLinkWidget->setFileName(m_presets->fileName());
-
-	const auto enabled = nullptr != m_presets.get();
-	assert(enabled);
-
-	m_colorSchemeWidget->setEnabled(enabled);
-	m_colorSchemePresetsWidget->setEnabled(enabled);
-
-	if (!enabled)
-		return;
-
-	m_colorSchemePresetsWidget->setPresets(*m_presets);
+	m_dataLinkWidget->setFileName(fileName);
 }
 
 const QString & ColorSchemeControlWidget::fileName() const
@@ -141,9 +126,35 @@ void ColorSchemeControlWidget::onClassesChanged(uint classes)
 
 void ColorSchemeControlWidget::onFileChanged(const QString & fileName)
 {
-	qWarning() << "File Changed (internal)" << fileName;
-    const ColorSchemePresets presets(fileName);
-    m_colorSchemePresetsWidget->setPresets(presets);
+	// this slot should be called by data link widget's file changes
+
+	if (m_presets.get() && m_presets->fileName() == fileName)
+		return;
+
+	auto presets = new ColorSchemePresets{ fileName };
+
+	if (!presets->isValid())
+	{
+		m_dataLinkWidget->setFileIssue(true);
+		return;
+	}
+	m_dataLinkWidget->setFileIssue(false);
+
+	m_presets.reset(presets);
+
+	const auto enabled = nullptr != m_presets.get();
+	assert(enabled);
+
+	m_colorSchemeWidget->setEnabled(false);
+	m_colorSchemePresetsWidget->setEnabled(enabled);
+
+	if (!enabled)
+		return;
+
+	m_colorSchemePresetsWidget->setPresets(*m_presets);
+	
+	setScheme(*(m_presets->first()->first()));
+	m_colorSchemePresetsWidget->setEnabled(true);
 }
 
 } // namespace widgetzeug

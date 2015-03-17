@@ -14,6 +14,7 @@ namespace widgetzeug
 
 ColorSchemeWidget::ColorSchemeWidget(QWidget * parent)
 : m_ui{ new Ui_ColorSchemeWidget() }
+, m_scheme{ nullptr }
 {
     m_ui->setupUi(this);
 	setClasses(5);

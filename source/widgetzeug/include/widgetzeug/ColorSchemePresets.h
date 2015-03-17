@@ -65,11 +65,14 @@ public:
     const QString & fileName() const;
 
     void reload();
+	bool isValid() const;
 
 protected:
-    void initialize(const QJsonObject & presets);
+    bool initialize(const QJsonObject & presets);
 
+protected:
     QString m_fileName;
+	bool m_valid;
 };
 
 
