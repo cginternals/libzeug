@@ -1,4 +1,3 @@
-
 #include <widgetzeug/DataLinkWidget.h>
 
 #include <QDebug>
@@ -13,6 +12,7 @@
 #include <QStyle>
 #include <QFileSystemModel>
 
+#include "util.hpp"
 #include "ui_DataLinkWidget.h"
 
 
@@ -39,8 +39,9 @@ public:
 
 
 DataLinkWidget::DataLinkWidget(QWidget * parent)
-:   m_ui{new Ui_DataLinkWidget{}}
-,   m_watcher{new QFileSystemWatcher{this}}
+:   m_watcher{new QFileSystemWatcher{this}}
+,   m_watchFile{false}
+,   m_ui{make_unique<Ui_DataLinkWidget>()}
 {
     m_ui->setupUi(this);
     
@@ -48,22 +49,20 @@ DataLinkWidget::DataLinkWidget(QWidget * parent)
     const auto icon = style()->standardIcon(QStyle::SP_MessageBoxWarning);
     const auto iconExtent = static_cast<int>(warningLabel->height() * 0.5f);
     warningLabel->setPixmap(icon.pixmap(iconExtent));
+    
+    m_ui->linkCheckBox->setChecked(m_watchFile);
 
     m_ui->fileNameComboBox->setValidator(new FileExistsValidator{ m_ui->fileNameComboBox });
     m_ui->fileNameComboBox->setCompleter(new QCompleter);
 
-    // connect(m_watcher, &QFileSystemWatcher::fileChanged, this, &DataLinkWidget::fileChanged);   
+    connect(m_watcher, &QFileSystemWatcher::fileChanged, this, &DataLinkWidget::fileChanged);
 
     // register every file change to prevent unnecassary fileChanged emits
     connect(this, &DataLinkWidget::fileChanged, [&](const QString & fileName) { 
         m_fileName = fileName; });
 }
 
-DataLinkWidget::~DataLinkWidget()
-{
-    delete m_watcher;
-    delete m_ui;
-}
+DataLinkWidget::~DataLinkWidget() = default;
 
 void DataLinkWidget::addFileName(const QString & fileName_, const bool setCurrent)
 {
@@ -80,9 +79,9 @@ void DataLinkWidget::addFileName(const QString & fileName_, const bool setCurren
         return;
 
     const auto index = m_ui->fileNameComboBox->findText(fileName_);
-
     m_ui->fileNameComboBox->setCurrentIndex(index); // triggers not if current index is index
-	if (emit_changed)
+	
+    if (emit_changed)
 		emit fileChanged(fileName());
 }
 
@@ -131,10 +130,15 @@ QCompleter * DataLinkWidget::completer()
 
 void DataLinkWidget::updateWatcher()
 {
-    //if (m_watchFile && !m_watcher->files().isEmpty())
-    //    m_watcher->removePaths(m_watcher->files());
-    //else
-    //    m_watcher->addPath(m_ui->fileNameComboBox->currentText()); 
+    if (!m_watchFile)
+    {
+        if (!m_watcher->files().isEmpty())
+            m_watcher->removePaths(m_watcher->files());
+    }
+    else
+    {
+        m_watcher->addPath(m_ui->fileNameComboBox->currentText());
+    }
 }
 
 bool DataLinkWidget::browse()
@@ -182,7 +186,7 @@ void DataLinkWidget::on_fileNameComboBox_currentIndexChanged(const QString & tex
 
     qWarning() << fileName() << " (" << m_fileName << ")";
 
-//    updateWatcher();
+    updateWatcher();
 
     emit fileChanged(fileName());
 }
@@ -227,13 +231,13 @@ void DataLinkWidget::on_fileNameComboBox_editTextChanged(const QString & text)
 
 void DataLinkWidget::on_linkCheckBox_stateChanged(const int state)
 {
-    /*auto checkState = static_cast<Qt::CheckState>(state);
+    auto checkState = static_cast<Qt::CheckState>(state);
     m_watchFile = checkState == Qt::Checked;
 
     if (m_watchFile)
         emit fileChanged(m_ui->fileNameComboBox->currentText());
 
-    updateWatcher();*/
+    updateWatcher();
 }
 
 } // namespace widgetzeug

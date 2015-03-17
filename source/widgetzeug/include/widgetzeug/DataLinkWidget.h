@@ -1,5 +1,7 @@
 #pragma once
 
+#include <memory>
+
 #include <QWidget>
 
 #include <widgetzeug/widgetzeug_api.h>
@@ -66,7 +68,7 @@ private:
 
     QString m_filter;
 
-    Ui_DataLinkWidget * m_ui;
+    std::unique_ptr<Ui_DataLinkWidget> m_ui;
 };
 
 } // namespace widgetzeug
