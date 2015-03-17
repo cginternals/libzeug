@@ -15,7 +15,7 @@ namespace widgetzeug
 
 ColorSchemePresetsWidget::ColorSchemePresetsWidget(QWidget * parent)
 :  QWidget(parent)
-,   m_ui{ new Ui_ColorSchemePresetWidget }
+, m_ui{ new Ui_ColorSchemePresetWidget }
 {
     initialize();
 }
@@ -37,9 +37,20 @@ void ColorSchemePresetsWidget::setPresets(const ColorSchemePresets & presets)
 {
     m_ui->graphicsView->clear();
 
+	ColorScheme::ColorSchemeTypes types = ColorScheme::Unknown;
+
     for (const auto category : presets)
-        for (const auto scheme : *category)
-            insertScheme(category->identifier(), *scheme);
+		for (const auto scheme : *category)
+		{
+			insertScheme(category->identifier(), *scheme);
+			types |= scheme->type();
+		}
+
+	m_ui->sequentialCheckBox->setEnabled(types.testFlag(ColorScheme::Sequential));
+	m_ui->divergingCheckBox->setEnabled(types.testFlag(ColorScheme::Diverging));
+	m_ui->qualitativeCheckBox->setEnabled(types.testFlag(ColorScheme::Qualitative));
+
+	m_ui->graphicsView->update();
 }
 
 void ColorSchemePresetsWidget::initialize()

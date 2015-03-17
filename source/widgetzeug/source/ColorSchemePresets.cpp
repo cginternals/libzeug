@@ -42,26 +42,17 @@ const QString & ColorSchemeGroup::identifier() const
 }
 
 
-// ToDo: remove when debugging is done
-static auto num_instances = 0;
-
-
 ColorSchemePresets::ColorSchemePresets(const QString & fileName)
 : QVector<ColorSchemeGroup *>()
 , m_fileName{ fileName }
 , m_valid{ false }
 {
-	++num_instances;
-	qDebug() << "\t*ColorSchemePresets " << static_cast<void*>(this) << " " << num_instances;
-
     reload();
 }
 
 ColorSchemePresets::~ColorSchemePresets()
 {
     qDeleteAll(*this);
-	--num_instances;
-	qDebug() << "\t~ColorSchemePresets " << static_cast<void*>(this) << " " << num_instances;
 }
 
 void ColorSchemePresets::setFileName(const QString & fileName)
@@ -155,8 +146,6 @@ bool ColorSchemePresets::initialize(const QJsonObject & presets)
             push_back(new ColorSchemeGroup(identifier, schemes));
         }
     }
-
-	// ToDo: add json parse error log
 
 	return !isEmpty();
 }

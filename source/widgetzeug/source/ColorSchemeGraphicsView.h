@@ -51,6 +51,8 @@ public:
     void ensureDefaultSelection();
     void setSelectedItem(ColorSchemeGraphicsItem * item);
 
+	void update();
+
 signals:
     void selectedChanged(const ColorScheme * scheme);
 
@@ -59,8 +61,6 @@ protected:
 
 protected:
     //QVector<const ColorScheme &> schemes(bool visible = true) const;
-
-    void update();
 
 protected:
     QStringList m_groups;

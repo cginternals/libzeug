@@ -26,7 +26,7 @@ public:
     ColorSchemeGraphicsItemGroup(const QString & identifier
         , const DpiAwareGraphicsView * view);
 
-    virtual ~ColorSchemeGraphicsItemGroup();
+    virtual ~ColorSchemeGraphicsItemGroup() = default;
     
     virtual QRectF boundingRect() const;
 

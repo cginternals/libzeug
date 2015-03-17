@@ -12,8 +12,6 @@
 #include <QGraphicsWidget>
 #include <QToolTip>
 
-#include <QDebug>
-
 #include <widgetzeug/ColorScheme.h>
 #include <widgetzeug/DpiAware.h>
 #include <widgetzeug/RGBABrush.hpp>
@@ -25,9 +23,6 @@ namespace widgetzeug
 const QBrush ColorSchemeGraphicsItem::s_selectedBrush   = QColor("#b0b0b0");
 const QBrush ColorSchemeGraphicsItem::s_hoveredBrush    = QColor("#d0d0d0");
 
-
-// ToDo: remove when debugging is done
-static auto num_instances = 0;
 
 ColorSchemeGraphicsItem::ColorSchemeGraphicsItem(
     const ColorScheme & scheme, QGraphicsItem * parent) 
@@ -41,9 +36,6 @@ ColorSchemeGraphicsItem::ColorSchemeGraphicsItem(
 ,   m_selected{ false }
 ,   m_detailedTooltip{ false }
 {
-	++num_instances;
-	qDebug() << "\t*ColorSchemeGraphicsItem " << static_cast<void*>(this) << " " << num_instances;
-
     setAcceptHoverEvents(true);
 
     m_frame->setBrush(Qt::NoBrush);
@@ -56,9 +48,6 @@ ColorSchemeGraphicsItem::~ColorSchemeGraphicsItem()
 {
     qDeleteAll(m_rects);
     delete m_frame;
-
-	--num_instances;
-	qDebug() << "\t~ColorSchemeGraphicsItem " << static_cast<void*>(this) << " " << num_instances;
 }
 
 //void ColorSchemeGraphicsItem::setScheme(const ColorScheme & scheme)

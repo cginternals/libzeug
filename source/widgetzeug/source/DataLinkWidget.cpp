@@ -175,12 +175,8 @@ void DataLinkWidget::on_savePushButton_clicked(bool)
 
 void DataLinkWidget::on_fileNameComboBox_currentIndexChanged(const QString & text)
 {
-    qWarning() << "index ... " << text;
-
     if (fileName().isEmpty() || m_fileName == fileName())
         return;
-
-    qWarning() << fileName() << " (" << m_fileName << ")";
 
 //    updateWatcher();
 
