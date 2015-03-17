@@ -30,9 +30,11 @@ public:
 
 signals:
     void classesChanged(uint classes);
+    void invertedChanged(bool inverted);
 
 protected slots:
 	void on_classesSpinBox_valueChanged(int value);
+    void on_invertedCheckBox_toggled(bool checked);
 
 private:
 	const ColorScheme * m_scheme;

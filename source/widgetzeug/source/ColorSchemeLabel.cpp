@@ -27,6 +27,7 @@ QPixmap ColorSchemeLabel::pixmap(
     const ColorScheme * scheme
 ,   const uint classes
 ,   const ColorVisionDeficiency deficiency
+,   const bool invert
 ,   const qreal padding
 ,   const QSizeF & size
 ,   QWidget * parent)
@@ -46,14 +47,13 @@ QPixmap ColorSchemeLabel::pixmap(
     const auto colors = scheme ? scheme->colors(classes) : QVector<QColor>();    
     {
         QPainter painter(&pxmap);
-
         painter.setPen(pen);
         for (uint i = 0; i < classes; ++i)
         {
             if (colors.isEmpty())
                 painter.setBrush(Qt::NoBrush);
             else
-                painter.setBrush(RGBABrush(daltonize(colors[i], deficiency)));           
+                painter.setBrush(RGBABrush(daltonize(colors[invert ? classes - i - 1 : i], deficiency)));
 
             R.moveLeft((R.width() + padding * dpiScale) * i);
             painter.setBrushOrigin(R.left() + pen.widthF(), R.bottom());
@@ -67,7 +67,8 @@ ColorSchemeLabel::ColorSchemeLabel(QWidget * parent)
 :   QLabel(parent)
 , m_scheme{ nullptr }
 , m_deficiency{ ColorVisionDeficiency::None }
-, m_classes(1)
+, m_classes { 1 }
+, m_inverted{ false }
 , m_rectSize{ s_defaultRectSize }
 , m_padding{ s_defaultPadding }
 {
@@ -100,6 +101,15 @@ void ColorSchemeLabel::setDeficiency(const ColorVisionDeficiency deficiency)
     updatePixmap();
 }
 
+void ColorSchemeLabel::setInverted(const bool inverted)
+{
+    if (inverted == m_inverted)
+        return;
+
+    m_inverted = inverted;
+    updatePixmap();
+}
+
 void ColorSchemeLabel::setPadding(const qreal padding)
 {
     if (padding == m_padding)
@@ -120,7 +130,7 @@ void ColorSchemeLabel::setRectSize(const QSizeF & size)
 
 void ColorSchemeLabel::updatePixmap()
 {
-    setPixmap(pixmap(m_scheme, m_classes, m_deficiency, m_padding, m_rectSize, this));
+    setPixmap(pixmap(m_scheme, m_classes, m_deficiency, m_inverted, m_padding, m_rectSize, this));
     setMinimumSize(QLabel::pixmap()->size());    
 }
 

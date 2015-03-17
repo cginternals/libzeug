@@ -62,4 +62,10 @@ void ColorSchemeWidget::on_classesSpinBox_valueChanged(int value)
 	emit classesChanged(value);
 }
 
+void ColorSchemeWidget::on_invertedCheckBox_toggled(bool checked)
+{
+    m_ui->schemeLabel->setInverted(checked);
+    emit invertedChanged(checked);
+}
+
 } // namespace widgetzeug

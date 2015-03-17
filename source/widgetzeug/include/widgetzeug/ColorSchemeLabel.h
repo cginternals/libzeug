@@ -22,6 +22,7 @@ public:
         const ColorScheme * scheme,
         uint classes,
         ColorVisionDeficiency deficiency,
+        bool invert = false,
         qreal padding = s_defaultPadding,
         const QSizeF & size = s_defaultRectSize,
         QWidget * widget = nullptr);
@@ -36,8 +37,8 @@ public:
     void setScheme(const ColorScheme * scheme);
 
     void setDeficiency(ColorVisionDeficiency deficiency);
-
     void setClasses(uint classes);
+    void setInverted(bool inverted);
 
     void setPadding(qreal padding);
     void setRectSize(const QSizeF & size);
@@ -50,6 +51,7 @@ protected:
 
 	ColorVisionDeficiency m_deficiency;
     uint m_classes;
+    bool m_inverted;
 
     qreal m_padding;
     QSizeF m_rectSize;

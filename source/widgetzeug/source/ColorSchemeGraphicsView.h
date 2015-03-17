@@ -48,7 +48,6 @@ public:
     uint minClasses() const;
     uint maxClasses() const;
 
-    void ensureDefaultSelection();
     void setSelectedItem(ColorSchemeGraphicsItem * item);
 
 	void update();
@@ -60,9 +59,6 @@ protected:
     virtual void keyPressEvent(QKeyEvent * event);
 
 protected:
-    //QVector<const ColorScheme &> schemes(bool visible = true) const;
-
-protected:
     QStringList m_groups;
     QMap<QString, ColorSchemeGraphicsItemGroup *> m_graphicsItemGroups;
 
@@ -70,7 +66,6 @@ protected:
 
     ColorScheme::ColorSchemeTypes m_typeFilter;
     ColorVisionDeficiency m_deficiency;
-
 
     uint m_classesFilter;
     uint m_minClasses;
