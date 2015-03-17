@@ -20,6 +20,9 @@
    <string>Color Scheme Presets</string>
   </property>
   <layout class="QGridLayout" name="gridLayout">
+   <property name="sizeConstraint">
+    <enum>QLayout::SetMinimumSize</enum>
+   </property>
    <item row="2" column="0">
     <widget class="QLabel" name="typesLabel">
      <property name="text">

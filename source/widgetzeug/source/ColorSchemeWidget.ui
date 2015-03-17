@@ -14,6 +14,9 @@
    <string>Color Scheme</string>
   </property>
   <layout class="QGridLayout" name="gridLayout">
+   <property name="sizeConstraint">
+    <enum>QLayout::SetMinimumSize</enum>
+   </property>
    <item row="0" column="0">
     <widget class="QSpinBox" name="classesSpinBox">
      <property name="sizePolicy">

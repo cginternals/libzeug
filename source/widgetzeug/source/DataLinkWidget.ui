@@ -20,6 +20,9 @@
    <string>Data Link</string>
   </property>
   <layout class="QGridLayout" name="gridLayout">
+   <property name="sizeConstraint">
+    <enum>QLayout::SetMinimumSize</enum>
+   </property>
    <item row="0" column="0">
     <widget class="QLabel" name="fileNameLabel">
      <property name="text">
