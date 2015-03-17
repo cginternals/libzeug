@@ -1,14 +1,17 @@
-
 #include <string>
 
 #include <QApplication>
 #include <QWidget>
 #include <QPushButton>
+
 #include <reflectionzeug/Property.h>
 #include <reflectionzeug/PropertyGroup.h>
+
 #include <propertyguizeug/PropertyBrowser.h>
+
 #include <widgetzeug/ColorGradient.h>
 #include <widgetzeug/ColorGradientProperty.h>
+#include <widgetzeug/dark_fusion_style.hpp>
 
 using namespace reflectionzeug;
 using namespace propertyguizeug;
@@ -35,6 +38,8 @@ int main(int argc, char *argv[])
     QApplication a(argc, argv);
     QApplication::setApplicationName("property_editors");
     QApplication::setOrganizationName("hpicgs_libzeug");
+    
+    enableDarkFusionStyle();
     
     PropertyGroup group;
     
@@ -153,9 +158,6 @@ int main(int argc, char *argv[])
         { MyEnum::Three, "Three" }
     });
     
-    subGroup->addProperty<ColorGradient>("gradient", ColorGradient::fromList({ 
-        QColor{Qt::black},
-        QColor{Qt::white}}));
 
     PropertyBrowser browser;
     browser.setRoot(&group);
