@@ -65,6 +65,7 @@ protected:
     DataLinkWidget * m_dataLinkWidget;
 
 	std::unique_ptr<ColorSchemePresets> m_presets;
+    QString m_lastPresetsFileName;
 };
 
 } // namespace widgetzeug

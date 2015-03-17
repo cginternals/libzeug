@@ -11,17 +11,18 @@
 #include <widgetzeug/ColorSchemeWidget.h>
 #include <widgetzeug/DataLinkWidget.h>
 
+#include "util.hpp"
+
 
 namespace widgetzeug
 {
 
 ColorSchemeControlWidget::ColorSchemeControlWidget(
     const QString & title, QWidget * parent, const Qt::WindowFlags flags)
-: DockableScrollAreaWidget(title, parent, flags)
-, m_colorSchemeWidget{ new ColorSchemeWidget }
-, m_colorSchemePresetsWidget{ new ColorSchemePresetsWidget }
-, m_dataLinkWidget { new DataLinkWidget }
-, m_presets{ nullptr }
+:   DockableScrollAreaWidget(title, parent, flags)
+,   m_colorSchemeWidget{new ColorSchemeWidget{}}
+,   m_colorSchemePresetsWidget{new ColorSchemePresetsWidget{}}
+,   m_dataLinkWidget{new DataLinkWidget{}}
 {
     m_dataLinkWidget->setReadOnly(true);
     m_dataLinkWidget->setWindowTitle(QObject::tr("Color Scheme Presets File"));
@@ -48,7 +49,7 @@ ColorSchemeControlWidget::ColorSchemeControlWidget(
 
 ColorSchemeControlWidget::ColorSchemeControlWidget(
     QWidget * parent, const Qt::WindowFlags flags)
-: ColorSchemeControlWidget("", parent, flags)
+:   ColorSchemeControlWidget("", parent, flags)
 {
 }
 
@@ -98,6 +99,7 @@ void ColorSchemeControlWidget::setClassesFilter(const uint classes)
 {
     m_colorSchemePresetsWidget->setClassesFilter(classes);
 }
+
 uint ColorSchemeControlWidget::classesFilter() const
 {
     return m_colorSchemePresetsWidget->classesFilter();
@@ -128,21 +130,20 @@ void ColorSchemeControlWidget::onFileChanged(const QString & fileName)
 {
 	// this slot should be called by data link widget's file changes
 
-	if (m_presets.get() && m_presets->fileName() == fileName)
+	if (!m_lastPresetsFileName.isEmpty() && m_lastPresetsFileName == fileName)
 		return;
+    
+    m_lastPresetsFileName = fileName;
+    
+    auto presets = make_unique<ColorSchemePresets>(fileName);
+    m_dataLinkWidget->setFileIssue(!presets->isValid());
+    
+    if (!presets->isValid())
+        return;
+    
+    m_presets = std::move(presets);
 
-	auto presets = new ColorSchemePresets{ fileName };
-
-	if (!presets->isValid())
-	{
-		m_dataLinkWidget->setFileIssue(true);
-		return;
-	}
-	m_dataLinkWidget->setFileIssue(false);
-
-	m_presets.reset(presets);
-
-	const auto enabled = nullptr != m_presets.get();
+	const auto enabled = static_cast<bool>(m_presets);
 	assert(enabled);
 
 	m_colorSchemeWidget->setEnabled(false);
