@@ -99,6 +99,7 @@ void ColorSchemeControlWidget::setTypeFilter(const ColorScheme::ColorSchemeTypes
 {
     m_colorSchemePresetsWidget->setTypeFilter(types);
 }
+
 ColorScheme::ColorSchemeTypes ColorSchemeControlWidget::typeFilter() const
 {
     return m_colorSchemePresetsWidget->typeFilter();
@@ -108,6 +109,7 @@ void ColorSchemeControlWidget::setClasses(const uint classes)
 {
 	m_colorSchemeWidget->setClasses(classes);
 }
+
 uint ColorSchemeControlWidget::classes() const
 {
 	return m_colorSchemeWidget->classes();

@@ -27,7 +27,7 @@ ColorSchemeGroup::ColorSchemeGroup(const QString & identifier, const QJsonObject
         return;
     }
 
-    auto & identifiers = schemes.keys();
+    auto identifiers = schemes.keys();
     identifiers.sort();
 
     for (const QString & i : identifiers)

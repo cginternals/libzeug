@@ -31,7 +31,7 @@ void enableDarkFusionStyle()
     darkPalette.setColor(QPalette::Disabled, QPalette::ButtonText, Qt::darkGray);
     
     qApp->setPalette(darkPalette);
-    qApp->setStyleSheet("QToolTip { color: #ffffff; background-color: #2a82da; border: 1px solid white; }");
+    qApp->setStyleSheet("QToolTip { color: #ffffff; background-color: #353535; border: 1px solid white; }");
 }
 
 } // namespace widgetzeug

@@ -165,8 +165,15 @@ void ColorSchemeGraphicsView::setSelectedItem(ColorSchemeGraphicsItem * item)
 
     m_selectedItem = item;
     if (m_selectedItem)
+    {
         m_selectedItem->setSelected(true);
-
+        
+        const auto xMargin = m_selectedItem->rectSize().width()
+        + m_selectedItem->margin()
+        + m_selectedItem->padding() + 2;
+        ensureVisible(m_selectedItem, xMargin * dpiBasedScale(), 0);
+    }
+    
     emit selectedChanged(item ? &(item->scheme()) : nullptr);
 }
 
