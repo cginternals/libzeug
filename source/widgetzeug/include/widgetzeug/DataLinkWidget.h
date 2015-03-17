@@ -60,7 +60,9 @@ protected:
     void updateWatcher();
 
 private:
-    QString m_path; ///< path of the lastly typed fileName
+
+	QString m_path; ///< path of the lastly typed fileName
+	QString m_lastEmitedFileName;
 
     QFileSystemWatcher * m_watcher;
     bool m_watchFile;
