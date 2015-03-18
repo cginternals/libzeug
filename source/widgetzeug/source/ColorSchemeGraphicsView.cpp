@@ -143,6 +143,24 @@ void ColorSchemeGraphicsView::keyPressEvent(QKeyEvent * event)
     setSelectedItem(items[index]);
 }
 
+void ColorSchemeGraphicsView::setSelected(const QString & scheme)
+{
+    for (const auto & identifier : m_groups)
+    {
+        auto group = m_graphicsItemGroups.value(identifier);
+        for (auto item : group->items())
+        {
+            if (!item->isVisible() || item->scheme().identifier() != scheme)
+                continue;
+
+            setSelectedItem(group->graphicsItem(&item->scheme()));
+            return;
+        }
+    }
+    setSelectedItem(nullptr);
+}
+
+
 void ColorSchemeGraphicsView::setSelected(const ColorScheme * scheme)
 {
     assert(scheme);

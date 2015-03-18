@@ -86,6 +86,11 @@ const ColorSchemePresets * ColorSchemeControlWidget::presets() const
 	return m_presets.get();
 }
 
+void ColorSchemeControlWidget::setScheme(const QString & identifier)
+{
+    m_colorSchemePresetsWidget->setSelected(identifier);
+}
+
 void ColorSchemeControlWidget::setScheme(const ColorScheme & scheme)
 {
     m_colorSchemePresetsWidget->setSelected(scheme);
@@ -161,12 +166,15 @@ void ColorSchemeControlWidget::onFileChanged(const QString & fileName)
         return;
 
     m_lastPresetsFileName = fileName;
+    const auto selected = m_colorSchemePresetsWidget->selected() ? 
+        m_colorSchemePresetsWidget->selected()->identifier() : "";
 
     m_presets = std::move(presets);
 
-	const auto enabled = static_cast<bool>(m_presets);
+	const auto enabled = static_cast<bool>(m_presets.get());
 	assert(enabled);
 
+    m_colorSchemeWidget->setScheme(nullptr);
 	m_colorSchemeWidget->setEnabled(false);
 	m_colorSchemePresetsWidget->setEnabled(enabled);
 
@@ -174,8 +182,13 @@ void ColorSchemeControlWidget::onFileChanged(const QString & fileName)
 		return;
 
 	m_colorSchemePresetsWidget->setPresets(*m_presets);
-	
-	setScheme(*(m_presets->first()->first()));
+
+    const auto scheme = m_presets->scheme(selected);
+    if (scheme)
+        setScheme(*scheme);
+    else
+	    setScheme(*m_presets->first()->first());
+
 	m_colorSchemePresetsWidget->setEnabled(true);
 }
 

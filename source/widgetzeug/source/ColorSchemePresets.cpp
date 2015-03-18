@@ -72,6 +72,16 @@ const QString & ColorSchemePresets::fileName() const
     return m_fileName;
 }
 
+const ColorScheme * ColorSchemePresets::scheme(const QString & identifier) const
+{
+    for (const auto group : *this)
+        for (const auto scheme : *group)
+            if (scheme->identifier() == identifier)
+                return scheme;
+
+    return nullptr;
+}
+
 void ColorSchemePresets::reload()
 {
 	m_valid = false;

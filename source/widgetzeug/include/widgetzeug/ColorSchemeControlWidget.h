@@ -41,6 +41,7 @@ public:
 
 	const ColorSchemePresets * presets() const;
 
+    void setScheme(const QString & identifier);
     void setScheme(const ColorScheme & scheme);
     const ColorScheme * scheme() const;
 

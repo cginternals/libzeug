@@ -75,8 +75,8 @@ void ControlWidgetSettings::restore(const QString & key, ColorSchemeControlWidge
     if (settings.contains(KEY_COLORSCHEME_FILELINKED))
         widget.setFileLinked(settings.value(KEY_COLORSCHEME_FILELINKED).toBool());
 
-    /*if (widget.scheme())
-        settings.setValue("scheme", widget.scheme()->identifier());*/
+    if (settings.contains(KEY_COLORSCHEME_SCHEME))
+        widget.setScheme(settings.value(KEY_COLORSCHEME_SCHEME).toString());
 
     if (settings.contains(KEY_COLORSCHEME_CLASSES))
         widget.setClasses(settings.value(KEY_COLORSCHEME_CLASSES).toInt());

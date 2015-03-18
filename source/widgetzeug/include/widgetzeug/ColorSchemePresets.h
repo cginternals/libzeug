@@ -64,6 +64,8 @@ public:
     void setFileName(const QString & fileName);
     const QString & fileName() const;
 
+    const ColorScheme * scheme(const QString & identifier) const;
+
     void reload();
 	bool isValid() const;
 

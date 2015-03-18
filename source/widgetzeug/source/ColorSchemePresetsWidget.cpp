@@ -79,6 +79,11 @@ void ColorSchemePresetsWidget::insertScheme(const QString & group, const ColorSc
     m_ui->classesSpinBox->setMaximum(m_ui->graphicsView->maxClasses());
 }
 
+void ColorSchemePresetsWidget::setSelected(const QString & identifier)
+{
+    m_ui->graphicsView->setSelected(identifier);
+}
+
 void ColorSchemePresetsWidget::setSelected(const ColorScheme & scheme)
 {
     m_ui->graphicsView->setSelected(&scheme);

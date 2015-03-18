@@ -46,6 +46,7 @@ public:
     void createGroup(const QString & identifier);
     void insertScheme(const QString & group, const ColorScheme & scheme);
 
+    void setSelected(const QString & identifier);
     void setSelected(const ColorScheme & scheme);
     const ColorScheme * selected();
 

@@ -33,6 +33,7 @@ public:
 
     void insertScheme(const QString & group, const ColorScheme * scheme);
 
+    void setSelected(const QString & scheme);
     void setSelected(const ColorScheme * scheme);
     const ColorScheme * selected();
 
