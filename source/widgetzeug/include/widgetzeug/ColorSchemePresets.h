@@ -67,14 +67,14 @@ public:
     const ColorScheme * scheme(const QString & identifier) const;
 
     void reload();
-	bool isValid() const;
+    bool isValid() const;
 
 protected:
     bool initialize(const QJsonObject & presets);
 
 protected:
     QString m_fileName;
-	bool m_valid;
+    bool m_valid;
 };
 
 

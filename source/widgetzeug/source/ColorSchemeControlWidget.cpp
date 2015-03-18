@@ -26,16 +26,16 @@ ColorSchemeControlWidget::ColorSchemeControlWidget(
     m_dataLinkWidget->setWindowTitle(QObject::tr("Color Scheme Presets File"));
     m_dataLinkWidget->setFilter(QObject::tr("Color Scheme Presets Files") + " (*.json);;" + QObject::tr("All Files") + " (*.*)");
 
-	const auto enabled = false;
+    const auto enabled = false;
 
-	m_colorSchemeWidget->setEnabled(enabled);
-	m_colorSchemePresetsWidget->setEnabled(enabled);
+    m_colorSchemeWidget->setEnabled(enabled);
+    m_colorSchemePresetsWidget->setEnabled(enabled);
 
-	addWidget(m_colorSchemeWidget);
+    addWidget(m_colorSchemeWidget);
     addWidget(m_colorSchemePresetsWidget);
     addWidget(m_dataLinkWidget);
 
-	connect(m_colorSchemeWidget, &ColorSchemeWidget::classesChanged
+    connect(m_colorSchemeWidget, &ColorSchemeWidget::classesChanged
         , this, &ColorSchemeControlWidget::classesChanged);
 
     connect(m_colorSchemeWidget, &ColorSchemeWidget::invertedChanged
@@ -60,11 +60,11 @@ void ColorSchemeControlWidget::addFileName(const QString & fileName, bool active
 }
 void ColorSchemeControlWidget::setFileName(const QString & fileName)
 {
-	m_dataLinkWidget->setFileName(fileName);
+    m_dataLinkWidget->setFileName(fileName);
 }
 const QString & ColorSchemeControlWidget::fileName() const
 {
-	return m_presets->fileName();
+    return m_presets->fileName();
 }
 
 QStringList ColorSchemeControlWidget::fileNames() const
@@ -83,7 +83,7 @@ bool ColorSchemeControlWidget::fileLinked() const
 
 const ColorSchemePresets * ColorSchemeControlWidget::presets() const
 {
-	return m_presets.get();
+    return m_presets.get();
 }
 
 void ColorSchemeControlWidget::setScheme(const QString & identifier)
@@ -112,12 +112,12 @@ ColorScheme::ColorSchemeTypes ColorSchemeControlWidget::typeFilter() const
 
 void ColorSchemeControlWidget::setClasses(const uint classes)
 {
-	m_colorSchemeWidget->setClasses(classes);
+    m_colorSchemeWidget->setClasses(classes);
 }
 
 uint ColorSchemeControlWidget::classes() const
 {
-	return m_colorSchemeWidget->classes();
+    return m_colorSchemeWidget->classes();
 }
 
 void ColorSchemeControlWidget::setInverted(const bool invert)
@@ -151,13 +151,13 @@ ColorVisionDeficiency ColorSchemeControlWidget::deficiency() const
 
 void ColorSchemeControlWidget::onSelectedChanged(const ColorScheme * scheme)
 {
-	m_colorSchemeWidget->setScheme(scheme);
-	emit schemeChanged(scheme);
+    m_colorSchemeWidget->setScheme(scheme);
+    emit schemeChanged(scheme);
 }
 
 void ColorSchemeControlWidget::onFileChanged(const QString & fileName)
 {
-	// this slot should be called by data link widget's file changes
+    // this slot should be called by data link widget's file changes
 
     auto presets = make_unique<ColorSchemePresets>(fileName);
     m_dataLinkWidget->setFileIssue(!presets->isValid());
@@ -171,25 +171,25 @@ void ColorSchemeControlWidget::onFileChanged(const QString & fileName)
 
     m_presets = std::move(presets);
 
-	const auto enabled = static_cast<bool>(m_presets.get());
-	assert(enabled);
+    const auto enabled = static_cast<bool>(m_presets.get());
+    assert(enabled);
 
     m_colorSchemeWidget->setScheme(nullptr);
-	m_colorSchemeWidget->setEnabled(false);
-	m_colorSchemePresetsWidget->setEnabled(enabled);
+    m_colorSchemeWidget->setEnabled(false);
+    m_colorSchemePresetsWidget->setEnabled(enabled);
 
-	if (!enabled)
-		return;
+    if (!enabled)
+        return;
 
-	m_colorSchemePresetsWidget->setPresets(*m_presets);
+    m_colorSchemePresetsWidget->setPresets(*m_presets);
 
     const auto scheme = m_presets->scheme(selected);
     if (scheme)
         setScheme(*scheme);
     else
-	    setScheme(*m_presets->first()->first());
+        setScheme(*m_presets->first()->first());
 
-	m_colorSchemePresetsWidget->setEnabled(true);
+    m_colorSchemePresetsWidget->setEnabled(true);
 }
 
 } // namespace widgetzeug

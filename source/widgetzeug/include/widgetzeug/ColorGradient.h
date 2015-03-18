@@ -29,9 +29,9 @@ public:
     static const int s_defaultSteps = 8;
 
   //  static ColorGradient fromScheme(
-		//ColorScheme * scheme, 
+        //ColorScheme * scheme, 
   //      uint classes,
-		//ColorGradientType type = ColorGradientType::Linear,
+        //ColorGradientType type = ColorGradientType::Linear,
   //      uint steps = s_defaultSteps);
 
     //static ColorGradient fromList(
@@ -47,13 +47,13 @@ public:
     static const QVector<ColorGradientType> & types();
 
 public:
-	ColorGradient(
+    ColorGradient(
         ColorGradientType type = ColorGradientType::Linear,
         uint steps = s_defaultSteps);
 
     ColorGradient(
-		const ColorGradientStops & stops, 
-		ColorGradientType type = ColorGradientType::Linear,
+        const ColorGradientStops & stops, 
+        ColorGradientType type = ColorGradientType::Linear,
         uint steps = s_defaultSteps);
 
     bool isValid() const;

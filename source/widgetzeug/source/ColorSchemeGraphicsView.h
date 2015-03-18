@@ -51,7 +51,7 @@ public:
 
     void setSelectedItem(ColorSchemeGraphicsItem * item);
 
-	void update();
+    void update();
 
 signals:
     void selectedChanged(const ColorScheme * scheme);

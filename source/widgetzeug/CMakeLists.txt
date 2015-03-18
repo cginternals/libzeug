@@ -63,7 +63,7 @@ set(api_includes
     #${header_path}/ColorGradientWidget.h
     ${header_path}/ColorScheme.h
     ${header_path}/ColorSchemeControlWidget.h
-	${header_path}/ColorSchemeLabel.h
+    ${header_path}/ColorSchemeLabel.h
     ${header_path}/ColorSchemePresets.h
     ${header_path}/ColorSchemePresetsWidget.h
     ${header_path}/ColorSchemeWidget.h

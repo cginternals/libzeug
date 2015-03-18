@@ -72,7 +72,7 @@ void ColorSchemeGraphicsView::insertScheme(const QString & group, const ColorSch
 
     m_graphicsItemGroups.value(group)->addScheme(scheme);
 
-	update();
+    update();
 }
 
 void ColorSchemeGraphicsView::update()

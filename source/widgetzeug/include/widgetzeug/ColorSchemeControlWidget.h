@@ -31,15 +31,15 @@ public:
     virtual ~ColorSchemeControlWidget() = default;
 
     void addFileName(const QString & fileName, bool asCurrent = false);
-	void setFileName(const QString & fileName);
-	const QString & fileName() const;
+    void setFileName(const QString & fileName);
+    const QString & fileName() const;
 
     QStringList fileNames() const;
 
     void setFileLinked(bool linked);
     bool fileLinked() const;
 
-	const ColorSchemePresets * presets() const;
+    const ColorSchemePresets * presets() const;
 
     void setScheme(const QString & identifier);
     void setScheme(const ColorScheme & scheme);
@@ -48,8 +48,8 @@ public:
     void setTypeFilter(const ColorScheme::ColorSchemeTypes & types);
     ColorScheme::ColorSchemeTypes typeFilter() const;
 
-	void setClasses(uint classes);
-	uint classes() const;
+    void setClasses(uint classes);
+    uint classes() const;
 
     void setInverted(bool invert);
     bool inverted() const;
@@ -62,19 +62,19 @@ public:
 
 signals:
     void schemeChanged(const ColorScheme * scheme);
-	void classesChanged(uint classes);
+    void classesChanged(uint classes);
     void invertedChanged(bool invert);
 
 protected slots:
-	void onSelectedChanged(const ColorScheme * scheme);
-	void onFileChanged(const QString & fileName);
+    void onSelectedChanged(const ColorScheme * scheme);
+    void onFileChanged(const QString & fileName);
 
 protected:
-	ColorSchemeWidget * m_colorSchemeWidget;
+    ColorSchemeWidget * m_colorSchemeWidget;
     ColorSchemePresetsWidget * m_colorSchemePresetsWidget;
     DataLinkWidget * m_dataLinkWidget;
 
-	std::unique_ptr<ColorSchemePresets> m_presets;
+    std::unique_ptr<ColorSchemePresets> m_presets;
     QString m_lastPresetsFileName;
 };
 

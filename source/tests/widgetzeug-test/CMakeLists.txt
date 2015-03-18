@@ -39,9 +39,9 @@ set(libs
 
 set(sources
     main.cpp
-    ColorGradient_test.cpp
-    ColorGradientInterpolation_test.cpp
-    ColorGradientProperty_test.cpp
+    #ColorGradient_test.cpp
+    #ColorGradientInterpolation_test.cpp
+    #ColorGradientProperty_test.cpp
 )
 
 

@@ -9,8 +9,8 @@
 
 #include <propertyguizeug/PropertyBrowser.h>
 
-#include <widgetzeug/ColorGradient.h>
-#include <widgetzeug/ColorGradientProperty.h>
+//#include <widgetzeug/ColorGradient.h>
+//#include <widgetzeug/ColorGradientProperty.h>
 #include <widgetzeug/dark_fusion_style.hpp>
 
 using namespace reflectionzeug;

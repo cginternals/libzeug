@@ -17,7 +17,7 @@ ColorSchemeWidget::ColorSchemeWidget(QWidget * parent)
 , m_scheme{ nullptr }
 {
     m_ui->setupUi(this);
-	setClasses(5);
+    setClasses(5);
 }
 
 ColorSchemeWidget::~ColorSchemeWidget()
@@ -27,33 +27,33 @@ ColorSchemeWidget::~ColorSchemeWidget()
 
 void ColorSchemeWidget::setScheme(const ColorScheme * scheme)
 {
-	if (scheme == m_scheme)
-		return;
+    if (scheme == m_scheme)
+        return;
 
-	m_scheme = scheme;
+    m_scheme = scheme;
 
-	m_ui->schemeLabel->setScheme(scheme);
+    m_ui->schemeLabel->setScheme(scheme);
 
-	setEnabled(m_scheme != nullptr);
-	if (!m_scheme)
-		return;
+    setEnabled(m_scheme != nullptr);
+    if (!m_scheme)
+        return;
 
-	// these might trigger value change?
-	m_ui->classesSpinBox->setMinimum(scheme->minClasses());
-	m_ui->classesSpinBox->setMaximum(scheme->maxClasses());
+    // these might trigger value change?
+    m_ui->classesSpinBox->setMinimum(scheme->minClasses());
+    m_ui->classesSpinBox->setMaximum(scheme->maxClasses());
 }
 
 void ColorSchemeWidget::setClasses(uint classes)
 {
-	m_ui->classesSpinBox->blockSignals(true);
-	m_ui->classesSpinBox->setValue(classes);
-	m_ui->classesSpinBox->blockSignals(false);
+    m_ui->classesSpinBox->blockSignals(true);
+    m_ui->classesSpinBox->setValue(classes);
+    m_ui->classesSpinBox->blockSignals(false);
 
-	m_ui->schemeLabel->setClasses(classes);
+    m_ui->schemeLabel->setClasses(classes);
 }
 uint ColorSchemeWidget::classes() const
 {
-	return m_ui->classesSpinBox->value();
+    return m_ui->classesSpinBox->value();
 }
 
 void ColorSchemeWidget::setInverted(const bool invert)
@@ -71,8 +71,8 @@ bool ColorSchemeWidget::inverted() const
 
 void ColorSchemeWidget::on_classesSpinBox_valueChanged(int value)
 {
-	m_ui->schemeLabel->setClasses(value);
-	emit classesChanged(value);
+    m_ui->schemeLabel->setClasses(value);
+    emit classesChanged(value);
 }
 
 void ColorSchemeWidget::on_invertedCheckBox_toggled(bool checked)

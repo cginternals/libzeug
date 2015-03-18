@@ -25,8 +25,8 @@ class ColorSchemeGraphicsItem : public QGraphicsObject
     Q_OBJECT
  
 public:
-	ColorSchemeGraphicsItem(const ColorScheme & scheme
-		, QGraphicsItem * parent = nullptr);
+    ColorSchemeGraphicsItem(const ColorScheme & scheme
+        , QGraphicsItem * parent = nullptr);
 
     virtual ~ColorSchemeGraphicsItem();
 
@@ -39,10 +39,10 @@ public:
     void setDeficiency(ColorVisionDeficiency deficiency);
     ColorVisionDeficiency deficiency() const;
 
-	void setMargin(qreal margin);
-	qreal margin() const;
+    void setMargin(qreal margin);
+    qreal margin() const;
 
-	void setPadding(qreal padding);
+    void setPadding(qreal padding);
     qreal padding() const;
 
     void setRectSize(const QSizeF & size);
@@ -84,7 +84,7 @@ protected:
     QGraphicsRectItem * m_frame;
 
     QSizeF m_rectSize;
-	qreal m_margin;  // per item
+    qreal m_margin;  // per item
     qreal m_padding; // per rect
 
     uint m_classes;

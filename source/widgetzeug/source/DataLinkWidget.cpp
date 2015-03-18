@@ -56,8 +56,8 @@ DataLinkWidget::DataLinkWidget(QWidget * parent)
 
     // register every file change to prevent unnecassary fileChanged emits
     connect(this, &DataLinkWidget::fileChanged, [this] (const QString & fileName) 
-		{
-			m_lastEmitedFileName = fileName;
+        {
+            m_lastEmitedFileName = fileName;
         });
 }
 
@@ -180,7 +180,7 @@ void DataLinkWidget::on_savePushButton_clicked(bool)
 
 void DataLinkWidget::on_fileNameComboBox_currentIndexChanged(const QString & text)
 {
-	if (text.isEmpty() || !m_lastEmitedFileName.compare(text))
+    if (text.isEmpty() || !m_lastEmitedFileName.compare(text))
         return;
 
     updateWatcher();
@@ -192,15 +192,15 @@ void DataLinkWidget::on_fileNameComboBox_editTextChanged(const QString & text)
     const auto fi = QFileInfo{text};
     const auto path = fi.path().isEmpty() ? QDir::currentPath() : fi.path();
 
-	if (path == m_path)
+    if (path == m_path)
         return;
 
     // replace fileNameComboBox completer model
 
     // add all files in current path
 
-	m_path = path;
-	QDirIterator iterator{m_path};
+    m_path = path;
+    QDirIterator iterator{m_path};
 
     auto list = QStringList{};
     while (iterator.hasNext())

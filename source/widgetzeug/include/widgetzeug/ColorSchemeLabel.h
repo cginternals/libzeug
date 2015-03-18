@@ -49,7 +49,7 @@ protected:
 protected:
     const ColorScheme * m_scheme;
 
-	ColorVisionDeficiency m_deficiency;
+    ColorVisionDeficiency m_deficiency;
     uint m_classes;
     bool m_inverted;
 

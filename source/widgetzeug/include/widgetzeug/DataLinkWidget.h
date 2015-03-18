@@ -33,7 +33,7 @@ public:
     void setFileLinked(bool linked);
     bool fileLinked() const;
 
-	void setFileIssue(bool enable);
+    void setFileIssue(bool enable);
 
     void setFilter(const QString & filter);
 
@@ -66,8 +66,8 @@ protected:
 
 private:
 
-	QString m_path; ///< path of the lastly typed fileName
-	QString m_lastEmitedFileName;
+    QString m_path; ///< path of the lastly typed fileName
+    QString m_lastEmitedFileName;
 
     QFileSystemWatcher * m_watcher;
     bool m_watchFile;

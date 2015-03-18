@@ -84,7 +84,7 @@ const ColorScheme * ColorSchemePresets::scheme(const QString & identifier) const
 
 void ColorSchemePresets::reload()
 {
-	m_valid = false;
+    m_valid = false;
 
     clear();
 
@@ -96,21 +96,21 @@ void ColorSchemePresets::reload()
     const auto json = QString::fromUtf8(file.readAll());
     file.close();
 
-	std::unique_ptr<QJsonParseError> jsonParseError{ new QJsonParseError };
+    std::unique_ptr<QJsonParseError> jsonParseError{ new QJsonParseError };
 
-	auto doc = QJsonDocument::fromJson(json.toUtf8(), jsonParseError.get());
+    auto doc = QJsonDocument::fromJson(json.toUtf8(), jsonParseError.get());
 
-	static const auto warning = QString("Cannot retrieve color scheme presets from Json \"%1\": ");
-	if (jsonParseError->error != QJsonParseError::NoError)
-	{
+    static const auto warning = QString("Cannot retrieve color scheme presets from Json \"%1\": ");
+    if (jsonParseError->error != QJsonParseError::NoError)
+    {
         qWarning() << qPrintable(warning.arg(m_fileName) + jsonParseError->errorString());
-		return;
-	}
-	if (!doc.isObject())
-	{
+        return;
+    }
+    if (!doc.isObject())
+    {
         qWarning() << qPrintable(warning.arg(m_fileName) + " document is not an object.");
-		return;
-	}
+        return;
+    }
     auto presets = doc.object();
 
     m_valid = initialize(presets);
@@ -118,7 +118,7 @@ void ColorSchemePresets::reload()
 
 bool ColorSchemePresets::isValid() const
 {
-	return m_valid;
+    return m_valid;
 }
 
 bool ColorSchemePresets::initialize(const QJsonObject & presets)
@@ -159,7 +159,7 @@ bool ColorSchemePresets::initialize(const QJsonObject & presets)
         }
     }
 
-	return !isEmpty();
+    return !isEmpty();
 }
 
 } // namespace widgetzeug

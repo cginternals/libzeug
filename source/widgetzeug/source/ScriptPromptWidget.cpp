@@ -29,7 +29,7 @@ namespace
 
 
 ScriptPromptWidget::ScriptPromptWidget(QWidget * parent)
-:	QTextEdit(parent)
+: QTextEdit(parent)
 , m_rows(0)
 , m_lastRowPos(ROW_PREFIX_LENGTH)
 , m_multiLinePaste(true)
