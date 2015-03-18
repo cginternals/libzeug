@@ -45,6 +45,8 @@ set(LINUX_COMPILE_FLAGS
       -Wextra       # -> 
       -Werror       # ->
       -fPIC         # -> use position independent code
+      
+      -Wno-unknown-warning-option
 
       -Wreturn-type 
       -Wcast-align  
