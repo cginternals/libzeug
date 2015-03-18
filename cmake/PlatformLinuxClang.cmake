@@ -3,19 +3,11 @@ message(STATUS "Configuring for platform Linux/GCC.")
 
 # Enable C++11 support
 
-message(STATUS "Configuring for GCC")
+message(STATUS "Configuring for Clang")
 
-execute_process(COMMAND ${CMAKE_C_COMPILER} -dumpversion
-    OUTPUT_VARIABLE GCC_VERSION)
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
 
-if(GCC_VERSION VERSION_GREATER 4.7 OR GCC_VERSION VERSION_EQUAL 4.7)
-    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=gnu++11")
-elseif(GCC_VERSION VERSION_EQUAL 4.6)
-    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=gnu++0x")
-else()
-    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++0x")
-endif()
-
+include_directories("/usr/include/c++/v1/")
 
 set(LINUX_COMPILE_DEFS
     LINUX                     # Linux system
@@ -49,9 +41,10 @@ set(LINUX_COMPILE_FLAGS
       -fPIC         # -> use position independent code
       
       -Wno-unknown-warning-option
+      -Wno-reinterpret-base-class 
+      -Wno-overloaded-virtual
 
-      -Wreturn-type 
-      -Wcast-align  
+      -Wreturn-type
       -Wno-unused-parameter
       -Wno-unused-variable
       -Wno-unused-but-set-variable

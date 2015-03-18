@@ -384,7 +384,7 @@ void ScriptPromptWidget::setSyntaxHighlighter(QSyntaxHighlighter * syntaxHighlig
     if (m_syntaxHighlighter != syntaxHighlighter && m_syntaxHighlighter)
         delete syntaxHighlighter;
 
-    syntaxHighlighter = syntaxHighlighter;
+    m_syntaxHighlighter = syntaxHighlighter;
 
     if (syntaxHighlighter)
         syntaxHighlighter->setDocument(document());
