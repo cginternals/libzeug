@@ -15,13 +15,14 @@ namespace widgetzeug
 {
 
 MessageWidget::MessageWidget(QWidget * parent)
-:    QTextBrowser(parent)
+:	QTextBrowser(parent)
 , m_detectLinks(true)
+, m_detectControlCharacters(false)
 {
     setTextInteractionFlags(Qt::TextBrowserInteraction | Qt::TextSelectableByKeyboard);
 
     // since the textbrowser opens local files directly, open links is overriden in anchorClicked... 
-    setOpenLinks(false);
+	setOpenLinks(false);
     connect(this, &QTextBrowser::anchorClicked, this, &MessageWidget::onAnchorClicked);
 
     setFont(QFont("Consolas, Courier New"));
@@ -43,32 +44,32 @@ void MessageWidget::print(
 ,   const QString & message)
 {
 #ifdef _NDEBUG
-    const QString t(timestamp.toString("hh:mm:ss"));
+	const QString t(timestamp.toString("hh:mm:ss"));
 #else
-    const QString t(timestamp.toString("hh:mm:ss:zzz"));
+	const QString t(timestamp.toString("hh:mm:ss:zzz"));
 #endif
-    //const QString timestamp(entry.timestamp().toString("hh:mm:ss"));
+	//const QString timestamp(entry.timestamp().toString("hh:mm:ss"));
 
     QString html;
-    switch (type)
-    {
+	switch (type)
+	{
     case QtMsgType::QtDebugMsg:
 #ifdef _DEBUG
         html = QString("%1 %2(%3): %4\n").arg(t).arg(context.file).arg(context.line).arg(message);
 #else
-        html = QString("%1: %2\n").arg(t).arg(message);
+		html = QString("%1: %2").arg(t).arg(message);
 #endif
-        break;
+		break;
 
     case QtMsgType::QtCriticalMsg:
     case QtMsgType::QtFatalMsg:
     case QtMsgType::QtWarningMsg:
-        html = QString("%1: %2\n").arg(t).arg(message);
-        break;
+		html = QString("%1: %2").arg(t).arg(message);
+		break;
 
     default:
-        break;
-    };
+		break;
+	};
 
     if (m_detectLinks)
     {
@@ -121,6 +122,13 @@ void MessageWidget::print(
             html.replace(uri, QString("<a href =\"mailto:%1\">%1</a>").arg(replace));
         }
     }
+
+    if (m_detectControlCharacters)
+    {
+        html.replace("\n", "<br>");
+        html.replace("\t", "&nbsp;&nbsp;&nbsp;&nbsp;");
+    }
+
     moveCursor(QTextCursor::End);
     insertHtml("<span style=\"color:" + m_colors[type] + "\">" + html + "</span><br>");
 
@@ -140,6 +148,16 @@ void MessageWidget::setDetectLinks(bool enable)
 bool MessageWidget::detectLinks() const
 {
     return m_detectLinks;
+}
+
+void MessageWidget::setDetectControlCharacters(bool enable)
+{
+    m_detectControlCharacters = enable;
+}
+
+bool MessageWidget::detectControlCharacters() const
+{
+    return m_detectControlCharacters;
 }
 
 } // namespace widgetzeug

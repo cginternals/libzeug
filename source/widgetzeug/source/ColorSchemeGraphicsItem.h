@@ -77,7 +77,7 @@ signals:
     void selected(ColorSchemeGraphicsItem * item);
 
 protected:    
-    const ColorScheme & m_scheme;
+    ColorScheme m_scheme;
     ColorVisionDeficiency m_deficiency;
 
     QList<QGraphicsRectItem *> m_rects;

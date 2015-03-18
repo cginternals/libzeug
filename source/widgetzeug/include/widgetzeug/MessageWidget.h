@@ -34,12 +34,16 @@ public:
     void setDetectLinks(bool enable);
     bool detectLinks() const;
 
+    void setDetectControlCharacters(bool enable);
+    bool detectControlCharacters() const;
+
 protected slots:
     void onAnchorClicked(const QUrl & link);
 
 protected:
     QHash<QtMsgType, QString> m_colors;
     bool m_detectLinks;
+    bool m_detectControlCharacters;
 };
 
 } // namespace widgetzeug
