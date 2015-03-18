@@ -69,8 +69,8 @@ ColorSchemeLabel::ColorSchemeLabel(QWidget * parent)
 , m_deficiency{ ColorVisionDeficiency::None }
 , m_classes { 1 }
 , m_inverted{ false }
-, m_rectSize{ s_defaultRectSize }
 , m_padding{ s_defaultPadding }
+, m_rectSize{ s_defaultRectSize }
 {
 }
 

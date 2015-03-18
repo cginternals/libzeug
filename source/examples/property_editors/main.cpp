@@ -226,9 +226,9 @@ int main(int argc, char *argv[])
     });
     subGroup->addProperty(enumProperty);
     
-    auto colorGradientValue = ColorGradient::fromList({ QColor{Qt::black}, QColor{Qt::white} });
-    auto colorGradientProperty = newProperty("gradient", colorGradientValue);
-    subGroup->addProperty(colorGradientProperty);
+    //auto colorGradientValue = ColorGradient::fromList({ QColor{Qt::black}, QColor{Qt::white} });
+    //auto colorGradientProperty = newProperty("gradient", colorGradientValue);
+    //subGroup->addProperty(colorGradientProperty);
 
     PropertyBrowser browser;
     browser.setRoot(&group);

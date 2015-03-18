@@ -40,9 +40,9 @@ protected slots:
     void on_invertedCheckBox_toggled(bool checked);
 
 private:
-	const ColorScheme * m_scheme;
+    Ui_ColorSchemeWidget * m_ui;
 
-	Ui_ColorSchemeWidget * m_ui;
+    const ColorScheme * m_scheme;
 };
 
 } // namespace widgetzeug
