@@ -1,6 +1,6 @@
 #pragma once
 
-#include <memory>
+#include <functional>
 #include <type_traits>
 
 #include <signalzeug/Signal.h>
@@ -11,10 +11,7 @@
 namespace reflectionzeug
 {
 
-template <typename>
-class AbstractValue;
-
-/** 
+/**
  * \brief The template class for all properties that have a value other than std::array.
  *
  * It can either store the value itself or access it through getter and setter.
@@ -32,26 +29,7 @@ public:
     static size_t stype();
 
 public:
-    ValueProperty(const Type & value);
-    
-    ValueProperty(const std::function<Type()> & getter,
-                  const std::function<void(const Type &)> & setter);
-    
-    template <class Object>
-    ValueProperty(Object * object, 
-                  const Type & (Object::*getter_pointer)() const,
-                  void (Object::*setter_pointer)(const Type &));
-    
-    template <class Object>
-    ValueProperty(Object * object, 
-                  Type (Object::*getter_pointer)() const,
-                  void (Object::*setter_pointer)(const Type &));
-    
-    template <class Object>
-    ValueProperty(Object * object, 
-                  Type (Object::*getter_pointer)() const,
-                  void (Object::*setter_pointer)(Type));
-    
+    ValueProperty();
     virtual ~ValueProperty() = 0;
 
     virtual Type value() const;
@@ -61,14 +39,31 @@ public:
 
     virtual Variant toVariant() const override;
     virtual bool fromVariant(const Variant & value) override;
-    
+
     signalzeug::Signal<const Type &> valueChanged;
 
-private:
-    void init();
+protected:
+    void setAccessors(const std::function<Type()> & getter,
+                      const std::function<void(const Type &)> & setter);
+
+    template <class Object>
+    void setAccessors(Object * object,
+                      const Type & (Object::*getter_pointer)() const,
+                      void (Object::*setter_pointer)(const Type &));
+
+    template <class Object>
+    void setAccessors(Object * object,
+                      Type (Object::*getter_pointer)() const,
+                      void (Object::*setter_pointer)(const Type &));
+
+    template <class Object>
+    void setAccessors(Object * object,
+                      Type (Object::*getter_pointer)() const,
+                      void (Object::*setter_pointer)(Type));
 
 private:
-    std::unique_ptr<AbstractValue<Type>> m_value;
+    std::function<Type ()> m_getter;
+    std::function<void(const Type &)> m_setter;
 };
 
 } // namespace reflectionzeug

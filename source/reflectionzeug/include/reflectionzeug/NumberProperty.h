@@ -18,9 +18,7 @@ template <typename Type, typename SuperClass = AbstractValueProperty>
 class NumberProperty : public ValueProperty<Type, SuperClass>
 {
 public:
-    template <typename... Arguments>
-    NumberProperty(Arguments&&... args);
-
+    NumberProperty();
     virtual ~NumberProperty() = 0;
 
     virtual std::string toString() const;
@@ -28,7 +26,6 @@ public:
 
 protected:
     virtual std::string matchRegex() const = 0;
-
 };
 
 } // namespace reflectionzeug

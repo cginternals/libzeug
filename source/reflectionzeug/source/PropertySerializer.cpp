@@ -14,14 +14,6 @@ using namespace loggingzeug;
 namespace reflectionzeug
 {
     
-PropertySerializer::PropertySerializer()
-{
-}
-
-PropertySerializer::~PropertySerializer()
-{
-}
-    
 bool PropertySerializer::serialize(PropertyGroup & group, const std::string & filePath)
 {
     m_fstream.open(filePath, std::ios_base::out);

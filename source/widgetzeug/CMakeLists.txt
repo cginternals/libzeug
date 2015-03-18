@@ -51,7 +51,7 @@ set(header_path "${CMAKE_CURRENT_SOURCE_DIR}/include/${target}")
 set(source_path "${CMAKE_CURRENT_SOURCE_DIR}/source")
 
 set(api_includes
-    ${header_path}/widgetzeug_api.h
+    ${header_path}/widgetzeug_api.h   
     ${header_path}/RGBABrush.hpp
     ${header_path}/dark_fusion_style.hpp
 
@@ -113,7 +113,7 @@ set(sources
     ${source_path}/ColorScheme.cpp
     ${source_path}/ColorSchemeControlWidget.cpp
     ${source_path}/ColorSchemeGraphicsItem.cpp
-    ${source_path}/ColorSchemeGraphicsItem.h
+    ${source_path}/ColorSchemeGraphicsItem.h  
     ${source_path}/ColorSchemeGraphicsItemGroup.cpp
     ${source_path}/ColorSchemeGraphicsItemGroup.h
     ${source_path}/ColorSchemeGraphicsView.cpp
@@ -147,9 +147,9 @@ set(sources
 # Group source files
 set(header_group "Header Files (API)")
 set(source_group "Source Files")
-source_group_by_path(${header_path} "\\\\.h$|\\\\.hpp$"
+source_group_by_path(${header_path} "\\\\.h$|\\\\.hpp$" 
     ${header_group} ${api_includes})
-source_group_by_path(${source_path} "\\\\.cpp$|\\\\.c$|\\\\.h$|\\\\.hpp$"
+source_group_by_path(${source_path} "\\\\.cpp$|\\\\.c$|\\\\.h$|\\\\.hpp$" 
     ${source_group} ${sources})
 
 

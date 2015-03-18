@@ -14,7 +14,7 @@
 #include <reflectionzeug/ArrayProperty.h>
 #include <reflectionzeug/EnumProperty.h>
 
-/** 
+/**
  * \defgroup property_specializations Property Specializations
  * \brief All possible template specializations of Property
  *
@@ -35,9 +35,9 @@
  * - any std::array of the above types
  *
  * The template specializations of supported types can have different super classes.
- * They have additional meta information, utility methods and common interfaces specific to each type. 
+ * They have additional meta information, utility methods and common interfaces specific to each type.
  * The specialization chosen for each type is determined via SFINAE (Substitution failure is not an error).
- * If you are going to extend the property class, keep in mind that all specializations 
+ * If you are going to extend the property class, keep in mind that all specializations
  * have to somehow inherit from AbstractValueProperty. You will probably also have to extend your property visitor.
  *
  * \see \ref type_traits
@@ -117,16 +117,14 @@ class Property : public PropertyClass<Type>::Type
 
     static_assert(isPlain<Type>::value,
                   "Type must not have any specifiers and must not be a reference.");
-                  
-public:
-    Property(const std::string & name, const Type & value) :
-        AbstractProperty(name),
-        PropertyClass<Type>::Type(value) {}
 
+public:
     template <typename... Args>
-    Property(const std::string & name, Args&&... args) : 
-        AbstractProperty(name),
-        PropertyClass<Type>::Type(std::forward<Args>(args)...) {}
+    Property(const std::string & name, Args&&... args)
+    :   AbstractProperty(name)
+    {
+        this->setAccessors(std::forward<Args>(args)...);
+    }
 
     virtual void accept(AbstractPropertyVisitor * visitor)
     {
