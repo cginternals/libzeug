@@ -196,10 +196,6 @@ int main(int argc, char *argv[])
         { Qt::WaitCursor, "Wait Cursor" }
     });
     
-    Property<FilePath> * filePath = settings->addProperty<FilePath>("filePath", "");
-    filePath->setOption("uniqueidentifier", "settings/filePath");
-    filePath->setOption("tooltip", "A file path with no meaning.");
-
     PropertyDeserializer deserializer;
     deserializer.deserialize(*settings, SETTINGS_PATH);
 

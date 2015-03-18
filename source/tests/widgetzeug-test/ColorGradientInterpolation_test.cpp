@@ -38,17 +38,19 @@ TEST_F(ColorGradientInterpolation_test, LinearPureColors)
 TEST_F(ColorGradientInterpolation_test, DiscretePureColors)
 {
     m_gradient.setType(widgetzeug::ColorGradientType::Discrete);
-    ASSERT_EQ(m_colors[0], m_gradient.interpolateColor(0.0, 3));
-    ASSERT_EQ(m_colors[1], m_gradient.interpolateColor(0.5, 3));
-    ASSERT_EQ(m_colors[2], m_gradient.interpolateColor(1.0, 3));
+    m_gradient.setSteps(3u);
+    ASSERT_EQ(m_colors[0], m_gradient.interpolateColor(0.0));
+    ASSERT_EQ(m_colors[1], m_gradient.interpolateColor(0.5));
+    ASSERT_EQ(m_colors[2], m_gradient.interpolateColor(1.0));
 }
 
-TEST_F(ColorGradientInterpolation_test, MatzePureColors)
+TEST_F(ColorGradientInterpolation_test, CornsweetPureColors)
 {
-    m_gradient.setType(widgetzeug::ColorGradientType::Matze);
-    ASSERT_EQ(m_colors[0], m_gradient.interpolateColor(0.0, 3));
-    ASSERT_EQ(m_colors[1], m_gradient.interpolateColor(1.0 / 3, 3));
-    ASSERT_EQ(m_colors[2], m_gradient.interpolateColor(2.0 / 3, 3));
+    m_gradient.setType(widgetzeug::ColorGradientType::Cornsweet);
+    m_gradient.setSteps(3u);
+    ASSERT_EQ(m_colors[0], m_gradient.interpolateColor(0.5 / 3));
+    ASSERT_EQ(m_colors[1], m_gradient.interpolateColor(1.5 / 3));
+    ASSERT_EQ(m_colors[2], m_gradient.interpolateColor(2.5 / 3));
 }
 
 /** TODO: This passes right now, but it very fragile.

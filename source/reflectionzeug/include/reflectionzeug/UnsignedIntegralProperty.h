@@ -18,10 +18,7 @@ template <typename Type>
 class UnsignedIntegralProperty : public NumberProperty<Type, UnsignedIntegralPropertyInterface>
 {
 public:
-    template <typename... Arguments>
-    UnsignedIntegralProperty(Arguments&&... args);
-    
-    ~UnsignedIntegralProperty() = 0;
+    virtual ~UnsignedIntegralProperty() = 0;
 
     virtual void accept(AbstractPropertyVisitor * visitor);
 

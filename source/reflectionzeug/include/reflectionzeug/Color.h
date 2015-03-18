@@ -17,11 +17,8 @@ public:
 
 public:
     Color();
-    Color(const Color & color);
     explicit Color(unsigned int rgba);
     Color(int red, int green, int blue, int alpha = 255);
-
-    virtual ~Color();
 
     int red() const;
     void setRed(int value);
@@ -40,6 +37,9 @@ public:
     std::string toString() const;
     std::string toString(bool alpha) const;
 
+    bool operator==(const Color & rhs) const;
+    bool operator!=(const Color & rhs) const;
+
 protected:
     union {
         struct {
@@ -48,7 +48,7 @@ protected:
             unsigned char r;
             unsigned char a;
         } m_rgba;
-        unsigned int v;
+        unsigned int m_v;
     };
 };
 

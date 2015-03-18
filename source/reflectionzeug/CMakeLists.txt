@@ -58,19 +58,13 @@ set(source_path "${CMAKE_CURRENT_SOURCE_DIR}/source")
 
 set(headers
     ${header_path}/reflectionzeug_api.h
-    
-    ${header_path}/AbstractArrayValue.h
+
     ${header_path}/AbstractProperty.h
     ${header_path}/AbstractProperty.hpp
     ${header_path}/AbstractPropertyCollection.h
     ${header_path}/AbstractPropertyVisitor.h
     ${header_path}/AbstractPropertyVisitor.hpp
-    ${header_path}/AbstractValue.h
     ${header_path}/AbstractValueProperty.h
-    ${header_path}/AccessorArrayValue.h
-    ${header_path}/AccessorArrayValue.hpp
-    ${header_path}/AccessorValue.h
-    ${header_path}/AccessorValue.hpp
     ${header_path}/ArrayProperty.h
     ${header_path}/ArrayProperty.hpp
     ${header_path}/BoolProperty.h
@@ -104,10 +98,6 @@ set(headers
     ${header_path}/SignedIntegralProperty.hpp
     ${header_path}/SignedIntegralPropertyInterface.h
     ${header_path}/StandardPropertyVisitor.h
-    ${header_path}/StoredArrayValue.h
-    ${header_path}/StoredArrayValue.hpp
-    ${header_path}/StoredValue.h
-    ${header_path}/StoredValue.hpp
     ${header_path}/StringProperty.h
     ${header_path}/StringProperty.hpp
     ${header_path}/StringPropertyInterface.h

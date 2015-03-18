@@ -6,7 +6,7 @@
 
 namespace reflectionzeug
 {
-    
+
 /**
  * \brief Property implementation for strings.
  * \ingroup property_hierarchy
@@ -15,11 +15,8 @@ class StringProperty : public ValueProperty<std::string, StringPropertyInterface
 {
 public:
     using Type = std::string;
-    
+
 public:
-    template <typename... Arguments>
-    StringProperty(Arguments&&... args);
-    
     REFLECTIONZEUG_API virtual ~StringProperty() = 0;
 
     REFLECTIONZEUG_API virtual void accept(AbstractPropertyVisitor * visitor);

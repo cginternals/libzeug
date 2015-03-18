@@ -29,8 +29,8 @@ set(libs
 set(sources
     main.cpp
 
-    SomeObject.cpp
-    SomeObject.h
+    MyObject.cpp
+    MyObject.h
 )
 
 # Build executable
