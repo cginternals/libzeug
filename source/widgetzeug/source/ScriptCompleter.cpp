@@ -12,7 +12,7 @@ namespace widgetzeug
 {
 
 ScriptCompleter::ScriptCompleter()
-:	QCompleter()
+: QCompleter()
 , m_model(new QStandardItemModel)
 {
     setCompletionMode(QCompleter::PopupCompletion);

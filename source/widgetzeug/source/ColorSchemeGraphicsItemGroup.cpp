@@ -4,7 +4,6 @@
 #include <functional>
 #include <limits>
 
-#include <QDebug>
 #include <QGraphicsTextItem>
 #include <QString>
 
@@ -19,97 +18,102 @@ namespace widgetzeug
 ColorSchemeGraphicsItemGroup::ColorSchemeGraphicsItemGroup(
     const QString & identifier,
     const DpiAwareGraphicsView * view)
-:   m_label(new QGraphicsTextItem(identifier, this))
-,   m_view(view)
-,   m_minClasses(std::numeric_limits<int>::max())
-,   m_maxClasses(0)
+: m_label{ new QGraphicsTextItem(identifier, this) }
+, m_view{ view }
+, m_minClasses{ std::numeric_limits<int>::max() }
+, m_maxClasses{ 0 }
 {
     m_label->setRotation(-90);
-    m_label->setOpacity(0.33);
-}
-
-ColorSchemeGraphicsItemGroup::~ColorSchemeGraphicsItemGroup()
-{
+    m_label->setOpacity(0.5);
 }
 
 QRectF ColorSchemeGraphicsItemGroup::boundingRect() const
 {
-    return QRectF();
+    return QRect();
 }
 
-void ColorSchemeGraphicsItemGroup::paint(
-    QPainter * painter, 
-    const QStyleOptionGraphicsItem * option, 
-    QWidget * widget)
+void ColorSchemeGraphicsItemGroup::paint(QPainter * painter, 
+    const QStyleOptionGraphicsItem * option, QWidget * widget)
 {
 }
 
-void ColorSchemeGraphicsItemGroup::addScheme(ColorScheme * scheme)
+void ColorSchemeGraphicsItemGroup::addScheme(const ColorScheme * scheme)
 {
-    if (nullptr == scheme)
+    if (!scheme || m_itemsByScheme.contains(scheme))
         return;
 
-    if (m_schemeGraphicsItems.contains(scheme))
-        return;
-
-    ColorSchemeGraphicsItem * item = new ColorSchemeGraphicsItem(m_view, scheme);
+    auto item = new ColorSchemeGraphicsItem(*scheme);
     item->setY(-item->boundingRect().height());
-    
-    item->setParentItem(this);
-    connect(item, &ColorSchemeGraphicsItem::selected,
-            this, &ColorSchemeGraphicsItemGroup::onSelected);
 
-    m_schemes.append(scheme);
-    m_schemeGraphicsItems.insert(scheme, item);
+    item->setParentItem(this);
+    connect(item, &ColorSchemeGraphicsItem::selected
+        , this, &ColorSchemeGraphicsItemGroup::selected);
+
+    m_itemsByScheme.insert(scheme, item);
+
+    auto i = 0; // use insertion sort ...
+    while (i < m_items.count() && m_items[i]->scheme().identifier().compare(scheme->identifier(), Qt::CaseInsensitive) < 0)
+        ++i;
+    m_items.insert(i, item);
 
     m_types |= scheme->type();
     m_minClasses = qMin(m_minClasses, scheme->minClasses());
     m_maxClasses = qMax(m_maxClasses, scheme->maxClasses());
 }
 
-bool ColorSchemeGraphicsItemGroup::hasScheme(ColorScheme * scheme) const
+bool ColorSchemeGraphicsItemGroup::hasScheme(const ColorScheme * scheme) const
 {
-    return m_schemeGraphicsItems.contains(scheme);
-}
-
-ColorSchemeGraphicsItem * ColorSchemeGraphicsItemGroup::schemeGraphicsItem(ColorScheme * scheme) const
-{
-    return m_schemeGraphicsItems.value(scheme);
-}
-
-bool ColorSchemeGraphicsItemGroup::setSelected(ColorScheme * scheme)
-{
-    if (!m_schemes.contains(scheme))
+    if (!scheme)
         return false;
-        
-    ColorSchemeGraphicsItem * item = m_schemeGraphicsItems.value(scheme);
+
+    return m_itemsByScheme.contains(scheme);
+}
+
+ColorSchemeGraphicsItem * ColorSchemeGraphicsItemGroup::graphicsItem(const ColorScheme * scheme) const
+{
+    if (!hasScheme(scheme))
+        return nullptr;
+
+    return m_itemsByScheme.value(scheme);
+}
+
+bool ColorSchemeGraphicsItemGroup::setSelected(const ColorScheme * scheme)
+{
+    if (!scheme)
+    {
+        for (auto item : m_items)
+            item->setSelected(false);
+
+        return true;
+    }
+
+    if (!m_itemsByScheme.contains(scheme))
+        return false;
+
+    auto item = m_itemsByScheme.value(scheme);
     item->setSelected(true);
+
     return true;
 }
 
-QList<ColorSchemeGraphicsItem *> ColorSchemeGraphicsItemGroup::schemeGraphicsItems() const
+QList<ColorSchemeGraphicsItem *> ColorSchemeGraphicsItemGroup::items() const
 {
-    QList<ColorSchemeGraphicsItem *> items;
-    for (ColorScheme * scheme : m_schemes)
-        items.append(m_schemeGraphicsItems.value(scheme));
-    return items;
+    return m_items;
 }
 
 void ColorSchemeGraphicsItemGroup::update(
     ColorScheme::ColorSchemeTypes typeFilter, 
-    int classesFilter)
+    uint classesFilter)
 {
-    updateVisibility(typeFilter, classesFilter);
+    setVisibility(typeFilter, classesFilter);
 
     if (!isVisible())
         return;
         
     qreal left = m_label->boundingRect().height();
 
-    for (ColorScheme * scheme : m_schemes)
+    for (auto item : m_items)
     {
-        ColorSchemeGraphicsItem * item = m_schemeGraphicsItems.value(scheme);
-
         item->updateVisibility(typeFilter, classesFilter);
 
         if (!item->isVisible())
@@ -117,37 +121,32 @@ void ColorSchemeGraphicsItemGroup::update(
 
         item->setX(left);
 
-        left += item->boundingRect().width();
-        left += m_view->invDevicePixelRatio();
+        left += 1.0 / m_view->devicePixelRatio() + item->boundingRect().width();
     }
 }
 
 void ColorSchemeGraphicsItemGroup::updateRects()
 {
-    for (ColorSchemeGraphicsItem * item : m_schemeGraphicsItems)
+    for (auto item : m_items)
         item->updateRects();
 }
 
-void ColorSchemeGraphicsItemGroup::onSelected(ColorScheme * scheme)
+void ColorSchemeGraphicsItemGroup::setDeficiency(const ColorVisionDeficiency deficiency)
 {
-    emit selected(m_schemeGraphicsItems[scheme]);
-}
-
-void ColorSchemeGraphicsItemGroup::setDeficiency(ColorScheme::ColorVisionDeficiency deficiency)
-{
-    for (ColorSchemeGraphicsItem * item : m_schemeGraphicsItems)
+    for (auto item : m_items)
         item->setDeficiency(deficiency);
 }
 
-void ColorSchemeGraphicsItemGroup::updateVisibility(
-    ColorScheme::ColorSchemeTypes typeFilter, 
-    int classesFilter)
+
+void ColorSchemeGraphicsItemGroup::setVisibility(
+    ColorScheme::ColorSchemeTypes typeFilter, const uint classesFilter)
 {
-    bool isVisible = true;
-    isVisible &= !m_schemes.isEmpty();
-    isVisible &= bool(typeFilter & m_types);
+    auto isVisible = true;
+
+    isVisible &= !m_items.isEmpty();
+    isVisible &= static_cast<bool>(typeFilter & m_types);
     isVisible &= m_minClasses <= classesFilter && m_maxClasses >= classesFilter;
-    
+
     setVisible(isVisible);
 }
 
