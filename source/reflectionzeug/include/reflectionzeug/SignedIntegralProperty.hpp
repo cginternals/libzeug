@@ -8,13 +8,6 @@ namespace reflectionzeug
 {
 
 template <typename Type>
-template <typename... Arguments>
-SignedIntegralProperty<Type>::SignedIntegralProperty(Arguments&&... args)
-:   NumberProperty<Type, SignedIntegralPropertyInterface>(std::forward<Arguments>(args)...)
-{
-}
-    
-template <typename Type>
 SignedIntegralProperty<Type>::~SignedIntegralProperty()
 {
 }

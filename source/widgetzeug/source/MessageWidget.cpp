@@ -17,6 +17,7 @@ namespace widgetzeug
 MessageWidget::MessageWidget(QWidget * parent)
 :	QTextBrowser(parent)
 , m_detectLinks(true)
+, m_detectControlCharacters(false)
 {
     setTextInteractionFlags(Qt::TextBrowserInteraction | Qt::TextSelectableByKeyboard);
 
@@ -56,14 +57,14 @@ void MessageWidget::print(
 #ifdef _DEBUG
         html = QString("%1 %2(%3): %4\n").arg(t).arg(context.file).arg(context.line).arg(message);
 #else
-		html = QString("%1: %2\n").arg(t).arg(message);
+		html = QString("%1: %2").arg(t).arg(message);
 #endif
 		break;
 
     case QtMsgType::QtCriticalMsg:
     case QtMsgType::QtFatalMsg:
     case QtMsgType::QtWarningMsg:
-		html = QString("%1: %2\n").arg(t).arg(message);
+		html = QString("%1: %2").arg(t).arg(message);
 		break;
 
     default:
@@ -121,6 +122,13 @@ void MessageWidget::print(
             html.replace(uri, QString("<a href =\"mailto:%1\">%1</a>").arg(replace));
         }
     }
+
+    if (m_detectControlCharacters)
+    {
+        html.replace("\n", "<br>");
+        html.replace("\t", "&nbsp;&nbsp;&nbsp;&nbsp;");
+    }
+
     moveCursor(QTextCursor::End);
     insertHtml("<span style=\"color:" + m_colors[type] + "\">" + html + "</span><br>");
 
@@ -140,6 +148,16 @@ void MessageWidget::setDetectLinks(bool enable)
 bool MessageWidget::detectLinks() const
 {
     return m_detectLinks;
+}
+
+void MessageWidget::setDetectControlCharacters(bool enable)
+{
+    m_detectControlCharacters = enable;
+}
+
+bool MessageWidget::detectControlCharacters() const
+{
+    return m_detectControlCharacters;
 }
 
 } // namespace widgetzeug

@@ -1,10 +1,11 @@
 
 #include "ColorSchemeGraphicsView.h"
 
-#include <cassert>
+#include <assert.h>
 
-#include <QDebug>
-#include <QMouseEvent>
+#include <QKeyEvent>
+
+#include <widgetzeug/ColorScheme.h>
 
 #include "ColorSchemeGraphicsItem.h"
 #include "ColorSchemeGraphicsItemGroup.h"
@@ -15,21 +16,32 @@ namespace widgetzeug
 
 const int ColorSchemeGraphicsView::s_padding(1);
 
+
 ColorSchemeGraphicsView::ColorSchemeGraphicsView(QWidget * parent)
 :   DpiAwareGraphicsView(parent)
-,   m_selectedItem(nullptr)
-,   m_typeFilter(ColorScheme::Diverging | ColorScheme::Qualitative | ColorScheme::Sequential | ColorScheme::Unknown)
-,   m_deficiency(ColorScheme::None)
-,   m_classesFilter(0)
+, m_selectedItem(nullptr)
+, m_typeFilter(ColorScheme::Diverging | ColorScheme::Qualitative | ColorScheme::Sequential | ColorScheme::Unknown)
+, m_deficiency(ColorVisionDeficiency::None)
+, m_classesFilter(0)
 {
     setScene(new QGraphicsScene());
+    clear();
 
-    connect(this, &DpiAwareGraphicsView::dpiChanged,
-            this, &ColorSchemeGraphicsView::update);
+    connect(this, &DpiAwareGraphicsView::dpiChanged, this, &ColorSchemeGraphicsView::update);
 }
 
-ColorSchemeGraphicsView::~ColorSchemeGraphicsView()
+void ColorSchemeGraphicsView::clear()
 {
+    m_selectedItem = nullptr;
+
+    m_groups.clear();
+    m_graphicsItemGroups.clear();
+
+    m_minClasses = static_cast<uint>(-1);
+    m_maxClasses = 0;
+
+    scene()->clear();
+    scene()->update();
 }
 
 void ColorSchemeGraphicsView::createGroup(const QString & identifier)
@@ -37,7 +49,7 @@ void ColorSchemeGraphicsView::createGroup(const QString & identifier)
     if (m_groups.contains(identifier))
         return;
 
-    ColorSchemeGraphicsItemGroup * group = new ColorSchemeGraphicsItemGroup(identifier, this);
+    auto group = new ColorSchemeGraphicsItemGroup(identifier, this);
     connect(group, &ColorSchemeGraphicsItemGroup::selected, 
             this, &ColorSchemeGraphicsView::setSelectedItem);
 
@@ -45,25 +57,31 @@ void ColorSchemeGraphicsView::createGroup(const QString & identifier)
 
     m_groups.append(identifier);
     m_graphicsItemGroups.insert(identifier, group);
+
+    update();
 }
 
-void ColorSchemeGraphicsView::insertScheme(const QString & group, ColorScheme * scheme)
+void ColorSchemeGraphicsView::insertScheme(const QString & group, const ColorScheme * scheme)
 {
-    if (nullptr == scheme)
-        return;
+    assert(scheme);
 
     createGroup(group);
 
+    m_minClasses = qMin(scheme->minClasses(), m_minClasses);
+    m_maxClasses = qMax(scheme->maxClasses(), m_maxClasses);
+
     m_graphicsItemGroups.value(group)->addScheme(scheme);
+
+    update();
 }
 
 void ColorSchemeGraphicsView::update()
 {
-    int left = 0;
+    auto left = 0;
 
-    for (const QString & identifier : m_groups)
+    for (const auto & identifier : m_groups)
     {
-        ColorSchemeGraphicsItemGroup * group = m_graphicsItemGroups.value(identifier);
+        auto group = m_graphicsItemGroups.value(identifier);
         
         group->updateRects();
         group->update(m_typeFilter, m_classesFilter);
@@ -78,7 +96,7 @@ void ColorSchemeGraphicsView::update()
     if (m_selectedItem && !m_selectedItem->isVisible())
         setSelectedItem(nullptr);
 
-    QRectF r(scene()->itemsBoundingRect());
+    auto r = scene()->itemsBoundingRect();
 
     r.setWidth(left);
     r.adjust(0, 0, +5 * dpiBasedScale(), 0);
@@ -89,74 +107,97 @@ void ColorSchemeGraphicsView::update()
 
 void ColorSchemeGraphicsView::keyPressEvent(QKeyEvent * event)
 {
-    int offset = 0;
-    
-    switch (event->key()) 
+    if (!m_selectedItem && event->key() != Qt::Key_Right && event->key() != Qt::Key_Left)
     {
-        case Qt::Key_Right:
-            offset = 1;
-            break;
-        case Qt::Key_Left:
-            offset = -1;
-            break;
-            
-        default:
-            break;
-    }
-    
-    if (!offset)
-        return;
-        
-    if (!m_selectedItem)
-    {
-        setSelected(visibleSchemes().first());
+        QGraphicsView::keyPressEvent(event);
         return;
     }
 
-    QList<ColorScheme *> schemes = this->visibleSchemes();
-    int index = schemes.indexOf(m_selectedItem->scheme());
-    index += offset;
-    if (index < 0)
-        index = schemes.count() - 1;
-    if (index >= schemes.count())
-        index = 0;
-    setSelected(schemes.at(index));
-    ensureVisible(m_selectedItem, 20 * dpiBasedScale(), 0);
+    QList<ColorSchemeGraphicsItem*> items;
+
+    for (const auto & identifier : m_groups)
+    {
+        auto group = m_graphicsItemGroups.value(identifier);
+        for (auto item : group->items())
+            if (item->isVisible())
+                items << item;
+    }
+
+    assert(items.contains(m_selectedItem));
+
+    auto index = items.indexOf(m_selectedItem);
+
+    switch (event->key())
+    {
+    case Qt::Key_Left:
+        index = index - 1 < 0 ? items.count() - 1 : index - 1;
+        break;
+
+    case Qt::Key_Right:
+        index = index + 1 < items.count() ? index + 1 : 0;
+        break;
+
+    default:
+        break;
+    }
+    setSelectedItem(items[index]);
 }
 
-void ColorSchemeGraphicsView::setSelected(ColorScheme * scheme)
+void ColorSchemeGraphicsView::setSelected(const QString & scheme)
 {
-    if (!scheme)
+    for (const auto & identifier : m_groups)
     {
-        setSelectedItem(nullptr);
-        return;
+        auto group = m_graphicsItemGroups.value(identifier);
+        for (auto item : group->items())
+        {
+            if (!item->isVisible() || item->scheme().identifier() != scheme)
+                continue;
+
+            setSelectedItem(group->graphicsItem(&item->scheme()));
+            return;
+        }
     }
+    setSelectedItem(nullptr);
+}
+
+
+void ColorSchemeGraphicsView::setSelected(const ColorScheme * scheme)
+{
+    assert(scheme);
 
     for (ColorSchemeGraphicsItemGroup * group : m_graphicsItemGroups)
     {
-        if (group->hasScheme(scheme))
-        {
-            ColorSchemeGraphicsItem * item = group->schemeGraphicsItem(scheme);
-            item->setSelected(true);
-            setSelectedItem(group->schemeGraphicsItem(scheme));
-            break;
-        }
+        if (!group->hasScheme(scheme))
+            continue;
+
+        setSelectedItem(group->graphicsItem(scheme));
+        return;
     }
+    setSelectedItem(nullptr);
 }
 
 void ColorSchemeGraphicsView::setSelectedItem(ColorSchemeGraphicsItem * item)
 {
     if (m_selectedItem)
         m_selectedItem->setSelected(false);
-            
+
     m_selectedItem = item;
+    if (m_selectedItem)
+    {
+        m_selectedItem->setSelected(true);
+        
+        const auto xMargin = m_selectedItem->rectSize().width()
+        + m_selectedItem->margin()
+        + m_selectedItem->padding() + 2;
+        ensureVisible(m_selectedItem, xMargin * dpiBasedScale(), 0);
+    }
     
-    emit selectedChanged(item ? item->scheme() : nullptr);
+    emit selectedChanged(item ? &(item->scheme()) : nullptr);
 }
 
-ColorScheme * ColorSchemeGraphicsView::selected()
+const ColorScheme * ColorSchemeGraphicsView::selected()
 {
-    return m_selectedItem ? m_selectedItem->scheme() : nullptr;
+    return m_selectedItem ? &(m_selectedItem->scheme()) : nullptr;
 }
 
 void ColorSchemeGraphicsView::setTypeFilter(const ColorScheme::ColorSchemeTypes & types)
@@ -173,7 +214,7 @@ const ColorScheme::ColorSchemeTypes & ColorSchemeGraphicsView::typeFilter() cons
     return m_typeFilter;
 }
 
-void ColorSchemeGraphicsView::setClassesFilter(int classes)
+void ColorSchemeGraphicsView::setClassesFilter(uint classes)
 {
     if (m_classesFilter == classes)
         return;
@@ -182,12 +223,12 @@ void ColorSchemeGraphicsView::setClassesFilter(int classes)
     update();
 }
 
-int ColorSchemeGraphicsView::classesFilter() const
+uint ColorSchemeGraphicsView::classesFilter() const
 {
     return m_classesFilter;
 }
 
-void ColorSchemeGraphicsView::setDeficiency(ColorScheme::ColorVisionDeficiency deficiency)
+void ColorSchemeGraphicsView::setDeficiency(const ColorVisionDeficiency deficiency)
 {
     m_deficiency = deficiency;
 
@@ -197,28 +238,19 @@ void ColorSchemeGraphicsView::setDeficiency(ColorScheme::ColorVisionDeficiency d
     update();
 }
 
-ColorScheme::ColorVisionDeficiency ColorSchemeGraphicsView::deficiency() const
+ColorVisionDeficiency ColorSchemeGraphicsView::deficiency() const
 {
     return m_deficiency;
 }
 
-QList<ColorScheme *> ColorSchemeGraphicsView::visibleSchemes() const
+uint ColorSchemeGraphicsView::minClasses() const
 {
-    QList<ColorScheme *> schemes;
-    for (const QString & identifier : m_groups)
-    {
-        ColorSchemeGraphicsItemGroup * group = m_graphicsItemGroups.value(identifier);
-        for (ColorSchemeGraphicsItem * item : group->schemeGraphicsItems())
-            if (item->isVisible())
-                schemes << item->scheme();
-    }
-    return schemes;
+    return m_minClasses;
 }
 
-void ColorSchemeGraphicsView::ensureDefaultSelection()
+uint ColorSchemeGraphicsView::maxClasses() const
 {
-	if (m_selectedItem == nullptr)
-		setSelected(!visibleSchemes().isEmpty() ? visibleSchemes().first() : nullptr);
+    return m_maxClasses;
 }
 
 } // namespace widgetzeug

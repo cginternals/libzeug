@@ -19,9 +19,6 @@ class PropertyGroup;
 class REFLECTIONZEUG_API PropertySerializer
 {
 public:
-    PropertySerializer();
-    virtual ~PropertySerializer();
-
     bool serialize(PropertyGroup & group, const std::string & filePath);
     
 protected:
