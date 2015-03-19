@@ -61,8 +61,6 @@ public:
 
     const VariantMap & options() const;
 
-    signalzeug::Signal<const std::string &> optionChanged;
-
     /** \} */
     
     /**
@@ -92,6 +90,9 @@ public:
     virtual bool isGroup() const;
     
     /** \} */
+
+public:
+    signalzeug::Signal<const std::string &> optionChanged;
     
 private:
     std::string m_name;
