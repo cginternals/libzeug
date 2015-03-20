@@ -129,6 +129,17 @@ set(headers
     ${header_path}/util.h
     ${header_path}/util.hpp
     ${header_path}/extensions/GlmProperties.hpp
+
+    ${header_path}/new/Type.h
+    ${header_path}/new/Type.hpp
+    ${header_path}/new/TypeInt.h
+    ${header_path}/new/TypeInt.hpp
+    ${header_path}/new/Accessor.h
+    ${header_path}/new/Accessor.hpp
+    ${header_path}/new/AccessorGetSet.h
+    ${header_path}/new/AccessorGetSet.hpp
+    ${header_path}/new/Convertible.h
+    ${header_path}/new/Convertible.hpp
 )
 
 set(sources
