@@ -4,6 +4,10 @@ namespace reflectionzeug
 {
 
 
+Object::Object()
+{
+}
+
 Object::Object(const std::string & name)
 : PropertyGroup(name)
 {
