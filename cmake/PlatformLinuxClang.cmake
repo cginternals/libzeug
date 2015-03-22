@@ -1,9 +1,7 @@
-message(STATUS "Configuring for platform Linux/GCC.")
+message(STATUS "Configuring for platform Linux/Clang.")
 
 
 # Enable C++11 support
-
-message(STATUS "Configuring for Clang")
 
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
 
