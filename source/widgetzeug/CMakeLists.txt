@@ -6,6 +6,7 @@ message(STATUS "Lib ${target}")
 
 find_package(Qt5Core    5.1 REQUIRED)
 find_package(Qt5Gui     5.1 REQUIRED)
+find_package(Qt5OpenGL  5.1 REQUIRED)
 find_package(Qt5Widgets 5.1 REQUIRED) # this is also important in order to get uic working
 
 # Includes
@@ -29,8 +30,9 @@ set(libs
     Qt5::Core
     Qt5::Gui
     Qt5::Widgets
-    reflectionzeug
-    signalzeug
+#    Qt5::OpenGL
+#    reflectionzeug
+#    signalzeug
 )
 
 
@@ -50,14 +52,28 @@ set(source_path "${CMAKE_CURRENT_SOURCE_DIR}/source")
 
 set(api_includes
     ${header_path}/widgetzeug_api.h   
-    # color widgets
-    ${header_path}/ColorGradient.h
-    ${header_path}/ColorGradientProperty.h
-    ${header_path}/ColorGradientStop.h
-    ${header_path}/ColorScheme.h
-    ${header_path}/ColorSchemePresetsWidget.h
-    ${header_path}/DpiAwareGraphicsView.h
     ${header_path}/RGBABrush.hpp
+    ${header_path}/dark_fusion_style.hpp
+
+    ${header_path}/ControlWidgetSettings.h
+    # color widgets
+    #${header_path}/ColorGradient.h
+    #${header_path}/ColorGradientProperty.h
+    #${header_path}/ColorGradientStop.h
+    #${header_path}/ColorGradientWidget.h
+    ${header_path}/ColorScheme.h
+    ${header_path}/ColorSchemeControlWidget.h
+    ${header_path}/ColorSchemeLabel.h
+    ${header_path}/ColorSchemePresets.h
+    ${header_path}/ColorSchemePresetsWidget.h
+    ${header_path}/ColorSchemeWidget.h
+    ${header_path}/ColorVisionDeficiency.h
+    # multi-purpose widgets
+    ${header_path}/DataLinkWidget.h
+    ${header_path}/DockableScrollAreaWidget.h
+    ${header_path}/DpiAware.h
+    ${header_path}/DpiAwareGraphicsView.h
+    ${header_path}/DpiAwareWidget.h
     # script widgets
     ${header_path}/ECMA26251_Completer.h
     ${header_path}/ECMA26251_SyntaxHighlighter.h
@@ -73,21 +89,49 @@ set(api_includes
 
 set(sources
     ${source_path}/util.hpp
+
+    ${source_path}/ControlWidgetSettings.cpp
     # color widgets
-    ${source_path}/ColorGradient.cpp
-    ${source_path}/ColorGradientStop.cpp
+    #${source_path}/ColorGradient.cpp
+    #${source_path}/ColorGradientLabel.cpp
+    #${source_path}/ColorGradientLabel.h
+    #${source_path}/ColorGradientMidpointBar.cpp
+    #${source_path}/ColorGradientMidpointBar.h
+    #${source_path}/ColorGradientMidpointWidget.cpp
+    #${source_path}/ColorGradientMidpointWidget.h
+    #${source_path}/ColorGradientModel.cpp
+    #${source_path}/ColorGradientModel.h
+    #${source_path}/ColorGradientStop.cpp
+    #${source_path}/ColorGradientStopBar.cpp
+    #${source_path}/ColorGradientStopBar.h
+    #${source_path}/ColorGradientStopModel.cpp
+    #${source_path}/ColorGradientStopModel.h
+    #${source_path}/ColorGradientStopWidget.cpp
+    #${source_path}/ColorGradientStopWidget.h
+    #${source_path}/ColorGradientWidget.cpp
+    #${source_path}/ColorGradientWidget.ui
     ${source_path}/ColorScheme.cpp
+    ${source_path}/ColorSchemeControlWidget.cpp
     ${source_path}/ColorSchemeGraphicsItem.cpp
     ${source_path}/ColorSchemeGraphicsItem.h  
     ${source_path}/ColorSchemeGraphicsItemGroup.cpp
     ${source_path}/ColorSchemeGraphicsItemGroup.h
     ${source_path}/ColorSchemeGraphicsView.cpp
     ${source_path}/ColorSchemeGraphicsView.h
+    ${source_path}/ColorSchemeLabel.cpp
+    ${source_path}/ColorSchemePresets.cpp
     ${source_path}/ColorSchemePresetsWidget.cpp
     ${source_path}/ColorSchemePresetsWidget.ui
+    ${source_path}/ColorSchemeWidget.cpp
+    ${source_path}/ColorSchemeWidget.ui
+    ${source_path}/ColorVisionDeficiency.cpp
+    # multi-purpose widgets
+    ${source_path}/DataLinkWidget.cpp
+    ${source_path}/DataLinkWidget.ui
+    ${source_path}/DockableScrollAreaWidget.cpp
+    ${source_path}/DpiAware.cpp
     ${source_path}/DpiAwareGraphicsView.cpp
-    ${source_path}/SingleColorSchemeGraphicsView.cpp
-    ${source_path}/SingleColorSchemeGraphicsView.h
+    ${source_path}/DpiAwareWidget.cpp
     # script widgets
     ${source_path}/ECMA26251_Completer.cpp
     ${source_path}/ECMA26251_SyntaxHighlighter.cpp

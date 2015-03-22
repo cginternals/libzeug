@@ -31,6 +31,16 @@ EnumEditor::EnumEditor(
     
     connect(comboBox, &QComboBox::currentTextChanged, 
             this, &EnumEditor::setString);
+
+    m_propertyChangedConnection = m_property->valueChanged.connect(
+        [this, comboBox]()
+        {
+            comboBox->setCurrentText(QString::fromStdString(m_property->toString()));
+        });
+}
+
+EnumEditor::~EnumEditor()
+{
 }
     
 void EnumEditor::setString(const QString & text)

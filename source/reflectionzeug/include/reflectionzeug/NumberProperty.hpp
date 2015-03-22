@@ -11,9 +11,7 @@ namespace reflectionzeug
 {
 
 template <typename Type, typename SuperClass>
-template <typename... Arguments>
-NumberProperty<Type, SuperClass>::NumberProperty(Arguments&&... args)
-:   ValueProperty<Type, SuperClass>(std::forward<Arguments>(args)...)
+NumberProperty<Type, SuperClass>::NumberProperty()
 {
     this->setOptions({
         { "minimum", Variant(std::numeric_limits<Type>::min()) },

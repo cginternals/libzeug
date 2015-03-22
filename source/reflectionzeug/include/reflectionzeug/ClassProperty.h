@@ -6,7 +6,7 @@
 
 namespace reflectionzeug
 {
-    
+
 /**
  * Provides a basic property implementation for classes that implement atleast
  * a copy constructor and the following interface:
@@ -20,11 +20,8 @@ template <typename Type>
 class ClassProperty : public ValueProperty<Type>
 {
 public:
-    template <typename... Arguments>
-    ClassProperty(Arguments&&... args);
-
     virtual ~ClassProperty() = 0;
-    
+
     virtual std::string toString() const;
     virtual bool fromString(const std::string & string);
 };

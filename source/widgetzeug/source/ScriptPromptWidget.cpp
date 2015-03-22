@@ -29,7 +29,7 @@ namespace
 
 
 ScriptPromptWidget::ScriptPromptWidget(QWidget * parent)
-:	QTextEdit(parent)
+: QTextEdit(parent)
 , m_rows(0)
 , m_lastRowPos(ROW_PREFIX_LENGTH)
 , m_multiLinePaste(true)
@@ -384,7 +384,7 @@ void ScriptPromptWidget::setSyntaxHighlighter(QSyntaxHighlighter * syntaxHighlig
     if (m_syntaxHighlighter != syntaxHighlighter && m_syntaxHighlighter)
         delete syntaxHighlighter;
 
-    syntaxHighlighter = syntaxHighlighter;
+    m_syntaxHighlighter = syntaxHighlighter;
 
     if (syntaxHighlighter)
         syntaxHighlighter->setDocument(document());

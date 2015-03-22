@@ -68,6 +68,17 @@ SignedIntegralEditor::SignedIntegralEditor(
                 m_property->fromLongLong(value);
             });
     }
+
+    m_propertyChangedConnection = m_property->valueChanged.connect(
+        [this, spinBox]()
+        {
+            spinBox->setValue(m_property->toLongLong());
+        });
+}
+
+SignedIntegralEditor::~SignedIntegralEditor()
+{
+    m_propertyChangedConnection.disconnect();
 }
     
 } // namespace propertyguizeug

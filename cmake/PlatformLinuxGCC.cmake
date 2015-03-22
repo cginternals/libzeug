@@ -3,6 +3,8 @@ message(STATUS "Configuring for platform Linux/GCC.")
 
 # Enable C++11 support
 
+message(STATUS "Configuring for GCC")
+
 execute_process(COMMAND ${CMAKE_C_COMPILER} -dumpversion
     OUTPUT_VARIABLE GCC_VERSION)
 
@@ -45,6 +47,8 @@ set(LINUX_COMPILE_FLAGS
       -Wextra       # -> 
       -Werror       # ->
       -fPIC         # -> use position independent code
+      
+      -Wno-unknown-warning-option
 
       -Wreturn-type 
       -Wcast-align  
@@ -55,14 +59,6 @@ set(LINUX_COMPILE_FLAGS
     # -Werror=return-type -> missing returns in functions and methods are handled as errors which stops the compilation
     # -Wshadow      # -> e.g. when a parameter is named like a member, too many warnings, disabled for now
 )
-
-if("${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang")
-    # clang
-    set(LINUX_COMPILE_FLAGS ${LINUX_COMPILE_FLAGS} 
-        -Wno-reinterpret-base-class 
-        -Wno-overloaded-virtual
-    )
-endif()
 
 set(DEFAULT_COMPILE_FLAGS
     ${LINUX_COMPILE_FLAGS}

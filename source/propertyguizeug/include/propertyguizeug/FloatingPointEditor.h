@@ -1,6 +1,7 @@
 #pragma once
 
 #include <reflectionzeug/property_declaration.h>
+#include <signalzeug/ScopedConnection.h>
 
 #include <propertyguizeug/PropertyEditor.h>
 
@@ -35,12 +36,14 @@ public:
 public:
     FloatingPointEditor(reflectionzeug::FloatingPointPropertyInterface * property, 
                         QWidget * parent = nullptr);
+    virtual ~FloatingPointEditor();
                         
 private:
     static const int s_defaultPrecision;
 
 private:
     reflectionzeug::FloatingPointPropertyInterface * m_property;
+    signalzeug::ScopedConnection m_propertyChangedConnection;
 };
 
 } // namespace propertyguizeug

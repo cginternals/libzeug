@@ -117,7 +117,8 @@ void parseFormat(std::ostream& stream, const char*& format)
 	if (*format == '.')
 	{
 		int precision;
-		format += readInt(++format, precision);
+		++format;
+		format += readInt(format, precision);
 		if (precision>0)
 		{
 			stream << std::setprecision(precision);
