@@ -25,8 +25,9 @@ ArrayProperty<Type, Size>::ArrayProperty()
     for (size_t i = 0; i < Size; ++i)
     {
         m_properties[i] = new Property<Type>("_" + std::to_string(i),
-                                             std::bind(&ArrayProperty::element, this, i),
-                                             std::bind(&ArrayProperty::setElement, this, i, std::placeholders::_1));
+            [this, i]() { return element(i); },
+            [this, i](const Type & value) { setElement(i, value); }
+        );
     }
 }
 
@@ -217,8 +218,8 @@ void ArrayProperty<Type, Size>::setAccessors(
     const Type & (Object::*getter_pointer)(size_t) const,
     void (Object::*setter_pointer)(size_t, const Type &))
 {
-    m_getter = std::bind(getter_pointer, object, std::placeholders::_1);
-    m_setter = std::bind(setter_pointer, object, std::placeholders::_1, std::placeholders::_2);
+    m_getter = [object, getter_pointer](size_t index) { return (object->*getter_pointer)(index); };
+    m_setter = [object, setter_pointer](size_t index, const Type & value) { (object->*setter_pointer)(index, value); };
 }
 
 template <typename Type, size_t Size>
@@ -228,8 +229,8 @@ void ArrayProperty<Type, Size>::setAccessors(
     Type (Object::*getter_pointer)(size_t) const,
     void (Object::*setter_pointer)(size_t, const Type &))
 {
-    m_getter = std::bind(getter_pointer, object, std::placeholders::_1);
-    m_setter = std::bind(setter_pointer, object, std::placeholders::_1, std::placeholders::_2);
+    m_getter = [object, getter_pointer](size_t index) { return (object->*getter_pointer)(index); };
+    m_setter = [object, setter_pointer](size_t index, const Type & value) { (object->*setter_pointer)(index, value); };
 }
 
 template <typename Type, size_t Size>
@@ -239,8 +240,8 @@ void ArrayProperty<Type, Size>::setAccessors(
     Type (Object::*getter_pointer)(size_t) const,
     void (Object::*setter_pointer)(size_t, Type))
 {
-    m_getter = std::bind(getter_pointer, object, std::placeholders::_1);
-    m_setter = std::bind(setter_pointer, object, std::placeholders::_1, std::placeholders::_2);
+    m_getter = [object, getter_pointer](size_t index) { return (object->*getter_pointer)(index); };
+    m_setter = [object, setter_pointer](size_t index, const Type & value) { (object->*setter_pointer)(index, value); };
 }
 
 } // namespace reflectionzeug
