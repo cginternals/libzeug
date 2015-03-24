@@ -3,7 +3,7 @@ message(STATUS "Configuring for platform Linux/Clang.")
 
 # Enable C++11 support
 
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11 -stdlib=libc++")
 
 include_directories("/usr/include/c++/v1/")
 
