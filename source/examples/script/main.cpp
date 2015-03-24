@@ -136,7 +136,7 @@ public:
     , m_double(0.0)
     , m_bool(false)
     , m_enum(Choice1)
-    , m_array({1, 2, 3})
+    , m_array({{1, 2, 3}})
     {
         // Properties
         addProperty<char>              ("char",      this, &MyObject::getChar,      &MyObject::setChar);
