@@ -29,14 +29,14 @@ public:
     {
         addProperty<int>("min", this, &Counting::getMin, &Counting::setMin);
         addProperty<int>("max", this, &Counting::getMax, &Counting::setMax);
-        addFunction("count", this, &Counting::count);
+        addFunction("count", this, &Counting::myCount);
     }
 
     ~Counting()
     {
     }
 
-    void count()
+    void myCount()
     {
         for (int i=m_min; i<=m_max; i++) {
             std::cout << "Counting " << i << " ...\n";
