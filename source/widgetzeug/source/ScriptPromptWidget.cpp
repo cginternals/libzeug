@@ -381,12 +381,12 @@ QCompleter * ScriptPromptWidget::completer()
 
 void ScriptPromptWidget::setSyntaxHighlighter(QSyntaxHighlighter * syntaxHighlighter)
 {
-    if (m_syntaxHighlighter != syntaxHighlighter && m_syntaxHighlighter)
-        delete syntaxHighlighter;
+    if (m_syntaxHighlighter != syntaxHighlighter)
+        delete m_syntaxHighlighter;
 
     m_syntaxHighlighter = syntaxHighlighter;
 
-    if (syntaxHighlighter)
+    if (m_syntaxHighlighter)
         syntaxHighlighter->setDocument(document());
 }
 
