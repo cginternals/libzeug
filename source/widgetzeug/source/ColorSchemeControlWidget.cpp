@@ -178,8 +178,8 @@ void ColorSchemeControlWidget::onFileChanged(const QString & fileName)
     m_colorSchemeWidget->setEnabled(false);
     m_colorSchemePresetsWidget->setEnabled(enabled);
 
-    if (!enabled)
-        return;
+    //if (!enabled) // before: assert(enabled)
+    //    return;
 
     m_colorSchemePresetsWidget->setPresets(*m_presets);
 
