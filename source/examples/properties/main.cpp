@@ -113,17 +113,27 @@ void serializingProperties()
         object.setValue<bool>("sub_group/bool_value", false);
         
         // Serialize property hierarchies with the PropertySerializer ...
-        PropertySerializer serializer{};
-        serializer.serialize(object, INI_PATH);
+        try {
+            PropertySerializer serializer{};
+            serializer.serialize(object, INI_PATH);
+        }
+        catch (...)
+        {
+        }
     }
 
     {
         auto object = MyObject{};
-        
-        // ... and deserialize them with the PropertyDeserializer.
-        auto deserializer = PropertyDeserializer{};
-        deserializer.deserialize(object, INI_PATH);
-        printGroup(object);
+
+        try {
+            // ... and deserialize them with the PropertyDeserializer.
+            auto deserializer = PropertyDeserializer{};
+            deserializer.deserialize(object, INI_PATH);
+            printGroup(object);
+        }
+        catch (...)
+        {
+        }
     }
 }
 
