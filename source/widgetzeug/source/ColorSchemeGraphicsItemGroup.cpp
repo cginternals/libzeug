@@ -1,6 +1,7 @@
 
 #include "ColorSchemeGraphicsItemGroup.h"
 
+#include <cassert>
 #include <functional>
 #include <limits>
 
@@ -91,6 +92,9 @@ bool ColorSchemeGraphicsItemGroup::setSelected(const ColorScheme * scheme)
         return false;
 
     auto item = m_itemsByScheme.value(scheme);
+
+    assert(item != nullptr);
+
     item->setSelected(true);
 
     return true;
