@@ -196,16 +196,39 @@ int main(int argc, char *argv[])
         { Qt::WaitCursor, "Wait Cursor" }
     });
     
-    PropertyDeserializer deserializer;
-    deserializer.deserialize(*settings, SETTINGS_PATH);
+    try
+    {
+        PropertyDeserializer deserializer;
+
+        deserializer.deserialize(*settings, SETTINGS_PATH);
+    }
+    catch (...)
+    {
+        delete settings;
+        delete widget;
+
+        return -1;
+    }
 
     auto * browser = new PropertyBrowser(settings);
     browser->show();
 
     int result = a.exec();
 
-    PropertySerializer serializer;
-    serializer.serialize(*settings, SETTINGS_PATH);
+    try
+    {
+        PropertySerializer serializer;
+
+        serializer.serialize(*settings, SETTINGS_PATH);
+    }
+    catch(...)
+    {
+        delete settings;
+        delete browser;
+        delete widget;
+
+        return -1;
+    }
 
     delete settings;
     delete browser;
