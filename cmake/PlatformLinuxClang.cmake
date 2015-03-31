@@ -21,15 +21,9 @@ set(DEFAULT_COMPILE_DEFS_RELEASE
     NDEBUG                    # Release build
 )
 
-if (OPTION_ERRORS_AS_EXCEPTION OR NOT OPTION_BUILD_WITH_STD_REGEX)
-    set(EXCEPTION_FLAG "-fexceptions")
-else()
-    set(EXCEPTION_FLAG "-fno-exceptions")
-endif()
-
 set(LINUX_COMPILE_FLAGS 
       
-      ${EXCEPTION_FLAG}
+      -fexceptions  # -> enable exceptions
       -pthread      # -> use pthread library
     # -no-rtti      # -> disable c++ rtti
       -pipe         # -> use pipes
