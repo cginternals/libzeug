@@ -84,6 +84,8 @@ void ColorSchemeGraphicsView::update()
     for (const auto & identifier : m_groups)
     {
         auto group = m_graphicsItemGroups.value(identifier);
+
+        assert(group != nullptr);
         
         group->updateRects();
         group->update(m_typeFilter, m_classesFilter);
