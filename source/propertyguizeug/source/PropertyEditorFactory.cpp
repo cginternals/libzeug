@@ -22,7 +22,8 @@ namespace propertyguizeug
 {
     
 PropertyEditorFactory::PropertyEditorFactory()
-:   m_editor{nullptr}
+: m_editor{nullptr}
+, m_parentWidget{nullptr}
 {
     addPlugin(new PropertyEditorPlugin<
         BoolEditor,
@@ -40,7 +41,7 @@ QWidget * PropertyEditorFactory::createEditor(
     QWidget * parent)
 {
     assert(parent);
-    
+
     m_editor = nullptr;
     m_parentWidget = parent;
 
