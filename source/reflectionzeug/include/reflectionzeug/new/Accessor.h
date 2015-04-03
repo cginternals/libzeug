@@ -29,15 +29,15 @@ public:
 *  @brief
 *    Accessor (read-only) to a typed value
 */
-template <typename T>
-class Accessor<const T>
+template <typename Type>
+class Accessor<const Type>
 {
 public:
     Accessor();
     virtual ~Accessor();
 
-    virtual T get() const = 0;
-    virtual void set(const T & value);
+    virtual Type get() const = 0;
+    virtual void set(const Type & value);
 };
 
 

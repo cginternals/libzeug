@@ -1,7 +1,7 @@
 #include <iostream>
 
-#include <reflectionzeug/new/Type.h>
-#include <reflectionzeug/new/TypeInt.h>
+#include <reflectionzeug/new/Typed.h>
+#include <reflectionzeug/new/TypedInt.h>
 #include <reflectionzeug/new/AccessorGetSet.h>
 
 
@@ -41,7 +41,7 @@ int main(int argc, char *argv[])
     // Create simple type instance
     {
         AccessorGetSet<int> accessor(&get, &set);
-        Type< int, AccessorGetSet<int> > typeInt (accessor);
-        Type< int, AccessorGetSet<int> > typeInt2(AccessorGetSet<int>(&get, &set));
+        Typed< int, AccessorGetSet<int> > typeInt (accessor);
+        Typed< int, AccessorGetSet<int> > typeInt2(AccessorGetSet<int>(&get, &set));
     }
 }

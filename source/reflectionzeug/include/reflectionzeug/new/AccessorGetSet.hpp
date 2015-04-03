@@ -10,92 +10,92 @@ namespace reflectionzeug
 
 
 // Read/write accessor
-template <typename T>
-AccessorGetSet<T>::AccessorGetSet(std::function<T ()> getter,
-    std::function<void(const T &)> setter)
+template <typename Type>
+AccessorGetSet<Type>::AccessorGetSet(std::function<Type ()> getter,
+    std::function<void(const Type &)> setter)
 : m_getter(getter)
 , m_setter(setter)
 {
 }
 
-template <typename T>
+template <typename Type>
 template <class Object>
-AccessorGetSet<T>::AccessorGetSet(Object * object,
-    const T & (Object::*getter_pointer)() const,
-    void (Object::*setter_pointer)(const T &))
+AccessorGetSet<Type>::AccessorGetSet(Object * object,
+    const Type & (Object::*getter_pointer)() const,
+    void (Object::*setter_pointer)(const Type &))
 : m_getter(std::bind(getter_pointer, object))
 , m_setter(std::bind(setter_pointer, object, std::placeholders::_1))
 {
 }
 
-template <typename T>
+template <typename Type>
 template <class Object>
-AccessorGetSet<T>::AccessorGetSet(Object * object,
-    T (Object::*getter_pointer)() const,
-    void (Object::*setter_pointer)(const T &))
+AccessorGetSet<Type>::AccessorGetSet(Object * object,
+    Type (Object::*getter_pointer)() const,
+    void (Object::*setter_pointer)(const Type &))
 : m_getter(std::bind(getter_pointer, object))
 , m_setter(std::bind(setter_pointer, object, std::placeholders::_1))
 {
 }
 
-template <typename T>
+template <typename Type>
 template <class Object>
-AccessorGetSet<T>::AccessorGetSet(Object * object,
-    T (Object::*getter_pointer)() const,
-    void (Object::*setter_pointer)(T))
+AccessorGetSet<Type>::AccessorGetSet(Object * object,
+    Type (Object::*getter_pointer)() const,
+    void (Object::*setter_pointer)(Type))
 : m_getter(std::bind(getter_pointer, object))
 , m_setter(std::bind(setter_pointer, object, std::placeholders::_1))
 {
 }
 
-template <typename T>
-AccessorGetSet<T>::~AccessorGetSet()
+template <typename Type>
+AccessorGetSet<Type>::~AccessorGetSet()
 {
 }
 
-template <typename T>
-T AccessorGetSet<T>::get() const
+template <typename Type>
+Type AccessorGetSet<Type>::get() const
 {
     return m_getter();
 }
 
-template <typename T>
-void AccessorGetSet<T>::set(const T & value)
+template <typename Type>
+void AccessorGetSet<Type>::set(const Type & value)
 {
     m_setter(value);
 }
 
 
 // Read-only accessor
-template <typename T>
-AccessorGetSet<const T>::AccessorGetSet(std::function<T ()> getter)
+template <typename Type>
+AccessorGetSet<const Type>::AccessorGetSet(std::function<Type ()> getter)
 : m_getter(getter)
 {
 }
 
-template <typename T>
+template <typename Type>
 template <class Object>
-AccessorGetSet<const T>::AccessorGetSet(Object * object,
-    const T & (Object::*getter_pointer)() const)
+AccessorGetSet<const Type>::AccessorGetSet(Object * object,
+    const Type & (Object::*getter_pointer)() const)
 : m_getter(std::bind(getter_pointer, object))
 {
 }
 
-template <typename T>
+template <typename Type>
 template <class Object>
-AccessorGetSet<const T>::AccessorGetSet(Object * object,
-    T (Object::*getter_pointer)() const)
+AccessorGetSet<const Type>::AccessorGetSet(Object * object,
+    Type (Object::*getter_pointer)() const)
 : m_getter(std::bind(getter_pointer, object))
 {
 }
 
-template <typename T>
-AccessorGetSet<const T>::~AccessorGetSet()
+template <typename Type>
+AccessorGetSet<const Type>::~AccessorGetSet()
 {
 }
 
-template <typename T>
-T AccessorGetSet<const T>::get() const
+template <typename Type>
+Type AccessorGetSet<const Type>::get() const
 {
     return m_getter();
 }

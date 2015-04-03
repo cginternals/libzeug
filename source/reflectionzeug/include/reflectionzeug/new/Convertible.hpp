@@ -9,13 +9,13 @@ namespace reflectionzeug
 {
 
 
-template <typename T>
-Convertible<T>::Convertible()
+template <typename Type>
+Convertible<Type>::Convertible()
 {
 }
 
-template <typename T>
-Convertible<T>::~Convertible()
+template <typename Type>
+Convertible<Type>::~Convertible()
 {
 }
 

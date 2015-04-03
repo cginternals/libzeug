@@ -11,17 +11,17 @@ namespace reflectionzeug
 
 /**
 *  @brief
-*    Base class for types that are convertible into type T
+*    Base class for types that are convertible into type Type
 */
-template <typename T>
+template <typename Type>
 class Convertible
 {
 public:
     Convertible();
     virtual ~Convertible();
 
-    virtual void convertTo(T & out) = 0;
-    virtual void convertFrom(const T & value) = 0;
+    virtual void convertTo(Type & out) = 0;
+    virtual void convertFrom(const Type & value) = 0;
 };
 
 

@@ -10,30 +10,30 @@ namespace reflectionzeug
 
 
 // Read/write accessor
-template <typename T>
-Accessor<T>::Accessor()
+template <typename Type>
+Accessor<Type>::Accessor()
 {
 }
 
-template <typename T>
-Accessor<T>::~Accessor()
+template <typename Type>
+Accessor<Type>::~Accessor()
 {
 }
 
 
 // Read-only accessor
-template <typename T>
-Accessor<const T>::Accessor()
+template <typename Type>
+Accessor<const Type>::Accessor()
 {
 }
 
-template <typename T>
-Accessor<const T>::~Accessor()
+template <typename Type>
+Accessor<const Type>::~Accessor()
 {
 }
 
-template <typename T>
-void Accessor<const T>::set(const T & value)
+template <typename Type>
+void Accessor<const Type>::set(const Type & value)
 {
 }
 

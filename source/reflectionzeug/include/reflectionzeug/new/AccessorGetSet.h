@@ -15,37 +15,37 @@ namespace reflectionzeug
 *  @brief
 *    Accessor (read/write) via getter/setter functions
 */
-template <typename T>
-class AccessorGetSet : public Accessor<T>
+template <typename Type>
+class AccessorGetSet : public Accessor<Type>
 {
 public:
-    AccessorGetSet(std::function<T ()> getter,
-                  std::function<void(const T &)> setter);
+    AccessorGetSet(std::function<Type ()> getter,
+                  std::function<void(const Type &)> setter);
 
     template <class Object>
     AccessorGetSet(Object * object,
-                  const T & (Object::*getter_pointer)() const,
-                  void (Object::*setter_pointer)(const T &));
+                  const Type & (Object::*getter_pointer)() const,
+                  void (Object::*setter_pointer)(const Type &));
 
     template <class Object>
     AccessorGetSet(Object * object,
-                  T (Object::*getter_pointer)() const,
-                  void (Object::*setter_pointer)(const T &));
+                  Type (Object::*getter_pointer)() const,
+                  void (Object::*setter_pointer)(const Type &));
 
     template <class Object>
     AccessorGetSet(Object * object,
-                  T (Object::*getter_pointer)() const,
-                  void (Object::*setter_pointer)(T));
+                  Type (Object::*getter_pointer)() const,
+                  void (Object::*setter_pointer)(Type));
 
     virtual ~AccessorGetSet();
 
-    virtual T get() const override;
-    virtual void set(const T & value) override;
+    virtual Type get() const override;
+    virtual void set(const Type & value) override;
 
 
 protected:
-    std::function<T ()>            m_getter;
-    std::function<void(const T &)> m_setter;
+    std::function<Type ()>            m_getter;
+    std::function<void(const Type &)> m_setter;
 };
 
 
@@ -53,27 +53,27 @@ protected:
 *  @brief
 *    Accessor (read-only) via getter/setter functions
 */
-template <typename T>
-class AccessorGetSet<const T> : public Accessor<const T>
+template <typename Type>
+class AccessorGetSet<const Type> : public Accessor<const Type>
 {
 public:
-    AccessorGetSet(std::function<T ()> getter);
+    AccessorGetSet(std::function<Type ()> getter);
 
     template <class Object>
     AccessorGetSet(Object * object,
-                  const T & (Object::*getter_pointer)() const);
+                  const Type & (Object::*getter_pointer)() const);
 
     template <class Object>
     AccessorGetSet(Object * object,
-                  T (Object::*getter_pointer)() const);
+                  Type (Object::*getter_pointer)() const);
 
     virtual ~AccessorGetSet();
 
-    virtual T get() const override;
+    virtual Type get() const override;
 
 
 protected:
-    std::function<T ()> m_getter;
+    std::function<Type ()> m_getter;
 };
 
 
