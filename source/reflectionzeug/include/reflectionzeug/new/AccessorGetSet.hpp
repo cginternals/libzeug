@@ -65,6 +65,12 @@ void AccessorGetSet<Type>::set(const Type & value)
     m_setter(value);
 }
 
+template <typename Type>
+bool AccessorGetSet<Type>::isReadOnly() const
+{
+    return false;
+}
+
 
 // Read-only accessor
 template <typename Type>
@@ -98,6 +104,18 @@ template <typename Type>
 Type AccessorGetSet<const Type>::get() const
 {
     return m_getter();
+}
+
+template <typename Type>
+void AccessorGetSet<const Type>::set(const Type & value)
+{
+    // Read-Only!
+}
+
+template <typename Type>
+bool AccessorGetSet<const Type>::isReadOnly() const
+{
+    return true;
 }
 
 

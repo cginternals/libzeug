@@ -20,6 +20,10 @@ public:
     TypedBase(const Accessor & accessor);
     virtual ~TypedBase();
 
+    Type get() const;
+    void set(const Type & value);
+
+
 protected:
     Accessor m_accessor;
 };

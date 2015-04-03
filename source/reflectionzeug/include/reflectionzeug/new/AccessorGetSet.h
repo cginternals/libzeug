@@ -42,6 +42,8 @@ public:
     virtual Type get() const override;
     virtual void set(const Type & value) override;
 
+    virtual bool isReadOnly() const override;
+
 
 protected:
     std::function<Type ()>            m_getter;
@@ -70,6 +72,9 @@ public:
     virtual ~AccessorGetSet();
 
     virtual Type get() const override;
+    virtual void set(const Type & value) override;
+
+    virtual bool isReadOnly() const override;
 
 
 protected:

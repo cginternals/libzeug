@@ -130,10 +130,12 @@ set(headers
     ${header_path}/util.hpp
     ${header_path}/extensions/GlmProperties.hpp
 
-    ${header_path}/new/Type.h
-    ${header_path}/new/Type.hpp
-    ${header_path}/new/TypeInt.h
-    ${header_path}/new/TypeInt.hpp
+    ${header_path}/new/TypedBase.h
+    ${header_path}/new/TypedBase.hpp
+    ${header_path}/new/Typed.h
+    ${header_path}/new/Typed.hpp
+    ${header_path}/new/TypedInt.h
+    ${header_path}/new/TypedInt.hpp
     ${header_path}/new/Accessor.h
     ${header_path}/new/Accessor.hpp
     ${header_path}/new/AccessorGetSet.h

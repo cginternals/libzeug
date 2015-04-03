@@ -13,15 +13,17 @@ namespace reflectionzeug
 *  @brief
 *    Accessor (read/write) to a typed value
 */
-template <typename T>
+template <typename Type>
 class Accessor
 {
 public:
     Accessor();
     virtual ~Accessor();
 
-    virtual T get() const = 0;
-    virtual void set(const T & value) = 0;
+    virtual Type get() const = 0;
+    virtual void set(const Type & value) = 0;
+
+    virtual bool isReadOnly() const = 0;
 };
 
 
@@ -37,7 +39,9 @@ public:
     virtual ~Accessor();
 
     virtual Type get() const = 0;
-    virtual void set(const Type & value);
+    virtual void set(const Type & value) = 0;
+
+    virtual bool isReadOnly() const = 0;
 };
 
 

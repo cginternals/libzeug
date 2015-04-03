@@ -24,24 +24,54 @@ int main(int argc, char *argv[])
 {
     // Create read/write accessor
     {
+        std::cout << "Read/write accessor\n";
+
         AccessorGetSet<int> accessor(&get, &set);
-        std::cout << "value = " << accessor.get() << "\n";
+        std::cout << "value = " << accessor.get() << " (1)\n";
         accessor.set(10);
-        std::cout << "value = " << accessor.get() << "\n";
+        std::cout << "value = " << accessor.get() << " (10)\n";
+
+        std::cout << "\n";
     }
 
     // Create read-only accessor
     {
+        std::cout << "Read-only accessor\n";
+
         AccessorGetSet<const int> accessor(&get);
-        std::cout << "value = " << accessor.get() << "\n";
+        std::cout << "value = " << accessor.get() << " (10)\n";
         accessor.set(20);
-        std::cout << "value = " << accessor.get() << "\n";
+        std::cout << "value = " << accessor.get() << " (10)\n";
+
+        std::cout << "\n";
     }
 
-    // Create simple type instance
+    // Create read/write typed value
     {
+        std::cout << "Read/write typed value\n";
+
         AccessorGetSet<int> accessor(&get, &set);
-        Typed< int, AccessorGetSet<int> > typeInt (accessor);
+        Typed< int, AccessorGetSet<int> > typeInt1(accessor);
         Typed< int, AccessorGetSet<int> > typeInt2(AccessorGetSet<int>(&get, &set));
+        Typed< int, AccessorGetSet<int> > typeInt3(&get, &set);
+
+        std::cout << "value = " << typeInt1.get() << " (10)\n";
+        typeInt2.set(20);
+        std::cout << "value = " << typeInt3.get() << " (20)\n";
+
+        std::cout << "\n";
+    }
+
+    // Create read-only typed value
+    {
+        std::cout << "Read-only typed value\n";
+
+        Typed< int, AccessorGetSet<const int> > typeInt(&get);
+
+        std::cout << "value = " << typeInt.get() << " (20)\n";
+        typeInt.set(30);
+        std::cout << "value = " << typeInt.get() << " (20)\n";
+
+        std::cout << "\n";
     }
 }

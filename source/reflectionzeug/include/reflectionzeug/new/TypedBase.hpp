@@ -20,5 +20,17 @@ TypedBase<Type, Accessor>::~TypedBase()
 {
 }
 
+template <typename Type, typename Accessor>
+Type TypedBase<Type, Accessor>::get() const
+{
+    return m_accessor.get();
+}
+
+template <typename Type, typename Accessor>
+void TypedBase<Type, Accessor>::set(const Type & value)
+{
+    m_accessor.set(value);
+}
+
 
 } // namespace reflectionzeug
