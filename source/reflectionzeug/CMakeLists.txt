@@ -132,10 +132,12 @@ set(headers
 
     ${header_path}/new/TypedBase.h
     ${header_path}/new/TypedBase.hpp
+    ${header_path}/new/TypedImpl.h
+    ${header_path}/new/TypedImpl.hpp
+    ${header_path}/new/TypedImplInt.h
+    ${header_path}/new/TypedImplInt.hpp
     ${header_path}/new/Typed.h
     ${header_path}/new/Typed.hpp
-    ${header_path}/new/TypedInt.h
-    ${header_path}/new/TypedInt.hpp
     ${header_path}/new/Accessor.h
     ${header_path}/new/Accessor.hpp
     ${header_path}/new/AccessorGetSet.h

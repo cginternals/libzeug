@@ -1,7 +1,6 @@
 #include <iostream>
 
 #include <reflectionzeug/new/Typed.h>
-#include <reflectionzeug/new/TypedInt.h>
 #include <reflectionzeug/new/AccessorGetSet.h>
 
 
@@ -66,7 +65,7 @@ int main(int argc, char *argv[])
     {
         std::cout << "Read-only typed value\n";
 
-        Typed< int, AccessorGetSet<const int> > typeInt(&get);
+        Typed< const int, AccessorGetSet<const int> > typeInt(&get);
 
         std::cout << "value = " << typeInt.get() << " (20)\n";
         typeInt.set(30);

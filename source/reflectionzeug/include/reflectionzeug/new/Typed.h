@@ -2,7 +2,7 @@
 #pragma once
 
 
-#include <reflectionzeug/new/TypedBase.h>
+#include <reflectionzeug/new/TypedImpl.h>
 
 
 namespace reflectionzeug
@@ -11,19 +11,45 @@ namespace reflectionzeug
 
 /**
 *  @brief
-*    Class template for defining typed values in the reflection system
+*    Typed value (read/write)
 */
 template <typename Type, typename Accessor>
-class Typed : public TypedBase<Type, Accessor>
+class Typed : public TypedImpl<Type, Accessor>
 {
 public:
     Typed(const Accessor & accessor);
 
-    template<class P1, class P2>
-    Typed(P1 && arg1, P2 && arg2);
+    template<class Arg1, class Arg2, class Arg3>
+    Typed(Arg1 && arg1, Arg2 && arg2, Arg3 && arg3);
 
-    template<class P1>
-    Typed(P1 && arg1);
+    template<class Arg1, class Arg2>
+    Typed(Arg1 && arg1, Arg2 && arg2);
+
+    template<class Arg1>
+    Typed(Arg1 && arg1);
+
+    virtual ~Typed();
+};
+
+
+/**
+*  @brief
+*    Typed value (read-only)
+*/
+template <typename Type, typename Accessor>
+class Typed<const Type, Accessor> : public TypedImpl<Type, Accessor>
+{
+public:
+    Typed(const Accessor & accessor);
+
+    template<class Arg1, class Arg2, class Arg3>
+    Typed(Arg1 && arg1, Arg2 && arg2, Arg3 && arg3);
+
+    template<class Arg1, class Arg2>
+    Typed(Arg1 && arg1, Arg2 && arg2);
+
+    template<class Arg1>
+    Typed(Arg1 && arg1);
 
     virtual ~Typed();
 };
