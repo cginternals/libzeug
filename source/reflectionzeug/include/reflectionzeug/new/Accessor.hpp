@@ -20,6 +20,12 @@ Accessor<Type>::~Accessor()
 {
 }
 
+template <typename Type>
+bool Accessor<Type>::isReadOnly() const
+{
+    return false;
+}
+
 
 // Read-only accessor
 template <typename Type>
@@ -30,6 +36,18 @@ Accessor<const Type>::Accessor()
 template <typename Type>
 Accessor<const Type>::~Accessor()
 {
+}
+
+template <typename Type>
+void Accessor<const Type>::set(const Type & value)
+{
+    // Read-only value!
+}
+
+template <typename Type>
+bool Accessor<const Type>::isReadOnly() const
+{
+    return true;
 }
 
 

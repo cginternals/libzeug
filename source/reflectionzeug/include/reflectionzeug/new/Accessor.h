@@ -23,7 +23,7 @@ public:
     virtual Type get() const = 0;
     virtual void set(const Type & value) = 0;
 
-    virtual bool isReadOnly() const = 0;
+    bool isReadOnly() const;
 };
 
 
@@ -39,9 +39,9 @@ public:
     virtual ~Accessor();
 
     virtual Type get() const = 0;
-    virtual void set(const Type & value) = 0;
+    void set(const Type & value);
 
-    virtual bool isReadOnly() const = 0;
+    bool isReadOnly() const;
 };
 
 
