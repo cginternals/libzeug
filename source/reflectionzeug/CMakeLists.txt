@@ -142,6 +142,8 @@ set(headers
     ${header_path}/new/Accessor.hpp
     ${header_path}/new/AccessorGetSet.h
     ${header_path}/new/AccessorGetSet.hpp
+    ${header_path}/new/AccessorValue.h
+    ${header_path}/new/AccessorValue.hpp
     ${header_path}/new/Convertible.h
     ${header_path}/new/Convertible.hpp
 )

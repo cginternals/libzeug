@@ -2,6 +2,7 @@
 
 #include <reflectionzeug/new/Typed.h>
 #include <reflectionzeug/new/AccessorGetSet.h>
+#include <reflectionzeug/new/AccessorValue.h>
 
 
 using namespace reflectionzeug;
@@ -30,6 +31,11 @@ int main(int argc, char *argv[])
         accessor.set(10);
         std::cout << "value = " << accessor.get() << " (10)\n";
 
+        AccessorValue<int> accessor2(0);
+        std::cout << "value = " << accessor2.get() << " (0)\n";
+        accessor2.set(10);
+        std::cout << "value = " << accessor2.get() << " (10)\n";
+
         std::cout << "\n";
     }
 
@@ -41,6 +47,11 @@ int main(int argc, char *argv[])
         std::cout << "value = " << accessor.get() << " (10)\n";
         accessor.set(20);
         std::cout << "value = " << accessor.get() << " (10)\n";
+
+        AccessorValue<const int> accessor2(0);
+        std::cout << "value = " << accessor2.get() << " (0)\n";
+        accessor2.set(20);
+        std::cout << "value = " << accessor2.get() << " (0)\n";
 
         std::cout << "\n";
     }
