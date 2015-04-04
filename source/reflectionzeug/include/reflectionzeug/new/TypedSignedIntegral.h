@@ -20,7 +20,8 @@ public:
     TypedSignedIntegral(const Accessor & accessor);
     virtual ~TypedSignedIntegral();
 
-    void isInteger();
+    virtual long long toLongLong() const;
+    virtual bool fromLongLong(long long value);
 };
 
 

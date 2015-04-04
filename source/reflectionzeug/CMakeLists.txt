@@ -136,6 +136,20 @@ set(headers
     ${header_path}/new/TypedImpl.hpp
     ${header_path}/new/TypedSignedIntegral.h
     ${header_path}/new/TypedSignedIntegral.hpp
+    ${header_path}/new/TypedUnsignedIntegral.h
+    ${header_path}/new/TypedUnsignedIntegral.hpp
+    ${header_path}/new/TypedFloatingPoint.h
+    ${header_path}/new/TypedFloatingPoint.hpp
+    ${header_path}/new/TypedColor.h
+    ${header_path}/new/TypedColor.hpp
+    ${header_path}/new/TypedFilePath.h
+    ${header_path}/new/TypedFilePath.hpp
+    ${header_path}/new/TypedBool.h
+    ${header_path}/new/TypedBool.hpp
+    ${header_path}/new/TypedString.h
+    ${header_path}/new/TypedString.hpp
+    ${header_path}/new/TypedClass.h
+    ${header_path}/new/TypedClass.hpp
     ${header_path}/new/Typed.h
     ${header_path}/new/Typed.hpp
     ${header_path}/new/Accessor.h

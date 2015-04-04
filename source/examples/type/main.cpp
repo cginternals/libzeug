@@ -20,6 +20,24 @@ void set(int value)
     globalInt = value;
 }
 
+class TestClass {
+public:
+    static TestClass fromString(const std::string &str, bool * ok) {
+        *ok = true;
+        return TestClass();
+    }
+
+public:
+    TestClass() {}
+    ~TestClass() {}
+
+    std::string toString() const
+    {
+        return "";
+    }
+};
+
+
 int main(int argc, char *argv[])
 {
     // Create read/write accessor
@@ -61,11 +79,11 @@ int main(int argc, char *argv[])
         std::cout << "Read/write typed value\n";
 
         AccessorGetSet<int> accessor(&get, &set);
-        Typed< int, AccessorGetSet<int> > typeInt1(accessor);
-        Typed< int, AccessorGetSet<int> > typeInt2(AccessorGetSet<int>(&get, &set));
-        Typed< int, AccessorGetSet<int> > typeInt3(&get, &set);
+        Typed<int, AccessorGetSet<int>> typeInt1(accessor);
+        Typed<int, AccessorGetSet<int>> typeInt2(AccessorGetSet<int>(&get, &set));
+        Typed<int, AccessorGetSet<int>> typeInt3(&get, &set);
 
-typeInt1.isInteger();
+        long long l = typeInt1.toLongLong();
 
         std::cout << "value = " << typeInt1.get() << " (10)\n";
         typeInt2.set(20);
@@ -78,12 +96,25 @@ typeInt1.isInteger();
     {
         std::cout << "Read-only typed value\n";
 
-        Typed< const int, AccessorGetSet<const int> > typeInt(&get);
+        Typed<const int, AccessorGetSet<const int>> typeInt(&get);
 
         std::cout << "value = " << typeInt.get() << " (20)\n";
         typeInt.set(30);
         std::cout << "value = " << typeInt.get() << " (20)\n";
 
         std::cout << "\n";
+    }
+
+    // Check other data types
+    {
+        Typed<int,          AccessorValue<int>>          typeInt;
+        Typed<unsigned int, AccessorValue<unsigned int>> typeUInt;
+        Typed<float,        AccessorValue<float>>        typeFloat;
+        Typed<double,       AccessorValue<double>>       typeDouble;
+        Typed<bool,         AccessorValue<bool>>         typeBool;
+        Typed<std::string,  AccessorValue<std::string>>  typeString;
+        Typed<Color,        AccessorValue<Color>>        typeColor;
+        Typed<FilePath,     AccessorValue<FilePath>>     typeFilePath;
+        Typed<TestClass,    AccessorValue<TestClass>>    typeTestClass;
     }
 }
