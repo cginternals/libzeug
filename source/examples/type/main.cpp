@@ -65,6 +65,8 @@ int main(int argc, char *argv[])
         Typed< int, AccessorGetSet<int> > typeInt2(AccessorGetSet<int>(&get, &set));
         Typed< int, AccessorGetSet<int> > typeInt3(&get, &set);
 
+typeInt1.isInteger();
+
         std::cout << "value = " << typeInt1.get() << " (10)\n";
         typeInt2.set(20);
         std::cout << "value = " << typeInt3.get() << " (20)\n";

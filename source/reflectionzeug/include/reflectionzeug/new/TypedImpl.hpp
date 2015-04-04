@@ -9,14 +9,14 @@ namespace reflectionzeug
 {
 
 
-template <typename Type, typename Accessor>
-TypedImpl<Type, Accessor>::TypedImpl(const Accessor & accessor)
-: TypedBase<Type, Accessor>(accessor)
+template <typename T, typename Accessor>
+TypedImpl<T, Accessor>::TypedImpl(const Accessor & accessor)
+: TypeSelector<T, Accessor>::Type(accessor)
 {
 }
 
-template <typename Type, typename Accessor>
-TypedImpl<Type, Accessor>::~TypedImpl()
+template <typename T, typename Accessor>
+TypedImpl<T, Accessor>::~TypedImpl()
 {
 }
 
