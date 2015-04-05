@@ -13,11 +13,11 @@ namespace reflectionzeug
 *  @brief
 *    Implementation for floating point types
 */
-template <typename T, typename Accessor>
-class TypedFloatingPoint : public TypedBase<T, Accessor>
+template <typename T>
+class TypedFloatingPoint : public TypedBase<T>
 {
 public:
-    TypedFloatingPoint(const Accessor & accessor);
+    TypedFloatingPoint(Accessor<T> * accessor);
     virtual ~TypedFloatingPoint();
 
     virtual double toDouble() const;

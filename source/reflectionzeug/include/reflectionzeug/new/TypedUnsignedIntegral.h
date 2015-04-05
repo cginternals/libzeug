@@ -13,11 +13,11 @@ namespace reflectionzeug
 *  @brief
 *    Implementation for unsigned integral types
 */
-template <typename T, typename Accessor>
-class TypedUnsignedIntegral : public TypedBase<T, Accessor>
+template <typename T>
+class TypedUnsignedIntegral : public TypedBase<T>
 {
 public:
-    TypedUnsignedIntegral(const Accessor & accessor);
+    TypedUnsignedIntegral(Accessor<T> * accessor);
     virtual ~TypedUnsignedIntegral();
 
     virtual unsigned long long toULongLong() const;

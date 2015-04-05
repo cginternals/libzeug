@@ -23,7 +23,7 @@ public:
     virtual Type get() const = 0;
     virtual void set(const Type & value) = 0;
 
-    bool isReadOnly() const;
+    virtual bool isReadOnly() const;
 };
 
 
@@ -32,16 +32,15 @@ public:
 *    Accessor (read-only) to a typed value
 */
 template <typename Type>
-class Accessor<const Type>
+class Accessor<const Type> : public Accessor<Type>
 {
 public:
     Accessor();
     virtual ~Accessor();
 
-    virtual Type get() const = 0;
-    void set(const Type & value);
+    virtual void set(const Type & value) override;
 
-    bool isReadOnly() const;
+    virtual bool isReadOnly() const override;
 };
 
 

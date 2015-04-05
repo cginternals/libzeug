@@ -14,11 +14,10 @@ namespace reflectionzeug
 *  @brief
 *    Implementation for type FilePath
 */
-template <typename Accessor>
-class TypedFilePath : public TypedBase<FilePath, Accessor>
+class TypedFilePath : public TypedBase<FilePath>
 {
 public:
-    TypedFilePath(const Accessor & accessor);
+    TypedFilePath(Accessor<FilePath> * accessor);
     virtual ~TypedFilePath();
 };
 

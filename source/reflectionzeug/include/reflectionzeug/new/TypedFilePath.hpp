@@ -9,14 +9,12 @@ namespace reflectionzeug
 {
 
 
-template <typename Accessor>
-TypedFilePath<Accessor>::TypedFilePath(const Accessor & accessor)
-: TypedBase<FilePath, Accessor>(accessor)
+TypedFilePath::TypedFilePath(Accessor<FilePath> * accessor)
+: TypedBase<FilePath>(accessor)
 {
 }
 
-template <typename Accessor>
-TypedFilePath<Accessor>::~TypedFilePath()
+TypedFilePath::~TypedFilePath()
 {
 }
 

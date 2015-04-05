@@ -9,25 +9,25 @@ namespace reflectionzeug
 {
 
 
-template <typename T, typename Accessor>
-TypedUnsignedIntegral<T, Accessor>::TypedUnsignedIntegral(const Accessor & accessor)
-: TypedBase<T, Accessor>(accessor)
+template <typename T>
+TypedUnsignedIntegral<T>::TypedUnsignedIntegral(Accessor<T> * accessor)
+: TypedBase<T>(accessor)
 {
 }
 
-template <typename T, typename Accessor>
-TypedUnsignedIntegral<T, Accessor>::~TypedUnsignedIntegral()
+template <typename T>
+TypedUnsignedIntegral<T>::~TypedUnsignedIntegral()
 {
 }
 
-template <typename T, typename Accessor>
-unsigned long long TypedUnsignedIntegral<T, Accessor>::toULongLong() const
+template <typename T>
+unsigned long long TypedUnsignedIntegral<T>::toULongLong() const
 {
     return static_cast<unsigned long long>(this->get());
 }
 
-template <typename T, typename Accessor>
-bool TypedUnsignedIntegral<T, Accessor>::fromULongLong(unsigned long long value)
+template <typename T>
+bool TypedUnsignedIntegral<T>::fromULongLong(unsigned long long value)
 {
     this->set(static_cast<T>(value));
     return true;

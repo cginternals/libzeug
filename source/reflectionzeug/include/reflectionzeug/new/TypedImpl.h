@@ -21,52 +21,52 @@ namespace reflectionzeug
 *  @brief
 *    Helper selecting the used base class based on the specific type
 */
-template <typename T, typename Accessor, typename = void>
+template <typename T, typename = void>
 struct TypeSelector
 {
-    using Type = TypedClass<T, Accessor>;
+    using Type = TypedClass<T>;
 };
 
-template <typename Accessor>
-struct TypeSelector<bool, Accessor>
+template <>
+struct TypeSelector<bool>
 {
-    using Type = TypedBool<Accessor>;
+    using Type = TypedBool;
 };
 
-template <typename Accessor>
-struct TypeSelector<Color, Accessor>
+template <>
+struct TypeSelector<Color>
 {
-    using Type = TypedColor<Accessor>;
+    using Type = TypedColor;
 };
 
-template <typename Accessor>
-struct TypeSelector<std::string, Accessor>
+template <>
+struct TypeSelector<std::string>
 {
-    using Type = TypedString<Accessor>;
+    using Type = TypedString;
 };
 
-template <typename Accessor>
-struct TypeSelector<FilePath, Accessor>
+template <>
+struct TypeSelector<FilePath>
 {
-    using Type = TypedFilePath<Accessor>;
+    using Type = TypedFilePath;
 };
 
-template <typename T, typename Accessor>
-struct TypeSelector<T, Accessor, EnableIf<isSignedIntegral<T>>>
+template <typename T>
+struct TypeSelector<T, EnableIf<isSignedIntegral<T>>>
 {
-    using Type = TypedSignedIntegral<T, Accessor>;
+    using Type = TypedSignedIntegral<T>;
 };
 
-template <typename T, typename Accessor>
-struct TypeSelector<T, Accessor, EnableIf<isUnsignedIntegral<T>>>
+template <typename T>
+struct TypeSelector<T, EnableIf<isUnsignedIntegral<T>>>
 {
-    using Type = TypedUnsignedIntegral<T, Accessor>;
+    using Type = TypedUnsignedIntegral<T>;
 };
 
-template <typename T, typename Accessor>
-struct TypeSelector<T, Accessor, EnableIf<isFloatingPoint<T>>>
+template <typename T>
+struct TypeSelector<T, EnableIf<isFloatingPoint<T>>>
 {
-    using Type = TypedFloatingPoint<T, Accessor>;
+    using Type = TypedFloatingPoint<T>;
 };
 
 /*
@@ -88,11 +88,11 @@ struct PropertyClass<T, EnableIf<std::is_enum<T>>>
 *  @brief
 *    Implementation of a typed value for a specific type
 */
-template <typename T, typename Accessor>
-class TypedImpl : public TypeSelector<T, Accessor>::Type
+template <typename T>
+class TypedImpl : public TypeSelector<T>::Type
 {
 public:
-    TypedImpl(const Accessor & accessor);
+    TypedImpl(Accessor<T> * accessor);
     virtual ~TypedImpl();
 };
 

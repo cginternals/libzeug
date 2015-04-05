@@ -13,11 +13,10 @@ namespace reflectionzeug
 *  @brief
 *    Implementation for type bool
 */
-template <typename Accessor>
-class TypedBool : public TypedBase<bool, Accessor>
+class TypedBool : public TypedBase<bool>
 {
 public:
-    TypedBool(const Accessor & accessor);
+    TypedBool(Accessor<bool> * accessor);
     virtual ~TypedBool();
 
     void toggleValue();

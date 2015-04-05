@@ -9,27 +9,27 @@ namespace reflectionzeug
 {
 
 
-template <typename Type, typename Accessor>
-TypedBase<Type, Accessor>::TypedBase(const Accessor & accessor)
+template <typename Type>
+TypedBase<Type>::TypedBase(Accessor<Type> * accessor)
 : m_accessor(accessor)
 {
 }
 
-template <typename Type, typename Accessor>
-TypedBase<Type, Accessor>::~TypedBase()
+template <typename Type>
+TypedBase<Type>::~TypedBase()
 {
 }
 
-template <typename Type, typename Accessor>
-Type TypedBase<Type, Accessor>::get() const
+template <typename Type>
+Type TypedBase<Type>::get() const
 {
-    return m_accessor.get();
+    return m_accessor->get();
 }
 
-template <typename Type, typename Accessor>
-void TypedBase<Type, Accessor>::set(const Type & value)
+template <typename Type>
+void TypedBase<Type>::set(const Type & value)
 {
-    m_accessor.set(value);
+    m_accessor->set(value);
 }
 
 

@@ -10,25 +10,25 @@ namespace reflectionzeug
 {
 
 
-template <typename T, typename Accessor>
-TypedClass<T, Accessor>::TypedClass(const Accessor & accessor)
-: TypedBase<T, Accessor>(accessor)
+template <typename T>
+TypedClass<T>::TypedClass(Accessor<T> * accessor)
+: TypedBase<T>(accessor)
 {
 }
 
-template <typename T, typename Accessor>
-TypedClass<T, Accessor>::~TypedClass()
+template <typename T>
+TypedClass<T>::~TypedClass()
 {
 }
 
-template <typename T, typename Accessor>
-std::string TypedClass<T, Accessor>::toString() const
+template <typename T>
+std::string TypedClass<T>::toString() const
 {
     return this->get().toString();
 }
 
-template <typename T, typename Accessor>
-bool TypedClass<T, Accessor>::fromString(const std::string & string)
+template <typename T>
+bool TypedClass<T>::fromString(const std::string & string)
 {
     bool ok;
     T value = T::fromString(string, &ok);

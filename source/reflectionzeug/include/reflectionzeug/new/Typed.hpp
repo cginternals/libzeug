@@ -3,6 +3,8 @@
 
 
 #include <reflectionzeug/new/Typed.h>
+#include <reflectionzeug/new/AccessorValue.h>
+#include <reflectionzeug/new/AccessorGetSet.h>
 
 
 namespace reflectionzeug
@@ -10,41 +12,93 @@ namespace reflectionzeug
 
 
 // Read/write value
-template <typename Type, typename Accessor>
-Typed<Type, Accessor>::Typed(const Accessor & accessor)
-: TypedImpl<Type, Accessor>(accessor)
+template <typename Type>
+Typed<Type>::Typed()
+: TypedImpl<Type>(new AccessorValue<Type>())
 {
 }
 
-template <typename Type, typename Accessor>
-template <typename... Args>
-Typed<Type, Accessor>::Typed(Args&&... args)
-: TypedImpl<Type, Accessor>(Accessor(std::forward<Args>(args)...))
+template <typename Type>
+Typed<Type>::Typed(std::function<Type ()> getter,
+	std::function<void(const Type &)> setter)
+: TypedImpl<Type>(new AccessorGetSet<Type>(getter, setter))
 {
 }
 
-template <typename Type, typename Accessor>
-Typed<Type, Accessor>::~Typed()
+template <typename Type>
+template <class Object>
+Typed<Type>::Typed(Object * object,
+	const Type & (Object::*getter_pointer)() const,
+    void (Object::*setter_pointer)(const Type &))
+: TypedImpl<Type>(new AccessorGetSet<Type>(getter_pointer, setter_pointer))
+{
+}
+
+template <typename Type>
+template <class Object>
+Typed<Type>::Typed(Object * object,
+    Type (Object::*getter_pointer)() const,
+    void (Object::*setter_pointer)(const Type &))
+: TypedImpl<Type>(new AccessorGetSet<Type>(getter_pointer, setter_pointer))
+{
+}
+
+template <typename Type>
+template <class Object>
+Typed<Type>::Typed(Object * object,
+    Type (Object::*getter_pointer)() const,
+    void (Object::*setter_pointer)(Type))
+: TypedImpl<Type>(new AccessorGetSet<Type>(getter_pointer, setter_pointer))
+{
+}
+
+template <typename Type>
+Typed<Type>::Typed(Accessor<Type> * accessor)
+: TypedImpl<Type>(accessor)
+{
+}
+
+template <typename Type>
+Typed<Type>::~Typed()
 {
 }
 
 
 // Read-only value
-template <typename Type, typename Accessor>
-Typed<const Type, Accessor>::Typed(const Accessor & accessor)
-: TypedImpl<Type, Accessor>(accessor)
+template <typename Type>
+Typed<const Type>::Typed()
+: TypedImpl<Type>(new AccessorValue<const Type>())
 {
 }
 
-template <typename Type, typename Accessor>
-template <typename... Args>
-Typed<const Type, Accessor>::Typed(Args&&... args)
-: TypedImpl<Type, Accessor>(Accessor(std::forward<Args>(args)...))
+template <typename Type>
+Typed<const Type>::Typed(std::function<Type ()> getter)
+: TypedImpl<Type>(new AccessorGetSet<const Type>(getter))
 {
 }
 
-template <typename Type, typename Accessor>
-Typed<const Type, Accessor>::~Typed()
+template <typename Type>
+template <class Object>
+Typed<const Type>::Typed(Object * object, const Type & (Object::*getter_pointer)() const)
+: TypedImpl<Type>(new AccessorGetSet<const Type>(getter_pointer))
+{
+}
+
+template <typename Type>
+template <class Object>
+Typed<const Type>::Typed(Object * object, Type (Object::*getter_pointer)() const)
+: TypedImpl<Type>(new AccessorGetSet<const Type>(getter_pointer))
+{
+}
+
+template <typename Type>
+Typed<const Type>::Typed(Accessor<const Type> * accessor)
+: TypedImpl<Type>(accessor)
+{
+}
+
+template <typename Type>
+Typed<const Type>::~Typed()
 {
 }
 

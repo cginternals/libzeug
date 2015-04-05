@@ -14,11 +14,10 @@ namespace reflectionzeug
 *  @brief
 *    Implementation for type Color
 */
-template <typename Accessor>
-class TypedColor : public TypedBase<Color, Accessor>
+class TypedColor : public TypedBase<Color>
 {
 public:
-    TypedColor(const Accessor & accessor);
+    TypedColor(Accessor<Color> * accessor);
     virtual ~TypedColor();
 
     virtual Color toColor() const;

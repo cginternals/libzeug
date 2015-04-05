@@ -13,11 +13,11 @@ namespace reflectionzeug
 *  @brief
 *    Implementation for signed integral types
 */
-template <typename T, typename Accessor>
-class TypedSignedIntegral : public TypedBase<T, Accessor>
+template <typename T>
+class TypedSignedIntegral : public TypedBase<T>
 {
 public:
-    TypedSignedIntegral(const Accessor & accessor);
+    TypedSignedIntegral(Accessor<T> * accessor);
     virtual ~TypedSignedIntegral();
 
     virtual long long toLongLong() const;

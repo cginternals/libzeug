@@ -9,25 +9,21 @@ namespace reflectionzeug
 {
 
 
-template <typename Accessor>
-TypedColor<Accessor>::TypedColor(const Accessor & accessor)
-: TypedBase<Color, Accessor>(accessor)
+TypedColor::TypedColor(Accessor<Color> * accessor)
+: TypedBase<Color>(accessor)
 {
 }
 
-template <typename Accessor>
-TypedColor<Accessor>::~TypedColor()
+TypedColor::~TypedColor()
 {
 }
 
-template <typename Accessor>
-Color TypedColor<Accessor>::toColor() const
+Color TypedColor::toColor() const
 {
 	return this->get();
 }
 
-template <typename Accessor>
-bool TypedColor<Accessor>::fromColor(const Color & color)
+bool TypedColor::fromColor(const Color & color)
 {
     this->set(color);
     return true;

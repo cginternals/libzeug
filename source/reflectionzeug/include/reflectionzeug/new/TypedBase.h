@@ -2,7 +2,9 @@
 #pragma once
 
 
-#include <reflectionzeug/reflectionzeug_api.h>
+#include <memory>
+
+#include <reflectionzeug/new/Accessor.h>
 
 
 namespace reflectionzeug
@@ -13,11 +15,11 @@ namespace reflectionzeug
 *  @brief
 *    Base class for typed values, defining data type and accessor to value
 */
-template <typename Type, typename Accessor>
+template <typename Type>
 class TypedBase
 {
 public:
-    TypedBase(const Accessor & accessor);
+    TypedBase(Accessor<Type> * accessor);
     virtual ~TypedBase();
 
     Type get() const;
@@ -25,7 +27,7 @@ public:
 
 
 protected:
-    Accessor m_accessor;
+    std::unique_ptr<Accessor<Type>> m_accessor;
 };
 
 

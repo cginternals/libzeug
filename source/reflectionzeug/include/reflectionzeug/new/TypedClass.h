@@ -13,11 +13,11 @@ namespace reflectionzeug
 *  @brief
 *    Implementation for class types
 */
-template <typename T, typename Accessor>
-class TypedClass : public TypedBase<T, Accessor>
+template <typename T>
+class TypedClass : public TypedBase<T>
 {
 public:
-    TypedClass(const Accessor & accessor);
+    TypedClass(Accessor<T> * accessor);
     virtual ~TypedClass();
 
     virtual std::string toString() const;

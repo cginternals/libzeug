@@ -9,19 +9,16 @@ namespace reflectionzeug
 {
 
 
-template <typename Accessor>
-TypedBool<Accessor>::TypedBool(const Accessor & accessor)
-: TypedBase<bool, Accessor>(accessor)
+TypedBool::TypedBool(Accessor<bool> * accessor)
+: TypedBase<bool>(accessor)
 {
 }
 
-template <typename Accessor>
-TypedBool<Accessor>::~TypedBool()
+TypedBool::~TypedBool()
 {
 }
 
-template <typename Accessor>
-void TypedBool<Accessor>::toggleValue()
+void TypedBool::toggleValue()
 {
 	this->set(!this->get());
 }

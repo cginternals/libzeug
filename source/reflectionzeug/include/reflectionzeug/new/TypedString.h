@@ -13,11 +13,10 @@ namespace reflectionzeug
 *  @brief
 *    Implementation for type std::string
 */
-template <typename Accessor>
-class TypedString : public TypedBase<std::string, Accessor>
+class TypedString : public TypedBase<std::string>
 {
 public:
-    TypedString(const Accessor & accessor);
+    TypedString(Accessor<std::string> * accessor);
     virtual ~TypedString();
 
     virtual std::string toString() const;
