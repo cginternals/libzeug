@@ -23,13 +23,13 @@ TypedSignedIntegral<T>::~TypedSignedIntegral()
 template <typename T>
 long long TypedSignedIntegral<T>::toLongLong() const
 {
-    return static_cast<long long>(this->get());
+    return static_cast<long long>(this->getValue());
 }
 
 template <typename T>
 bool TypedSignedIntegral<T>::fromLongLong(long long value)
 {
-    this->set(static_cast<T>(value));
+    this->setValue(static_cast<T>(value));
     return true;
 }
 

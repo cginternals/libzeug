@@ -20,8 +20,8 @@ public:
     Accessor();
     virtual ~Accessor();
 
-    virtual Type get() const = 0;
-    virtual void set(const Type & value) = 0;
+    virtual Type getValue() const = 0;
+    virtual void setValue(const Type & value) = 0;
 
     virtual bool isReadOnly() const;
 };
@@ -38,7 +38,7 @@ public:
     Accessor();
     virtual ~Accessor();
 
-    virtual void set(const Type & value) override;
+    virtual void setValue(const Type & value) override;
 
     virtual bool isReadOnly() const override;
 };

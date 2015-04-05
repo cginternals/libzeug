@@ -20,7 +20,7 @@ TypedBool::~TypedBool()
 
 void TypedBool::toggleValue()
 {
-	this->set(!this->get());
+	this->setValue(!this->getValue());
 }
 
 

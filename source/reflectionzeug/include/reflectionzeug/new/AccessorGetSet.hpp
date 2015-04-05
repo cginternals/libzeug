@@ -54,13 +54,13 @@ AccessorGetSet<Type>::~AccessorGetSet()
 }
 
 template <typename Type>
-Type AccessorGetSet<Type>::get() const
+Type AccessorGetSet<Type>::getValue() const
 {
     return m_getter();
 }
 
 template <typename Type>
-void AccessorGetSet<Type>::set(const Type & value)
+void AccessorGetSet<Type>::setValue(const Type & value)
 {
     m_setter(value);
 }
@@ -95,7 +95,7 @@ AccessorGetSet<const Type>::~AccessorGetSet()
 }
 
 template <typename Type>
-Type AccessorGetSet<const Type>::get() const
+Type AccessorGetSet<const Type>::getValue() const
 {
     return m_getter();
 }

@@ -24,7 +24,7 @@ TypedClass<T>::~TypedClass()
 template <typename T>
 std::string TypedClass<T>::toString() const
 {
-    return this->get().toString();
+    return this->getValue().toString();
 }
 
 template <typename T>
@@ -38,7 +38,7 @@ bool TypedClass<T>::fromString(const std::string & string)
         return false;
     }
 
-    this->set(value);
+    this->setValue(value);
     return true;
 }
 

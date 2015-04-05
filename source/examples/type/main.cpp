@@ -45,14 +45,14 @@ int main(int argc, char *argv[])
         std::cout << "Read/write accessor\n";
 
         AccessorGetSet<int> accessor(&get, &set);
-        std::cout << "value = " << accessor.get() << " (1)\n";
-        accessor.set(10);
-        std::cout << "value = " << accessor.get() << " (10)\n";
+        std::cout << "value = " << accessor.getValue() << " (1)\n";
+        accessor.setValue(10);
+        std::cout << "value = " << accessor.getValue() << " (10)\n";
 
         AccessorValue<int> accessor2(0);
-        std::cout << "value = " << accessor2.get() << " (0)\n";
-        accessor2.set(10);
-        std::cout << "value = " << accessor2.get() << " (10)\n";
+        std::cout << "value = " << accessor2.getValue() << " (0)\n";
+        accessor2.setValue(10);
+        std::cout << "value = " << accessor2.getValue() << " (10)\n";
 
         std::cout << "\n";
     }
@@ -62,14 +62,14 @@ int main(int argc, char *argv[])
         std::cout << "Read-only accessor\n";
 
         AccessorGetSet<const int> accessor(&get);
-        std::cout << "value = " << accessor.get() << " (10)\n";
-        accessor.set(20);
-        std::cout << "value = " << accessor.get() << " (10)\n";
+        std::cout << "value = " << accessor.getValue() << " (10)\n";
+        accessor.setValue(20);
+        std::cout << "value = " << accessor.getValue() << " (10)\n";
 
         AccessorValue<const int> accessor2(0);
-        std::cout << "value = " << accessor2.get() << " (0)\n";
-        accessor2.set(20);
-        std::cout << "value = " << accessor2.get() << " (0)\n";
+        std::cout << "value = " << accessor2.getValue() << " (0)\n";
+        accessor2.setValue(20);
+        std::cout << "value = " << accessor2.getValue() << " (0)\n";
 
         std::cout << "\n";
     }
@@ -83,9 +83,9 @@ int main(int argc, char *argv[])
 
         long long l = typeInt1.toLongLong();
 
-        std::cout << "value = " << typeInt1.get() << " (10)\n";
-        typeInt1.set(20);
-        std::cout << "value = " << typeInt2.get() << " (20)\n";
+        std::cout << "value = " << typeInt1.getValue() << " (10)\n";
+        typeInt1.setValue(20);
+        std::cout << "value = " << typeInt2.getValue() << " (20)\n";
 
         std::cout << "\n";
     }
@@ -96,9 +96,9 @@ int main(int argc, char *argv[])
 
         Typed<const int> typeInt(&get);
 
-        std::cout << "value = " << typeInt.get() << " (20)\n";
-        typeInt.set(30);
-        std::cout << "value = " << typeInt.get() << " (20)\n";
+        std::cout << "value = " << typeInt.getValue() << " (20)\n";
+        typeInt.setValue(30);
+        std::cout << "value = " << typeInt.getValue() << " (20)\n";
 
         std::cout << "\n";
     }

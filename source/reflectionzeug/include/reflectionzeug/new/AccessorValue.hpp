@@ -27,13 +27,13 @@ AccessorValue<Type>::~AccessorValue()
 }
 
 template <typename Type>
-Type AccessorValue<Type>::get() const
+Type AccessorValue<Type>::getValue() const
 {
     return m_value;
 }
 
 template <typename Type>
-void AccessorValue<Type>::set(const Type & value)
+void AccessorValue<Type>::setValue(const Type & value)
 {
     m_value = value;
 }
@@ -57,7 +57,7 @@ AccessorValue<const Type>::~AccessorValue()
 }
 
 template <typename Type>
-Type AccessorValue<const Type>::get() const
+Type AccessorValue<const Type>::getValue() const
 {
     return m_value;
 }

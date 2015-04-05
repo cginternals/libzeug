@@ -39,7 +39,7 @@ Accessor<const Type>::~Accessor()
 }
 
 template <typename Type>
-void Accessor<const Type>::set(const Type & value)
+void Accessor<const Type>::setValue(const Type & value)
 {
     // Read-only value!
 }

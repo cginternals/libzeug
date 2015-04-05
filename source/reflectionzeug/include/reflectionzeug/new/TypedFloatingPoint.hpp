@@ -23,13 +23,13 @@ TypedFloatingPoint<T>::~TypedFloatingPoint()
 template <typename T>
 double TypedFloatingPoint<T>::toDouble() const
 {
-    return static_cast<double>(this->get());
+    return static_cast<double>(this->getValue());
 }
 
 template <typename T>
 bool TypedFloatingPoint<T>::fromDouble(double value)
 {
-    this->set(static_cast<T>(value));
+    this->setValue(static_cast<T>(value));
     return true;
 }
 

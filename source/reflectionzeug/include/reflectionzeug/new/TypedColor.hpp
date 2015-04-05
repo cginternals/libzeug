@@ -20,12 +20,12 @@ TypedColor::~TypedColor()
 
 Color TypedColor::toColor() const
 {
-	return this->get();
+	return this->getValue();
 }
 
 bool TypedColor::fromColor(const Color & color)
 {
-    this->set(color);
+    this->setValue(color);
     return true;
 }
 

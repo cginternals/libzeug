@@ -22,8 +22,8 @@ public:
     TypedBase(Accessor<Type> * accessor);
     virtual ~TypedBase();
 
-    Type get() const;
-    void set(const Type & value);
+    Type getValue() const;
+    void setValue(const Type & value);
 
 
 protected:

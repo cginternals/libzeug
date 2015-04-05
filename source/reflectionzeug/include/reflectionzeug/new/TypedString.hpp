@@ -20,12 +20,12 @@ TypedString::~TypedString()
 
 std::string TypedString::toString() const
 {
-	return this->get();
+	return this->getValue();
 }
 
 bool TypedString::fromString(const std::string & string)
 {
-	this->set(string);
+	this->setValue(string);
 	return true;
 }
 

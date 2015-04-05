@@ -21,15 +21,15 @@ TypedBase<Type>::~TypedBase()
 }
 
 template <typename Type>
-Type TypedBase<Type>::get() const
+Type TypedBase<Type>::getValue() const
 {
-    return m_accessor->get();
+    return m_accessor->getValue();
 }
 
 template <typename Type>
-void TypedBase<Type>::set(const Type & value)
+void TypedBase<Type>::setValue(const Type & value)
 {
-    m_accessor->set(value);
+    m_accessor->setValue(value);
 }
 
 

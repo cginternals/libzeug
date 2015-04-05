@@ -23,13 +23,13 @@ TypedUnsignedIntegral<T>::~TypedUnsignedIntegral()
 template <typename T>
 unsigned long long TypedUnsignedIntegral<T>::toULongLong() const
 {
-    return static_cast<unsigned long long>(this->get());
+    return static_cast<unsigned long long>(this->getValue());
 }
 
 template <typename T>
 bool TypedUnsignedIntegral<T>::fromULongLong(unsigned long long value)
 {
-    this->set(static_cast<T>(value));
+    this->setValue(static_cast<T>(value));
     return true;
 }
 
