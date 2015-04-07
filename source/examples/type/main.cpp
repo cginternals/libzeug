@@ -187,7 +187,6 @@ int main(int argc, char *argv[])
     }
 
     // Create array-value
-    /*
     {
         std::cout << "Array value\n";
 
@@ -195,5 +194,4 @@ int main(int argc, char *argv[])
 
 //        std::cout << "value[0] = " << typeArray.getValue(0) << " (10)\n";
     }
-    */
 }

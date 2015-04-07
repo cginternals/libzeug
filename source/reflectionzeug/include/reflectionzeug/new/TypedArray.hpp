@@ -10,8 +10,9 @@ namespace reflectionzeug
 
 
 template <typename T, size_t Size>
-TypedArray<T, Size>::TypedArray(ArrayAccessor<T, Size> * accessor)
-: AbstractTyped<std::array<T, Size>>(accessor)
+template <typename... Args>
+TypedArray<T, Size>::TypedArray(Args&&... args)
+: AbstractTypedArray<T, Size>(std::forward<Args>(args)...)
 {
 }
 
