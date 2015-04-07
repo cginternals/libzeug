@@ -2,7 +2,7 @@
 #pragma once
 
 
-#include <reflectionzeug/new/TypedBase.h>
+#include <reflectionzeug/new/AbstractTyped.h>
 
 
 namespace reflectionzeug
@@ -14,10 +14,12 @@ namespace reflectionzeug
 *    Implementation for unsigned integral types
 */
 template <typename T>
-class TypedUnsignedIntegral : public TypedBase<T>
+class TypedUnsignedIntegral : public AbstractTyped<T>
 {
 public:
-    TypedUnsignedIntegral(Accessor<T> * accessor);
+    template <typename... Args>
+    TypedUnsignedIntegral(Args&&... args);
+
     virtual ~TypedUnsignedIntegral();
 
     virtual unsigned long long toULongLong() const;

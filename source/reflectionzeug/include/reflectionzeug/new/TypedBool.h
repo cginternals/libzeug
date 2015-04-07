@@ -2,7 +2,7 @@
 #pragma once
 
 
-#include <reflectionzeug/new/TypedBase.h>
+#include <reflectionzeug/new/AbstractTyped.h>
 
 
 namespace reflectionzeug
@@ -13,10 +13,12 @@ namespace reflectionzeug
 *  @brief
 *    Implementation for type bool
 */
-class TypedBool : public TypedBase<bool>
+class TypedBool : public AbstractTyped<bool>
 {
 public:
-    TypedBool(Accessor<bool> * accessor);
+    template <typename... Args>
+    TypedBool(Args&&... args);
+
     virtual ~TypedBool();
 
     void toggleValue();

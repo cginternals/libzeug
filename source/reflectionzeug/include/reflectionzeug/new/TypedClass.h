@@ -2,7 +2,7 @@
 #pragma once
 
 
-#include <reflectionzeug/new/TypedBase.h>
+#include <reflectionzeug/new/AbstractTyped.h>
 
 
 namespace reflectionzeug
@@ -14,10 +14,12 @@ namespace reflectionzeug
 *    Implementation for class types
 */
 template <typename T>
-class TypedClass : public TypedBase<T>
+class TypedClass : public AbstractTyped<T>
 {
 public:
-    TypedClass(Accessor<T> * accessor);
+    template <typename... Args>
+    TypedClass(Args&&... args);
+
     virtual ~TypedClass();
 
     virtual std::string toString() const;

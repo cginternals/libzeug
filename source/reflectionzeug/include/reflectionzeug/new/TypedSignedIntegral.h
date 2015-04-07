@@ -2,7 +2,7 @@
 #pragma once
 
 
-#include <reflectionzeug/new/TypedBase.h>
+#include <reflectionzeug/new/AbstractTyped.h>
 
 
 namespace reflectionzeug
@@ -14,10 +14,12 @@ namespace reflectionzeug
 *    Implementation for signed integral types
 */
 template <typename T>
-class TypedSignedIntegral : public TypedBase<T>
+class TypedSignedIntegral : public AbstractTyped<T>
 {
 public:
-    TypedSignedIntegral(Accessor<T> * accessor);
+    template <typename... Args>
+    TypedSignedIntegral(Args&&... args);
+
     virtual ~TypedSignedIntegral();
 
     virtual long long toLongLong() const;

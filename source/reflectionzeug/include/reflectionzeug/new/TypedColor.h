@@ -3,7 +3,7 @@
 
 
 #include <reflectionzeug/Color.h>
-#include <reflectionzeug/new/TypedBase.h>
+#include <reflectionzeug/new/AbstractTyped.h>
 
 
 namespace reflectionzeug
@@ -14,10 +14,12 @@ namespace reflectionzeug
 *  @brief
 *    Implementation for type Color
 */
-class TypedColor : public TypedBase<Color>
+class TypedColor : public AbstractTyped<Color>
 {
 public:
-    TypedColor(Accessor<Color> * accessor);
+    template <typename... Args>
+    TypedColor(Args&&... args);
+
     virtual ~TypedColor();
 
     virtual Color toColor() const;

@@ -2,7 +2,7 @@
 #pragma once
 
 
-#include <reflectionzeug/new/TypedBase.h>
+#include <reflectionzeug/new/AbstractTyped.h>
 #include <reflectionzeug/new/ArrayAccessor.h>
 
 
@@ -15,7 +15,7 @@ namespace reflectionzeug
 *    Implementation for signed integral types
 */
 template <typename T, size_t Size>
-class TypedArray : public TypedBase<std::array<T, Size>>
+class TypedArray : public AbstractTyped<std::array<T, Size>>
 {
 public:
     TypedArray(ArrayAccessor<T, Size> * accessor);

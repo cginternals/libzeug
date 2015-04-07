@@ -9,8 +9,9 @@ namespace reflectionzeug
 {
 
 
-TypedFilePath::TypedFilePath(Accessor<FilePath> * accessor)
-: TypedBase<FilePath>(accessor)
+template <typename... Args>
+TypedFilePath::TypedFilePath(Args&&... args)
+: AbstractTyped<FilePath>(std::forward<Args>(args)...)
 {
 }
 

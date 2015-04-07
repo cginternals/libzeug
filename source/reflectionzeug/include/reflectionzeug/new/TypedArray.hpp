@@ -11,7 +11,7 @@ namespace reflectionzeug
 
 template <typename T, size_t Size>
 TypedArray<T, Size>::TypedArray(ArrayAccessor<T, Size> * accessor)
-: TypedBase<std::array<T, Size>>(accessor)
+: AbstractTyped<std::array<T, Size>>(accessor)
 {
 }
 

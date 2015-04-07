@@ -10,8 +10,9 @@ namespace reflectionzeug
 
 
 template <typename T>
-TypedFloatingPoint<T>::TypedFloatingPoint(Accessor<T> * accessor)
-: TypedBase<T>(accessor)
+template <typename... Args>
+TypedFloatingPoint<T>::TypedFloatingPoint(Args&&... args)
+: AbstractTyped<T>(std::forward<Args>(args)...)
 {
 }
 

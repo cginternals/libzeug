@@ -9,8 +9,9 @@ namespace reflectionzeug
 {
 
 
-TypedBool::TypedBool(Accessor<bool> * accessor)
-: TypedBase<bool>(accessor)
+template <typename... Args>
+TypedBool::TypedBool(Args&&... args)
+: AbstractTyped<bool>(std::forward<Args>(args)...)
 {
 }
 

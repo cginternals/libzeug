@@ -9,8 +9,9 @@ namespace reflectionzeug
 {
 
 
-TypedString::TypedString(Accessor<std::string> * accessor)
-: TypedBase<std::string>(accessor)
+template <typename... Args>
+TypedString::TypedString(Args&&... args)
+: AbstractTyped<std::string>(std::forward<Args>(args)...)
 {
 }
 

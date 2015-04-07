@@ -130,10 +130,8 @@ set(headers
     ${header_path}/util.hpp
     ${header_path}/extensions/GlmProperties.hpp
 
-    ${header_path}/new/TypedBase.h
-    ${header_path}/new/TypedBase.hpp
-    ${header_path}/new/TypedImpl.h
-    ${header_path}/new/TypedImpl.hpp
+    ${header_path}/new/AbstractTyped.h
+    ${header_path}/new/AbstractTyped.hpp
     ${header_path}/new/TypedSignedIntegral.h
     ${header_path}/new/TypedSignedIntegral.hpp
     ${header_path}/new/TypedUnsignedIntegral.h

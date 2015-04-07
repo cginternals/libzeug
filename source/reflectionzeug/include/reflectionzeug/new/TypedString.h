@@ -2,7 +2,7 @@
 #pragma once
 
 
-#include <reflectionzeug/new/TypedBase.h>
+#include <reflectionzeug/new/AbstractTyped.h>
 
 
 namespace reflectionzeug
@@ -13,10 +13,12 @@ namespace reflectionzeug
 *  @brief
 *    Implementation for type std::string
 */
-class TypedString : public TypedBase<std::string>
+class TypedString : public AbstractTyped<std::string>
 {
 public:
-    TypedString(Accessor<std::string> * accessor);
+    template <typename... Args>
+    TypedString(Args&&... args);
+
     virtual ~TypedString();
 
     virtual std::string toString() const;

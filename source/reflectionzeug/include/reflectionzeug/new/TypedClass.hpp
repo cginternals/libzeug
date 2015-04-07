@@ -11,8 +11,9 @@ namespace reflectionzeug
 
 
 template <typename T>
-TypedClass<T>::TypedClass(Accessor<T> * accessor)
-: TypedBase<T>(accessor)
+template <typename... Args>
+TypedClass<T>::TypedClass(Args&&... args)
+: AbstractTyped<T>(std::forward<Args>(args)...)
 {
 }
 

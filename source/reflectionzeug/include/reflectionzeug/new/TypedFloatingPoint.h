@@ -2,7 +2,7 @@
 #pragma once
 
 
-#include <reflectionzeug/new/TypedBase.h>
+#include <reflectionzeug/new/AbstractTyped.h>
 
 
 namespace reflectionzeug
@@ -14,10 +14,12 @@ namespace reflectionzeug
 *    Implementation for floating point types
 */
 template <typename T>
-class TypedFloatingPoint : public TypedBase<T>
+class TypedFloatingPoint : public AbstractTyped<T>
 {
 public:
-    TypedFloatingPoint(Accessor<T> * accessor);
+    template <typename... Args>
+    TypedFloatingPoint(Args&&... args);
+
     virtual ~TypedFloatingPoint();
 
     virtual double toDouble() const;

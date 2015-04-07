@@ -3,7 +3,7 @@
 
 
 #include <reflectionzeug/FilePath.h>
-#include <reflectionzeug/new/TypedBase.h>
+#include <reflectionzeug/new/AbstractTyped.h>
 
 
 namespace reflectionzeug
@@ -14,10 +14,12 @@ namespace reflectionzeug
 *  @brief
 *    Implementation for type FilePath
 */
-class TypedFilePath : public TypedBase<FilePath>
+class TypedFilePath : public AbstractTyped<FilePath>
 {
 public:
-    TypedFilePath(Accessor<FilePath> * accessor);
+    template <typename... Args>
+    TypedFilePath(Args&&... args);
+
     virtual ~TypedFilePath();
 };
 

@@ -10,8 +10,9 @@ namespace reflectionzeug
 
 
 template <typename T>
-TypedUnsignedIntegral<T>::TypedUnsignedIntegral(Accessor<T> * accessor)
-: TypedBase<T>(accessor)
+template <typename... Args>
+TypedUnsignedIntegral<T>::TypedUnsignedIntegral(Args&&... args)
+: AbstractTyped<T>(std::forward<Args>(args)...)
 {
 }
 

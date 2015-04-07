@@ -9,8 +9,9 @@ namespace reflectionzeug
 {
 
 
-TypedColor::TypedColor(Accessor<Color> * accessor)
-: TypedBase<Color>(accessor)
+template <typename... Args>
+TypedColor::TypedColor(Args&&... args)
+: AbstractTyped<Color>(std::forward<Args>(args)...)
 {
 }
 

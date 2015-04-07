@@ -10,8 +10,9 @@ namespace reflectionzeug
 
 
 template <typename T>
-TypedSignedIntegral<T>::TypedSignedIntegral(Accessor<T> * accessor)
-: TypedBase<T>(accessor)
+template <typename... Args>
+TypedSignedIntegral<T>::TypedSignedIntegral(Args&&... args)
+: AbstractTyped<T>(std::forward<Args>(args)...)
 {
 }
 
