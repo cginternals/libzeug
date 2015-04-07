@@ -158,6 +158,12 @@ set(headers
     ${header_path}/new/AccessorGetSet.hpp
     ${header_path}/new/AccessorValue.h
     ${header_path}/new/AccessorValue.hpp
+    ${header_path}/new/ArrayAccessor.h
+    ${header_path}/new/ArrayAccessor.hpp
+    ${header_path}/new/ArrayAccessorGetSet.h
+    ${header_path}/new/ArrayAccessorGetSet.hpp
+    ${header_path}/new/ArrayAccessorValue.h
+    ${header_path}/new/ArrayAccessorValue.hpp
     ${header_path}/new/Convertible.h
     ${header_path}/new/Convertible.hpp
 )
