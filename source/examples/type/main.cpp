@@ -121,6 +121,8 @@ int main(int argc, char *argv[])
     // Create array-accessors
     {
         // Direct value
+        std::cout << "Array accessor (direct value)\n";
+
         ArrayAccessorValue<int, 3> accessor1({1, 2, 3});
         std::cout << "value[0] = " << accessor1.getValue(0) << " (1)\n";
         std::cout << "value[1] = " << accessor1.getValue(1) << " (2)\n";
@@ -141,7 +143,11 @@ int main(int argc, char *argv[])
         std::cout << "value[1] = " << accessor1.getValue(1) << " (10)\n";
         std::cout << "value[2] = " << accessor1.getValue(2) << " (10)\n";
 
+        std::cout << "\n";
+
         // Getter/setter
+        std::cout << "Array accessor (getter/setter)\n";
+
         int v1 = 10, v2 = 11, v3 = 12;
         ArrayAccessorGetSet<int, 3> accessor2(
             [&] (size_t i) -> int {
@@ -176,5 +182,18 @@ int main(int argc, char *argv[])
         std::cout << "value[0] = " << accessor2.getValue(0) << " (20)\n";
         std::cout << "value[1] = " << accessor2.getValue(1) << " (20)\n";
         std::cout << "value[2] = " << accessor2.getValue(2) << " (20)\n";
+
+        std::cout << "\n";
     }
+
+    // Create array-value
+    /*
+    {
+        std::cout << "Array value\n";
+
+        Typed<std::array<int, 2>> typeArray;
+
+//        std::cout << "value[0] = " << typeArray.getValue(0) << " (10)\n";
+    }
+    */
 }

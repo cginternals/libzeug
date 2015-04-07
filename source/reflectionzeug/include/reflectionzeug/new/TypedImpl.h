@@ -11,6 +11,7 @@
 #include <reflectionzeug/new/TypedColor.h>
 #include <reflectionzeug/new/TypedFilePath.h>
 #include <reflectionzeug/new/TypedClass.h>
+//#include <reflectionzeug/new/TypedArray.h>
 
 
 namespace reflectionzeug
@@ -71,9 +72,9 @@ struct TypeSelector<T, EnableIf<isFloatingPoint<T>>>
 
 /*
 template <typename T>
-struct PropertyClass<T, EnableIf<isArray<T>>>
+struct TypeSelector<T, EnableIf<isArray<T>>>
 {
-    using Type = ArrayProperty<typename T::value_type, std::tuple_size<T>::value>;
+    using Type = TypedArray<typename T::value_type, std::tuple_size<T>::value>;
 };
 
 template <typename T>

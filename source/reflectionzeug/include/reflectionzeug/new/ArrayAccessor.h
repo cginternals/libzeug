@@ -2,7 +2,7 @@
 #pragma once
 
 
-#include <reflectionzeug/reflectionzeug_api.h>
+#include <reflectionzeug/new/Accessor.h>
 
 
 namespace reflectionzeug
@@ -14,14 +14,11 @@ namespace reflectionzeug
 *    Accessor (read/write) to a typed array-value
 */
 template <typename Type, size_t Size>
-class ArrayAccessor
+class ArrayAccessor : public Accessor<std::array<Type, Size>>
 {
 public:
     ArrayAccessor();
     virtual ~ArrayAccessor();
-
-    virtual std::array<Type, Size> getValue() const = 0;
-    virtual void setValue(const std::array<Type, Size> & array) = 0;
 
     virtual Type getValue(size_t i) const = 0;
     virtual void setValue(size_t i, const Type & value) = 0;
