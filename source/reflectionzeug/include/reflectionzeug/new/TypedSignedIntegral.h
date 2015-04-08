@@ -3,6 +3,7 @@
 
 
 #include <reflectionzeug/new/AbstractTyped.h>
+#include <reflectionzeug/new/AbstractSignedIntegralInterface.h>
 
 
 namespace reflectionzeug
@@ -14,7 +15,7 @@ namespace reflectionzeug
 *    Implementation for signed integral types
 */
 template <typename T>
-class TypedSignedIntegral : public AbstractTyped<T>
+class TypedSignedIntegral : public AbstractTyped<T>, public AbstractSignedIntegralInterface
 {
 public:
     template <typename... Args>
@@ -22,8 +23,8 @@ public:
 
     virtual ~TypedSignedIntegral();
 
-    virtual long long toLongLong() const;
-    virtual bool fromLongLong(long long value);
+    virtual long long toLongLong() const override;
+    virtual bool fromLongLong(long long value) override;
 };
 
 

@@ -3,6 +3,7 @@
 
 
 #include <reflectionzeug/new/AbstractTyped.h>
+#include <reflectionzeug/new/AbstractFloatingPointInterface.h>
 
 
 namespace reflectionzeug
@@ -14,7 +15,7 @@ namespace reflectionzeug
 *    Implementation for floating point types
 */
 template <typename T>
-class TypedFloatingPoint : public AbstractTyped<T>
+class TypedFloatingPoint : public AbstractTyped<T>, public AbstractFloatingPointInterface
 {
 public:
     template <typename... Args>
@@ -22,8 +23,8 @@ public:
 
     virtual ~TypedFloatingPoint();
 
-    virtual double toDouble() const;
-    virtual bool fromDouble(double value);
+    virtual double toDouble() const override;
+    virtual bool fromDouble(double value) override;
 };
 
 

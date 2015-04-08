@@ -7,6 +7,8 @@
 #include <map>
 
 #include <reflectionzeug/new/AbstractTyped.h>
+#include <reflectionzeug/new/AbstractEnumInterface.h>
+#include <reflectionzeug/new/AbstractStringInterface.h>
 
 
 namespace reflectionzeug
@@ -18,7 +20,7 @@ namespace reflectionzeug
 *    Implementation for enum types
 */
 template <typename Enum>
-class TypedEnum : public AbstractTyped<Enum>
+class TypedEnum : public AbstractTyped<Enum>, public AbstractEnumInterface, public AbstractStringInterface
 {
 public:
     template <typename... Args>
@@ -26,10 +28,10 @@ public:
 
     virtual ~TypedEnum();
 
-    virtual std::string toString() const;
-    virtual bool fromString(const std::string & string);
+    virtual std::string toString() const override;
+    virtual bool fromString(const std::string & string) override;
     
-    virtual std::vector<std::string> strings() const;
+    virtual std::vector<std::string> strings() const override;
     void setStrings(const std::map<Enum, std::string> & pairs);
 
 

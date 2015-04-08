@@ -3,6 +3,7 @@
 
 
 #include <reflectionzeug/new/AbstractTyped.h>
+#include <reflectionzeug/new/AbstractUnsignedIntegralInterface.h>
 
 
 namespace reflectionzeug
@@ -14,7 +15,7 @@ namespace reflectionzeug
 *    Implementation for unsigned integral types
 */
 template <typename T>
-class TypedUnsignedIntegral : public AbstractTyped<T>
+class TypedUnsignedIntegral : public AbstractTyped<T>, public AbstractUnsignedIntegralInterface
 {
 public:
     template <typename... Args>
@@ -22,8 +23,8 @@ public:
 
     virtual ~TypedUnsignedIntegral();
 
-    virtual unsigned long long toULongLong() const;
-    virtual bool fromULongLong(unsigned long long value);
+    virtual unsigned long long toULongLong() const override;
+    virtual bool fromULongLong(unsigned long long value) override;
 };
 
 

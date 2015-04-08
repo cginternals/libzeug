@@ -170,6 +170,12 @@ set(headers
     ${header_path}/new/TypedString.hpp
     ${header_path}/new/TypedUnsignedIntegral.h
     ${header_path}/new/TypedUnsignedIntegral.hpp
+    ${header_path}/new/AbstractStringInterface.h
+    ${header_path}/new/AbstractColorInterface.h
+    ${header_path}/new/AbstractFloatingPointInterface.h
+    ${header_path}/new/AbstractSignedIntegralInterface.h
+    ${header_path}/new/AbstractUnsignedIntegralInterface.h
+    ${header_path}/new/AbstractEnumInterface.h
 )
 
 set(sources
@@ -195,6 +201,13 @@ set(sources
     ${source_path}/UnsignedIntegralPropertyInterface.cpp
     ${source_path}/util.cpp
     ${source_path}/Variant.cpp
+
+    ${source_path}/new/AbstractStringInterface.cpp
+    ${source_path}/new/AbstractColorInterface.cpp
+    ${source_path}/new/AbstractFloatingPointInterface.cpp
+    ${source_path}/new/AbstractSignedIntegralInterface.cpp
+    ${source_path}/new/AbstractUnsignedIntegralInterface.cpp
+    ${source_path}/new/AbstractEnumInterface.cpp
 )
 
 # Group source files

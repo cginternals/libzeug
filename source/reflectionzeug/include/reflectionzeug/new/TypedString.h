@@ -3,6 +3,7 @@
 
 
 #include <reflectionzeug/new/AbstractTyped.h>
+#include <reflectionzeug/new/AbstractStringInterface.h>
 
 
 namespace reflectionzeug
@@ -13,7 +14,7 @@ namespace reflectionzeug
 *  @brief
 *    Implementation for type std::string
 */
-class TypedString : public AbstractTyped<std::string>
+class TypedString : public AbstractTyped<std::string>, public AbstractStringInterface
 {
 public:
     template <typename... Args>
@@ -21,8 +22,8 @@ public:
 
     virtual ~TypedString();
 
-    virtual std::string toString() const;
-    virtual bool fromString(const std::string & string);
+    virtual std::string toString() const override;
+    virtual bool fromString(const std::string & string) override;
 };
 
 
