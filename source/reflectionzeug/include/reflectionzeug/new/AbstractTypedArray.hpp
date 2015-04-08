@@ -73,6 +73,30 @@ AbstractTypedArray<Type, Size>::~AbstractTypedArray()
 {
 }
 
+template <typename Type, size_t Size>
+bool AbstractTypedArray<Type, Size>::isEmpty() const
+{
+    return (Size == 0);
+}
+
+template <typename Type, size_t Size>
+size_t AbstractTypedArray<Type, Size>::size() const
+{
+    return Size;
+}
+
+template <typename Type, size_t Size>
+Type AbstractTypedArray<Type, Size>::getElement(size_t i) const
+{
+    return m_arrayAccessor->getElement(i);
+}
+
+template <typename Type, size_t Size>
+void AbstractTypedArray<Type, Size>::setElement(size_t i, const Type & value)
+{
+    m_arrayAccessor->setElement(i, value);
+}
+
 
 // Read-only
 template <typename Type, size_t Size>

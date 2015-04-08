@@ -20,8 +20,8 @@ public:
     ArrayAccessor();
     virtual ~ArrayAccessor();
 
-    virtual Type getValue(size_t i) const = 0;
-    virtual void setValue(size_t i, const Type & value) = 0;
+    virtual Type getElement(size_t i) const = 0;
+    virtual void setElement(size_t i, const Type & value) = 0;
 
     virtual bool isReadOnly() const;
 };
@@ -40,7 +40,7 @@ public:
 
     virtual void setValue(const std::array<Type, Size> & array) override;
 
-    virtual void setValue(size_t i, const Type & value) override;
+    virtual void setElement(size_t i, const Type & value) override;
 
     virtual bool isReadOnly() const override;
 };

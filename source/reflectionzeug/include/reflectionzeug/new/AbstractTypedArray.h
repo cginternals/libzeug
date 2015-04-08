@@ -45,6 +45,12 @@ public:
 
     virtual ~AbstractTypedArray();
 
+    bool isEmpty() const;
+    size_t size() const;
+
+    Type getElement(size_t i) const;
+    void setElement(size_t i, const Type & value);
+
 
 protected:
     ArrayAccessor<Type, Size> * m_arrayAccessor;

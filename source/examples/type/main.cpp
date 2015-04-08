@@ -10,6 +10,7 @@
 using namespace reflectionzeug;
 
 
+// Global getter/setter test
 int globalInt = 1;
 
 int get()
@@ -22,6 +23,25 @@ void set(int value)
     globalInt = value;
 }
 
+// Global array getter/setter
+int v1 = 10, v2 = 11, v3 = 12;
+
+int getArray(size_t i)
+{
+         if (i == 0) return v1;
+    else if (i == 1) return v2;
+    else if (i == 2) return v3;
+    else             return 0;
+}
+
+void setArray(size_t i, int value)
+{
+         if (i == 0) v1 = value;
+    else if (i == 1) v2 = value;
+    else if (i == 2) v3 = value;
+}
+
+// Custom class test
 class TestClass {
 public:
     static TestClass fromString(const std::string &str, bool * ok) {
@@ -124,64 +144,50 @@ int main(int argc, char *argv[])
         std::cout << "Array accessor (direct value)\n";
 
         ArrayAccessorValue<int, 3> accessor1({1, 2, 3});
-        std::cout << "value[0] = " << accessor1.getValue(0) << " (1)\n";
-        std::cout << "value[1] = " << accessor1.getValue(1) << " (2)\n";
-        std::cout << "value[2] = " << accessor1.getValue(2) << " (3)\n";
+        std::cout << "value[0] = " << accessor1.getElement(0) << " (1)\n";
+        std::cout << "value[1] = " << accessor1.getElement(1) << " (2)\n";
+        std::cout << "value[2] = " << accessor1.getElement(2) << " (3)\n";
 
-        accessor1.setValue(0, 10);
-        std::cout << "value[0] = " << accessor1.getValue(0) << " (10)\n";
-        std::cout << "value[1] = " << accessor1.getValue(1) << " (2)\n";
-        std::cout << "value[2] = " << accessor1.getValue(2) << " (3)\n";
+        accessor1.setElement(0, 10);
+        std::cout << "value[0] = " << accessor1.getElement(0) << " (10)\n";
+        std::cout << "value[1] = " << accessor1.getElement(1) << " (2)\n";
+        std::cout << "value[2] = " << accessor1.getElement(2) << " (3)\n";
 
-        accessor1.setValue(1, 10);
-        std::cout << "value[0] = " << accessor1.getValue(0) << " (10)\n";
-        std::cout << "value[1] = " << accessor1.getValue(1) << " (10)\n";
-        std::cout << "value[2] = " << accessor1.getValue(2) << " (3)\n";
+        accessor1.setElement(1, 10);
+        std::cout << "value[0] = " << accessor1.getElement(0) << " (10)\n";
+        std::cout << "value[1] = " << accessor1.getElement(1) << " (10)\n";
+        std::cout << "value[2] = " << accessor1.getElement(2) << " (3)\n";
 
-        accessor1.setValue(2, 10);
-        std::cout << "value[0] = " << accessor1.getValue(0) << " (10)\n";
-        std::cout << "value[1] = " << accessor1.getValue(1) << " (10)\n";
-        std::cout << "value[2] = " << accessor1.getValue(2) << " (10)\n";
+        accessor1.setElement(2, 10);
+        std::cout << "value[0] = " << accessor1.getElement(0) << " (10)\n";
+        std::cout << "value[1] = " << accessor1.getElement(1) << " (10)\n";
+        std::cout << "value[2] = " << accessor1.getElement(2) << " (10)\n";
 
         std::cout << "\n";
 
         // Getter/setter
         std::cout << "Array accessor (getter/setter)\n";
 
-        int v1 = 10, v2 = 11, v3 = 12;
-        ArrayAccessorGetSet<int, 3> accessor2(
-            [&] (size_t i) -> int {
-                     if (i == 0) return v1;
-                else if (i == 1) return v2;
-                else if (i == 2) return v3;
-                else             return 0;
-            },
+        ArrayAccessorGetSet<int, 3> accessor2(getArray, setArray);
 
-            [&] (size_t i, int value) {
-                     if (i == 0) v1 = value;
-                else if (i == 1) v2 = value;
-                else if (i == 2) v3 = value;
-            }
-        );
+        std::cout << "value[0] = " << accessor2.getElement(0) << " (10)\n";
+        std::cout << "value[1] = " << accessor2.getElement(1) << " (11)\n";
+        std::cout << "value[2] = " << accessor2.getElement(2) << " (12)\n";
 
-        std::cout << "value[0] = " << accessor2.getValue(0) << " (10)\n";
-        std::cout << "value[1] = " << accessor2.getValue(1) << " (11)\n";
-        std::cout << "value[2] = " << accessor2.getValue(2) << " (12)\n";
+        accessor2.setElement(0, 20);
+        std::cout << "value[0] = " << accessor2.getElement(0) << " (20)\n";
+        std::cout << "value[1] = " << accessor2.getElement(1) << " (11)\n";
+        std::cout << "value[2] = " << accessor2.getElement(2) << " (12)\n";
 
-        accessor2.setValue(0, 20);
-        std::cout << "value[0] = " << accessor2.getValue(0) << " (20)\n";
-        std::cout << "value[1] = " << accessor2.getValue(1) << " (11)\n";
-        std::cout << "value[2] = " << accessor2.getValue(2) << " (12)\n";
+        accessor2.setElement(1, 21);
+        std::cout << "value[0] = " << accessor2.getElement(0) << " (20)\n";
+        std::cout << "value[1] = " << accessor2.getElement(1) << " (21)\n";
+        std::cout << "value[2] = " << accessor2.getElement(2) << " (12)\n";
 
-        accessor2.setValue(1, 20);
-        std::cout << "value[0] = " << accessor2.getValue(0) << " (20)\n";
-        std::cout << "value[1] = " << accessor2.getValue(1) << " (20)\n";
-        std::cout << "value[2] = " << accessor2.getValue(2) << " (12)\n";
-
-        accessor2.setValue(2, 20);
-        std::cout << "value[0] = " << accessor2.getValue(0) << " (20)\n";
-        std::cout << "value[1] = " << accessor2.getValue(1) << " (20)\n";
-        std::cout << "value[2] = " << accessor2.getValue(2) << " (20)\n";
+        accessor2.setElement(2, 22);
+        std::cout << "value[0] = " << accessor2.getElement(0) << " (20)\n";
+        std::cout << "value[1] = " << accessor2.getElement(1) << " (21)\n";
+        std::cout << "value[2] = " << accessor2.getElement(2) << " (22)\n";
 
         std::cout << "\n";
     }
@@ -190,8 +196,12 @@ int main(int argc, char *argv[])
     {
         std::cout << "Array value\n";
 
-        Typed<std::array<int, 2>> typeArray;
+        Typed<std::array<int, 3>> typeArray(getArray, setArray);
 
-//        std::cout << "value[0] = " << typeArray.getValue(0) << " (10)\n";
+        std::cout << "value.empty = " << (typeArray.isEmpty() ? "yes (no)\n" : "no (no)\n");
+        std::cout << "value.size = " << typeArray.size() << " (3)\n";
+        std::cout << "value[0] = " << typeArray.getElement(0) << " (20)\n";
+        std::cout << "value[1] = " << typeArray.getElement(1) << " (21)\n";
+        std::cout << "value[2] = " << typeArray.getElement(2) << " (22)\n";
     }
 }

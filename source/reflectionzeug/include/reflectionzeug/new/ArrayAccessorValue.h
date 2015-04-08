@@ -24,8 +24,8 @@ public:
     virtual std::array<Type, Size> getValue() const override;
     virtual void setValue(const std::array<Type, Size> & array) override;
 
-    virtual Type getValue(size_t i) const override;
-    virtual void setValue(size_t i, const Type & value) override;
+    virtual Type getElement(size_t i) const override;
+    virtual void setElement(size_t i, const Type & value) override;
 
 
 protected:
@@ -47,7 +47,7 @@ public:
 
     virtual std::array<Type, Size> getValue() const override;
 
-    virtual Type getValue(size_t i) const override;
+    virtual Type getElement(size_t i) const override;
 
 
 protected:
