@@ -5,6 +5,7 @@
 #include <memory>
 #include <functional>
 
+#include <reflectionzeug/new/AbstractTyped.h>
 #include <reflectionzeug/new/ArrayAccessor.h>
 
 
@@ -17,7 +18,7 @@ namespace reflectionzeug
 *    Base class for typed arrays (read/write)
 */
 template <typename Type, size_t Size>
-class AbstractTypedArray
+class AbstractTypedArray : public AbstractTyped<std::array<Type, Size>>
 {
 public:
     AbstractTypedArray();
@@ -46,7 +47,7 @@ public:
 
 
 protected:
-    std::unique_ptr<ArrayAccessor<Type, Size>> m_accessor;
+    ArrayAccessor<Type, Size> * m_arrayAccessor;
 };
 
 
