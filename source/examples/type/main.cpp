@@ -59,6 +59,33 @@ public:
     }
 };
 
+// Enum test
+enum MyEnum {
+    One = 1,
+    Two,
+    Three
+};
+
+namespace reflectionzeug
+{
+
+template <>
+struct EnumDefaultStrings<MyEnum>
+{
+    std::map<MyEnum, std::string> operator()()
+    {
+        std::map<MyEnum, std::string> values = {
+            {One,   "One"},
+            {Two,   "Two"},
+            {Three, "Three"}
+        };
+
+        return values;
+    }
+};
+
+}
+
 
 int main(int argc, char *argv[])
 {
@@ -203,5 +230,24 @@ int main(int argc, char *argv[])
         std::cout << "value[0] = " << typeArray.getElement(0) << " (20)\n";
         std::cout << "value[1] = " << typeArray.getElement(1) << " (21)\n";
         std::cout << "value[2] = " << typeArray.getElement(2) << " (22)\n";
+
+        std::cout << "\n";
+    }
+
+    // Create enum-value
+    {
+        std::cout << "Enum value\n";
+
+        Typed<MyEnum> typeEnum;
+        typeEnum.setValue(One);
+        std::cout << "value = " << typeEnum.getValue() << " '" << typeEnum.toString() << "'" << " (1 'One')\n";
+
+        typeEnum.setValue((MyEnum)2);
+        std::cout << "value = " << typeEnum.getValue() << " '" << typeEnum.toString() << "'" << " (2 'Two')\n";
+
+        typeEnum.fromString("Three");
+        std::cout << "value = " << typeEnum.getValue() << " '" << typeEnum.toString() << "'" << " (3 'Three')\n";
+
+        std::cout << "\n";
     }
 }

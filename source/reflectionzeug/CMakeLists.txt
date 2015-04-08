@@ -150,6 +150,8 @@ set(headers
     ${header_path}/new/Convertible.hpp
     ${header_path}/new/Typed.h
     ${header_path}/new/Typed.hpp
+    ${header_path}/new/TypedEnum.h
+    ${header_path}/new/TypedEnum.hpp
     ${header_path}/new/TypedArray.h
     ${header_path}/new/TypedArray.hpp
     ${header_path}/new/TypedBool.h

@@ -12,6 +12,7 @@
 #include <reflectionzeug/new/TypedFilePath.h>
 #include <reflectionzeug/new/TypedClass.h>
 #include <reflectionzeug/new/TypedArray.h>
+#include <reflectionzeug/new/TypedEnum.h>
 
 
 namespace reflectionzeug
@@ -76,13 +77,11 @@ struct TypeSelector<T, EnableIf<isArray<T>>>
     using Type = TypedArray<typename T::value_type, std::tuple_size<T>::value>;
 };
 
-/*
 template <typename T>
-struct PropertyClass<T, EnableIf<std::is_enum<T>>>
+struct TypeSelector<T, EnableIf<std::is_enum<T>>>
 {
-    using Type = EnumProperty<T>;
+    using Type = TypedEnum<T>;
 };
-*/
 
 
 /**
