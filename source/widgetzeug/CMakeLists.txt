@@ -52,6 +52,7 @@ set(source_path "${CMAKE_CURRENT_SOURCE_DIR}/source")
 
 set(api_includes
     ${header_path}/widgetzeug_api.h   
+    ${header_path}/make_unique.hpp   
     ${header_path}/RGBABrush.hpp
     ${header_path}/dark_fusion_style.hpp
 

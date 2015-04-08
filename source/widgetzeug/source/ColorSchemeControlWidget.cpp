@@ -8,8 +8,7 @@
 #include <widgetzeug/ColorSchemePresetsWidget.h>
 #include <widgetzeug/ColorSchemeWidget.h>
 #include <widgetzeug/DataLinkWidget.h>
-
-#include "util.hpp"
+#include <widgetzeug/make_unique.hpp>
 
 
 namespace widgetzeug

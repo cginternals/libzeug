@@ -10,7 +10,8 @@
 #include <QCompleter>
 #include <QStringListModel>
 
-#include "util.hpp"
+#include <widgetzeug/make_unique.hpp>
+
 #include "ui_DataLinkWidget.h"
 
 
