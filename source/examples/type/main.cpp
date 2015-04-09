@@ -226,7 +226,7 @@ int main(int argc, char *argv[])
         Typed<std::array<int, 3>> typeArray(getArray, setArray);
 
         std::cout << "value.empty = " << (typeArray.isEmpty() ? "yes (no)\n" : "no (no)\n");
-        std::cout << "value.size = " << typeArray.size() << " (3)\n";
+        std::cout << "value.size = " << typeArray.count() << " (3)\n";
         std::cout << "value[0] = " << typeArray.getElement(0) << " (20)\n";
         std::cout << "value[1] = " << typeArray.getElement(1) << " (21)\n";
         std::cout << "value[2] = " << typeArray.getElement(2) << " (22)\n";

@@ -6,6 +6,7 @@
 #include <functional>
 
 #include <reflectionzeug/new/AbstractTyped.h>
+#include <reflectionzeug/new/AbstractCollection.h>
 #include <reflectionzeug/new/ArrayAccessor.h>
 
 
@@ -19,6 +20,7 @@ namespace reflectionzeug
 */
 template <typename Type, size_t Size>
 class AbstractTypedArray : public AbstractTyped<std::array<Type, Size>>
+                         , public AbstractCollection
 {
 public:
     AbstractTypedArray();
@@ -45,8 +47,16 @@ public:
 
     virtual ~AbstractTypedArray();
 
-    bool isEmpty() const;
-    size_t size() const;
+    virtual bool isEmpty() const override;
+    virtual size_t count() const override;
+
+    virtual AbstractValue * at(size_t i) override;
+    virtual const AbstractValue * at(size_t i) const override;
+
+    virtual int indexOf(const AbstractValue * value) const override;
+
+    virtual void forEach(const std::function<void(AbstractValue &)> & callback) override;
+    virtual void forEach(const std::function<void(const AbstractValue &)> & callback) const override;
 
     Type getElement(size_t i) const;
     void setElement(size_t i, const Type & value);

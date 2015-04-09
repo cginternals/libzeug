@@ -5,6 +5,7 @@
 #include <memory>
 #include <functional>
 
+#include <reflectionzeug/new/AbstractValue.h>
 #include <reflectionzeug/new/Accessor.h>
 
 
@@ -17,7 +18,7 @@ namespace reflectionzeug
 *    Base class for typed values (read/write)
 */
 template <typename Type>
-class AbstractTyped
+class AbstractTyped : public AbstractValue
 {
 public:
     AbstractTyped();

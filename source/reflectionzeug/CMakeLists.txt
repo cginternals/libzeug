@@ -130,6 +130,8 @@ set(headers
     ${header_path}/util.hpp
     ${header_path}/extensions/GlmProperties.hpp
 
+    ${header_path}/new/AbstractValue.h
+    ${header_path}/new/AbstractCollection.h
     ${header_path}/new/AbstractTyped.h
     ${header_path}/new/AbstractTyped.hpp
     ${header_path}/new/AbstractTypedArray.h
@@ -202,6 +204,8 @@ set(sources
     ${source_path}/util.cpp
     ${source_path}/Variant.cpp
 
+    ${source_path}/new/AbstractValue.cpp
+    ${source_path}/new/AbstractCollection.cpp
     ${source_path}/new/AbstractStringInterface.cpp
     ${source_path}/new/AbstractColorInterface.cpp
     ${source_path}/new/AbstractFloatingPointInterface.cpp

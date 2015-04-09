@@ -80,9 +80,45 @@ bool AbstractTypedArray<Type, Size>::isEmpty() const
 }
 
 template <typename Type, size_t Size>
-size_t AbstractTypedArray<Type, Size>::size() const
+size_t AbstractTypedArray<Type, Size>::count() const
 {
     return Size;
+}
+
+template <typename Type, size_t Size>
+AbstractValue * AbstractTypedArray<Type, Size>::at(size_t i)
+{
+    // [TODO]
+    return nullptr;
+}
+
+template <typename Type, size_t Size>
+const AbstractValue * AbstractTypedArray<Type, Size>::at(size_t i) const
+{
+    // [TODO]
+    return nullptr;
+}
+
+
+template <typename Type, size_t Size>
+int AbstractTypedArray<Type, Size>::indexOf(const AbstractValue * value) const
+{
+    // [TODO]
+    return 0;
+}
+
+
+template <typename Type, size_t Size>
+void AbstractTypedArray<Type, Size>::forEach(const std::function<void(AbstractValue &)> & callback)
+{
+    // [TODO]
+}
+
+
+template <typename Type, size_t Size>
+void AbstractTypedArray<Type, Size>::forEach(const std::function<void(const AbstractValue &)> & callback) const
+{
+    // [TODO]
 }
 
 template <typename Type, size_t Size>
