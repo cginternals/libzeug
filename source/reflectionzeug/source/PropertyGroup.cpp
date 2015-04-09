@@ -65,11 +65,11 @@ bool PropertyGroup::fromVariant(const Variant & value)
     return success;
 }
 
-bool PropertyGroup::addProperty(AbstractProperty * property)
+AbstractProperty * PropertyGroup::addProperty(AbstractProperty * property)
 {
     if (!property->hasName() ||
         this->propertyExists(property->name()))
-        return false;
+        return nullptr;
     
     beforeAdd(count(), property);
     
@@ -78,7 +78,7 @@ bool PropertyGroup::addProperty(AbstractProperty * property)
     
     afterAdd(count(), property);
     
-    return true;
+    return property;
 }
 
 PropertyGroup * PropertyGroup::addGroup(const std::string & name)

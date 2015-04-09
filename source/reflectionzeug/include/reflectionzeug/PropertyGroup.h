@@ -40,7 +40,7 @@ public:
      */
     /** \{ */
 
-    bool addProperty(AbstractProperty * property);
+    AbstractProperty * addProperty(AbstractProperty * property);
 
     template <typename Type, typename... Args>
     Property<Type> * addProperty(const std::string & name, Args&&... args);
