@@ -231,6 +231,17 @@ int main(int argc, char *argv[])
         std::cout << "value[1] = " << typeArray.getElement(1) << " (21)\n";
         std::cout << "value[2] = " << typeArray.getElement(2) << " (22)\n";
 
+        typeArray.forEach([] (AbstractValue & value) {
+            AbstractTyped<int> & typed = static_cast<AbstractTyped<int> &>(value);
+            typed.setValue(100);
+        });
+
+        std::cout << "value.empty = " << (typeArray.isEmpty() ? "yes (no)\n" : "no (no)\n");
+        std::cout << "value.size = " << typeArray.count() << " (3)\n";
+        std::cout << "value[0] = " << typeArray.getElement(0) << " (100)\n";
+        std::cout << "value[1] = " << typeArray.getElement(1) << " (100)\n";
+        std::cout << "value[2] = " << typeArray.getElement(2) << " (100)\n";
+
         std::cout << "\n";
     }
 

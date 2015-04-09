@@ -4,6 +4,7 @@
 
 #include <memory>
 #include <functional>
+#include <array>
 
 #include <reflectionzeug/new/AbstractTyped.h>
 #include <reflectionzeug/new/AbstractCollection.h>
@@ -12,6 +13,10 @@
 
 namespace reflectionzeug
 {
+
+
+template <typename Type>
+class Typed;
 
 
 /**
@@ -63,7 +68,12 @@ public:
 
 
 protected:
-    ArrayAccessor<Type, Size> * m_arrayAccessor;
+  void init();
+
+
+protected:
+    ArrayAccessor<Type, Size>     * m_arrayAccessor;
+    std::array<Typed<Type> *, Size> m_elements;
 };
 
 

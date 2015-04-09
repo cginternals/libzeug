@@ -2,9 +2,13 @@
 #pragma once
 
 
+#include <algorithm>
+#include <functional>
+
 #include <reflectionzeug/new/AbstractTypedArray.h>
 #include <reflectionzeug/new/ArrayAccessorValue.h>
 #include <reflectionzeug/new/ArrayAccessorGetSet.h>
+#include <reflectionzeug/new/Typed.h>
 
 
 namespace reflectionzeug
@@ -17,6 +21,7 @@ AbstractTypedArray<Type, Size>::AbstractTypedArray()
 : AbstractTyped<std::array<Type, Size>>(new ArrayAccessorValue<Type, Size>())
 , m_arrayAccessor(static_cast<ArrayAccessor<Type, Size>*>(this->m_accessor.get()))
 {
+    init();
 }
 
 template <typename Type, size_t Size>
@@ -26,6 +31,7 @@ AbstractTypedArray<Type, Size>::AbstractTypedArray(
 : AbstractTyped<std::array<Type, Size>>(new ArrayAccessorGetSet<Type, Size>(getter, setter))
 , m_arrayAccessor(static_cast<ArrayAccessor<Type, Size>*>(this->m_accessor.get()))
 {
+    init();
 }
 
 template <typename Type, size_t Size>
@@ -37,6 +43,7 @@ AbstractTypedArray<Type, Size>::AbstractTypedArray(
 : AbstractTyped<std::array<Type, Size>>(new ArrayAccessorGetSet<Type, Size>(getter_pointer, setter_pointer))
 , m_arrayAccessor(static_cast<ArrayAccessor<Type, Size>*>(this->m_accessor.get()))
 {
+    init();
 }
 
 template <typename Type, size_t Size>
@@ -48,6 +55,7 @@ AbstractTypedArray<Type, Size>::AbstractTypedArray(
 : AbstractTyped<std::array<Type, Size>>(new ArrayAccessorGetSet<Type, Size>(getter_pointer, setter_pointer))
 , m_arrayAccessor(static_cast<ArrayAccessor<Type, Size>*>(this->m_accessor.get()))
 {
+    init();
 }
 
 template <typename Type, size_t Size>
@@ -59,6 +67,7 @@ AbstractTypedArray<Type, Size>::AbstractTypedArray(
 : AbstractTyped<std::array<Type, Size>>(new ArrayAccessorGetSet<Type, Size>(getter_pointer, setter_pointer))
 , m_arrayAccessor(static_cast<ArrayAccessor<Type, Size>*>(this->m_accessor.get()))
 {
+    init();
 }
 
 template <typename Type, size_t Size>
@@ -66,11 +75,16 @@ AbstractTypedArray<Type, Size>::AbstractTypedArray(ArrayAccessor<Type, Size> * a
 : AbstractTyped<std::array<Type, Size>>(accessor)
 , m_arrayAccessor(static_cast<ArrayAccessor<Type, Size>*>(this->m_accessor.get()))
 {
+    init();
 }
 
 template <typename Type, size_t Size>
 AbstractTypedArray<Type, Size>::~AbstractTypedArray()
 {
+    // Destroy accessor values
+    for (Typed<Type> * typed : m_elements) {
+        delete typed;
+    }
 }
 
 template <typename Type, size_t Size>
@@ -88,37 +102,46 @@ size_t AbstractTypedArray<Type, Size>::count() const
 template <typename Type, size_t Size>
 AbstractValue * AbstractTypedArray<Type, Size>::at(size_t i)
 {
-    // [TODO]
-    return nullptr;
+    return m_elements.at(i);
 }
 
 template <typename Type, size_t Size>
 const AbstractValue * AbstractTypedArray<Type, Size>::at(size_t i) const
 {
-    // [TODO]
-    return nullptr;
+    return m_elements.at(i);
 }
 
 
 template <typename Type, size_t Size>
 int AbstractTypedArray<Type, Size>::indexOf(const AbstractValue * value) const
 {
-    // [TODO]
-    return 0;
-}
+    // Find element
+    auto it = std::find(m_elements.begin(), m_elements.end(), value);
+    if (it == m_elements.end()) {
+        // Not found!
+        return -1;
+    } else {
+        // Return index of element
+        return (int)std::distance(m_elements.begin(), it);
+    }
 
+}
 
 template <typename Type, size_t Size>
 void AbstractTypedArray<Type, Size>::forEach(const std::function<void(AbstractValue &)> & callback)
 {
-    // [TODO]
+    for (AbstractValue * value : m_elements) {
+        callback(*value);
+    }
 }
 
 
 template <typename Type, size_t Size>
 void AbstractTypedArray<Type, Size>::forEach(const std::function<void(const AbstractValue &)> & callback) const
 {
-    // [TODO]
+    for (const AbstractValue * value : m_elements) {
+        callback(*value);
+    }
 }
 
 template <typename Type, size_t Size>
@@ -131,6 +154,26 @@ template <typename Type, size_t Size>
 void AbstractTypedArray<Type, Size>::setElement(size_t i, const Type & value)
 {
     m_arrayAccessor->setElement(i, value);
+}
+
+template <typename Type, size_t Size>
+void AbstractTypedArray<Type, Size>::init()
+{
+    // [TODO] ?
+    /*
+    valueChanged.onFire([this] ()
+    {
+        this->AbstractValueProperty::valueChanged();
+    });
+    */
+
+    // Create typed value for each element
+    for (size_t i = 0; i < Size; ++i)
+    {
+        this->m_elements[i] = new Typed<Type>(// [TODO] "_" + std::to_string(i),
+                                              std::bind(&AbstractTypedArray::getElement, this, i),
+                                              std::bind(&AbstractTypedArray::setElement, this, i, std::placeholders::_1));
+    }
 }
 
 
