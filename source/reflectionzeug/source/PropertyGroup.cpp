@@ -164,6 +164,8 @@ AbstractProperty * PropertyGroup::takeProperty(const std::string & name)
 
     AbstractProperty * property = m_propertiesMap.at(name);
     auto propertyIt = std::find(m_properties.begin(), m_properties.end(), property);
+
+    assert(propertyIt != m_properties.end());
     
     size_t index = indexOf(*propertyIt);
     beforeRemove(index);

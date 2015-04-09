@@ -18,12 +18,19 @@ QColor daltonize(const QColor & color, ColorVisionDeficiency deficiency)
 
     struct CIEDeficiency
     {
-        CIEDeficiency() { }
-        CIEDeficiency(const QVector2D & dcp, const QVector2D & begin, const QVector2D & end)
-        : dcp(dcp), begin(begin), end(end)
+        CIEDeficiency()
+        : clm(0.0f)
+        , clyi(0.0f)
         {
-            clm  = (end[1] - begin[1]) / (end[0] - begin[0]);
-            clyi = begin[1] - begin[0] * clm;
+        }
+
+        CIEDeficiency(const QVector2D & dcp, const QVector2D & begin, const QVector2D & end)
+        : dcp(dcp)
+        , begin(begin)
+        , end(end)
+        , clm((end[1] - begin[1]) / (end[0] - begin[0]))
+        , clyi(begin[1] - begin[0] * clm)
+        {
         }
 
         QVector2D dcp;  // dichromatic convergence points

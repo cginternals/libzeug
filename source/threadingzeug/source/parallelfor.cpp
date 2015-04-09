@@ -18,20 +18,19 @@ void parallel_for(int start, int end, std::function<void(int i)> callback)
 
 #else
 
-
-    const int numberOfThreads = std::max(2, static_cast<int>(std::thread::hardware_concurrency()));
+    const auto numberOfThreads = std::max(2, static_cast<int>(std::thread::hardware_concurrency()));
 	std::vector<std::thread> threads(numberOfThreads);
 	
-	for (int i = 0; i < numberOfThreads; ++i)
+	for (auto i = 0; i < numberOfThreads; ++i)
 	{
-		threads[i] = std::thread([numberOfThreads, start, end, i, callback]()
-        { 
-            for (int k = start + i; k < end - start; k += numberOfThreads)
-				callback(k + start);
-		});
+		threads[i] = std::thread([numberOfThreads, start, end, i, &callback] ()
+            {
+                for (auto k = start + i; k < end; k += numberOfThreads)
+                    callback(k);
+            });
 	}
 
-	for (std::thread & thread : threads)
+	for (auto & thread : threads)
 		thread.join();
 
 #endif

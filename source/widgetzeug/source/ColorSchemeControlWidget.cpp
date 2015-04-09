@@ -8,8 +8,7 @@
 #include <widgetzeug/ColorSchemePresetsWidget.h>
 #include <widgetzeug/ColorSchemeWidget.h>
 #include <widgetzeug/DataLinkWidget.h>
-
-#include "util.hpp"
+#include <widgetzeug/make_unique.hpp>
 
 
 namespace widgetzeug
@@ -178,8 +177,8 @@ void ColorSchemeControlWidget::onFileChanged(const QString & fileName)
     m_colorSchemeWidget->setEnabled(false);
     m_colorSchemePresetsWidget->setEnabled(enabled);
 
-    if (!enabled)
-        return;
+    //if (!enabled) // before: assert(enabled)
+    //    return;
 
     m_colorSchemePresetsWidget->setPresets(*m_presets);
 

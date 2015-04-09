@@ -45,6 +45,7 @@ ColorScheme::ColorScheme(const QString & identifier, ColorSchemeType type)
 
 ColorScheme::ColorScheme(const QString & identifier, QJsonObject scheme)
 : m_identifier{ identifier }
+, m_type{ ColorSchemeType::Unknown }
 {
     if (scheme.isEmpty())
     {
