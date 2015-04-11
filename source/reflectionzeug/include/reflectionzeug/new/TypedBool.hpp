@@ -33,17 +33,8 @@ bool TypedBool::fromBool(bool value)
 
 void TypedBool::accept(AbstractVisitor * visitor)
 {
-    // Call visitor->visit(TypedBool)
-    auto * typedVisitor = visitor->asVisitor<TypedBool>();
-    if (typedVisitor) {
-        typedVisitor->visit(this);
-    }
-
-    // Call visitor->visit(AbstractBooleanInterface)
-    auto * interfaceVisitor = visitor->asVisitor<AbstractBooleanInterface>();
-    if (interfaceVisitor) {
-        interfaceVisitor->visit(this);
-    }
+    visitor->callVisitor<TypedBool>(this);
+    visitor->callVisitor<AbstractBooleanInterface>(this);
 }
 
 void TypedBool::toggleValue()

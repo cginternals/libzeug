@@ -22,11 +22,7 @@ TypedFilePath::~TypedFilePath()
 
 void TypedFilePath::accept(AbstractVisitor * visitor)
 {
-    // Call visitor->visit(TypedFilePath)
-    auto * typedVisitor = visitor->asVisitor<TypedFilePath>();
-    if (typedVisitor) {
-        typedVisitor->visit(this);
-    }
+    visitor->callVisitor<TypedFilePath>(this);
 }
 
 

@@ -38,17 +38,8 @@ bool TypedUnsignedIntegral<T>::fromULongLong(unsigned long long value)
 template <typename T>
 void TypedUnsignedIntegral<T>::accept(AbstractVisitor * visitor)
 {
-    // Call visitor->visit(TypedUnsignedIntegral<T>)
-    auto * typedVisitor = visitor->asVisitor<TypedUnsignedIntegral<T>>();
-    if (typedVisitor) {
-        typedVisitor->visit(this);
-    }
-
-    // Call visitor->visit(AbstractUnsignedIntegralInterface)
-    auto * interfaceVisitor = visitor->asVisitor<AbstractUnsignedIntegralInterface>();
-    if (interfaceVisitor) {
-        interfaceVisitor->visit(this);
-    }
+    visitor->callVisitor<TypedUnsignedIntegral<T>>(this);
+    visitor->callVisitor<AbstractUnsignedIntegralInterface>(this);
 }
 
 

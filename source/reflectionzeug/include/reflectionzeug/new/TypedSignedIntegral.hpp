@@ -38,17 +38,8 @@ bool TypedSignedIntegral<T>::fromLongLong(long long value)
 template <typename T>
 void TypedSignedIntegral<T>::accept(AbstractVisitor * visitor)
 {
-    // Call visitor->visit(TypedSignedIntegral<T>)
-    auto * typedVisitor = visitor->asVisitor<TypedSignedIntegral<T>>();
-    if (typedVisitor) {
-        typedVisitor->visit(this);
-    }
-
-    // Call visitor->visit(AbstractSignedIntegralInterface)
-    auto * interfaceVisitor = visitor->asVisitor<AbstractSignedIntegralInterface>();
-    if (interfaceVisitor) {
-        interfaceVisitor->visit(this);
-    }
+    visitor->callVisitor<TypedSignedIntegral<T>>(this);
+    visitor->callVisitor<AbstractSignedIntegralInterface>(this);
 }
 
 

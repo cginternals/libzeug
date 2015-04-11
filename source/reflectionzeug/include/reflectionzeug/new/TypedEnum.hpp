@@ -79,23 +79,9 @@ void TypedEnum<Enum>::setStrings(const std::map<Enum, std::string> & pairs)
 template <typename Enum>
 void TypedEnum<Enum>::accept(AbstractVisitor * visitor)
 {
-    // Call visitor->visit(TypedEnum<Enum>)
-    auto * typedVisitor = visitor->asVisitor<TypedEnum<Enum>>();
-    if (typedVisitor) {
-        typedVisitor->visit(this);
-    }
-
-    // Call visitor->visit(AbstractEnumInterface)
-    auto * interfaceVisitor = visitor->asVisitor<AbstractEnumInterface>();
-    if (interfaceVisitor) {
-        interfaceVisitor->visit(this);
-    }
-
-    // Call visitor->visit(AbstractStringInterface)
-    auto * interfaceVisitor2 = visitor->asVisitor<AbstractStringInterface>();
-    if (interfaceVisitor2) {
-        interfaceVisitor2->visit(this);
-    }
+    visitor->callVisitor<TypedEnum<Enum>>(this);
+    visitor->callVisitor<AbstractEnumInterface>(this);
+    visitor->callVisitor<AbstractStringInterface>(this);
 }
 
 

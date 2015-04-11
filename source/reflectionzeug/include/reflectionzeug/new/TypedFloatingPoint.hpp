@@ -38,17 +38,8 @@ bool TypedFloatingPoint<T>::fromDouble(double value)
 template <typename T>
 void TypedFloatingPoint<T>::accept(AbstractVisitor * visitor)
 {
-    // Call visitor->visit(TypedFloatingPoint<T>)
-    auto * typedVisitor = visitor->asVisitor<TypedFloatingPoint<T>>();
-    if (typedVisitor) {
-        typedVisitor->visit(this);
-    }
-
-    // Call visitor->visit(AbstractFloatingPointInterface)
-    auto * interfaceVisitor = visitor->asVisitor<AbstractFloatingPointInterface>();
-    if (interfaceVisitor) {
-        interfaceVisitor->visit(this);
-    }
+    visitor->callVisitor<TypedFloatingPoint<T>>(this);
+    visitor->callVisitor<AbstractFloatingPointInterface>(this);
 }
 
 

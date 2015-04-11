@@ -31,6 +31,9 @@ public:
 
     template <typename Type>
     Visitor<Type> * asVisitor() const;
+
+    template <typename Type>
+    void callVisitor(Type * instance);
 };
 
 

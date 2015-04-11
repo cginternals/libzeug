@@ -33,17 +33,8 @@ bool TypedString::fromString(const std::string & string)
 
 void TypedString::accept(AbstractVisitor * visitor)
 {
-    // Call visitor->visit(TypedString)
-    auto * typedVisitor = visitor->asVisitor<TypedString>();
-    if (typedVisitor) {
-        typedVisitor->visit(this);
-    }
-
-    // Call visitor->visit(AbstractStringInterface)
-    auto * interfaceVisitor = visitor->asVisitor<AbstractStringInterface>();
-    if (interfaceVisitor) {
-        interfaceVisitor->visit(this);
-    }
+    visitor->callVisitor<TypedString>(this);
+    visitor->callVisitor<AbstractStringInterface>(this);
 }
 
 

@@ -27,10 +27,7 @@ template <typename T>
 void Typed<T>::accept(AbstractVisitor * visitor)
 {
     // Call visitor->visit(Typed<T>)
-    auto * typedVisitor = visitor->asVisitor<Typed<T>>();
-    if (typedVisitor) {
-        typedVisitor->visit(this);
-    }
+    visitor->callVisitor<Typed<T>>(this);
 
     // Let base classes also call the visitor, e.g., for compound types
     return TypeSelector<T>::Type::accept(visitor);

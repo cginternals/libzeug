@@ -47,11 +47,7 @@ bool TypedClass<T>::fromString(const std::string & string)
 template <typename T>
 void TypedClass<T>::accept(AbstractVisitor * visitor)
 {
-    // Call visitor->visit(TypedClass<T>)
-    auto * typedVisitor = visitor->asVisitor<TypedClass<T>>();
-    if (typedVisitor) {
-        typedVisitor->visit(this);
-    }
+    visitor->callVisitor<TypedClass<T>>(this);
 }
 
 

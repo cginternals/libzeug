@@ -33,17 +33,8 @@ bool TypedColor::fromColor(const Color & color)
 
 void TypedColor::accept(AbstractVisitor * visitor)
 {
-    // Call visitor->visit(TypedColor)
-    auto * typedVisitor = visitor->asVisitor<TypedColor>();
-    if (typedVisitor) {
-        typedVisitor->visit(this);
-    }
-
-    // Call visitor->visit(AbstractColorInterface)
-    auto * interfaceVisitor = visitor->asVisitor<AbstractColorInterface>();
-    if (interfaceVisitor) {
-        interfaceVisitor->visit(this);
-    }
+    visitor->callVisitor<TypedColor>(this);
+    visitor->callVisitor<AbstractColorInterface>(this);
 }
 
 

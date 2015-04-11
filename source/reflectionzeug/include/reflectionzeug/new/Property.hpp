@@ -25,10 +25,7 @@ template <typename T>
 void Property2<T>::accept(AbstractVisitor * visitor)
 {
     // Call visitor->visit(Property<T>)
-    auto * typedVisitor = visitor->asVisitor<Property2<T>>();
-    if (typedVisitor) {
-        typedVisitor->visit(this);
-    }
+    visitor->callVisitor<Property2<T>>(this);
 
     // Let base classes call the visitor
     return Typed<T>::accept(visitor);

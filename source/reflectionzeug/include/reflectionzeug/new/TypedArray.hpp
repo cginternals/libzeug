@@ -25,17 +25,8 @@ TypedArray<T, Size>::~TypedArray()
 template <typename T, size_t Size>
 void TypedArray<T, Size>::accept(AbstractVisitor * visitor)
 {
-    // Call visitor->visit(TypedArray<T, Size>)
-    auto * typedVisitor = visitor->asVisitor<TypedArray<T, Size>>();
-    if (typedVisitor) {
-        typedVisitor->visit(this);
-    }
-
-    // Call visitor->visit(AbstractCollection)
-    auto * interfaceVisitor = visitor->asVisitor<AbstractCollection>();
-    if (interfaceVisitor) {
-        interfaceVisitor->visit(this);
-    }
+    visitor->callVisitor<TypedArray<T, Size>>(this);
+    visitor->callVisitor<AbstractCollection>(this);
 }
 
 
