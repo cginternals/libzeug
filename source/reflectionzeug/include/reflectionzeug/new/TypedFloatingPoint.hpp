@@ -3,6 +3,7 @@
 
 
 #include <reflectionzeug/new/TypedFloatingPoint.h>
+#include <reflectionzeug/new/AbstractVisitor.h>
 
 
 namespace reflectionzeug
@@ -32,6 +33,22 @@ bool TypedFloatingPoint<T>::fromDouble(double value)
 {
     this->setValue(static_cast<T>(value));
     return true;
+}
+
+template <typename T>
+void TypedFloatingPoint<T>::accept(AbstractVisitor * visitor)
+{
+    // Call visitor->visit(TypedFloatingPoint<T>)
+    auto * typedVisitor = visitor->asVisitor<TypedFloatingPoint<T>>();
+    if (typedVisitor) {
+        typedVisitor->visit(this);
+    }
+
+    // Call visitor->visit(AbstractFloatingPointInterface)
+    auto * interfaceVisitor = visitor->asVisitor<AbstractFloatingPointInterface>();
+    if (interfaceVisitor) {
+        interfaceVisitor->visit(this);
+    }
 }
 
 

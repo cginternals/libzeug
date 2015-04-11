@@ -25,6 +25,8 @@ public:
 
     virtual Color toColor() const override;
     virtual bool fromColor(const Color & color) override;
+
+    virtual void accept(AbstractVisitor * visitor) override;
 };
 
 

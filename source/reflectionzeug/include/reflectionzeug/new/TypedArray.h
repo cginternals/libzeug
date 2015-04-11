@@ -21,6 +21,8 @@ public:
     TypedArray(Args&&... args);
 
     virtual ~TypedArray();
+
+    virtual void accept(AbstractVisitor * visitor) override;
 };
 
 

@@ -3,6 +3,7 @@
 
 
 #include <reflectionzeug/new/TypedColor.h>
+#include <reflectionzeug/new/AbstractVisitor.h>
 
 
 namespace reflectionzeug
@@ -28,6 +29,21 @@ bool TypedColor::fromColor(const Color & color)
 {
     this->setValue(color);
     return true;
+}
+
+void TypedColor::accept(AbstractVisitor * visitor)
+{
+    // Call visitor->visit(TypedColor)
+    auto * typedVisitor = visitor->asVisitor<TypedColor>();
+    if (typedVisitor) {
+        typedVisitor->visit(this);
+    }
+
+    // Call visitor->visit(AbstractColorInterface)
+    auto * interfaceVisitor = visitor->asVisitor<AbstractColorInterface>();
+    if (interfaceVisitor) {
+        interfaceVisitor->visit(this);
+    }
 }
 
 

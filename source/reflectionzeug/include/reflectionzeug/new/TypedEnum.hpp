@@ -5,6 +5,7 @@
 #include <cassert>
 
 #include <reflectionzeug/new/TypedEnum.h>
+#include <reflectionzeug/new/AbstractVisitor.h>
 
 
 namespace reflectionzeug
@@ -72,6 +73,28 @@ void TypedEnum<Enum>::setStrings(const std::map<Enum, std::string> & pairs)
     {
         assert(m_enumMap.count(pair.second) == 0);
         m_enumMap.insert(std::make_pair(pair.second, pair.first));
+    }
+}
+
+template <typename Enum>
+void TypedEnum<Enum>::accept(AbstractVisitor * visitor)
+{
+    // Call visitor->visit(TypedEnum<Enum>)
+    auto * typedVisitor = visitor->asVisitor<TypedEnum<Enum>>();
+    if (typedVisitor) {
+        typedVisitor->visit(this);
+    }
+
+    // Call visitor->visit(AbstractEnumInterface)
+    auto * interfaceVisitor = visitor->asVisitor<AbstractEnumInterface>();
+    if (interfaceVisitor) {
+        interfaceVisitor->visit(this);
+    }
+
+    // Call visitor->visit(AbstractStringInterface)
+    auto * interfaceVisitor2 = visitor->asVisitor<AbstractStringInterface>();
+    if (interfaceVisitor2) {
+        interfaceVisitor2->visit(this);
     }
 }
 

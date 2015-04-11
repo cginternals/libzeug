@@ -24,6 +24,8 @@ public:
 
     virtual std::string toString() const;
     virtual bool fromString(const std::string & string);
+
+    virtual void accept(AbstractVisitor * visitor) override;
 };
 
 

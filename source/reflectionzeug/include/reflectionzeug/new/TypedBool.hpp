@@ -3,6 +3,7 @@
 
 
 #include <reflectionzeug/new/TypedBool.h>
+#include <reflectionzeug/new/AbstractVisitor.h>
 
 
 namespace reflectionzeug
@@ -17,6 +18,15 @@ TypedBool::TypedBool(Args&&... args)
 
 TypedBool::~TypedBool()
 {
+}
+
+void TypedBool::accept(AbstractVisitor * visitor)
+{
+    // Call visitor->visit(TypedBool)
+    auto * typedVisitor = visitor->asVisitor<TypedBool>();
+    if (typedVisitor) {
+        typedVisitor->visit(this);
+    }
 }
 
 void TypedBool::toggleValue()

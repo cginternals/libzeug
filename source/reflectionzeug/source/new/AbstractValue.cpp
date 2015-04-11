@@ -14,5 +14,9 @@ AbstractValue::~AbstractValue()
 {
 }
 
+void AbstractValue::accept(AbstractVisitor * visitor)
+{
+}
+
 
 } // namespace reflectionzeug

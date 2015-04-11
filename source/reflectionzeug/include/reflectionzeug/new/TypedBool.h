@@ -21,6 +21,8 @@ public:
 
     virtual ~TypedBool();
 
+    virtual void accept(AbstractVisitor * visitor) override;
+
     void toggleValue();
 };
 

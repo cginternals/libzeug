@@ -25,6 +25,8 @@ public:
 
     virtual long long toLongLong() const override;
     virtual bool fromLongLong(long long value) override;
+
+    virtual void accept(AbstractVisitor * visitor) override;
 };
 
 

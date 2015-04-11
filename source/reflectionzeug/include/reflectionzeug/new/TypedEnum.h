@@ -34,6 +34,8 @@ public:
     virtual std::vector<std::string> strings() const override;
     void setStrings(const std::map<Enum, std::string> & pairs);
 
+    virtual void accept(AbstractVisitor * visitor) override;
+
 
 protected:
     std::map<Enum, std::string> m_stringMap;

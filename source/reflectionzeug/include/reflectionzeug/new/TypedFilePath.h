@@ -21,6 +21,8 @@ public:
     TypedFilePath(Args&&... args);
 
     virtual ~TypedFilePath();
+
+    virtual void accept(AbstractVisitor * visitor) override;
 };
 
 

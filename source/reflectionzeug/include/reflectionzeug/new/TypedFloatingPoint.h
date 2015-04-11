@@ -25,6 +25,8 @@ public:
 
     virtual double toDouble() const override;
     virtual bool fromDouble(double value) override;
+
+    virtual void accept(AbstractVisitor * visitor) override;
 };
 
 

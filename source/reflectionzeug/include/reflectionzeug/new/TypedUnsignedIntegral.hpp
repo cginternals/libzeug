@@ -3,6 +3,7 @@
 
 
 #include <reflectionzeug/new/TypedUnsignedIntegral.h>
+#include <reflectionzeug/new/AbstractVisitor.h>
 
 
 namespace reflectionzeug
@@ -32,6 +33,22 @@ bool TypedUnsignedIntegral<T>::fromULongLong(unsigned long long value)
 {
     this->setValue(static_cast<T>(value));
     return true;
+}
+
+template <typename T>
+void TypedUnsignedIntegral<T>::accept(AbstractVisitor * visitor)
+{
+    // Call visitor->visit(TypedUnsignedIntegral<T>)
+    auto * typedVisitor = visitor->asVisitor<TypedUnsignedIntegral<T>>();
+    if (typedVisitor) {
+        typedVisitor->visit(this);
+    }
+
+    // Call visitor->visit(AbstractUnsignedIntegralInterface)
+    auto * interfaceVisitor = visitor->asVisitor<AbstractUnsignedIntegralInterface>();
+    if (interfaceVisitor) {
+        interfaceVisitor->visit(this);
+    }
 }
 
 

@@ -5,6 +5,7 @@
 #include <reflectionzeug/new/AccessorValue.h>
 #include <reflectionzeug/new/ArrayAccessorGetSet.h>
 #include <reflectionzeug/new/ArrayAccessorValue.h>
+#include <reflectionzeug/new/Visitor.h>
 
 
 using namespace reflectionzeug;
@@ -85,6 +86,185 @@ struct EnumDefaultStrings<MyEnum>
 };
 
 }
+
+// Visitor test
+class MyVisitor : public reflectionzeug::Visitor<
+                            AbstractCollection,
+                            AbstractSignedIntegralInterface,
+                            AbstractUnsignedIntegralInterface,
+                            AbstractFloatingPointInterface,
+                            AbstractStringInterface,
+                            AbstractColorInterface,
+                            AbstractEnumInterface,
+                            TypedSignedIntegral<int>,
+                            TypedUnsignedIntegral<unsigned int>,
+                            TypedFloatingPoint<float>,
+                            TypedFloatingPoint<double>,
+                            TypedBool,
+                            TypedString,
+                            TypedColor,
+                            TypedFilePath,
+                            TypedClass<TestClass>,
+                            TypedEnum<MyEnum>,
+                            TypedArray<int, 3>,
+                            Typed<int>,
+                            Typed<unsigned int>,
+                            Typed<float>,
+                            Typed<double>,
+                            Typed<bool>,
+                            Typed<std::string>,
+                            Typed<FilePath>,
+                            Typed<Color>,
+                            Typed<TestClass>,
+                            Typed<MyEnum>,
+                            Typed<std::array<int, 3>> >
+{
+public:
+    virtual void visit(AbstractCollection * typed) override
+    {
+        std::cout << "found AbstractCollection\n";
+    }
+
+    virtual void visit(AbstractSignedIntegralInterface * typed) override
+    {
+        std::cout << "found SignedIntegralInterface\n";
+    }
+
+    virtual void visit(AbstractUnsignedIntegralInterface * typed) override
+    {
+        std::cout << "found AbstractUnsignedIntegralInterface\n";
+    }
+
+    virtual void visit(AbstractFloatingPointInterface * typed) override
+    {
+        std::cout << "found AbstractFloatingPointInterface\n";
+    }
+
+    virtual void visit(AbstractStringInterface * typed) override
+    {
+        std::cout << "found AbstractStringInterface\n";
+    }
+
+    virtual void visit(AbstractColorInterface * typed) override
+    {
+        std::cout << "found AbstractColorInterface\n";
+    }
+
+    virtual void visit(AbstractEnumInterface * typed) override
+    {
+        std::cout << "found AbstractEnumInterface\n";
+    }
+
+    virtual void visit(TypedSignedIntegral<int> * typed) override
+    {
+        std::cout << "found TypedSignedIntegral<int>\n";
+    }
+
+    virtual void visit(TypedUnsignedIntegral<unsigned int> * typed) override
+    {
+        std::cout << "found TypedUnsignedIntegral<unsigned int>\n";
+    }
+
+    virtual void visit(TypedFloatingPoint<float> * typed) override
+    {
+        std::cout << "found TypedFloatingPoint<float>\n";
+    }
+
+    virtual void visit(TypedFloatingPoint<double> * typed) override
+    {
+        std::cout << "found TypedFloatingPoint<double>\n";
+    }
+
+    virtual void visit(TypedBool * typed) override
+    {
+        std::cout << "found TypedBool\n";
+    }
+
+    virtual void visit(TypedString * typed) override
+    {
+        std::cout << "found TypedString\n";
+    }
+
+    virtual void visit(TypedColor * typed) override
+    {
+        std::cout << "found TypedColor\n";
+    }
+
+    virtual void visit(TypedFilePath * typed) override
+    {
+        std::cout << "found TypedFilePath\n";
+    }
+
+    virtual void visit(TypedClass<TestClass> * typed) override
+    {
+        std::cout << "found TypedClass<TestClass>\n";
+    }
+
+    virtual void visit(TypedEnum<MyEnum> * typed) override
+    {
+        std::cout << "found TypedEnum<MyEnum>\n";
+    }
+
+    virtual void visit(TypedArray<int, 3> * typed) override
+    {
+        std::cout << "found TypedArray<int, 3>\n";
+    }
+
+    virtual void visit(Typed<int> * typed) override
+    {
+        std::cout << "found Typed<int>\n";
+    }
+
+    virtual void visit(Typed<unsigned int> * typed) override
+    {
+        std::cout << "found Typed<unsigned int>\n";
+    }
+
+    virtual void visit(Typed<float> * typed) override
+    {
+        std::cout << "found Typed<float>\n";
+    }
+
+    virtual void visit(Typed<double> * typed) override
+    {
+        std::cout << "found Typed<double>\n";
+    }
+
+    virtual void visit(Typed<bool> * typed) override
+    {
+        std::cout << "found Typed<bool>\n";
+    }
+
+    virtual void visit(Typed<std::string> * typed) override
+    {
+        std::cout << "found Typed<std::string>\n";
+    }
+
+    virtual void visit(Typed<Color> * typed) override
+    {
+        std::cout << "found Typed<Color>\n";
+    }
+
+    virtual void visit(Typed<FilePath> * typed) override
+    {
+        std::cout << "found Typed<FilePath>\n";
+    }
+
+    virtual void visit(Typed<TestClass> * typed) override
+    {
+        std::cout << "found Typed<TestClass>\n";
+    }
+
+    virtual void visit(Typed<MyEnum> * typed) override
+    {
+        std::cout << "found Typed<MyEnum>\n";
+    }
+
+    virtual void visit(Typed<std::array<int, 3>> * typed) override
+    {
+        std::cout << "found Typed<std::array<int, 3>>\n";
+    }
+};
 
 
 int main(int argc, char *argv[])
@@ -258,6 +438,48 @@ int main(int argc, char *argv[])
 
         typeEnum.fromString("Three");
         std::cout << "value = " << typeEnum.getValue() << " '" << typeEnum.toString() << "'" << " (3 'Three')\n";
+
+        std::cout << "\n";
+    }
+
+    // Test visitor
+    {
+        std::cout << "Visitor test\n";
+
+        MyVisitor visitor;
+
+        Typed<int> typeInt;
+        typeInt.accept(&visitor);
+
+        Typed<unsigned int> typeUInt;
+        typeUInt.accept(&visitor);
+
+        Typed<float> typeFloat;
+        typeFloat.accept(&visitor);
+
+        Typed<double> typeDouble;
+        typeDouble.accept(&visitor);
+
+        Typed<bool> typeBool;
+        typeBool.accept(&visitor);
+
+        Typed<std::string> typeString;
+        typeString.accept(&visitor);
+
+        Typed<Color> typeColor;
+        typeColor.accept(&visitor);
+
+        Typed<FilePath> typeFilePath;
+        typeFilePath.accept(&visitor);
+
+        Typed<TestClass> typeTestClass;
+        typeTestClass.accept(&visitor);
+
+        Typed<MyEnum> typeMyEnum;
+        typeMyEnum.accept(&visitor);
+
+        Typed<std::array<int, 3>> typeArray;
+        typeArray.accept(&visitor);
 
         std::cout << "\n";
     }

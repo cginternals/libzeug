@@ -13,6 +13,7 @@
 #include <reflectionzeug/new/TypedClass.h>
 #include <reflectionzeug/new/TypedArray.h>
 #include <reflectionzeug/new/TypedEnum.h>
+#include <reflectionzeug/new/AbstractVisitor.h>
 
 
 namespace reflectionzeug
@@ -96,6 +97,8 @@ public:
     Typed(Args&&... args);
 
     virtual ~Typed();
+
+    virtual void accept(AbstractVisitor * visitor) override;
 };
 
 

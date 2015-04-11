@@ -3,6 +3,7 @@
 
 
 #include <reflectionzeug/new/TypedString.h>
+#include <reflectionzeug/new/AbstractVisitor.h>
 
 
 namespace reflectionzeug
@@ -28,6 +29,21 @@ bool TypedString::fromString(const std::string & string)
 {
 	this->setValue(string);
 	return true;
+}
+
+void TypedString::accept(AbstractVisitor * visitor)
+{
+    // Call visitor->visit(TypedString)
+    auto * typedVisitor = visitor->asVisitor<TypedString>();
+    if (typedVisitor) {
+        typedVisitor->visit(this);
+    }
+
+    // Call visitor->visit(AbstractStringInterface)
+    auto * interfaceVisitor = visitor->asVisitor<AbstractStringInterface>();
+    if (interfaceVisitor) {
+        interfaceVisitor->visit(this);
+    }
 }
 
 

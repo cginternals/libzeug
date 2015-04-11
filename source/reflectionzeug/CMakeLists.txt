@@ -179,9 +179,12 @@ set(headers
     ${header_path}/new/AbstractUnsignedIntegralInterface.h
     ${header_path}/new/AbstractEnumInterface.h
     ${header_path}/new/AbstractProperty.h
+    ${header_path}/new/AbstractVisitor.h
+    ${header_path}/new/AbstractVisitor.hpp
     ${header_path}/new/PropertyGroup.h
     ${header_path}/new/Property.h
     ${header_path}/new/Property.hpp
+    ${header_path}/new/Visitor.h
 )
 
 set(sources
@@ -217,6 +220,7 @@ set(sources
     ${source_path}/new/AbstractUnsignedIntegralInterface.cpp
     ${source_path}/new/AbstractEnumInterface.cpp
     ${source_path}/new/AbstractProperty.cpp
+    ${source_path}/new/AbstractVisitor.cpp
     ${source_path}/new/PropertyGroup.cpp
 )
 

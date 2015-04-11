@@ -25,6 +25,8 @@ public:
 
     virtual unsigned long long toULongLong() const override;
     virtual bool fromULongLong(unsigned long long value) override;
+
+    virtual void accept(AbstractVisitor * visitor) override;
 };
 
 

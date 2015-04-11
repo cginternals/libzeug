@@ -4,6 +4,7 @@
 
 #include <iostream>
 #include <reflectionzeug/new/TypedClass.h>
+#include <reflectionzeug/new/AbstractVisitor.h>
 
 
 namespace reflectionzeug
@@ -41,6 +42,16 @@ bool TypedClass<T>::fromString(const std::string & string)
 
     this->setValue(value);
     return true;
+}
+
+template <typename T>
+void TypedClass<T>::accept(AbstractVisitor * visitor)
+{
+    // Call visitor->visit(TypedClass<T>)
+    auto * typedVisitor = visitor->asVisitor<TypedClass<T>>();
+    if (typedVisitor) {
+        typedVisitor->visit(this);
+    }
 }
 
 
