@@ -36,23 +36,6 @@ public:
     virtual bool setName(const std::string & name);
     bool hasName() const;
 
-    // [TODO]
-    /*
-    const VariantMap & options() const;
-    Variant option(const std::string & key) const;
-
-    template <typename T>
-    T option(const std::string & key, const T & defaultValue) const;
-
-    bool hasOption(const std::string & key) const;
-
-    void setOption(const std::string & key, const Variant & value);
-    void setOptions(const VariantMap & map);
-
-    bool removeOption(const std::string & key);
-
-    */
-
     template <class Type>
     Type * as();
 
