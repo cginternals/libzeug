@@ -154,6 +154,7 @@ template <typename Type, size_t Size>
 void AbstractTypedArray<Type, Size>::setElement(size_t i, const Type & value)
 {
     m_arrayAccessor->setElement(i, value);
+    this->valueChanged();
 }
 
 template <typename Type, size_t Size>

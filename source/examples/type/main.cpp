@@ -499,4 +499,21 @@ int main(int argc, char *argv[])
 
         std::cout << "\n";
     }
+
+    // Create changed-signal
+    {
+        std::cout << "Signal test\n";
+
+        Typed<int> typeInt;
+        typeInt.valueChanged.connect([] () {
+            std::cout << "typeInt changed.\n";
+        });
+
+        for (int i=0; i<10; i++) {
+            typeInt.setValue(i);
+            std::cout << "value = " << typeInt.getValue() << " (" << i << ")\n";
+        }
+
+        std::cout << "\n";
+    }
 }

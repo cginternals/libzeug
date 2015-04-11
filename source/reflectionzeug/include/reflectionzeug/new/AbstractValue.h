@@ -2,6 +2,8 @@
 #pragma once
 
 
+#include <signalzeug/Signal.h>
+
 #include <reflectionzeug/reflectionzeug_api.h>
 
 
@@ -18,6 +20,10 @@ class AbstractVisitor;
 */
 class REFLECTIONZEUG_API AbstractValue
 {
+public:
+    signalzeug::Signal<> valueChanged;	/**< Called when the value has been changed */
+
+
 public:
     AbstractValue();
     virtual ~AbstractValue();

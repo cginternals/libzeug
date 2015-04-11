@@ -77,6 +77,7 @@ template <typename Type>
 void AbstractTyped<Type>::setValue(const Type & value)
 {
     m_accessor->setValue(value);
+    this->valueChanged();
 }
 
 
