@@ -516,4 +516,35 @@ int main(int argc, char *argv[])
 
         std::cout << "\n";
     }
+
+    // Casting test
+    {
+        std::cout << "Casting test\n";
+
+        AbstractValue * typeInt = new Typed<int>;
+        if (typeInt->isCollection()) {
+            std::cout << "typeInt is a collection.\n";
+        } else {
+            std::cout << "typeInt is NOT a collection.\n";
+        }
+        if (typeInt->isGroup()) {
+            std::cout << "typeInt is a group.\n";
+        } else {
+            std::cout << "typeInt is NOT a group.\n";
+        }
+
+        AbstractValue * typeArray = new Typed<std::array<int, 3>>;
+        if (typeArray->isCollection()) {
+            std::cout << "typeArray is a collection.\n";
+        } else {
+            std::cout << "typeArray is NOT a collection.\n";
+        }
+        if (typeArray->isGroup()) {
+            std::cout << "typeArray is a group.\n";
+        } else {
+            std::cout << "typeArray is NOT a group.\n";
+        }
+
+        std::cout << "\n";
+    }
 }
