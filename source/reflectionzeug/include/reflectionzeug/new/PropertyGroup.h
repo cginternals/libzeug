@@ -20,8 +20,11 @@ class REFLECTIONZEUG_API PropertyGroup2 : public AbstractProperty2,
                                           public AbstractValue
 {
 public:
-    PropertyGroup2();
+    PropertyGroup2(const std::string & name);
     virtual ~PropertyGroup2();
+
+    virtual std::string name() const override;
+    virtual bool setName(const std::string & name) override;
 };
 
 

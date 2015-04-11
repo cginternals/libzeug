@@ -2,6 +2,8 @@
 #pragma once
 
 
+#include <string>
+
 #include <reflectionzeug/reflectionzeug_api.h>
 
 
@@ -16,8 +18,12 @@ namespace reflectionzeug
 class REFLECTIONZEUG_API AbstractProperty2
 {
 public:
-    AbstractProperty2();
+    AbstractProperty2(const std::string & name);
     virtual ~AbstractProperty2();
+
+
+protected:
+    std::string m_name; /**< Property name */
 };
 
 

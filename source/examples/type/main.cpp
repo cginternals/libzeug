@@ -275,7 +275,7 @@ public:
 
     virtual void visit(Property2<int> * typed) override
     {
-        std::cout << "found Property<int>\n";
+        std::cout << "found Property<int> ('" + typed->name() + "')\n";
     }
 };
 
@@ -494,7 +494,7 @@ int main(int argc, char *argv[])
         Typed<std::array<int, 3>> typeArray;
         typeArray.accept(&visitor);
 
-        Property2<int> propertyInt;
+        Property2<int> propertyInt("Integer");
         propertyInt.accept(&visitor);
 
         std::cout << "\n";
