@@ -1,10 +1,11 @@
 #include <iostream>
 
-#include <reflectionzeug/new/Typed.h>
 #include <reflectionzeug/new/AccessorGetSet.h>
 #include <reflectionzeug/new/AccessorValue.h>
 #include <reflectionzeug/new/ArrayAccessorGetSet.h>
 #include <reflectionzeug/new/ArrayAccessorValue.h>
+#include <reflectionzeug/new/Typed.h>
+#include <reflectionzeug/new/Property.h>
 #include <reflectionzeug/new/Visitor.h>
 
 
@@ -118,7 +119,8 @@ class MyVisitor : public reflectionzeug::Visitor<
                             Typed<Color>,
                             Typed<TestClass>,
                             Typed<MyEnum>,
-                            Typed<std::array<int, 3>> >
+                            Typed<std::array<int, 3>>,
+                            Property2<int> >
 {
 public:
     virtual void visit(AbstractCollection * typed) override
@@ -269,6 +271,11 @@ public:
     virtual void visit(Typed<std::array<int, 3>> * typed) override
     {
         std::cout << "found Typed<std::array<int, 3>>\n";
+    }
+
+    virtual void visit(Property2<int> * typed) override
+    {
+        std::cout << "found Property<int>\n";
     }
 };
 
@@ -466,8 +473,8 @@ int main(int argc, char *argv[])
         // Typed<double> typeDouble;
         // typeDouble.accept(&visitor);
 
-        Typed<bool> typeBool;
-        typeBool.accept(&visitor);
+        // Typed<bool> typeBool;
+        // typeBool.accept(&visitor);
 
         // Typed<std::string> typeString;
         // typeString.accept(&visitor);
@@ -486,6 +493,9 @@ int main(int argc, char *argv[])
 
         // Typed<std::array<int, 3>> typeArray;
         // typeArray.accept(&visitor);
+
+        Property2<int> propertyInt;
+        propertyInt.accept(&visitor);
 
         std::cout << "\n";
     }

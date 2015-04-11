@@ -22,6 +22,8 @@ public:
     Property2(Args&&... args);
 
     virtual ~Property2();
+
+    virtual void accept(AbstractVisitor * visitor) override;
 };
 
 
