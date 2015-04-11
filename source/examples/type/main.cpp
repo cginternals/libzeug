@@ -93,6 +93,7 @@ class MyVisitor : public reflectionzeug::Visitor<
                             AbstractSignedIntegralInterface,
                             AbstractUnsignedIntegralInterface,
                             AbstractFloatingPointInterface,
+                            AbstractBooleanInterface,
                             AbstractStringInterface,
                             AbstractColorInterface,
                             AbstractEnumInterface,
@@ -138,6 +139,11 @@ public:
     virtual void visit(AbstractFloatingPointInterface * typed) override
     {
         std::cout << "found AbstractFloatingPointInterface\n";
+    }
+
+    virtual void visit(AbstractBooleanInterface * typed) override
+    {
+        std::cout << "found AbstractBooleanInterface\n";
     }
 
     virtual void visit(AbstractStringInterface * typed) override
@@ -448,38 +454,38 @@ int main(int argc, char *argv[])
 
         MyVisitor visitor;
 
-        Typed<int> typeInt;
-        typeInt.accept(&visitor);
+        // Typed<int> typeInt;
+        // typeInt.accept(&visitor);
 
-        Typed<unsigned int> typeUInt;
-        typeUInt.accept(&visitor);
+        // Typed<unsigned int> typeUInt;
+        // typeUInt.accept(&visitor);
 
-        Typed<float> typeFloat;
-        typeFloat.accept(&visitor);
+        // Typed<float> typeFloat;
+        // typeFloat.accept(&visitor);
 
-        Typed<double> typeDouble;
-        typeDouble.accept(&visitor);
+        // Typed<double> typeDouble;
+        // typeDouble.accept(&visitor);
 
         Typed<bool> typeBool;
         typeBool.accept(&visitor);
 
-        Typed<std::string> typeString;
-        typeString.accept(&visitor);
+        // Typed<std::string> typeString;
+        // typeString.accept(&visitor);
 
-        Typed<Color> typeColor;
-        typeColor.accept(&visitor);
+        // Typed<Color> typeColor;
+        // typeColor.accept(&visitor);
 
-        Typed<FilePath> typeFilePath;
-        typeFilePath.accept(&visitor);
+        // Typed<FilePath> typeFilePath;
+        // typeFilePath.accept(&visitor);
 
-        Typed<TestClass> typeTestClass;
-        typeTestClass.accept(&visitor);
+        // Typed<TestClass> typeTestClass;
+        // typeTestClass.accept(&visitor);
 
-        Typed<MyEnum> typeMyEnum;
-        typeMyEnum.accept(&visitor);
+        // Typed<MyEnum> typeMyEnum;
+        // typeMyEnum.accept(&visitor);
 
-        Typed<std::array<int, 3>> typeArray;
-        typeArray.accept(&visitor);
+        // Typed<std::array<int, 3>> typeArray;
+        // typeArray.accept(&visitor);
 
         std::cout << "\n";
     }

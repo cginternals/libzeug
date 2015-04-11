@@ -22,13 +22,13 @@ TypedString::~TypedString()
 
 std::string TypedString::toString() const
 {
-	return this->getValue();
+    return this->getValue();
 }
 
 bool TypedString::fromString(const std::string & string)
 {
-	this->setValue(string);
-	return true;
+    this->setValue(string);
+    return true;
 }
 
 void TypedString::accept(AbstractVisitor * visitor)

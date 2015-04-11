@@ -172,6 +172,7 @@ set(headers
     ${header_path}/new/TypedString.hpp
     ${header_path}/new/TypedUnsignedIntegral.h
     ${header_path}/new/TypedUnsignedIntegral.hpp
+    ${header_path}/new/AbstractBooleanInterface.h
     ${header_path}/new/AbstractStringInterface.h
     ${header_path}/new/AbstractColorInterface.h
     ${header_path}/new/AbstractFloatingPointInterface.h
@@ -213,6 +214,7 @@ set(sources
 
     ${source_path}/new/AbstractValue.cpp
     ${source_path}/new/AbstractCollection.cpp
+    ${source_path}/new/AbstractBooleanInterface.cpp
     ${source_path}/new/AbstractStringInterface.cpp
     ${source_path}/new/AbstractColorInterface.cpp
     ${source_path}/new/AbstractFloatingPointInterface.cpp
