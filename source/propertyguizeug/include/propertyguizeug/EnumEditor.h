@@ -1,6 +1,7 @@
 #pragma once
 
 #include <propertyguizeug/PropertyEditor.h>
+#include <signalzeug/ScopedConnection.h>
 
 namespace reflectionzeug
 {
@@ -18,11 +19,13 @@ public:
 public:
     EnumEditor(reflectionzeug::EnumPropertyInterface * property, 
                QWidget * parent = nullptr);
+    virtual ~EnumEditor();
     
     void setString(const QString & text);
 
 private:
     reflectionzeug::EnumPropertyInterface * m_property;
+    signalzeug::ScopedConnection m_propertyChangedConnection;
 };
 
 } // namespace propertyguizeug

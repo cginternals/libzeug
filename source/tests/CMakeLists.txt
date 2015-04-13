@@ -11,8 +11,8 @@ function(add_test_without_ctest target)
     add_subdirectory(${target})
     if (TARGET ${target})
         add_dependencies(test ${target})
-        add_custom_command(TARGET test POST_BUILD
-           COMMAND $<TARGET_FILE:${target}> --gtest_output=xml:gtests.xml)
+        add_custom_command(TARGET test POST_BUILD 
+           COMMAND $<TARGET_FILE:${target}> --gtest_output=xml:gtests-${target}.xml)
     endif()
 
 endfunction()
@@ -43,6 +43,7 @@ if(OPTION_BUILD_TESTS AND GMOCK_FOUND AND GTEST_FOUND)
     # Tests
     add_test_without_ctest(reflectionzeug-test)
     add_test_without_ctest(scriptzeug-test)
+    add_test_without_ctest(threadingzeug-test)
     add_test_without_ctest(widgetzeug-test)
 
 endif()

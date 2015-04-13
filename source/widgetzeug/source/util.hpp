@@ -1,9 +1,7 @@
 #pragma once
 
+#include <cmath>
 #include <type_traits>
-
-#include <QtMath>
-
 
 namespace widgetzeug
 {
@@ -18,7 +16,7 @@ template <typename T>
 const T fract(const T & value)
 {
     static_assert(std::is_floating_point<T>::value, "T must be a floating point type.");
-    return value - qFloor(value);
+    return value - std::floor(value);
 }
 
 template <typename T>

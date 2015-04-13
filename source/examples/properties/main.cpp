@@ -109,21 +109,31 @@ void serializingProperties()
         auto object = MyObject{};
         object.setValue<int>("int_value", -1);
         object.setValue<MyEnum>("enum_value", MyEnum::Value3);
-        object.setValue<std::array<float, 3>>("float_array", { 4.8f, 15.16f, 23.42f });
+        object.setValue<std::array<float, 3>>("float_array", {{ 4.8f, 15.16f, 23.42f }});
         object.setValue<bool>("sub_group/bool_value", false);
         
         // Serialize property hierarchies with the PropertySerializer ...
-        PropertySerializer serializer{};
-        serializer.serialize(object, INI_PATH);
+        try {
+            PropertySerializer serializer{};
+            serializer.serialize(object, INI_PATH);
+        }
+        catch (...)
+        {
+        }
     }
 
     {
         auto object = MyObject{};
-        
-        // ... and deserialize them with the PropertyDeserializer.
-        auto deserializer = PropertyDeserializer{};
-        deserializer.deserialize(object, INI_PATH);
-        printGroup(object);
+
+        try {
+            // ... and deserialize them with the PropertyDeserializer.
+            auto deserializer = PropertyDeserializer{};
+            deserializer.deserialize(object, INI_PATH);
+            printGroup(object);
+        }
+        catch (...)
+        {
+        }
     }
 }
 

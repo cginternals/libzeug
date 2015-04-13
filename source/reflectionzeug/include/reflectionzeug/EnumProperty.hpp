@@ -59,6 +59,12 @@ const std::vector<Enum> & EnumProperty<Enum>::choices() const
 }
 
 template <typename Enum>
+void EnumProperty<Enum>::setChoices(const std::vector<Enum> & choices)
+{
+    m_choices = choices;
+}
+
+template <typename Enum>
 std::vector<std::string> EnumProperty<Enum>::choicesStrings() const
 {
     std::vector<std::string> strings;

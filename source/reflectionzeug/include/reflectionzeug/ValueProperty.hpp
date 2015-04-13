@@ -80,8 +80,8 @@ void ValueProperty<Type, SuperClass>::setAccessors(
     const Type & (Object::*getter_pointer)() const,
     void (Object::*setter_pointer)(const Type &))
 {
-    m_getter = std::bind(getter_pointer, object);
-    m_setter = std::bind(setter_pointer, object, std::placeholders::_1);
+    m_getter = [object, getter_pointer]() { return (object->*getter_pointer)(); };
+    m_setter = [object, setter_pointer](const Type & value) { (object->*setter_pointer)(value); };
 }
 
 template <typename Type, typename SuperClass>
@@ -91,8 +91,8 @@ void ValueProperty<Type, SuperClass>::setAccessors(
     Type (Object::*getter_pointer)() const,
     void (Object::*setter_pointer)(const Type &))
 {
-    m_getter = std::bind(getter_pointer, object);
-    m_setter = std::bind(setter_pointer, object, std::placeholders::_1);
+    m_getter = [object, getter_pointer]() { return (object->*getter_pointer)(); };
+    m_setter = [object, setter_pointer](const Type & value) { (object->*setter_pointer)(value); };
 }
 
 template <typename Type, typename SuperClass>
@@ -102,8 +102,8 @@ void ValueProperty<Type, SuperClass>::setAccessors(
     Type (Object::*getter_pointer)() const,
     void (Object::*setter_pointer)(Type))
 {
-    m_getter = std::bind(getter_pointer, object);
-    m_setter = std::bind(setter_pointer, object, std::placeholders::_1);
+    m_getter = [object, getter_pointer]() { return (object->*getter_pointer)(); };
+    m_setter = [object, setter_pointer](const Type & value) { (object->*setter_pointer)(value); };
 }
 
 } // namespace reflectionzeug

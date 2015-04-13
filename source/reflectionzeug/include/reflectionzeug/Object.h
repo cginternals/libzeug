@@ -13,6 +13,7 @@ namespace reflectionzeug
 class REFLECTIONZEUG_API Object : public PropertyGroup
 {
 public:
+    Object();
     Object(const std::string & name);
     virtual ~Object();
 

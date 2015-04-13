@@ -1,14 +1,17 @@
-
 #include <string>
 
 #include <QApplication>
 #include <QWidget>
 #include <QPushButton>
+
 #include <reflectionzeug/Property.h>
 #include <reflectionzeug/PropertyGroup.h>
+
 #include <propertyguizeug/PropertyBrowser.h>
-#include <widgetzeug/ColorGradient.h>
-#include <widgetzeug/ColorGradientProperty.h>
+
+//#include <widgetzeug/ColorGradient.h>
+//#include <widgetzeug/ColorGradientProperty.h>
+#include <widgetzeug/dark_fusion_style.hpp>
 
 using namespace reflectionzeug;
 using namespace propertyguizeug;
@@ -24,13 +27,13 @@ std::function<T()> getter(const T & value)
 
 template <typename T>
 std::function<void(const T &)> setter(T & value)
-{
+        {
     return [&value](const T & newValue) { value = newValue; };
 }
 
 template <typename T>
 Property<T> * newProperty(const std::string & name, T & value)
-{
+                {
     return new Property<T>(name, getter(value), setter(value));
 }
 
@@ -55,6 +58,8 @@ int main(int argc, char *argv[])
     QApplication a(argc, argv);
     QApplication::setApplicationName("property_editors");
     QApplication::setOrganizationName("hpicgs_libzeug");
+    
+    enableDarkFusionStyle();
     
     PropertyGroup group;
     
@@ -221,10 +226,10 @@ int main(int argc, char *argv[])
     });
     subGroup->addProperty(enumProperty);
     
-    auto colorGradientValue = ColorGradient::fromList({ QColor{Qt::black}, QColor{Qt::white} });
-    auto colorGradientProperty = newProperty("gradient", colorGradientValue);
-    subGroup->addProperty(colorGradientProperty);
-    
+    //auto colorGradientValue = ColorGradient::fromList({ QColor{Qt::black}, QColor{Qt::white} });
+    //auto colorGradientProperty = newProperty("gradient", colorGradientValue);
+    //subGroup->addProperty(colorGradientProperty);
+
     PropertyBrowser browser;
     browser.setRoot(&group);
     browser.show();

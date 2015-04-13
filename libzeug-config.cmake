@@ -89,33 +89,33 @@ macro (find LIB_NAME HEADER)
     endif()
 
     # find binaries
+    if (WIN32 AND ${LIB_NAME_UPPER}_LIBRARIES)
+        set(${LIB_NAME_UPPER}_BINARIES "")
 
-    set(${LIB_NAME_UPPER}_BINARIES "")
+        find_file(${LIB_NAME_UPPER}_BINARY_RELEASE
+            NAMES ${LIBNAME}.dll
+            PATHS
+            ${LIBZEUG_DIR}/bin
+            ${LIBZEUG_DIR}/build/Release
+            ${LIBZEUG_DIR}/build-release
+            DOC "The ${LIB_NAME_UPPER} binary")
 
-    find_file(${LIB_NAME_UPPER}_BINARY_RELEASE
-        NAMES ${LIBNAME}.dll
-        PATHS
-        ${LIBZEUG_DIR}/bin
-        ${LIBZEUG_DIR}/build/Release
-        ${LIBZEUG_DIR}/build-release
-        DOC "The ${LIB_NAME_UPPER} binary")
+        find_file(${LIB_NAME_UPPER}_BINARY_DEBUG
+            NAMES ${LIBNAME}d.dll
+            PATHS
+            ${LIBZEUG_DIR}/bin
+            ${LIBZEUG_DIR}/build/Debug
+            ${LIBZEUG_DIR}/build-debug
+            DOC "The ${LIB_NAME_UPPER} debug binary")
 
-    find_file(${LIB_NAME_UPPER}_BINARY_DEBUG
-        NAMES ${LIBNAME}d.dll
-        PATHS
-        ${LIBZEUG_DIR}/bin
-        ${LIBZEUG_DIR}/build/Debug
-        ${LIBZEUG_DIR}/build-debug
-        DOC "The ${LIB_NAME_UPPER} debug binary")
+        if(NOT ${LIB_NAME_UPPER}_BINARY_RELEASE STREQUAL "${LIB_NAME_UPPER}_BINARY_RELEASE-NOTFOUND")
+            list(APPEND ${LIB_NAME_UPPER}_BINARIES ${${LIB_NAME_UPPER}_BINARY_RELEASE})
+        endif()
 
-    if(NOT ${LIB_NAME_UPPER}_BINARY_RELEASE STREQUAL "${LIB_NAME_UPPER}_BINARY_RELEASE-NOTFOUND")
-        list(APPEND ${LIB_NAME_UPPER}_BINARIES ${${LIB_NAME_UPPER}_BINARY_RELEASE})
+        if(NOT ${LIB_NAME_UPPER}_BINARY_DEBUG STREQUAL "${LIB_NAME_UPPER}_BINARY_DEBUG-NOTFOUND")
+            list(APPEND ${LIB_NAME_UPPER}_BINARIES ${${LIB_NAME_UPPER}_BINARY_DEBUG})
+        endif()
     endif()
-
-    if(NOT ${LIB_NAME_UPPER}_BINARY_DEBUG STREQUAL "${LIB_NAME_UPPER}_BINARY_DEBUG-NOTFOUND")
-        list(APPEND ${LIB_NAME_UPPER}_BINARIES ${${LIB_NAME_UPPER}_BINARY_DEBUG})
-    endif()
-
 
     list(APPEND LIBZEUG_INCLUDES ${${LIB_NAME_UPPER}_INCLUDE_DIR})
     list(APPEND LIBZEUG_LIBRARIES ${${LIB_NAME_UPPER}_LIBRARIES})
