@@ -521,28 +521,28 @@ int main(int argc, char *argv[])
     {
         std::cout << "Casting test\n";
 
-        AbstractValue * typeInt = new Typed<int>;
-        if (typeInt->isCollection()) {
-            std::cout << "typeInt is a collection.\n";
+        AbstractProperty2 * propertyInt = new Property2<int>("int");
+        if (propertyInt->isCollection()) {
+            std::cout << "propertyInt is a collection.\n";
         } else {
-            std::cout << "typeInt is NOT a collection.\n";
+            std::cout << "propertyInt is NOT a collection.\n";
         }
-        if (typeInt->isGroup()) {
-            std::cout << "typeInt is a group.\n";
+        if (propertyInt->isGroup()) {
+            std::cout << "propertyInt is a group.\n";
         } else {
-            std::cout << "typeInt is NOT a group.\n";
+            std::cout << "propertyInt is NOT a group.\n";
         }
 
-        AbstractValue * typeArray = new Typed<std::array<int, 3>>;
-        if (typeArray->isCollection()) {
-            std::cout << "typeArray is a collection.\n";
+        AbstractProperty2 * propertyArray = new Property2<std::array<int, 3>>("array");;
+        if (propertyArray->isCollection()) {
+            std::cout << "propertyArray is a collection.\n";
         } else {
-            std::cout << "typeArray is NOT a collection.\n";
+            std::cout << "propertyArray is NOT a collection.\n";
         }
-        if (typeArray->isGroup()) {
-            std::cout << "typeArray is a group.\n";
+        if (propertyArray->isGroup()) {
+            std::cout << "propertyArray is a group.\n";
         } else {
-            std::cout << "typeArray is NOT a group.\n";
+            std::cout << "propertyArray is NOT a group.\n";
         }
 
         std::cout << "\n";

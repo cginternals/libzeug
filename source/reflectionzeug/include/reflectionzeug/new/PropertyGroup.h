@@ -41,9 +41,6 @@ public:
     virtual bool setName(const std::string & name) override;
 
     // [TODO]
-    // virtual bool isGroup() const;
-
-    // [TODO]
     // virtual Variant toVariant() const override;
 
     // [TODO]
@@ -107,14 +104,14 @@ public:
     bool propertyExists(const std::string & name) const;
     bool groupExists(const std::string & name) const;
 
-    void forEach(const std::function<void(AbstractProperty2 &)> & functor);
-    void forEach(const std::function<void(const AbstractProperty2 &)> & functor) const;
+    void forEach(const std::function<void(AbstractProperty2 &)> & callback);
+    void forEach(const std::function<void(const AbstractProperty2 &)> & callback) const;
 
-    void forEachCollection(const std::function<void(AbstractCollection &)> & functor);
-    void forEachCollection(const std::function<void(const AbstractCollection &)> & functor) const;
+    void forEachCollection(const std::function<void(AbstractCollection &)> & callback);
+    void forEachCollection(const std::function<void(const AbstractCollection &)> & callback) const;
 
-    void forEachGroup(const std::function<void(PropertyGroup2 &)> & functor);
-    void forEachGroup(const std::function<void(const PropertyGroup2 &)> & functor) const;
+    void forEachGroup(const std::function<void(PropertyGroup2 &)> & callback);
+    void forEachGroup(const std::function<void(const PropertyGroup2 &)> & callback) const;
 
 
 protected:

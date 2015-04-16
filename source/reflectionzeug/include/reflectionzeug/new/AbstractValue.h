@@ -14,8 +14,6 @@ namespace reflectionzeug
 
 
 class AbstractVisitor;
-class AbstractCollection;
-class PropertyGroup2;
 
 
 /**
@@ -36,26 +34,8 @@ public:
     virtual bool setName(const std::string & name);
     bool hasName() const;
 
-    template <class Type>
-    Type * as();
-
-    template <class Type>
-    const Type * as() const;
-
-    AbstractCollection * asCollection();
-    const AbstractCollection * asCollection() const;
-
-    PropertyGroup2 * asGroup();
-    const PropertyGroup2 * asGroup() const;
-
-    bool isCollection() const;
-    bool isGroup() const;
-
     virtual void accept(AbstractVisitor * visitor);
 };
 
 
 } // namespace reflectionzeug
-
-
-#include <reflectionzeug/new/AbstractValue.hpp>

@@ -1,5 +1,9 @@
 
+#include <cassert>
+#include <algorithm>
+
 #include <reflectionzeug/new/PropertyGroup.h>
+#include <reflectionzeug/new/AbstractProperty.h>
 #include <reflectionzeug/util.h>
 
 
@@ -40,13 +44,6 @@ bool PropertyGroup2::setName(const std::string & name)
     m_name = name;
     return true;
 }
-
-// [TODO]
-/*
-bool PropertyGroup2::isGroup() const
-{
-}
-*/
 
 // [TODO]
 /*
@@ -167,7 +164,7 @@ AbstractValue * PropertyGroup2::at(size_t index)
     }
 
     // Return property
-    return m_properties[index];
+    return m_properties[index]->asGroup();
 }
 
 const AbstractValue * PropertyGroup2::at(size_t index) const
@@ -179,7 +176,7 @@ const AbstractValue * PropertyGroup2::at(size_t index) const
     }
 
     // Return property
-    return m_properties[index];
+    return m_properties[index]->asGroup();
 }
 
 int PropertyGroup2::indexOf(const AbstractValue * value) const
@@ -188,14 +185,14 @@ int PropertyGroup2::indexOf(const AbstractValue * value) const
     assert(value);
 
     // Convert into property
-    AbstractProperty2 * property = dynamic_cast<AbstractProperty2 *>value;
+    const AbstractProperty2 * property = dynamic_cast<const AbstractProperty2 *>(value);
     if (!property)
     {
         return -1;
     }
 
     // Check if property exists in the group
-    if (!this->propertyExists(property->name()))
+    if (!this->propertyExists(value->name()))
     {
         return -1;
     }
@@ -207,7 +204,7 @@ int PropertyGroup2::indexOf(const AbstractValue * value) const
 void PropertyGroup2::forEach(const std::function<void(AbstractValue &)> & callback)
 {
     // For each property
-    for (AbstractProperty * property : m_properties)
+    for (AbstractProperty2 * property : m_properties)
     {
         // Get abstract value
         AbstractValue * value = dynamic_cast<AbstractValue *>(property);
@@ -216,14 +213,14 @@ void PropertyGroup2::forEach(const std::function<void(AbstractValue &)> & callba
         }
 
         // Invoke callback
-        functor(*value);
+        callback(*value);
     }
 }
 
 void PropertyGroup2::forEach(const std::function<void(const AbstractValue &)> & callback) const
 {
     // For each property
-    for (AbstractProperty * property : m_properties)
+    for (AbstractProperty2 * property : m_properties)
     {
         // Get abstract value
         AbstractValue * value = dynamic_cast<AbstractValue *>(property);
@@ -232,7 +229,7 @@ void PropertyGroup2::forEach(const std::function<void(const AbstractValue &)> & 
         }
 
         // Invoke callback
-        functor(*value);
+        callback(*value);
     }
 }
 
@@ -247,14 +244,14 @@ AbstractProperty2 * PropertyGroup2::takeProperty(const std::string & name)
     // Get property and property index
     AbstractProperty2 * property = m_propertiesMap.at(name);
     auto it = std::find(m_properties.begin(), m_properties.end(), property);
-    size_t index = indexOf(*it);
+    size_t index = indexOf( (*it)->asValue() );
 
     // Invoke callback
     beforeRemove(index);
 
     // Remove property from group
     m_properties.erase(it);
-    m_propertiesMap.erase(property->name());
+    m_propertiesMap.erase(name);
 
     // Invoke callback
     afterRemove(index);
@@ -283,7 +280,7 @@ void PropertyGroup2::clear()
         }
 
         // Remove property
-        m_propertiesMap.erase((*it)->name());
+        m_propertiesMap.erase((*it)->asValue()->name());
         it = m_properties.erase(it);
 
         // Invoke callback
@@ -311,25 +308,25 @@ bool PropertyGroup2::groupExists(const std::string & name) const
            m_propertiesMap.at(name)->as<PropertyGroup2>() != nullptr;
 }
 
-void forEach(const std::function<void(AbstractProperty2 &)> & functor)
+void PropertyGroup2::forEach(const std::function<void(AbstractProperty2 &)> & callback)
 {
     // Visit all properties
     for (AbstractProperty2 * property : m_properties)
     {
-        functor(*property);
+        callback(*property);
     }
 }
 
-void forEach(const std::function<void(const AbstractProperty2 &)> & functor) const
+void PropertyGroup2::forEach(const std::function<void(const AbstractProperty2 &)> & callback) const
 {
     // Visit all properties
     for (const AbstractProperty2 * property : m_properties)
     {
-        functor(*property);
+        callback(*property);
     }
 }
 
-void forEachCollection(const std::function<void(AbstractCollection &)> & functor)
+void PropertyGroup2::forEachCollection(const std::function<void(AbstractCollection &)> & callback)
 {
     // Visit all collections
     for (AbstractProperty2 * property : m_properties)
@@ -337,12 +334,12 @@ void forEachCollection(const std::function<void(AbstractCollection &)> & functor
         // Check if property is a collection
         AbstractCollection * collection = dynamic_cast<AbstractCollection *>(property);
         if (collection) {
-            functor(*collection);
+            callback(*collection);
         }
     }
 }
 
-void forEachCollection(const std::function<void(const AbstractCollection &)> & functor) const
+void PropertyGroup2::forEachCollection(const std::function<void(const AbstractCollection &)> & callback) const
 {
     // Visit all collections
     for (const AbstractProperty2 * property : m_properties)
@@ -350,33 +347,33 @@ void forEachCollection(const std::function<void(const AbstractCollection &)> & f
         // Check if property is a collection
         const AbstractCollection * collection = dynamic_cast<const AbstractCollection *>(property);
         if (collection) {
-            functor(*collection);
+            callback(*collection);
         }
     }
 }
 
-void forEachGroup(const std::function<void(PropertyGroup2 &)> & functor)
+void PropertyGroup2::forEachGroup(const std::function<void(PropertyGroup2 &)> & callback)
 {
     // Visit all groups
     for (AbstractProperty2 * property : m_properties)
     {
         // Check if property is a group
-        AbstractPropertyGroup2 * group = dynamic_cast<AbstractPropertyGroup2 *>(property);
+        PropertyGroup2 * group = dynamic_cast<PropertyGroup2 *>(property);
         if (group) {
-            functor(*group);
+            callback(*group);
         }
     }
 }
 
-void forEachGroup(const std::function<void(const PropertyGroup2 &)> & functor) const
+void PropertyGroup2::forEachGroup(const std::function<void(const PropertyGroup2 &)> & callback) const
 {
     // Visit all groups
     for (const AbstractProperty2 * property : m_properties)
     {
         // Check if property is a group
-        const AbstractPropertyGroup2 * group = dynamic_cast<const AbstractPropertyGroup2 *>(property);
+        const PropertyGroup2 * group = dynamic_cast<const PropertyGroup2 *>(property);
         if (group) {
-            functor(*group);
+            callback(*group);
         }
     }
 }
@@ -422,11 +419,11 @@ PropertyGroup2 * PropertyGroup2::ensureGroup(const std::vector<std::string> & pa
     }
 
     // Check if group exists
-    PropertyGroup * group = nullptr;
+    PropertyGroup2 * group = nullptr;
     if (propertyExists(path.front()))
     {
         // Get property
-        AbstractProperty * property = m_propertiesMap.at(path.front());
+        AbstractProperty2 * property = m_propertiesMap.at(path.front());
 
         // Abort if this is not a group
         if (!property->isGroup()) {

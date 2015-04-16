@@ -11,6 +11,11 @@ namespace reflectionzeug
 {
 
 
+class AbstractValue;
+class AbstractCollection;
+class PropertyGroup2;
+
+
 /**
 *  @brief
 *    Base class for properties
@@ -21,6 +26,25 @@ public:
     AbstractProperty2();
     AbstractProperty2(const std::string & name);
     virtual ~AbstractProperty2();
+
+    bool isValue() const;
+    bool isCollection() const;
+    bool isGroup() const;
+
+    AbstractValue * asValue();
+    const AbstractValue * asValue() const;
+
+    AbstractCollection * asCollection();
+    const AbstractCollection * asCollection() const;
+
+    PropertyGroup2 * asGroup();
+    const PropertyGroup2 * asGroup() const;
+
+    template <class Type>
+    Type * as();
+
+    template <class Type>
+    const Type * as() const;
 
     // [TODO]
     /*
@@ -45,3 +69,6 @@ protected:
 
 
 } // namespace reflectionzeug
+
+
+#include <reflectionzeug/new/AbstractProperty.hpp>
