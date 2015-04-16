@@ -6,6 +6,10 @@ namespace reflectionzeug
 {
 
 
+AbstractProperty2::AbstractProperty2()
+{
+}
+
 AbstractProperty2::AbstractProperty2(const std::string & name)
 : m_name(name)
 {

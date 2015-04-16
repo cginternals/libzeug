@@ -60,7 +60,7 @@ public:
     /** 
      * \name Property Accessing
      * \brief Methods for accessing properties, subgroups and values
-     * Acces Properties in the hierachy with the separater '/'.
+     * Access Properties in the hierachy with the separator '/'.
     */
     /** \{ */
     

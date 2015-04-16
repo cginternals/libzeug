@@ -18,6 +18,7 @@ namespace reflectionzeug
 class REFLECTIONZEUG_API AbstractProperty2
 {
 public:
+    AbstractProperty2();
     AbstractProperty2(const std::string & name);
     virtual ~AbstractProperty2();
 
