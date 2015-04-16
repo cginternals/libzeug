@@ -148,8 +148,6 @@ set(headers
     ${header_path}/new/ArrayAccessorGetSet.hpp
     ${header_path}/new/ArrayAccessorValue.h
     ${header_path}/new/ArrayAccessorValue.hpp
-    ${header_path}/new/Convertible.h
-    ${header_path}/new/Convertible.hpp
     ${header_path}/new/Typed.h
     ${header_path}/new/Typed.hpp
     ${header_path}/new/TypedEnum.h
