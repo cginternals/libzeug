@@ -180,9 +180,11 @@ set(headers
     ${header_path}/new/AbstractUnsignedIntegralInterface.h
     ${header_path}/new/AbstractEnumInterface.h
     ${header_path}/new/AbstractProperty.h
+    ${header_path}/new/AbstractProperty.hpp
     ${header_path}/new/AbstractVisitor.h
     ${header_path}/new/AbstractVisitor.hpp
     ${header_path}/new/PropertyGroup.h
+    ${header_path}/new/PropertyGroup.hpp
     ${header_path}/new/Property.h
     ${header_path}/new/Property.hpp
     ${header_path}/new/Visitor.h
