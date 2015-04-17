@@ -39,7 +39,6 @@ public:
     virtual ~PropertyGroup2();
 
     virtual std::string name() const override;
-    virtual bool setName(const std::string & name) override;
 
     // [TODO]
     // virtual Variant toVariant() const override;

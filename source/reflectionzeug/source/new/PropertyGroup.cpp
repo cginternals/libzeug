@@ -40,12 +40,6 @@ std::string PropertyGroup2::name() const
     return m_name;
 }
 
-bool PropertyGroup2::setName(const std::string & name)
-{
-    m_name = name;
-    return true;
-}
-
 // [TODO]
 /*
 Variant PropertyGroup2::toVariant() const

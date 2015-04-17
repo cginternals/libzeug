@@ -31,7 +31,6 @@ public:
     virtual ~AbstractValue();
 
     virtual std::string name() const;
-    virtual bool setName(const std::string & name);
     bool hasName() const;
 
     virtual void accept(AbstractVisitor * visitor);

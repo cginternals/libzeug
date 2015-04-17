@@ -20,12 +20,6 @@ std::string AbstractValue::name() const
     return "";
 }
 
-bool AbstractValue::setName(const std::string & name)
-{
-    // Not implemented for base class
-    return false;
-}
-
 bool AbstractValue::hasName() const
 {
     return !name().empty();

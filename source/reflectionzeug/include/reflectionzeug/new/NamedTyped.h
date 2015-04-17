@@ -25,7 +25,6 @@ public:
     virtual ~NamedTyped();
 
     virtual std::string name() const override;
-    virtual bool setName(const std::string & name) override;
 
 
 protected:
