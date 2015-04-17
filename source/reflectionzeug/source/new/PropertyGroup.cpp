@@ -165,7 +165,7 @@ AbstractValue * PropertyGroup2::at(size_t index)
     }
 
     // Return property
-    return m_properties[index]->asGroup();
+    return m_properties[index]->asValue();
 }
 
 const AbstractValue * PropertyGroup2::at(size_t index) const
@@ -177,7 +177,7 @@ const AbstractValue * PropertyGroup2::at(size_t index) const
     }
 
     // Return property
-    return m_properties[index]->asGroup();
+    return m_properties[index]->asValue();
 }
 
 int PropertyGroup2::indexOf(const AbstractValue * value) const

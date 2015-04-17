@@ -12,6 +12,7 @@ namespace reflectionzeug
 
 
 class AbstractValue;
+class AbstractVisitor;
 
 
 /**
@@ -32,6 +33,8 @@ public:
 
     virtual void forEach(const std::function<void(AbstractValue &)> & callback) = 0;
     virtual void forEach(const std::function<void(const AbstractValue &)> & callback) const = 0;
+
+    void acceptRecursive(AbstractVisitor * visitor);
 };
 
 

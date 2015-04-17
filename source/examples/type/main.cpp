@@ -190,122 +190,122 @@ public:
 
     virtual void visit(TypedSignedIntegral<int> * typed) override
     {
-        std::cout << "found TypedSignedIntegral<int>\n";
+        std::cout << typed->name() << " TypedSignedIntegral<int>\n";
     }
 
     virtual void visit(TypedUnsignedIntegral<unsigned int> * typed) override
     {
-        std::cout << "found TypedUnsignedIntegral<unsigned int>\n";
+        std::cout << typed->name() << " TypedUnsignedIntegral<unsigned int>\n";
     }
 
     virtual void visit(TypedFloatingPoint<float> * typed) override
     {
-        std::cout << "found TypedFloatingPoint<float>\n";
+        std::cout << typed->name() << " TypedFloatingPoint<float>\n";
     }
 
     virtual void visit(TypedFloatingPoint<double> * typed) override
     {
-        std::cout << "found TypedFloatingPoint<double>\n";
+        std::cout << typed->name() << " TypedFloatingPoint<double>\n";
     }
 
     virtual void visit(TypedBool * typed) override
     {
-        std::cout << "found TypedBool\n";
+        std::cout << typed->name() << " TypedBool\n";
     }
 
     virtual void visit(TypedString * typed) override
     {
-        std::cout << "found TypedString\n";
+        std::cout << typed->name() << " TypedString\n";
     }
 
     virtual void visit(TypedColor * typed) override
     {
-        std::cout << "found TypedColor\n";
+        std::cout << typed->name() << " TypedColor\n";
     }
 
     virtual void visit(TypedFilePath * typed) override
     {
-        std::cout << "found TypedFilePath\n";
+        std::cout << typed->name() << " TypedFilePath\n";
     }
 
     virtual void visit(TypedClass<TestClass> * typed) override
     {
-        std::cout << "found TypedClass<TestClass>\n";
+        std::cout << typed->name() << " TypedClass<TestClass>\n";
     }
 
     virtual void visit(TypedEnum<MyEnum> * typed) override
     {
-        std::cout << "found TypedEnum<MyEnum>\n";
+        std::cout << typed->name() << " TypedEnum<MyEnum>\n";
     }
 
     virtual void visit(TypedArray<int, 3> * typed) override
     {
-        std::cout << "found TypedArray<int, 3>\n";
+        std::cout << typed->name() << " TypedArray<int, 3>\n";
     }
 
     virtual void visit(Typed<int> * typed) override
     {
-        std::cout << "found Typed<int>\n";
+        std::cout << typed->name() << " Typed<int>\n";
     }
 
     virtual void visit(Typed<unsigned int> * typed) override
     {
-        std::cout << "found Typed<unsigned int>\n";
+        std::cout << typed->name() << " Typed<unsigned int>\n";
     }
 
     virtual void visit(Typed<float> * typed) override
     {
-        std::cout << "found Typed<float>\n";
+        std::cout << typed->name() << " Typed<float>\n";
     }
 
     virtual void visit(Typed<double> * typed) override
     {
-        std::cout << "found Typed<double>\n";
+        std::cout << typed->name() << " Typed<double>\n";
     }
 
     virtual void visit(Typed<bool> * typed) override
     {
-        std::cout << "found Typed<bool>\n";
+        std::cout << typed->name() << " Typed<bool>\n";
     }
 
     virtual void visit(Typed<std::string> * typed) override
     {
-        std::cout << "found Typed<std::string>\n";
+        std::cout << typed->name() << " Typed<std::string>\n";
     }
 
     virtual void visit(Typed<Color> * typed) override
     {
-        std::cout << "found Typed<Color>\n";
+        std::cout << typed->name() << " Typed<Color>\n";
     }
 
     virtual void visit(Typed<FilePath> * typed) override
     {
-        std::cout << "found Typed<FilePath>\n";
+        std::cout << typed->name() << " Typed<FilePath>\n";
     }
 
     virtual void visit(Typed<TestClass> * typed) override
     {
-        std::cout << "found Typed<TestClass>\n";
+        std::cout << typed->name() << " Typed<TestClass>\n";
     }
 
     virtual void visit(Typed<MyEnum> * typed) override
     {
-        std::cout << "found Typed<MyEnum>\n";
+        std::cout << typed->name() << " Typed<MyEnum>\n";
     }
 
     virtual void visit(Typed<std::array<int, 3>> * typed) override
     {
-        std::cout << "found Typed<std::array<int, 3>>\n";
+        std::cout << typed->name() << " Typed<std::array<int, 3>>\n";
     }
 
     virtual void visit(Property2<int> * typed) override
     {
-        std::cout << "found Property<int> ('" + typed->name() + "')\n";
+        std::cout << typed->name() << " Property<int>\n";
     }
 
     virtual void visit(PropertyGroup2 * group) override
     {
-        std::cout << "found PropertyGroup2 ('" + group->name() + "')\n";
+        std::cout << group->name() << " PropertyGroup2\n";
     }
 };
 
@@ -608,21 +608,29 @@ int main(int argc, char *argv[])
         PropertyGroup2 * sub1 = new PropertyGroup2("sub1");
         sub1->addProperty<int>("number", &getInt, &setInt);
         sub1->addProperty<float>("float", &getFloat, &setFloat);
-        sub1->addProperty<std::string>("name", &getString, &setString);
+        sub1->addProperty<std::string>("string", &getString, &setString);
 
         PropertyGroup2 * sub2 = new PropertyGroup2("sub2");
         sub2->addProperty<int>("number", &getInt, &setInt);
         sub2->addProperty<float>("float", &getFloat, &setFloat);
-        sub2->addProperty<std::string>("name", &getString, &setString);
+        sub2->addProperty<std::string>("string", &getString, &setString);
 
         PropertyGroup2 * root = new PropertyGroup2("root");
         root->addProperty<int>("number", &getInt, &setInt);
         root->addProperty<float>("float", &getFloat, &setFloat);
-        root->addProperty<std::string>("name", &getString, &setString);
+        root->addProperty<std::string>("string", &getString, &setString);
         root->addProperty(sub1);
         root->addProperty(sub2);
 
         print(root);
+
+        std::cout << "\n";
+
+
+        std::cout << "Group visitor test:\n";
+
+        MyVisitor visitor;
+        root->acceptRecursive(&visitor);
 
         std::cout << "\n";
     }
