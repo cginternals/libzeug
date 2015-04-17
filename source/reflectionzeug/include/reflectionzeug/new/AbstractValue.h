@@ -33,6 +33,12 @@ public:
     virtual std::string name() const;
     bool hasName() const;
 
+    // [TODO]
+    // virtual Variant toVariant() const override;
+
+    // [TODO]
+    // virtual bool fromVariant(const Variant & value) override;
+
     virtual void accept(AbstractVisitor * visitor);
 };
 
