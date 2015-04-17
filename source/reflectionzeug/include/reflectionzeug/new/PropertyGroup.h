@@ -113,6 +113,8 @@ public:
     void forEachGroup(const std::function<void(PropertyGroup2 &)> & callback);
     void forEachGroup(const std::function<void(const PropertyGroup2 &)> & callback) const;
 
+    virtual void accept(AbstractVisitor * visitor) override;
+
 
 protected:
     const AbstractProperty2 * findProperty(const std::vector<std::string> & path) const;

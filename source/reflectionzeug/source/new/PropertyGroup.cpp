@@ -4,6 +4,7 @@
 
 #include <reflectionzeug/new/PropertyGroup.h>
 #include <reflectionzeug/new/AbstractProperty.h>
+#include <reflectionzeug/new/AbstractVisitor.h>
 #include <reflectionzeug/util.h>
 
 
@@ -446,6 +447,12 @@ PropertyGroup2 * PropertyGroup2::ensureGroup(const std::vector<std::string> & pa
 
     // Otherwise, call recursively on subgroup
     return group->ensureGroup(std::vector<std::string>(path.begin() + 1, path.end()));
+}
+
+void PropertyGroup2::accept(AbstractVisitor * visitor)
+{
+    visitor->callVisitor<PropertyGroup2>(this);
+    visitor->callVisitor<AbstractCollection>(this);
 }
 
 

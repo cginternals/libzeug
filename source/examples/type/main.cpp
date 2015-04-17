@@ -144,7 +144,8 @@ class MyVisitor : public reflectionzeug::Visitor<
                             Typed<TestClass>,
                             Typed<MyEnum>,
                             Typed<std::array<int, 3>>,
-                            Property2<int> >
+                            Property2<int>,
+                            PropertyGroup2 >
 {
 public:
     virtual void visit(AbstractCollection * typed) override
@@ -300,6 +301,11 @@ public:
     virtual void visit(Property2<int> * typed) override
     {
         std::cout << "found Property<int> ('" + typed->name() + "')\n";
+    }
+
+    virtual void visit(PropertyGroup2 * group) override
+    {
+        std::cout << "found PropertyGroup2 ('" + group->name() + "')\n";
     }
 };
 
@@ -539,6 +545,9 @@ int main(int argc, char *argv[])
 
         Property2<int> propertyInt("Integer");
         propertyInt.accept(&visitor);
+
+        PropertyGroup2 group("group");
+        group.accept(&visitor);
 
         std::cout << "\n";
     }
