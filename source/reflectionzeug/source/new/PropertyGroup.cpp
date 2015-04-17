@@ -375,6 +375,8 @@ void PropertyGroup2::forEachGroup(const std::function<void(const PropertyGroup2 
 
 const AbstractProperty2 * PropertyGroup2::findProperty(const std::vector<std::string> & path) const
 {
+    // [TODO] Use iterative approach rather than recursion
+
     // Check if path is valid
     if (path.size() == 0) {
         return nullptr;
@@ -400,8 +402,6 @@ const AbstractProperty2 * PropertyGroup2::findProperty(const std::vector<std::st
 
     // Call recursively on subgroup
     return property->asGroup()->findProperty({ path.begin() + 1, path.end() });
-
-    // [TODO] Use iterative approach rather than recursion
 }
 
 PropertyGroup2 * PropertyGroup2::ensureGroup(const std::vector<std::string> & path)
