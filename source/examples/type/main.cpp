@@ -1,3 +1,4 @@
+
 #include <iostream>
 
 #include <reflectionzeug/new/AccessorGetSet.h>
@@ -6,6 +7,7 @@
 #include <reflectionzeug/new/ArrayAccessorValue.h>
 #include <reflectionzeug/new/Typed.h>
 #include <reflectionzeug/new/Property.h>
+#include <reflectionzeug/new/PropertyGroup.h>
 #include <reflectionzeug/new/Visitor.h>
 
 
@@ -13,16 +15,38 @@ using namespace reflectionzeug;
 
 
 // Global getter/setter test
-int globalInt = 1;
+int         globalInt    = 1;
+float       globalFloat  = 3.2f;
+std::string globalString = "test";
 
-int get()
+int getInt()
 {
     return globalInt;
 }
 
-void set(int value)
+void setInt(int value)
 {
     globalInt = value;
+}
+
+float getFloat()
+{
+    return globalFloat;
+}
+
+void setFloat(float value)
+{
+    globalFloat = value;
+}
+
+std::string getString()
+{
+    return globalString;
+}
+
+void setString(const std::string & value)
+{
+    globalString = value;
 }
 
 // Global array getter/setter
@@ -46,7 +70,7 @@ void setArray(size_t i, int value)
 // Custom class test
 class TestClass {
 public:
-    static TestClass fromString(const std::string &str, bool * ok) {
+    static TestClass fromString(const std::string & str, bool * ok) {
         *ok = true;
         return TestClass();
     }
@@ -279,6 +303,25 @@ public:
     }
 };
 
+void print(PropertyGroup2 * group, std::string indent = "")
+{
+    std::cout << indent << group->asValue()->name() << ": {\n";
+
+    for (std::pair<std::string, AbstractProperty2 *> it : group->properties())
+    {
+        AbstractProperty2 * property = it.second;
+        if (property->isGroup())
+        {
+            print(property->asGroup(), indent + "  ");
+        }
+        else
+        {
+            std::cout << indent << "  " << property->asValue()->name() << "\n";
+        }
+    }
+
+    std::cout << indent << "}\n";
+}
 
 int main(int argc, char *argv[])
 {
@@ -286,7 +329,7 @@ int main(int argc, char *argv[])
     {
         std::cout << "Read/write accessor\n";
 
-        AccessorGetSet<int> accessor(&get, &set);
+        AccessorGetSet<int> accessor(&getInt, &setInt);
         std::cout << "value = " << accessor.getValue() << " (1)\n";
         accessor.setValue(10);
         std::cout << "value = " << accessor.getValue() << " (10)\n";
@@ -303,7 +346,7 @@ int main(int argc, char *argv[])
     {
         std::cout << "Read-only accessor\n";
 
-        AccessorGetSet<const int> accessor(&get);
+        AccessorGetSet<const int> accessor(&getInt);
         std::cout << "value = " << accessor.getValue() << " (10)\n";
         accessor.setValue(20);
         std::cout << "value = " << accessor.getValue() << " (10)\n";
@@ -320,8 +363,8 @@ int main(int argc, char *argv[])
     {
         std::cout << "Read/write typed value\n";
 
-        Typed<int> typeInt1(new AccessorGetSet<int>(&get, &set));
-        Typed<int> typeInt2(&get, &set);
+        Typed<int> typeInt1(new AccessorGetSet<int>(&getInt, &setInt));
+        Typed<int> typeInt2(&getInt, &setInt);
 
         long long l = typeInt1.toLongLong();
 
@@ -336,7 +379,7 @@ int main(int argc, char *argv[])
     {
         std::cout << "Read-only typed value\n";
 
-        Typed<const int> typeInt(&get);
+        Typed<const int> typeInt(&getInt);
 
         std::cout << "value = " << typeInt.getValue() << " (20)\n";
         typeInt.setValue(30);
@@ -533,7 +576,7 @@ int main(int argc, char *argv[])
             std::cout << "propertyInt is NOT a group.\n";
         }
 
-        AbstractProperty2 * propertyArray = new Property2<std::array<int, 3>>("array");;
+        AbstractProperty2 * propertyArray = new Property2<std::array<int, 3>>("array");
         if (propertyArray->isCollection()) {
             std::cout << "propertyArray is a collection.\n";
         } else {
@@ -544,6 +587,33 @@ int main(int argc, char *argv[])
         } else {
             std::cout << "propertyArray is NOT a group.\n";
         }
+
+        std::cout << "\n";
+    }
+
+    // Property group test
+    {
+        std::cout << "Group test:\n";
+        std::cout << "\n";
+
+        PropertyGroup2 * sub1 = new PropertyGroup2("sub1");
+        sub1->addProperty<int>("number", &getInt, &setInt);
+        sub1->addProperty<float>("float", &getFloat, &setFloat);
+        sub1->addProperty<std::string>("name", &getString, &setString);
+
+        PropertyGroup2 * sub2 = new PropertyGroup2("sub2");
+        sub2->addProperty<int>("number", &getInt, &setInt);
+        sub2->addProperty<float>("float", &getFloat, &setFloat);
+        sub2->addProperty<std::string>("name", &getString, &setString);
+
+        PropertyGroup2 * root = new PropertyGroup2("root");
+        root->addProperty<int>("number", &getInt, &setInt);
+        root->addProperty<float>("float", &getFloat, &setFloat);
+        root->addProperty<std::string>("name", &getString, &setString);
+        root->addProperty(sub1);
+        root->addProperty(sub2);
+
+        print(root);
 
         std::cout << "\n";
     }
