@@ -13,7 +13,7 @@ namespace reflectionzeug
 
 
 PropertyGroup2::PropertyGroup2(const std::string & name)
-: AbstractProperty2(name)
+: m_name(name)
 , m_ownsProperties(true)
 {
 }

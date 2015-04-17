@@ -3,7 +3,7 @@
 
 
 #include <reflectionzeug/new/AbstractProperty.h>
-#include <reflectionzeug/new/Typed.h>
+#include <reflectionzeug/new/NamedTyped.h>
 
 
 namespace reflectionzeug
@@ -15,16 +15,13 @@ namespace reflectionzeug
 *    Typed property
 */
 template <typename T>
-class Property2 : public Typed<T>, public AbstractProperty2
+class Property2 : public NamedTyped<T>, public AbstractProperty2
 {
 public:
     template <typename... Args>
     Property2(const std::string & name, Args&&... args);
 
     virtual ~Property2();
-
-    virtual std::string name() const override;
-    virtual bool setName(const std::string & name) override;
 
     virtual void accept(AbstractVisitor * visitor) override;
 };

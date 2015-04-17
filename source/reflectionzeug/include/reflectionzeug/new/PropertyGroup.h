@@ -2,6 +2,7 @@
 #pragma once
 
 
+#include <string>
 #include <vector>
 
 #include <reflectionzeug/new/AbstractProperty.h>
@@ -122,6 +123,7 @@ protected:
 
 
 protected:
+    std::string m_name;
     std::vector<AbstractProperty2 *> m_properties;
     std::unordered_map<std::string, AbstractProperty2 *> m_propertiesMap;
     bool m_ownsProperties;

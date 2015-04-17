@@ -6,6 +6,7 @@
 #include <reflectionzeug/new/ArrayAccessorGetSet.h>
 #include <reflectionzeug/new/ArrayAccessorValue.h>
 #include <reflectionzeug/new/Typed.h>
+#include <reflectionzeug/new/NamedTyped.h>
 #include <reflectionzeug/new/Property.h>
 #include <reflectionzeug/new/PropertyGroup.h>
 #include <reflectionzeug/new/Visitor.h>
@@ -385,7 +386,7 @@ int main(int argc, char *argv[])
     {
         std::cout << "Read-only typed value\n";
 
-        Typed<const int> typeInt(&getInt);
+        NamedTyped<const int> typeInt("int", &getInt);
 
         std::cout << "value = " << typeInt.getValue() << " (20)\n";
         typeInt.setValue(30);

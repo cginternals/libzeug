@@ -12,27 +12,13 @@ namespace reflectionzeug
 template <typename T>
 template <typename... Args>
 Property2<T>::Property2(const std::string & name, Args&&... args)
-: Typed<T>::Typed(std::forward<Args>(args)...)
-, AbstractProperty2(name)
+: NamedTyped<T>::NamedTyped(name, std::forward<Args>(args)...)
 {
 }
 
 template <typename T>
 Property2<T>::~Property2()
 {
-}
-
-template <typename T>
-std::string Property2<T>::name() const
-{
-    return m_name;
-}
-
-template <typename T>
-bool Property2<T>::setName(const std::string & name)
-{
-    m_name = name;
-    return true;
 }
 
 template <typename T>

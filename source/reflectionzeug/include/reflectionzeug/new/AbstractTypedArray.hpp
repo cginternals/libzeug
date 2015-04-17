@@ -8,7 +8,7 @@
 #include <reflectionzeug/new/AbstractTypedArray.h>
 #include <reflectionzeug/new/ArrayAccessorValue.h>
 #include <reflectionzeug/new/ArrayAccessorGetSet.h>
-#include <reflectionzeug/new/Typed.h>
+#include <reflectionzeug/new/NamedTyped.h>
 
 
 namespace reflectionzeug
@@ -160,20 +160,12 @@ void AbstractTypedArray<Type, Size>::setElement(size_t i, const Type & value)
 template <typename Type, size_t Size>
 void AbstractTypedArray<Type, Size>::init()
 {
-    // [TODO] ?
-    /*
-    valueChanged.onFire([this] ()
-    {
-        this->AbstractValueProperty::valueChanged();
-    });
-    */
-
     // Create typed value for each element
     for (size_t i = 0; i < Size; ++i)
     {
-        this->m_elements[i] = new Typed<Type>(// [TODO] "_" + std::to_string(i),
-                                              std::bind(&AbstractTypedArray::getElement, this, i),
-                                              std::bind(&AbstractTypedArray::setElement, this, i, std::placeholders::_1));
+        this->m_elements[i] = new NamedTyped<Type>("_" + std::to_string(i),
+                                                   std::bind(&AbstractTypedArray::getElement, this, i),
+                                                   std::bind(&AbstractTypedArray::setElement, this, i, std::placeholders::_1));
     }
 }
 

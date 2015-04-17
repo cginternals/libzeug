@@ -24,7 +24,6 @@ class REFLECTIONZEUG_API AbstractProperty2
 {
 public:
     AbstractProperty2();
-    AbstractProperty2(const std::string & name);
     virtual ~AbstractProperty2();
 
     bool isValue() const;
@@ -61,10 +60,6 @@ public:
 
     bool removeOption(const std::string & key);
     */
-
-
-protected:
-    std::string m_name; /**< Property name */
 };
 
 

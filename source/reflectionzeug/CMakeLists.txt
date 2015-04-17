@@ -170,6 +170,8 @@ set(headers
     ${header_path}/new/TypedString.hpp
     ${header_path}/new/TypedUnsignedIntegral.h
     ${header_path}/new/TypedUnsignedIntegral.hpp
+    ${header_path}/new/NamedTyped.h
+    ${header_path}/new/NamedTyped.hpp
     ${header_path}/new/AbstractBooleanInterface.h
     ${header_path}/new/AbstractStringInterface.h
     ${header_path}/new/AbstractColorInterface.h
