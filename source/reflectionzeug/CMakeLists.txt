@@ -188,6 +188,7 @@ set(headers
     ${header_path}/new/Property.h
     ${header_path}/new/Property.hpp
     ${header_path}/new/Visitor.h
+    ${header_path}/new/Variant.h
 )
 
 set(sources
@@ -226,6 +227,7 @@ set(sources
     ${source_path}/new/AbstractProperty.cpp
     ${source_path}/new/AbstractVisitor.cpp
     ${source_path}/new/PropertyGroup.cpp
+    ${source_path}/new/Variant.cpp
 )
 
 # Group source files
