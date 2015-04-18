@@ -541,7 +541,7 @@ int main(int argc, char *argv[])
         Typed<MyEnum> typeMyEnum;
         typeMyEnum.accept(&visitor);
 
-        Typed<std::array<int, 3>> typeArray;
+        Typed<std::array<int, 3>> typeArray(std::array<int, 3>{0, 0, 0});
         typeArray.accept(&visitor);
 
         Property2<int> propertyInt("Integer");

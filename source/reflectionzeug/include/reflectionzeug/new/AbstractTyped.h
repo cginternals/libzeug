@@ -23,6 +23,8 @@ class AbstractTyped : public AbstractValue
 public:
     AbstractTyped();
 
+    AbstractTyped(const Type & value);
+
     AbstractTyped(std::function<Type ()> getter,
           std::function<void(const Type &)> setter);
 
@@ -63,6 +65,8 @@ class AbstractTyped<const Type> : public AbstractTyped<Type>
 {
 public:
     AbstractTyped();
+
+    AbstractTyped(const Type & value);
 
     AbstractTyped(std::function<Type ()> getter);
 

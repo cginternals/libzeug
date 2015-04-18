@@ -19,6 +19,12 @@ AbstractTyped<Type>::AbstractTyped()
 }
 
 template <typename Type>
+AbstractTyped<Type>::AbstractTyped(const Type & value)
+: m_accessor(new AccessorValue<Type>(value))
+{
+}
+
+template <typename Type>
 AbstractTyped<Type>::AbstractTyped(
 	std::function<Type ()> getter,
     std::function<void(const Type &)> setter)
@@ -85,6 +91,12 @@ void AbstractTyped<Type>::setValue(const Type & value)
 template <typename Type>
 AbstractTyped<const Type>::AbstractTyped()
 : AbstractTyped<Type>(new AccessorValue<const Type>())
+{
+}
+
+template <typename Type>
+AbstractTyped<const Type>::AbstractTyped(const Type & value)
+: AbstractTyped<Type>(new AccessorValue<const Type>(value))
 {
 }
 

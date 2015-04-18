@@ -11,7 +11,7 @@ namespace reflectionzeug
 
 /**
 *  @brief
-*    Implementation for signed integral types
+*    Implementation for array types
 */
 template <typename T, size_t Size>
 class TypedArray : public AbstractTypedArray<T, Size>

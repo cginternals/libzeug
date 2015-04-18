@@ -25,6 +25,14 @@ AbstractTypedArray<Type, Size>::AbstractTypedArray()
 }
 
 template <typename Type, size_t Size>
+AbstractTypedArray<Type, Size>::AbstractTypedArray(const std::array<Type, Size> & value)
+: AbstractTyped<std::array<Type, Size>>(new ArrayAccessorValue<Type, Size>(value))
+, m_arrayAccessor(static_cast<ArrayAccessor<Type, Size>*>(this->m_accessor.get()))
+{
+    init();
+}
+
+template <typename Type, size_t Size>
 AbstractTypedArray<Type, Size>::AbstractTypedArray(
 	std::function<Type (size_t)> getter,
     std::function<void(size_t, const Type &)> setter)
@@ -174,6 +182,12 @@ void AbstractTypedArray<Type, Size>::init()
 template <typename Type, size_t Size>
 AbstractTypedArray<const Type, Size>::AbstractTypedArray()
 : AbstractTypedArray<Type, Size>(new ArrayAccessorValue<const Type, Size>())
+{
+}
+
+template <typename Type, size_t Size>
+AbstractTypedArray<const Type, Size>::AbstractTypedArray(const std::array<Type, Size> & value)
+: AbstractTypedArray<Type, Size>(new ArrayAccessorValue<const Type, Size>(value))
 {
 }
 

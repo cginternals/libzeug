@@ -40,6 +40,12 @@ std::string PropertyGroup2::name() const
     return m_name;
 }
 
+AbstractValue * PropertyGroup2::createCopy() const
+{
+    // [TODO]
+    return nullptr;
+}
+
 // [TODO]
 /*
 Variant PropertyGroup2::toVariant() const

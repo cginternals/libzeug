@@ -40,6 +40,8 @@ public:
 
     virtual std::string name() const override;
 
+    virtual AbstractValue * createCopy() const override;
+
     // [TODO]
     // virtual Variant toVariant() const override;
 

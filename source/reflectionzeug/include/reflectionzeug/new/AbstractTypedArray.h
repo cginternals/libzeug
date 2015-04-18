@@ -30,6 +30,8 @@ class AbstractTypedArray : public AbstractTyped<std::array<Type, Size>>
 public:
     AbstractTypedArray();
 
+    AbstractTypedArray(const std::array<Type, Size> & value);
+
     AbstractTypedArray(std::function<Type (size_t)> getter,
           std::function<void(size_t, const Type &)> setter);
 
@@ -86,6 +88,8 @@ class AbstractTypedArray<const Type, Size> : public AbstractTypedArray<Type, Siz
 {
 public:
     AbstractTypedArray();
+
+    AbstractTypedArray(const std::array<Type, Size> & value);
 
     AbstractTypedArray(std::function<Type (size_t)> getter);
 
