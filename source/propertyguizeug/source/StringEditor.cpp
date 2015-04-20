@@ -40,8 +40,16 @@ QWidget * StringEditor::createComboBox()
     comboBox->setCurrentText(QString::fromStdString(m_property->toString()));
     
     using StringActivatedPtr = void (QComboBox::*) (const QString &);
-    connect(comboBox, static_cast<StringActivatedPtr>(&QComboBox::activated),
-            this, &StringEditor::setString);
+    if (m_property->hasOption("highlightActiviation"))
+    {
+        connect(comboBox, static_cast<StringActivatedPtr>(&QComboBox::highlighted),
+        this, &StringEditor::setString);
+    }
+    else
+    {
+        connect(comboBox, static_cast<StringActivatedPtr>(&QComboBox::activated),
+        this, &StringEditor::setString);
+    }
 
     m_propertyChangedConnection = m_property->valueChanged.connect(
         [this, comboBox]()
