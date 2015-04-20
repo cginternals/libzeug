@@ -2,7 +2,6 @@
 
 #include <string>
 #include <vector>
-#include <memory>
 
 #include <reflectionzeug/reflectionzeug_api.h>
 
@@ -48,12 +47,6 @@ REFLECTIONZEUG_API std::vector<std::string> splitArray(size_t size, const std::s
 REFLECTIONZEUG_API std::vector<std::string> split(const std::string & input, char delimiter);
 
 } // namespace util
-
-template<typename T, typename... Args>
-std::unique_ptr<T> make_unique(Args&&... args)
-{
-    return std::unique_ptr<T>(new T(std::forward<Args>(args)...));
-}
 
 } // namespace reflectionzeug
 

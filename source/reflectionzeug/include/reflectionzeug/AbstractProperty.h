@@ -5,6 +5,7 @@
 
 #include <reflectionzeug/reflectionzeug_api.h>
 #include <reflectionzeug/Variant.h>
+#include <signalzeug/Signal.h>
 
 namespace reflectionzeug
 {
@@ -89,6 +90,9 @@ public:
     virtual bool isGroup() const;
     
     /** \} */
+
+public:
+    signalzeug::Signal<const std::string &> optionChanged;
     
 private:
     std::string m_name;
