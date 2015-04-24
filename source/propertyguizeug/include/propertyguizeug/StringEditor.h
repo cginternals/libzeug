@@ -19,6 +19,7 @@ namespace propertyguizeug
  *
  * Supported options
  * - choices (std::vector<std::string>): list of choices; when set, editor will be a combobox.
+ * - deferred (bool): defer changing the property's value until enter is pressed (only for plain edits)
  */
 class PROPERTYGUIZEUG_API StringEditor : public PropertyEditor
 {

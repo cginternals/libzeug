@@ -49,12 +49,25 @@ SignedIntegralEditor::SignedIntegralEditor(
     
     if (m_property->hasOption("step"))
         spinBox->setStep(m_property->option("step").value<qlonglong>());
-    
-    connect(spinBox, &LongLongSpinBox::valueChanged,
-        [this] (const qlonglong & value) 
+
+    const auto deferred = m_property->option<bool>("deferred", false);
+
+    if (deferred)
+    {
+        connect(spinBox, &QAbstractSpinBox::editingFinished,
+            [this, spinBox]
         {
-            m_property->fromLongLong(value);
+            m_property->fromLongLong(spinBox->value());
         });
+    }
+    else
+    {
+        connect(spinBox, &LongLongSpinBox::valueChanged,
+            [this](const qlonglong & value)
+            {
+                m_property->fromLongLong(value);
+            });
+    }
 
     m_propertyChangedConnection = m_property->valueChanged.connect(
         [this, spinBox]()
