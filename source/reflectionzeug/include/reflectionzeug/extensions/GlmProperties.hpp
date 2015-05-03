@@ -8,7 +8,7 @@
 
 #include <reflectionzeug/Property.h>
 
-namespace 
+namespace reflectionzeug
 {
 
 template <typename T, unsigned Count>
@@ -139,6 +139,32 @@ public:
     }
 };
 
+class IVec3Property : public reflectionzeug::ValueProperty<glm::ivec3>
+{
+public:
+    using Type = glm::ivec3;
+    
+public:
+    template <typename... Arguments>
+    IVec3Property(Arguments&&... args)
+    : reflectionzeug::ValueProperty<glm::ivec3>(std::forward<Arguments>(args)...) {}
+
+    virtual std::string toString() const override 
+    { 
+        return glmToString<glm::ivec3::value_type, 3>(glm::value_ptr(value())); 
+    }
+
+    virtual bool fromString(const std::string & string) override
+    {
+        glm::ivec3 value;
+        if (!glmFromString<glm::ivec3::value_type, 3>(string, glm::value_ptr(value)))
+            return false;
+
+        setValue(value);
+        return true;
+    }
+};
+
 class Vec4Property : public reflectionzeug::ValueProperty<glm::vec4>
 {
 public:
@@ -165,10 +191,31 @@ public:
     }
 };
 
-} // namespace
-
-namespace reflectionzeug
+class IVec4Property : public reflectionzeug::ValueProperty<glm::ivec4>
 {
+public:
+    using Type = glm::ivec4;
+    
+public:
+    template <typename... Arguments>
+    IVec4Property(Arguments&&... args)
+    : reflectionzeug::ValueProperty<glm::ivec4>(std::forward<Arguments>(args)...) {}
+
+    virtual std::string toString() const override 
+    { 
+        return glmToString<glm::ivec4::value_type, 4>(glm::value_ptr(value())); 
+    }
+
+    virtual bool fromString(const std::string & string) override
+    {
+        glm::ivec4 value;
+        if (!glmFromString<glm::ivec4::value_type, 4>(string, glm::value_ptr(value)))
+            return false;
+
+        setValue(value);
+        return true;
+    }
+};
 
 template <>
 struct PropertyClass<Vec2Property::Type>
@@ -189,9 +236,21 @@ struct PropertyClass<Vec3Property::Type>
 };
 
 template <>
+struct PropertyClass<IVec3Property::Type>
+{
+    using Type = IVec3Property;
+};
+
+template <>
 struct PropertyClass<Vec4Property::Type>
 {
     using Type = Vec4Property;
+};
+
+template <>
+struct PropertyClass<IVec4Property::Type>
+{
+    using Type = IVec4Property;
 };
 
 } // namespace reflectionzeug
