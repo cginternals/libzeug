@@ -75,7 +75,13 @@ void Signal<Arguments...>::block()
 template <typename... Arguments>
 void Signal<Arguments...>::unblock()
 {
-	m_blocked = false;
+    m_blocked = false;
+}
+
+template <typename... Arguments>
+bool Signal<Arguments...>::hasConnections() const
+{
+    return m_callbacks.size() > 0;
 }
 
 template <typename... Arguments>

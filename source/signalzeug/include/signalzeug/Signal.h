@@ -30,6 +30,8 @@ public:
 	void block();
 	void unblock();
 
+    bool hasConnections() const;
+
 	Connection onFire(std::function<void()> callback) const;
 
 protected:
