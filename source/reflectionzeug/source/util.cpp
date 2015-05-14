@@ -79,7 +79,7 @@ std::string trim(const std::string & string, bool enclosed)
 {
     const regex_namespace::regex regex(enclosed ? "\\s+" : "(^\\s+|\\s+$)");
     
-    return regex_namespace::regex_replace(string, regex, "");
+    return regex_namespace::regex_replace(string, regex, std::string(""));
 }
 
 std::vector<std::string> splitArray(size_t size, const std::string & string)
