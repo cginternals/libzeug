@@ -5,6 +5,9 @@
 #include <reflectionzeug/Variant.h>
 #include <reflectionzeug/specialization_helpers.h>
 #include <reflectionzeug/util.h>
+#include <reflectionzeug/FilePath.h>
+#include <reflectionzeug/EnumDefaultStrings.h>
+#include <reflectionzeug/Color.h>
 
 namespace reflectionzeug
 {
@@ -84,7 +87,7 @@ template <typename ValueType>
 struct VariantConverterInit<ValueType, EnableIf<std::is_floating_point<ValueType>>>
 {
     void operator()()
-    {   
+    {
         Variant::registerConverter<ValueType, bool>(toBool);
 
         Variant::registerConverter<ValueType, char>();
@@ -111,6 +114,49 @@ struct VariantConverterInit<ValueType, EnableIf<std::is_floating_point<ValueType
     }
 };
 
+template <typename Enum>
+struct VariantConverterInit<Enum, EnableIf<std::is_enum<Enum>>>
+{
+    void operator()()
+    {
+        Variant::registerConverter<Enum, std::string>(
+            [](const Enum & value) -> std::string
+                {
+                    return EnumDefaultStrings<Enum>()().at(value);
+                }
+        );
+    }
+};
+
+template <>
+struct VariantConverterInit<Color>
+{
+    void operator()()
+    {
+        Variant::registerConverter<Color, std::string>(
+            [](const Color & color) -> std::string
+                {
+                    return color.toString();
+                }
+        );
+    }
+};
+
+template <>
+struct VariantConverterInit<FilePath>
+{
+    void operator()()
+    {
+        Variant::registerConverter<FilePath, std::string>(
+            [](const FilePath & path) -> std::string
+                {
+                    std::string str(path.toString());
+                    return str;
+                }
+        );
+    }
+};
+
 template <>
 struct VariantConverterInit<std::string>
 {
@@ -132,6 +178,20 @@ struct VariantConverterInit<std::string>
         Variant::registerConverter<std::string, float>(util::fromString<float>);
         Variant::registerConverter<std::string, double>(util::fromString<double>);
         Variant::registerConverter<std::string, long double>(util::fromString<long double>);
+
+        Variant::registerConverter<std::string, FilePath>(
+            [](const std::string & str) -> FilePath
+                {
+                    return FilePath(str);
+                }
+        );
+        Variant::registerConverter<std::string, Color>(
+            [](const std::string & str) -> Color
+                {
+                    bool ok = true;
+                    return Color::fromString(str, &ok);
+                }
+        );
     }
 
     static bool toBool(const std::string & string)
@@ -178,7 +238,7 @@ struct VariantConverterInit<VariantArray>
     {
         if (array.empty())
             return "[]";
-            
+
         std::stringstream stream;
         stream << "[";
 

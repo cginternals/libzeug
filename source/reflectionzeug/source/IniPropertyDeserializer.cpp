@@ -1,14 +1,4 @@
-#include <reflectionzeug/PropertyDeserializer.h>
-
-#ifdef USE_STD_REGEX
-    #include <regex>
-
-    namespace regex_namespace = std;
-#else
-    #include <boost/regex.hpp>
-
-    namespace regex_namespace = boost;
-#endif
+#include <reflectionzeug/IniPropertyDeserializer.h>
 
 #include <iostream>
 #include <fstream>
@@ -17,6 +7,7 @@
 
 #include <reflectionzeug/Property.h>
 #include <reflectionzeug/PropertyGroup.h>
+#include <reflectionzeug/regex_namespace.h>
 #include <reflectionzeug/util.h>
 
 using namespace loggingzeug;
@@ -24,19 +15,23 @@ using namespace loggingzeug;
 namespace reflectionzeug
 {
 
-PropertyDeserializer::PropertyDeserializer()
+IniPropertyDeserializer::IniPropertyDeserializer()
 :   m_rootGroup(nullptr)
 ,   m_currentGroup(nullptr)
 ,   m_currentValue("")
 {
 }
 
-bool PropertyDeserializer::deserialize(PropertyGroup & group, const std::string & filePath)
+IniPropertyDeserializer::~IniPropertyDeserializer()
+{
+}
+
+bool IniPropertyDeserializer::deserialize(PropertyGroup & group, const std::string & filePath)
 {
     std::fstream fstream;
     fstream.open(filePath, std::ios_base::in);
     if (!fstream.is_open()) {
-        critical() << "Could not open file \"" << filePath << "\"" << std::endl;
+        warning() << "Could not open file \"" << filePath << "\"" << std::endl;
         return false;
     }
 
@@ -54,14 +49,14 @@ bool PropertyDeserializer::deserialize(PropertyGroup & group, const std::string 
     return noErrorsOccured;
 }
 
-bool PropertyDeserializer::isGroupDeclaration(const std::string & line)
+bool IniPropertyDeserializer::isGroupDeclaration(const std::string & line)
 {
     static const regex_namespace::regex groupRegex("\\[" + AbstractProperty::s_nameRegexString + "\\]");
 
     return regex_namespace::regex_match(line, groupRegex);
 }
 
-bool PropertyDeserializer::isPropertyDeclaration(const std::string & line)
+bool IniPropertyDeserializer::isPropertyDeclaration(const std::string & line)
 {
     static const regex_namespace::regex propertyRegex(AbstractProperty::s_nameRegexString +
                                           "(\\/" +
@@ -71,7 +66,7 @@ bool PropertyDeserializer::isPropertyDeclaration(const std::string & line)
     return regex_namespace::regex_match(line, propertyRegex);
 }
 
-bool PropertyDeserializer::updateCurrentGroup(const std::string & line)
+bool IniPropertyDeserializer::updateCurrentGroup(const std::string & line)
 {
     std::string groupName = line.substr(1, line.length() - 2);
 
@@ -87,14 +82,14 @@ bool PropertyDeserializer::updateCurrentGroup(const std::string & line)
     }
 
     m_currentGroup = nullptr;
-    critical() << "Group with name \"" << groupName << "\" does not exist" << std::endl;
+    warning() << "Group with name \"" << groupName << "\" does not exist" << std::endl;
     return false;
 }
 
-bool PropertyDeserializer::setPropertyValue(const std::string & line)
+bool IniPropertyDeserializer::setPropertyValue(const std::string & line)
 {
     if (!m_currentGroup) {
-        critical() << "Could not parse line\"" << line << "\"" << "because no existing group was declared" << std::endl;
+        warning() << "Could not parse line\"" << line << "\"" << "because no existing group was declared" << std::endl;
         return false;
     }
 
@@ -106,17 +101,17 @@ bool PropertyDeserializer::setPropertyValue(const std::string & line)
     AbstractProperty * property = m_currentGroup->property(path);
 
     if (!property) {
-        critical() << "Property path \"" << path << "\" " << "is invalid" << std::endl;
+        warning() << "Property path \"" << path << "\" " << "is invalid" << std::endl;
         return false;
     }
 
     if (!property->isValue()) {
-        critical() << "Tried to assign value to group with name: " << property->name() << std::endl;
+        warning() << "Tried to assign value to group with name: " << property->name() << std::endl;
         return false;
     }
 
     if (!property->asValue()->fromString(util::trim(valueString, false))) {
-        critical() << "Could not convert \"" << valueString << "\" to property." << std::endl;
+        warning() << "Could not convert \"" << valueString << "\" to property." << std::endl;
         return false;
     }
 

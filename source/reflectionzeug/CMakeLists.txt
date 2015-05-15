@@ -58,10 +58,11 @@ set(source_path "${CMAKE_CURRENT_SOURCE_DIR}/source")
 
 set(headers
     ${header_path}/reflectionzeug_api.h
-
+    ${header_path}/AbstractDeserializer.h
     ${header_path}/AbstractProperty.h
     ${header_path}/AbstractProperty.hpp
     ${header_path}/AbstractPropertyCollection.h
+    ${header_path}/AbstractSerializer.h
     ${header_path}/AbstractPropertyVisitor.h
     ${header_path}/AbstractPropertyVisitor.hpp
     ${header_path}/AbstractValueProperty.h
@@ -75,6 +76,7 @@ set(headers
     ${header_path}/ColorProperty.h
     ${header_path}/ColorProperty.hpp
     ${header_path}/ColorPropertyInterface.h
+    ${header_path}/EnumDefaultStrings.h
     ${header_path}/EnumProperty.h
     ${header_path}/EnumProperty.hpp
     ${header_path}/EnumPropertyInterface.h
@@ -85,14 +87,16 @@ set(headers
     ${header_path}/FloatingPointProperty.hpp
     ${header_path}/FloatingPointPropertyInterface.h
     ${header_path}/Function.h
+    ${header_path}/IniPropertyDeserializer.h
+    ${header_path}/IniPropertySerializer.h
+    ${header_path}/JsonToVariantDeserializer.h
+    ${header_path}/JsonFromVariantSerializer.h
     ${header_path}/NumberProperty.h
     ${header_path}/NumberProperty.hpp
     ${header_path}/Object.h
     ${header_path}/Property.h
-    ${header_path}/PropertyDeserializer.h
     ${header_path}/PropertyGroup.h
     ${header_path}/PropertyGroup.hpp
-    ${header_path}/PropertySerializer.h
     ${header_path}/PropertyVisitor.h
     ${header_path}/SignedIntegralProperty.h
     ${header_path}/SignedIntegralProperty.hpp
@@ -115,15 +119,18 @@ set(headers
     ${header_path}/VariantHolder.h
     ${header_path}/VariantHolder.hpp
     ${header_path}/property_declaration.h
+    ${header_path}/regex_namespace.h
     ${header_path}/specialization_helpers.h
     ${header_path}/util.h
     ${header_path}/util.hpp
     ${header_path}/extensions/GlmProperties.hpp
+    ${header_path}/extensions/GlmVariantConverterInit.h
 )
 
 set(sources
     ${source_path}/AbstractProperty.cpp
     ${source_path}/AbstractPropertyCollection.cpp
+    ${source_path}/AbstractSerializer.cpp
     ${source_path}/AbstractPropertyVisitor.cpp
     ${source_path}/AbstractValueProperty.cpp
     ${source_path}/BoolProperty.cpp
@@ -134,16 +141,19 @@ set(sources
     ${source_path}/FilePath.cpp
     ${source_path}/FilePathProperty.cpp
     ${source_path}/FloatingPointPropertyInterface.cpp
+    ${source_path}/IniPropertyDeserializer.cpp
+    ${source_path}/IniPropertySerializer.cpp
+    ${source_path}/JsonToVariantDeserializer.cpp
+    ${source_path}/JsonFromVariantSerializer.cpp
     ${source_path}/Object.cpp
-    ${source_path}/PropertyDeserializer.cpp
     ${source_path}/PropertyGroup.cpp
-    ${source_path}/PropertySerializer.cpp
     ${source_path}/StringProperty.cpp
     ${source_path}/StringPropertyInterface.cpp
     ${source_path}/SignedIntegralPropertyInterface.cpp
     ${source_path}/UnsignedIntegralPropertyInterface.cpp
     ${source_path}/util.cpp
     ${source_path}/Variant.cpp
+    ${source_path}/extensions/GlmVariantConverterInit.cpp
 )
 
 # Group source files
