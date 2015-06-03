@@ -15,9 +15,8 @@ ScopedConnection::ScopedConnection(const Connection & connection)
 }
 
 ScopedConnection::ScopedConnection(ScopedConnection && other)
-:   m_connection(other.m_connection)
+:   m_connection(std::move(other.m_connection))
 {
-    other.m_connection = Connection();
 }
 
 ScopedConnection::~ScopedConnection()
@@ -36,8 +35,7 @@ ScopedConnection& ScopedConnection::operator=(const Connection & connection)
 ScopedConnection& ScopedConnection::operator=(ScopedConnection && other)
 {
     m_connection.disconnect();
-    m_connection = other.m_connection;
-    other.m_connection = Connection();
+    m_connection = std::move(other.m_connection);
 
     return *this;
 }
