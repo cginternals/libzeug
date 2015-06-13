@@ -10,9 +10,7 @@ namespace reflectionzeug
 {
 
 template <typename Enum>
-template <typename... Arguments>
-EnumProperty<Enum>::EnumProperty(Arguments&&... args)
-:   ValueProperty<Enum, EnumPropertyInterface>(std::forward<Arguments>(args)...)
+EnumProperty<Enum>::EnumProperty()
 {
     this->setStrings(EnumDefaultStrings<Enum>()());
 }
@@ -21,7 +19,7 @@ template <typename Enum>
 EnumProperty<Enum>::~EnumProperty()
 {
 }
-    
+
 template <typename Type>
 void EnumProperty<Type>::accept(AbstractPropertyVisitor * visitor)
 {
@@ -58,6 +56,12 @@ template <typename Enum>
 const std::vector<Enum> & EnumProperty<Enum>::choices() const
 {
     return m_choices;
+}
+
+template <typename Enum>
+void EnumProperty<Enum>::setChoices(const std::vector<Enum> & choices)
+{
+    m_choices = choices;
 }
 
 template <typename Enum>

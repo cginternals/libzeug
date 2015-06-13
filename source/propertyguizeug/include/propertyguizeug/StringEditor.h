@@ -1,6 +1,7 @@
 #pragma once
 
 #include <reflectionzeug/property_declaration.h>
+#include <signalzeug/ScopedConnection.h>
 
 #include <propertyguizeug/PropertyEditor.h>
 
@@ -18,6 +19,7 @@ namespace propertyguizeug
  *
  * Supported options
  * - choices (std::vector<std::string>): list of choices; when set, editor will be a combobox.
+ * - deferred (bool): defer changing the property's value until enter is pressed (only for plain edits)
  */
 class PROPERTYGUIZEUG_API StringEditor : public PropertyEditor
 {
@@ -27,15 +29,17 @@ public:
 public:
     StringEditor(reflectionzeug::StringPropertyInterface * property, 
                  QWidget * parent = nullptr);
+    virtual ~StringEditor();
 
 private:
     QWidget * createComboBox();
     QWidget * createLineEdit();
-    
+
     void setString(const QString & text);
 
 private:    
     reflectionzeug::StringPropertyInterface * m_property;
+    signalzeug::ScopedConnection m_propertyChangedConnection;
 };
 
 } // namespace propertyguizeug

@@ -32,6 +32,16 @@ PropertyModel::~PropertyModel()
     delete m_root;
 }
 
+reflectionzeug::AbstractProperty * PropertyModel::propertyAt(const QModelIndex & index) const
+{
+    propertyguizeug::PropertyItem * item = retrieveItem(index);
+    if (item) {
+        return item->property();
+    } else {
+        return nullptr;
+    }
+}
+
 QModelIndex PropertyModel::index(int row, int column, const QModelIndex & parentIndex) const
 {
     if (!hasIndex(row, column, parentIndex))

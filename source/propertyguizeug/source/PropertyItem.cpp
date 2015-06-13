@@ -22,7 +22,7 @@ PropertyItem::PropertyItem(
     {
         AbstractValueProperty * value = property->asValue();
         
-        m_connections.append(value->valueChanged.onFire(std::bind(&PropertyModel::onValueChanged, model, this)));
+        m_connections.append(value->valueChanged.onFire([this, model]() { model->onValueChanged(this); }));
     }
     
     if (property->isCollection())
@@ -37,11 +37,11 @@ PropertyItem::PropertyItem(
         {
             PropertyGroup * group = property->asGroup();
 
-            m_connections.append({ 
-                group->beforeAdd.connect(std::bind(&PropertyModel::onBeforeAdd, model, this, std::placeholders::_1, std::placeholders::_2)),
-                group->afterAdd.onFire(std::bind(&PropertyModel::onAfterAdd, model)),
-                group->beforeRemove.connect(std::bind(&PropertyModel::onBeforeRemove, model, this, std::placeholders::_1)),
-                group->afterRemove.onFire(std::bind(&PropertyModel::onAfterRemove, model))
+            m_connections.append({
+                group->beforeAdd.connect([this, model](size_t position, AbstractProperty * property) { model->onBeforeAdd(this, position, property); }),
+                group->afterAdd.onFire([this, model]() { model->onAfterAdd(); }),
+                group->beforeRemove.connect([this, model](size_t position) { model->onBeforeRemove(this, position); }),
+                group->afterRemove.onFire([this, model]() { model->onAfterRemove(); })
             });
         }
     }

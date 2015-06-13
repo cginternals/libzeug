@@ -6,7 +6,7 @@
 
 namespace reflectionzeug
 {
-    
+
 /**
  * \brief Property implementation for strings.
  * \ingroup property_hierarchy
@@ -15,11 +15,8 @@ class ColorProperty : public ValueProperty<Color, ColorPropertyInterface>
 {
 public:
     using Type = Color;
-    
+
 public:
-    template <typename... Arguments>
-    ColorProperty(Arguments&&... args);
-    
     REFLECTIONZEUG_API virtual ~ColorProperty() = 0;
 
     REFLECTIONZEUG_API virtual void accept(AbstractPropertyVisitor * visitor);
@@ -32,5 +29,3 @@ public:
 };
 
 } // namespace reflectionzeug
-
-#include <reflectionzeug/ColorProperty.hpp>

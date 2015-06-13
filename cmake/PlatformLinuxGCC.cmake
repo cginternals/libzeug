@@ -3,6 +3,8 @@ message(STATUS "Configuring for platform Linux/GCC.")
 
 # Enable C++11 support
 
+message(STATUS "Configuring for GCC")
+
 execute_process(COMMAND ${CMAKE_C_COMPILER} -dumpversion
     OUTPUT_VARIABLE GCC_VERSION)
 
@@ -29,15 +31,9 @@ set(DEFAULT_COMPILE_DEFS_RELEASE
     NDEBUG                    # Release build
 )
 
-if (OPTION_ERRORS_AS_EXCEPTION OR NOT OPTION_BUILD_WITH_STD_REGEX)
-    set(EXCEPTION_FLAG "-fexceptions")
-else()
-    set(EXCEPTION_FLAG "-fno-exceptions")
-endif()
-
 set(LINUX_COMPILE_FLAGS 
       
-      ${EXCEPTION_FLAG}
+      -fexceptions  # -> enable exceptions
       -pthread      # -> use pthread library
     # -no-rtti      # -> disable c++ rtti
       -pipe         # -> use pipes
@@ -45,6 +41,8 @@ set(LINUX_COMPILE_FLAGS
       -Wextra       # -> 
       -Werror       # ->
       -fPIC         # -> use position independent code
+      
+      -Wno-unknown-warning-option
 
       -Wreturn-type 
       -Wcast-align  
@@ -55,14 +53,6 @@ set(LINUX_COMPILE_FLAGS
     # -Werror=return-type -> missing returns in functions and methods are handled as errors which stops the compilation
     # -Wshadow      # -> e.g. when a parameter is named like a member, too many warnings, disabled for now
 )
-
-if("${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang")
-    # clang
-    set(LINUX_COMPILE_FLAGS ${LINUX_COMPILE_FLAGS} 
-        -Wno-reinterpret-base-class 
-        -Wno-overloaded-virtual
-    )
-endif()
 
 set(DEFAULT_COMPILE_FLAGS
     ${LINUX_COMPILE_FLAGS}

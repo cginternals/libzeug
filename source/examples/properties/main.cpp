@@ -1,13 +1,12 @@
-
-#include <cstdio>
 #include <iostream>
 
 #include <reflectionzeug/Property.h>
 #include <reflectionzeug/PropertyGroup.h>
 #include <reflectionzeug/PropertyDeserializer.h>
 #include <reflectionzeug/PropertySerializer.h>
+#include <reflectionzeug/util.h>
 
-#include "SomeObject.h"
+#include "MyObject.h"
 
 #ifdef WIN32
 #define INI_PATH "data\\properties.ini"
@@ -15,9 +14,130 @@
 #define INI_PATH "data/properties.ini"
 #endif
 
+
 using namespace reflectionzeug;
 
-void printGroup(const PropertyGroup & group, const std::string & path = "")
+void accessingProperties();
+void iteratingThroughProperties();
+void subscribingToChanges();
+void typeDeduction();
+void serializingProperties();
+
+void printGroup(const PropertyGroup & group, const std::string & path = "");
+
+int main(int argc, char const *argv[])
+{
+    accessingProperties();
+    iteratingThroughProperties();
+    subscribingToChanges();
+    typeDeduction();
+    serializingProperties();
+
+    return 0;
+}
+
+void accessingProperties()
+{
+    auto object = MyObject{};
+
+    // Access its value directly.
+    auto intValue = object.value<int>("int_value");
+    intValue += 10;
+    object.setValue<int>("int_value", intValue);
+
+    // Retrieve a generic AbstractProperty.
+    AbstractProperty * enumProperty = object.property("enum_value");
+
+    // Access a nested property.
+    Property<bool> * floatProperty = object.property<bool>("sub_group/bool_value");
+
+    // Access by index.
+    AbstractProperty * property = object.at(1);
+    std::cout << property->name() << std::endl; // >> "enum_value"
+}
+
+void iteratingThroughProperties()
+{
+    auto object = MyObject{};
+
+    object.forEach([] (AbstractProperty & property)
+        {
+            std::cout << property.name() << std::endl;
+        });
+    // >> "int_value" \n "enum_value" \n "float_array" \n "sub_group" \n
+
+    object.forEachValue([] (AbstractValueProperty & property)
+        {
+            std::cout << property.toString() << std::endl;
+        });
+    // >> -13 \n Value1 \n (0.5, 1, 0.3) \n
+}
+
+void subscribingToChanges()
+{
+    auto object = MyObject{};
+
+    Property<int> * intProperty = object.property<int>("int_value");
+
+    // Subscribe to updates of a property
+    intProperty->valueChanged.connect(
+        [] (const int & value)
+        {
+            std::cout << value << std::endl;
+        });
+
+    object.setValue<int>("int_value", 36);
+    // >> 36 \n
+}
+
+void typeDeduction()
+{
+    auto object = MyObject{};
+
+    AbstractValueProperty * property = object.property("float_array")->asValue();
+
+    // Deduce a property's type via its type() method.
+    if (property->type() == Property<std::array<float, 3>>::stype())
+    {
+        std::cout << property->name() << " is of type std::array<float, 3>." << std::endl;
+    }
+}
+
+void serializingProperties()
+{
+    {
+        auto object = MyObject{};
+        object.setValue<int>("int_value", -1);
+        object.setValue<MyEnum>("enum_value", MyEnum::Value3);
+        object.setValue<std::array<float, 3>>("float_array", {{ 4.8f, 15.16f, 23.42f }});
+        object.setValue<bool>("sub_group/bool_value", false);
+        
+        // Serialize property hierarchies with the PropertySerializer ...
+        try {
+            PropertySerializer serializer{};
+            serializer.serialize(object, INI_PATH);
+        }
+        catch (...)
+        {
+        }
+    }
+
+    {
+        auto object = MyObject{};
+
+        try {
+            // ... and deserialize them with the PropertyDeserializer.
+            auto deserializer = PropertyDeserializer{};
+            deserializer.deserialize(object, INI_PATH);
+            printGroup(object);
+        }
+        catch (...)
+        {
+        }
+    }
+}
+
+void printGroup(const PropertyGroup & group, const std::string & path)
 {
     std::string groupPath = path + group.name() + "/";
     std::cout << groupPath << std::endl;
@@ -31,155 +151,4 @@ void printGroup(const PropertyGroup & group, const std::string & path = "")
     {
         printGroup(subGroup, groupPath + "/");
     });
-}
-
-void subscribeToChanges()
-{
-    std::cout << ">> subscribeToChanges()" << std::endl;
-
-    Property<std::string> name("name", "Littlefinger");
-
-    name.valueChanged.connect([] (const std::string & string) {
-        std::cout << "Value Changed to \"" << string << "\"" << std::endl;
-    });
-
-    name.setValue("Tyrion Lannister");
-
-    Property<int> number("number", 12);
-
-    SomeObject object;
-    number.valueChanged.connect(&object, &SomeObject::valueChanged);
-
-    number.setValue(13);
-}
-
-void iterateOverProperties()
-{
-    std::cout << ">> iterateOverProperties()" << std::endl;
-
-    SomeObject object;
-    
-    PropertyGroup * group = new PropertyGroup("group");
-
-    group->addProperty<double>("first", 0.3);
-    group->addGroup("second");
-    group->addProperty<int>("third", 7);
-    group->addGroup("fourth");
-    group->addProperty<Color>("fifth", Color(125, 125, 125));
-    group->addProperty<int>("sixth", &object,
-                            &SomeObject::count,
-                            &SomeObject::setCount);
-    group->addProperty<std::array<float, 3>>("seventh", &object,
-                                             &SomeObject::normal,
-                                             &SomeObject::setNormal);
-
-    std::array<int, 3> array = { 1, 2, 3 };
-    group->addProperty<std::array<int, 3>>("eighth", array);
-
-    group->forEachValue([](AbstractProperty & property) {
-        std::cout << property.name() << std::endl;
-    });
-
-    group->forEachGroup([](PropertyGroup & subGroup) {
-        std::cout << subGroup.name() << std::endl;
-    });
-
-    delete group;
-}
-
-void accessProperties()
-{
-    std::cout << ">> accessProperties()" << std::endl;
-
-    PropertyGroup * root = new PropertyGroup("root");
-    auto * subGroup = root->addGroup("subGroup");
-    subGroup->addProperty<int>("value", 12);
-
-    std::cout << "Value of root/subGroup/value: ";
-    std::cout << root->value<int>("subGroup/value") << std::endl;
-}
-
-void enumProperty()
-{
-    std::cout << ">> enumProperty()" << std::endl;
-
-    PropertyGroup root("root");
-    auto * normalModeProperty = root.addProperty<NormalMode>("normal_mode", NormalMode::LookAt);
-    normalModeProperty->setStrings({ 
-        { NormalMode::Vertex, "Vertex" },
-        { NormalMode::Custom, "Custom" },
-        { NormalMode::LookAt, "LookAt" }
-    });
-    
-    printGroup(root);
-}
-
-void typeUsage()
-{
-    std::cout << ">> typeUsage()" << std::endl;
-    
-    AbstractValueProperty * property = new Property<int>("property", 12);
-    
-    if (property->type() == Property<int>::stype())
-    {
-        std::cout << property->name() << " is of type int." << std::endl;
-    }
-}
-
-bool saveProperties()
-{
-    std::cout << ">> saveProperties()" << std::endl;
-
-    PropertyGroup root("root");
-
-    std::array<double, 3> normal = { -1.3, 2.6, -4.2 };
-    root.addProperty<std::array<double, 3>>("normal", normal);
-    root.addProperty<bool>("eatable", true);
-
-    PropertyGroup * subGroup = root.addGroup("more");
-
-    subGroup->addProperty<Color>("spinach_green", Color(0x2B, 0xAA, 0xCF));
-    subGroup->addProperty<int>("apple_count", 16);
-
-    PropertySerializer serializer;
-    return serializer.serialize(root, INI_PATH);
-}
-
-bool loadProperties()
-{
-    std::cout << ">> loadProperties()" << std::endl;
-
-    PropertyGroup root("root");
-
-    std::array<double, 3> normal = { -1.3, 2.6, -4.2 };
-    root.addProperty<std::array<double, 3>>("normal", normal);
-    root.addProperty<bool>("eatable", false);
-
-    PropertyGroup * subGroup = root.addGroup("more");
-
-    subGroup->addProperty<Color>("spinach_green", Color());
-    subGroup->addProperty<int>("apple_count", 0);
-
-    PropertyDeserializer deserializer;
-    if (!deserializer.deserialize(root, INI_PATH))
-        return false;
-
-
-    printGroup(root);
-
-    return true;
-}
-
-int main(int argc, char const *argv[])
-{
-    subscribeToChanges();
-    iterateOverProperties();
-    accessProperties();
-    enumProperty();
-    typeUsage();
-
-    if (saveProperties() && loadProperties())
-        std::remove(INI_PATH);
-
-    return 0;
 }

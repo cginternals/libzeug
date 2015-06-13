@@ -28,7 +28,9 @@ class PROPERTYGUIZEUG_API PropertyModel : public QAbstractItemModel
 public:
     PropertyModel(reflectionzeug::PropertyGroup * group, QObject * parent = nullptr);
     virtual ~PropertyModel();
-    
+
+    reflectionzeug::AbstractProperty * propertyAt(const QModelIndex & index) const;
+
     virtual QModelIndex index(int row, int column,
                               const QModelIndex & parentIndex = QModelIndex()) const;
     

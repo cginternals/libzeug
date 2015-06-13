@@ -7,8 +7,6 @@
 #include <vector>
 
 #include <reflectionzeug/Property.h>
-#include <reflectionzeug/AccessorArrayValue.h>
-#include <reflectionzeug/StoredArrayValue.h>
 #include <reflectionzeug/PropertyVisitor.h>
 #include <reflectionzeug/util.h>
 #include <reflectionzeug/Variant.h>
@@ -17,52 +15,20 @@ namespace reflectionzeug
 {
 
 template <typename Type, size_t Size>
-ArrayProperty<Type, Size>::ArrayProperty(const std::array<Type, Size> & array)
-:   m_array(new StoredArrayValue<Type, Size>(array))
+ArrayProperty<Type, Size>::ArrayProperty()
 {
-    init();
-}
+    valueChanged.onFire([this] ()
+    {
+        this->AbstractValueProperty::valueChanged();
+    });
 
-template <typename Type, size_t Size>
-ArrayProperty<Type, Size>::ArrayProperty(
-    const std::function<Type (size_t)> & getter,
-    const std::function<void(size_t, const Type &)> & setter)
-:   m_array(new AccessorArrayValue<Type, Size>(getter, setter))
-{
-    init();
-}
-
-template <typename Type, size_t Size>
-template <class Object>
-ArrayProperty<Type, Size>::ArrayProperty(
-    Object * object, 
-    const Type & (Object::*getter_pointer)(size_t) const,
-    void (Object::*setter_pointer)(size_t, const Type &))
-:   m_array(new AccessorArrayValue<Type, Size>(object, getter_pointer, setter_pointer))
-{
-    init();
-}
-
-template <typename Type, size_t Size>
-template <class Object>
-ArrayProperty<Type, Size>::ArrayProperty(
-    Object * object, 
-    Type (Object::*getter_pointer)(size_t) const,
-    void (Object::*setter_pointer)(size_t, const Type &))
-:   m_array(new AccessorArrayValue<Type, Size>(object, getter_pointer, setter_pointer))
-{
-    init();
-}
-
-template <typename Type, size_t Size>
-template <class Object>
-ArrayProperty<Type, Size>::ArrayProperty(
-    Object * object, 
-    Type (Object::*getter_pointer)(size_t) const,
-    void (Object::*setter_pointer)(size_t, Type))
-:   m_array(new AccessorArrayValue<Type, Size>(object, getter_pointer, setter_pointer))
-{
-    init();
+    for (size_t i = 0; i < Size; ++i)
+    {
+        m_properties[i] = new Property<Type>("_" + std::to_string(i),
+            [this, i]() { return element(i); },
+            [this, i](const Type & value) { setElement(i, value); }
+        );
+    }
 }
 
 template <typename Type, size_t Size>
@@ -101,7 +67,7 @@ template <typename Type, size_t Size>
 std::string ArrayProperty<Type, Size>::toString() const
 {
     std::vector<std::string> stringVector;
-    
+
     for (Property<Type> * property : m_properties)
         stringVector.push_back(property->toString());
 
@@ -128,7 +94,7 @@ bool ArrayProperty<Type, Size>::fromString(const std::string & string)
 template <typename Type, size_t Size>
 Variant ArrayProperty<Type, Size>::toVariant() const
 {
-    return Variant::fromValue<std::array<Type, Size>>(m_array->get());
+    return Variant::fromValue<std::array<Type, Size>>(value());
 }
 
 template <typename Type, size_t Size>
@@ -137,7 +103,7 @@ bool ArrayProperty<Type, Size>::fromVariant(const Variant & variant)
     if (!variant.canConvert<std::array<Type, Size>>())
         return false;
 
-    m_array->set(variant.value<std::array<Type, Size>>());
+    setValue(variant.value<std::array<Type, Size>>());
     return true;
 }
 
@@ -172,34 +138,40 @@ int ArrayProperty<Type, Size>::indexOf(const AbstractProperty * property) const
 
     if (it == m_properties.end())
         return -1;
-    
+
     return (int)std::distance(m_properties.begin(), it);
 }
 
 template <typename Type, size_t Size>
 std::array<Type, Size> ArrayProperty<Type, Size>::value() const
 {
-    return m_array->get();
+    std::array<Type, Size> array;
+    for (size_t i = 0; i < Size; ++i)
+        array[i] = m_getter(i);
+
+    return array;
 }
 
 template <typename Type, size_t Size>
 void ArrayProperty<Type, Size>::setValue(const std::array<Type, Size> & array)
 {
-    m_array->set(array);
+    for (size_t i = 0; i < Size; ++i)
+        m_setter(i, array[i]);
+
     this->valueChanged(array);
 }
 
 template <typename Type, size_t Size>
 Type ArrayProperty<Type, Size>::element(size_t i) const
 {
-    return m_array->get(i);
+    return m_getter(i);
 }
 
 template <typename Type, size_t Size>
 void ArrayProperty<Type, Size>::setElement(size_t i, const Type & value)
 {
-    m_array->set(i, value);
-    this->valueChanged(m_array->get());
+    m_setter(i, value);
+    this->valueChanged(this->value());
 }
 
 template <typename Type, size_t Size>
@@ -231,19 +203,45 @@ void ArrayProperty<Type, Size>::forEach(const std::function<void(const Property<
 }
 
 template <typename Type, size_t Size>
-void ArrayProperty<Type, Size>::init()
+void ArrayProperty<Type, Size>::setAccessors(
+    const std::function<Type (size_t)> & getter,
+    const std::function<void(size_t, const Type &)> & setter)
 {
-    valueChanged.onFire([this] ()
-    {
-        this->AbstractValueProperty::valueChanged();
-    });
-    
-    for (size_t i = 0; i < Size; ++i)
-    {
-        m_properties[i] = new Property<Type>("_" + std::to_string(i),
-                                             std::bind(&ArrayProperty::element, this, i),
-                                             std::bind(&ArrayProperty::setElement, this, i, std::placeholders::_1));
-    }
+    m_getter = getter;
+    m_setter = setter;
+}
+
+template <typename Type, size_t Size>
+template <class Object>
+void ArrayProperty<Type, Size>::setAccessors(
+    Object * object,
+    const Type & (Object::*getter_pointer)(size_t) const,
+    void (Object::*setter_pointer)(size_t, const Type &))
+{
+    m_getter = [object, getter_pointer](size_t index) { return (object->*getter_pointer)(index); };
+    m_setter = [object, setter_pointer](size_t index, const Type & value) { (object->*setter_pointer)(index, value); };
+}
+
+template <typename Type, size_t Size>
+template <class Object>
+void ArrayProperty<Type, Size>::setAccessors(
+    Object * object,
+    Type (Object::*getter_pointer)(size_t) const,
+    void (Object::*setter_pointer)(size_t, const Type &))
+{
+    m_getter = [object, getter_pointer](size_t index) { return (object->*getter_pointer)(index); };
+    m_setter = [object, setter_pointer](size_t index, const Type & value) { (object->*setter_pointer)(index, value); };
+}
+
+template <typename Type, size_t Size>
+template <class Object>
+void ArrayProperty<Type, Size>::setAccessors(
+    Object * object,
+    Type (Object::*getter_pointer)(size_t) const,
+    void (Object::*setter_pointer)(size_t, Type))
+{
+    m_getter = [object, getter_pointer](size_t index) { return (object->*getter_pointer)(index); };
+    m_setter = [object, setter_pointer](size_t index, const Type & value) { (object->*setter_pointer)(index, value); };
 }
 
 } // namespace reflectionzeug

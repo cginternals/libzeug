@@ -26,6 +26,10 @@ StringEditor::StringEditor(StringPropertyInterface * property, QWidget * parent)
     setFocusProxy(widget);
 }
 
+StringEditor::~StringEditor()
+{
+}
+
 QWidget * StringEditor::createComboBox()
 {
     auto comboBox = new QComboBox{this};
@@ -39,6 +43,12 @@ QWidget * StringEditor::createComboBox()
     connect(comboBox, static_cast<StringActivatedPtr>(&QComboBox::activated),
             this, &StringEditor::setString);
 
+    m_propertyChangedConnection = m_property->valueChanged.connect(
+        [this, comboBox]()
+        {
+            comboBox->setCurrentText(QString::fromStdString(m_property->toString()));
+        });
+
     return comboBox;
 }
 
@@ -48,9 +58,28 @@ QWidget * StringEditor::createLineEdit()
     
     lineEdit->setText(QString::fromStdString(m_property->toString()));
     
-    connect(lineEdit, &QLineEdit::textEdited,
-            this, &StringEditor::setString);
+    const auto deferred = m_property->option<bool>("deferred", false);
+
+    if (deferred)
+    {
+        connect(lineEdit, &QLineEdit::editingFinished,
+            [this, lineEdit]
+        {
+            setString(lineEdit->text());
+        });
+    }
+    else
+    {
+        connect(lineEdit, &QLineEdit::textEdited,
+                this, &StringEditor::setString);
+    }
     
+    m_propertyChangedConnection = m_property->valueChanged.connect(
+        [this, lineEdit]()
+        {
+            lineEdit->setText(QString::fromStdString(m_property->toString()));
+        });
+
     return lineEdit;
 }
 

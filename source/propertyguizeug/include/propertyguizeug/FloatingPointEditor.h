@@ -1,6 +1,7 @@
 #pragma once
 
 #include <reflectionzeug/property_declaration.h>
+#include <signalzeug/ScopedConnection.h>
 
 #include <propertyguizeug/PropertyEditor.h>
 
@@ -21,6 +22,7 @@ namespace propertyguizeug
  * - precision (uint): number of decimals used
  * - prefix (std::string): string shown before value
  * - suffix (std::string): string shown after value 
+ * - deferred (bool): defer changing the property's value until enter is pressed
  */
 class PROPERTYGUIZEUG_API FloatingPointEditor : public PropertyEditor
 {
@@ -34,12 +36,14 @@ public:
 public:
     FloatingPointEditor(reflectionzeug::FloatingPointPropertyInterface * property, 
                         QWidget * parent = nullptr);
+    virtual ~FloatingPointEditor();
                         
 private:
     static const int s_defaultPrecision;
 
 private:
     reflectionzeug::FloatingPointPropertyInterface * m_property;
+    signalzeug::ScopedConnection m_propertyChangedConnection;
 };
 
 } // namespace propertyguizeug
