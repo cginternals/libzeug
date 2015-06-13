@@ -118,6 +118,8 @@ set(headers
     ${header_path}/type/AbstractVisitor.hpp
     ${header_path}/type/Visitor.h
 
+    ${header_path}/tools/Json.h
+
     ${header_path}/AbstractProperty.h
     ${header_path}/AbstractProperty.hpp
     ${header_path}/PropertyGroup.h
@@ -143,6 +145,12 @@ set(sources
     ${source_path}/type/AbstractUnsignedIntegralInterface.cpp
     ${source_path}/type/AbstractEnumInterface.cpp
     ${source_path}/type/AbstractVisitor.cpp
+    ${source_path}/type/TypedBool.cpp
+    ${source_path}/type/TypedString.cpp
+    ${source_path}/type/TypedColor.cpp
+    ${source_path}/type/TypedFilePath.cpp
+
+    ${source_path}/tools/Json.cpp
 
     ${source_path}/AbstractProperty.cpp
     ${source_path}/PropertyGroup.cpp
