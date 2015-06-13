@@ -43,8 +43,3 @@ public:
 
 
 } // namespace reflectionzeug
-
-
-
-
-
