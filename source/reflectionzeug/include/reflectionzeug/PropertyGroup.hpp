@@ -1,46 +1,92 @@
+
 #pragma once
+
 
 #include <reflectionzeug/PropertyGroup.h>
 
-#include <reflectionzeug/Property.h>
 
 namespace reflectionzeug
 {
 
-template <typename Type, typename... Args>
-Property<Type> * PropertyGroup::addProperty(const std::string & name, Args&&... args)
+
+template <typename Type>
+Property2<Type> * PropertyGroup2::property(const std::string & path)
 {
-    auto property = new Property<Type>(name, std::forward<Args>(args)...);
+    // Get property by path
+    AbstractProperty2 * property = this->property(path);
+    if (!property) {
+        return nullptr;
+    }
 
+    // Convert into requested type
+    return property->as<Property2<Type>>();
+}
+
+template <typename Type>
+const Property2<Type> * PropertyGroup2::property(const std::string & path) const
+{
+    // Get property by path
+    const AbstractProperty2 * property = this->property(path);
+    if (!property) {
+        return nullptr;
+    }
+
+    // Convert into requested type
+    return property->as<Property2<Type>>();
+}
+
+template <typename Type, typename... Args>
+Property2<Type> * PropertyGroup2::addProperty(const std::string & name, Args&&... args)
+{
+    // Create new property
+    auto property = new Property2<Type>(name, std::forward<Args>(args)...);
     if (this->addProperty(property))
+    {
         return property;
+    }
 
+    // Error, delete property and return
     delete property;
     return nullptr;
 }
 
 template <typename Type>
-Property<Type> * PropertyGroup::property(const std::string & name)
+Type PropertyGroup2::value(const std::string & path) const
 {
-    return this->property(name)->as<Property<Type>>();
+    // Get property by path
+    const AbstractProperty2 * property = this->property(path);
+    if (!property) {
+        return nullptr;
+    }
+
+    // Convert into requested type
+    Property2<Type> * typed = property->as<Property2<Type>>();
+    if (!typed) {
+        return nullptr;
+    }
+
+    // Get value
+    return typed->value();
 }
 
 template <typename Type>
-const Property<Type> * PropertyGroup::property(const std::string & name) const
+void PropertyGroup2::setValue(const std::string & path, const Type & value)
 {
-    return this->property(name)->as<Property<Type>>();
+    // Get property by path
+    const AbstractProperty2 * property = this->property(path);
+    if (!property) {
+        return nullptr;
+    }
+
+    // Convert into requested type
+    Property2<Type> * typed = property->as<Property2<Type>>();
+    if (!typed) {
+        return nullptr;
+    }
+
+    // Set value
+    typed->setValue(value);
 }
 
-template <typename Type>
-Type PropertyGroup::value(const std::string & name) const
-{
-    return this->property(name)->as<Property<Type>>()->value();
-}
-
-template <typename Type>
-void PropertyGroup::setValue(const std::string & name, const Type & value)
-{
-    this->property(name)->as<Property<Type>>()->setValue(value);
-}
 
 } // namespace reflectionzeug

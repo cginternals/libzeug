@@ -1,30 +1,29 @@
+
 #pragma once
 
+
 #include <reflectionzeug/AbstractProperty.h>
+
 
 namespace reflectionzeug
 {
 
-template <typename T>
-T AbstractProperty::option(const std::string & key, const T & defaultValue) const
+
+template <class Type>
+Type * AbstractProperty2::as()
 {
-    return hasOption(key) ? option(key).value<T>(defaultValue) : defaultValue;
+    Type * typed = dynamic_cast<Type *>(this);
+    assert(typed);
+    return typed;
 }
 
-template <class Property>
-Property * AbstractProperty::as()
+template <class Type>
+const Type * AbstractProperty2::as() const
 {
-    Property * property = dynamic_cast<Property *>(this);
-    assert(property);
-    return property;
+    const Type * typed = dynamic_cast<const Type *>(this);
+    assert(typed);
+    return typed;
 }
 
-template <class Property>
-const Property * AbstractProperty::as() const
-{
-    const Property * property = dynamic_cast<const Property *>(this);
-    assert(property);
-    return property;
-}
 
 } // namespace reflectionzeug

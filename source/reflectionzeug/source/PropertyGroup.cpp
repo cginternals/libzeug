@@ -1,326 +1,464 @@
-#include <reflectionzeug/PropertyGroup.h>
 
 #include <cassert>
 #include <algorithm>
 
+#include <reflectionzeug/PropertyGroup.h>
+#include <reflectionzeug/AbstractProperty.h>
+#include <reflectionzeug/AbstractVisitor.h>
+#include <reflectionzeug/util.h>
+
+
 namespace reflectionzeug
 {
 
-PropertyGroup::PropertyGroup()
-:   m_ownsProperties(true)
-{    
-}
-    
-PropertyGroup::PropertyGroup(const std::string & name)
-:   m_ownsProperties(true)
+
+PropertyGroup2::PropertyGroup2(const std::string & name)
+: m_name(name)
+, m_ownsProperties(true)
 {
-    setName(name);
 }
 
-PropertyGroup::~PropertyGroup()
+PropertyGroup2::PropertyGroup2()
+: m_ownsProperties(true)
 {
+}
+
+PropertyGroup2::~PropertyGroup2()
+{
+    // Delete owned properties
     if (m_ownsProperties)
     {
-        for (AbstractProperty * property : m_properties)
-            delete property;
-    }
-}
-
-bool PropertyGroup::isGroup() const
-{
-    return true;
-}
-
-Variant PropertyGroup::toVariant() const
-{
-    VariantMap variantMap;
-
-    for (const std::pair<std::string, AbstractProperty*> & pair : m_propertiesMap)
-    {
-        variantMap[pair.first] = pair.second->toVariant();
-    }
-
-    return variantMap;
-}
-
-bool PropertyGroup::fromVariant(const Variant & value)
-{
-    const VariantMap * map = value.toMap();
-
-    if (!map)
-    {
-        return false;
-    }
-
-    bool success = true;
-
-    for (const std::pair<std::string, AbstractProperty*> & pair : m_propertiesMap)
-    {
-        if (map->count(pair.first) > 0)
+        for (AbstractProperty2 * property : m_properties)
         {
-            success &= pair.second->fromVariant(map->at(pair.first));
+            delete property;
         }
     }
-
-    return success;
 }
 
-AbstractProperty * PropertyGroup::addProperty(AbstractProperty * property)
+std::string PropertyGroup2::name() const
 {
-    if (!property->hasName() ||
-        this->propertyExists(property->name()))
-        return nullptr;
-    
-    beforeAdd(count(), property);
-    
-    m_properties.push_back(property);
-    m_propertiesMap.insert(std::make_pair(property->name(), property));
-    
-    afterAdd(count(), property);
-    
-    return property;
+    return m_name;
 }
 
-PropertyGroup * PropertyGroup::addGroup(const std::string & name)
+AbstractValue * PropertyGroup2::createCopy() const
 {
-    PropertyGroup * group = new PropertyGroup(name);
-    
-    if (!this->addProperty(group)) {
-        delete group;
-        return nullptr;
-    }
-    
-    return group;
-}
-    
-PropertyGroup * PropertyGroup::ensureGroup(const std::string & path)
-{
-    std::vector<std::string> splittedPath = util::split(path, '/');
-    return ensureGroup(splittedPath);
+    // [TODO]
+    return nullptr;
 }
 
-AbstractProperty * PropertyGroup::property(const std::string & path)
+// [TODO]
+/*
+Variant PropertyGroup2::toVariant() const
+{
+}
+*/
+
+// [TODO]
+/*
+bool PropertyGroup2::fromVariant(const Variant & value)
+{
+}
+*/
+
+const std::unordered_map<std::string, AbstractProperty2 *> & PropertyGroup2::properties() const
+{
+    return m_propertiesMap;
+}
+
+AbstractProperty2 * PropertyGroup2::property(const std::string & path)
 {
     std::vector<std::string> splittedPath = util::split(path, '/');
-    return const_cast<AbstractProperty *>(findProperty(splittedPath));
+    return const_cast<AbstractProperty2 *>(findProperty(splittedPath));
 }
-    
-const AbstractProperty * PropertyGroup::property(const std::string & path) const
+
+const AbstractProperty2 * PropertyGroup2::property(const std::string & path) const
 {
     std::vector<std::string> splittedPath = util::split(path, '/');
     return findProperty(splittedPath);
 }
 
-PropertyGroup * PropertyGroup::group(const std::string & path)
+AbstractProperty2 * PropertyGroup2::addProperty(AbstractProperty2 * property)
 {
-    return this->property(path)->as<PropertyGroup>();
-}
+    // Get property as abstract value
+    AbstractValue * value = dynamic_cast<AbstractValue *>(property);
 
-const PropertyGroup * PropertyGroup::group(const std::string & path) const
-{
-    return this->property(path)->as<PropertyGroup>();
-}
-    
-AbstractProperty * PropertyGroup::at(size_t index)
-{
-    if (index >= this->count())
+    // Reject properties that have no name or whose name already exists
+    if (!value || !value->hasName() || this->propertyExists(value->name()))
+    {
         return nullptr;
-    
-    return m_properties[index];
-}
+    }
 
-const AbstractProperty * PropertyGroup::at(size_t index) const
-{
-    if (index >= this->count())
-        return nullptr;
-    
-    return m_properties[index];
-}
-    
-bool PropertyGroup::isEmpty() const
-{
-    return this->count() == 0;
-}
+    // Invoke callback
+    beforeAdd(count(), property);
 
-size_t PropertyGroup::count() const
-{
-    return m_properties.size();
-}
-    
-int PropertyGroup::indexOf(const AbstractProperty * property) const
-{
-    assert(property);
+    // Add property
+    m_properties.push_back(property);
+    m_propertiesMap.insert(std::make_pair(value->name(), property));
 
-    if (!this->propertyExists(property->name()))
-        return -1;
+    // Invoke callback
+    afterAdd(count(), property);
 
-    return (int)std::distance(m_properties.begin(), std::find(m_properties.begin(), m_properties.end(), property));
-}
-
-AbstractProperty * PropertyGroup::takeProperty(const std::string & name)
-{
-    if (!this->propertyExists(name))
-        return nullptr;
-
-    AbstractProperty * property = m_propertiesMap.at(name);
-    auto propertyIt = std::find(m_properties.begin(), m_properties.end(), property);
-
-    assert(propertyIt != m_properties.end());
-    
-    size_t index = indexOf(*propertyIt);
-    beforeRemove(index);
-    
-    m_properties.erase(propertyIt);
-    m_propertiesMap.erase(property->name());
-    
-    afterRemove(index);
-    
+    // Return property
     return property;
 }
 
-void PropertyGroup::clear()
+PropertyGroup2 * PropertyGroup2::group(const std::string & path)
 {
-    auto propertyIt = m_properties.begin();
-    while (propertyIt != m_properties.end())
+    // Get property by path
+    AbstractProperty2 * property = this->property(path);
+    if (!property) {
+        return nullptr;
+    }
+
+    // Convert into group
+    return property->as<PropertyGroup2>();
+}
+
+const PropertyGroup2 * PropertyGroup2::group(const std::string & path) const
+{
+    // Get property by path
+    const AbstractProperty2 * property = this->property(path);
+    if (!property) {
+        return nullptr;
+    }
+
+    // Convert into group
+    return property->as<PropertyGroup2>();
+}
+
+PropertyGroup2 * PropertyGroup2::addGroup(const std::string & name)
+{
+    // Create group
+    PropertyGroup2 * group = new PropertyGroup2(name);
+    if (!this->addProperty(group))
     {
-        size_t index = std::distance(m_properties.begin(), propertyIt);
+        // Abort, if group could not be added
+        delete group;
+        return nullptr;
+    }
+
+    return group;
+}
+
+PropertyGroup2 * PropertyGroup2::ensureGroup(const std::string & path)
+{
+    std::vector<std::string> splittedPath = util::split(path, '/');
+    return ensureGroup(splittedPath);
+}
+
+const std::type_info & PropertyGroup2::type() const
+{
+    return typeid(PropertyGroup2);
+}
+
+bool PropertyGroup2::isEmpty() const
+{
+    return m_properties.size() == 0;
+}
+
+size_t PropertyGroup2::count() const
+{
+    return m_properties.size();
+}
+
+AbstractValue * PropertyGroup2::at(size_t index)
+{
+    // Check if index is valid
+    if (index >= this->count())
+    {
+        return nullptr;
+    }
+
+    // Return property
+    return m_properties[index]->asValue();
+}
+
+const AbstractValue * PropertyGroup2::at(size_t index) const
+{
+    // Check if index is valid
+    if (index >= this->count())
+    {
+        return nullptr;
+    }
+
+    // Return property
+    return m_properties[index]->asValue();
+}
+
+int PropertyGroup2::indexOf(const AbstractValue * value) const
+{
+    // Check input parameter
+    assert(value);
+
+    // Convert into property
+    const AbstractProperty2 * property = dynamic_cast<const AbstractProperty2 *>(value);
+    if (!property)
+    {
+        return -1;
+    }
+
+    // Check if property exists in the group
+    if (!this->propertyExists(value->name()))
+    {
+        return -1;
+    }
+
+    // Return index of property
+    return (int)std::distance(m_properties.begin(), std::find(m_properties.begin(), m_properties.end(), property));
+}
+
+void PropertyGroup2::forEach(const std::function<void(AbstractValue &)> & callback)
+{
+    // For each property
+    for (AbstractProperty2 * property : m_properties)
+    {
+        // Get abstract value
+        AbstractValue * value = dynamic_cast<AbstractValue *>(property);
+        if (!value) {
+            continue;
+        }
+
+        // Invoke callback
+        callback(*value);
+    }
+}
+
+void PropertyGroup2::forEach(const std::function<void(const AbstractValue &)> & callback) const
+{
+    // For each property
+    for (AbstractProperty2 * property : m_properties)
+    {
+        // Get abstract value
+        AbstractValue * value = dynamic_cast<AbstractValue *>(property);
+        if (!value) {
+            continue;
+        }
+
+        // Invoke callback
+        callback(*value);
+    }
+}
+
+AbstractProperty2 * PropertyGroup2::takeProperty(const std::string & name)
+{
+    // Check if property exists in this group
+    if (!this->propertyExists(name))
+    {
+        return nullptr;
+    }
+
+    // Get property and property index
+    AbstractProperty2 * property = m_propertiesMap.at(name);
+    auto it = std::find(m_properties.begin(), m_properties.end(), property);
+    size_t index = indexOf( (*it)->asValue() );
+
+    // Invoke callback
+    beforeRemove(index);
+
+    // Remove property from group
+    m_properties.erase(it);
+    m_propertiesMap.erase(name);
+
+    // Invoke callback
+    afterRemove(index);
+
+    // Return property
+    return property;
+}
+
+void PropertyGroup2::clear()
+{
+    // Remove all properties
+    auto it = m_properties.begin();
+    while (it != m_properties.end())
+    {
+        // Get property index
+        size_t index = std::distance(m_properties.begin(), it);
+
+        // Invoke callback
         beforeRemove(index);
-        m_propertiesMap.erase((*propertyIt)->name());
-        propertyIt = m_properties.erase(propertyIt);
+
+        // Delete property
+        if (m_ownsProperties)
+        {
+            AbstractProperty2 * property = *it;
+            delete property;
+        }
+
+        // Remove property
+        m_propertiesMap.erase((*it)->asValue()->name());
+        it = m_properties.erase(it);
+
+        // Invoke callback
         afterRemove(index);
     }
 
-    if (m_ownsProperties)
-    {
-        for (AbstractProperty * property : m_properties)
-            delete property;
-    }
-
+    // Make sure that property list is empty
     assert(m_properties.empty());
     assert(m_propertiesMap.empty());
 }
-    
-void PropertyGroup::setOwnsProperties(bool b)
+
+void PropertyGroup2::setOwnsProperties(bool owns)
 {
-    m_ownsProperties = b;
+    m_ownsProperties = owns;
 }
-    
-bool PropertyGroup::propertyExists(const std::string & name) const
+
+bool PropertyGroup2::propertyExists(const std::string & name) const
 {
     return m_propertiesMap.find(name) != m_propertiesMap.end();
 }
 
-bool PropertyGroup::groupExists(const std::string & name) const
+bool PropertyGroup2::groupExists(const std::string & name) const
 {
-    return this->propertyExists(name) && m_propertiesMap.at(name)->isGroup();
+    return this->propertyExists(name) &&
+           m_propertiesMap.at(name)->as<PropertyGroup2>() != nullptr;
 }
 
-void PropertyGroup::forEach(const std::function<void(AbstractProperty &)> & functor)
+void PropertyGroup2::forEach(const std::function<void(AbstractProperty2 &)> & callback)
 {
-    for (AbstractProperty * property : m_properties)
-        functor(*property);
-}
-
-void PropertyGroup::forEach(const std::function<void(const AbstractProperty &)> & functor) const
-{
-    for (AbstractProperty * property : m_properties)
-        functor(*property);
-}
-
-void PropertyGroup::forEachValue(const std::function<void(AbstractValueProperty &)> & functor)
-{
-    for (AbstractProperty * property : m_properties) {
-        if (property->isValue())
-            functor(*property->asValue());
+    // Visit all properties
+    for (AbstractProperty2 * property : m_properties)
+    {
+        callback(*property);
     }
 }
 
-void PropertyGroup::forEachValue(const std::function<void(const AbstractValueProperty &)> & functor) const
+void PropertyGroup2::forEach(const std::function<void(const AbstractProperty2 &)> & callback) const
 {
-    for (const AbstractProperty * property : m_properties) {
-        if (property->isValue())
-            functor(*property->asValue());
+    // Visit all properties
+    for (const AbstractProperty2 * property : m_properties)
+    {
+        callback(*property);
     }
 }
 
-void PropertyGroup::forEachCollection(const std::function<void(AbstractPropertyCollection &)> & functor)
+void PropertyGroup2::forEachCollection(const std::function<void(AbstractCollection &)> & callback)
 {
-    for (AbstractProperty * property : m_properties) {
-        if (property->isCollection())
-            functor(*property->asCollection());
+    // Visit all collections
+    for (AbstractProperty2 * property : m_properties)
+    {
+        // Check if property is a collection
+        AbstractCollection * collection = dynamic_cast<AbstractCollection *>(property);
+        if (collection) {
+            callback(*collection);
+        }
     }
 }
 
-void PropertyGroup::forEachCollection(const std::function<void(const AbstractPropertyCollection &)> & functor) const
+void PropertyGroup2::forEachCollection(const std::function<void(const AbstractCollection &)> & callback) const
 {
-    for (const AbstractProperty * property : m_properties) {
-        if (property->isCollection())
-            functor(*property->asCollection());
+    // Visit all collections
+    for (const AbstractProperty2 * property : m_properties)
+    {
+        // Check if property is a collection
+        const AbstractCollection * collection = dynamic_cast<const AbstractCollection *>(property);
+        if (collection) {
+            callback(*collection);
+        }
     }
 }
 
-void PropertyGroup::forEachGroup(const std::function<void(PropertyGroup &)> & functor)
+void PropertyGroup2::forEachGroup(const std::function<void(PropertyGroup2 &)> & callback)
 {
-    for (AbstractProperty * property : m_properties) {
-        if (property->isGroup())
-            functor(*property->as<PropertyGroup>());
+    // Visit all groups
+    for (AbstractProperty2 * property : m_properties)
+    {
+        // Check if property is a group
+        PropertyGroup2 * group = dynamic_cast<PropertyGroup2 *>(property);
+        if (group) {
+            callback(*group);
+        }
     }
 }
 
-void PropertyGroup::forEachGroup(const std::function<void(const PropertyGroup &)> & functor) const
+void PropertyGroup2::forEachGroup(const std::function<void(const PropertyGroup2 &)> & callback) const
 {
-    for (const AbstractProperty * property : m_properties) {
-        if (property->isGroup())
-            functor(*property->as<PropertyGroup>());
+    // Visit all groups
+    for (const AbstractProperty2 * property : m_properties)
+    {
+        // Check if property is a group
+        const PropertyGroup2 * group = dynamic_cast<const PropertyGroup2 *>(property);
+        if (group) {
+            callback(*group);
+        }
     }
 }
 
-const AbstractProperty * PropertyGroup::findProperty(const std::vector<std::string> & path) const
+const AbstractProperty2 * PropertyGroup2::findProperty(const std::vector<std::string> & path) const
 {
-    if (path.size() == 0)
+    // [TODO] Use iterative approach rather than recursion
+
+    // Check if path is valid
+    if (path.size() == 0) {
         return nullptr;
-    
-    if (!propertyExists(path.front()))
+    }
+
+    // Check if first element of the path exists in this group
+    if (!propertyExists(path.front())) {
         return nullptr;
-    
-    AbstractProperty * property = m_propertiesMap.at(path.front());
-    
-    if (path.size() == 1)
+    }
+
+    // Get the respective property
+    AbstractProperty2 * property = m_propertiesMap.at(path.front());
+
+    // If there are no more sub-paths, return the found property
+    if (path.size() == 1) {
         return property;
-    
-    if (!property->isGroup())
+    }
+
+    // Otherwise, it is an element in the middle of the path, so ensure it is a group
+    if (!property->isGroup()) {
         return nullptr;
-    
+    }
+
+    // Call recursively on subgroup
     return property->asGroup()->findProperty({ path.begin() + 1, path.end() });
 }
-    
-PropertyGroup * PropertyGroup::ensureGroup(const std::vector<std::string> & path)
+
+PropertyGroup2 * PropertyGroup2::ensureGroup(const std::vector<std::string> & path)
 {
-    if (path.size() == 0)
+    // [TODO] Use iterative approach rather than recursion
+
+    // Check if path is valid
+    if (path.size() == 0) {
         return nullptr;
-    
-    PropertyGroup * group;
+    }
+
+    // Check if group exists
+    PropertyGroup2 * group = nullptr;
     if (propertyExists(path.front()))
     {
-        AbstractProperty * property = m_propertiesMap.at(path.front());
-        if (!property->isGroup())
+        // Get property
+        AbstractProperty2 * property = m_propertiesMap.at(path.front());
+
+        // Abort if this is not a group
+        if (!property->isGroup()) {
             return nullptr;
+        }
+
+        // Get as group
         group = property->asGroup();
     }
     else
     {
+        // Add new group
         group = addGroup(path.front());
     }
-    
-    if (path.size() == 1)
+
+    // If there are no more sub-paths, return the group
+    if (path.size() == 1) {
         return group;
-    else
-        return group->ensureGroup(std::vector<std::string>(path.begin() + 1, path.end()));
+    }
+
+    // Otherwise, call recursively on subgroup
+    return group->ensureGroup(std::vector<std::string>(path.begin() + 1, path.end()));
 }
 
-const std::unordered_map<std::string, AbstractProperty *> & PropertyGroup::properties() const
+void PropertyGroup2::accept(AbstractVisitor * visitor)
 {
-    return m_propertiesMap;
+    visitor->callVisitor<PropertyGroup2>(this);
+    visitor->callVisitor<AbstractCollection>(this);
 }
+
 
 } // namespace reflectionzeug

@@ -1,185 +1,131 @@
+
 #include <reflectionzeug/Variant.h>
+#include <reflectionzeug/Typed.h>
+
 
 namespace reflectionzeug
 {
 
-Variant Variant::array()
-{
-    Variant variant;
-    variant.m_content = new VariantHolder<VariantArray>(VariantArray());
-    return variant;
-}
 
-Variant Variant::map()
-{
-    Variant variant;
-    variant.m_content = new VariantHolder<VariantMap>(VariantMap());
-    return variant;
-}
-
-Variant::Variant()
-:   m_content(nullptr)
+Variant2::Variant2()
+: m_value(nullptr)
 {
 }
 
-Variant::Variant(const char * value)
-:   m_content(new VariantHolder<std::string>(std::string(value)))
+Variant2::Variant2(const Variant2 & variant)
+: m_value(variant.m_value ? variant.m_value->createCopy() : nullptr)
 {
 }
 
-Variant::Variant(const std::string & value)
-:   m_content(new VariantHolder<std::string>(value))
+Variant2::Variant2(char value)
+: m_value(new Typed<char>(new AccessorValue<char>(value)))
 {
 }
 
-Variant::Variant(float value)
-:   m_content(new VariantHolder<float>(value))
+Variant2::Variant2(unsigned char value)
+: m_value(new Typed<unsigned char>(new AccessorValue<unsigned char>(value)))
 {
 }
 
-Variant::Variant(double value)
-:   m_content(new VariantHolder<double>(value))
+Variant2::Variant2(short value)
+: m_value(new Typed<short>(new AccessorValue<short>(value)))
 {
 }
 
-Variant::Variant(char value)
-:   m_content(new VariantHolder<char>(value))
+Variant2::Variant2(unsigned short value)
+: m_value(new Typed<unsigned short>(new AccessorValue<unsigned short>(value)))
 {
 }
 
-Variant::Variant(unsigned char value)
-:   m_content(new VariantHolder<unsigned char>(value))
+Variant2::Variant2(int value)
+: m_value(new Typed<int>(new AccessorValue<int>(value)))
 {
 }
 
-Variant::Variant(short value)
-:   m_content(new VariantHolder<short>(value))
+Variant2::Variant2(unsigned int value)
+: m_value(new Typed<int>(new AccessorValue<int>(value)))
 {
 }
 
-Variant::Variant(unsigned short value)
-:   m_content(new VariantHolder<unsigned short>(value))
+Variant2::Variant2(long value)
+: m_value(new Typed<long>(new AccessorValue<long>(value)))
 {
 }
 
-Variant::Variant(int value)
-:   m_content(new VariantHolder<int>(value))
+Variant2::Variant2(unsigned long value)
+: m_value(new Typed<unsigned long>(new AccessorValue<unsigned long>(value)))
 {
 }
 
-Variant::Variant(unsigned int value)
-:   m_content(new VariantHolder<unsigned int>(value))
+Variant2::Variant2(long long value)
+: m_value(new Typed<long long>(new AccessorValue<long long>(value)))
 {
 }
 
-Variant::Variant(long value)
-:   m_content(new VariantHolder<long>(value))
+Variant2::Variant2(unsigned long long value)
+: m_value(new Typed<unsigned long long>(new AccessorValue<unsigned long long>(value)))
 {
 }
 
-Variant::Variant(unsigned long value)
-:   m_content(new VariantHolder<unsigned long>(value))
+Variant2::Variant2(float value)
+: m_value(new Typed<float>(new AccessorValue<float>(value)))
 {
 }
 
-Variant::Variant(long long value)
-:   m_content(new VariantHolder<long long>(value))
+Variant2::Variant2(double value)
+: m_value(new Typed<double>(new AccessorValue<double>(value)))
 {
 }
 
-Variant::Variant(unsigned long long value)
-:   m_content(new VariantHolder<unsigned long long>(value))
+Variant2::Variant2(const char * value)
+: m_value(new Typed<std::string>(new AccessorValue<std::string>(std::string(value))))
 {
 }
 
-Variant::Variant(const std::vector<std::string> & value)
-:   m_content(new VariantHolder<std::vector<std::string>>(value))
+Variant2::Variant2(const std::string & value)
+: m_value(new Typed<std::string>(new AccessorValue<std::string>(value)))
 {
 }
 
-Variant::Variant(const VariantArray & array)
-:   m_content(new VariantHolder<VariantArray>(array))
+/*
+Variant2::Variant2(const std::vector<std::string> & value)
+: m_value(new Typed< std::vector<std::string> >(new AccessorValue< std::vector<std::string> >(value)))
 {
 }
+*/
 
-Variant::Variant(VariantArray && array)
-:   m_content(new VariantHolder<VariantArray>(std::move(array)))
+bool Variant2::isNull() const
 {
+    return !m_value;
 }
 
-Variant::Variant(const VariantMap & map)
-:   m_content(new VariantHolder<VariantMap>(map))
+const std::type_info & Variant2::type() const
 {
+    if (m_value) {
+        return m_value->type();
+    } else {
+        return typeid(void);
+    }
 }
 
-Variant::Variant(VariantMap && map)
-:   m_content(new VariantHolder<VariantMap>(std::move(map)))
+Variant2::~Variant2()
 {
+    if (m_value)
+    {
+        delete m_value;
+    }
 }
 
-Variant::Variant(const Variant & variant)
-:   m_content(variant.m_content ? variant.m_content->clone() : nullptr)
+Variant2 & Variant2::operator=(const Variant2 & variant)
 {
-}
+    if (m_value) {
+        delete m_value;
+    }
 
-Variant::Variant(Variant && variant)
-:   m_content(nullptr)
-{
-    std::swap(m_content, variant.m_content);
-}
+    m_value = variant.m_value ? variant.m_value->createCopy() : nullptr;
 
-Variant & Variant::operator=(const Variant & variant)
-{
-    delete m_content;
-
-    m_content = variant.m_content ? variant.m_content->clone() : nullptr;
     return *this;
 }
 
-Variant & Variant::operator=(Variant && variant)
-{
-    std::swap(m_content, variant.m_content);
-    return *this;
-}
-
-Variant::~Variant()
-{
-    delete m_content;
-}
-
-bool Variant::isNull() const
-{
-    return !m_content;
-}
-
-bool Variant::isArray() const
-{
-    return hasType<VariantArray>();
-}
-
-bool Variant::isMap() const
-{
-    return hasType<VariantMap>();
-}
-
-VariantArray * Variant::toArray()
-{
-    return ptr<VariantArray>();
-}
-
-const VariantArray * Variant::toArray() const
-{
-    return ptr<VariantArray>();
-}
-
-VariantMap * Variant::toMap()
-{
-    return ptr<VariantMap>();
-}
-
-const VariantMap * Variant::toMap() const
-{
-    return ptr<VariantMap>();
-}
 
 } // namespace reflectionzeug

@@ -1,135 +1,66 @@
+
 #include <reflectionzeug/AbstractProperty.h>
-
-#include <utility>
-
-#include <reflectionzeug/AbstractValueProperty.h>
-#include <reflectionzeug/AbstractPropertyCollection.h>
+#include <reflectionzeug/AbstractValue.h>
+#include <reflectionzeug/AbstractCollection.h>
 #include <reflectionzeug/PropertyGroup.h>
-#include <reflectionzeug/util.h>
+
 
 namespace reflectionzeug
 {
 
-const std::string AbstractProperty::s_nameRegexString("[a-zA-Z_]+\\w*");
 
-AbstractProperty::AbstractProperty()
+AbstractProperty2::AbstractProperty2()
 {
 }
 
-AbstractProperty::AbstractProperty(const std::string & name)
-{
-    setName(name);
-}
-
-AbstractProperty::~AbstractProperty()
+AbstractProperty2::~AbstractProperty2()
 {
 }
 
-std::string AbstractProperty::name() const
+bool AbstractProperty2::isValue() const
 {
-    return m_name;
+    return (dynamic_cast<const AbstractValue *>(this) != nullptr);
 }
 
-bool AbstractProperty::setName(const std::string & name)
+bool AbstractProperty2::isCollection() const
 {
-    if (!util::matchesRegex(name, s_nameRegexString))
-        return false;
-
-    m_name = name;
-    return true;
+    return (dynamic_cast<const AbstractCollection *>(this) != nullptr);
 }
 
-bool AbstractProperty::hasName() const
+bool AbstractProperty2::isGroup() const
 {
-    return !m_name.empty();
+    return (dynamic_cast<const PropertyGroup2 *>(this) != nullptr);
 }
 
-Variant AbstractProperty::option(const std::string & key) const
+AbstractValue * AbstractProperty2::asValue()
 {
-    if (!this->hasOption(key))
-        return Variant();
-
-    return m_options.at(key);
+    return dynamic_cast<AbstractValue *>(this);
 }
 
-void AbstractProperty::setOption(const std::string & key, const Variant & value)
+const AbstractValue * AbstractProperty2::asValue() const
 {
-    m_options[key] = value;
-    optionChanged(key);
+    return dynamic_cast<const AbstractValue *>(this);
 }
 
-void AbstractProperty::setOptions(const VariantMap & map)
+AbstractCollection * AbstractProperty2::asCollection()
 {
-    for (const auto & pair : map)
-    {
-        m_options[pair.first] = pair.second;
-        optionChanged(pair.first);
-    }
+    return dynamic_cast<AbstractCollection *>(this);
 }
 
-bool AbstractProperty::removeOption(const std::string & key)
+const AbstractCollection * AbstractProperty2::asCollection() const
 {
-    if (!this->hasOption(key))
-        return false;
-
-    m_options.erase(key);
-    optionChanged(key);
-    return true;
+    return dynamic_cast<const AbstractCollection *>(this);
 }
 
-bool AbstractProperty::hasOption(const std::string & key) const
+PropertyGroup2 * AbstractProperty2::asGroup()
 {
-    return m_options.count(key) != 0;
+    return dynamic_cast<PropertyGroup2 *>(this);
 }
 
-const VariantMap & AbstractProperty::options() const
+const PropertyGroup2 * AbstractProperty2::asGroup() const
 {
-    return m_options;
+    return dynamic_cast<const PropertyGroup2 *>(this);
 }
 
-AbstractValueProperty * AbstractProperty::asValue()
-{
-    return dynamic_cast<AbstractValueProperty *>(this);
-}
-
-const AbstractValueProperty * AbstractProperty::asValue() const
-{
-    return dynamic_cast<const AbstractValueProperty *>(this);
-}
-
-AbstractPropertyCollection * AbstractProperty::asCollection()
-{
-    return dynamic_cast<AbstractPropertyCollection *>(this);
-}
-
-const AbstractPropertyCollection * AbstractProperty::asCollection() const
-{
-    return dynamic_cast<const AbstractPropertyCollection *>(this);
-}
-
-PropertyGroup * AbstractProperty::asGroup()
-{
-    return dynamic_cast<PropertyGroup *>(this);
-}
-
-const PropertyGroup * AbstractProperty::asGroup() const
-{
-    return dynamic_cast<const PropertyGroup *>(this);
-}
-
-bool AbstractProperty::isCollection() const
-{
-    return false;
-}
-
-bool AbstractProperty::isValue() const
-{
-    return false;
-}
-
-bool AbstractProperty::isGroup() const
-{
-    return false;
-}
 
 } // namespace reflectionzeug

@@ -1,104 +1,69 @@
+
 #pragma once
 
+
 #include <string>
-#include <set>
 
 #include <reflectionzeug/reflectionzeug_api.h>
-#include <reflectionzeug/Variant.h>
-#include <signalzeug/Signal.h>
+
 
 namespace reflectionzeug
 {
 
-class AbstractValueProperty;
-class AbstractPropertyCollection;
-class PropertyGroup;
 
-/** 
- * \brief The base class of all properties.
- *
- * When added to a PropertyGroup, the name is used as the unique key.
- * Do not change its name when it's in one or more groups.
- * All subclasses use virtual inheritance.
- *
- * \see PropertyGroup
- * \ingroup property_hierarchy
- */
-class REFLECTIONZEUG_API AbstractProperty 
+class AbstractValue;
+class AbstractCollection;
+class PropertyGroup2;
+
+
+/**
+*  @brief
+*    Base class for properties
+*/
+class REFLECTIONZEUG_API AbstractProperty2
 {
 public:
-    static const std::string s_nameRegexString;
+    AbstractProperty2();
+    virtual ~AbstractProperty2();
 
-public:
-    AbstractProperty();
-    AbstractProperty(const std::string & name);
-    
-    virtual ~AbstractProperty() = 0;
+    bool isValue() const;
+    bool isCollection() const;
+    bool isGroup() const;
 
-    virtual Variant toVariant() const = 0;
-    virtual bool fromVariant(const Variant & value) = 0;
+    AbstractValue * asValue();
+    const AbstractValue * asValue() const;
 
-    std::string name() const;
-    bool setName(const std::string & name);
-    bool hasName() const;
-    
-    /**
-     * \name Additional meta informations 
-     * Add additional meta information to your properties.
-     * Use options to add, e.g., minimum and maximum values, 
-     * affixes or flags. These can be used to configure editor widgets.
-     */
-    /** \{ */
-    
+    AbstractCollection * asCollection();
+    const AbstractCollection * asCollection() const;
+
+    PropertyGroup2 * asGroup();
+    const PropertyGroup2 * asGroup() const;
+
+    template <class Type>
+    Type * as();
+
+    template <class Type>
+    const Type * as() const;
+
+    // [TODO]
+    /*
+    const VariantMap & options() const;
+    Variant option(const std::string & key) const;
+
     template <typename T>
     T option(const std::string & key, const T & defaultValue) const;
 
-    Variant option(const std::string & key) const;
-    void setOption(const std::string & key, const Variant & value);
-    void setOptions(const VariantMap & map);
-    bool removeOption(const std::string & key);
     bool hasOption(const std::string & key) const;
 
-    const VariantMap & options() const;
+    void setOption(const std::string & key, const Variant & value);
+    void setOptions(const VariantMap & map);
 
-    /** \} */
-    
-    /**
-     * \name Convenience casting methods
-     * Use them, when you need to cast to sub classes.
-     * All casting is done with dynamic casts.
-     */
-    /** \{ */
-    
-    template <class Property>
-    Property * as();
-    
-    template <class Property>
-    const Property * as() const;
-
-    AbstractValueProperty * asValue();
-    const AbstractValueProperty * asValue() const;
-
-    AbstractPropertyCollection * asCollection();
-    const AbstractPropertyCollection * asCollection() const;
-
-    PropertyGroup * asGroup();
-    const PropertyGroup * asGroup() const;
-
-    virtual bool isCollection() const;
-    virtual bool isValue() const;
-    virtual bool isGroup() const;
-    
-    /** \} */
-
-public:
-    signalzeug::Signal<const std::string &> optionChanged;
-    
-private:
-    std::string m_name;
-    VariantMap m_options;
+    bool removeOption(const std::string & key);
+    */
 };
-    
+
+
 } // namespace reflectionzeug
+
 
 #include <reflectionzeug/AbstractProperty.hpp>

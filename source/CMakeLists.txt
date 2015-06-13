@@ -33,12 +33,12 @@ set_property(GLOBAL PROPERTY AUTOMOC_FOLDER CMakeAutomocTargets)
 # Libraries
 set(IDE_FOLDER "")
 add_subdirectory(iozeug)
-add_subdirectory(propertyguizeug)
 add_subdirectory(reflectionzeug)
 add_subdirectory(signalzeug)
 add_subdirectory(threadingzeug)
-add_subdirectory(scriptzeug)
 add_subdirectory(loggingzeug)
+#add_subdirectory(scriptzeug)
+#add_subdirectory(propertyguizeug)
 add_subdirectory(widgetzeug)
 
 # Examples
