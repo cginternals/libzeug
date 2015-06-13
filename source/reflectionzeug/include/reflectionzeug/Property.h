@@ -15,7 +15,7 @@ namespace reflectionzeug
 *    Typed property
 */
 template <typename T>
-class Property2 : public NamedTyped<T>, public AbstractProperty2
+class Property2 : public NamedTyped<T>, public AbstractProperty
 {
 public:
     template <typename... Args>

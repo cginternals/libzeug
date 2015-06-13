@@ -22,13 +22,13 @@ class Property2;
 *  @brief
 *    Group of properties
 */
-class REFLECTIONZEUG_API PropertyGroup : public AbstractProperty2,
+class REFLECTIONZEUG_API PropertyGroup : public AbstractProperty,
                                          public AbstractCollection,
                                          public AbstractValue
 {
 public:
-    signalzeug::Signal<size_t, AbstractProperty2 *> beforeAdd;
-    signalzeug::Signal<size_t, AbstractProperty2 *> afterAdd;
+    signalzeug::Signal<size_t, AbstractProperty *> beforeAdd;
+    signalzeug::Signal<size_t, AbstractProperty *> afterAdd;
     signalzeug::Signal<size_t> beforeRemove;
     signalzeug::Signal<size_t> afterRemove;
 
@@ -48,11 +48,11 @@ public:
     // [TODO]
     // virtual bool fromVariant(const Variant & value) override;
 
-    const std::unordered_map<std::string, AbstractProperty2 *> & properties() const;
+    const std::unordered_map<std::string, AbstractProperty *> & properties() const;
 
-    AbstractProperty2 * property(const std::string & path);
+    AbstractProperty * property(const std::string & path);
 
-    const AbstractProperty2 * property(const std::string & path) const;
+    const AbstractProperty * property(const std::string & path) const;
 
     template <typename Type>
     const Property2<Type> * property(const std::string & path) const;
@@ -60,7 +60,7 @@ public:
     template <typename Type>
     Property2<Type> * property(const std::string & path);
 
-    AbstractProperty2 * addProperty(AbstractProperty2 * property);
+    AbstractProperty * addProperty(AbstractProperty * property);
 
     template <typename Type, typename... Args>
     Property2<Type> * addProperty(const std::string & name, Args&&... args);
@@ -94,7 +94,7 @@ public:
     /**
      * Removes the property with the given name from the group and returns it.
      */
-    AbstractProperty2 * takeProperty(const std::string & name);
+    AbstractProperty * takeProperty(const std::string & name);
 
     /**
      * Removes all properties from the group. Deletes them if it owns them.
@@ -109,8 +109,8 @@ public:
     bool propertyExists(const std::string & name) const;
     bool groupExists(const std::string & name) const;
 
-    void forEach(const std::function<void(AbstractProperty2 &)> & callback);
-    void forEach(const std::function<void(const AbstractProperty2 &)> & callback) const;
+    void forEach(const std::function<void(AbstractProperty &)> & callback);
+    void forEach(const std::function<void(const AbstractProperty &)> & callback) const;
 
     void forEachCollection(const std::function<void(AbstractCollection &)> & callback);
     void forEachCollection(const std::function<void(const AbstractCollection &)> & callback) const;
@@ -122,14 +122,14 @@ public:
 
 
 protected:
-    const AbstractProperty2 * findProperty(const std::vector<std::string> & path) const;
+    const AbstractProperty * findProperty(const std::vector<std::string> & path) const;
     PropertyGroup * ensureGroup(const std::vector<std::string> & path);
 
 
 protected:
     std::string m_name;
-    std::vector<AbstractProperty2 *> m_properties;
-    std::unordered_map<std::string, AbstractProperty2 *> m_propertiesMap;
+    std::vector<AbstractProperty *> m_properties;
+    std::unordered_map<std::string, AbstractProperty *> m_propertiesMap;
     bool m_ownsProperties;
 };
 

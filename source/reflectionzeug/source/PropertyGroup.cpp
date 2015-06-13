@@ -28,7 +28,7 @@ PropertyGroup::~PropertyGroup()
     // Delete owned properties
     if (m_ownsProperties)
     {
-        for (AbstractProperty2 * property : m_properties)
+        for (AbstractProperty * property : m_properties)
         {
             delete property;
         }
@@ -60,24 +60,24 @@ bool PropertyGroup::fromVariant(const Variant & value)
 }
 */
 
-const std::unordered_map<std::string, AbstractProperty2 *> & PropertyGroup::properties() const
+const std::unordered_map<std::string, AbstractProperty *> & PropertyGroup::properties() const
 {
     return m_propertiesMap;
 }
 
-AbstractProperty2 * PropertyGroup::property(const std::string & path)
+AbstractProperty * PropertyGroup::property(const std::string & path)
 {
     std::vector<std::string> splittedPath = util::split(path, '/');
-    return const_cast<AbstractProperty2 *>(findProperty(splittedPath));
+    return const_cast<AbstractProperty *>(findProperty(splittedPath));
 }
 
-const AbstractProperty2 * PropertyGroup::property(const std::string & path) const
+const AbstractProperty * PropertyGroup::property(const std::string & path) const
 {
     std::vector<std::string> splittedPath = util::split(path, '/');
     return findProperty(splittedPath);
 }
 
-AbstractProperty2 * PropertyGroup::addProperty(AbstractProperty2 * property)
+AbstractProperty * PropertyGroup::addProperty(AbstractProperty * property)
 {
     // Get property as abstract value
     AbstractValue * value = dynamic_cast<AbstractValue *>(property);
@@ -105,7 +105,7 @@ AbstractProperty2 * PropertyGroup::addProperty(AbstractProperty2 * property)
 PropertyGroup * PropertyGroup::group(const std::string & path)
 {
     // Get property by path
-    AbstractProperty2 * property = this->property(path);
+    AbstractProperty * property = this->property(path);
     if (!property) {
         return nullptr;
     }
@@ -117,7 +117,7 @@ PropertyGroup * PropertyGroup::group(const std::string & path)
 const PropertyGroup * PropertyGroup::group(const std::string & path) const
 {
     // Get property by path
-    const AbstractProperty2 * property = this->property(path);
+    const AbstractProperty * property = this->property(path);
     if (!property) {
         return nullptr;
     }
@@ -191,7 +191,7 @@ int PropertyGroup::indexOf(const AbstractValue * value) const
     assert(value);
 
     // Convert into property
-    const AbstractProperty2 * property = dynamic_cast<const AbstractProperty2 *>(value);
+    const AbstractProperty * property = dynamic_cast<const AbstractProperty *>(value);
     if (!property)
     {
         return -1;
@@ -210,7 +210,7 @@ int PropertyGroup::indexOf(const AbstractValue * value) const
 void PropertyGroup::forEach(const std::function<void(AbstractValue &)> & callback)
 {
     // For each property
-    for (AbstractProperty2 * property : m_properties)
+    for (AbstractProperty * property : m_properties)
     {
         // Get abstract value
         AbstractValue * value = dynamic_cast<AbstractValue *>(property);
@@ -226,7 +226,7 @@ void PropertyGroup::forEach(const std::function<void(AbstractValue &)> & callbac
 void PropertyGroup::forEach(const std::function<void(const AbstractValue &)> & callback) const
 {
     // For each property
-    for (AbstractProperty2 * property : m_properties)
+    for (AbstractProperty * property : m_properties)
     {
         // Get abstract value
         AbstractValue * value = dynamic_cast<AbstractValue *>(property);
@@ -239,7 +239,7 @@ void PropertyGroup::forEach(const std::function<void(const AbstractValue &)> & c
     }
 }
 
-AbstractProperty2 * PropertyGroup::takeProperty(const std::string & name)
+AbstractProperty * PropertyGroup::takeProperty(const std::string & name)
 {
     // Check if property exists in this group
     if (!this->propertyExists(name))
@@ -248,7 +248,7 @@ AbstractProperty2 * PropertyGroup::takeProperty(const std::string & name)
     }
 
     // Get property and property index
-    AbstractProperty2 * property = m_propertiesMap.at(name);
+    AbstractProperty * property = m_propertiesMap.at(name);
     auto it = std::find(m_properties.begin(), m_properties.end(), property);
     size_t index = indexOf( (*it)->asValue() );
 
@@ -281,7 +281,7 @@ void PropertyGroup::clear()
         // Delete property
         if (m_ownsProperties)
         {
-            AbstractProperty2 * property = *it;
+            AbstractProperty * property = *it;
             delete property;
         }
 
@@ -314,19 +314,19 @@ bool PropertyGroup::groupExists(const std::string & name) const
            m_propertiesMap.at(name)->as<PropertyGroup>() != nullptr;
 }
 
-void PropertyGroup::forEach(const std::function<void(AbstractProperty2 &)> & callback)
+void PropertyGroup::forEach(const std::function<void(AbstractProperty &)> & callback)
 {
     // Visit all properties
-    for (AbstractProperty2 * property : m_properties)
+    for (AbstractProperty * property : m_properties)
     {
         callback(*property);
     }
 }
 
-void PropertyGroup::forEach(const std::function<void(const AbstractProperty2 &)> & callback) const
+void PropertyGroup::forEach(const std::function<void(const AbstractProperty &)> & callback) const
 {
     // Visit all properties
-    for (const AbstractProperty2 * property : m_properties)
+    for (const AbstractProperty * property : m_properties)
     {
         callback(*property);
     }
@@ -335,7 +335,7 @@ void PropertyGroup::forEach(const std::function<void(const AbstractProperty2 &)>
 void PropertyGroup::forEachCollection(const std::function<void(AbstractCollection &)> & callback)
 {
     // Visit all collections
-    for (AbstractProperty2 * property : m_properties)
+    for (AbstractProperty * property : m_properties)
     {
         // Check if property is a collection
         AbstractCollection * collection = dynamic_cast<AbstractCollection *>(property);
@@ -348,7 +348,7 @@ void PropertyGroup::forEachCollection(const std::function<void(AbstractCollectio
 void PropertyGroup::forEachCollection(const std::function<void(const AbstractCollection &)> & callback) const
 {
     // Visit all collections
-    for (const AbstractProperty2 * property : m_properties)
+    for (const AbstractProperty * property : m_properties)
     {
         // Check if property is a collection
         const AbstractCollection * collection = dynamic_cast<const AbstractCollection *>(property);
@@ -361,7 +361,7 @@ void PropertyGroup::forEachCollection(const std::function<void(const AbstractCol
 void PropertyGroup::forEachGroup(const std::function<void(PropertyGroup &)> & callback)
 {
     // Visit all groups
-    for (AbstractProperty2 * property : m_properties)
+    for (AbstractProperty * property : m_properties)
     {
         // Check if property is a group
         PropertyGroup * group = dynamic_cast<PropertyGroup *>(property);
@@ -374,7 +374,7 @@ void PropertyGroup::forEachGroup(const std::function<void(PropertyGroup &)> & ca
 void PropertyGroup::forEachGroup(const std::function<void(const PropertyGroup &)> & callback) const
 {
     // Visit all groups
-    for (const AbstractProperty2 * property : m_properties)
+    for (const AbstractProperty * property : m_properties)
     {
         // Check if property is a group
         const PropertyGroup * group = dynamic_cast<const PropertyGroup *>(property);
@@ -384,7 +384,7 @@ void PropertyGroup::forEachGroup(const std::function<void(const PropertyGroup &)
     }
 }
 
-const AbstractProperty2 * PropertyGroup::findProperty(const std::vector<std::string> & path) const
+const AbstractProperty * PropertyGroup::findProperty(const std::vector<std::string> & path) const
 {
     // [TODO] Use iterative approach rather than recursion
 
@@ -399,7 +399,7 @@ const AbstractProperty2 * PropertyGroup::findProperty(const std::vector<std::str
     }
 
     // Get the respective property
-    AbstractProperty2 * property = m_propertiesMap.at(path.front());
+    AbstractProperty * property = m_propertiesMap.at(path.front());
 
     // If there are no more sub-paths, return the found property
     if (path.size() == 1) {
@@ -429,7 +429,7 @@ PropertyGroup * PropertyGroup::ensureGroup(const std::vector<std::string> & path
     if (propertyExists(path.front()))
     {
         // Get property
-        AbstractProperty2 * property = m_propertiesMap.at(path.front());
+        AbstractProperty * property = m_propertiesMap.at(path.front());
 
         // Abort if this is not a group
         if (!property->isGroup()) {

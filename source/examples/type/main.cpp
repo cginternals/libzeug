@@ -314,9 +314,9 @@ void print(PropertyGroup * group, std::string indent = "")
 {
     std::cout << indent << group->asValue()->name() << ": {\n";
 
-    for (std::pair<std::string, AbstractProperty2 *> it : group->properties())
+    for (std::pair<std::string, AbstractProperty *> it : group->properties())
     {
-        AbstractProperty2 * property = it.second;
+        AbstractProperty * property = it.second;
         if (property->isGroup())
         {
             print(property->asGroup(), indent + "  ");
@@ -574,7 +574,7 @@ int main(int argc, char *argv[])
     {
         std::cout << "Casting test\n";
 
-        AbstractProperty2 * propertyInt = new Property2<int>("int");
+        AbstractProperty * propertyInt = new Property2<int>("int");
         if (propertyInt->isCollection()) {
             std::cout << "propertyInt is a collection.\n";
         } else {
@@ -586,7 +586,7 @@ int main(int argc, char *argv[])
             std::cout << "propertyInt is NOT a group.\n";
         }
 
-        AbstractProperty2 * propertyArray = new Property2<std::array<int, 3>>("array");
+        AbstractProperty * propertyArray = new Property2<std::array<int, 3>>("array");
         if (propertyArray->isCollection()) {
             std::cout << "propertyArray is a collection.\n";
         } else {

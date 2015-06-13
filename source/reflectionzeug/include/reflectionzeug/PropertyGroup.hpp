@@ -13,7 +13,7 @@ template <typename Type>
 Property2<Type> * PropertyGroup::property(const std::string & path)
 {
     // Get property by path
-    AbstractProperty2 * property = this->property(path);
+    AbstractProperty * property = this->property(path);
     if (!property) {
         return nullptr;
     }
@@ -26,7 +26,7 @@ template <typename Type>
 const Property2<Type> * PropertyGroup::property(const std::string & path) const
 {
     // Get property by path
-    const AbstractProperty2 * property = this->property(path);
+    const AbstractProperty * property = this->property(path);
     if (!property) {
         return nullptr;
     }
@@ -54,7 +54,7 @@ template <typename Type>
 Type PropertyGroup::value(const std::string & path) const
 {
     // Get property by path
-    const AbstractProperty2 * property = this->property(path);
+    const AbstractProperty * property = this->property(path);
     if (!property) {
         return nullptr;
     }
@@ -73,7 +73,7 @@ template <typename Type>
 void PropertyGroup::setValue(const std::string & path, const Type & value)
 {
     // Get property by path
-    const AbstractProperty2 * property = this->property(path);
+    const AbstractProperty * property = this->property(path);
     if (!property) {
         return nullptr;
     }

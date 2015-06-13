@@ -9,55 +9,55 @@ namespace reflectionzeug
 {
 
 
-AbstractProperty2::AbstractProperty2()
+AbstractProperty::AbstractProperty()
 {
 }
 
-AbstractProperty2::~AbstractProperty2()
+AbstractProperty::~AbstractProperty()
 {
 }
 
-bool AbstractProperty2::isValue() const
+bool AbstractProperty::isValue() const
 {
     return (dynamic_cast<const AbstractValue *>(this) != nullptr);
 }
 
-bool AbstractProperty2::isCollection() const
+bool AbstractProperty::isCollection() const
 {
     return (dynamic_cast<const AbstractCollection *>(this) != nullptr);
 }
 
-bool AbstractProperty2::isGroup() const
+bool AbstractProperty::isGroup() const
 {
     return (dynamic_cast<const PropertyGroup *>(this) != nullptr);
 }
 
-AbstractValue * AbstractProperty2::asValue()
+AbstractValue * AbstractProperty::asValue()
 {
     return dynamic_cast<AbstractValue *>(this);
 }
 
-const AbstractValue * AbstractProperty2::asValue() const
+const AbstractValue * AbstractProperty::asValue() const
 {
     return dynamic_cast<const AbstractValue *>(this);
 }
 
-AbstractCollection * AbstractProperty2::asCollection()
+AbstractCollection * AbstractProperty::asCollection()
 {
     return dynamic_cast<AbstractCollection *>(this);
 }
 
-const AbstractCollection * AbstractProperty2::asCollection() const
+const AbstractCollection * AbstractProperty::asCollection() const
 {
     return dynamic_cast<const AbstractCollection *>(this);
 }
 
-PropertyGroup * AbstractProperty2::asGroup()
+PropertyGroup * AbstractProperty::asGroup()
 {
     return dynamic_cast<PropertyGroup *>(this);
 }
 
-const PropertyGroup * AbstractProperty2::asGroup() const
+const PropertyGroup * AbstractProperty::asGroup() const
 {
     return dynamic_cast<const PropertyGroup *>(this);
 }

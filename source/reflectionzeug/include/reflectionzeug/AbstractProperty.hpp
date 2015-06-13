@@ -10,7 +10,7 @@ namespace reflectionzeug
 
 
 template <class Type>
-Type * AbstractProperty2::as()
+Type * AbstractProperty::as()
 {
     Type * typed = dynamic_cast<Type *>(this);
     assert(typed);
@@ -18,7 +18,7 @@ Type * AbstractProperty2::as()
 }
 
 template <class Type>
-const Type * AbstractProperty2::as() const
+const Type * AbstractProperty::as() const
 {
     const Type * typed = dynamic_cast<const Type *>(this);
     assert(typed);

@@ -20,11 +20,11 @@ class PropertyGroup;
 *  @brief
 *    Base class for properties
 */
-class REFLECTIONZEUG_API AbstractProperty2
+class REFLECTIONZEUG_API AbstractProperty
 {
 public:
-    AbstractProperty2();
-    virtual ~AbstractProperty2();
+    AbstractProperty();
+    virtual ~AbstractProperty();
 
     bool isValue() const;
     bool isCollection() const;
