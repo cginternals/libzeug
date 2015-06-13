@@ -2,7 +2,7 @@
 #pragma once
 
 
-#include <reflectionzeug/Color.h>
+#include <reflectionzeug/base/Color.h>
 
 
 namespace reflectionzeug

@@ -59,12 +59,12 @@ set(source_path "${CMAKE_CURRENT_SOURCE_DIR}/source")
 set(headers
     ${header_path}/reflectionzeug_api.h
 
-    ${header_path}/specialization_helpers.h
-    ${header_path}/util.h
-    ${header_path}/util.hpp
-    ${header_path}/Color.h
-    ${header_path}/FilePath.h
+    ${header_path}/base/util.h
+    ${header_path}/base/util.hpp
+    ${header_path}/base/Color.h
+    ${header_path}/base/FilePath.h
 
+    ${header_path}/specialization_helpers.h
     ${header_path}/AbstractValue.h
     ${header_path}/AbstractCollection.h
     ${header_path}/AbstractTyped.h
@@ -128,9 +128,9 @@ set(headers
 )
 
 set(sources
-    ${source_path}/util.cpp
-    ${source_path}/Color.cpp
-    ${source_path}/FilePath.cpp
+    ${source_path}/base/util.cpp
+    ${source_path}/base/Color.cpp
+    ${source_path}/base/FilePath.cpp
 
     ${source_path}/AbstractValue.cpp
     ${source_path}/AbstractCollection.cpp

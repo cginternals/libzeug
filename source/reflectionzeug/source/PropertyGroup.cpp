@@ -2,10 +2,10 @@
 #include <cassert>
 #include <algorithm>
 
+#include <reflectionzeug/base/util.h>
 #include <reflectionzeug/PropertyGroup.h>
 #include <reflectionzeug/AbstractProperty.h>
 #include <reflectionzeug/AbstractVisitor.h>
-#include <reflectionzeug/util.h>
 
 
 namespace reflectionzeug

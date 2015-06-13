@@ -1,10 +1,10 @@
-#include <reflectionzeug/Color.h>
+#include <reflectionzeug/base/Color.h>
 
 #include <cassert>
 #include <sstream>
 #include <iomanip>
 
-#include <reflectionzeug/util.h>
+#include <reflectionzeug/base/util.h>
 
 namespace reflectionzeug
 {

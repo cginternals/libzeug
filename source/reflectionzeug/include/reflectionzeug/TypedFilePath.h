@@ -2,7 +2,7 @@
 #pragma once
 
 
-#include <reflectionzeug/FilePath.h>
+#include <reflectionzeug/base/FilePath.h>
 #include <reflectionzeug/AbstractTyped.h>
 
 
