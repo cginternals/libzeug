@@ -10,15 +10,15 @@ namespace reflectionzeug
 
 
 template <typename ValueType>
-Variant2 Variant2::fromValue(const ValueType & value)
+Variant Variant::fromValue(const ValueType & value)
 {
-    Variant2 variant;
+    Variant variant;
     variant.m_value = new Typed<ValueType>(new AccessorValue<ValueType>(value));
     return variant;
 }
 
 template <typename ValueType>
-bool Variant2::hasType() const
+bool Variant::hasType() const
 {
     if (!m_value)
         return false;
@@ -27,7 +27,7 @@ bool Variant2::hasType() const
 }
 
 template <typename ValueType>
-ValueType Variant2::value(const ValueType & defaultValue) const
+ValueType Variant::value(const ValueType & defaultValue) const
 {
     if (m_value && typeid(ValueType) == m_value->type()) {
         return static_cast<Typed<ValueType> *>(m_value)->value();

@@ -22,11 +22,11 @@ class AbstractValue;
 *  @brief
 *    Variant typed value
 */
-class REFLECTIONZEUG_API Variant2
+class REFLECTIONZEUG_API Variant
 {
 public:
     template <typename ValueType>
-    static Variant2 fromValue(const ValueType & value);
+    static Variant fromValue(const ValueType & value);
 
 
 public:
@@ -34,7 +34,7 @@ public:
     *  @brief
     *    Constructor for an empty value
     */
-    Variant2();
+    Variant();
 
     /**
     *  @brief
@@ -43,26 +43,26 @@ public:
     *  @param[in] variant
     *    Variant whose value will be copied
     */
-    Variant2(const Variant2 & variant);
+    Variant(const Variant & variant);
 
-    Variant2(char value);
-    Variant2(unsigned char value);
-    Variant2(short value);
-    Variant2(unsigned short value);
-    Variant2(int value);
-    Variant2(unsigned int value);
-    Variant2(long value);
-    Variant2(unsigned long value);
-    Variant2(long long value);
-    Variant2(unsigned long long value);
-    Variant2(float value);
-    Variant2(double value);
-    Variant2(const char * value);
-    Variant2(const std::string & value);
+    Variant(char value);
+    Variant(unsigned char value);
+    Variant(short value);
+    Variant(unsigned short value);
+    Variant(int value);
+    Variant(unsigned int value);
+    Variant(long value);
+    Variant(unsigned long value);
+    Variant(long long value);
+    Variant(unsigned long long value);
+    Variant(float value);
+    Variant(double value);
+    Variant(const char * value);
+    Variant(const std::string & value);
     // [TODO]
-//  Variant2(const std::vector<std::string> & value);
+//  Variant(const std::vector<std::string> & value);
 
-    Variant2 & operator=(const Variant2 & variant);
+    Variant & operator=(const Variant & variant);
 
     bool isNull() const;
 
@@ -84,7 +84,7 @@ public:
     *  @brief
     *    Destructor
     */
-    virtual ~Variant2();
+    virtual ~Variant();
 
 
 protected:
