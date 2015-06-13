@@ -24,27 +24,6 @@ TypedClass<T>::~TypedClass()
 }
 
 template <typename T>
-std::string TypedClass<T>::toString() const
-{
-    return this->getValue().toString();
-}
-
-template <typename T>
-bool TypedClass<T>::fromString(const std::string & string)
-{
-    bool ok;
-    T value = T::fromString(string, &ok);
-
-    if (!ok) {
-        std::cout << "Could not read from string." << std::endl;
-        return false;
-    }
-
-    this->setValue(value);
-    return true;
-}
-
-template <typename T>
 void TypedClass<T>::accept(AbstractVisitor * visitor)
 {
     visitor->callVisitor<TypedClass<T>>(this);
