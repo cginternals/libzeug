@@ -10,7 +10,7 @@ namespace reflectionzeug
 
 
 template <typename Type>
-Property2<Type> * PropertyGroup::property(const std::string & path)
+Property<Type> * PropertyGroup::property(const std::string & path)
 {
     // Get property by path
     AbstractProperty * property = this->property(path);
@@ -19,11 +19,11 @@ Property2<Type> * PropertyGroup::property(const std::string & path)
     }
 
     // Convert into requested type
-    return property->as<Property2<Type>>();
+    return property->as<Property<Type>>();
 }
 
 template <typename Type>
-const Property2<Type> * PropertyGroup::property(const std::string & path) const
+const Property<Type> * PropertyGroup::property(const std::string & path) const
 {
     // Get property by path
     const AbstractProperty * property = this->property(path);
@@ -32,14 +32,14 @@ const Property2<Type> * PropertyGroup::property(const std::string & path) const
     }
 
     // Convert into requested type
-    return property->as<Property2<Type>>();
+    return property->as<Property<Type>>();
 }
 
 template <typename Type, typename... Args>
-Property2<Type> * PropertyGroup::addProperty(const std::string & name, Args&&... args)
+Property<Type> * PropertyGroup::addProperty(const std::string & name, Args&&... args)
 {
     // Create new property
-    auto property = new Property2<Type>(name, std::forward<Args>(args)...);
+    auto property = new Property<Type>(name, std::forward<Args>(args)...);
     if (this->addProperty(property))
     {
         return property;
@@ -60,7 +60,7 @@ Type PropertyGroup::value(const std::string & path) const
     }
 
     // Convert into requested type
-    Property2<Type> * typed = property->as<Property2<Type>>();
+    Property<Type> * typed = property->as<Property<Type>>();
     if (!typed) {
         return nullptr;
     }
@@ -79,7 +79,7 @@ void PropertyGroup::setValue(const std::string & path, const Type & value)
     }
 
     // Convert into requested type
-    Property2<Type> * typed = property->as<Property2<Type>>();
+    Property<Type> * typed = property->as<Property<Type>>();
     if (!typed) {
         return nullptr;
     }

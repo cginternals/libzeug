@@ -15,13 +15,13 @@ namespace reflectionzeug
 *    Typed property
 */
 template <typename T>
-class Property2 : public NamedTyped<T>, public AbstractProperty
+class Property : public NamedTyped<T>, public AbstractProperty
 {
 public:
     template <typename... Args>
-    Property2(const std::string & name, Args&&... args);
+    Property(const std::string & name, Args&&... args);
 
-    virtual ~Property2();
+    virtual ~Property();
 
     virtual void accept(AbstractVisitor * visitor) override;
 };

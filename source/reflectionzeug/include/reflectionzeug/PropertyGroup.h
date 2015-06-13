@@ -15,7 +15,7 @@ namespace reflectionzeug
 
 
 template <typename Type>
-class Property2;
+class Property;
 
 
 /**
@@ -55,15 +55,15 @@ public:
     const AbstractProperty * property(const std::string & path) const;
 
     template <typename Type>
-    const Property2<Type> * property(const std::string & path) const;
+    const Property<Type> * property(const std::string & path) const;
 
     template <typename Type>
-    Property2<Type> * property(const std::string & path);
+    Property<Type> * property(const std::string & path);
 
     AbstractProperty * addProperty(AbstractProperty * property);
 
     template <typename Type, typename... Args>
-    Property2<Type> * addProperty(const std::string & name, Args&&... args);
+    Property<Type> * addProperty(const std::string & name, Args&&... args);
 
     PropertyGroup * group(const std::string & path);
 

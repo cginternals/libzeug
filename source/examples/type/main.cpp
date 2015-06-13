@@ -145,7 +145,7 @@ class MyVisitor : public reflectionzeug::Visitor<
                             Typed<TestClass>,
                             Typed<MyEnum>,
                             Typed<std::array<int, 3>>,
-                            Property2<int>,
+                            Property<int>,
                             PropertyGroup >
 {
 public:
@@ -299,7 +299,7 @@ public:
         std::cout << typed->name() << " Typed<std::array<int, 3>>\n";
     }
 
-    virtual void visit(Property2<int> * typed) override
+    virtual void visit(Property<int> * typed) override
     {
         std::cout << typed->name() << " Property<int>\n";
     }
@@ -544,7 +544,7 @@ int main(int argc, char *argv[])
         Typed<std::array<int, 3>> typeArray(std::array<int, 3>{0, 0, 0});
         typeArray.accept(&visitor);
 
-        Property2<int> propertyInt("Integer");
+        Property<int> propertyInt("Integer");
         propertyInt.accept(&visitor);
 
         PropertyGroup group("group");
@@ -574,7 +574,7 @@ int main(int argc, char *argv[])
     {
         std::cout << "Casting test\n";
 
-        AbstractProperty * propertyInt = new Property2<int>("int");
+        AbstractProperty * propertyInt = new Property<int>("int");
         if (propertyInt->isCollection()) {
             std::cout << "propertyInt is a collection.\n";
         } else {
@@ -586,7 +586,7 @@ int main(int argc, char *argv[])
             std::cout << "propertyInt is NOT a group.\n";
         }
 
-        AbstractProperty * propertyArray = new Property2<std::array<int, 3>>("array");
+        AbstractProperty * propertyArray = new Property<std::array<int, 3>>("array");
         if (propertyArray->isCollection()) {
             std::cout << "propertyArray is a collection.\n";
         } else {
