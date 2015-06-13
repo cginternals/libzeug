@@ -74,6 +74,12 @@ AbstractTyped<Type>::~AbstractTyped()
 }
 
 template <typename Type>
+const std::type_info & AbstractTyped<Type>::type() const
+{
+    return typeid(Type);
+}
+
+template <typename Type>
 Type AbstractTyped<Type>::getValue() const
 {
     return m_accessor->getValue();

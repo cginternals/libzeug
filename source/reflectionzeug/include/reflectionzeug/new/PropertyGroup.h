@@ -79,6 +79,9 @@ public:
     template <typename Type>
     void setValue(const std::string & path, const Type & value);
 
+    // AbstractValue interface
+    virtual const std::type_info & type() const override;
+
     // AbstractCollection interface
     virtual bool isEmpty() const override;
     virtual size_t count() const override;

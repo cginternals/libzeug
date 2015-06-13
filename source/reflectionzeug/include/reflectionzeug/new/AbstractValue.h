@@ -33,6 +33,8 @@ public:
     // Create a static copy of the value
     virtual AbstractValue * createCopy() const = 0;
 
+    virtual const std::type_info & type() const = 0;
+
     virtual std::string name() const;
     bool hasName() const;
 

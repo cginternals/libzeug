@@ -47,6 +47,8 @@ public:
 
     virtual ~AbstractTyped();
 
+    virtual const std::type_info & type() const override;
+
     Type getValue() const;
     void setValue(const Type & value);
 

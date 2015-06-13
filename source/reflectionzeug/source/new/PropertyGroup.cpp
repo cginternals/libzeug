@@ -146,6 +146,11 @@ PropertyGroup2 * PropertyGroup2::ensureGroup(const std::string & path)
     return ensureGroup(splittedPath);
 }
 
+const std::type_info & PropertyGroup2::type() const
+{
+    return typeid(PropertyGroup2);
+}
+
 bool PropertyGroup2::isEmpty() const
 {
     return m_properties.size() == 0;
