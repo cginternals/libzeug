@@ -179,6 +179,7 @@ set(headers
     ${header_path}/new/Property.hpp
     ${header_path}/new/Visitor.h
     ${header_path}/new/Variant.h
+    ${header_path}/new/Variant.hpp
 )
 
 set(sources

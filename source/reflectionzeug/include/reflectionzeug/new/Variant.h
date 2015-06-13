@@ -26,12 +26,7 @@ class REFLECTIONZEUG_API Variant2
 {
 public:
     template <typename ValueType>
-    static Variant2 fromValue(const ValueType & value)
-    {
-        Variant2 variant;
-        variant.m_value = new Typed<ValueType>(new AccessorValue<ValueType>(value));
-        return variant;
-    }
+    static Variant2 fromValue(const ValueType & value);
 
 
 public:
@@ -76,27 +71,14 @@ public:
     /** Returns true if the Variant has the template type ValueType.
      */
     template <typename ValueType>
-    bool hasType() const
-    {
-        if (!m_value)
-            return false;
-
-        return typeid(ValueType) == m_value->type();
-    }
+    bool hasType() const;
 
     /** Returns the stored value converted to the template type ValueType. 
      * Call canConvert() to find out whether a type can be converted. 
      * If the value cannot be converted, a default-constructed value will be returned.
      */
     template <typename ValueType>
-    ValueType value(const ValueType & defaultValue = ValueType()) const
-    {
-        if (m_value && typeid(ValueType) == m_value->type()) {
-            return static_cast<Typed<ValueType> *>(m_value)->value();
-        } else {
-            return defaultValue;
-        }
-    }
+    ValueType value(const ValueType & defaultValue = ValueType()) const;
 
     /**
     *  @brief
@@ -111,3 +93,6 @@ protected:
 
 
 } // namespace reflectionzeug
+
+
+#include <reflectionzeug/new/Variant.hpp>
