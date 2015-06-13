@@ -4,6 +4,8 @@
 
 #include <reflectionzeug/Variant.h>
 
+#include <reflectionzeug/type/Typed.h>
+
 
 namespace reflectionzeug
 {

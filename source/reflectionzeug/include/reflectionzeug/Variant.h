@@ -8,9 +8,6 @@
 #include <reflectionzeug/reflectionzeug_api.h>
 
 
-#include <reflectionzeug/type/Typed.h>
-
-
 namespace reflectionzeug
 {
 
