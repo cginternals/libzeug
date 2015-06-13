@@ -22,9 +22,9 @@ class Property2;
 *  @brief
 *    Group of properties
 */
-class REFLECTIONZEUG_API PropertyGroup2 : public AbstractProperty2,
-                                          public AbstractCollection,
-                                          public AbstractValue
+class REFLECTIONZEUG_API PropertyGroup : public AbstractProperty2,
+                                         public AbstractCollection,
+                                         public AbstractValue
 {
 public:
     signalzeug::Signal<size_t, AbstractProperty2 *> beforeAdd;
@@ -34,9 +34,9 @@ public:
 
 
 public:
-    PropertyGroup2();
-    PropertyGroup2(const std::string & name);
-    virtual ~PropertyGroup2();
+    PropertyGroup();
+    PropertyGroup(const std::string & name);
+    virtual ~PropertyGroup();
 
     virtual std::string name() const override;
 
@@ -65,13 +65,13 @@ public:
     template <typename Type, typename... Args>
     Property2<Type> * addProperty(const std::string & name, Args&&... args);
 
-    PropertyGroup2 * group(const std::string & path);
+    PropertyGroup * group(const std::string & path);
 
-    const PropertyGroup2 * group(const std::string & path) const;
+    const PropertyGroup * group(const std::string & path) const;
 
-    PropertyGroup2 * addGroup(const std::string & name);
+    PropertyGroup * addGroup(const std::string & name);
 
-    PropertyGroup2 * ensureGroup(const std::string & path);
+    PropertyGroup * ensureGroup(const std::string & path);
 
     template <typename Type>
     Type value(const std::string & path) const;
@@ -115,15 +115,15 @@ public:
     void forEachCollection(const std::function<void(AbstractCollection &)> & callback);
     void forEachCollection(const std::function<void(const AbstractCollection &)> & callback) const;
 
-    void forEachGroup(const std::function<void(PropertyGroup2 &)> & callback);
-    void forEachGroup(const std::function<void(const PropertyGroup2 &)> & callback) const;
+    void forEachGroup(const std::function<void(PropertyGroup &)> & callback);
+    void forEachGroup(const std::function<void(const PropertyGroup &)> & callback) const;
 
     virtual void accept(AbstractVisitor * visitor) override;
 
 
 protected:
     const AbstractProperty2 * findProperty(const std::vector<std::string> & path) const;
-    PropertyGroup2 * ensureGroup(const std::vector<std::string> & path);
+    PropertyGroup * ensureGroup(const std::vector<std::string> & path);
 
 
 protected:

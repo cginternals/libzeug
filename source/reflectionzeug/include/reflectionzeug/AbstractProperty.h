@@ -13,7 +13,7 @@ namespace reflectionzeug
 
 class AbstractValue;
 class AbstractCollection;
-class PropertyGroup2;
+class PropertyGroup;
 
 
 /**
@@ -36,8 +36,8 @@ public:
     AbstractCollection * asCollection();
     const AbstractCollection * asCollection() const;
 
-    PropertyGroup2 * asGroup();
-    const PropertyGroup2 * asGroup() const;
+    PropertyGroup * asGroup();
+    const PropertyGroup * asGroup() const;
 
     template <class Type>
     Type * as();

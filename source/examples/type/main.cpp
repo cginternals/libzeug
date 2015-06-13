@@ -146,7 +146,7 @@ class MyVisitor : public reflectionzeug::Visitor<
                             Typed<MyEnum>,
                             Typed<std::array<int, 3>>,
                             Property2<int>,
-                            PropertyGroup2 >
+                            PropertyGroup >
 {
 public:
     virtual void visit(AbstractCollection * typed) override
@@ -304,13 +304,13 @@ public:
         std::cout << typed->name() << " Property<int>\n";
     }
 
-    virtual void visit(PropertyGroup2 * group) override
+    virtual void visit(PropertyGroup * group) override
     {
-        std::cout << group->name() << " PropertyGroup2\n";
+        std::cout << group->name() << " PropertyGroup\n";
     }
 };
 
-void print(PropertyGroup2 * group, std::string indent = "")
+void print(PropertyGroup * group, std::string indent = "")
 {
     std::cout << indent << group->asValue()->name() << ": {\n";
 
@@ -547,7 +547,7 @@ int main(int argc, char *argv[])
         Property2<int> propertyInt("Integer");
         propertyInt.accept(&visitor);
 
-        PropertyGroup2 group("group");
+        PropertyGroup group("group");
         group.accept(&visitor);
 
         std::cout << "\n";
@@ -606,17 +606,17 @@ int main(int argc, char *argv[])
         std::cout << "Group test:\n";
         std::cout << "\n";
 
-        PropertyGroup2 * sub1 = new PropertyGroup2("sub1");
+        PropertyGroup * sub1 = new PropertyGroup("sub1");
         sub1->addProperty<int>("number", &getInt, &setInt);
         sub1->addProperty<float>("float", &getFloat, &setFloat);
         sub1->addProperty<std::string>("string", &getString, &setString);
 
-        PropertyGroup2 * sub2 = new PropertyGroup2("sub2");
+        PropertyGroup * sub2 = new PropertyGroup("sub2");
         sub2->addProperty<int>("number", &getInt, &setInt);
         sub2->addProperty<float>("float", &getFloat, &setFloat);
         sub2->addProperty<std::string>("string", &getString, &setString);
 
-        PropertyGroup2 * root = new PropertyGroup2("root");
+        PropertyGroup * root = new PropertyGroup("root");
         root->addProperty<int>("number", &getInt, &setInt);
         root->addProperty<float>("float", &getFloat, &setFloat);
         root->addProperty<std::string>("string", &getString, &setString);

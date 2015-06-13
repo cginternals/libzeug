@@ -29,7 +29,7 @@ bool AbstractProperty2::isCollection() const
 
 bool AbstractProperty2::isGroup() const
 {
-    return (dynamic_cast<const PropertyGroup2 *>(this) != nullptr);
+    return (dynamic_cast<const PropertyGroup *>(this) != nullptr);
 }
 
 AbstractValue * AbstractProperty2::asValue()
@@ -52,14 +52,14 @@ const AbstractCollection * AbstractProperty2::asCollection() const
     return dynamic_cast<const AbstractCollection *>(this);
 }
 
-PropertyGroup2 * AbstractProperty2::asGroup()
+PropertyGroup * AbstractProperty2::asGroup()
 {
-    return dynamic_cast<PropertyGroup2 *>(this);
+    return dynamic_cast<PropertyGroup *>(this);
 }
 
-const PropertyGroup2 * AbstractProperty2::asGroup() const
+const PropertyGroup * AbstractProperty2::asGroup() const
 {
-    return dynamic_cast<const PropertyGroup2 *>(this);
+    return dynamic_cast<const PropertyGroup *>(this);
 }
 
 

@@ -10,7 +10,7 @@ namespace reflectionzeug
 
 
 template <typename Type>
-Property2<Type> * PropertyGroup2::property(const std::string & path)
+Property2<Type> * PropertyGroup::property(const std::string & path)
 {
     // Get property by path
     AbstractProperty2 * property = this->property(path);
@@ -23,7 +23,7 @@ Property2<Type> * PropertyGroup2::property(const std::string & path)
 }
 
 template <typename Type>
-const Property2<Type> * PropertyGroup2::property(const std::string & path) const
+const Property2<Type> * PropertyGroup::property(const std::string & path) const
 {
     // Get property by path
     const AbstractProperty2 * property = this->property(path);
@@ -36,7 +36,7 @@ const Property2<Type> * PropertyGroup2::property(const std::string & path) const
 }
 
 template <typename Type, typename... Args>
-Property2<Type> * PropertyGroup2::addProperty(const std::string & name, Args&&... args)
+Property2<Type> * PropertyGroup::addProperty(const std::string & name, Args&&... args)
 {
     // Create new property
     auto property = new Property2<Type>(name, std::forward<Args>(args)...);
@@ -51,7 +51,7 @@ Property2<Type> * PropertyGroup2::addProperty(const std::string & name, Args&&..
 }
 
 template <typename Type>
-Type PropertyGroup2::value(const std::string & path) const
+Type PropertyGroup::value(const std::string & path) const
 {
     // Get property by path
     const AbstractProperty2 * property = this->property(path);
@@ -70,7 +70,7 @@ Type PropertyGroup2::value(const std::string & path) const
 }
 
 template <typename Type>
-void PropertyGroup2::setValue(const std::string & path, const Type & value)
+void PropertyGroup::setValue(const std::string & path, const Type & value)
 {
     // Get property by path
     const AbstractProperty2 * property = this->property(path);
