@@ -5,9 +5,9 @@
 #include <string>
 #include <vector>
 
+#include <reflectionzeug/type/AbstractValue.h>
+#include <reflectionzeug/type/AbstractCollection.h>
 #include <reflectionzeug/AbstractProperty.h>
-#include <reflectionzeug/AbstractCollection.h>
-#include <reflectionzeug/AbstractValue.h>
 
 
 namespace reflectionzeug

@@ -64,65 +64,66 @@ set(headers
     ${header_path}/base/Color.h
     ${header_path}/base/FilePath.h
 
-    ${header_path}/specialization_helpers.h
-    ${header_path}/AbstractValue.h
-    ${header_path}/AbstractCollection.h
-    ${header_path}/AbstractTyped.h
-    ${header_path}/AbstractTyped.hpp
-    ${header_path}/AbstractTypedArray.h
-    ${header_path}/AbstractTypedArray.hpp
-    ${header_path}/Accessor.h
-    ${header_path}/Accessor.hpp
-    ${header_path}/AccessorGetSet.h
-    ${header_path}/AccessorGetSet.hpp
-    ${header_path}/AccessorValue.h
-    ${header_path}/AccessorValue.hpp
-    ${header_path}/ArrayAccessor.h
-    ${header_path}/ArrayAccessor.hpp
-    ${header_path}/ArrayAccessorGetSet.h
-    ${header_path}/ArrayAccessorGetSet.hpp
-    ${header_path}/ArrayAccessorValue.h
-    ${header_path}/ArrayAccessorValue.hpp
-    ${header_path}/Typed.h
-    ${header_path}/Typed.hpp
-    ${header_path}/TypedEnum.h
-    ${header_path}/TypedEnum.hpp
-    ${header_path}/TypedArray.h
-    ${header_path}/TypedArray.hpp
-    ${header_path}/TypedBool.h
-    ${header_path}/TypedBool.hpp
-    ${header_path}/TypedClass.h
-    ${header_path}/TypedClass.hpp
-    ${header_path}/TypedColor.h
-    ${header_path}/TypedColor.hpp
-    ${header_path}/TypedFilePath.h
-    ${header_path}/TypedFilePath.hpp
-    ${header_path}/TypedFloatingPoint.h
-    ${header_path}/TypedFloatingPoint.hpp
-    ${header_path}/TypedSignedIntegral.h
-    ${header_path}/TypedSignedIntegral.hpp
-    ${header_path}/TypedString.h
-    ${header_path}/TypedString.hpp
-    ${header_path}/TypedUnsignedIntegral.h
-    ${header_path}/TypedUnsignedIntegral.hpp
-    ${header_path}/NamedTyped.h
-    ${header_path}/NamedTyped.hpp
-    ${header_path}/AbstractBooleanInterface.h
-    ${header_path}/AbstractStringInterface.h
-    ${header_path}/AbstractColorInterface.h
-    ${header_path}/AbstractFloatingPointInterface.h
-    ${header_path}/AbstractSignedIntegralInterface.h
-    ${header_path}/AbstractUnsignedIntegralInterface.h
-    ${header_path}/AbstractEnumInterface.h
+    ${header_path}/type/specialization_helpers.h
+    ${header_path}/type/AbstractValue.h
+    ${header_path}/type/AbstractCollection.h
+    ${header_path}/type/AbstractTyped.h
+    ${header_path}/type/AbstractTyped.hpp
+    ${header_path}/type/AbstractTypedArray.h
+    ${header_path}/type/AbstractTypedArray.hpp
+    ${header_path}/type/Accessor.h
+    ${header_path}/type/Accessor.hpp
+    ${header_path}/type/AccessorGetSet.h
+    ${header_path}/type/AccessorGetSet.hpp
+    ${header_path}/type/AccessorValue.h
+    ${header_path}/type/AccessorValue.hpp
+    ${header_path}/type/ArrayAccessor.h
+    ${header_path}/type/ArrayAccessor.hpp
+    ${header_path}/type/ArrayAccessorGetSet.h
+    ${header_path}/type/ArrayAccessorGetSet.hpp
+    ${header_path}/type/ArrayAccessorValue.h
+    ${header_path}/type/ArrayAccessorValue.hpp
+    ${header_path}/type/Typed.h
+    ${header_path}/type/Typed.hpp
+    ${header_path}/type/TypedEnum.h
+    ${header_path}/type/TypedEnum.hpp
+    ${header_path}/type/TypedArray.h
+    ${header_path}/type/TypedArray.hpp
+    ${header_path}/type/TypedBool.h
+    ${header_path}/type/TypedBool.hpp
+    ${header_path}/type/TypedClass.h
+    ${header_path}/type/TypedClass.hpp
+    ${header_path}/type/TypedColor.h
+    ${header_path}/type/TypedColor.hpp
+    ${header_path}/type/TypedFilePath.h
+    ${header_path}/type/TypedFilePath.hpp
+    ${header_path}/type/TypedFloatingPoint.h
+    ${header_path}/type/TypedFloatingPoint.hpp
+    ${header_path}/type/TypedSignedIntegral.h
+    ${header_path}/type/TypedSignedIntegral.hpp
+    ${header_path}/type/TypedString.h
+    ${header_path}/type/TypedString.hpp
+    ${header_path}/type/TypedUnsignedIntegral.h
+    ${header_path}/type/TypedUnsignedIntegral.hpp
+    ${header_path}/type/NamedTyped.h
+    ${header_path}/type/NamedTyped.hpp
+    ${header_path}/type/AbstractBooleanInterface.h
+    ${header_path}/type/AbstractStringInterface.h
+    ${header_path}/type/AbstractColorInterface.h
+    ${header_path}/type/AbstractFloatingPointInterface.h
+    ${header_path}/type/AbstractSignedIntegralInterface.h
+    ${header_path}/type/AbstractUnsignedIntegralInterface.h
+    ${header_path}/type/AbstractEnumInterface.h
+    ${header_path}/type/AbstractVisitor.h
+    ${header_path}/type/AbstractVisitor.hpp
+    ${header_path}/type/Visitor.h
+
     ${header_path}/AbstractProperty.h
     ${header_path}/AbstractProperty.hpp
-    ${header_path}/AbstractVisitor.h
-    ${header_path}/AbstractVisitor.hpp
     ${header_path}/PropertyGroup.h
     ${header_path}/PropertyGroup.hpp
     ${header_path}/Property.h
     ${header_path}/Property.hpp
-    ${header_path}/Visitor.h
     ${header_path}/Variant.h
     ${header_path}/Variant.hpp
 )
@@ -132,17 +133,18 @@ set(sources
     ${source_path}/base/Color.cpp
     ${source_path}/base/FilePath.cpp
 
-    ${source_path}/AbstractValue.cpp
-    ${source_path}/AbstractCollection.cpp
-    ${source_path}/AbstractBooleanInterface.cpp
-    ${source_path}/AbstractStringInterface.cpp
-    ${source_path}/AbstractColorInterface.cpp
-    ${source_path}/AbstractFloatingPointInterface.cpp
-    ${source_path}/AbstractSignedIntegralInterface.cpp
-    ${source_path}/AbstractUnsignedIntegralInterface.cpp
-    ${source_path}/AbstractEnumInterface.cpp
+    ${source_path}/type/AbstractValue.cpp
+    ${source_path}/type/AbstractCollection.cpp
+    ${source_path}/type/AbstractBooleanInterface.cpp
+    ${source_path}/type/AbstractStringInterface.cpp
+    ${source_path}/type/AbstractColorInterface.cpp
+    ${source_path}/type/AbstractFloatingPointInterface.cpp
+    ${source_path}/type/AbstractSignedIntegralInterface.cpp
+    ${source_path}/type/AbstractUnsignedIntegralInterface.cpp
+    ${source_path}/type/AbstractEnumInterface.cpp
+    ${source_path}/type/AbstractVisitor.cpp
+
     ${source_path}/AbstractProperty.cpp
-    ${source_path}/AbstractVisitor.cpp
     ${source_path}/PropertyGroup.cpp
     ${source_path}/Variant.cpp
 )

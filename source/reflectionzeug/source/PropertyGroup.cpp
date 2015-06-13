@@ -3,9 +3,9 @@
 #include <algorithm>
 
 #include <reflectionzeug/base/util.h>
+#include <reflectionzeug/type/AbstractVisitor.h>
 #include <reflectionzeug/PropertyGroup.h>
 #include <reflectionzeug/AbstractProperty.h>
-#include <reflectionzeug/AbstractVisitor.h>
 
 
 namespace reflectionzeug

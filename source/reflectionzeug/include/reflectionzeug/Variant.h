@@ -8,7 +8,7 @@
 #include <reflectionzeug/reflectionzeug_api.h>
 
 
-#include <reflectionzeug/Typed.h>
+#include <reflectionzeug/type/Typed.h>
 
 
 namespace reflectionzeug

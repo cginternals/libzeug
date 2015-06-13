@@ -1,6 +1,6 @@
 
 #include <reflectionzeug/Variant.h>
-#include <reflectionzeug/Typed.h>
+#include <reflectionzeug/type/Typed.h>
 
 
 namespace reflectionzeug

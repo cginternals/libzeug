@@ -2,8 +2,8 @@
 #pragma once
 
 
+#include <reflectionzeug/type/NamedTyped.h>
 #include <reflectionzeug/AbstractProperty.h>
-#include <reflectionzeug/NamedTyped.h>
 
 
 namespace reflectionzeug
