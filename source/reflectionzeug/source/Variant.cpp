@@ -87,12 +87,10 @@ Variant::Variant(const std::string & value)
 {
 }
 
-/*
 Variant::Variant(const std::vector<std::string> & value)
 : m_value(new Typed< std::vector<std::string> >(new AccessorValue< std::vector<std::string> >(value)))
 {
 }
-*/
 
 bool Variant::isNull() const
 {

@@ -59,8 +59,7 @@ public:
     Variant(double value);
     Variant(const char * value);
     Variant(const std::string & value);
-    // [TODO]
-//  Variant(const std::vector<std::string> & value);
+    Variant(const std::vector<std::string> & value);
 
     Variant & operator=(const Variant & variant);
 
