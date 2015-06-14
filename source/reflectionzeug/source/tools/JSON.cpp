@@ -11,102 +11,75 @@
 namespace reflectionzeug {
 
 
-std::string escapeString(const std::string & in)
+bool JSON::parse(Variant & obj, const std::string & json)
 {
-    std::string out = "";
-
-    for (std::string::const_iterator it = in.begin(); it != in.end(); ++it) {
-        unsigned char c = *it;
-        if (c >= ' ' and c <= '~' and c != '\\' and c != '"') {
-            out.append(1, c);
-        } else {
-            out = out + '\\';
-            switch(c) {
-                case '"':  out = out + "\"";  break;
-                case '\\': out = out + "\\"; break;
-                case '\t': out = out + "t";  break;
-                case '\r': out = out + "r";  break;
-                case '\n': out = out + "n";  break;
-                default:
-                    char const* const hexdig = "0123456789ABCDEF";
-                    out = out + "x";
-                    out.append(1, hexdig[c >> 4]);
-                    out.append(1, hexdig[c & 0xF]);
-                    break;
-            }
-        }
+    JSONReader reader;
+    bool ok = reader.parse(json, obj);
+    if (!ok) {
+        // qDebug() << reader.getErrors();
     }
-
-    return out;
+    return ok;
 }
 
-std::string toJSON(const Variant & var, bool nice = true, const std::string & indent = "");
-
-std::string toString(const Variant & var)
+std::string JSON::stringify(const Variant & obj, bool nice, const std::string & indent)
 {
-    if (var.isMap() || var.isArray()) {
-        return toJSON(var);
-    } else if (var.hasType<bool>()) {
-        return var.value<bool>() ? "true" : "false";
-    } else if (var.hasType<char>()) {
+    // Primitive data types
+    if (obj.hasType<bool>()) {
+        return obj.value<bool>() ? "true" : "false";
+    } else if (obj.hasType<char>()) {
         std::stringstream s;
-        s << var.value<char>();
+        s << obj.value<char>();
         return s.str();
-    } else if (var.hasType<unsigned char>()) {
+    } else if (obj.hasType<unsigned char>()) {
         std::stringstream s;
-        s << var.value<unsigned char>();
+        s << obj.value<unsigned char>();
         return s.str();
-    } else if (var.hasType<short>()) {
+    } else if (obj.hasType<short>()) {
         std::stringstream s;
-        s << var.value<short>();
+        s << obj.value<short>();
         return s.str();
-    } else if (var.hasType<unsigned short>()) {
+    } else if (obj.hasType<unsigned short>()) {
         std::stringstream s;
-        s << var.value<unsigned short>();
+        s << obj.value<unsigned short>();
         return s.str();
-    } else if (var.hasType<int>()) {
+    } else if (obj.hasType<int>()) {
         std::stringstream s;
-        s << var.value<int>();
+        s << obj.value<int>();
         return s.str();
-    } else if (var.hasType<unsigned int>()) {
+    } else if (obj.hasType<unsigned int>()) {
         std::stringstream s;
-        s << var.value<unsigned int>();
+        s << obj.value<unsigned int>();
         return s.str();
-    } else if (var.hasType<long>()) {
+    } else if (obj.hasType<long>()) {
         std::stringstream s;
-        s << var.value<long>();
+        s << obj.value<long>();
         return s.str();
-    } else if (var.hasType<unsigned long>()) {
+    } else if (obj.hasType<unsigned long>()) {
         std::stringstream s;
-        s << var.value<unsigned long>();
+        s << obj.value<unsigned long>();
         return s.str();
-    } else if (var.hasType<long long>()) {
+    } else if (obj.hasType<long long>()) {
         std::stringstream s;
-        s << var.value<long long>();
+        s << obj.value<long long>();
         return s.str();
-    } else if (var.hasType<unsigned long long>()) {
+    } else if (obj.hasType<unsigned long long>()) {
         std::stringstream s;
-        s << var.value<unsigned long long>();
+        s << obj.value<unsigned long long>();
         return s.str();
-    } else if (var.hasType<float>()) {
+    } else if (obj.hasType<float>()) {
         std::stringstream s;
-        s << var.value<float>();
+        s << obj.value<float>();
         return s.str();
-    } else if (var.hasType<double>()) {
+    } else if (obj.hasType<double>()) {
         std::stringstream s;
-        s << var.value<double>();
+        s << obj.value<double>();
         return s.str();
-    } else if (var.hasType<std::string>()) {
-        return var.value<std::string>();
-    } else {
-        return "NO";
+    } else if (obj.hasType<std::string>()) {
+        return obj.value<std::string>();
     }
-}
 
-std::string toJSON(const Variant & obj, bool nice, const std::string & indent)
-{
     // Variant is an object
-    if (obj.isMap()) {
+    else if (obj.isMap()) {
         // Quick output: {} if empty
         if (obj.toMap()->empty()) return "{}";
 
@@ -127,11 +100,11 @@ std::string toJSON(const Variant & obj, bool nice, const std::string & indent)
             // Get value
             std::string value;
             if (var.isMap() || var.isArray()) {
-                value = toJSON(var, nice, indent + "    ");
+                value = stringify(var, nice, indent + "    ");
             } else if (var.isNull()) {
                 value = "null";
             } else {
-                value = escapeString(toString(var));
+                value = escapeString(stringify(var));
                 if (var.hasType<std::string>()) {
                     value = "\"" + value + "\"";
                 }
@@ -167,11 +140,11 @@ std::string toJSON(const Variant & obj, bool nice, const std::string & indent)
             // Get value
             std::string value;
             if (var.isMap() || var.isArray()) {
-                value = toJSON(var, nice, indent + "    ");
+                value = stringify(var, nice, indent + "    ");
             } else if (var.isNull()) {
                 value = "null";
             } else {
-                value = escapeString(toString(var));
+                value = escapeString(stringify(var));
                 if (var.hasType<std::string>()) {
                     value = "\"" + value + "\"";
                 }
@@ -190,21 +163,6 @@ std::string toJSON(const Variant & obj, bool nice, const std::string & indent)
     else {
         return "";
     }
-}
-
-bool JSON::parse(Variant & obj, const std::string & json)
-{
-    JSONReader reader;
-    bool ok = reader.parse(json, obj);
-    if (!ok) {
-        // qDebug() << reader.getErrors();
-    }
-    return ok;
-}
-
-std::string JSON::stringify(const Variant & obj, bool nice, const std::string & indent)
-{
-    return toJSON(obj, nice, indent);
 }
 
 bool JSON::load(Variant & obj, const std::string & filename)
@@ -237,6 +195,35 @@ void JSON::save(const Variant & obj, const std::string & filename, bool nice)
         out << stringify(obj, nice);
         out.close();
     }
+}
+
+std::string JSON::escapeString(const std::string & in)
+{
+    std::string out = "";
+
+    for (std::string::const_iterator it = in.begin(); it != in.end(); ++it) {
+        unsigned char c = *it;
+        if (c >= ' ' and c <= '~' and c != '\\' and c != '"') {
+            out.append(1, c);
+        } else {
+            out = out + '\\';
+            switch(c) {
+                case '"':  out = out + "\"";  break;
+                case '\\': out = out + "\\"; break;
+                case '\t': out = out + "t";  break;
+                case '\r': out = out + "r";  break;
+                case '\n': out = out + "n";  break;
+                default:
+                    char const* const hexdig = "0123456789ABCDEF";
+                    out = out + "x";
+                    out.append(1, hexdig[c >> 4]);
+                    out.append(1, hexdig[c & 0xF]);
+                    break;
+            }
+        }
+    }
+
+    return out;
 }
 
 

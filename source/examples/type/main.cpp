@@ -696,6 +696,7 @@ int main(int argc, char *argv[])
     }
 
     // JSON test
+    /*
     {
         Variant var;
         JSON::load(var, "/workspace/hpi/projects/gtx/data/datasets/berlin/flow/berlin_flow_2015_01_02-20_29_46.json");
@@ -704,4 +705,5 @@ int main(int argc, char *argv[])
         std::cout << json << "\n";
         std::cout << "\n";
     }
+    */
 }

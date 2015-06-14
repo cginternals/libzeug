@@ -76,6 +76,12 @@ public:
     *    Produce nice readable output?
     */
     static void save(const Variant & obj, const std::string & filename, bool nice = false);
+
+
+protected:
+    static std::string escapeString(const std::string & in);
+
+
 };
 
 
