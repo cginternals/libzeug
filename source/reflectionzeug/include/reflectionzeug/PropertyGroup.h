@@ -40,14 +40,6 @@ public:
 
     virtual std::string name() const override;
 
-    virtual AbstractValue * createCopy() const override;
-
-    // [TODO]
-    // virtual Variant toVariant() const override;
-
-    // [TODO]
-    // virtual bool fromVariant(const Variant & value) override;
-
     const std::unordered_map<std::string, AbstractProperty *> & properties() const;
 
     AbstractProperty * property(const std::string & path);
@@ -81,6 +73,10 @@ public:
 
     // AbstractValue interface
     virtual const std::type_info & type() const override;
+    /* [TODO]
+    virtual Variant toVariant() const override;
+    virtual bool fromVariant(const Variant & value) override;
+    */
 
     // AbstractCollection interface
     virtual bool isEmpty() const override;

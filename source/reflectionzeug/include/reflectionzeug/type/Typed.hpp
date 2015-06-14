@@ -33,11 +33,5 @@ void Typed<T>::accept(AbstractVisitor * visitor)
     return TypeSelector<T>::Type::accept(visitor);
 }
 
-template <typename T>
-AbstractValue * Typed<T>::createCopy() const
-{
-    return new Typed<T>(this->value());
-}
-
 
 } // namespace reflectionzeug

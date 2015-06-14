@@ -58,6 +58,12 @@ ArrayAccessorGetSet<Type, Size>::~ArrayAccessorGetSet()
 }
 
 template <typename Type, size_t Size>
+AbstractAccessor * ArrayAccessorGetSet<Type, Size>::clone() const
+{
+    return new ArrayAccessorGetSet<Type, Size>(m_getter, m_setter);
+}
+
+template <typename Type, size_t Size>
 std::array<Type, Size> * ArrayAccessorGetSet<Type, Size>::ptr() const
 {
     return nullptr;
@@ -125,6 +131,13 @@ template <typename Type, size_t Size>
 ArrayAccessorGetSet<const Type, Size>::~ArrayAccessorGetSet()
 {
 }
+
+template <typename Type, size_t Size>
+AbstractAccessor * ArrayAccessorGetSet<const Type, Size>::clone() const
+{
+    return new ArrayAccessorGetSet<const Type, Size>(m_getter);
+}
+
 
 template <typename Type, size_t Size>
 std::array<Type, Size> * ArrayAccessorGetSet<const Type, Size>::ptr() const

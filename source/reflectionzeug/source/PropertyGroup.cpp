@@ -40,26 +40,6 @@ std::string PropertyGroup::name() const
     return m_name;
 }
 
-AbstractValue * PropertyGroup::createCopy() const
-{
-    // [TODO]
-    return nullptr;
-}
-
-// [TODO]
-/*
-Variant PropertyGroup::toVariant() const
-{
-}
-*/
-
-// [TODO]
-/*
-bool PropertyGroup::fromVariant(const Variant & value)
-{
-}
-*/
-
 const std::unordered_map<std::string, AbstractProperty *> & PropertyGroup::properties() const
 {
     return m_propertiesMap;
@@ -150,6 +130,20 @@ const std::type_info & PropertyGroup::type() const
 {
     return typeid(PropertyGroup);
 }
+
+/* [TODO]
+Variant PropertyGroup::toVariant() const
+{
+    // [TODO]
+    return Variant();
+}
+
+bool PropertyGroup::fromVariant(const Variant & value)
+{
+    // [TODO]
+    return false;
+}
+*/
 
 bool PropertyGroup::isEmpty() const
 {

@@ -4,7 +4,7 @@
 
 #include <reflectionzeug/Variant.h>
 
-#include <reflectionzeug/type/Typed.h>
+#include <reflectionzeug/type/AccessorValue.h>
 
 
 namespace reflectionzeug
@@ -15,24 +15,25 @@ template <typename ValueType>
 Variant Variant::fromValue(const ValueType & value)
 {
     Variant variant;
-    variant.m_value = new Typed<ValueType>(new AccessorValue<ValueType>(value));
+    variant.m_accessor = new AccessorValue<ValueType>(value);
     return variant;
 }
 
 template <typename ValueType>
 bool Variant::hasType() const
 {
-    if (!m_value)
+    if (!m_accessor) {
         return false;
+    }
 
-    return typeid(ValueType) == m_value->type();
+    return typeid(ValueType) == m_accessor->type();
 }
 
 template <typename ValueType>
 ValueType Variant::value(const ValueType & defaultValue) const
 {
-    if (m_value && typeid(ValueType) == m_value->type()) {
-        return static_cast<Typed<ValueType> *>(m_value)->value();
+    if (m_accessor && typeid(ValueType) == m_accessor->type()) {
+        return static_cast<AccessorValue<ValueType> *>(m_accessor)->value();
     } else {
         return defaultValue;
     }
@@ -41,8 +42,8 @@ ValueType Variant::value(const ValueType & defaultValue) const
 template <typename ValueType>
 ValueType * Variant::ptr()
 {
-    if (m_value && typeid(ValueType) == m_value->type()) {
-        return static_cast<Typed<ValueType> *>(m_value)->ptr();
+    if (m_accessor && typeid(ValueType) == m_accessor->type()) {
+        return static_cast<AccessorValue<ValueType> *>(m_accessor)->ptr();
     } else {
         return nullptr;
     }
@@ -51,8 +52,8 @@ ValueType * Variant::ptr()
 template <typename ValueType>
 const ValueType * Variant::ptr() const
 {
-    if (m_value && typeid(ValueType) == m_value->type()) {
-        return static_cast<const Typed<ValueType> *>(m_value)->ptr();
+    if (m_accessor && typeid(ValueType) == m_accessor->type()) {
+        return static_cast<const AccessorValue<ValueType> *>(m_accessor)->ptr();
     } else {
         return nullptr;
     }

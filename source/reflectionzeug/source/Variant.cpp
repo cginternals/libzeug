@@ -1,6 +1,6 @@
 
 #include <reflectionzeug/Variant.h>
-#include <reflectionzeug/type/Typed.h>
+#include <reflectionzeug/type/AccessorValue.h>
 
 
 namespace reflectionzeug
@@ -10,113 +10,113 @@ namespace reflectionzeug
 Variant Variant::array()
 {
     Variant variant;
-    variant.m_value = new Typed<VariantArray>(new AccessorValue<VariantArray>(VariantArray()));
+    variant.m_accessor = new AccessorValue<VariantArray>(VariantArray());
     return variant;
 }
 
 Variant Variant::map()
 {
     Variant variant;
-    variant.m_value = new Typed<VariantMap>(new AccessorValue<VariantMap>(VariantMap()));
+    variant.m_accessor = new AccessorValue<VariantMap>(VariantMap());
     return variant;
 }
 
 Variant::Variant()
-: m_value(nullptr)
+: m_accessor(nullptr)
 {
 }
 
 Variant::Variant(const Variant & variant)
-: m_value(variant.m_value ? variant.m_value->createCopy() : nullptr)
+: m_accessor(variant.m_accessor ? variant.m_accessor->clone() : nullptr)
 {
 }
 
 Variant::Variant(char value)
-: m_value(new Typed<char>(new AccessorValue<char>(value)))
+: m_accessor(new AccessorValue<char>(value))
 {
 }
 
 Variant::Variant(unsigned char value)
-: m_value(new Typed<unsigned char>(new AccessorValue<unsigned char>(value)))
+: m_accessor(new AccessorValue<unsigned char>(value))
 {
 }
 
 Variant::Variant(short value)
-: m_value(new Typed<short>(new AccessorValue<short>(value)))
+: m_accessor(new AccessorValue<short>(value))
 {
 }
 
 Variant::Variant(unsigned short value)
-: m_value(new Typed<unsigned short>(new AccessorValue<unsigned short>(value)))
+: m_accessor(new AccessorValue<unsigned short>(value))
 {
 }
 
 Variant::Variant(int value)
-: m_value(new Typed<int>(new AccessorValue<int>(value)))
+: m_accessor(new AccessorValue<int>(value))
 {
 }
 
 Variant::Variant(unsigned int value)
-: m_value(new Typed<int>(new AccessorValue<int>(value)))
+: m_accessor(new AccessorValue<int>(value))
 {
 }
 
 Variant::Variant(long value)
-: m_value(new Typed<long>(new AccessorValue<long>(value)))
+: m_accessor(new AccessorValue<long>(value))
 {
 }
 
 Variant::Variant(unsigned long value)
-: m_value(new Typed<unsigned long>(new AccessorValue<unsigned long>(value)))
+: m_accessor(new AccessorValue<unsigned long>(value))
 {
 }
 
 Variant::Variant(long long value)
-: m_value(new Typed<long long>(new AccessorValue<long long>(value)))
+: m_accessor(new AccessorValue<long long>(value))
 {
 }
 
 Variant::Variant(unsigned long long value)
-: m_value(new Typed<unsigned long long>(new AccessorValue<unsigned long long>(value)))
+: m_accessor(new AccessorValue<unsigned long long>(value))
 {
 }
 
 Variant::Variant(float value)
-: m_value(new Typed<float>(new AccessorValue<float>(value)))
+: m_accessor(new AccessorValue<float>(value))
 {
 }
 
 Variant::Variant(double value)
-: m_value(new Typed<double>(new AccessorValue<double>(value)))
+: m_accessor(new AccessorValue<double>(value))
 {
 }
 
 Variant::Variant(const char * value)
-: m_value(new Typed<std::string>(new AccessorValue<std::string>(std::string(value))))
+: m_accessor(new AccessorValue<std::string>(std::string(value)))
 {
 }
 
 Variant::Variant(const std::string & value)
-: m_value(new Typed<std::string>(new AccessorValue<std::string>(value)))
+: m_accessor(new AccessorValue<std::string>(value))
 {
 }
 
 Variant::Variant(const std::vector<std::string> & value)
-: m_value(new Typed< std::vector<std::string> >(new AccessorValue< std::vector<std::string> >(value)))
+: m_accessor(new AccessorValue< std::vector<std::string> >(value))
 {
 }
 
 Variant::~Variant()
 {
-    if (m_value)
+    if (m_accessor)
     {
-        delete m_value;
+        delete m_accessor;
     }
 }
 
 bool Variant::isNull() const
 {
-    return !m_value;
+    return !m_accessor;
 }
 
 bool Variant::isArray() const
@@ -131,8 +131,8 @@ bool Variant::isMap() const
 
 const std::type_info & Variant::type() const
 {
-    if (m_value) {
-        return m_value->type();
+    if (m_accessor) {
+        return m_accessor->type();
     } else {
         return typeid(void);
     }
@@ -160,11 +160,11 @@ const VariantMap * Variant::toMap() const
 
 Variant & Variant::operator=(const Variant & variant)
 {
-    if (m_value) {
-        delete m_value;
+    if (m_accessor) {
+        delete m_accessor;
     }
 
-    m_value = variant.m_value ? variant.m_value->createCopy() : nullptr;
+    m_accessor = variant.m_accessor ? variant.m_accessor->clone() : nullptr;
 
     return *this;
 }

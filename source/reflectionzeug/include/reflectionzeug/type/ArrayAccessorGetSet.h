@@ -39,6 +39,7 @@ public:
 
     virtual ~ArrayAccessorGetSet();
 
+    virtual AbstractAccessor * clone() const override;
     virtual std::array<Type, Size> * ptr() const override;
     virtual std::array<Type, Size> value() const override;
     virtual void setValue(const std::array<Type, Size> & array) override;
@@ -73,6 +74,7 @@ public:
 
     virtual ~ArrayAccessorGetSet();
 
+    virtual AbstractAccessor * clone() const override;
     virtual std::array<Type, Size> * ptr() const override;
     virtual std::array<Type, Size> value() const override;
 

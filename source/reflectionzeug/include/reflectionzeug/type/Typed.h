@@ -99,8 +99,6 @@ public:
     virtual ~Typed();
 
     virtual void accept(AbstractVisitor * visitor) override;
-
-    virtual AbstractValue * createCopy() const override;
 };
 
 

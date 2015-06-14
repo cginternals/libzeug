@@ -54,6 +54,12 @@ AccessorGetSet<Type>::~AccessorGetSet()
 }
 
 template <typename Type>
+AbstractAccessor * AccessorGetSet<Type>::clone() const
+{
+    return new AccessorGetSet<Type>(m_getter, m_setter);
+}
+
+template <typename Type>
 Type * AccessorGetSet<Type>::ptr() const
 {
     return nullptr;
@@ -98,6 +104,12 @@ AccessorGetSet<const Type>::AccessorGetSet(Object * object,
 template <typename Type>
 AccessorGetSet<const Type>::~AccessorGetSet()
 {
+}
+
+template <typename Type>
+AbstractAccessor * AccessorGetSet<const Type>::clone() const
+{
+    return new AccessorGetSet<const Type>(m_getter);
 }
 
 template <typename Type>

@@ -13,8 +13,9 @@ namespace reflectionzeug
 {
 
 
-class AbstractValue;
+class AbstractAccessor;
 class Variant;
+
 
 using VariantArray = std::vector<Variant>;
 using VariantMap = std::map<std::string, Variant>;
@@ -119,7 +120,7 @@ public:
 
 
 protected:
-    AbstractValue * m_value;    /**< Typed value */
+    AbstractAccessor * m_accessor;    /**< Typed value */
 };
 
 

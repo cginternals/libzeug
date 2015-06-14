@@ -71,6 +71,7 @@ set(headers
     ${header_path}/type/AbstractTyped.hpp
     ${header_path}/type/AbstractTypedArray.h
     ${header_path}/type/AbstractTypedArray.hpp
+    ${header_path}/type/AbstractAccessor.h
     ${header_path}/type/Accessor.h
     ${header_path}/type/Accessor.hpp
     ${header_path}/type/AccessorGetSet.h
@@ -135,6 +136,7 @@ set(sources
     ${source_path}/base/Color.cpp
     ${source_path}/base/FilePath.cpp
 
+    ${source_path}/type/AbstractAccessor.cpp
     ${source_path}/type/AbstractValue.cpp
     ${source_path}/type/AbstractCollection.cpp
     ${source_path}/type/AbstractBooleanInterface.cpp

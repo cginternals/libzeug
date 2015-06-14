@@ -21,6 +21,12 @@ Accessor<Type>::~Accessor()
 }
 
 template <typename Type>
+const std::type_info & Accessor<Type>::type() const
+{
+	return typeid(Type);
+}
+
+template <typename Type>
 bool Accessor<Type>::isReadOnly() const
 {
     return false;

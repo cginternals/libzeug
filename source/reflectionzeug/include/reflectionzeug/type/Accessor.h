@@ -2,7 +2,7 @@
 #pragma once
 
 
-#include <reflectionzeug/reflectionzeug_api.h>
+#include <reflectionzeug/type/AbstractAccessor.h>
 
 
 namespace reflectionzeug
@@ -14,11 +14,13 @@ namespace reflectionzeug
 *    Accessor (read/write) to a typed value
 */
 template <typename Type>
-class Accessor
+class Accessor : public AbstractAccessor
 {
 public:
     Accessor();
     virtual ~Accessor();
+
+    virtual const std::type_info & type() const;
 
     virtual Type * ptr() const = 0;
     virtual Type value() const = 0;

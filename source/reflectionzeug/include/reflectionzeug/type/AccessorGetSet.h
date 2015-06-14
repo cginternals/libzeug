@@ -39,6 +39,7 @@ public:
 
     virtual ~AccessorGetSet();
 
+    virtual AbstractAccessor * clone() const override;
     virtual Type * ptr() const override;
     virtual Type value() const override;
     virtual void setValue(const Type & value) override;
@@ -70,6 +71,7 @@ public:
 
     virtual ~AccessorGetSet();
 
+    virtual AbstractAccessor * clone() const override;
     virtual Type * ptr() const override;
     virtual Type value() const override;
 

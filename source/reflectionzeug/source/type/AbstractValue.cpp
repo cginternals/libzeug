@@ -25,17 +25,15 @@ bool AbstractValue::hasName() const
     return !name().empty();
 }
 
-// [TODO]
-/*
+/* [TODO]
 Variant AbstractValue::toVariant() const
 {
+	return Variant();
 }
-*/
 
-// [TODO]
-/*
 bool AbstractValue::fromVariant(const Variant & value)
 {
+	return false;
 }
 */
 
