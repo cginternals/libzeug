@@ -80,9 +80,9 @@ const std::type_info & AbstractTyped<Type>::type() const
 }
 
 template <typename Type>
-Type AbstractTyped<Type>::getValue() const
+Type AbstractTyped<Type>::value() const
 {
-    return m_accessor->getValue();
+    return m_accessor->value();
 }
 
 template <typename Type>

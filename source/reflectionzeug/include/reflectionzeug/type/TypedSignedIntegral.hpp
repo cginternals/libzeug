@@ -25,7 +25,7 @@ TypedSignedIntegral<T>::~TypedSignedIntegral()
 template <typename T>
 long long TypedSignedIntegral<T>::toLongLong() const
 {
-    return static_cast<long long>(this->getValue());
+    return static_cast<long long>(this->value());
 }
 
 template <typename T>

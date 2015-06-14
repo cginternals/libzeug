@@ -14,7 +14,7 @@ TypedString::~TypedString()
 
 std::string TypedString::toString() const
 {
-    return this->getValue();
+    return this->value();
 }
 
 bool TypedString::fromString(const std::string & string)

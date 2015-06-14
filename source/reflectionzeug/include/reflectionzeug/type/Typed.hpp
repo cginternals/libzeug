@@ -36,7 +36,7 @@ void Typed<T>::accept(AbstractVisitor * visitor)
 template <typename T>
 AbstractValue * Typed<T>::createCopy() const
 {
-    return new Typed<T>(this->getValue());
+    return new Typed<T>(this->value());
 }
 
 

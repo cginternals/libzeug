@@ -27,7 +27,7 @@ ArrayAccessorValue<Type, Size>::~ArrayAccessorValue()
 }
 
 template <typename Type, size_t Size>
-std::array<Type, Size> ArrayAccessorValue<Type, Size>::getValue() const
+std::array<Type, Size> ArrayAccessorValue<Type, Size>::value() const
 {
     return m_value;
 }
@@ -69,7 +69,7 @@ ArrayAccessorValue<const Type, Size>::~ArrayAccessorValue()
 }
 
 template <typename Type, size_t Size>
-std::array<Type, Size> ArrayAccessorValue<const Type, Size>::getValue() const
+std::array<Type, Size> ArrayAccessorValue<const Type, Size>::value() const
 {
     return m_value;
 }

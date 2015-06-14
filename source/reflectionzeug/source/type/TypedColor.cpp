@@ -14,7 +14,7 @@ TypedColor::~TypedColor()
 
 Color TypedColor::toColor() const
 {
-	return this->getValue();
+	return this->value();
 }
 
 bool TypedColor::fromColor(const Color & color)

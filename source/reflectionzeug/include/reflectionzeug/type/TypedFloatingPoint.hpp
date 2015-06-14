@@ -25,7 +25,7 @@ TypedFloatingPoint<T>::~TypedFloatingPoint()
 template <typename T>
 double TypedFloatingPoint<T>::toDouble() const
 {
-    return static_cast<double>(this->getValue());
+    return static_cast<double>(this->value());
 }
 
 template <typename T>

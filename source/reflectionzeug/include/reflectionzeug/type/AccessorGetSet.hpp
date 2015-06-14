@@ -54,7 +54,7 @@ AccessorGetSet<Type>::~AccessorGetSet()
 }
 
 template <typename Type>
-Type AccessorGetSet<Type>::getValue() const
+Type AccessorGetSet<Type>::value() const
 {
     return m_getter();
 }
@@ -95,7 +95,7 @@ AccessorGetSet<const Type>::~AccessorGetSet()
 }
 
 template <typename Type>
-Type AccessorGetSet<const Type>::getValue() const
+Type AccessorGetSet<const Type>::value() const
 {
     return m_getter();
 }

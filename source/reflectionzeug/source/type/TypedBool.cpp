@@ -14,7 +14,7 @@ TypedBool::~TypedBool()
 
 bool TypedBool::toBool() const
 {
-    return this->getValue();
+    return this->value();
 }
 
 bool TypedBool::fromBool(bool value)
@@ -31,7 +31,7 @@ void TypedBool::accept(AbstractVisitor * visitor)
 
 void TypedBool::toggleValue()
 {
-    this->setValue(!this->getValue());
+    this->setValue(!this->value());
 }
 
 

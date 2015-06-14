@@ -337,14 +337,14 @@ int main(int argc, char *argv[])
         std::cout << "Read/write accessor\n";
 
         AccessorGetSet<int> accessor(&getInt, &setInt);
-        std::cout << "value = " << accessor.getValue() << " (1)\n";
+        std::cout << "value = " << accessor.value() << " (1)\n";
         accessor.setValue(10);
-        std::cout << "value = " << accessor.getValue() << " (10)\n";
+        std::cout << "value = " << accessor.value() << " (10)\n";
 
         AccessorValue<int> accessor2(0);
-        std::cout << "value = " << accessor2.getValue() << " (0)\n";
+        std::cout << "value = " << accessor2.value() << " (0)\n";
         accessor2.setValue(10);
-        std::cout << "value = " << accessor2.getValue() << " (10)\n";
+        std::cout << "value = " << accessor2.value() << " (10)\n";
 
         std::cout << "\n";
     }
@@ -354,14 +354,14 @@ int main(int argc, char *argv[])
         std::cout << "Read-only accessor\n";
 
         AccessorGetSet<const int> accessor(&getInt);
-        std::cout << "value = " << accessor.getValue() << " (10)\n";
+        std::cout << "value = " << accessor.value() << " (10)\n";
         accessor.setValue(20);
-        std::cout << "value = " << accessor.getValue() << " (10)\n";
+        std::cout << "value = " << accessor.value() << " (10)\n";
 
         AccessorValue<const int> accessor2(0);
-        std::cout << "value = " << accessor2.getValue() << " (0)\n";
+        std::cout << "value = " << accessor2.value() << " (0)\n";
         accessor2.setValue(20);
-        std::cout << "value = " << accessor2.getValue() << " (0)\n";
+        std::cout << "value = " << accessor2.value() << " (0)\n";
 
         std::cout << "\n";
     }
@@ -375,9 +375,9 @@ int main(int argc, char *argv[])
 
         long long l = typeInt1.toLongLong();
 
-        std::cout << "value = " << typeInt1.getValue() << " (10)\n";
+        std::cout << "value = " << typeInt1.value() << " (10)\n";
         typeInt1.setValue(20);
-        std::cout << "value = " << typeInt2.getValue() << " (20)\n";
+        std::cout << "value = " << typeInt2.value() << " (20)\n";
 
         std::cout << "\n";
     }
@@ -388,9 +388,9 @@ int main(int argc, char *argv[])
 
         NamedTyped<const int> typeInt("int", &getInt);
 
-        std::cout << "value = " << typeInt.getValue() << " (20)\n";
+        std::cout << "value = " << typeInt.value() << " (20)\n";
         typeInt.setValue(30);
-        std::cout << "value = " << typeInt.getValue() << " (20)\n";
+        std::cout << "value = " << typeInt.value() << " (20)\n";
 
         std::cout << "\n";
     }
@@ -494,13 +494,13 @@ int main(int argc, char *argv[])
 
         Typed<MyEnum> typeEnum;
         typeEnum.setValue(One);
-        std::cout << "value = " << typeEnum.getValue() << " '" << typeEnum.toString() << "'" << " (1 'One')\n";
+        std::cout << "value = " << typeEnum.value() << " '" << typeEnum.toString() << "'" << " (1 'One')\n";
 
         typeEnum.setValue((MyEnum)2);
-        std::cout << "value = " << typeEnum.getValue() << " '" << typeEnum.toString() << "'" << " (2 'Two')\n";
+        std::cout << "value = " << typeEnum.value() << " '" << typeEnum.toString() << "'" << " (2 'Two')\n";
 
         typeEnum.fromString("Three");
-        std::cout << "value = " << typeEnum.getValue() << " '" << typeEnum.toString() << "'" << " (3 'Three')\n";
+        std::cout << "value = " << typeEnum.value() << " '" << typeEnum.toString() << "'" << " (3 'Three')\n";
 
         std::cout << "\n";
     }
@@ -564,7 +564,7 @@ int main(int argc, char *argv[])
 
         for (int i=0; i<10; i++) {
             typeInt.setValue(i);
-            std::cout << "value = " << typeInt.getValue() << " (" << i << ")\n";
+            std::cout << "value = " << typeInt.value() << " (" << i << ")\n";
         }
 
         std::cout << "\n";

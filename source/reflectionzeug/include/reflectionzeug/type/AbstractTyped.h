@@ -49,7 +49,7 @@ public:
 
     virtual const std::type_info & type() const override;
 
-    Type getValue() const;
+    Type value() const;
     void setValue(const Type & value);
 
 

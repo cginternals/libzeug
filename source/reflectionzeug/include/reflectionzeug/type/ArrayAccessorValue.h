@@ -21,7 +21,7 @@ public:
     ArrayAccessorValue(const std::array<Type, Size> & defaultValue);
     virtual ~ArrayAccessorValue();
 
-    virtual std::array<Type, Size> getValue() const override;
+    virtual std::array<Type, Size> value() const override;
     virtual void setValue(const std::array<Type, Size> & array) override;
 
     virtual Type getElement(size_t i) const override;
@@ -45,7 +45,7 @@ public:
     ArrayAccessorValue(const std::array<Type, Size> & defaultValue);
     virtual ~ArrayAccessorValue();
 
-    virtual std::array<Type, Size> getValue() const override;
+    virtual std::array<Type, Size> value() const override;
 
     virtual Type getElement(size_t i) const override;
 

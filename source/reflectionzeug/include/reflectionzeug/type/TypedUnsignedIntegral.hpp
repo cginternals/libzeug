@@ -25,7 +25,7 @@ TypedUnsignedIntegral<T>::~TypedUnsignedIntegral()
 template <typename T>
 unsigned long long TypedUnsignedIntegral<T>::toULongLong() const
 {
-    return static_cast<unsigned long long>(this->getValue());
+    return static_cast<unsigned long long>(this->value());
 }
 
 template <typename T>

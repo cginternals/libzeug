@@ -20,7 +20,7 @@ public:
     Accessor();
     virtual ~Accessor();
 
-    virtual Type getValue() const = 0;
+    virtual Type value() const = 0;
     virtual void setValue(const Type & value) = 0;
 
     virtual bool isReadOnly() const;

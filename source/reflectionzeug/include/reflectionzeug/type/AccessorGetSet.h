@@ -39,7 +39,7 @@ public:
 
     virtual ~AccessorGetSet();
 
-    virtual Type getValue() const override;
+    virtual Type value() const override;
     virtual void setValue(const Type & value) override;
 
 
@@ -69,7 +69,7 @@ public:
 
     virtual ~AccessorGetSet();
 
-    virtual Type getValue() const override;
+    virtual Type value() const override;
 
 
 protected:

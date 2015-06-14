@@ -21,7 +21,7 @@ public:
     AccessorValue(const Type & defaultValue);
     virtual ~AccessorValue();
 
-    virtual Type getValue() const override;
+    virtual Type value() const override;
     virtual void setValue(const Type & value) override;
 
 
@@ -42,7 +42,7 @@ public:
     AccessorValue(const Type & defaultValue);
     virtual ~AccessorValue();
 
-    virtual Type getValue() const override;
+    virtual Type value() const override;
 
 
 protected:

@@ -58,7 +58,7 @@ ArrayAccessorGetSet<Type, Size>::~ArrayAccessorGetSet()
 }
 
 template <typename Type, size_t Size>
-std::array<Type, Size> ArrayAccessorGetSet<Type, Size>::getValue() const
+std::array<Type, Size> ArrayAccessorGetSet<Type, Size>::value() const
 {
     std::array<Type, Size> array;
     for (size_t i = 0; i < Size; ++i) {
@@ -121,7 +121,7 @@ ArrayAccessorGetSet<const Type, Size>::~ArrayAccessorGetSet()
 }
 
 template <typename Type, size_t Size>
-std::array<Type, Size> ArrayAccessorGetSet<const Type, Size>::getValue() const
+std::array<Type, Size> ArrayAccessorGetSet<const Type, Size>::value() const
 {
     std::array<Type, Size> array;
     for (size_t i = 0; i < Size; ++i) {

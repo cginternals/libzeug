@@ -30,10 +30,10 @@ template <typename Enum>
 std::string TypedEnum<Enum>::toString() const
 {
 	// Check if value has a string representation
-    assert(m_stringMap.count(this->getValue()) > 0);
+    assert(m_stringMap.count(this->value()) > 0);
 
     // Return string representation
-    return m_stringMap.at(this->getValue());
+    return m_stringMap.at(this->value());
 }
 
 template <typename Enum>

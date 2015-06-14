@@ -27,7 +27,7 @@ AccessorValue<Type>::~AccessorValue()
 }
 
 template <typename Type>
-Type AccessorValue<Type>::getValue() const
+Type AccessorValue<Type>::value() const
 {
     return m_value;
 }
@@ -57,7 +57,7 @@ AccessorValue<const Type>::~AccessorValue()
 }
 
 template <typename Type>
-Type AccessorValue<const Type>::getValue() const
+Type AccessorValue<const Type>::value() const
 {
     return m_value;
 }
