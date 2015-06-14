@@ -9,6 +9,7 @@
 #include <reflectionzeug/type/Typed.h>
 #include <reflectionzeug/type/NamedTyped.h>
 #include <reflectionzeug/type/Visitor.h>
+#include <reflectionzeug/tools/JSON.h>
 #include <reflectionzeug/Property.h>
 #include <reflectionzeug/PropertyGroup.h>
 #include <reflectionzeug/Variant.h>
@@ -683,5 +684,24 @@ int main(int argc, char *argv[])
 
         std::cout << "var.isMap() = " << (var.isMap() ? "true" : "false") << "\n";
         printVariant(var);
+        std::cout << "\n";
+
+        std::string json = JSON::stringify(var);
+        std::cout << json << "\n";
+        std::cout << "\n";
+
+        json = JSON::stringify(var, true);
+        std::cout << json << "\n";
+        std::cout << "\n";
+    }
+
+    // JSON test
+    {
+        Variant var;
+        JSON::load(var, "/workspace/hpi/projects/gtx/data/datasets/berlin/flow/berlin_flow_2015_01_02-20_29_46.json");
+
+        std::string json = JSON::stringify(var, true);
+        std::cout << json << "\n";
+        std::cout << "\n";
     }
 }
