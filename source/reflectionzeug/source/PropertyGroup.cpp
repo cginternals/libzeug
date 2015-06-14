@@ -131,19 +131,49 @@ const std::type_info & PropertyGroup::type() const
     return typeid(PropertyGroup);
 }
 
-/* [TODO]
 Variant PropertyGroup::toVariant() const
 {
-    // [TODO]
-    return Variant();
+    // Create variant map from all properties in the group
+    Variant map = Variant::map();
+    for (auto it : m_propertiesMap) {
+        // Get name and property
+        std::string        name = it.first;
+        AbstractProperty * prop = it.second;
+
+        // Add to variant map
+        AbstractValue * val = dynamic_cast<AbstractValue *>(prop);
+        if (val) {
+            (*map.toMap())[name] = val->toVariant();
+        }
+    }
+
+    // Return variant representation
+    return map;
 }
 
 bool PropertyGroup::fromVariant(const Variant & value)
 {
-    // [TODO]
-    return false;
+    // Check if variant is a map
+    if (!value.isMap()) {
+        return false;
+    }
+
+    // Get all values from variant map
+    for (auto it : *value.toMap()) {
+        // Get name and value
+        std::string     name = it.first;
+        const Variant & var  = it.second;
+
+        // If this names an existing property, set its value
+        AbstractProperty * prop = this->property(name);
+        if (prop) {
+            (dynamic_cast<AbstractValue *>(prop))->fromVariant(var);
+        }
+    }
+
+    // Done
+    return true;
 }
-*/
 
 bool PropertyGroup::isEmpty() const
 {

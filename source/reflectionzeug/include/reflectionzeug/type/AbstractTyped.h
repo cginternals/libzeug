@@ -48,10 +48,9 @@ public:
     virtual ~AbstractTyped();
 
     virtual const std::type_info & type() const override;
-    /* [TODO]
+
     virtual Variant toVariant() const override;
     virtual bool fromVariant(const Variant & value) override;
-    */
 
     Type * ptr() const;
     Type value() const;

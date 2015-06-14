@@ -79,12 +79,11 @@ const std::type_info & AbstractTyped<Type>::type() const
     return typeid(Type);
 }
 
-/* [TODO]
 template <typename Type>
 Variant AbstractTyped<Type>::toVariant() const
 {
     // By default, return variant of the exact type
-    return Variant(this->value());
+    return Variant::fromValue<Type>(this->value());
 }
 
 template <typename Type>
@@ -92,15 +91,13 @@ bool AbstractTyped<Type>::fromVariant(const Variant & value)
 {
     // By default, read from variant of the exact type
     if (value.hasType<Type>()) {
-//        Type v;
-//        setValue(v);
+        setValue( value.value<Type>() );
         return true;
     }
 
     // Invalid value
     return false;
 }
-*/
 
 template <typename Type>
 Type * AbstractTyped<Type>::ptr() const

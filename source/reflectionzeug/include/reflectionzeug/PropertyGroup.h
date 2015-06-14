@@ -73,10 +73,8 @@ public:
 
     // AbstractValue interface
     virtual const std::type_info & type() const override;
-    /* [TODO]
     virtual Variant toVariant() const override;
     virtual bool fromVariant(const Variant & value) override;
-    */
 
     // AbstractCollection interface
     virtual bool isEmpty() const override;

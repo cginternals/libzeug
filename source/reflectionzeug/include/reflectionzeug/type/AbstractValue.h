@@ -6,7 +6,7 @@
 
 #include <signalzeug/Signal.h>
 
-#include <reflectionzeug/reflectionzeug_api.h>
+#include <reflectionzeug/Variant.h>
 
 
 namespace reflectionzeug
@@ -35,10 +35,8 @@ public:
     virtual std::string name() const;
     bool hasName() const;
 
-    /* [TODO]
-    virtual Variant toVariant() const;
-    virtual bool fromVariant(const Variant & value);
-    */
+    virtual Variant toVariant() const = 0;
+    virtual bool fromVariant(const Variant & value) = 0;
 
     virtual void accept(AbstractVisitor * visitor);
 };
