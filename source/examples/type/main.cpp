@@ -1,5 +1,6 @@
 
 #include <iostream>
+#include <sstream>
 
 #include <reflectionzeug/type/AccessorGetSet.h>
 #include <reflectionzeug/type/AccessorValue.h>
@@ -10,9 +11,31 @@
 #include <reflectionzeug/type/Visitor.h>
 #include <reflectionzeug/Property.h>
 #include <reflectionzeug/PropertyGroup.h>
+#include <reflectionzeug/Variant.h>
 
 
 using namespace reflectionzeug;
+
+
+
+void printVariant(const Variant & var, const std::string & indent = "")
+{
+    for (auto attr : *var.toMap()) {
+        std::string name  = attr.first;
+        const Variant & value = attr.second;
+
+        if (value.isMap()) {
+            printVariant(value, indent + "    ");
+        } else {
+            std::stringstream s;
+                 if (value.hasType<std::string>()) s << value.value<std::string>();
+            else if (value.hasType<int>())         s << value.value<int>();
+            else if (value.hasType<float>())       s << value.value<float>();
+
+            std::cout << indent << "- " << name << " = " << s.str() << "\n";
+        }
+    }
+}
 
 
 // Global getter/setter test
@@ -634,5 +657,32 @@ int main(int argc, char *argv[])
         root->acceptRecursive(&visitor);
 
         std::cout << "\n";
+    }
+
+    // Variant test
+    {
+        Variant var = 10;
+
+        int i = var.value<int>();
+        std::cout << "i = " << i << "\n";
+
+        int * pi = var.ptr<int>();
+        std::cout << "*pi = " << *pi << "\n";
+    }
+
+    // Variant map test
+    {
+        Variant var = Variant::map();
+        (*var.toMap())["eins"] = 1.01f;
+        (*var.toMap())["zwei"] = 2;
+        (*var.toMap())["drei"] = "3";
+        (*var.toMap())["vier"] = Variant::map();
+        (*(*var.toMap())["vier"].toMap())["a"] = 1;
+        (*(*var.toMap())["vier"].toMap())["b"] = 2;
+        (*(*var.toMap())["vier"].toMap())["c"] = 3;
+        (*(*var.toMap())["vier"].toMap())["d"] = 4;
+
+        std::cout << "var.isMap() = " << (var.isMap() ? "true" : "false") << "\n";
+        printVariant(var);
     }
 }

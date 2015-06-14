@@ -38,5 +38,25 @@ ValueType Variant::value(const ValueType & defaultValue) const
     }
 }
 
+template <typename ValueType>
+ValueType * Variant::ptr()
+{
+    if (m_value && typeid(ValueType) == m_value->type()) {
+        return static_cast<Typed<ValueType> *>(m_value)->ptr();
+    } else {
+        return nullptr;
+    }
+}
+
+template <typename ValueType>
+const ValueType * Variant::ptr() const
+{
+    if (m_value && typeid(ValueType) == m_value->type()) {
+        return static_cast<const Typed<ValueType> *>(m_value)->ptr();
+    } else {
+        return nullptr;
+    }
+}
+
 
 } // namespace reflectionzeug

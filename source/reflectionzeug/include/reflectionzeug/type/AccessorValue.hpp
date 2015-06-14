@@ -27,6 +27,12 @@ AccessorValue<Type>::~AccessorValue()
 }
 
 template <typename Type>
+Type * AccessorValue<Type>::ptr() const
+{
+    return const_cast<Type *>(&m_value);
+}
+
+template <typename Type>
 Type AccessorValue<Type>::value() const
 {
     return m_value;
@@ -54,6 +60,12 @@ AccessorValue<const Type>::AccessorValue(const Type & defaultValue)
 template <typename Type>
 AccessorValue<const Type>::~AccessorValue()
 {
+}
+
+template <typename Type>
+Type * AccessorValue<const Type>::ptr() const
+{
+    return nullptr;
 }
 
 template <typename Type>

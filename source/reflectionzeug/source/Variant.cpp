@@ -7,6 +7,20 @@ namespace reflectionzeug
 {
 
 
+Variant Variant::array()
+{
+    Variant variant;
+    variant.m_value = new Typed<VariantArray>(new AccessorValue<VariantArray>(VariantArray()));
+    return variant;
+}
+
+Variant Variant::map()
+{
+    Variant variant;
+    variant.m_value = new Typed<VariantMap>(new AccessorValue<VariantMap>(VariantMap()));
+    return variant;
+}
+
 Variant::Variant()
 : m_value(nullptr)
 {
@@ -92,9 +106,27 @@ Variant::Variant(const std::vector<std::string> & value)
 {
 }
 
+Variant::~Variant()
+{
+    if (m_value)
+    {
+        delete m_value;
+    }
+}
+
 bool Variant::isNull() const
 {
     return !m_value;
+}
+
+bool Variant::isArray() const
+{
+    return hasType<VariantArray>();
+}
+
+bool Variant::isMap() const
+{
+    return hasType<VariantMap>();
 }
 
 const std::type_info & Variant::type() const
@@ -106,12 +138,24 @@ const std::type_info & Variant::type() const
     }
 }
 
-Variant::~Variant()
+VariantArray * Variant::toArray()
 {
-    if (m_value)
-    {
-        delete m_value;
-    }
+    return ptr<VariantArray>();
+}
+
+const VariantArray * Variant::toArray() const
+{
+    return ptr<VariantArray>();
+}
+
+VariantMap * Variant::toMap()
+{
+    return ptr<VariantMap>();
+}
+
+const VariantMap * Variant::toMap() const
+{
+    return ptr<VariantMap>();
 }
 
 Variant & Variant::operator=(const Variant & variant)

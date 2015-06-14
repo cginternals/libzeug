@@ -27,6 +27,12 @@ ArrayAccessorValue<Type, Size>::~ArrayAccessorValue()
 }
 
 template <typename Type, size_t Size>
+std::array<Type, Size> * ArrayAccessorValue<Type, Size>::ptr() const
+{
+    return const_cast<std::array<Type, Size> *>(&m_value);
+}
+
+template <typename Type, size_t Size>
 std::array<Type, Size> ArrayAccessorValue<Type, Size>::value() const
 {
     return m_value;
@@ -66,6 +72,12 @@ ArrayAccessorValue<const Type, Size>::ArrayAccessorValue(const std::array<Type, 
 template <typename Type, size_t Size>
 ArrayAccessorValue<const Type, Size>::~ArrayAccessorValue()
 {
+}
+
+template <typename Type, size_t Size>
+std::array<Type, Size> * ArrayAccessorValue<const Type, Size>::ptr() const
+{
+    return nullptr;
 }
 
 template <typename Type, size_t Size>

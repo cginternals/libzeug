@@ -4,6 +4,7 @@
 
 #include <string>
 #include <vector>
+#include <map>
 
 #include <reflectionzeug/reflectionzeug_api.h>
 
@@ -13,6 +14,10 @@ namespace reflectionzeug
 
 
 class AbstractValue;
+class Variant;
+
+using VariantArray = std::vector<Variant>;
+using VariantMap = std::map<std::string, Variant>;
 
 
 /**
@@ -24,6 +29,14 @@ class REFLECTIONZEUG_API Variant
 public:
     template <typename ValueType>
     static Variant fromValue(const ValueType & value);
+
+    /** Returns Variant that stores an empty VariantArray.
+     */
+    static Variant array();
+
+    /** Returns Variant that stores an empty VariantMap. 
+     */
+    static Variant map();
 
 
 public:
@@ -58,9 +71,17 @@ public:
     Variant(const std::string & value);
     Variant(const std::vector<std::string> & value);
 
+    /**
+    *  @brief
+    *    Destructor
+    */
+    virtual ~Variant();
+
     Variant & operator=(const Variant & variant);
 
     bool isNull() const;
+    bool isArray() const;
+    bool isMap() const;
 
     const std::type_info & type() const;
 
@@ -76,11 +97,25 @@ public:
     template <typename ValueType>
     ValueType value(const ValueType & defaultValue = ValueType()) const;
 
-    /**
-    *  @brief
-    *    Destructor
-    */
-    virtual ~Variant();
+    /** Returns a pointer to the stored value if it has the template type ValueType.
+     * Otherwise returns nullptr.
+     */
+    template <typename ValueType>
+    ValueType * ptr();
+    template <typename ValueType>
+    const ValueType * ptr() const;
+
+    /** Convenience method. Does the same as calling 
+     * \code variant.ptr<VariantArray>() \endcode
+     */
+    VariantArray * toArray();
+    const VariantArray * toArray() const;
+
+    /** Convenience method. Does the same as calling
+     * \code variant.ptr<VariantMap>() \endcode
+     */
+    VariantMap * toMap();
+    const VariantMap * toMap() const;
 
 
 protected:

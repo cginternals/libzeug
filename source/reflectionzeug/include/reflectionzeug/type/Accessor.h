@@ -20,6 +20,7 @@ public:
     Accessor();
     virtual ~Accessor();
 
+    virtual Type * ptr() const = 0;
     virtual Type value() const = 0;
     virtual void setValue(const Type & value) = 0;
 

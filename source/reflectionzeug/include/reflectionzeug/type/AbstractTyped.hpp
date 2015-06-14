@@ -80,6 +80,12 @@ const std::type_info & AbstractTyped<Type>::type() const
 }
 
 template <typename Type>
+Type * AbstractTyped<Type>::ptr() const
+{
+    return m_accessor->ptr();
+}
+
+template <typename Type>
 Type AbstractTyped<Type>::value() const
 {
     return m_accessor->value();

@@ -21,6 +21,7 @@ public:
     AccessorValue(const Type & defaultValue);
     virtual ~AccessorValue();
 
+    virtual Type * ptr() const override;
     virtual Type value() const override;
     virtual void setValue(const Type & value) override;
 
@@ -42,6 +43,7 @@ public:
     AccessorValue(const Type & defaultValue);
     virtual ~AccessorValue();
 
+    virtual Type * ptr() const override;
     virtual Type value() const override;
 
 
