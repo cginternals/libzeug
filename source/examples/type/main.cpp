@@ -17,7 +17,6 @@
 using namespace reflectionzeug;
 
 
-
 void printVariant(const Variant & var, const std::string & indent = "")
 {
     for (auto attr : *var.toMap()) {

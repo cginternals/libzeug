@@ -4,7 +4,9 @@
 
 #include <string>
 
-#include <reflectionzeug/reflectionzeug_api.h>
+#include <signalzeug/Signal.h>
+
+#include <reflectionzeug/Variant.h>
 
 
 namespace reflectionzeug
@@ -23,6 +25,10 @@ class PropertyGroup;
 class REFLECTIONZEUG_API AbstractProperty
 {
 public:
+    signalzeug::Signal<const std::string &> optionChanged;
+
+
+public:
     AbstractProperty();
     virtual ~AbstractProperty();
 
@@ -39,19 +45,18 @@ public:
     PropertyGroup * asGroup();
     const PropertyGroup * asGroup() const;
 
-    template <class Type>
+    template <typename Type>
     Type * as();
 
-    template <class Type>
+    template <typename Type>
     const Type * as() const;
 
-    // [TODO]
-    /*
+
     const VariantMap & options() const;
     Variant option(const std::string & key) const;
 
-    template <typename T>
-    T option(const std::string & key, const T & defaultValue) const;
+    template <typename Type>
+    Type option(const std::string & key, const Type & defaultValue) const;
 
     bool hasOption(const std::string & key) const;
 
@@ -59,7 +64,10 @@ public:
     void setOptions(const VariantMap & map);
 
     bool removeOption(const std::string & key);
-    */
+
+
+private:
+    VariantMap m_options;
 };
 
 
