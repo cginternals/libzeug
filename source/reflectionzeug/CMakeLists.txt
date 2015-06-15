@@ -119,6 +119,9 @@ set(headers
     ${header_path}/type/AbstractVisitor.hpp
     ${header_path}/type/Visitor.h
 
+    ${header_path}/function/template_helpers.h
+    ${header_path}/function/Function.h
+
     ${header_path}/tools/JSON.h
     ${header_path}/tools/JSONReader.h
 
@@ -128,6 +131,7 @@ set(headers
     ${header_path}/PropertyGroup.hpp
     ${header_path}/Property.h
     ${header_path}/Property.hpp
+    ${header_path}/Object.h
     ${header_path}/Variant.h
     ${header_path}/Variant.hpp
 )
@@ -158,6 +162,7 @@ set(sources
 
     ${source_path}/AbstractProperty.cpp
     ${source_path}/PropertyGroup.cpp
+    ${source_path}/Object.cpp
     ${source_path}/Variant.cpp
 )
 

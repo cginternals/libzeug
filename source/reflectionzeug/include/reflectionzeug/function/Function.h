@@ -1,3 +1,4 @@
+
 #pragma once
 
 
@@ -6,7 +7,7 @@
 #include <functional>
 
 #include <reflectionzeug/Variant.h>
-#include <reflectionzeug/TemplateHelper.h>
+#include <reflectionzeug/function/template_helpers.h>
 
 
 namespace reflectionzeug
@@ -36,6 +37,7 @@ public:
 
     virtual Variant call(const std::vector<Variant> & args) = 0;
 
+
 protected:
     std::string m_name;
 };
@@ -48,6 +50,7 @@ class Function : public AbstractFunction
 {
 public:
     typedef RET (*FuncPtr) (Arguments...);
+
 
 public:
     Function(const std::string & name, FuncPtr func)
@@ -70,12 +73,14 @@ public:
         return callFunction(typename GenSeq<sizeof...(Arguments)>::Type(), args);
     }
 
+
 protected:
     template<size_t... I>
     Variant callFunction(Seq<I...>, const std::vector<Variant> & args)
     {
         return CallFunction<RET, Arguments...>::call(m_func, ArgValueGen<I, Arguments...>::Type::get(args)...);
     }
+
 
 protected:
     FuncPtr m_func;
@@ -89,6 +94,7 @@ class Method : public AbstractFunction
 {
 public:
     typedef RET (T::*MethodPtr) (Arguments...);
+
 
 public:
     Method(const std::string & name, T * obj, MethodPtr method)
@@ -112,12 +118,14 @@ public:
         return callMethod(typename GenSeq<sizeof...(Arguments)>::Type(), args);
     }
 
+
 protected:
     template<size_t... I>
     Variant callMethod(Seq<I...>, const std::vector<Variant> & args)
     {
         return CallMethod<T, RET, Arguments...>::call(m_obj, m_method, ArgValueGen<I, Arguments...>::Type::get(args)...);
     }
+
 
 protected:
     MethodPtr   m_method;
