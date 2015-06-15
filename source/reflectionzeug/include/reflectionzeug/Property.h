@@ -17,6 +17,8 @@ template <typename T>
 class Property : public Typed<T>
 {
 public:
+    Property(const std::string & name = "");
+
     template <typename... Args>
     Property(const std::string & name, Args&&... args);
 

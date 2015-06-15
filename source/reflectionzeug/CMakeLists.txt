@@ -88,26 +88,26 @@ set(headers
     ${header_path}/type/ArrayAccessorValue.hpp
     ${header_path}/type/Typed.h
     ${header_path}/type/Typed.hpp
-    ${header_path}/type/TypedEnum.h
-    ${header_path}/type/TypedEnum.hpp
-    ${header_path}/type/TypedArray.h
-    ${header_path}/type/TypedArray.hpp
-    ${header_path}/type/TypedBool.h
-    ${header_path}/type/TypedBool.hpp
-    ${header_path}/type/TypedClass.h
-    ${header_path}/type/TypedClass.hpp
-    ${header_path}/type/TypedColor.h
-    ${header_path}/type/TypedColor.hpp
-    ${header_path}/type/TypedFilePath.h
-    ${header_path}/type/TypedFilePath.hpp
-    ${header_path}/type/TypedFloatingPoint.h
-    ${header_path}/type/TypedFloatingPoint.hpp
-    ${header_path}/type/TypedSignedIntegral.h
-    ${header_path}/type/TypedSignedIntegral.hpp
-    ${header_path}/type/TypedString.h
-    ${header_path}/type/TypedString.hpp
-    ${header_path}/type/TypedUnsignedIntegral.h
-    ${header_path}/type/TypedUnsignedIntegral.hpp
+    ${header_path}/type/PropertyEnum.h
+    ${header_path}/type/PropertyEnum.hpp
+    ${header_path}/type/PropertyArray.h
+    ${header_path}/type/PropertyArray.hpp
+    ${header_path}/type/PropertyBool.h
+    ${header_path}/type/PropertyBool.hpp
+    ${header_path}/type/PropertyClass.h
+    ${header_path}/type/PropertyClass.hpp
+    ${header_path}/type/PropertyColor.h
+    ${header_path}/type/PropertyColor.hpp
+    ${header_path}/type/PropertyFilePath.h
+    ${header_path}/type/PropertyFilePath.hpp
+    ${header_path}/type/PropertyFloatingPoint.h
+    ${header_path}/type/PropertyFloatingPoint.hpp
+    ${header_path}/type/PropertySignedIntegral.h
+    ${header_path}/type/PropertySignedIntegral.hpp
+    ${header_path}/type/PropertyString.h
+    ${header_path}/type/PropertyString.hpp
+    ${header_path}/type/PropertyUnsignedIntegral.h
+    ${header_path}/type/PropertyUnsignedIntegral.hpp
     ${header_path}/type/AbstractBooleanInterface.h
     ${header_path}/type/AbstractStringInterface.h
     ${header_path}/type/AbstractColorInterface.h
@@ -150,10 +150,10 @@ set(sources
     ${source_path}/type/AbstractUnsignedIntegralInterface.cpp
     ${source_path}/type/AbstractEnumInterface.cpp
     ${source_path}/type/AbstractVisitor.cpp
-    ${source_path}/type/TypedBool.cpp
-    ${source_path}/type/TypedString.cpp
-    ${source_path}/type/TypedColor.cpp
-    ${source_path}/type/TypedFilePath.cpp
+    ${source_path}/type/PropertyBool.cpp
+    ${source_path}/type/PropertyString.cpp
+    ${source_path}/type/PropertyColor.cpp
+    ${source_path}/type/PropertyFilePath.cpp
 
     ${source_path}/tools/JSON.cpp
     ${source_path}/tools/JSONReader.cpp

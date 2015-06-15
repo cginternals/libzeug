@@ -2,7 +2,7 @@
 #pragma once
 
 
-#include <reflectionzeug/type/TypedBool.h>
+#include <reflectionzeug/type/PropertyBool.h>
 
 
 namespace reflectionzeug
@@ -10,7 +10,7 @@ namespace reflectionzeug
 
 
 template <typename... Args>
-TypedBool::TypedBool(Args&&... args)
+PropertyBool::PropertyBool(Args&&... args)
 : AbstractPropertyValue<bool>(std::forward<Args>(args)...)
 {
 }

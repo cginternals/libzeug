@@ -2,7 +2,7 @@
 #pragma once
 
 
-#include <reflectionzeug/type/TypedArray.h>
+#include <reflectionzeug/type/PropertyArray.h>
 #include <reflectionzeug/type/AbstractVisitor.h>
 
 
@@ -12,20 +12,20 @@ namespace reflectionzeug
 
 template <typename T, size_t Size>
 template <typename... Args>
-TypedArray<T, Size>::TypedArray(Args&&... args)
+PropertyArray<T, Size>::PropertyArray(Args&&... args)
 : AbstractPropertyArray<T, Size>(std::forward<Args>(args)...)
 {
 }
 
 template <typename T, size_t Size>
-TypedArray<T, Size>::~TypedArray()
+PropertyArray<T, Size>::~PropertyArray()
 {
 }
 
 template <typename T, size_t Size>
-void TypedArray<T, Size>::accept(AbstractVisitor * visitor)
+void PropertyArray<T, Size>::accept(AbstractVisitor * visitor)
 {
-    visitor->callVisitor<TypedArray<T, Size>>(this);
+    visitor->callVisitor<PropertyArray<T, Size>>(this);
     visitor->callVisitor<AbstractCollection>(this);
 }
 

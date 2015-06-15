@@ -2,7 +2,7 @@
 #pragma once
 
 
-#include <reflectionzeug/type/TypedColor.h>
+#include <reflectionzeug/type/PropertyColor.h>
 
 
 namespace reflectionzeug
@@ -10,7 +10,7 @@ namespace reflectionzeug
 
 
 template <typename... Args>
-TypedColor::TypedColor(Args&&... args)
+PropertyColor::PropertyColor(Args&&... args)
 : AbstractPropertyValue<Color>(std::forward<Args>(args)...)
 {
 }

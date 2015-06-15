@@ -6,7 +6,6 @@
 #include <reflectionzeug/type/AccessorValue.h>
 #include <reflectionzeug/type/ArrayAccessorGetSet.h>
 #include <reflectionzeug/type/ArrayAccessorValue.h>
-#include <reflectionzeug/type/Typed.h>
 #include <reflectionzeug/type/Visitor.h>
 #include <reflectionzeug/tools/JSON.h>
 #include <reflectionzeug/Property.h>
@@ -145,185 +144,179 @@ class MyVisitor : public reflectionzeug::Visitor<
                             AbstractStringInterface,
                             AbstractColorInterface,
                             AbstractEnumInterface,
-                            TypedSignedIntegral<int>,
-                            TypedUnsignedIntegral<unsigned int>,
-                            TypedFloatingPoint<float>,
-                            TypedFloatingPoint<double>,
-                            TypedBool,
-                            TypedString,
-                            TypedColor,
-                            TypedFilePath,
-                            TypedClass<TestClass>,
-                            TypedEnum<MyEnum>,
-                            TypedArray<int, 3>,
-                            Typed<int>,
-                            Typed<unsigned int>,
-                            Typed<float>,
-                            Typed<double>,
-                            Typed<bool>,
-                            Typed<std::string>,
-                            Typed<FilePath>,
-                            Typed<Color>,
-                            Typed<TestClass>,
-                            Typed<MyEnum>,
-                            Typed<std::array<int, 3>>,
+                            PropertySignedIntegral<int>,
+                            PropertyUnsignedIntegral<unsigned int>,
+                            PropertyFloatingPoint<float>,
+                            PropertyFloatingPoint<double>,
+                            PropertyBool,
+                            PropertyString,
+                            PropertyColor,
+                            PropertyFilePath,
+                            PropertyClass<TestClass>,
+                            PropertyEnum<MyEnum>,
+                            PropertyArray<int, 3>,
                             Property<int>,
+                            Property<unsigned int>,
+                            Property<float>,
+                            Property<double>,
+                            Property<bool>,
+                            Property<std::string>,
+                            Property<FilePath>,
+                            Property<Color>,
+                            Property<TestClass>,
+                            Property<MyEnum>,
+                            Property<std::array<int, 3>>,
                             PropertyGroup >
 {
 public:
-    virtual void visit(AbstractCollection * typed) override
+    virtual void visit(AbstractCollection * prop) override
     {
         std::cout << "found AbstractCollection\n";
     }
 
-    virtual void visit(AbstractSignedIntegralInterface * typed) override
+    virtual void visit(AbstractSignedIntegralInterface * prop) override
     {
         std::cout << "found SignedIntegralInterface\n";
     }
 
-    virtual void visit(AbstractUnsignedIntegralInterface * typed) override
+    virtual void visit(AbstractUnsignedIntegralInterface * prop) override
     {
         std::cout << "found AbstractUnsignedIntegralInterface\n";
     }
 
-    virtual void visit(AbstractFloatingPointInterface * typed) override
+    virtual void visit(AbstractFloatingPointInterface * prop) override
     {
         std::cout << "found AbstractFloatingPointInterface\n";
     }
 
-    virtual void visit(AbstractBooleanInterface * typed) override
+    virtual void visit(AbstractBooleanInterface * prop) override
     {
         std::cout << "found AbstractBooleanInterface\n";
     }
 
-    virtual void visit(AbstractStringInterface * typed) override
+    virtual void visit(AbstractStringInterface * prop) override
     {
         std::cout << "found AbstractStringInterface\n";
     }
 
-    virtual void visit(AbstractColorInterface * typed) override
+    virtual void visit(AbstractColorInterface * prop) override
     {
         std::cout << "found AbstractColorInterface\n";
     }
 
-    virtual void visit(AbstractEnumInterface * typed) override
+    virtual void visit(AbstractEnumInterface * prop) override
     {
         std::cout << "found AbstractEnumInterface\n";
     }
 
-    virtual void visit(TypedSignedIntegral<int> * typed) override
+    virtual void visit(PropertySignedIntegral<int> * prop) override
     {
-        std::cout << typed->name() << " TypedSignedIntegral<int>\n";
+        std::cout << prop->name() << " PropertySignedIntegral<int>\n";
     }
 
-    virtual void visit(TypedUnsignedIntegral<unsigned int> * typed) override
+    virtual void visit(PropertyUnsignedIntegral<unsigned int> * prop) override
     {
-        std::cout << typed->name() << " TypedUnsignedIntegral<unsigned int>\n";
+        std::cout << prop->name() << " PropertyUnsignedIntegral<unsigned int>\n";
     }
 
-    virtual void visit(TypedFloatingPoint<float> * typed) override
+    virtual void visit(PropertyFloatingPoint<float> * prop) override
     {
-        std::cout << typed->name() << " TypedFloatingPoint<float>\n";
+        std::cout << prop->name() << " PropertyFloatingPoint<float>\n";
     }
 
-    virtual void visit(TypedFloatingPoint<double> * typed) override
+    virtual void visit(PropertyFloatingPoint<double> * prop) override
     {
-        std::cout << typed->name() << " TypedFloatingPoint<double>\n";
+        std::cout << prop->name() << " PropertyFloatingPoint<double>\n";
     }
 
-    virtual void visit(TypedBool * typed) override
+    virtual void visit(PropertyBool * prop) override
     {
-        std::cout << typed->name() << " TypedBool\n";
+        std::cout << prop->name() << " PropertyBool\n";
     }
 
-    virtual void visit(TypedString * typed) override
+    virtual void visit(PropertyString * prop) override
     {
-        std::cout << typed->name() << " TypedString\n";
+        std::cout << prop->name() << " PropertyString\n";
     }
 
-    virtual void visit(TypedColor * typed) override
+    virtual void visit(PropertyColor * prop) override
     {
-        std::cout << typed->name() << " TypedColor\n";
+        std::cout << prop->name() << " PropertyColor\n";
     }
 
-    virtual void visit(TypedFilePath * typed) override
+    virtual void visit(PropertyFilePath * prop) override
     {
-        std::cout << typed->name() << " TypedFilePath\n";
+        std::cout << prop->name() << " PropertyFilePath\n";
     }
 
-    virtual void visit(TypedClass<TestClass> * typed) override
+    virtual void visit(PropertyClass<TestClass> * prop) override
     {
-        std::cout << typed->name() << " TypedClass<TestClass>\n";
+        std::cout << prop->name() << " PropertyClass<TestClass>\n";
     }
 
-    virtual void visit(TypedEnum<MyEnum> * typed) override
+    virtual void visit(PropertyEnum<MyEnum> * prop) override
     {
-        std::cout << typed->name() << " TypedEnum<MyEnum>\n";
+        std::cout << prop->name() << " PropertyEnum<MyEnum>\n";
     }
 
-    virtual void visit(TypedArray<int, 3> * typed) override
+    virtual void visit(PropertyArray<int, 3> * prop) override
     {
-        std::cout << typed->name() << " TypedArray<int, 3>\n";
+        std::cout << prop->name() << " PropertyArray<int, 3>\n";
     }
 
-    virtual void visit(Typed<int> * typed) override
+    virtual void visit(Property<int> * prop) override
     {
-        std::cout << typed->name() << " Typed<int>\n";
+        std::cout << prop->name() << " Property<int>\n";
     }
 
-    virtual void visit(Typed<unsigned int> * typed) override
+    virtual void visit(Property<unsigned int> * prop) override
     {
-        std::cout << typed->name() << " Typed<unsigned int>\n";
+        std::cout << prop->name() << " Property<unsigned int>\n";
     }
 
-    virtual void visit(Typed<float> * typed) override
+    virtual void visit(Property<float> * prop) override
     {
-        std::cout << typed->name() << " Typed<float>\n";
+        std::cout << prop->name() << " Property<float>\n";
     }
 
-    virtual void visit(Typed<double> * typed) override
+    virtual void visit(Property<double> * prop) override
     {
-        std::cout << typed->name() << " Typed<double>\n";
+        std::cout << prop->name() << " Property<double>\n";
     }
 
-    virtual void visit(Typed<bool> * typed) override
+    virtual void visit(Property<bool> * prop) override
     {
-        std::cout << typed->name() << " Typed<bool>\n";
+        std::cout << prop->name() << " Property<bool>\n";
     }
 
-    virtual void visit(Typed<std::string> * typed) override
+    virtual void visit(Property<std::string> * prop) override
     {
-        std::cout << typed->name() << " Typed<std::string>\n";
+        std::cout << prop->name() << " Property<std::string>\n";
     }
 
-    virtual void visit(Typed<Color> * typed) override
+    virtual void visit(Property<Color> * prop) override
     {
-        std::cout << typed->name() << " Typed<Color>\n";
+        std::cout << prop->name() << " Property<Color>\n";
     }
 
-    virtual void visit(Typed<FilePath> * typed) override
+    virtual void visit(Property<FilePath> * prop) override
     {
-        std::cout << typed->name() << " Typed<FilePath>\n";
+        std::cout << prop->name() << " Property<FilePath>\n";
     }
 
-    virtual void visit(Typed<TestClass> * typed) override
+    virtual void visit(Property<TestClass> * prop) override
     {
-        std::cout << typed->name() << " Typed<TestClass>\n";
+        std::cout << prop->name() << " Property<TestClass>\n";
     }
 
-    virtual void visit(Typed<MyEnum> * typed) override
+    virtual void visit(Property<MyEnum> * prop) override
     {
-        std::cout << typed->name() << " Typed<MyEnum>\n";
+        std::cout << prop->name() << " Property<MyEnum>\n";
     }
 
-    virtual void visit(Typed<std::array<int, 3>> * typed) override
+    virtual void visit(Property<std::array<int, 3>> * prop) override
     {
-        std::cout << typed->name() << " Typed<std::array<int, 3>>\n";
-    }
-
-    virtual void visit(Property<int> * typed) override
-    {
-        std::cout << typed->name() << " Property<int>\n";
+        std::cout << prop->name() << " Property<std::array<int, 3>>\n";
     }
 
     virtual void visit(PropertyGroup * group) override
@@ -388,46 +381,46 @@ int main(int argc, char *argv[])
         std::cout << "\n";
     }
 
-    // Create read/write typed value
+    // Create read/write property
     {
-        std::cout << "Read/write typed value\n";
+        std::cout << "Read/write property\n";
 
-        Typed<int> typeInt1("int1", new AccessorGetSet<int>(&getInt, &setInt));
-        Typed<int> typeInt2("int1", &getInt, &setInt);
+        Property<int> propInt1("int1", new AccessorGetSet<int>(&getInt, &setInt));
+        Property<int> propInt2("int1", &getInt, &setInt);
 
-        long long l = typeInt1.toLongLong();
+        long long l = propInt1.toLongLong();
 
-        std::cout << "value = " << typeInt1.value() << " (10)\n";
-        typeInt1.setValue(20);
-        std::cout << "value = " << typeInt2.value() << " (20)\n";
+        std::cout << "value = " << propInt1.value() << " (10)\n";
+        propInt1.setValue(20);
+        std::cout << "value = " << propInt2.value() << " (20)\n";
 
         std::cout << "\n";
     }
 
-    // Create read-only typed value
+    // Create read-only property
     {
-        std::cout << "Read-only typed value\n";
+        std::cout << "Read-only property\n";
 
-        Typed<const int> typeInt("int", &getInt);
+        Property<const int> propInt("int", &getInt);
 
-        std::cout << "value = " << typeInt.value() << " (20)\n";
-        typeInt.setValue(30);
-        std::cout << "value = " << typeInt.value() << " (20)\n";
+        std::cout << "value = " << propInt.value() << " (20)\n";
+        propInt.setValue(30);
+        std::cout << "value = " << propInt.value() << " (20)\n";
 
         std::cout << "\n";
     }
 
     // Check other data types
     {
-        Typed<int>          typeInt("");
-        Typed<unsigned int> typeUInt("");
-        Typed<float>        typeFloat("");
-        Typed<double>       typeDouble("");
-        Typed<bool>         typeBool("");
-        Typed<std::string>  typeString("");
-        Typed<Color>        typeColor("");
-        Typed<FilePath>     typeFilePath("");
-        Typed<TestClass>    typeTestClass("");
+        Property<int>          propInt("");
+        Property<unsigned int> propUInt("");
+        Property<float>        propFloat("");
+        Property<double>       propDouble("");
+        Property<bool>         propBool("");
+        Property<std::string>  propString("");
+        Property<Color>        propColor("");
+        Property<FilePath>     propFilePath("");
+        Property<TestClass>    propTestClass("");
     }
 
     // Create array-accessors
@@ -488,24 +481,24 @@ int main(int argc, char *argv[])
     {
         std::cout << "Array value\n";
 
-        Typed<std::array<int, 3>> typeArray("array", getArray, setArray);
+        Property<std::array<int, 3>> propArray("array", getArray, setArray);
 
-        std::cout << "value.empty = " << (typeArray.isEmpty() ? "yes (no)\n" : "no (no)\n");
-        std::cout << "value.size = " << typeArray.count() << " (3)\n";
-        std::cout << "value[0] = " << typeArray.getElement(0) << " (20)\n";
-        std::cout << "value[1] = " << typeArray.getElement(1) << " (21)\n";
-        std::cout << "value[2] = " << typeArray.getElement(2) << " (22)\n";
+        std::cout << "value.empty = " << (propArray.isEmpty() ? "yes (no)\n" : "no (no)\n");
+        std::cout << "value.size = " << propArray.count() << " (3)\n";
+        std::cout << "value[0] = " << propArray.getElement(0) << " (20)\n";
+        std::cout << "value[1] = " << propArray.getElement(1) << " (21)\n";
+        std::cout << "value[2] = " << propArray.getElement(2) << " (22)\n";
 
-        typeArray.forEach([] (AbstractProperty & prop) {
+        propArray.forEach([] (AbstractProperty & prop) {
             AbstractPropertyValue<int> & intProp = static_cast<AbstractPropertyValue<int> &>(prop);
             intProp.setValue(100);
         });
 
-        std::cout << "value.empty = " << (typeArray.isEmpty() ? "yes (no)\n" : "no (no)\n");
-        std::cout << "value.size = " << typeArray.count() << " (3)\n";
-        std::cout << "value[0] = " << typeArray.getElement(0) << " (100)\n";
-        std::cout << "value[1] = " << typeArray.getElement(1) << " (100)\n";
-        std::cout << "value[2] = " << typeArray.getElement(2) << " (100)\n";
+        std::cout << "value.empty = " << (propArray.isEmpty() ? "yes (no)\n" : "no (no)\n");
+        std::cout << "value.size = " << propArray.count() << " (3)\n";
+        std::cout << "value[0] = " << propArray.getElement(0) << " (100)\n";
+        std::cout << "value[1] = " << propArray.getElement(1) << " (100)\n";
+        std::cout << "value[2] = " << propArray.getElement(2) << " (100)\n";
 
         std::cout << "\n";
     }
@@ -514,15 +507,15 @@ int main(int argc, char *argv[])
     {
         std::cout << "Enum value\n";
 
-        Typed<MyEnum> typeEnum("enum");
-        typeEnum.setValue(One);
-        std::cout << "value = " << typeEnum.value() << " '" << typeEnum.toString() << "'" << " (1 'One')\n";
+        Property<MyEnum> propEnum("enum");
+        propEnum.setValue(One);
+        std::cout << "value = " << propEnum.value() << " '" << propEnum.toString() << "'" << " (1 'One')\n";
 
-        typeEnum.setValue((MyEnum)2);
-        std::cout << "value = " << typeEnum.value() << " '" << typeEnum.toString() << "'" << " (2 'Two')\n";
+        propEnum.setValue((MyEnum)2);
+        std::cout << "value = " << propEnum.value() << " '" << propEnum.toString() << "'" << " (2 'Two')\n";
 
-        typeEnum.fromString("Three");
-        std::cout << "value = " << typeEnum.value() << " '" << typeEnum.toString() << "'" << " (3 'Three')\n";
+        propEnum.fromString("Three");
+        std::cout << "value = " << propEnum.value() << " '" << propEnum.toString() << "'" << " (3 'Three')\n";
 
         std::cout << "\n";
     }
@@ -533,38 +526,38 @@ int main(int argc, char *argv[])
 
         MyVisitor visitor;
 
-        Typed<int> typeInt;
-        typeInt.accept(&visitor);
+        Property<int> propInt;
+        propInt.accept(&visitor);
 
-        Typed<unsigned int> typeUInt;
-        typeUInt.accept(&visitor);
+        Property<unsigned int> propUInt;
+        propUInt.accept(&visitor);
 
-        Typed<float> typeFloat;
-        typeFloat.accept(&visitor);
+        Property<float> propFloat;
+        propFloat.accept(&visitor);
 
-        Typed<double> typeDouble;
-        typeDouble.accept(&visitor);
+        Property<double> propDouble;
+        propDouble.accept(&visitor);
 
-        Typed<bool> typeBool;
-        typeBool.accept(&visitor);
+        Property<bool> propBool;
+        propBool.accept(&visitor);
 
-        Typed<std::string> typeString;
-        typeString.accept(&visitor);
+        Property<std::string> propString;
+        propString.accept(&visitor);
 
-        Typed<Color> typeColor;
-        typeColor.accept(&visitor);
+        Property<Color> propColor;
+        propColor.accept(&visitor);
 
-        Typed<FilePath> typeFilePath;
-        typeFilePath.accept(&visitor);
+        Property<FilePath> propFilePath;
+        propFilePath.accept(&visitor);
 
-        Typed<TestClass> typeTestClass;
-        typeTestClass.accept(&visitor);
+        Property<TestClass> propTestClass;
+        propTestClass.accept(&visitor);
 
-        Typed<MyEnum> typeMyEnum;
-        typeMyEnum.accept(&visitor);
+        Property<MyEnum> propMyEnum;
+        propMyEnum.accept(&visitor);
 
-        Typed<std::array<int, 3>> typeArray("array", std::array<int, 3>{0, 0, 0});
-        typeArray.accept(&visitor);
+        Property<std::array<int, 3>> propArray("array", std::array<int, 3>{0, 0, 0});
+        propArray.accept(&visitor);
 
         Property<int> propertyInt("Integer");
         propertyInt.accept(&visitor);
@@ -579,14 +572,14 @@ int main(int argc, char *argv[])
     {
         std::cout << "Signal test\n";
 
-        Typed<int> typeInt;
-        typeInt.changed.connect([] () {
-            std::cout << "typeInt changed.\n";
+        Property<int> propInt;
+        propInt.changed.connect([] () {
+            std::cout << "propInt changed.\n";
         });
 
         for (int i=0; i<10; i++) {
-            typeInt.setValue(i);
-            std::cout << "value = " << typeInt.value() << " (" << i << ")\n";
+            propInt.setValue(i);
+            std::cout << "value = " << propInt.value() << " (" << i << ")\n";
         }
 
         std::cout << "\n";

@@ -20,13 +20,13 @@ namespace reflectionzeug
 *    Implementation for enum types
 */
 template <typename Enum>
-class TypedEnum : public AbstractPropertyValue<Enum>, public AbstractEnumInterface, public AbstractStringInterface
+class PropertyEnum : public AbstractPropertyValue<Enum>, public AbstractEnumInterface, public AbstractStringInterface
 {
 public:
     template <typename... Args>
-    TypedEnum(Args&&... args);
+    PropertyEnum(Args&&... args);
 
-    virtual ~TypedEnum();
+    virtual ~PropertyEnum();
 
     virtual std::string toString() const override;
     virtual bool fromString(const std::string & string) override;
@@ -60,4 +60,4 @@ struct EnumDefaultStrings
 } // namespace reflectionzeug
 
 
-#include <reflectionzeug/type/TypedEnum.hpp>
+#include <reflectionzeug/type/PropertyEnum.hpp>

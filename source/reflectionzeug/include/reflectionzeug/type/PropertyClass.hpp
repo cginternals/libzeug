@@ -4,7 +4,7 @@
 
 #include <iostream>
 
-#include <reflectionzeug/type/TypedClass.h>
+#include <reflectionzeug/type/PropertyClass.h>
 #include <reflectionzeug/type/AbstractVisitor.h>
 
 
@@ -14,20 +14,20 @@ namespace reflectionzeug
 
 template <typename T>
 template <typename... Args>
-TypedClass<T>::TypedClass(Args&&... args)
+PropertyClass<T>::PropertyClass(Args&&... args)
 : AbstractPropertyValue<T>(std::forward<Args>(args)...)
 {
 }
 
 template <typename T>
-TypedClass<T>::~TypedClass()
+PropertyClass<T>::~PropertyClass()
 {
 }
 
 template <typename T>
-void TypedClass<T>::accept(AbstractVisitor * visitor)
+void PropertyClass<T>::accept(AbstractVisitor * visitor)
 {
-    visitor->callVisitor<TypedClass<T>>(this);
+    visitor->callVisitor<PropertyClass<T>>(this);
 }
 
 

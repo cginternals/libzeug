@@ -14,13 +14,13 @@ namespace reflectionzeug
 *  @brief
 *    Implementation for type FilePath
 */
-class TypedFilePath : public AbstractPropertyValue<FilePath>
+class PropertyFilePath : public AbstractPropertyValue<FilePath>
 {
 public:
     template <typename... Args>
-    TypedFilePath(Args&&... args);
+    PropertyFilePath(Args&&... args);
 
-    virtual ~TypedFilePath();
+    virtual ~PropertyFilePath();
 
     virtual void accept(AbstractVisitor * visitor) override;
 };
@@ -29,4 +29,4 @@ public:
 } // namespace reflectionzeug
 
 
-#include <reflectionzeug/type/TypedFilePath.hpp>
+#include <reflectionzeug/type/PropertyFilePath.hpp>

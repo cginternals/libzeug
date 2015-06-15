@@ -14,13 +14,13 @@ namespace reflectionzeug
 *    Implementation for class types
 */
 template <typename T>
-class TypedClass : public AbstractPropertyValue<T>
+class PropertyClass : public AbstractPropertyValue<T>
 {
 public:
     template <typename... Args>
-    TypedClass(Args&&... args);
+    PropertyClass(Args&&... args);
 
-    virtual ~TypedClass();
+    virtual ~PropertyClass();
 
     virtual void accept(AbstractVisitor * visitor) override;
 };
@@ -29,4 +29,4 @@ public:
 } // namespace reflectionzeug
 
 
-#include <reflectionzeug/type/TypedClass.hpp>
+#include <reflectionzeug/type/PropertyClass.hpp>

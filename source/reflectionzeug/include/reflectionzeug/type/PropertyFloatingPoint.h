@@ -15,13 +15,13 @@ namespace reflectionzeug
 *    Implementation for floating point types
 */
 template <typename T>
-class TypedFloatingPoint : public AbstractPropertyValue<T>, public AbstractFloatingPointInterface
+class PropertyFloatingPoint : public AbstractPropertyValue<T>, public AbstractFloatingPointInterface
 {
 public:
     template <typename... Args>
-    TypedFloatingPoint(Args&&... args);
+    PropertyFloatingPoint(Args&&... args);
 
-    virtual ~TypedFloatingPoint();
+    virtual ~PropertyFloatingPoint();
 
     virtual double toDouble() const override;
     virtual bool fromDouble(double value) override;
@@ -33,4 +33,4 @@ public:
 } // namespace reflectionzeug
 
 
-#include <reflectionzeug/type/TypedFloatingPoint.hpp>
+#include <reflectionzeug/type/PropertyFloatingPoint.hpp>

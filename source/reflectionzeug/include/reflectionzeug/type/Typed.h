@@ -3,16 +3,16 @@
 
 
 #include <reflectionzeug/type/specialization_helpers.h>
-#include <reflectionzeug/type/TypedSignedIntegral.h>
-#include <reflectionzeug/type/TypedUnsignedIntegral.h>
-#include <reflectionzeug/type/TypedFloatingPoint.h>
-#include <reflectionzeug/type/TypedBool.h>
-#include <reflectionzeug/type/TypedString.h>
-#include <reflectionzeug/type/TypedColor.h>
-#include <reflectionzeug/type/TypedFilePath.h>
-#include <reflectionzeug/type/TypedClass.h>
-#include <reflectionzeug/type/TypedArray.h>
-#include <reflectionzeug/type/TypedEnum.h>
+#include <reflectionzeug/type/PropertySignedIntegral.h>
+#include <reflectionzeug/type/PropertyUnsignedIntegral.h>
+#include <reflectionzeug/type/PropertyFloatingPoint.h>
+#include <reflectionzeug/type/PropertyBool.h>
+#include <reflectionzeug/type/PropertyString.h>
+#include <reflectionzeug/type/PropertyColor.h>
+#include <reflectionzeug/type/PropertyFilePath.h>
+#include <reflectionzeug/type/PropertyClass.h>
+#include <reflectionzeug/type/PropertyArray.h>
+#include <reflectionzeug/type/PropertyEnum.h>
 #include <reflectionzeug/type/AbstractVisitor.h>
 
 
@@ -27,61 +27,61 @@ namespace reflectionzeug
 template <typename T, typename = void>
 struct TypeSelector
 {
-    using Type = TypedClass<T>;
+    using Type = PropertyClass<T>;
 };
 
 template <>
 struct TypeSelector<bool>
 {
-    using Type = TypedBool;
+    using Type = PropertyBool;
 };
 
 template <>
 struct TypeSelector<Color>
 {
-    using Type = TypedColor;
+    using Type = PropertyColor;
 };
 
 template <>
 struct TypeSelector<std::string>
 {
-    using Type = TypedString;
+    using Type = PropertyString;
 };
 
 template <>
 struct TypeSelector<FilePath>
 {
-    using Type = TypedFilePath;
+    using Type = PropertyFilePath;
 };
 
 template <typename T>
 struct TypeSelector<T, EnableIf<isSignedIntegral<T>>>
 {
-    using Type = TypedSignedIntegral<T>;
+    using Type = PropertySignedIntegral<T>;
 };
 
 template <typename T>
 struct TypeSelector<T, EnableIf<isUnsignedIntegral<T>>>
 {
-    using Type = TypedUnsignedIntegral<T>;
+    using Type = PropertyUnsignedIntegral<T>;
 };
 
 template <typename T>
 struct TypeSelector<T, EnableIf<isFloatingPoint<T>>>
 {
-    using Type = TypedFloatingPoint<T>;
+    using Type = PropertyFloatingPoint<T>;
 };
 
 template <typename T>
 struct TypeSelector<T, EnableIf<isArray<T>>>
 {
-    using Type = TypedArray<typename T::value_type, std::tuple_size<T>::value>;
+    using Type = PropertyArray<typename T::value_type, std::tuple_size<T>::value>;
 };
 
 template <typename T>
 struct TypeSelector<T, EnableIf<std::is_enum<T>>>
 {
-    using Type = TypedEnum<T>;
+    using Type = PropertyEnum<T>;
 };
 
 

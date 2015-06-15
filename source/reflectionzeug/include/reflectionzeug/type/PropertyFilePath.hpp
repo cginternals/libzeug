@@ -2,7 +2,7 @@
 #pragma once
 
 
-#include <reflectionzeug/type/TypedFilePath.h>
+#include <reflectionzeug/type/PropertyFilePath.h>
 
 
 namespace reflectionzeug
@@ -10,7 +10,7 @@ namespace reflectionzeug
 
 
 template <typename... Args>
-TypedFilePath::TypedFilePath(Args&&... args)
+PropertyFilePath::PropertyFilePath(Args&&... args)
 : AbstractPropertyValue<FilePath>(std::forward<Args>(args)...)
 {
 }

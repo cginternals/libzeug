@@ -15,13 +15,13 @@ namespace reflectionzeug
 *  @brief
 *    Implementation for type Color
 */
-class TypedColor : public AbstractPropertyValue<Color>, public AbstractColorInterface
+class PropertyColor : public AbstractPropertyValue<Color>, public AbstractColorInterface
 {
 public:
     template <typename... Args>
-    TypedColor(Args&&... args);
+    PropertyColor(Args&&... args);
 
-    virtual ~TypedColor();
+    virtual ~PropertyColor();
 
     virtual Color toColor() const override;
     virtual bool fromColor(const Color & color) override;
@@ -33,4 +33,4 @@ public:
 } // namespace reflectionzeug
 
 
-#include <reflectionzeug/type/TypedColor.hpp>
+#include <reflectionzeug/type/PropertyColor.hpp>

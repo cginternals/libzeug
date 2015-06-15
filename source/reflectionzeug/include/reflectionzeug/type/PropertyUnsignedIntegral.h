@@ -15,13 +15,13 @@ namespace reflectionzeug
 *    Implementation for unsigned integral types
 */
 template <typename T>
-class TypedUnsignedIntegral : public AbstractPropertyValue<T>, public AbstractUnsignedIntegralInterface
+class PropertyUnsignedIntegral : public AbstractPropertyValue<T>, public AbstractUnsignedIntegralInterface
 {
 public:
     template <typename... Args>
-    TypedUnsignedIntegral(Args&&... args);
+    PropertyUnsignedIntegral(Args&&... args);
 
-    virtual ~TypedUnsignedIntegral();
+    virtual ~PropertyUnsignedIntegral();
 
     virtual unsigned long long toULongLong() const override;
     virtual bool fromULongLong(unsigned long long value) override;
@@ -33,4 +33,4 @@ public:
 } // namespace reflectionzeug
 
 
-#include <reflectionzeug/type/TypedUnsignedIntegral.hpp>
+#include <reflectionzeug/type/PropertyUnsignedIntegral.hpp>

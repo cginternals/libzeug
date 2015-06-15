@@ -2,7 +2,7 @@
 #pragma once
 
 
-#include <reflectionzeug/type/TypedString.h>
+#include <reflectionzeug/type/PropertyString.h>
 
 
 namespace reflectionzeug
@@ -10,7 +10,7 @@ namespace reflectionzeug
 
 
 template <typename... Args>
-TypedString::TypedString(Args&&... args)
+PropertyString::PropertyString(Args&&... args)
 : AbstractPropertyValue<std::string>(std::forward<Args>(args)...)
 {
 }

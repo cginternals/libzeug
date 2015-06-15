@@ -14,13 +14,13 @@ namespace reflectionzeug
 *    Implementation for array types
 */
 template <typename T, size_t Size>
-class TypedArray : public AbstractPropertyArray<T, Size>
+class PropertyArray : public AbstractPropertyArray<T, Size>
 {
 public:
     template <typename... Args>
-    TypedArray(Args&&... args);
+    PropertyArray(Args&&... args);
 
-    virtual ~TypedArray();
+    virtual ~PropertyArray();
 
     virtual void accept(AbstractVisitor * visitor) override;
 };
@@ -29,4 +29,4 @@ public:
 } // namespace reflectionzeug
 
 
-#include <reflectionzeug/type/TypedArray.hpp>
+#include <reflectionzeug/type/PropertyArray.hpp>

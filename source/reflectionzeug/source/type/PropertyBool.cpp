@@ -1,5 +1,5 @@
 
-#include <reflectionzeug/type/TypedBool.h>
+#include <reflectionzeug/type/PropertyBool.h>
 
 #include <reflectionzeug/type/AbstractVisitor.h>
 
@@ -8,28 +8,28 @@ namespace reflectionzeug
 {
 
 
-TypedBool::~TypedBool()
+PropertyBool::~PropertyBool()
 {
 }
 
-bool TypedBool::toBool() const
+bool PropertyBool::toBool() const
 {
     return this->value();
 }
 
-bool TypedBool::fromBool(bool value)
+bool PropertyBool::fromBool(bool value)
 {
     this->setValue(value);
     return true;
 }
 
-void TypedBool::accept(AbstractVisitor * visitor)
+void PropertyBool::accept(AbstractVisitor * visitor)
 {
-    visitor->callVisitor<TypedBool>(this);
+    visitor->callVisitor<PropertyBool>(this);
     visitor->callVisitor<AbstractBooleanInterface>(this);
 }
 
-void TypedBool::toggleValue()
+void PropertyBool::toggleValue()
 {
     this->setValue(!this->value());
 }

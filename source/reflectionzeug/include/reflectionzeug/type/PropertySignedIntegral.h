@@ -15,13 +15,13 @@ namespace reflectionzeug
 *    Implementation for signed integral types
 */
 template <typename T>
-class TypedSignedIntegral : public AbstractPropertyValue<T>, public AbstractSignedIntegralInterface
+class PropertySignedIntegral : public AbstractPropertyValue<T>, public AbstractSignedIntegralInterface
 {
 public:
     template <typename... Args>
-    TypedSignedIntegral(Args&&... args);
+    PropertySignedIntegral(Args&&... args);
 
-    virtual ~TypedSignedIntegral();
+    virtual ~PropertySignedIntegral();
 
     virtual long long toLongLong() const override;
     virtual bool fromLongLong(long long value) override;
@@ -33,4 +33,4 @@ public:
 } // namespace reflectionzeug
 
 
-#include <reflectionzeug/type/TypedSignedIntegral.hpp>
+#include <reflectionzeug/type/PropertySignedIntegral.hpp>

@@ -14,13 +14,13 @@ namespace reflectionzeug
 *  @brief
 *    Implementation for type bool
 */
-class TypedBool : public AbstractPropertyValue<bool>, public AbstractBooleanInterface
+class PropertyBool : public AbstractPropertyValue<bool>, public AbstractBooleanInterface
 {
 public:
     template <typename... Args>
-    TypedBool(Args&&... args);
+    PropertyBool(Args&&... args);
 
-    virtual ~TypedBool();
+    virtual ~PropertyBool();
 
     virtual bool toBool() const override;
     virtual bool fromBool(bool value) override;
@@ -34,4 +34,4 @@ public:
 } // namespace reflectionzeug
 
 
-#include <reflectionzeug/type/TypedBool.hpp>
+#include <reflectionzeug/type/PropertyBool.hpp>

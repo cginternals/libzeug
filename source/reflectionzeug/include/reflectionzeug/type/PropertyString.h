@@ -14,13 +14,13 @@ namespace reflectionzeug
 *  @brief
 *    Implementation for type std::string
 */
-class TypedString : public AbstractPropertyValue<std::string>, public AbstractStringInterface
+class PropertyString : public AbstractPropertyValue<std::string>, public AbstractStringInterface
 {
 public:
     template <typename... Args>
-    TypedString(Args&&... args);
+    PropertyString(Args&&... args);
 
-    virtual ~TypedString();
+    virtual ~PropertyString();
 
     virtual std::string toString() const override;
     virtual bool fromString(const std::string & string) override;
@@ -32,4 +32,4 @@ public:
 } // namespace reflectionzeug
 
 
-#include <reflectionzeug/type/TypedString.hpp>
+#include <reflectionzeug/type/PropertyString.hpp>

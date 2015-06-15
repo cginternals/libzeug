@@ -4,7 +4,7 @@
 
 #include <cassert>
 
-#include <reflectionzeug/type/TypedEnum.h>
+#include <reflectionzeug/type/PropertyEnum.h>
 #include <reflectionzeug/type/AbstractVisitor.h>
 
 
@@ -14,7 +14,7 @@ namespace reflectionzeug
 
 template <typename Enum>
 template <typename... Args>
-TypedEnum<Enum>::TypedEnum(Args&&... args)
+PropertyEnum<Enum>::PropertyEnum(Args&&... args)
 : AbstractPropertyValue<Enum>(std::forward<Args>(args)...)
 {
 	// Create default enum strings
@@ -22,12 +22,12 @@ TypedEnum<Enum>::TypedEnum(Args&&... args)
 }
 
 template <typename Enum>
-TypedEnum<Enum>::~TypedEnum()
+PropertyEnum<Enum>::~PropertyEnum()
 {
 }
 
 template <typename Enum>
-std::string TypedEnum<Enum>::toString() const
+std::string PropertyEnum<Enum>::toString() const
 {
 	// Check if value has a string representation
     assert(m_stringMap.count(this->value()) > 0);
@@ -37,7 +37,7 @@ std::string TypedEnum<Enum>::toString() const
 }
 
 template <typename Enum>
-bool TypedEnum<Enum>::fromString(const std::string & string)
+bool PropertyEnum<Enum>::fromString(const std::string & string)
 {
 	// Find enum of string representation
     auto it = m_enumMap.find(string);
@@ -52,7 +52,7 @@ bool TypedEnum<Enum>::fromString(const std::string & string)
 }
 
 template <typename Enum>
-std::vector<std::string> TypedEnum<Enum>::strings() const
+std::vector<std::string> PropertyEnum<Enum>::strings() const
 {
 	// Construct list of all enum strings (without their values)
     std::vector<std::string> strings;
@@ -62,7 +62,7 @@ std::vector<std::string> TypedEnum<Enum>::strings() const
 }
 
 template <typename Enum>
-void TypedEnum<Enum>::setStrings(const std::map<Enum, std::string> & pairs)
+void PropertyEnum<Enum>::setStrings(const std::map<Enum, std::string> & pairs)
 {
 	// Save map of enum value -> string representation
     m_stringMap = pairs;
@@ -77,9 +77,9 @@ void TypedEnum<Enum>::setStrings(const std::map<Enum, std::string> & pairs)
 }
 
 template <typename Enum>
-void TypedEnum<Enum>::accept(AbstractVisitor * visitor)
+void PropertyEnum<Enum>::accept(AbstractVisitor * visitor)
 {
-    visitor->callVisitor<TypedEnum<Enum>>(this);
+    visitor->callVisitor<PropertyEnum<Enum>>(this);
     visitor->callVisitor<AbstractEnumInterface>(this);
     visitor->callVisitor<AbstractStringInterface>(this);
 }
