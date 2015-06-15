@@ -106,6 +106,16 @@ Variant::Variant(const std::vector<std::string> & value)
 {
 }
 
+Variant::Variant(const VariantArray & array)
+: m_accessor(new AccessorValue<VariantArray>(array))
+{
+}
+
+Variant::Variant(const VariantMap & map)
+: m_accessor(new AccessorValue<VariantMap>(map))
+{
+}
+
 Variant::~Variant()
 {
     if (m_accessor)

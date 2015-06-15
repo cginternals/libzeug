@@ -71,6 +71,8 @@ public:
     Variant(const char * value);
     Variant(const std::string & value);
     Variant(const std::vector<std::string> & value);
+    Variant(const VariantArray & array);
+    Variant(const VariantMap & map);
 
     /**
     *  @brief
