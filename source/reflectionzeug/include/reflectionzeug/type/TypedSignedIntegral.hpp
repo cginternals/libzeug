@@ -13,7 +13,7 @@ namespace reflectionzeug
 template <typename T>
 template <typename... Args>
 TypedSignedIntegral<T>::TypedSignedIntegral(Args&&... args)
-: AbstractTyped<T>(std::forward<Args>(args)...)
+: AbstractPropertyValue<T>(std::forward<Args>(args)...)
 {
 }
 

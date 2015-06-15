@@ -497,8 +497,8 @@ int main(int argc, char *argv[])
         std::cout << "value[2] = " << typeArray.getElement(2) << " (22)\n";
 
         typeArray.forEach([] (AbstractProperty & prop) {
-            AbstractTyped<int> & typed = static_cast<AbstractTyped<int> &>(prop);
-            typed.setValue(100);
+            AbstractPropertyValue<int> & intProp = static_cast<AbstractPropertyValue<int> &>(prop);
+            intProp.setValue(100);
         });
 
         std::cout << "value.empty = " << (typeArray.isEmpty() ? "yes (no)\n" : "no (no)\n");

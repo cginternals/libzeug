@@ -11,7 +11,7 @@ namespace reflectionzeug
 
 template <typename... Args>
 TypedColor::TypedColor(Args&&... args)
-: AbstractTyped<Color>(std::forward<Args>(args)...)
+: AbstractPropertyValue<Color>(std::forward<Args>(args)...)
 {
 }
 

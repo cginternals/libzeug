@@ -2,7 +2,7 @@
 #pragma once
 
 
-#include <reflectionzeug/type/AbstractTyped.h>
+#include <reflectionzeug/type/AbstractPropertyValue.h>
 #include <reflectionzeug/type/AbstractUnsignedIntegralInterface.h>
 
 
@@ -15,7 +15,7 @@ namespace reflectionzeug
 *    Implementation for unsigned integral types
 */
 template <typename T>
-class TypedUnsignedIntegral : public AbstractTyped<T>, public AbstractUnsignedIntegralInterface
+class TypedUnsignedIntegral : public AbstractPropertyValue<T>, public AbstractUnsignedIntegralInterface
 {
 public:
     template <typename... Args>

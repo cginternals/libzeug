@@ -11,7 +11,7 @@ namespace reflectionzeug
 
 template <typename... Args>
 TypedFilePath::TypedFilePath(Args&&... args)
-: AbstractTyped<FilePath>(std::forward<Args>(args)...)
+: AbstractPropertyValue<FilePath>(std::forward<Args>(args)...)
 {
 }
 

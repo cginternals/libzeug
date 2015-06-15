@@ -18,39 +18,39 @@ namespace reflectionzeug
 *    Base class for typed values (read/write)
 */
 template <typename Type>
-class AbstractTyped : public AbstractProperty
+class AbstractPropertyValue : public AbstractProperty
 {
 public:
     signalzeug::Signal<const Type &> valueChanged;  /**< Called when the value has been changed */
 
 
 public:
-    AbstractTyped(const std::string & name = "");
+    AbstractPropertyValue(const std::string & name = "");
 
-    AbstractTyped(const std::string & name, const Type & value);
+    AbstractPropertyValue(const std::string & name, const Type & value);
 
-    AbstractTyped(const std::string & name,
+    AbstractPropertyValue(const std::string & name,
           std::function<Type ()> getter,
           std::function<void(const Type &)> setter);
 
     template <class Object>
-    AbstractTyped(const std::string & name, Object * object,
+    AbstractPropertyValue(const std::string & name, Object * object,
           const Type & (Object::*getter_pointer)() const,
           void (Object::*setter_pointer)(const Type &));
 
     template <class Object>
-    AbstractTyped(const std::string & name, Object * object,
+    AbstractPropertyValue(const std::string & name, Object * object,
           Type (Object::*getter_pointer)() const,
           void (Object::*setter_pointer)(const Type &));
 
     template <class Object>
-    AbstractTyped(const std::string & name, Object * object,
+    AbstractPropertyValue(const std::string & name, Object * object,
           Type (Object::*getter_pointer)() const,
           void (Object::*setter_pointer)(Type));
 
-    AbstractTyped(const std::string & name, Accessor<Type> * accessor);
+    AbstractPropertyValue(const std::string & name, Accessor<Type> * accessor);
 
-    virtual ~AbstractTyped();
+    virtual ~AbstractPropertyValue();
 
     virtual const std::type_info & type() const override;
 
@@ -72,30 +72,30 @@ protected:
 *    Base class for typed values (read-only)
 */
 template <typename Type>
-class AbstractTyped<const Type> : public AbstractTyped<Type>
+class AbstractPropertyValue<const Type> : public AbstractPropertyValue<Type>
 {
 public:
-    AbstractTyped(const std::string & name = "");
+    AbstractPropertyValue(const std::string & name = "");
 
-    AbstractTyped(const std::string & name, const Type & value);
+    AbstractPropertyValue(const std::string & name, const Type & value);
 
-    AbstractTyped(const std::string & name, std::function<Type ()> getter);
+    AbstractPropertyValue(const std::string & name, std::function<Type ()> getter);
 
     template <class Object>
-    AbstractTyped(const std::string & name, Object * object,
+    AbstractPropertyValue(const std::string & name, Object * object,
           const Type & (Object::*getter_pointer)() const);
 
     template <class Object>
-    AbstractTyped(const std::string & name, Object * object,
+    AbstractPropertyValue(const std::string & name, Object * object,
           Type (Object::*getter_pointer)() const);
 
-    AbstractTyped(const std::string & name, Accessor<const Type> * accessor);
+    AbstractPropertyValue(const std::string & name, Accessor<const Type> * accessor);
 
-    virtual ~AbstractTyped();
+    virtual ~AbstractPropertyValue();
 };
 
 
 } // namespace reflectionzeug
 
 
-#include <reflectionzeug/type/AbstractTyped.hpp>
+#include <reflectionzeug/type/AbstractPropertyValue.hpp>

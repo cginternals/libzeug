@@ -6,7 +6,7 @@
 #include <functional>
 #include <array>
 
-#include <reflectionzeug/type/AbstractTyped.h>
+#include <reflectionzeug/type/AbstractPropertyValue.h>
 #include <reflectionzeug/type/AbstractCollection.h>
 #include <reflectionzeug/type/ArrayAccessor.h>
 
@@ -24,7 +24,7 @@ class Typed;
 *    Base class for typed arrays (read/write)
 */
 template <typename Type, size_t Size>
-class AbstractPropertyArray : public AbstractTyped<std::array<Type, Size>>
+class AbstractPropertyArray : public AbstractPropertyValue<std::array<Type, Size>>
                             , public AbstractCollection
 {
 public:

@@ -2,7 +2,7 @@
 #pragma once
 
 
-#include <reflectionzeug/type/AbstractTyped.h>
+#include <reflectionzeug/type/AbstractPropertyValue.h>
 #include <reflectionzeug/type/AbstractBooleanInterface.h>
 
 
@@ -14,7 +14,7 @@ namespace reflectionzeug
 *  @brief
 *    Implementation for type bool
 */
-class TypedBool : public AbstractTyped<bool>, public AbstractBooleanInterface
+class TypedBool : public AbstractPropertyValue<bool>, public AbstractBooleanInterface
 {
 public:
     template <typename... Args>

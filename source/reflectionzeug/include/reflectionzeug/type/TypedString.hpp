@@ -11,7 +11,7 @@ namespace reflectionzeug
 
 template <typename... Args>
 TypedString::TypedString(Args&&... args)
-: AbstractTyped<std::string>(std::forward<Args>(args)...)
+: AbstractPropertyValue<std::string>(std::forward<Args>(args)...)
 {
 }
 

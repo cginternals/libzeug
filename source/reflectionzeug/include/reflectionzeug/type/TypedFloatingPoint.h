@@ -2,7 +2,7 @@
 #pragma once
 
 
-#include <reflectionzeug/type/AbstractTyped.h>
+#include <reflectionzeug/type/AbstractPropertyValue.h>
 #include <reflectionzeug/type/AbstractFloatingPointInterface.h>
 
 
@@ -15,7 +15,7 @@ namespace reflectionzeug
 *    Implementation for floating point types
 */
 template <typename T>
-class TypedFloatingPoint : public AbstractTyped<T>, public AbstractFloatingPointInterface
+class TypedFloatingPoint : public AbstractPropertyValue<T>, public AbstractFloatingPointInterface
 {
 public:
     template <typename... Args>

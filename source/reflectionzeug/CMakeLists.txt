@@ -68,11 +68,11 @@ set(headers
     ${header_path}/type/specialization_helpers.h
     ${header_path}/type/AbstractProperty.h
     ${header_path}/type/AbstractProperty.hpp
-    ${header_path}/type/AbstractCollection.h
-    ${header_path}/type/AbstractTyped.h
-    ${header_path}/type/AbstractTyped.hpp
+    ${header_path}/type/AbstractPropertyValue.h
+    ${header_path}/type/AbstractPropertyValue.hpp
     ${header_path}/type/AbstractPropertyArray.h
     ${header_path}/type/AbstractPropertyArray.hpp
+    ${header_path}/type/AbstractCollection.h
     ${header_path}/type/AbstractAccessor.h
     ${header_path}/type/Accessor.h
     ${header_path}/type/Accessor.hpp
