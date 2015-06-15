@@ -2,6 +2,7 @@
 #pragma once
 
 
+#include <reflectionzeug/type/Typed.h>
 #include <reflectionzeug/type/NamedTyped.h>
 #include <reflectionzeug/AbstractProperty.h>
 

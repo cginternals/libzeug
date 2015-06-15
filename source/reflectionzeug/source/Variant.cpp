@@ -31,6 +31,11 @@ Variant::Variant(const Variant & variant)
 {
 }
 
+Variant::Variant(bool value)
+: m_accessor(new AccessorValue<bool>(value))
+{
+}
+
 Variant::Variant(char value)
 : m_accessor(new AccessorValue<char>(value))
 {

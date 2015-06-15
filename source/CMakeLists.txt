@@ -37,7 +37,7 @@ add_subdirectory(reflectionzeug)
 add_subdirectory(signalzeug)
 add_subdirectory(threadingzeug)
 add_subdirectory(loggingzeug)
-#add_subdirectory(scriptzeug)
+add_subdirectory(scriptzeug)
 #add_subdirectory(propertyguizeug)
 add_subdirectory(widgetzeug)
 

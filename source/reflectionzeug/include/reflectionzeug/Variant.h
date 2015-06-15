@@ -56,6 +56,7 @@ public:
     */
     Variant(const Variant & variant);
 
+    Variant(bool value);
     Variant(char value);
     Variant(unsigned char value);
     Variant(short value);
