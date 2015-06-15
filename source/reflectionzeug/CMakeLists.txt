@@ -71,8 +71,8 @@ set(headers
     ${header_path}/type/AbstractCollection.h
     ${header_path}/type/AbstractTyped.h
     ${header_path}/type/AbstractTyped.hpp
-    ${header_path}/type/AbstractTypedArray.h
-    ${header_path}/type/AbstractTypedArray.hpp
+    ${header_path}/type/AbstractPropertyArray.h
+    ${header_path}/type/AbstractPropertyArray.hpp
     ${header_path}/type/AbstractAccessor.h
     ${header_path}/type/Accessor.h
     ${header_path}/type/Accessor.hpp

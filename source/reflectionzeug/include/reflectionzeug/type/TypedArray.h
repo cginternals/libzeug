@@ -2,7 +2,7 @@
 #pragma once
 
 
-#include <reflectionzeug/type/AbstractTypedArray.h>
+#include <reflectionzeug/type/AbstractPropertyArray.h>
 
 
 namespace reflectionzeug
@@ -14,7 +14,7 @@ namespace reflectionzeug
 *    Implementation for array types
 */
 template <typename T, size_t Size>
-class TypedArray : public AbstractTypedArray<T, Size>
+class TypedArray : public AbstractPropertyArray<T, Size>
 {
 public:
     template <typename... Args>

@@ -13,7 +13,7 @@ namespace reflectionzeug
 template <typename T, size_t Size>
 template <typename... Args>
 TypedArray<T, Size>::TypedArray(Args&&... args)
-: AbstractTypedArray<T, Size>(std::forward<Args>(args)...)
+: AbstractPropertyArray<T, Size>(std::forward<Args>(args)...)
 {
 }
 

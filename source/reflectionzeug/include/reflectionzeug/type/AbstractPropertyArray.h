@@ -24,36 +24,36 @@ class Typed;
 *    Base class for typed arrays (read/write)
 */
 template <typename Type, size_t Size>
-class AbstractTypedArray : public AbstractTyped<std::array<Type, Size>>
-                         , public AbstractCollection
+class AbstractPropertyArray : public AbstractTyped<std::array<Type, Size>>
+                            , public AbstractCollection
 {
 public:
-    AbstractTypedArray(const std::string & name);
+    AbstractPropertyArray(const std::string & name);
 
-    AbstractTypedArray(const std::string & name, const std::array<Type, Size> & value);
+    AbstractPropertyArray(const std::string & name, const std::array<Type, Size> & value);
 
-    AbstractTypedArray(const std::string & name,
+    AbstractPropertyArray(const std::string & name,
           std::function<Type (size_t)> getter,
           std::function<void(size_t, const Type &)> setter);
 
     template <class Object>
-    AbstractTypedArray(const std::string & name, Object * object,
+    AbstractPropertyArray(const std::string & name, Object * object,
           const Type & (Object::*getter_pointer)(size_t) const,
           void (Object::*setter_pointer)(size_t, const Type &));
 
     template <class Object>
-    AbstractTypedArray(const std::string & name, Object * object,
+    AbstractPropertyArray(const std::string & name, Object * object,
           Type (Object::*getter_pointer)(size_t) const,
           void (Object::*setter_pointer)(size_t, const Type &));
 
     template <class Object>
-    AbstractTypedArray(const std::string & name, Object * object,
+    AbstractPropertyArray(const std::string & name, Object * object,
           Type (Object::*getter_pointer)(size_t) const,
           void (Object::*setter_pointer)(size_t, Type));
 
-    AbstractTypedArray(const std::string & name, ArrayAccessor<Type, Size> * accessor);
+    AbstractPropertyArray(const std::string & name, ArrayAccessor<Type, Size> * accessor);
 
-    virtual ~AbstractTypedArray();
+    virtual ~AbstractPropertyArray();
 
     virtual bool isEmpty() const override;
     virtual size_t count() const override;
@@ -85,30 +85,30 @@ protected:
 *    Base class for typed arrays (read-only)
 */
 template <typename Type, size_t Size>
-class AbstractTypedArray<const Type, Size> : public AbstractTypedArray<Type, Size>
+class AbstractPropertyArray<const Type, Size> : public AbstractPropertyArray<Type, Size>
 {
 public:
-    AbstractTypedArray(const std::string & name);
+    AbstractPropertyArray(const std::string & name);
 
-    AbstractTypedArray(const std::string & name, const std::array<Type, Size> & value);
+    AbstractPropertyArray(const std::string & name, const std::array<Type, Size> & value);
 
-    AbstractTypedArray(const std::string & name, std::function<Type (size_t)> getter);
+    AbstractPropertyArray(const std::string & name, std::function<Type (size_t)> getter);
 
     template <class Object>
-    AbstractTypedArray(const std::string & name, Object * object,
+    AbstractPropertyArray(const std::string & name, Object * object,
           const Type & (Object::*getter_pointer)(size_t) const);
 
     template <class Object>
-    AbstractTypedArray(const std::string & name, Object * object,
+    AbstractPropertyArray(const std::string & name, Object * object,
           Type (Object::*getter_pointer)(size_t) const);
 
-    AbstractTypedArray(const std::string & name, ArrayAccessor<const Type, Size> * accessor);
+    AbstractPropertyArray(const std::string & name, ArrayAccessor<const Type, Size> * accessor);
 
-    virtual ~AbstractTypedArray();
+    virtual ~AbstractPropertyArray();
 };
 
 
 } // namespace reflectionzeug
 
 
-#include <reflectionzeug/type/AbstractTypedArray.hpp>
+#include <reflectionzeug/type/AbstractPropertyArray.hpp>
