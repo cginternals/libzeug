@@ -11,7 +11,7 @@ namespace reflectionzeug
 {
 
 
-class AbstractValue;
+class AbstractProperty;
 class AbstractVisitor;
 
 
@@ -27,12 +27,12 @@ public:
 
     virtual bool isEmpty() const = 0;
     virtual size_t count() const = 0;
-    virtual AbstractValue * at(size_t i) = 0;
-    virtual const AbstractValue * at(size_t i) const = 0;
-    virtual int indexOf(const AbstractValue * value) const = 0;
+    virtual AbstractProperty * at(size_t i) = 0;
+    virtual const AbstractProperty * at(size_t i) const = 0;
+    virtual int indexOf(const AbstractProperty * prop) const = 0;
 
-    virtual void forEach(const std::function<void(AbstractValue &)> & callback) = 0;
-    virtual void forEach(const std::function<void(const AbstractValue &)> & callback) const = 0;
+    virtual void forEach(const std::function<void(AbstractProperty &)> & callback) = 0;
+    virtual void forEach(const std::function<void(const AbstractProperty &)> & callback) const = 0;
 
     void acceptRecursive(AbstractVisitor * visitor);
 };

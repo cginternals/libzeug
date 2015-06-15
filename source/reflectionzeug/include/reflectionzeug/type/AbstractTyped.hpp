@@ -14,14 +14,14 @@ namespace reflectionzeug
 // Read/write
 template <typename Type>
 AbstractTyped<Type>::AbstractTyped(const std::string & name)
-: AbstractValue(name)
+: AbstractProperty(name)
 , m_accessor(new AccessorValue<Type>())
 {
 }
 
 template <typename Type>
 AbstractTyped<Type>::AbstractTyped(const std::string & name, const Type & value)
-: AbstractValue(name)
+: AbstractProperty(name)
 , m_accessor(new AccessorValue<Type>(value))
 {
 }
@@ -31,7 +31,7 @@ AbstractTyped<Type>::AbstractTyped(
     const std::string & name,
 	std::function<Type ()> getter,
     std::function<void(const Type &)> setter)
-: AbstractValue(name)
+: AbstractProperty(name)
 , m_accessor(new AccessorGetSet<Type>(getter, setter))
 {
 }
@@ -43,7 +43,7 @@ AbstractTyped<Type>::AbstractTyped(
 	Object * object,
     const Type & (Object::*getter_pointer)() const,
     void (Object::*setter_pointer)(const Type &))
-: AbstractValue(name)
+: AbstractProperty(name)
 , m_accessor(new AccessorGetSet<Type>(getter_pointer, setter_pointer))
 {
 }
@@ -55,7 +55,7 @@ AbstractTyped<Type>::AbstractTyped(
 	Object * object,
     Type (Object::*getter_pointer)() const,
     void (Object::*setter_pointer)(const Type &))
-: AbstractValue(name)
+: AbstractProperty(name)
 , m_accessor(new AccessorGetSet<Type>(getter_pointer, setter_pointer))
 {
 }
@@ -67,14 +67,14 @@ AbstractTyped<Type>::AbstractTyped(
 	Object * object,
     Type (Object::*getter_pointer)() const,
     void (Object::*setter_pointer)(Type))
-: AbstractValue(name)
+: AbstractProperty(name)
 , m_accessor(new AccessorGetSet<Type>(getter_pointer, setter_pointer))
 {
 }
 
 template <typename Type>
 AbstractTyped<Type>::AbstractTyped(const std::string & name, Accessor<Type> * accessor)
-: AbstractValue(name)
+: AbstractProperty(name)
 , m_accessor(accessor)
 {
 }

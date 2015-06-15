@@ -1,6 +1,6 @@
 
 #include <reflectionzeug/type/AbstractCollection.h>
-#include <reflectionzeug/type/AbstractValue.h>
+#include <reflectionzeug/type/AbstractProperty.h>
 
 
 namespace reflectionzeug
@@ -19,14 +19,14 @@ void AbstractCollection::acceptRecursive(AbstractVisitor * visitor)
 {
     // Visit all values of the collection
     for (size_t i=0; i<count(); i++) {
-        // Get value
-        AbstractValue * value = at(i);
+        // Get property
+        AbstractProperty * prop = at(i);
 
-        // Visit value
-        value->accept(visitor);
+        // Visit property
+        prop->accept(visitor);
 
         // If it is a collection, visit collection recursively
-        AbstractCollection * collection = dynamic_cast<AbstractCollection *>(value);
+        AbstractCollection * collection = dynamic_cast<AbstractCollection *>(prop);
         if (collection) {
             collection->acceptRecursive(visitor);
         }

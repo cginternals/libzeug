@@ -112,23 +112,23 @@ size_t AbstractTypedArray<Type, Size>::count() const
 }
 
 template <typename Type, size_t Size>
-AbstractValue * AbstractTypedArray<Type, Size>::at(size_t i)
+AbstractProperty * AbstractTypedArray<Type, Size>::at(size_t i)
 {
     return m_elements.at(i);
 }
 
 template <typename Type, size_t Size>
-const AbstractValue * AbstractTypedArray<Type, Size>::at(size_t i) const
+const AbstractProperty * AbstractTypedArray<Type, Size>::at(size_t i) const
 {
     return m_elements.at(i);
 }
 
 
 template <typename Type, size_t Size>
-int AbstractTypedArray<Type, Size>::indexOf(const AbstractValue * value) const
+int AbstractTypedArray<Type, Size>::indexOf(const AbstractProperty * prop) const
 {
     // Find element
-    auto it = std::find(m_elements.begin(), m_elements.end(), value);
+    auto it = std::find(m_elements.begin(), m_elements.end(), prop);
     if (it == m_elements.end()) {
         // Not found!
         return -1;
@@ -140,19 +140,19 @@ int AbstractTypedArray<Type, Size>::indexOf(const AbstractValue * value) const
 }
 
 template <typename Type, size_t Size>
-void AbstractTypedArray<Type, Size>::forEach(const std::function<void(AbstractValue &)> & callback)
+void AbstractTypedArray<Type, Size>::forEach(const std::function<void(AbstractProperty &)> & callback)
 {
-    for (AbstractValue * value : m_elements) {
-        callback(*value);
+    for (AbstractProperty * prop : m_elements) {
+        callback(*prop);
     }
 }
 
 
 template <typename Type, size_t Size>
-void AbstractTypedArray<Type, Size>::forEach(const std::function<void(const AbstractValue &)> & callback) const
+void AbstractTypedArray<Type, Size>::forEach(const std::function<void(const AbstractProperty &)> & callback) const
 {
-    for (const AbstractValue * value : m_elements) {
-        callback(*value);
+    for (const AbstractProperty * prop : m_elements) {
+        callback(*prop);
     }
 }
 

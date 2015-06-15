@@ -58,13 +58,13 @@ public:
     virtual bool isEmpty() const override;
     virtual size_t count() const override;
 
-    virtual AbstractValue * at(size_t i) override;
-    virtual const AbstractValue * at(size_t i) const override;
+    virtual AbstractProperty * at(size_t i) override;
+    virtual const AbstractProperty * at(size_t i) const override;
 
-    virtual int indexOf(const AbstractValue * value) const override;
+    virtual int indexOf(const AbstractProperty * prop) const override;
 
-    virtual void forEach(const std::function<void(AbstractValue &)> & callback) override;
-    virtual void forEach(const std::function<void(const AbstractValue &)> & callback) const override;
+    virtual void forEach(const std::function<void(AbstractProperty &)> & callback) override;
+    virtual void forEach(const std::function<void(const AbstractProperty &)> & callback) const override;
 
     Type getElement(size_t i) const;
     void setElement(size_t i, const Type & value);

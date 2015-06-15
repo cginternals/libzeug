@@ -66,8 +66,8 @@ set(headers
     ${header_path}/base/FilePath.h
 
     ${header_path}/type/specialization_helpers.h
-    ${header_path}/type/AbstractValue.h
-    ${header_path}/type/AbstractValue.hpp
+    ${header_path}/type/AbstractProperty.h
+    ${header_path}/type/AbstractProperty.hpp
     ${header_path}/type/AbstractCollection.h
     ${header_path}/type/AbstractTyped.h
     ${header_path}/type/AbstractTyped.hpp
@@ -140,7 +140,7 @@ set(sources
     ${source_path}/base/FilePath.cpp
 
     ${source_path}/type/AbstractAccessor.cpp
-    ${source_path}/type/AbstractValue.cpp
+    ${source_path}/type/AbstractProperty.cpp
     ${source_path}/type/AbstractCollection.cpp
     ${source_path}/type/AbstractBooleanInterface.cpp
     ${source_path}/type/AbstractStringInterface.cpp

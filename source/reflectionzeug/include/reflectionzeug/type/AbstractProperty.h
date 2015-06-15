@@ -22,7 +22,7 @@ class PropertyGroup;
 *  @brief
 *    Base class for values
 */
-class REFLECTIONZEUG_API AbstractValue
+class REFLECTIONZEUG_API AbstractProperty
 {
 public:
     signalzeug::Signal<> 					changed;  		/**< Called when the value has been changed */
@@ -30,8 +30,8 @@ public:
 
 
 public:
-    AbstractValue(const std::string & name);
-    virtual ~AbstractValue();
+    AbstractProperty(const std::string & name);
+    virtual ~AbstractProperty();
 
     virtual const std::type_info & type() const = 0;
 
@@ -81,4 +81,4 @@ protected:
 } // namespace reflectionzeug
 
 
-#include <reflectionzeug/type/AbstractValue.hpp>
+#include <reflectionzeug/type/AbstractProperty.hpp>

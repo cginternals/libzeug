@@ -336,9 +336,9 @@ void print(PropertyGroup * group, std::string indent = "")
 {
     std::cout << indent << group->name() << ": {\n";
 
-    for (std::pair<std::string, AbstractValue *> it : group->properties())
+    for (std::pair<std::string, AbstractProperty *> it : group->properties())
     {
-        AbstractValue * property = it.second;
+        AbstractProperty * property = it.second;
         if (property->isGroup())
         {
             print(property->asGroup(), indent + "  ");
@@ -496,8 +496,8 @@ int main(int argc, char *argv[])
         std::cout << "value[1] = " << typeArray.getElement(1) << " (21)\n";
         std::cout << "value[2] = " << typeArray.getElement(2) << " (22)\n";
 
-        typeArray.forEach([] (AbstractValue & value) {
-            AbstractTyped<int> & typed = static_cast<AbstractTyped<int> &>(value);
+        typeArray.forEach([] (AbstractProperty & prop) {
+            AbstractTyped<int> & typed = static_cast<AbstractTyped<int> &>(prop);
             typed.setValue(100);
         });
 
@@ -596,7 +596,7 @@ int main(int argc, char *argv[])
     {
         std::cout << "Casting test\n";
 
-        AbstractValue * propertyInt = new Property<int>("int");
+        AbstractProperty * propertyInt = new Property<int>("int");
         if (propertyInt->isCollection()) {
             std::cout << "propertyInt is a collection.\n";
         } else {
@@ -608,7 +608,7 @@ int main(int argc, char *argv[])
             std::cout << "propertyInt is NOT a group.\n";
         }
 
-        AbstractValue * propertyArray = new Property<std::array<int, 3>>("array");
+        AbstractProperty * propertyArray = new Property<std::array<int, 3>>("array");
         if (propertyArray->isCollection()) {
             std::cout << "propertyArray is a collection.\n";
         } else {
