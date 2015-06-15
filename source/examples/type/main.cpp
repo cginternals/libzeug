@@ -581,7 +581,7 @@ int main(int argc, char *argv[])
         std::cout << "Signal test\n";
 
         Typed<int> typeInt;
-        typeInt.valueChanged.connect([] () {
+        typeInt.changed.connect([] () {
             std::cout << "typeInt changed.\n";
         });
 
