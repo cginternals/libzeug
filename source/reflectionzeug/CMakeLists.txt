@@ -58,6 +58,7 @@ set(source_path "${CMAKE_CURRENT_SOURCE_DIR}/source")
 
 set(headers
     ${header_path}/reflectionzeug_api.h
+    ${header_path}/property_declaration.h
 
     ${header_path}/base/util.h
     ${header_path}/base/util.hpp

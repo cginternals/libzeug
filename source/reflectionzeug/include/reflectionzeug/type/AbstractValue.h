@@ -23,7 +23,7 @@ class AbstractVisitor;
 class REFLECTIONZEUG_API AbstractValue
 {
 public:
-    signalzeug::Signal<> valueChanged;  /**< Called when the value has been changed */
+    signalzeug::Signal<> changed;  /**< Called when the value has been changed */
 
 
 public:

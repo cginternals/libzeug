@@ -21,6 +21,10 @@ template <typename Type>
 class AbstractTyped : public AbstractValue
 {
 public:
+    signalzeug::Signal<const Type &> valueChanged;  /**< Called when the value has been changed */
+
+
+public:
     AbstractTyped();
 
     AbstractTyped(const Type & value);
