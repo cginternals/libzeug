@@ -8,7 +8,7 @@
 #include <reflectionzeug/type/AbstractTypedArray.h>
 #include <reflectionzeug/type/ArrayAccessorValue.h>
 #include <reflectionzeug/type/ArrayAccessorGetSet.h>
-#include <reflectionzeug/type/NamedTyped.h>
+#include <reflectionzeug/type/Typed.h>
 
 
 namespace reflectionzeug
@@ -17,16 +17,16 @@ namespace reflectionzeug
 
 // Read/write
 template <typename Type, size_t Size>
-AbstractTypedArray<Type, Size>::AbstractTypedArray()
-: AbstractTyped<std::array<Type, Size>>(new ArrayAccessorValue<Type, Size>())
+AbstractTypedArray<Type, Size>::AbstractTypedArray(const std::string & name)
+: AbstractTyped<std::array<Type, Size>>(name, new ArrayAccessorValue<Type, Size>())
 , m_arrayAccessor(static_cast<ArrayAccessor<Type, Size>*>(this->m_accessor.get()))
 {
     init();
 }
 
 template <typename Type, size_t Size>
-AbstractTypedArray<Type, Size>::AbstractTypedArray(const std::array<Type, Size> & value)
-: AbstractTyped<std::array<Type, Size>>(new ArrayAccessorValue<Type, Size>(value))
+AbstractTypedArray<Type, Size>::AbstractTypedArray(const std::string & name, const std::array<Type, Size> & value)
+: AbstractTyped<std::array<Type, Size>>(name, new ArrayAccessorValue<Type, Size>(value))
 , m_arrayAccessor(static_cast<ArrayAccessor<Type, Size>*>(this->m_accessor.get()))
 {
     init();
@@ -34,9 +34,10 @@ AbstractTypedArray<Type, Size>::AbstractTypedArray(const std::array<Type, Size> 
 
 template <typename Type, size_t Size>
 AbstractTypedArray<Type, Size>::AbstractTypedArray(
+    const std::string & name,
 	std::function<Type (size_t)> getter,
     std::function<void(size_t, const Type &)> setter)
-: AbstractTyped<std::array<Type, Size>>(new ArrayAccessorGetSet<Type, Size>(getter, setter))
+: AbstractTyped<std::array<Type, Size>>(name, new ArrayAccessorGetSet<Type, Size>(getter, setter))
 , m_arrayAccessor(static_cast<ArrayAccessor<Type, Size>*>(this->m_accessor.get()))
 {
     init();
@@ -45,10 +46,11 @@ AbstractTypedArray<Type, Size>::AbstractTypedArray(
 template <typename Type, size_t Size>
 template <class Object>
 AbstractTypedArray<Type, Size>::AbstractTypedArray(
+    const std::string & name,
 	Object * object,
     const Type & (Object::*getter_pointer)(size_t) const,
     void (Object::*setter_pointer)(size_t, const Type &))
-: AbstractTyped<std::array<Type, Size>>(new ArrayAccessorGetSet<Type, Size>(getter_pointer, setter_pointer))
+: AbstractTyped<std::array<Type, Size>>(name, new ArrayAccessorGetSet<Type, Size>(getter_pointer, setter_pointer))
 , m_arrayAccessor(static_cast<ArrayAccessor<Type, Size>*>(this->m_accessor.get()))
 {
     init();
@@ -57,10 +59,11 @@ AbstractTypedArray<Type, Size>::AbstractTypedArray(
 template <typename Type, size_t Size>
 template <class Object>
 AbstractTypedArray<Type, Size>::AbstractTypedArray(
+    const std::string & name,
 	Object * object,
     Type (Object::*getter_pointer)(size_t) const,
     void (Object::*setter_pointer)(size_t, const Type &))
-: AbstractTyped<std::array<Type, Size>>(new ArrayAccessorGetSet<Type, Size>(getter_pointer, setter_pointer))
+: AbstractTyped<std::array<Type, Size>>(name, new ArrayAccessorGetSet<Type, Size>(getter_pointer, setter_pointer))
 , m_arrayAccessor(static_cast<ArrayAccessor<Type, Size>*>(this->m_accessor.get()))
 {
     init();
@@ -69,18 +72,19 @@ AbstractTypedArray<Type, Size>::AbstractTypedArray(
 template <typename Type, size_t Size>
 template <class Object>
 AbstractTypedArray<Type, Size>::AbstractTypedArray(
+    const std::string & name,
 	Object * object,
     Type (Object::*getter_pointer)(size_t) const,
     void (Object::*setter_pointer)(size_t, Type))
-: AbstractTyped<std::array<Type, Size>>(new ArrayAccessorGetSet<Type, Size>(getter_pointer, setter_pointer))
+: AbstractTyped<std::array<Type, Size>>(name, new ArrayAccessorGetSet<Type, Size>(getter_pointer, setter_pointer))
 , m_arrayAccessor(static_cast<ArrayAccessor<Type, Size>*>(this->m_accessor.get()))
 {
     init();
 }
 
 template <typename Type, size_t Size>
-AbstractTypedArray<Type, Size>::AbstractTypedArray(ArrayAccessor<Type, Size> * accessor)
-: AbstractTyped<std::array<Type, Size>>(accessor)
+AbstractTypedArray<Type, Size>::AbstractTypedArray(const std::string & name, ArrayAccessor<Type, Size> * accessor)
+: AbstractTyped<std::array<Type, Size>>(name, accessor)
 , m_arrayAccessor(static_cast<ArrayAccessor<Type, Size>*>(this->m_accessor.get()))
 {
     init();
@@ -172,54 +176,57 @@ void AbstractTypedArray<Type, Size>::init()
     // Create typed value for each element
     for (size_t i = 0; i < Size; ++i)
     {
-        this->m_elements[i] = new NamedTyped<Type>("_" + std::to_string(i),
-                                                   std::bind(&AbstractTypedArray::getElement, this, i),
-                                                   std::bind(&AbstractTypedArray::setElement, this, i, std::placeholders::_1));
+        this->m_elements[i] = new Typed<Type>("_" + std::to_string(i),
+                                              std::bind(&AbstractTypedArray::getElement, this, i),
+                                              std::bind(&AbstractTypedArray::setElement, this, i, std::placeholders::_1));
     }
 }
 
 
 // Read-only
 template <typename Type, size_t Size>
-AbstractTypedArray<const Type, Size>::AbstractTypedArray()
-: AbstractTypedArray<Type, Size>(new ArrayAccessorValue<const Type, Size>())
+AbstractTypedArray<const Type, Size>::AbstractTypedArray(const std::string & name)
+: AbstractTypedArray<Type, Size>(name, new ArrayAccessorValue<const Type, Size>())
 {
 }
 
 template <typename Type, size_t Size>
-AbstractTypedArray<const Type, Size>::AbstractTypedArray(const std::array<Type, Size> & value)
-: AbstractTypedArray<Type, Size>(new ArrayAccessorValue<const Type, Size>(value))
+AbstractTypedArray<const Type, Size>::AbstractTypedArray(const std::string & name, const std::array<Type, Size> & value)
+: AbstractTypedArray<Type, Size>(name, new ArrayAccessorValue<const Type, Size>(value))
 {
 }
 
 template <typename Type, size_t Size>
 AbstractTypedArray<const Type, Size>::AbstractTypedArray(
+    const std::string & name,
     std::function<Type (size_t)> getter)
-: AbstractTypedArray<Type, Size>(new ArrayAccessorGetSet<const Type, Size>(getter))
+: AbstractTypedArray<Type, Size>(name, new ArrayAccessorGetSet<const Type, Size>(getter))
 {
 }
 
 template <typename Type, size_t Size>
 template <class Object>
 AbstractTypedArray<const Type, Size>::AbstractTypedArray(
+    const std::string & name,
     Object * object,
     const Type & (Object::*getter_pointer)(size_t) const)
-: AbstractTypedArray<Type, Size>(new ArrayAccessorGetSet<const Type, Size>(getter_pointer))
+: AbstractTypedArray<Type, Size>(name, new ArrayAccessorGetSet<const Type, Size>(getter_pointer))
 {
 }
 
 template <typename Type, size_t Size>
 template <class Object>
 AbstractTypedArray<const Type, Size>::AbstractTypedArray(
+    const std::string & name,
     Object * object,
     Type (Object::*getter_pointer)(size_t) const)
-: AbstractTypedArray<Type, Size>(new ArrayAccessorGetSet<const Type, Size>(getter_pointer))
+: AbstractTypedArray<Type, Size>(name, new ArrayAccessorGetSet<const Type, Size>(getter_pointer))
 {
 }
 
 template <typename Type, size_t Size>
-AbstractTypedArray<const Type, Size>::AbstractTypedArray(ArrayAccessor<const Type, Size> * accessor)
-: AbstractTypedArray<Type, Size>(accessor)
+AbstractTypedArray<const Type, Size>::AbstractTypedArray(const std::string & name, ArrayAccessor<const Type, Size> * accessor)
+: AbstractTypedArray<Type, Size>(name, accessor)
 {
 }
 

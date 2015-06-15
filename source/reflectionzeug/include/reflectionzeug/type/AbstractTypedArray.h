@@ -28,29 +28,30 @@ class AbstractTypedArray : public AbstractTyped<std::array<Type, Size>>
                          , public AbstractCollection
 {
 public:
-    AbstractTypedArray();
+    AbstractTypedArray(const std::string & name);
 
-    AbstractTypedArray(const std::array<Type, Size> & value);
+    AbstractTypedArray(const std::string & name, const std::array<Type, Size> & value);
 
-    AbstractTypedArray(std::function<Type (size_t)> getter,
+    AbstractTypedArray(const std::string & name,
+          std::function<Type (size_t)> getter,
           std::function<void(size_t, const Type &)> setter);
 
     template <class Object>
-    AbstractTypedArray(Object * object,
+    AbstractTypedArray(const std::string & name, Object * object,
           const Type & (Object::*getter_pointer)(size_t) const,
           void (Object::*setter_pointer)(size_t, const Type &));
 
     template <class Object>
-    AbstractTypedArray(Object * object,
+    AbstractTypedArray(const std::string & name, Object * object,
           Type (Object::*getter_pointer)(size_t) const,
           void (Object::*setter_pointer)(size_t, const Type &));
 
     template <class Object>
-    AbstractTypedArray(Object * object,
+    AbstractTypedArray(const std::string & name, Object * object,
           Type (Object::*getter_pointer)(size_t) const,
           void (Object::*setter_pointer)(size_t, Type));
 
-    AbstractTypedArray(ArrayAccessor<Type, Size> * accessor);
+    AbstractTypedArray(const std::string & name, ArrayAccessor<Type, Size> * accessor);
 
     virtual ~AbstractTypedArray();
 
@@ -87,21 +88,21 @@ template <typename Type, size_t Size>
 class AbstractTypedArray<const Type, Size> : public AbstractTypedArray<Type, Size>
 {
 public:
-    AbstractTypedArray();
+    AbstractTypedArray(const std::string & name);
 
-    AbstractTypedArray(const std::array<Type, Size> & value);
+    AbstractTypedArray(const std::string & name, const std::array<Type, Size> & value);
 
-    AbstractTypedArray(std::function<Type (size_t)> getter);
+    AbstractTypedArray(const std::string & name, std::function<Type (size_t)> getter);
 
     template <class Object>
-    AbstractTypedArray(Object * object,
+    AbstractTypedArray(const std::string & name, Object * object,
           const Type & (Object::*getter_pointer)(size_t) const);
 
     template <class Object>
-    AbstractTypedArray(Object * object,
+    AbstractTypedArray(const std::string & name, Object * object,
           Type (Object::*getter_pointer)(size_t) const);
 
-    AbstractTypedArray(ArrayAccessor<const Type, Size> * accessor);
+    AbstractTypedArray(const std::string & name, ArrayAccessor<const Type, Size> * accessor);
 
     virtual ~AbstractTypedArray();
 };

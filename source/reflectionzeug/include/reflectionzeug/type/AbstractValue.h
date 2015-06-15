@@ -30,12 +30,12 @@ public:
 
 
 public:
-    AbstractValue();
+    AbstractValue(const std::string & name);
     virtual ~AbstractValue();
 
     virtual const std::type_info & type() const = 0;
 
-    virtual std::string name() const;
+    std::string name() const;
     bool hasName() const;
 
     virtual Variant toVariant() const = 0;
@@ -72,8 +72,9 @@ public:
     bool removeOption(const std::string & key);
 
 
-private:
-    VariantMap m_options;
+protected:
+    std::string m_name;
+    VariantMap  m_options;
 };
 
 

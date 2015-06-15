@@ -12,13 +12,14 @@ namespace reflectionzeug
 
 
 PropertyGroup::PropertyGroup(const std::string & name)
-: m_name(name)
+: AbstractValue(name)
 , m_ownsProperties(true)
 {
 }
 
 PropertyGroup::PropertyGroup()
-: m_ownsProperties(true)
+: AbstractValue("")
+, m_ownsProperties(true)
 {
 }
 
@@ -32,11 +33,6 @@ PropertyGroup::~PropertyGroup()
             delete property;
         }
     }
-}
-
-std::string PropertyGroup::name() const
-{
-    return m_name;
 }
 
 const std::unordered_map<std::string, AbstractValue *> & PropertyGroup::properties() const

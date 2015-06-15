@@ -12,7 +12,7 @@ namespace reflectionzeug
 template <typename T>
 template <typename... Args>
 Property<T>::Property(const std::string & name, Args&&... args)
-: NamedTyped<T>::NamedTyped(name, std::forward<Args>(args)...)
+: Typed<T>::Typed(name, std::forward<Args>(args)...)
 {
 }
 

@@ -7,7 +7,6 @@
 #include <reflectionzeug/type/ArrayAccessorGetSet.h>
 #include <reflectionzeug/type/ArrayAccessorValue.h>
 #include <reflectionzeug/type/Typed.h>
-#include <reflectionzeug/type/NamedTyped.h>
 #include <reflectionzeug/type/Visitor.h>
 #include <reflectionzeug/tools/JSON.h>
 #include <reflectionzeug/Property.h>
@@ -393,8 +392,8 @@ int main(int argc, char *argv[])
     {
         std::cout << "Read/write typed value\n";
 
-        Typed<int> typeInt1(new AccessorGetSet<int>(&getInt, &setInt));
-        Typed<int> typeInt2(&getInt, &setInt);
+        Typed<int> typeInt1("int1", new AccessorGetSet<int>(&getInt, &setInt));
+        Typed<int> typeInt2("int1", &getInt, &setInt);
 
         long long l = typeInt1.toLongLong();
 
@@ -409,7 +408,7 @@ int main(int argc, char *argv[])
     {
         std::cout << "Read-only typed value\n";
 
-        NamedTyped<const int> typeInt("int", &getInt);
+        Typed<const int> typeInt("int", &getInt);
 
         std::cout << "value = " << typeInt.value() << " (20)\n";
         typeInt.setValue(30);
@@ -420,15 +419,15 @@ int main(int argc, char *argv[])
 
     // Check other data types
     {
-        Typed<int>          typeInt;
-        Typed<unsigned int> typeUInt;
-        Typed<float>        typeFloat;
-        Typed<double>       typeDouble;
-        Typed<bool>         typeBool;
-        Typed<std::string>  typeString;
-        Typed<Color>        typeColor;
-        Typed<FilePath>     typeFilePath;
-        Typed<TestClass>    typeTestClass;
+        Typed<int>          typeInt("");
+        Typed<unsigned int> typeUInt("");
+        Typed<float>        typeFloat("");
+        Typed<double>       typeDouble("");
+        Typed<bool>         typeBool("");
+        Typed<std::string>  typeString("");
+        Typed<Color>        typeColor("");
+        Typed<FilePath>     typeFilePath("");
+        Typed<TestClass>    typeTestClass("");
     }
 
     // Create array-accessors
@@ -489,7 +488,7 @@ int main(int argc, char *argv[])
     {
         std::cout << "Array value\n";
 
-        Typed<std::array<int, 3>> typeArray(getArray, setArray);
+        Typed<std::array<int, 3>> typeArray("array", getArray, setArray);
 
         std::cout << "value.empty = " << (typeArray.isEmpty() ? "yes (no)\n" : "no (no)\n");
         std::cout << "value.size = " << typeArray.count() << " (3)\n";
@@ -515,7 +514,7 @@ int main(int argc, char *argv[])
     {
         std::cout << "Enum value\n";
 
-        Typed<MyEnum> typeEnum;
+        Typed<MyEnum> typeEnum("enum");
         typeEnum.setValue(One);
         std::cout << "value = " << typeEnum.value() << " '" << typeEnum.toString() << "'" << " (1 'One')\n";
 
@@ -564,7 +563,7 @@ int main(int argc, char *argv[])
         Typed<MyEnum> typeMyEnum;
         typeMyEnum.accept(&visitor);
 
-        Typed<std::array<int, 3>> typeArray(std::array<int, 3>{0, 0, 0});
+        Typed<std::array<int, 3>> typeArray("array", std::array<int, 3>{0, 0, 0});
         typeArray.accept(&visitor);
 
         Property<int> propertyInt("Integer");

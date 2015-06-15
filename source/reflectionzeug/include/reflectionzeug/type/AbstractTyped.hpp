@@ -13,58 +13,69 @@ namespace reflectionzeug
 
 // Read/write
 template <typename Type>
-AbstractTyped<Type>::AbstractTyped()
-: m_accessor(new AccessorValue<Type>())
+AbstractTyped<Type>::AbstractTyped(const std::string & name)
+: AbstractValue(name)
+, m_accessor(new AccessorValue<Type>())
 {
 }
 
 template <typename Type>
-AbstractTyped<Type>::AbstractTyped(const Type & value)
-: m_accessor(new AccessorValue<Type>(value))
+AbstractTyped<Type>::AbstractTyped(const std::string & name, const Type & value)
+: AbstractValue(name)
+, m_accessor(new AccessorValue<Type>(value))
 {
 }
 
 template <typename Type>
 AbstractTyped<Type>::AbstractTyped(
+    const std::string & name,
 	std::function<Type ()> getter,
     std::function<void(const Type &)> setter)
-: m_accessor(new AccessorGetSet<Type>(getter, setter))
+: AbstractValue(name)
+, m_accessor(new AccessorGetSet<Type>(getter, setter))
 {
 }
 
 template <typename Type>
 template <class Object>
 AbstractTyped<Type>::AbstractTyped(
+    const std::string & name,
 	Object * object,
     const Type & (Object::*getter_pointer)() const,
     void (Object::*setter_pointer)(const Type &))
-: m_accessor(new AccessorGetSet<Type>(getter_pointer, setter_pointer))
+: AbstractValue(name)
+, m_accessor(new AccessorGetSet<Type>(getter_pointer, setter_pointer))
 {
 }
 
 template <typename Type>
 template <class Object>
 AbstractTyped<Type>::AbstractTyped(
+    const std::string & name,
 	Object * object,
     Type (Object::*getter_pointer)() const,
     void (Object::*setter_pointer)(const Type &))
-: m_accessor(new AccessorGetSet<Type>(getter_pointer, setter_pointer))
+: AbstractValue(name)
+, m_accessor(new AccessorGetSet<Type>(getter_pointer, setter_pointer))
 {
 }
 
 template <typename Type>
 template <class Object>
 AbstractTyped<Type>::AbstractTyped(
+    const std::string & name,
 	Object * object,
     Type (Object::*getter_pointer)() const,
     void (Object::*setter_pointer)(Type))
-: m_accessor(new AccessorGetSet<Type>(getter_pointer, setter_pointer))
+: AbstractValue(name)
+, m_accessor(new AccessorGetSet<Type>(getter_pointer, setter_pointer))
 {
 }
 
 template <typename Type>
-AbstractTyped<Type>::AbstractTyped(Accessor<Type> * accessor)
-: m_accessor(accessor)
+AbstractTyped<Type>::AbstractTyped(const std::string & name, Accessor<Type> * accessor)
+: AbstractValue(name)
+, m_accessor(accessor)
 {
 }
 
@@ -122,45 +133,48 @@ void AbstractTyped<Type>::setValue(const Type & value)
 
 // Read-only
 template <typename Type>
-AbstractTyped<const Type>::AbstractTyped()
-: AbstractTyped<Type>(new AccessorValue<const Type>())
+AbstractTyped<const Type>::AbstractTyped(const std::string & name)
+: AbstractTyped<Type>(name, new AccessorValue<const Type>())
 {
 }
 
 template <typename Type>
-AbstractTyped<const Type>::AbstractTyped(const Type & value)
-: AbstractTyped<Type>(new AccessorValue<const Type>(value))
+AbstractTyped<const Type>::AbstractTyped(const std::string & name, const Type & value)
+: AbstractTyped<Type>(name, new AccessorValue<const Type>(value))
 {
 }
 
 template <typename Type>
 AbstractTyped<const Type>::AbstractTyped(
+    const std::string & name,
     std::function<Type ()> getter)
-: AbstractTyped<Type>(new AccessorGetSet<const Type>(getter))
+: AbstractTyped<Type>(name, new AccessorGetSet<const Type>(getter))
 {
 }
 
 template <typename Type>
 template <class Object>
 AbstractTyped<const Type>::AbstractTyped(
+    const std::string & name,
     Object * object,
     const Type & (Object::*getter_pointer)() const)
-: AbstractTyped<Type>(new AccessorGetSet<const Type>(getter_pointer))
+: AbstractTyped<Type>(name, new AccessorGetSet<const Type>(getter_pointer))
 {
 }
 
 template <typename Type>
 template <class Object>
 AbstractTyped<const Type>::AbstractTyped(
+    const std::string & name,
     Object * object,
     Type (Object::*getter_pointer)() const)
-: AbstractTyped<Type>(new AccessorGetSet<const Type>(getter_pointer))
+: AbstractTyped<Type>(name, new AccessorGetSet<const Type>(getter_pointer))
 {
 }
 
 template <typename Type>
-AbstractTyped<const Type>::AbstractTyped(Accessor<const Type> * accessor)
-: AbstractTyped<Type>(accessor)
+AbstractTyped<const Type>::AbstractTyped(const std::string & name, Accessor<const Type> * accessor)
+: AbstractTyped<Type>(name, accessor)
 {
 }
 

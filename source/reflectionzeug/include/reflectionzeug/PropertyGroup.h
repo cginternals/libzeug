@@ -36,8 +36,6 @@ public:
     PropertyGroup(const std::string & name);
     virtual ~PropertyGroup();
 
-    virtual std::string name() const override;
-
     const std::unordered_map<std::string, AbstractValue *> & properties() const;
 
     AbstractValue * property(const std::string & path);
@@ -116,7 +114,6 @@ protected:
 
 
 protected:
-    std::string m_name;
     std::vector<AbstractValue *> m_properties;
     std::unordered_map<std::string, AbstractValue *> m_propertiesMap;
     bool m_ownsProperties;

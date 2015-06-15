@@ -3,7 +3,6 @@
 
 
 #include <reflectionzeug/type/Typed.h>
-#include <reflectionzeug/type/NamedTyped.h>
 
 
 namespace reflectionzeug
@@ -15,7 +14,7 @@ namespace reflectionzeug
 *    Typed property
 */
 template <typename T>
-class Property : public NamedTyped<T>
+class Property : public Typed<T>
 {
 public:
     template <typename... Args>

@@ -25,29 +25,30 @@ public:
 
 
 public:
-    AbstractTyped();
+    AbstractTyped(const std::string & name = "");
 
-    AbstractTyped(const Type & value);
+    AbstractTyped(const std::string & name, const Type & value);
 
-    AbstractTyped(std::function<Type ()> getter,
+    AbstractTyped(const std::string & name,
+          std::function<Type ()> getter,
           std::function<void(const Type &)> setter);
 
     template <class Object>
-    AbstractTyped(Object * object,
+    AbstractTyped(const std::string & name, Object * object,
           const Type & (Object::*getter_pointer)() const,
           void (Object::*setter_pointer)(const Type &));
 
     template <class Object>
-    AbstractTyped(Object * object,
+    AbstractTyped(const std::string & name, Object * object,
           Type (Object::*getter_pointer)() const,
           void (Object::*setter_pointer)(const Type &));
 
     template <class Object>
-    AbstractTyped(Object * object,
+    AbstractTyped(const std::string & name, Object * object,
           Type (Object::*getter_pointer)() const,
           void (Object::*setter_pointer)(Type));
 
-    AbstractTyped(Accessor<Type> * accessor);
+    AbstractTyped(const std::string & name, Accessor<Type> * accessor);
 
     virtual ~AbstractTyped();
 
@@ -74,21 +75,21 @@ template <typename Type>
 class AbstractTyped<const Type> : public AbstractTyped<Type>
 {
 public:
-    AbstractTyped();
+    AbstractTyped(const std::string & name = "");
 
-    AbstractTyped(const Type & value);
+    AbstractTyped(const std::string & name, const Type & value);
 
-    AbstractTyped(std::function<Type ()> getter);
+    AbstractTyped(const std::string & name, std::function<Type ()> getter);
 
     template <class Object>
-    AbstractTyped(Object * object,
+    AbstractTyped(const std::string & name, Object * object,
           const Type & (Object::*getter_pointer)() const);
 
     template <class Object>
-    AbstractTyped(Object * object,
+    AbstractTyped(const std::string & name, Object * object,
           Type (Object::*getter_pointer)() const);
 
-    AbstractTyped(Accessor<const Type> * accessor);
+    AbstractTyped(const std::string & name, Accessor<const Type> * accessor);
 
     virtual ~AbstractTyped();
 };

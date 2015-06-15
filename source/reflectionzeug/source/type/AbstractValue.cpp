@@ -8,7 +8,8 @@ namespace reflectionzeug
 {
 
 
-AbstractValue::AbstractValue()
+AbstractValue::AbstractValue(const std::string & name)
+: m_name(name)
 {
 }
 
@@ -18,13 +19,12 @@ AbstractValue::~AbstractValue()
 
 std::string AbstractValue::name() const
 {
-    // Not implemented for base class
-    return "";
+    return m_name;
 }
 
 bool AbstractValue::hasName() const
 {
-    return !name().empty();
+    return !m_name.empty();
 }
 
 void AbstractValue::accept(AbstractVisitor * visitor)
