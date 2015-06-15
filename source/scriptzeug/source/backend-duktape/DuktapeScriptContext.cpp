@@ -3,10 +3,10 @@
 #include <iostream>
 #include <functional>
 
+#include <reflectionzeug/property/Property.h>
 #include <reflectionzeug/function/Function.h>
-#include <reflectionzeug/Property.h>
+#include <reflectionzeug/variant/Variant.h>
 #include <reflectionzeug/Object.h>
-#include <reflectionzeug/Variant.h>
 
 #include "scriptzeug/ScriptContext.h"
 
@@ -316,15 +316,15 @@ static Variant getPropertyValue(AbstractProperty * property)
     else if (AbstractCollection * prop = dynamic_cast< AbstractCollection * >(property) ) {
         VariantArray array;
         for (size_t i=0; i<prop->count(); i++) {
-            AbstractProperty * subprop = dynamic_cast<AbstractProperty *>(prop->at(i));
+            AbstractProperty * subprop = prop->at(i);
             array.push_back(getPropertyValue(subprop));
         }
         value = Variant(array);
     }
 
     // Generic property
-    else if (AbstractValue * prop = dynamic_cast< AbstractValue * >(property) ) {
-        value = prop->toVariant();
+    else {
+        value = property->toVariant();
     }
 
     return value;
@@ -334,10 +334,8 @@ static void setPropertyValue(AbstractProperty * property, const Variant & value)
 {
     // Check property
     if (property) {
-        // Convert to value
-        if (AbstractValue * prop = dynamic_cast< AbstractValue * >(property) ) {
-            prop->fromVariant(value);
-        }
+        // Set value from variant
+        property->fromVariant(value);
     }
 }
 
@@ -494,7 +492,7 @@ void DuktapeScriptContext::registerObj(duk_idx_t parentId, PropertyGroup * obj)
     // Register object properties
     for (unsigned int i=0; i<obj->count(); i++) {
         // Get property
-        AbstractValue * prop = obj->at(i);
+        AbstractProperty * prop = obj->at(i);
         std::string propName = prop->name();
 
         // Check if property is a property group
@@ -533,7 +531,7 @@ void DuktapeScriptContext::registerObj(duk_idx_t parentId, PropertyGroup * obj)
     // Register sub-objects
     for (unsigned int i=0; i<obj->count(); i++) {
         // Get property
-        AbstractValue * prop = obj->at(i);
+        AbstractProperty * prop = obj->at(i);
         std::string name = prop->name();
         if (PropertyGroup * group = dynamic_cast< PropertyGroup * >(prop)) {
             // Add sub object

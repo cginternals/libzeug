@@ -2,7 +2,9 @@
 
 
 #include <string>
-#include <reflectionzeug/Variant.h>
+
+#include <reflectionzeug/variant/Variant.h>
+
 #include <scriptzeug/scriptzeug_api.h>
 
 
