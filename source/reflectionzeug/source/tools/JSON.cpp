@@ -5,7 +5,6 @@
 #include <sstream>
 
 #include <reflectionzeug/tools/JSONReader.h>
-#include <reflectionzeug/Variant.h>
 
 
 namespace reflectionzeug {

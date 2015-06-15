@@ -2,15 +2,15 @@
 #include <iostream>
 #include <sstream>
 
-#include <reflectionzeug/type/AccessorGetSet.h>
-#include <reflectionzeug/type/AccessorValue.h>
-#include <reflectionzeug/type/ArrayAccessorGetSet.h>
-#include <reflectionzeug/type/ArrayAccessorValue.h>
-#include <reflectionzeug/type/Visitor.h>
+#include <reflectionzeug/property/AccessorGetSet.h>
+#include <reflectionzeug/property/AccessorValue.h>
+#include <reflectionzeug/property/ArrayAccessorGetSet.h>
+#include <reflectionzeug/property/ArrayAccessorValue.h>
+#include <reflectionzeug/property/Visitor.h>
+#include <reflectionzeug/property/Property.h>
+#include <reflectionzeug/property/PropertyGroup.h>
+#include <reflectionzeug/variant/Variant.h>
 #include <reflectionzeug/tools/JSON.h>
-#include <reflectionzeug/Property.h>
-#include <reflectionzeug/PropertyGroup.h>
-#include <reflectionzeug/Variant.h>
 
 
 using namespace reflectionzeug;

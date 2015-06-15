@@ -58,79 +58,79 @@ set(source_path "${CMAKE_CURRENT_SOURCE_DIR}/source")
 
 set(headers
     ${header_path}/reflectionzeug_api.h
-    ${header_path}/property_declaration.h
 
     ${header_path}/base/util.h
     ${header_path}/base/util.hpp
     ${header_path}/base/Color.h
     ${header_path}/base/FilePath.h
 
-    ${header_path}/type/specialization_helpers.h
-    ${header_path}/type/AbstractProperty.h
-    ${header_path}/type/AbstractProperty.hpp
-    ${header_path}/type/AbstractPropertyValue.h
-    ${header_path}/type/AbstractPropertyValue.hpp
-    ${header_path}/type/AbstractPropertyArray.h
-    ${header_path}/type/AbstractPropertyArray.hpp
-    ${header_path}/type/AbstractCollection.h
-    ${header_path}/type/AbstractAccessor.h
-    ${header_path}/type/Accessor.h
-    ${header_path}/type/Accessor.hpp
-    ${header_path}/type/AccessorGetSet.h
-    ${header_path}/type/AccessorGetSet.hpp
-    ${header_path}/type/AccessorValue.h
-    ${header_path}/type/AccessorValue.hpp
-    ${header_path}/type/ArrayAccessor.h
-    ${header_path}/type/ArrayAccessor.hpp
-    ${header_path}/type/ArrayAccessorGetSet.h
-    ${header_path}/type/ArrayAccessorGetSet.hpp
-    ${header_path}/type/ArrayAccessorValue.h
-    ${header_path}/type/ArrayAccessorValue.hpp
-    ${header_path}/type/Property.h
-    ${header_path}/type/Property.hpp
-    ${header_path}/type/PropertyEnum.h
-    ${header_path}/type/PropertyEnum.hpp
-    ${header_path}/type/PropertyArray.h
-    ${header_path}/type/PropertyArray.hpp
-    ${header_path}/type/PropertyBool.h
-    ${header_path}/type/PropertyBool.hpp
-    ${header_path}/type/PropertyClass.h
-    ${header_path}/type/PropertyClass.hpp
-    ${header_path}/type/PropertyColor.h
-    ${header_path}/type/PropertyColor.hpp
-    ${header_path}/type/PropertyFilePath.h
-    ${header_path}/type/PropertyFilePath.hpp
-    ${header_path}/type/PropertyFloatingPoint.h
-    ${header_path}/type/PropertyFloatingPoint.hpp
-    ${header_path}/type/PropertySignedIntegral.h
-    ${header_path}/type/PropertySignedIntegral.hpp
-    ${header_path}/type/PropertyString.h
-    ${header_path}/type/PropertyString.hpp
-    ${header_path}/type/PropertyUnsignedIntegral.h
-    ${header_path}/type/PropertyUnsignedIntegral.hpp
-    ${header_path}/type/AbstractBooleanInterface.h
-    ${header_path}/type/AbstractStringInterface.h
-    ${header_path}/type/AbstractColorInterface.h
-    ${header_path}/type/AbstractFloatingPointInterface.h
-    ${header_path}/type/AbstractSignedIntegralInterface.h
-    ${header_path}/type/AbstractUnsignedIntegralInterface.h
-    ${header_path}/type/AbstractEnumInterface.h
-    ${header_path}/type/AbstractVisitor.h
-    ${header_path}/type/AbstractVisitor.hpp
-    ${header_path}/type/Visitor.h
+    ${header_path}/tools/JSON.h
+    ${header_path}/tools/JSONReader.h
+
+    ${header_path}/property/property_declaration.h
+    ${header_path}/property/specialization_helpers.h
+    ${header_path}/property/AbstractProperty.h
+    ${header_path}/property/AbstractProperty.hpp
+    ${header_path}/property/AbstractPropertyValue.h
+    ${header_path}/property/AbstractPropertyValue.hpp
+    ${header_path}/property/AbstractPropertyArray.h
+    ${header_path}/property/AbstractPropertyArray.hpp
+    ${header_path}/property/AbstractCollection.h
+    ${header_path}/property/AbstractAccessor.h
+    ${header_path}/property/Accessor.h
+    ${header_path}/property/Accessor.hpp
+    ${header_path}/property/AccessorGetSet.h
+    ${header_path}/property/AccessorGetSet.hpp
+    ${header_path}/property/AccessorValue.h
+    ${header_path}/property/AccessorValue.hpp
+    ${header_path}/property/ArrayAccessor.h
+    ${header_path}/property/ArrayAccessor.hpp
+    ${header_path}/property/ArrayAccessorGetSet.h
+    ${header_path}/property/ArrayAccessorGetSet.hpp
+    ${header_path}/property/ArrayAccessorValue.h
+    ${header_path}/property/ArrayAccessorValue.hpp
+    ${header_path}/property/PropertyEnum.h
+    ${header_path}/property/PropertyEnum.hpp
+    ${header_path}/property/PropertyArray.h
+    ${header_path}/property/PropertyArray.hpp
+    ${header_path}/property/PropertyBool.h
+    ${header_path}/property/PropertyBool.hpp
+    ${header_path}/property/PropertyClass.h
+    ${header_path}/property/PropertyClass.hpp
+    ${header_path}/property/PropertyColor.h
+    ${header_path}/property/PropertyColor.hpp
+    ${header_path}/property/PropertyFilePath.h
+    ${header_path}/property/PropertyFilePath.hpp
+    ${header_path}/property/PropertyFloatingPoint.h
+    ${header_path}/property/PropertyFloatingPoint.hpp
+    ${header_path}/property/PropertySignedIntegral.h
+    ${header_path}/property/PropertySignedIntegral.hpp
+    ${header_path}/property/PropertyString.h
+    ${header_path}/property/PropertyString.hpp
+    ${header_path}/property/PropertyUnsignedIntegral.h
+    ${header_path}/property/PropertyUnsignedIntegral.hpp
+    ${header_path}/property/AbstractBooleanInterface.h
+    ${header_path}/property/AbstractStringInterface.h
+    ${header_path}/property/AbstractColorInterface.h
+    ${header_path}/property/AbstractFloatingPointInterface.h
+    ${header_path}/property/AbstractSignedIntegralInterface.h
+    ${header_path}/property/AbstractUnsignedIntegralInterface.h
+    ${header_path}/property/AbstractEnumInterface.h
+    ${header_path}/property/AbstractVisitor.h
+    ${header_path}/property/AbstractVisitor.hpp
+    ${header_path}/property/Visitor.h
+    ${header_path}/property/Property.h
+    ${header_path}/property/Property.hpp
+    ${header_path}/property/PropertyGroup.h
+    ${header_path}/property/PropertyGroup.hpp
 
     ${header_path}/function/template_helpers.h
     ${header_path}/function/Function.h
 
-    ${header_path}/tools/JSON.h
-    ${header_path}/tools/JSONReader.h
+    ${header_path}/variant/Variant.h
+    ${header_path}/variant/Variant.hpp
 
-    ${header_path}/PropertyGroup.h
-    ${header_path}/PropertyGroup.hpp
-    ${header_path}/Property.h
     ${header_path}/Object.h
-    ${header_path}/Variant.h
-    ${header_path}/Variant.hpp
 )
 
 set(sources
@@ -138,28 +138,29 @@ set(sources
     ${source_path}/base/Color.cpp
     ${source_path}/base/FilePath.cpp
 
-    ${source_path}/type/AbstractAccessor.cpp
-    ${source_path}/type/AbstractProperty.cpp
-    ${source_path}/type/AbstractCollection.cpp
-    ${source_path}/type/AbstractBooleanInterface.cpp
-    ${source_path}/type/AbstractStringInterface.cpp
-    ${source_path}/type/AbstractColorInterface.cpp
-    ${source_path}/type/AbstractFloatingPointInterface.cpp
-    ${source_path}/type/AbstractSignedIntegralInterface.cpp
-    ${source_path}/type/AbstractUnsignedIntegralInterface.cpp
-    ${source_path}/type/AbstractEnumInterface.cpp
-    ${source_path}/type/AbstractVisitor.cpp
-    ${source_path}/type/PropertyBool.cpp
-    ${source_path}/type/PropertyString.cpp
-    ${source_path}/type/PropertyColor.cpp
-    ${source_path}/type/PropertyFilePath.cpp
-
     ${source_path}/tools/JSON.cpp
     ${source_path}/tools/JSONReader.cpp
 
-    ${source_path}/PropertyGroup.cpp
+    ${source_path}/property/AbstractAccessor.cpp
+    ${source_path}/property/AbstractProperty.cpp
+    ${source_path}/property/AbstractCollection.cpp
+    ${source_path}/property/AbstractBooleanInterface.cpp
+    ${source_path}/property/AbstractStringInterface.cpp
+    ${source_path}/property/AbstractColorInterface.cpp
+    ${source_path}/property/AbstractFloatingPointInterface.cpp
+    ${source_path}/property/AbstractSignedIntegralInterface.cpp
+    ${source_path}/property/AbstractUnsignedIntegralInterface.cpp
+    ${source_path}/property/AbstractEnumInterface.cpp
+    ${source_path}/property/AbstractVisitor.cpp
+    ${source_path}/property/PropertyBool.cpp
+    ${source_path}/property/PropertyString.cpp
+    ${source_path}/property/PropertyColor.cpp
+    ${source_path}/property/PropertyFilePath.cpp
+    ${source_path}/property/PropertyGroup.cpp
+
+    ${source_path}/variant/Variant.cpp
+
     ${source_path}/Object.cpp
-    ${source_path}/Variant.cpp
 )
 
 # Group source files

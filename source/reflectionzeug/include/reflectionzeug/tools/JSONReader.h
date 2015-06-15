@@ -4,7 +4,7 @@
 
 #include <vector>
 
-#include <reflectionzeug/Variant.h>
+#include <reflectionzeug/variant/Variant.h>
 
 
 namespace reflectionzeug {

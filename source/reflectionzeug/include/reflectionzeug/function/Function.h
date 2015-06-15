@@ -6,7 +6,6 @@
 #include <vector>
 #include <functional>
 
-#include <reflectionzeug/Variant.h>
 #include <reflectionzeug/function/template_helpers.h>
 
 

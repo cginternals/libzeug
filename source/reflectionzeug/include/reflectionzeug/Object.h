@@ -5,7 +5,7 @@
 #include <vector>
 
 #include <reflectionzeug/function/Function.h>
-#include <reflectionzeug/PropertyGroup.h>
+#include <reflectionzeug/property/PropertyGroup.h>
 
 
 namespace reflectionzeug

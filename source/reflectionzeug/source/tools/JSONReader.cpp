@@ -28,7 +28,7 @@
 #include <stdlib.h>
 #include <sstream>
 
-#include <reflectionzeug/Variant.h>
+#include <reflectionzeug/variant/Variant.h>
 
 
 static const int           MIN_INT  = int( ~(unsigned(-1)/2) );
