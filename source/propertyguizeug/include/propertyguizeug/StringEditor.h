@@ -1,6 +1,7 @@
 #pragma once
 
-#include <reflectionzeug/property_declaration.h>
+#include <reflectionzeug/property/property_declaration.h>
+
 #include <signalzeug/ScopedConnection.h>
 
 #include <propertyguizeug/PropertyEditor.h>
@@ -9,7 +10,7 @@ class QWidget;
 
 namespace reflectionzeug
 {
-    class StringPropertyInterface;
+    class AbstractStringInterface;
 }
 
 namespace propertyguizeug
@@ -24,10 +25,10 @@ namespace propertyguizeug
 class PROPERTYGUIZEUG_API StringEditor : public PropertyEditor
 {
 public:
-    using Type = reflectionzeug::StringPropertyInterface;
+    using Type = reflectionzeug::AbstractStringInterface;
     
 public:
-    StringEditor(reflectionzeug::StringPropertyInterface * property, 
+    StringEditor(reflectionzeug::AbstractStringInterface * property, 
                  QWidget * parent = nullptr);
     virtual ~StringEditor();
 
@@ -38,7 +39,7 @@ private:
     void setString(const QString & text);
 
 private:    
-    reflectionzeug::StringPropertyInterface * m_property;
+    reflectionzeug::AbstractStringInterface * m_property;
     signalzeug::ScopedConnection m_propertyChangedConnection;
 };
 

@@ -4,10 +4,10 @@
 #include <QApplication>
 #include <QWidget>
 #include <QPushButton>
-#include <reflectionzeug/Property.h>
-#include <reflectionzeug/PropertyGroup.h>
-#include <reflectionzeug/PropertySerializer.h>
-#include <reflectionzeug/PropertyDeserializer.h>
+#include <reflectionzeug/property/Property.h>
+#include <reflectionzeug/property/PropertyGroup.h>
+//#include <reflectionzeug/PropertySerializer.h>
+//#include <reflectionzeug/PropertyDeserializer.h>
 #include <propertyguizeug/PropertyBrowser.h>
 
 #include "libzeug-version.h"
@@ -195,7 +195,8 @@ int main(int argc, char *argv[])
         { Qt::ArrowCursor, "Arrow Cursor" },
         { Qt::WaitCursor, "Wait Cursor" }
     });
-    
+
+/*
     try
     {
         PropertyDeserializer deserializer;
@@ -209,12 +210,14 @@ int main(int argc, char *argv[])
 
         return -1;
     }
+*/
 
     auto * browser = new PropertyBrowser(settings);
     browser->show();
 
     int result = a.exec();
 
+/*
     try
     {
         PropertySerializer serializer;
@@ -229,6 +232,7 @@ int main(int argc, char *argv[])
 
         return -1;
     }
+*/
 
     delete settings;
     delete browser;

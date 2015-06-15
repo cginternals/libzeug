@@ -8,7 +8,6 @@
 
 #include <reflectionzeug/property/AbstractPropertyValue.h>
 #include <reflectionzeug/property/AbstractEnumInterface.h>
-#include <reflectionzeug/property/AbstractStringInterface.h>
 
 
 namespace reflectionzeug
@@ -20,7 +19,7 @@ namespace reflectionzeug
 *    Implementation for enum types
 */
 template <typename Enum>
-class PropertyEnum : public AbstractPropertyValue<Enum>, public AbstractEnumInterface, public AbstractStringInterface
+class PropertyEnum : public AbstractPropertyValue<Enum>, public AbstractEnumInterface
 {
 public:
     template <typename... Args>
@@ -30,7 +29,12 @@ public:
 
     virtual std::string toString() const override;
     virtual bool fromString(const std::string & string) override;
-    
+
+    virtual bool hasChoices() const;
+    const std::vector<Enum> & choices() const;
+    void setChoices(const std::vector<Enum> & choices);
+    virtual std::vector<std::string> choicesStrings() const;
+
     virtual std::vector<std::string> strings() const override;
     void setStrings(const std::map<Enum, std::string> & pairs);
 
@@ -40,6 +44,7 @@ public:
 protected:
     std::map<Enum, std::string> m_stringMap;
     std::map<std::string, Enum> m_enumMap;
+    std::vector<Enum> m_choices;
 };
 
 

@@ -9,7 +9,7 @@ class QPainter;
 
 namespace reflectionzeug
 {
-    class AbstractValueProperty;
+    class AbstractProperty;
 }
 
 namespace propertyguizeug
@@ -24,7 +24,7 @@ public:
 
     void drawValue(QPainter * painter, 
                    const QStyleOptionViewItem & option,
-                   reflectionzeug::AbstractValueProperty & property);
+                   reflectionzeug::AbstractProperty & property);
     
     void addPlugin(AbstractPropertyPainterPlugin * plugin);
     

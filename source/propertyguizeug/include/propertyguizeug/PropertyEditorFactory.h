@@ -2,7 +2,7 @@
 
 #include <QList>
 
-#include <reflectionzeug/property_declaration.h>
+#include <reflectionzeug/property/property_declaration.h>
 
 #include <propertyguizeug/propertyguizeug_api.h>
 
@@ -10,7 +10,7 @@ class QWidget;
 
 namespace reflectionzeug
 {
-    class AbstractValueProperty;
+    class AbstractProperty;
 }
 
 namespace propertyguizeug
@@ -23,7 +23,7 @@ class PROPERTYGUIZEUG_API PropertyEditorFactory
 public:
     PropertyEditorFactory();
     
-    QWidget * createEditor(reflectionzeug::AbstractValueProperty & property, QWidget * parent);
+    QWidget * createEditor(reflectionzeug::AbstractProperty & property, QWidget * parent);
 
     void addPlugin(AbstractPropertyEditorPlugin * plugin);
     

@@ -22,7 +22,13 @@ public:
     AbstractEnumInterface();
     virtual ~AbstractEnumInterface();
 
+    virtual std::string toString() const = 0;
+    virtual bool fromString(const std::string & string) = 0;
+
     virtual std::vector<std::string> strings() const = 0;
+
+    virtual bool hasChoices() const = 0;
+    virtual std::vector<std::string> choicesStrings() const = 0;
 };
 
 

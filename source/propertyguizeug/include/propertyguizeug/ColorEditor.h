@@ -1,6 +1,7 @@
 #pragma once
 
-#include <reflectionzeug/property_declaration.h>
+#include <reflectionzeug/property/property_declaration.h>
+
 #include <signalzeug/ScopedConnection.h>
 
 #include <propertyguizeug/PropertyEditor.h>
@@ -13,7 +14,7 @@ class QStyleOptionViewItem;
 namespace reflectionzeug 
 {
     class Color;
-    class ColorPropertyInterface;
+    class AbstractColorInterface;
 }
 
 namespace propertyguizeug
@@ -29,14 +30,14 @@ class ColorButton;
 class PROPERTYGUIZEUG_API ColorEditor : public PropertyEditor
 {
 public:
-    using Type = reflectionzeug::ColorPropertyInterface;
+    using Type = reflectionzeug::AbstractColorInterface;
 
     static void paint(QPainter * painter, 
                       const QStyleOptionViewItem & option, 
-                      reflectionzeug::ColorPropertyInterface & property);
+                      reflectionzeug::AbstractColorInterface & property);
 
 public:
-    ColorEditor(reflectionzeug::ColorPropertyInterface * property, 
+    ColorEditor(reflectionzeug::AbstractColorInterface * property, 
                 QWidget * parent = nullptr);
     virtual ~ColorEditor();
     
@@ -53,7 +54,7 @@ private:
     QLineEdit * m_lineEdit;
     bool m_alpha;
     
-    reflectionzeug::ColorPropertyInterface * m_property;
+    reflectionzeug::AbstractColorInterface * m_property;
     signalzeug::ScopedConnection m_propertyChangedConnection;
 };
 

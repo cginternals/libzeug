@@ -4,7 +4,7 @@
 
 #include <QDoubleSpinBox>
 
-#include <reflectionzeug/Property.h>
+#include <reflectionzeug/property/Property.h>
 
 using namespace reflectionzeug;
 namespace propertyguizeug
@@ -15,18 +15,19 @@ const int FloatingPointEditor::s_defaultPrecision = 3;
 void FloatingPointEditor::paint(
     QPainter * painter, 
     const QStyleOptionViewItem & option, 
-    reflectionzeug::FloatingPointPropertyInterface & property)
+    reflectionzeug::AbstractFloatingPointInterface & property)
 {
-    const auto prefix = QString::fromStdString(property.option<std::string>("prefix", ""));
-    const auto suffix = QString::fromStdString(property.option<std::string>("suffix", ""));
-    const auto precision = property.option<double>("precision", s_defaultPrecision);
+    reflectionzeug::AbstractProperty & prop = dynamic_cast<reflectionzeug::AbstractProperty &>(property);
+    const auto prefix = QString::fromStdString(prop.option<std::string>("prefix", ""));
+    const auto suffix = QString::fromStdString(prop.option<std::string>("suffix", ""));
+    const auto precision = prop.option<double>("precision", s_defaultPrecision);
     const auto valueString = QString::number(property.toDouble(), 'f', precision);
     
     drawString(prefix + valueString + suffix, painter, option);
 }
     
 FloatingPointEditor::FloatingPointEditor(
-    FloatingPointPropertyInterface * property, 
+    AbstractFloatingPointInterface * property, 
     QWidget * parent)
 :   PropertyEditor{parent}
 ,   m_property{property}
@@ -38,43 +39,45 @@ FloatingPointEditor::FloatingPointEditor(
     
     auto minimum = 0.0;
     auto maximum = 0.0;
+
+    reflectionzeug::AbstractProperty * prop = dynamic_cast<reflectionzeug::AbstractProperty *>(m_property);
     
-    if (m_property->hasOption("minimum"))
-        minimum = m_property->option("minimum").value<double>();
+    if (prop->hasOption("minimum"))
+        minimum = prop->option("minimum").value<double>();
     else
         minimum = std::numeric_limits<double>::min();
         
-    if (m_property->hasOption("maximum"))
-        maximum = m_property->option("maximum").value<double>();
+    if (prop->hasOption("maximum"))
+        maximum = prop->option("maximum").value<double>();
     else
         maximum = std::numeric_limits<double>::max();
     
     spinBox->setRange(minimum, maximum);
     
-    if (m_property->hasOption("step"))
-        spinBox->setSingleStep(m_property->option("step").value<double>());
+    if (prop->hasOption("step"))
+        spinBox->setSingleStep(prop->option("step").value<double>());
         
     auto precision = 0u;
-    if (m_property->hasOption("precision"))
-        precision = m_property->option("precision").value<uint>();
+    if (prop->hasOption("precision"))
+        precision = prop->option("precision").value<uint>();
     else
         precision = s_defaultPrecision;
         
     spinBox->setDecimals(precision);
 
     auto prefix = std::string{};
-    if (m_property->hasOption("prefix"))
-        prefix = m_property->option("prefix").value<std::string>();
+    if (prop->hasOption("prefix"))
+        prefix = prop->option("prefix").value<std::string>();
     spinBox->setPrefix(QString::fromStdString(prefix));
 
     auto suffix = std::string{};
-    if (m_property->hasOption("suffix"))
-        suffix = m_property->option("suffix").value<std::string>();
+    if (prop->hasOption("suffix"))
+        suffix = prop->option("suffix").value<std::string>();
     spinBox->setSuffix(QString::fromStdString(suffix));
     
     spinBox->setValue(m_property->toDouble());
 
-    const auto deferred = m_property->option<bool>("deferred", false);
+    const auto deferred = prop->option<bool>("deferred", false);
     
     if (deferred)
     {
@@ -93,7 +96,7 @@ FloatingPointEditor::FloatingPointEditor(
             });
     }
 
-    m_propertyChangedConnection = m_property->valueChanged.connect(
+    m_propertyChangedConnection = prop->changed.connect(
         [this, spinBox]()
         {
             spinBox->setValue(m_property->toDouble());

@@ -2,7 +2,8 @@
 
 #include <QComboBox>
 
-#include <reflectionzeug/EnumPropertyInterface.h>
+#include <reflectionzeug/property/AbstractProperty.h>
+#include <reflectionzeug/property/AbstractEnumInterface.h>
 
 #include "util.h"
 
@@ -11,7 +12,7 @@ namespace propertyguizeug
 {
     
 EnumEditor::EnumEditor(
-    reflectionzeug::EnumPropertyInterface * property, 
+    reflectionzeug::AbstractEnumInterface * property, 
     QWidget * parent)
 :   PropertyEditor{parent}
 ,   m_property{property}
@@ -32,7 +33,7 @@ EnumEditor::EnumEditor(
     connect(comboBox, &QComboBox::currentTextChanged, 
             this, &EnumEditor::setString);
 
-    m_propertyChangedConnection = m_property->valueChanged.connect(
+    m_propertyChangedConnection = dynamic_cast<AbstractProperty *>(m_property)->changed.connect(
         [this, comboBox]()
         {
             comboBox->setCurrentText(QString::fromStdString(m_property->toString()));

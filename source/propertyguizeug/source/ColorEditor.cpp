@@ -11,8 +11,9 @@
 #include <QRegExpValidator>
 #include <QStyleOptionViewItem>
 
-#include <reflectionzeug/ColorPropertyInterface.h>
-#include <reflectionzeug/Color.h>
+#include <reflectionzeug/base/Color.h>
+#include <reflectionzeug/property/AbstractProperty.h>
+#include <reflectionzeug/property/AbstractColorInterface.h>
 
 #include <propertyguizeug/ColorButton.h>
 
@@ -39,12 +40,12 @@ namespace propertyguizeug
 void ColorEditor::paint(
     QPainter * painter, 
     const QStyleOptionViewItem & option, 
-    ColorPropertyInterface & property)
+    AbstractColorInterface & property)
 {
     auto color = property.toColor();
     auto qcolor = toQColor(color);
     
-    const auto alpha = property.option<bool>("alpha", true);
+    const auto alpha = dynamic_cast<AbstractProperty &>(property).option<bool>("alpha", true);
                   
     const auto metrics = option.widget->fontMetrics();
     const auto buttonSize = ColorButton::sizeFromFontHeight(metrics.height());
@@ -72,9 +73,9 @@ void ColorEditor::paint(
         QPalette::Text);
 }
                       
-ColorEditor::ColorEditor(ColorPropertyInterface * property, QWidget * parent)
+ColorEditor::ColorEditor(AbstractColorInterface * property, QWidget * parent)
 :   PropertyEditor{parent}
-,   m_alpha{property->option<bool>("alpha", true)}
+,   m_alpha{dynamic_cast<AbstractProperty *>(property)->option<bool>("alpha", true)}
 ,   m_property{property}
 {
     Color color = m_property->toColor();
@@ -97,7 +98,7 @@ ColorEditor::ColorEditor(ColorPropertyInterface * property, QWidget * parent)
     this->connect(m_button, &ColorButton::pressed, this, &ColorEditor::openColorPicker);
     this->connect(m_lineEdit, &QLineEdit::editingFinished, this, &ColorEditor::parseColor);
 
-    m_propertyChangedConnection = m_property->valueChanged.connect(
+    m_propertyChangedConnection = dynamic_cast<AbstractProperty *>(m_property)->changed.connect(
         [this]()
         {
             Color color = m_property->toColor();

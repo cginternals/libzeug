@@ -1,26 +1,30 @@
 #include <propertyguizeug/UnsignedIntegralEditor.h>
 
-#include <reflectionzeug/UnsignedIntegralPropertyInterface.h>
+#include <reflectionzeug/base/util.h>
+#include <reflectionzeug/property/AbstractProperty.h>
+#include <reflectionzeug/property/AbstractUnsignedIntegralInterface.h>
 
 #include <propertyguizeug/ULongLongSpinBox.h>
 
+using namespace reflectionzeug;
 namespace propertyguizeug
 {
 
 void UnsignedIntegralEditor::paint(
     QPainter * painter, 
     const QStyleOptionViewItem & option, 
-    reflectionzeug::UnsignedIntegralPropertyInterface & property)
+    AbstractUnsignedIntegralInterface & property)
 {
-    const auto prefix = QString::fromStdString(property.option<std::string>("prefix", ""));
-    const auto suffix = QString::fromStdString(property.option<std::string>("suffix", ""));
-    const auto valueString = QString::fromStdString(property.toString());
-    
+    AbstractProperty & prop = dynamic_cast<AbstractProperty &>(property);
+    const auto prefix = QString::fromStdString(prop.option<std::string>("prefix", ""));
+    const auto suffix = QString::fromStdString(prop.option<std::string>("suffix", ""));
+    const auto valueString = QString::fromStdString(util::toString(property.toULongLong()));
+
     drawString(prefix + valueString + suffix, painter, option);
 }
 
 UnsignedIntegralEditor::UnsignedIntegralEditor(
-    reflectionzeug::UnsignedIntegralPropertyInterface * property, 
+    AbstractUnsignedIntegralInterface * property, 
     QWidget * parent)
 :   PropertyEditor{parent}
 ,   m_property{property}
@@ -33,23 +37,24 @@ UnsignedIntegralEditor::UnsignedIntegralEditor(
 
     auto minimum = 0ull;
     auto maximum = 0ull;
-    
-    if (m_property->hasOption("minimum"))
-        minimum = m_property->option("minimum").value<qulonglong>();
+
+    AbstractProperty * prop = dynamic_cast<AbstractProperty *>(m_property);
+    if (prop->hasOption("minimum"))
+        minimum = prop->option("minimum").value<qulonglong>();
     else
         minimum = std::numeric_limits<qulonglong>::min();
         
-    if (m_property->hasOption("maximum"))
-        maximum = m_property->option("maximum").value<qulonglong>();
+    if (prop->hasOption("maximum"))
+        maximum = prop->option("maximum").value<qulonglong>();
     else
         maximum = std::numeric_limits<qulonglong>::max();
     
     spinBox->setRange(minimum, maximum);
 	
-    if (m_property->hasOption("step"))
-        spinBox->setStep(m_property->option("step").value<qulonglong>());
+    if (prop->hasOption("step"))
+        spinBox->setStep(prop->option("step").value<qulonglong>());
     
-    const auto deferred = m_property->option<bool>("deferred", false);
+    const auto deferred = prop->option<bool>("deferred", false);
 
     if (deferred)
     {
@@ -68,7 +73,7 @@ UnsignedIntegralEditor::UnsignedIntegralEditor(
             });
     }
 
-    m_propertyChangedConnection = m_property->valueChanged.connect(
+    m_propertyChangedConnection = prop->changed.connect(
         [this, spinBox]()
         {
             spinBox->setValue(m_property->toULongLong());

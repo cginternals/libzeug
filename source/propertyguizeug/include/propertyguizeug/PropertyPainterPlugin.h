@@ -1,13 +1,13 @@
 #pragma once
 
-#include <reflectionzeug/PropertyVisitor.h>
+#include <reflectionzeug/property/AbstractVisitor.h>
 
 #include <propertyguizeug/PropertyPainter.h>
 
 namespace propertyguizeug
 {
 
-class AbstractPropertyPainterPlugin : public virtual reflectionzeug::AbstractPropertyVisitor
+class AbstractPropertyPainterPlugin : public virtual reflectionzeug::AbstractVisitor
 {
 public:
     virtual ~AbstractPropertyPainterPlugin() = default;
@@ -30,7 +30,7 @@ class PropertyPainterPlugin :
 
 template <typename Editor>
 class PropertyPainterPlugin<Editor> : 
-    public reflectionzeug::PropertyVisitor<typename Editor::Type>,
+    public reflectionzeug::Visitor<typename Editor::Type>,
     public virtual AbstractPropertyPainterPlugin
 {
 public:

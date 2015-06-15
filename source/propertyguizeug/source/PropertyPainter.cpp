@@ -5,7 +5,7 @@
 #include <QApplication>
 #include <QPainter>
 
-#include <reflectionzeug/Property.h>
+#include <reflectionzeug/property/Property.h>
 
 #include <propertyguizeug/BoolEditor.h>
 #include <propertyguizeug/ColorEditor.h>
@@ -32,7 +32,7 @@ PropertyPainter::PropertyPainter()
 }
 
 void PropertyPainter::drawValue(QPainter * painter, 
-    const QStyleOptionViewItem & option, AbstractValueProperty & property)
+    const QStyleOptionViewItem & option, AbstractProperty & property)
 {
     m_drawn = false;
     m_painter = painter;
@@ -46,8 +46,11 @@ void PropertyPainter::drawValue(QPainter * painter,
             break;
     }
 
+    // [TODO] Fallback to default (draw string)
+    /*
     if (!m_drawn)
         this->drawString(QString::fromStdString(property.toString()));
+    */
 }
 
 void PropertyPainter::addPlugin(AbstractPropertyPainterPlugin * plugin)

@@ -1,26 +1,30 @@
 #include <propertyguizeug/SignedIntegralEditor.h>
 
-#include <reflectionzeug/SignedIntegralPropertyInterface.h>
+#include <reflectionzeug/base/util.h>
+#include <reflectionzeug/property/AbstractProperty.h>
+#include <reflectionzeug/property/AbstractSignedIntegralInterface.h>
 
 #include <propertyguizeug/LongLongSpinBox.h>
 
+using namespace reflectionzeug;
 namespace propertyguizeug
 {
 
 void SignedIntegralEditor::paint(
     QPainter * painter, 
     const QStyleOptionViewItem & option, 
-    reflectionzeug::SignedIntegralPropertyInterface & property)
+    AbstractSignedIntegralInterface & property)
 {
-    const auto prefix = QString::fromStdString(property.option<std::string>("prefix", ""));
-    const auto suffix = QString::fromStdString(property.option<std::string>("suffix", ""));
-    const auto valueString = QString::fromStdString(property.toString());
-    
+    AbstractProperty & prop = dynamic_cast<AbstractProperty &>(property);
+    const auto prefix = QString::fromStdString(prop.option<std::string>("prefix", ""));
+    const auto suffix = QString::fromStdString(prop.option<std::string>("suffix", ""));
+    const auto valueString = QString::fromStdString(util::toString(property.toLongLong()));
+
     drawString(prefix + valueString + suffix, painter, option);
 }
 
 SignedIntegralEditor::SignedIntegralEditor(
-    reflectionzeug::SignedIntegralPropertyInterface * property, 
+    AbstractSignedIntegralInterface * property, 
     QWidget * parent)
 :   PropertyEditor{parent}
 ,   m_property{property}
@@ -34,23 +38,24 @@ SignedIntegralEditor::SignedIntegralEditor(
 
     auto minimum = 0ll;
     auto maximum = 0ll;
-    
-    if (m_property->hasOption("minimum"))
-        minimum = m_property->option("minimum").value<qlonglong>();
+
+    AbstractProperty * prop = dynamic_cast<AbstractProperty *>(m_property);
+    if (prop->hasOption("minimum"))
+        minimum = prop->option("minimum").value<qlonglong>();
     else
         minimum = std::numeric_limits<qlonglong>::min();
         
-    if (m_property->hasOption("maximum"))
-        maximum = m_property->option("maximum").value<qlonglong>();
+    if (prop->hasOption("maximum"))
+        maximum = prop->option("maximum").value<qlonglong>();
     else
         maximum = std::numeric_limits<qlonglong>::max();
     
     spinBox->setRange(minimum, maximum);
     
-    if (m_property->hasOption("step"))
-        spinBox->setStep(m_property->option("step").value<qlonglong>());
+    if (prop->hasOption("step"))
+        spinBox->setStep(prop->option("step").value<qlonglong>());
 
-    const auto deferred = m_property->option<bool>("deferred", false);
+    const auto deferred = prop->option<bool>("deferred", false);
 
     if (deferred)
     {
@@ -69,7 +74,7 @@ SignedIntegralEditor::SignedIntegralEditor(
             });
     }
 
-    m_propertyChangedConnection = m_property->valueChanged.connect(
+    m_propertyChangedConnection = prop->changed.connect(
         [this, spinBox]()
         {
             spinBox->setValue(m_property->toLongLong());

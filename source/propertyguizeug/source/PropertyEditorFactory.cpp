@@ -2,7 +2,7 @@
 
 #include <cassert>
 
-#include <reflectionzeug/Property.h>
+#include <reflectionzeug/property/Property.h>
 
 #include <propertyguizeug/BoolEditor.h>
 #include <propertyguizeug/ColorEditor.h>
@@ -37,7 +37,7 @@ PropertyEditorFactory::PropertyEditorFactory()
 }
 
 QWidget * PropertyEditorFactory::createEditor(
-    AbstractValueProperty & property, 
+    AbstractProperty & property, 
     QWidget * parent)
 {
     assert(parent);
@@ -53,8 +53,11 @@ QWidget * PropertyEditorFactory::createEditor(
             break;
     }
 
+    // [TODO] Fallback to default editor
+    /*
     if (!m_editor)
         m_editor = new ValueEditor{&property, m_parentWidget};
+    */
 
     return m_editor;
 }

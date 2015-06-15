@@ -2,6 +2,8 @@
 #pragma once
 
 
+#include <string>
+
 #include <reflectionzeug/reflectionzeug_api.h>
 
 

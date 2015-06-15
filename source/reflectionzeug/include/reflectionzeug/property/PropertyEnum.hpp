@@ -52,6 +52,34 @@ bool PropertyEnum<Enum>::fromString(const std::string & string)
 }
 
 template <typename Enum>
+bool PropertyEnum<Enum>::hasChoices() const
+{
+    return !m_choices.empty();
+}
+
+template <typename Enum>
+const std::vector<Enum> & PropertyEnum<Enum>::choices() const
+{
+    return m_choices;
+}
+
+template <typename Enum>
+void PropertyEnum<Enum>::setChoices(const std::vector<Enum> & choices)
+{
+    m_choices = choices;
+}
+
+template <typename Enum>
+std::vector<std::string> PropertyEnum<Enum>::choicesStrings() const
+{
+    std::vector<std::string> strings;
+    for (auto choice : m_choices) {
+        strings.push_back(m_stringMap.at(choice));
+    }
+    return strings;
+}
+
+template <typename Enum>
 std::vector<std::string> PropertyEnum<Enum>::strings() const
 {
 	// Construct list of all enum strings (without their values)
@@ -81,7 +109,6 @@ void PropertyEnum<Enum>::accept(AbstractVisitor * visitor)
 {
     visitor->callVisitor<PropertyEnum<Enum>>(this);
     visitor->callVisitor<AbstractEnumInterface>(this);
-    visitor->callVisitor<AbstractStringInterface>(this);
 }
 
 
