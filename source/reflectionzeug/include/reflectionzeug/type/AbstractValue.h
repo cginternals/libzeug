@@ -14,6 +14,8 @@ namespace reflectionzeug
 
 
 class AbstractVisitor;
+class AbstractCollection;
+class PropertyGroup;
 
 
 /**
@@ -23,7 +25,8 @@ class AbstractVisitor;
 class REFLECTIONZEUG_API AbstractValue
 {
 public:
-    signalzeug::Signal<> changed;  /**< Called when the value has been changed */
+    signalzeug::Signal<> 					changed;  		/**< Called when the value has been changed */
+    signalzeug::Signal<const std::string &> optionChanged;	/**< Called when an option of the value has been changed */
 
 
 public:
@@ -39,7 +42,42 @@ public:
     virtual bool fromVariant(const Variant & value) = 0;
 
     virtual void accept(AbstractVisitor * visitor);
+
+    bool isCollection() const;
+    bool isGroup() const;
+
+    AbstractCollection * asCollection();
+    const AbstractCollection * asCollection() const;
+
+    PropertyGroup * asGroup();
+    const PropertyGroup * asGroup() const;
+
+    template <typename Type>
+    Type * as();
+
+    template <typename Type>
+    const Type * as() const;
+
+    const VariantMap & options() const;
+    Variant option(const std::string & key) const;
+
+    template <typename Type>
+    Type option(const std::string & key, const Type & defaultValue) const;
+
+    bool hasOption(const std::string & key) const;
+
+    void setOption(const std::string & key, const Variant & value);
+    void setOptions(const VariantMap & map);
+
+    bool removeOption(const std::string & key);
+
+
+private:
+    VariantMap m_options;
 };
 
 
 } // namespace reflectionzeug
+
+
+#include <reflectionzeug/type/AbstractValue.hpp>

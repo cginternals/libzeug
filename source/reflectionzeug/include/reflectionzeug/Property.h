@@ -4,7 +4,6 @@
 
 #include <reflectionzeug/type/Typed.h>
 #include <reflectionzeug/type/NamedTyped.h>
-#include <reflectionzeug/AbstractProperty.h>
 
 
 namespace reflectionzeug
@@ -16,7 +15,7 @@ namespace reflectionzeug
 *    Typed property
 */
 template <typename T>
-class Property : public NamedTyped<T>, public AbstractProperty
+class Property : public NamedTyped<T>
 {
 public:
     template <typename... Args>

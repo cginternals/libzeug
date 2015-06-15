@@ -67,6 +67,7 @@ set(headers
 
     ${header_path}/type/specialization_helpers.h
     ${header_path}/type/AbstractValue.h
+    ${header_path}/type/AbstractValue.hpp
     ${header_path}/type/AbstractCollection.h
     ${header_path}/type/AbstractTyped.h
     ${header_path}/type/AbstractTyped.hpp
@@ -126,8 +127,6 @@ set(headers
     ${header_path}/tools/JSON.h
     ${header_path}/tools/JSONReader.h
 
-    ${header_path}/AbstractProperty.h
-    ${header_path}/AbstractProperty.hpp
     ${header_path}/PropertyGroup.h
     ${header_path}/PropertyGroup.hpp
     ${header_path}/Property.h
@@ -161,7 +160,6 @@ set(sources
     ${source_path}/tools/JSON.cpp
     ${source_path}/tools/JSONReader.cpp
 
-    ${source_path}/AbstractProperty.cpp
     ${source_path}/PropertyGroup.cpp
     ${source_path}/Object.cpp
     ${source_path}/Variant.cpp

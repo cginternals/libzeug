@@ -7,7 +7,6 @@
 
 #include <reflectionzeug/type/AbstractValue.h>
 #include <reflectionzeug/type/AbstractCollection.h>
-#include <reflectionzeug/AbstractProperty.h>
 
 
 namespace reflectionzeug
@@ -22,13 +21,12 @@ class Property;
 *  @brief
 *    Group of properties
 */
-class REFLECTIONZEUG_API PropertyGroup : public AbstractProperty,
-                                         public AbstractCollection,
+class REFLECTIONZEUG_API PropertyGroup : public AbstractCollection,
                                          public AbstractValue
 {
 public:
-    signalzeug::Signal<size_t, AbstractProperty *> beforeAdd;
-    signalzeug::Signal<size_t, AbstractProperty *> afterAdd;
+    signalzeug::Signal<size_t, AbstractValue *> beforeAdd;
+    signalzeug::Signal<size_t, AbstractValue *> afterAdd;
     signalzeug::Signal<size_t> beforeRemove;
     signalzeug::Signal<size_t> afterRemove;
 
@@ -40,11 +38,11 @@ public:
 
     virtual std::string name() const override;
 
-    const std::unordered_map<std::string, AbstractProperty *> & properties() const;
+    const std::unordered_map<std::string, AbstractValue *> & properties() const;
 
-    AbstractProperty * property(const std::string & path);
+    AbstractValue * property(const std::string & path);
 
-    const AbstractProperty * property(const std::string & path) const;
+    const AbstractValue * property(const std::string & path) const;
 
     template <typename Type>
     const Property<Type> * property(const std::string & path) const;
@@ -52,7 +50,7 @@ public:
     template <typename Type>
     Property<Type> * property(const std::string & path);
 
-    AbstractProperty * addProperty(AbstractProperty * property);
+    AbstractValue * addProperty(AbstractValue * property);
 
     template <typename Type, typename... Args>
     Property<Type> * addProperty(const std::string & name, Args&&... args);
@@ -88,7 +86,7 @@ public:
     /**
      * Removes the property with the given name from the group and returns it.
      */
-    AbstractProperty * takeProperty(const std::string & name);
+    AbstractValue * takeProperty(const std::string & name);
 
     /**
      * Removes all properties from the group. Deletes them if it owns them.
@@ -103,9 +101,6 @@ public:
     bool propertyExists(const std::string & name) const;
     bool groupExists(const std::string & name) const;
 
-    void forEach(const std::function<void(AbstractProperty &)> & callback);
-    void forEach(const std::function<void(const AbstractProperty &)> & callback) const;
-
     void forEachCollection(const std::function<void(AbstractCollection &)> & callback);
     void forEachCollection(const std::function<void(const AbstractCollection &)> & callback) const;
 
@@ -116,14 +111,14 @@ public:
 
 
 protected:
-    const AbstractProperty * findProperty(const std::vector<std::string> & path) const;
+    const AbstractValue * findProperty(const std::vector<std::string> & path) const;
     PropertyGroup * ensureGroup(const std::vector<std::string> & path);
 
 
 protected:
     std::string m_name;
-    std::vector<AbstractProperty *> m_properties;
-    std::unordered_map<std::string, AbstractProperty *> m_propertiesMap;
+    std::vector<AbstractValue *> m_properties;
+    std::unordered_map<std::string, AbstractValue *> m_propertiesMap;
     bool m_ownsProperties;
 };
 

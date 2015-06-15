@@ -2,7 +2,7 @@
 #pragma once
 
 
-#include <reflectionzeug/AbstractProperty.h>
+#include <reflectionzeug/type/AbstractValue.h>
 
 
 namespace reflectionzeug
@@ -10,7 +10,7 @@ namespace reflectionzeug
 
 
 template <typename Type>
-Type * AbstractProperty::as()
+Type * AbstractValue::as()
 {
     Type * typed = dynamic_cast<Type *>(this);
     assert(typed);
@@ -18,7 +18,7 @@ Type * AbstractProperty::as()
 }
 
 template <typename Type>
-const Type * AbstractProperty::as() const
+const Type * AbstractValue::as() const
 {
     const Type * typed = dynamic_cast<const Type *>(this);
     assert(typed);
@@ -26,7 +26,7 @@ const Type * AbstractProperty::as() const
 }
 
 template <typename Type>
-Type AbstractProperty::option(const std::string & key, const Type & defaultValue) const
+Type AbstractValue::option(const std::string & key, const Type & defaultValue) const
 {
     return hasOption(key) ? option(key).value<Type>(defaultValue) : defaultValue;
 }
