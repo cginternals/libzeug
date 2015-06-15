@@ -87,16 +87,16 @@ struct TypeSelector<T, EnableIf<std::is_enum<T>>>
 
 /**
 *  @brief
-*    Typed value
+*    Property
 */
 template <typename T>
-class Typed : public TypeSelector<T>::Type
+class Property : public TypeSelector<T>::Type
 {
 public:
     template <typename... Args>
-    Typed(Args&&... args);
+    Property(Args&&... args);
 
-    virtual ~Typed();
+    virtual ~Property();
 
     virtual void accept(AbstractVisitor * visitor) override;
 };
@@ -105,4 +105,4 @@ public:
 } // namespace reflectionzeug
 
 
-#include <reflectionzeug/type/Typed.hpp>
+#include <reflectionzeug/type/Property.hpp>

@@ -8,7 +8,7 @@
 #include <reflectionzeug/type/AbstractPropertyArray.h>
 #include <reflectionzeug/type/ArrayAccessorValue.h>
 #include <reflectionzeug/type/ArrayAccessorGetSet.h>
-#include <reflectionzeug/type/Typed.h>
+#include <reflectionzeug/type/Property.h>
 
 
 namespace reflectionzeug
@@ -94,8 +94,8 @@ template <typename Type, size_t Size>
 AbstractPropertyArray<Type, Size>::~AbstractPropertyArray()
 {
     // Destroy accessor values
-    for (Typed<Type> * typed : m_elements) {
-        delete typed;
+    for (Property<Type> * prop : m_elements) {
+        delete prop;
     }
 }
 
@@ -176,9 +176,9 @@ void AbstractPropertyArray<Type, Size>::init()
     // Create typed value for each element
     for (size_t i = 0; i < Size; ++i)
     {
-        this->m_elements[i] = new Typed<Type>("_" + std::to_string(i),
-                                              std::bind(&AbstractPropertyArray::getElement, this, i),
-                                              std::bind(&AbstractPropertyArray::setElement, this, i, std::placeholders::_1));
+        this->m_elements[i] = new Property<Type>("_" + std::to_string(i),
+                                                 std::bind(&AbstractPropertyArray::getElement, this, i),
+                                                 std::bind(&AbstractPropertyArray::setElement, this, i, std::placeholders::_1));
     }
 }
 

@@ -86,8 +86,8 @@ set(headers
     ${header_path}/type/ArrayAccessorGetSet.hpp
     ${header_path}/type/ArrayAccessorValue.h
     ${header_path}/type/ArrayAccessorValue.hpp
-    ${header_path}/type/Typed.h
-    ${header_path}/type/Typed.hpp
+    ${header_path}/type/Property.h
+    ${header_path}/type/Property.hpp
     ${header_path}/type/PropertyEnum.h
     ${header_path}/type/PropertyEnum.hpp
     ${header_path}/type/PropertyArray.h
@@ -128,7 +128,6 @@ set(headers
     ${header_path}/PropertyGroup.h
     ${header_path}/PropertyGroup.hpp
     ${header_path}/Property.h
-    ${header_path}/Property.hpp
     ${header_path}/Object.h
     ${header_path}/Variant.h
     ${header_path}/Variant.hpp

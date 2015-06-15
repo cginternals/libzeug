@@ -123,7 +123,7 @@ public:
 
 
 protected:
-    AbstractAccessor * m_accessor;    /**< Typed value */
+    AbstractAccessor * m_accessor;    /**< Variant value */
 };
 
 

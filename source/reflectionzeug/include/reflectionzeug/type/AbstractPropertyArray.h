@@ -16,7 +16,7 @@ namespace reflectionzeug
 
 
 template <typename Type>
-class Typed;
+class Property;
 
 
 /**
@@ -75,8 +75,8 @@ protected:
 
 
 protected:
-    ArrayAccessor<Type, Size>     * m_arrayAccessor;
-    std::array<Typed<Type> *, Size> m_elements;
+    ArrayAccessor<Type, Size>          * m_arrayAccessor;
+    std::array<Property<Type> *, Size>   m_elements;
 };
 
 
