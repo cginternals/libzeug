@@ -2,7 +2,7 @@
 #pragma once
 
 
-#include <reflectionzeug/property/AbstractPropertyValue.h>
+#include <reflectionzeug/property/AbstractNumberProperty.h>
 #include <reflectionzeug/property/AbstractUnsignedIntegralInterface.h>
 
 
@@ -15,7 +15,7 @@ namespace reflectionzeug
 *    Implementation for unsigned integral types
 */
 template <typename T>
-class PropertyUnsignedIntegral : public AbstractPropertyValue<T>, public AbstractUnsignedIntegralInterface
+class PropertyUnsignedIntegral : public AbstractNumberProperty<T>, public AbstractUnsignedIntegralInterface
 {
 public:
     template <typename... Args>
@@ -27,6 +27,10 @@ public:
     virtual bool fromULongLong(unsigned long long value) override;
 
     virtual void accept(AbstractVisitor * visitor) override;
+
+
+protected:
+    virtual std::string matchRegex() const;
 };
 
 

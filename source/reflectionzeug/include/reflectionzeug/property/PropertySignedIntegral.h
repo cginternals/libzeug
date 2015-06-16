@@ -2,7 +2,7 @@
 #pragma once
 
 
-#include <reflectionzeug/property/AbstractPropertyValue.h>
+#include <reflectionzeug/property/AbstractNumberProperty.h>
 #include <reflectionzeug/property/AbstractSignedIntegralInterface.h>
 
 
@@ -15,7 +15,7 @@ namespace reflectionzeug
 *    Implementation for signed integral types
 */
 template <typename T>
-class PropertySignedIntegral : public AbstractPropertyValue<T>, public AbstractSignedIntegralInterface
+class PropertySignedIntegral : public AbstractNumberProperty<T>, public AbstractSignedIntegralInterface
 {
 public:
     template <typename... Args>
@@ -27,6 +27,10 @@ public:
     virtual bool fromLongLong(long long value) override;
 
     virtual void accept(AbstractVisitor * visitor) override;
+
+
+protected:
+    virtual std::string matchRegex() const;
 };
 
 

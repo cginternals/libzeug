@@ -2,7 +2,7 @@
 #pragma once
 
 
-#include <reflectionzeug/property/AbstractPropertyValue.h>
+#include <reflectionzeug/property/AbstractNumberProperty.h>
 #include <reflectionzeug/property/AbstractFloatingPointInterface.h>
 
 
@@ -15,7 +15,7 @@ namespace reflectionzeug
 *    Implementation for floating point types
 */
 template <typename T>
-class PropertyFloatingPoint : public AbstractPropertyValue<T>, public AbstractFloatingPointInterface
+class PropertyFloatingPoint : public AbstractNumberProperty<T>, public AbstractFloatingPointInterface
 {
 public:
     template <typename... Args>
@@ -27,6 +27,10 @@ public:
     virtual bool fromDouble(double value) override;
 
     virtual void accept(AbstractVisitor * visitor) override;
+
+
+protected:
+    virtual std::string matchRegex() const;
 };
 
 

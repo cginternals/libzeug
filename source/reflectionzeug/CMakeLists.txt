@@ -109,6 +109,8 @@ set(headers
     ${header_path}/property/PropertyString.hpp
     ${header_path}/property/PropertyUnsignedIntegral.h
     ${header_path}/property/PropertyUnsignedIntegral.hpp
+    ${header_path}/property/AbstractNumberProperty.h
+    ${header_path}/property/AbstractNumberProperty.hpp
     ${header_path}/property/AbstractBooleanInterface.h
     ${header_path}/property/AbstractStringInterface.h
     ${header_path}/property/AbstractColorInterface.h

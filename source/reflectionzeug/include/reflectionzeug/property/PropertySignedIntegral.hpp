@@ -13,7 +13,7 @@ namespace reflectionzeug
 template <typename T>
 template <typename... Args>
 PropertySignedIntegral<T>::PropertySignedIntegral(Args&&... args)
-: AbstractPropertyValue<T>(std::forward<Args>(args)...)
+: AbstractNumberProperty<T>(std::forward<Args>(args)...)
 {
 }
 
@@ -40,6 +40,13 @@ void PropertySignedIntegral<T>::accept(AbstractVisitor * visitor)
 {
     visitor->callVisitor<PropertySignedIntegral<T>>(this);
     visitor->callVisitor<AbstractSignedIntegralInterface>(this);
+}
+
+template <typename T>
+std::string PropertySignedIntegral<T>::matchRegex() const
+{
+    // [TODO]
+    return "";
 }
 
 

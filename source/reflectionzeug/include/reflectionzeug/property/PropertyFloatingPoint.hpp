@@ -13,7 +13,7 @@ namespace reflectionzeug
 template <typename T>
 template <typename... Args>
 PropertyFloatingPoint<T>::PropertyFloatingPoint(Args&&... args)
-: AbstractPropertyValue<T>(std::forward<Args>(args)...)
+: AbstractNumberProperty<T>(std::forward<Args>(args)...)
 {
 }
 
@@ -40,6 +40,13 @@ void PropertyFloatingPoint<T>::accept(AbstractVisitor * visitor)
 {
     visitor->callVisitor<PropertyFloatingPoint<T>>(this);
     visitor->callVisitor<AbstractFloatingPointInterface>(this);
+}
+
+template <typename T>
+std::string PropertyFloatingPoint<T>::matchRegex() const
+{
+    // [TODO]
+    return "";
 }
 
 

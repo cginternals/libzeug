@@ -13,7 +13,7 @@ namespace reflectionzeug
 template <typename T>
 template <typename... Args>
 PropertyUnsignedIntegral<T>::PropertyUnsignedIntegral(Args&&... args)
-: AbstractPropertyValue<T>(std::forward<Args>(args)...)
+: AbstractNumberProperty<T>(std::forward<Args>(args)...)
 {
 }
 
@@ -40,6 +40,13 @@ void PropertyUnsignedIntegral<T>::accept(AbstractVisitor * visitor)
 {
     visitor->callVisitor<PropertyUnsignedIntegral<T>>(this);
     visitor->callVisitor<AbstractUnsignedIntegralInterface>(this);
+}
+
+template <typename T>
+std::string PropertyUnsignedIntegral<T>::matchRegex() const
+{
+    // [TODO]
+    return "";
 }
 
 

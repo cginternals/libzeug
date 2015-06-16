@@ -1,5 +1,7 @@
 #pragma once
 
+#include <type_traits>
+
 #include <reflectionzeug/base/util.h>
 
 #include <sstream>
@@ -14,7 +16,7 @@ template <typename Type>
 Type fromString(const std::string & string)
 {
     std::stringstream stream(string);
-    Type value;
+    typename std::remove_const<Type>::type value;
     stream >> value;
     return value;
 }
