@@ -45,8 +45,8 @@ void PropertySignedIntegral<T>::accept(AbstractVisitor * visitor)
 template <typename T>
 std::string PropertySignedIntegral<T>::matchRegex() const
 {
-    // [TODO]
-    return "";
+    // Match an integral number
+    return "(-|\\+)?\\d+";
 }
 
 

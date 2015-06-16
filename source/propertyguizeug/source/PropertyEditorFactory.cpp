@@ -53,11 +53,10 @@ QWidget * PropertyEditorFactory::createEditor(
             break;
     }
 
-    // [TODO] Fallback to default editor
-    /*
-    if (!m_editor)
+    // Fallback to default editor
+    if (!m_editor) {
         m_editor = new ValueEditor{&property, m_parentWidget};
-    */
+    }
 
     return m_editor;
 }

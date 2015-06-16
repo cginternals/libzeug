@@ -45,8 +45,8 @@ void PropertyFloatingPoint<T>::accept(AbstractVisitor * visitor)
 template <typename T>
 std::string PropertyFloatingPoint<T>::matchRegex() const
 {
-    // [TODO]
-    return "";
+    // Match a floating point number
+    return "(-|\\+)?\\d+\\.?\\d*";
 }
 
 

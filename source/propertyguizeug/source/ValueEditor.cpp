@@ -10,11 +10,9 @@ namespace propertyguizeug
     
 ValueEditor::ValueEditor(AbstractProperty * property, QWidget * parent)
 :   PropertyEditor{parent}
-//,   m_lineEdit{new QLineEdit{this}}
-,   m_lineEdit{nullptr}
+,   m_lineEdit{new QLineEdit{this}}
 ,   m_property{property}
 {
-    /*
     addWidget(m_lineEdit);
     setFocusProxy(m_lineEdit);
 
@@ -23,12 +21,11 @@ ValueEditor::ValueEditor(AbstractProperty * property, QWidget * parent)
     connect(m_lineEdit, &QLineEdit::editingFinished, 
             this, &ValueEditor::editingFinished);
 
-    m_propertyChangedConnection = m_property->valueChanged.connect(
+    m_propertyChangedConnection = m_property->changed.connect(
         [this]()
         {
             m_lineEdit->setText(QString::fromStdString(m_property->toString()));
         });
-    */
 }
 
 ValueEditor::~ValueEditor()
@@ -37,7 +34,7 @@ ValueEditor::~ValueEditor()
 
 void ValueEditor::editingFinished()
 {
-//    m_property->fromString(m_lineEdit->text().toStdString());
+    m_property->fromString(m_lineEdit->text().toStdString());
 }
 
 } // namespace propertyguizeug

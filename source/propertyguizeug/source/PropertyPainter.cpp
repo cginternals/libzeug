@@ -46,11 +46,10 @@ void PropertyPainter::drawValue(QPainter * painter,
             break;
     }
 
-    // [TODO] Fallback to default (draw string)
-    /*
-    if (!m_drawn)
+    // Fallback to default (draw string)
+    if (!m_drawn) {
         this->drawString(QString::fromStdString(property.toString()));
-    */
+    }
 }
 
 void PropertyPainter::addPlugin(AbstractPropertyPainterPlugin * plugin)
