@@ -13,7 +13,7 @@ namespace reflectionzeug
 template <typename T, size_t Size>
 template <typename... Args>
 PropertyArray<T, Size>::PropertyArray(Args&&... args)
-: AbstractPropertyArray<T, Size>(std::forward<Args>(args)...)
+: AbstractArrayProperty<T, Size>(std::forward<Args>(args)...)
 {
 }
 

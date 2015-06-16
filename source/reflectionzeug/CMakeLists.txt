@@ -73,8 +73,8 @@ set(headers
     ${header_path}/property/AbstractProperty.hpp
     ${header_path}/property/AbstractPropertyValue.h
     ${header_path}/property/AbstractPropertyValue.hpp
-    ${header_path}/property/AbstractPropertyArray.h
-    ${header_path}/property/AbstractPropertyArray.hpp
+    ${header_path}/property/AbstractArrayProperty.h
+    ${header_path}/property/AbstractArrayProperty.hpp
     ${header_path}/property/AbstractCollection.h
     ${header_path}/property/AbstractAccessor.h
     ${header_path}/property/Accessor.h
