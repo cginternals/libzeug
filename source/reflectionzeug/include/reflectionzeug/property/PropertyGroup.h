@@ -105,6 +105,9 @@ public:
     void forEachGroup(const std::function<void(PropertyGroup &)> & callback);
     void forEachGroup(const std::function<void(const PropertyGroup &)> & callback) const;
 
+    virtual std::string toString() const override;
+    virtual bool fromString(const std::string & string) override;
+
     virtual void accept(AbstractVisitor * visitor) override;
 
 

@@ -1,6 +1,7 @@
 
 #include <reflectionzeug/property/PropertyBool.h>
 
+#include <reflectionzeug/base/util.h>
 #include <reflectionzeug/property/AbstractVisitor.h>
 
 
@@ -20,6 +21,20 @@ bool PropertyBool::toBool() const
 bool PropertyBool::fromBool(bool value)
 {
     this->setValue(value);
+    return true;
+}
+
+std::string PropertyBool::toString() const
+{
+    return this->value() ? "true" : "false"; 
+}
+
+bool PropertyBool::fromString(const std::string & string)
+{
+    if (!util::matchesRegex(string, "(true|false)"))
+        return false;
+
+    this->setValue(string == "true");
     return true;
 }
 

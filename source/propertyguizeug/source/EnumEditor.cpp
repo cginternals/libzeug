@@ -22,10 +22,12 @@ EnumEditor::EnumEditor(
         strings = property->choicesStrings();
     else
         strings = property->strings();
-    
+
+    AbstractProperty * prop = dynamic_cast<AbstractProperty *>(m_property);
+
     auto comboBox = new QComboBox{this};
     comboBox->addItems(util::toQStringList(strings));
-    comboBox->setCurrentText(QString::fromStdString(m_property->toString()));
+    comboBox->setCurrentText(QString::fromStdString(prop->toString()));
     
     addWidget(comboBox);
     setFocusProxy(comboBox);
@@ -33,10 +35,10 @@ EnumEditor::EnumEditor(
     connect(comboBox, &QComboBox::currentTextChanged, 
             this, &EnumEditor::setString);
 
-    m_propertyChangedConnection = dynamic_cast<AbstractProperty *>(m_property)->changed.connect(
-        [this, comboBox]()
+    m_propertyChangedConnection = prop->changed.connect(
+        [this, prop, comboBox]()
         {
-            comboBox->setCurrentText(QString::fromStdString(m_property->toString()));
+            comboBox->setCurrentText(QString::fromStdString(prop->toString()));
         });
 }
 
@@ -46,7 +48,9 @@ EnumEditor::~EnumEditor()
     
 void EnumEditor::setString(const QString & text)
 {
-    m_property->fromString(text.toStdString());
+    AbstractProperty * prop = dynamic_cast<AbstractProperty *>(m_property);
+
+    prop->fromString(text.toStdString());
 }
 
 } // namespace propertyguizeug

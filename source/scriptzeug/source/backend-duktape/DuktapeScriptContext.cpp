@@ -299,12 +299,12 @@ static Variant getPropertyValue(AbstractProperty * property)
 
     // String
     else if (AbstractStringInterface * prop = dynamic_cast< AbstractStringInterface * >(property) ) {
-        value = Variant(prop->toString());
+        value = Variant(property->toString());
     }
 
     // FilePath
     else if (Property<FilePath> * prop = dynamic_cast< Property<FilePath> * >(property) ) {
-        value = Variant(prop->value().toString());
+        value = Variant(property->toString());
     }
 
     // Color

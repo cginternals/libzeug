@@ -100,6 +100,35 @@ AbstractArrayProperty<Type, Size>::~AbstractArrayProperty()
 }
 
 template <typename Type, size_t Size>
+std::string AbstractArrayProperty<Type, Size>::toString() const
+{
+    std::vector<std::string> stringVector;
+
+    for (size_t i=0; i<Size; i++) {
+        stringVector.push_back(at(i)->toString());
+    }
+
+    return "(" + util::join(stringVector, ", ") + ")";
+}
+
+template <typename Type, size_t Size>
+bool AbstractArrayProperty<Type, Size>::fromString(const std::string & string)
+{
+    std::vector<std::string> elementStrings = util::splitArray(Size, string);
+
+    if (elementStrings.size() != Size)
+        return false;
+
+    for (size_t i=0; i<Size; i++)
+    {
+        if (!at(i)->fromString(elementStrings[i]))
+            return false;
+    }
+
+    return true;
+}
+
+template <typename Type, size_t Size>
 bool AbstractArrayProperty<Type, Size>::isEmpty() const
 {
     return (Size == 0);

@@ -26,6 +26,9 @@ public:
     virtual Color toColor() const override;
     virtual bool fromColor(const Color & color) override;
 
+    virtual std::string toString() const override;
+    virtual bool fromString(const std::string & string) override;
+
     virtual void accept(AbstractVisitor * visitor) override;
 };
 

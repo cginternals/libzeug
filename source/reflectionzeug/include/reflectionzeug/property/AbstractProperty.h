@@ -41,6 +41,9 @@ public:
     virtual Variant toVariant() const = 0;
     virtual bool fromVariant(const Variant & value) = 0;
 
+    virtual std::string toString() const = 0;
+    virtual bool fromString(const std::string & string) = 0;
+
     virtual void accept(AbstractVisitor * visitor);
 
     bool isCollection() const;

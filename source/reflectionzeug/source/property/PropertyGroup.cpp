@@ -430,6 +430,18 @@ PropertyGroup * PropertyGroup::ensureGroup(const std::vector<std::string> & path
     return group->ensureGroup(std::vector<std::string>(path.begin() + 1, path.end()));
 }
 
+std::string PropertyGroup::toString() const
+{
+    // Not supported
+    return "";
+}
+
+bool PropertyGroup::fromString(const std::string & string)
+{
+    // Not supported
+    return false;
+}
+
 void PropertyGroup::accept(AbstractVisitor * visitor)
 {
     visitor->callVisitor<PropertyGroup>(this);

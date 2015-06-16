@@ -25,6 +25,20 @@ PropertyClass<T>::~PropertyClass()
 }
 
 template <typename T>
+std::string PropertyClass<T>::toString() const
+{
+    // Not supported
+    return "";
+}
+
+template <typename T>
+bool PropertyClass<T>::fromString(const std::string & string)
+{
+    // Not supported
+	return false;
+}
+
+template <typename T>
 void PropertyClass<T>::accept(AbstractVisitor * visitor)
 {
     visitor->callVisitor<PropertyClass<T>>(this);

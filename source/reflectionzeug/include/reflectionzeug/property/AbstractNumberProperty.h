@@ -26,8 +26,8 @@ public:
     AbstractNumberProperty(Args&&... args);
     virtual ~AbstractNumberProperty() = 0;
 
-    virtual std::string toString() const;
-    virtual bool fromString(const std::string & string);
+    virtual std::string toString() const override;
+    virtual bool fromString(const std::string & string) override;
 
 
 protected:

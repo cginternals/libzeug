@@ -30,7 +30,7 @@ public:
 
 
 protected:
-    virtual std::string matchRegex() const;
+    virtual std::string matchRegex() const override;
 };
 
 

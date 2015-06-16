@@ -55,6 +55,9 @@ public:
 
     virtual ~AbstractArrayProperty();
 
+    virtual std::string toString() const override;
+    virtual bool fromString(const std::string & string) override;
+
     virtual bool isEmpty() const override;
     virtual size_t count() const override;
 
