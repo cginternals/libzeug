@@ -111,12 +111,6 @@ bool AbstractValueProperty<Type>::fromVariant(const Variant & value)
 }
 
 template <typename Type>
-Type * AbstractValueProperty<Type>::ptr() const
-{
-    return m_accessor->ptr();
-}
-
-template <typename Type>
 Type AbstractValueProperty<Type>::value() const
 {
     return m_accessor->value();

@@ -57,7 +57,6 @@ public:
     virtual Variant toVariant() const override;
     virtual bool fromVariant(const Variant & value) override;
 
-    Type * ptr() const;
     Type value() const;
     void setValue(const Type & value);
 
