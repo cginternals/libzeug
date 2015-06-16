@@ -17,7 +17,7 @@ namespace reflectionzeug
 template <typename Type>
 template <typename... Args>
 AbstractNumberProperty<Type>::AbstractNumberProperty(Args&&... args)
-: AbstractPropertyValue<Type>(std::forward<Args>(args)...)
+: AbstractValueProperty<Type>(std::forward<Args>(args)...)
 {
     this->setOptions({
         { "minimum", Variant(std::numeric_limits<Type>::lowest()) },

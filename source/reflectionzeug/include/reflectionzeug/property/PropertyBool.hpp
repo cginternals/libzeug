@@ -11,7 +11,7 @@ namespace reflectionzeug
 
 template <typename... Args>
 PropertyBool::PropertyBool(Args&&... args)
-: AbstractPropertyValue<bool>(std::forward<Args>(args)...)
+: AbstractValueProperty<bool>(std::forward<Args>(args)...)
 {
 }
 

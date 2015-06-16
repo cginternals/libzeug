@@ -2,7 +2,7 @@
 #pragma once
 
 
-#include <reflectionzeug/property/AbstractPropertyValue.h>
+#include <reflectionzeug/property/AbstractValueProperty.h>
 #include <reflectionzeug/property/AbstractStringInterface.h>
 
 
@@ -14,7 +14,7 @@ namespace reflectionzeug
 *  @brief
 *    Implementation for type std::string
 */
-class PropertyString : public AbstractPropertyValue<std::string>, public AbstractStringInterface
+class PropertyString : public AbstractValueProperty<std::string>, public AbstractStringInterface
 {
 public:
     template <typename... Args>

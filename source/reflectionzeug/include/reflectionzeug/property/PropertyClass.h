@@ -2,7 +2,7 @@
 #pragma once
 
 
-#include <reflectionzeug/property/AbstractPropertyValue.h>
+#include <reflectionzeug/property/AbstractValueProperty.h>
 
 
 namespace reflectionzeug
@@ -14,7 +14,7 @@ namespace reflectionzeug
 *    Implementation for class types
 */
 template <typename T>
-class PropertyClass : public AbstractPropertyValue<T>
+class PropertyClass : public AbstractValueProperty<T>
 {
 public:
     template <typename... Args>

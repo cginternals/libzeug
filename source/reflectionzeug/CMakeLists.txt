@@ -71,8 +71,8 @@ set(headers
     ${header_path}/property/specialization_helpers.h
     ${header_path}/property/AbstractProperty.h
     ${header_path}/property/AbstractProperty.hpp
-    ${header_path}/property/AbstractPropertyValue.h
-    ${header_path}/property/AbstractPropertyValue.hpp
+    ${header_path}/property/AbstractValueProperty.h
+    ${header_path}/property/AbstractValueProperty.hpp
     ${header_path}/property/AbstractArrayProperty.h
     ${header_path}/property/AbstractArrayProperty.hpp
     ${header_path}/property/AbstractCollection.h

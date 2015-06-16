@@ -2,7 +2,7 @@
 #pragma once
 
 
-#include <reflectionzeug/property/AbstractPropertyValue.h>
+#include <reflectionzeug/property/AbstractValueProperty.h>
 
 
 namespace reflectionzeug
@@ -19,7 +19,7 @@ namespace reflectionzeug
  * \ingroup property_hierarchy
  */
 template <typename Type>
-class AbstractNumberProperty : public AbstractPropertyValue<Type>
+class AbstractNumberProperty : public AbstractValueProperty<Type>
 {
 public:
     template <typename... Args>

@@ -6,7 +6,7 @@
 #include <functional>
 #include <array>
 
-#include <reflectionzeug/property/AbstractPropertyValue.h>
+#include <reflectionzeug/property/AbstractValueProperty.h>
 #include <reflectionzeug/property/AbstractCollection.h>
 #include <reflectionzeug/property/ArrayAccessor.h>
 
@@ -24,7 +24,7 @@ class Property;
 *    Base class for typed arrays (read/write)
 */
 template <typename Type, size_t Size>
-class AbstractArrayProperty : public AbstractPropertyValue<std::array<Type, Size>>
+class AbstractArrayProperty : public AbstractValueProperty<std::array<Type, Size>>
                             , public AbstractCollection
 {
 public:

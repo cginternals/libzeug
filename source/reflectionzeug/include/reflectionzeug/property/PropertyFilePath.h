@@ -3,7 +3,7 @@
 
 
 #include <reflectionzeug/base/FilePath.h>
-#include <reflectionzeug/property/AbstractPropertyValue.h>
+#include <reflectionzeug/property/AbstractValueProperty.h>
 
 
 namespace reflectionzeug
@@ -14,7 +14,7 @@ namespace reflectionzeug
 *  @brief
 *    Implementation for type FilePath
 */
-class PropertyFilePath : public AbstractPropertyValue<FilePath>
+class PropertyFilePath : public AbstractValueProperty<FilePath>
 {
 public:
     template <typename... Args>

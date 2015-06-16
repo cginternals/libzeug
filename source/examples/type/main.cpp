@@ -490,7 +490,7 @@ int main(int argc, char *argv[])
         std::cout << "value[2] = " << propArray.getElement(2) << " (22)\n";
 
         propArray.forEach([] (AbstractProperty & prop) {
-            AbstractPropertyValue<int> & intProp = static_cast<AbstractPropertyValue<int> &>(prop);
+            AbstractValueProperty<int> & intProp = static_cast<AbstractValueProperty<int> &>(prop);
             intProp.setValue(100);
         });
 

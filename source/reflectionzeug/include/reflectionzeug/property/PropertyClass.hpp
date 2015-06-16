@@ -15,7 +15,7 @@ namespace reflectionzeug
 template <typename T>
 template <typename... Args>
 PropertyClass<T>::PropertyClass(Args&&... args)
-: AbstractPropertyValue<T>(std::forward<Args>(args)...)
+: AbstractValueProperty<T>(std::forward<Args>(args)...)
 {
 }
 
