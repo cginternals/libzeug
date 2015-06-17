@@ -3,6 +3,7 @@
 
 
 #include <reflectionzeug/property/Accessor.h>
+#include <reflectionzeug/property/TypeConverter.h>
 
 
 namespace reflectionzeug
@@ -23,13 +24,25 @@ Accessor<Type>::~Accessor()
 template <typename Type>
 const std::type_info & Accessor<Type>::type() const
 {
-	return typeid(Type);
+    return typeid(Type);
 }
 
 template <typename Type>
 bool Accessor<Type>::isReadOnly() const
 {
     return false;
+}
+
+template <typename Type>
+bool Accessor<Type>::canConvert(const std::type_info & targetType) const
+{
+    return TypeConverter<Type>().canConvert(targetType);
+}
+
+template <typename Type>
+bool Accessor<Type>::convert(void * target, const std::type_info & targetType) const
+{
+    return TypeConverter<Type>().convert(this->value(), target, targetType);
 }
 
 

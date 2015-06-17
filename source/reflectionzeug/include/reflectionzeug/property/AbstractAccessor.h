@@ -22,6 +22,9 @@ public:
 
     virtual const std::type_info & type() const = 0;
     virtual AbstractAccessor * clone() const = 0;
+
+    virtual bool canConvert(const std::type_info & targetType) const = 0;
+    virtual bool convert(void * target, const std::type_info & targetType) const = 0;
 };
 
 

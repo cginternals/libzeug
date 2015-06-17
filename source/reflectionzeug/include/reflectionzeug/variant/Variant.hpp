@@ -30,13 +30,30 @@ bool Variant::hasType() const
 }
 
 template <typename ValueType>
+bool Variant::canConvert() const
+{
+    return m_accessor->canConvert(typeid(ValueType));
+}
+
+template <typename ValueType>
 ValueType Variant::value(const ValueType & defaultValue) const
 {
+    // Type of variant is the wanted type
     if (m_accessor && typeid(ValueType) == m_accessor->type()) {
         return static_cast<AccessorValue<ValueType> *>(m_accessor)->value();
-    } else {
-        return defaultValue;
     }
+
+    // Variant has to be converted
+    else if (m_accessor && m_accessor->canConvert(typeid(ValueType))) {
+        // Try to convert value
+        ValueType converted;
+        if (m_accessor->convert(static_cast<void*>(&converted), typeid(ValueType))) {
+            return converted;
+        }
+    }
+
+    // No conversion possible
+    return defaultValue;
 }
 
 template <typename ValueType>

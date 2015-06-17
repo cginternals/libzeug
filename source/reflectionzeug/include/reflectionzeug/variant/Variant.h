@@ -94,6 +94,13 @@ public:
     template <typename ValueType>
     bool hasType() const;
 
+    /** Returns true if the Variant has or
+     * can be converted to the template type ValueType.
+     * \see registerConverter()
+     */
+    template <typename ValueType>
+    bool canConvert() const;
+
     /** Returns the stored value converted to the template type ValueType. 
      * Call canConvert() to find out whether a type can be converted. 
      * If the value cannot be converted, a default-constructed value will be returned.

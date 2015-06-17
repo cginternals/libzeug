@@ -69,6 +69,8 @@ set(headers
 
     ${header_path}/property/property_declaration.h
     ${header_path}/property/specialization_helpers.h
+    ${header_path}/property/TypeConverter.h
+    ${header_path}/property/TypeConverter.hpp
     ${header_path}/property/AbstractProperty.h
     ${header_path}/property/AbstractProperty.hpp
     ${header_path}/property/AbstractValueProperty.h

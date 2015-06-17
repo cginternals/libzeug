@@ -26,6 +26,9 @@ public:
     virtual Type value() const = 0;
     virtual void setValue(const Type & value) = 0;
 
+    virtual bool canConvert(const std::type_info & targetType) const override;
+    virtual bool convert(void * target, const std::type_info & targetType) const override;
+
     virtual bool isReadOnly() const;
 };
 
