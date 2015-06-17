@@ -1,12 +1,16 @@
+
 #pragma once
+
 
 #include <string>
 #include <vector>
 
 #include <reflectionzeug/reflectionzeug_api.h>
 
+
 namespace reflectionzeug
 {
+
 
 /**
  * \brief Utility methods which deal with common string conversion, 
@@ -14,6 +18,7 @@ namespace reflectionzeug
  */
 namespace util
 {
+
 
 template <typename Type>
 Type fromString(const std::string & string);
@@ -46,8 +51,11 @@ REFLECTIONZEUG_API std::vector<std::string> splitArray(size_t size, const std::s
     
 REFLECTIONZEUG_API std::vector<std::string> split(const std::string & input, char delimiter);
 
+
 } // namespace util
 
+
 } // namespace reflectionzeug
+
 
 #include <reflectionzeug/base/util.hpp>

@@ -1,3 +1,4 @@
+
 #include <reflectionzeug/base/Color.h>
 
 #include <cassert>
@@ -6,8 +7,10 @@
 
 #include <reflectionzeug/base/util.h>
 
+
 namespace reflectionzeug
 {
+
 
 Color Color::fromString(const std::string & string, bool * ok)
 {
@@ -137,5 +140,6 @@ bool Color::operator!=(const Color & rhs) const
 {
     return !(*this == rhs);
 }
+
 
 } // namespace reflectionzeug

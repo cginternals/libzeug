@@ -1,3 +1,4 @@
+
 #include <reflectionzeug/base/util.h>
 
 #ifdef USE_STD_REGEX
@@ -14,11 +15,13 @@
 #include <cassert>
 #include <algorithm>
 
+
 namespace reflectionzeug
 {
 
 namespace util
 {
+
 
 template <>
 char fromString<char>(const std::string & string)
@@ -119,6 +122,7 @@ std::vector<std::string> split(const std::string & input, char delimiter)
 	}
 	return result;
 }
+
 
 } // namespace util
 

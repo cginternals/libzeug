@@ -1,7 +1,10 @@
+
 #include <reflectionzeug/base/FilePath.h>
+
 
 namespace reflectionzeug
 {
+
 
 FilePath::FilePath()
 :   m_string("")
@@ -48,5 +51,6 @@ const std::string & FilePath::toString() const
 {
     return m_string;
 }
+
 
 } // namespace reflectionzeug

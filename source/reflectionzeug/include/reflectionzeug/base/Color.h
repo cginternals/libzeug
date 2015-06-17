@@ -1,19 +1,28 @@
+
 #pragma once
+
 
 #include <string>
 
 #include <reflectionzeug/reflectionzeug_api.h>
 
+
 namespace reflectionzeug
 {
 
+
+// [TODO] Remove Color class, implement interface in AbstractColorInterface instead
+
+
 /**
- * \brief A simple RGBA color class for use as a property value.
- */
+*  @brief
+*    A simple RGBA color class for use as a property value
+*/
 class REFLECTIONZEUG_API Color
 {
 public:
     static Color fromString(const std::string & string, bool * ok);
+
 
 public:
     Color();
@@ -40,6 +49,7 @@ public:
     bool operator==(const Color & rhs) const;
     bool operator!=(const Color & rhs) const;
 
+
 protected:
     union {
         struct {
@@ -51,5 +61,6 @@ protected:
         unsigned int m_v;
     };
 };
+
 
 } // namespace reflectionzeug

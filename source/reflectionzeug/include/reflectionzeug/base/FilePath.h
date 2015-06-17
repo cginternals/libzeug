@@ -1,19 +1,25 @@
+
 #pragma once
+
 
 #include <string>
 
 #include <reflectionzeug/reflectionzeug_api.h>
 
+
 namespace reflectionzeug
 {
 
-/** 
- * \brief A simple file path class for use as a property value.
- */
+
+/**
+*  @brief
+*    A simple file path class for use as a property value
+*/
 class REFLECTIONZEUG_API FilePath
 {
 public:
     static FilePath fromString(const std::string & string, bool * ok);
+
 
 public:
     FilePath();
@@ -27,8 +33,10 @@ public:
 
     const std::string & toString() const;
 
+
 protected:
     std::string m_string;
 };
+
 
 } // namespace reflectionzeug

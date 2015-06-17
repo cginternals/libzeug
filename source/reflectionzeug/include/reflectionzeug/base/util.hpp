@@ -1,4 +1,6 @@
+
 #pragma once
+
 
 #include <type_traits>
 
@@ -6,11 +8,13 @@
 
 #include <sstream>
 
+
 namespace reflectionzeug
 {
-    
+
 namespace util
 {
+
 
 template <typename Type>
 Type fromString(const std::string & string)
@@ -44,6 +48,7 @@ std::string join(const Iterable & iterable, const std::string & separator)
 
     return stream.str();
 }
+
     
 } // namespace util
 
