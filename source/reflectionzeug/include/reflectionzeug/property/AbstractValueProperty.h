@@ -21,7 +21,7 @@ template <typename Type>
 class AbstractValueProperty : public AbstractProperty
 {
 public:
-    signalzeug::Signal<const Type &> valueChanged;  /**< Called when the value has been changed */
+    signalzeug::Signal<const Type &> valueChanged;  ///< Called when the value has been changed
 
 
 public:

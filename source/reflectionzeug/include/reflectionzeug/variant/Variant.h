@@ -272,7 +272,7 @@ public:
 
 
 protected:
-    AbstractAccessor * m_accessor;    /**< Value accessor, can be nullptr */
+    AbstractAccessor * m_accessor;    ///< Value accessor, can be nullptr
 };
 
 

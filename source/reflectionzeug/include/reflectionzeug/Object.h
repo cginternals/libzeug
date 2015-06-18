@@ -14,7 +14,7 @@ namespace reflectionzeug
 
 /**
 *  @brief
-*    Base  class for reflectable classes that can expose properties and functions
+*    Base class for reflectable classes that can expose properties and functions
 *
 *    To export one of your classes for automatic GUI generation and scripting, the
 *    recommended usage is to inherit from Object and register your properties and
@@ -89,7 +89,7 @@ public:
 
 
 protected:
-    std::vector<AbstractFunction *> m_functions;    /**< List of exported functions */
+    std::vector<AbstractFunction *> m_functions;    ///< List of exported functions
 };
 
 

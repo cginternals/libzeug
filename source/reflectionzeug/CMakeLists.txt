@@ -130,6 +130,7 @@ set(headers
 
     ${header_path}/function/template_helpers.h
     ${header_path}/function/Function.h
+    ${header_path}/function/Function.hpp
 
     ${header_path}/variant/Variant.h
     ${header_path}/variant/Variant.hpp
@@ -161,6 +162,8 @@ set(sources
     ${source_path}/property/PropertyColor.cpp
     ${source_path}/property/PropertyFilePath.cpp
     ${source_path}/property/PropertyGroup.cpp
+
+    ${source_path}/function/Function.cpp
 
     ${source_path}/variant/Variant.cpp
 
