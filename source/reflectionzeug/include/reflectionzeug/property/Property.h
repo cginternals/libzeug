@@ -2,7 +2,7 @@
 #pragma once
 
 
-#include <reflectionzeug/property/specialization_helpers.h>
+#include <reflectionzeug/base/template_helpers.h>
 #include <reflectionzeug/property/PropertySignedIntegral.h>
 #include <reflectionzeug/property/PropertyUnsignedIntegral.h>
 #include <reflectionzeug/property/PropertyFloatingPoint.h>
@@ -55,31 +55,31 @@ struct TypeSelector<FilePath>
 };
 
 template <typename T>
-struct TypeSelector<T, EnableIf<isSignedIntegral<T>>>
+struct TypeSelector<T, helper::EnableIf<helper::isSignedIntegral<T>>>
 {
     using Type = PropertySignedIntegral<T>;
 };
 
 template <typename T>
-struct TypeSelector<T, EnableIf<isUnsignedIntegral<T>>>
+struct TypeSelector<T, helper::EnableIf<helper::isUnsignedIntegral<T>>>
 {
     using Type = PropertyUnsignedIntegral<T>;
 };
 
 template <typename T>
-struct TypeSelector<T, EnableIf<isFloatingPoint<T>>>
+struct TypeSelector<T, helper::EnableIf<helper::isFloatingPoint<T>>>
 {
     using Type = PropertyFloatingPoint<T>;
 };
 
 template <typename T>
-struct TypeSelector<T, EnableIf<isArray<T>>>
+struct TypeSelector<T, helper::EnableIf<helper::isArray<T>>>
 {
     using Type = PropertyArray<typename T::value_type, std::tuple_size<T>::value>;
 };
 
 template <typename T>
-struct TypeSelector<T, EnableIf<std::is_enum<T>>>
+struct TypeSelector<T, helper::EnableIf<std::is_enum<T>>>
 {
     using Type = PropertyEnum<T>;
 };

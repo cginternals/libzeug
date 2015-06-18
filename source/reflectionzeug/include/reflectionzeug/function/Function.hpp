@@ -30,15 +30,15 @@ AbstractFunction * Function<RET, Arguments...>::clone()
 template <typename RET, typename... Arguments>
 Variant Function<RET, Arguments...>::call(const std::vector<Variant> & args)
 {
-    return callFunction(typename GenSeq<sizeof...(Arguments)>::Type(), args);
+    return callFunction(typename helper::GenSeq<sizeof...(Arguments)>::Type(), args);
 }
 
 
 template <typename RET, typename... Arguments>
 template<size_t... I>
-Variant Function<RET, Arguments...>::callFunction(Seq<I...>, const std::vector<Variant> & args)
+Variant Function<RET, Arguments...>::callFunction(helper::Seq<I...>, const std::vector<Variant> & args)
 {
-    return CallFunction<RET, Arguments...>::call(m_func, ArgValueGen<I, Arguments...>::Type::get(args)...);
+    return helper::CallFunction<RET, Arguments...>::call(m_func, helper::ArgValueGen<I, Arguments...>::Type::get(args)...);
 }
 
 
@@ -64,14 +64,14 @@ AbstractFunction * Method<T, RET, Arguments...>::clone()
 template <class T, typename RET, typename... Arguments>
 Variant Method<T, RET, Arguments...>::call(const std::vector<Variant> & args)
 {
-    return callMethod(typename GenSeq<sizeof...(Arguments)>::Type(), args);
+    return callMethod(typename helper::GenSeq<sizeof...(Arguments)>::Type(), args);
 }
 
 template <class T, typename RET, typename... Arguments>
 template<size_t... I>
-Variant Method<T, RET, Arguments...>::callMethod(Seq<I...>, const std::vector<Variant> & args)
+Variant Method<T, RET, Arguments...>::callMethod(helper::Seq<I...>, const std::vector<Variant> & args)
 {
-    return CallMethod<T, RET, Arguments...>::call(m_obj, m_method, ArgValueGen<I, Arguments...>::Type::get(args)...);
+    return helper::CallMethod<T, RET, Arguments...>::call(m_obj, m_method, helper::ArgValueGen<I, Arguments...>::Type::get(args)...);
 }
 
 

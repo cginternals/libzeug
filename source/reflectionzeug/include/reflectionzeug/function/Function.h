@@ -6,8 +6,8 @@
 #include <vector>
 #include <functional>
 
+#include <reflectionzeug/base/template_helpers.h>
 #include <reflectionzeug/variant/Variant.h>
-#include <reflectionzeug/function/template_helpers.h>
 
 
 namespace reflectionzeug
@@ -117,7 +117,7 @@ public:
 
 protected:
     template<size_t... I>
-    Variant callFunction(Seq<I...>, const std::vector<Variant> & args);
+    Variant callFunction(helper::Seq<I...>, const std::vector<Variant> & args);
 
 
 protected:
@@ -165,7 +165,7 @@ public:
 
 protected:
     template<size_t... I>
-    Variant callMethod(Seq<I...>, const std::vector<Variant> & args);
+    Variant callMethod(helper::Seq<I...>, const std::vector<Variant> & args);
 
 
 protected:

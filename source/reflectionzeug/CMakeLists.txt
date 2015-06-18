@@ -63,12 +63,12 @@ set(headers
     ${header_path}/base/util.hpp
     ${header_path}/base/Color.h
     ${header_path}/base/FilePath.h
+    ${header_path}/base/template_helpers.h
 
     ${header_path}/tools/JSON.h
     ${header_path}/tools/JSONReader.h
 
     ${header_path}/property/property_declaration.h
-    ${header_path}/property/specialization_helpers.h
     ${header_path}/property/TypeConverter.h
     ${header_path}/property/TypeConverter.hpp
     ${header_path}/property/AbstractProperty.h
@@ -128,7 +128,6 @@ set(headers
     ${header_path}/property/PropertyGroup.h
     ${header_path}/property/PropertyGroup.hpp
 
-    ${header_path}/function/template_helpers.h
     ${header_path}/function/Function.h
     ${header_path}/function/Function.hpp
 
