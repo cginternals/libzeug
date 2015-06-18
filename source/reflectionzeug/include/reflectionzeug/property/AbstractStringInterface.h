@@ -24,7 +24,16 @@ namespace reflectionzeug
 class REFLECTIONZEUG_API AbstractStringInterface
 {
 public:
+    /**
+    *  @brief
+    *    Constructor
+    */
     AbstractStringInterface();
+
+    /**
+    *  @brief
+    *    Destructor
+    */
     virtual ~AbstractStringInterface();
 };
 

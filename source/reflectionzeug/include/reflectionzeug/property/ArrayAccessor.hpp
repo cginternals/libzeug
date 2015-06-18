@@ -39,12 +39,6 @@ ArrayAccessor<const Type, Size>::~ArrayAccessor()
 }
 
 template <typename Type, size_t Size>
-void ArrayAccessor<const Type, Size>::setValue(const std::array<Type, Size> & array)
-{
-    // Read-only value!
-}
-
-template <typename Type, size_t Size>
 void ArrayAccessor<const Type, Size>::setElement(size_t i, const Type & value)
 {
     // Read-only value!
@@ -54,6 +48,12 @@ template <typename Type, size_t Size>
 bool ArrayAccessor<const Type, Size>::isReadOnly() const
 {
     return true;
+}
+
+template <typename Type, size_t Size>
+void ArrayAccessor<const Type, Size>::setValue(const std::array<Type, Size> & array)
+{
+    // Read-only value!
 }
 
 

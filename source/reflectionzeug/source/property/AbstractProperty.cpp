@@ -1,5 +1,6 @@
 
 #include <reflectionzeug/property/AbstractProperty.h>
+
 #include <reflectionzeug/property/AbstractCollection.h>
 #include <reflectionzeug/property/PropertyGroup.h>
 
@@ -17,14 +18,14 @@ AbstractProperty::~AbstractProperty()
 {
 }
 
-std::string AbstractProperty::name() const
-{
-    return m_name;
-}
-
 bool AbstractProperty::hasName() const
 {
     return !m_name.empty();
+}
+
+std::string AbstractProperty::name() const
+{
+    return m_name;
 }
 
 void AbstractProperty::accept(AbstractVisitor * visitor)
@@ -66,6 +67,20 @@ const VariantMap & AbstractProperty::options() const
     return m_options;
 }
 
+void AbstractProperty::setOptions(const VariantMap & map)
+{
+    for (const auto & pair : map)
+    {
+        m_options[pair.first] = pair.second;
+        optionChanged(pair.first);
+    }
+}
+
+bool AbstractProperty::hasOption(const std::string & key) const
+{
+    return m_options.count(key) != 0;
+}
+
 Variant AbstractProperty::option(const std::string & key) const
 {
     if (!this->hasOption(key))
@@ -74,24 +89,10 @@ Variant AbstractProperty::option(const std::string & key) const
     return m_options.at(key);
 }
 
-bool AbstractProperty::hasOption(const std::string & key) const
-{
-    return m_options.count(key) != 0;
-}
-
 void AbstractProperty::setOption(const std::string & key, const Variant & value)
 {
     m_options[key] = value;
     optionChanged(key);
-}
-
-void AbstractProperty::setOptions(const VariantMap & map)
-{
-    for (const auto & pair : map)
-    {
-        m_options[pair.first] = pair.second;
-        optionChanged(pair.first);
-    }
 }
 
 bool AbstractProperty::removeOption(const std::string & key)

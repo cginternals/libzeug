@@ -14,26 +14,52 @@ class Visitor;
 
 
 /**
- * \brief The base class of all property visitors.
- *
- * Usually specific visitors don't inherit from it.
- * \see PropertyVisitor
- * \see PropertyCategoryVisitor
- */
+*  @brief
+*    Base class for property visitors
+*/
 class REFLECTIONZEUG_API AbstractVisitor
 {
 public:
+    //@{
+    /**
+    *  @brief
+    *    Constructor
+    */
     AbstractVisitor();
-    virtual ~AbstractVisitor();
 
+    /**
+    *  @brief
+    *    Destructor
+    */
+    virtual ~AbstractVisitor();
+    //@}
+
+    //@{
+    /**
+    *  @brief
+    *    Convert into visitor of type Visitor<Type>
+    *
+    *  @return
+    *    Pointer to typed visitor, or nullptr if the visitor is not of the specified type
+    */
     template <typename Type>
     Visitor<Type> * asVisitor();
 
     template <typename Type>
     Visitor<Type> * asVisitor() const;
+    //@}
 
+    //@{
+    /**
+    *  @brief
+    *    Call visitor on typed property
+    *
+    *  @param[in] instance
+    *    Property instance
+    */
     template <typename Type>
     void callVisitor(Type * instance);
+    //@}
 };
 
 

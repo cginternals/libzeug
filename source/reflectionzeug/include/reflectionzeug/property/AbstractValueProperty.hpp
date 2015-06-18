@@ -3,6 +3,7 @@
 
 
 #include <reflectionzeug/property/AbstractValueProperty.h>
+
 #include <reflectionzeug/property/AccessorValue.h>
 #include <reflectionzeug/property/AccessorGetSet.h>
 
@@ -85,6 +86,20 @@ AbstractValueProperty<Type>::~AbstractValueProperty()
 }
 
 template <typename Type>
+Type AbstractValueProperty<Type>::value() const
+{
+    return m_accessor->value();
+}
+
+template <typename Type>
+void AbstractValueProperty<Type>::setValue(const Type & value)
+{
+    m_accessor->setValue(value);
+    this->valueChanged(value);
+    this->changed();
+}
+
+template <typename Type>
 const std::type_info & AbstractValueProperty<Type>::type() const
 {
     return typeid(Type);
@@ -108,20 +123,6 @@ bool AbstractValueProperty<Type>::fromVariant(const Variant & value)
 
     // Invalid value
     return false;
-}
-
-template <typename Type>
-Type AbstractValueProperty<Type>::value() const
-{
-    return m_accessor->value();
-}
-
-template <typename Type>
-void AbstractValueProperty<Type>::setValue(const Type & value)
-{
-    m_accessor->setValue(value);
-    this->valueChanged(value);
-    this->changed();
 }
 
 

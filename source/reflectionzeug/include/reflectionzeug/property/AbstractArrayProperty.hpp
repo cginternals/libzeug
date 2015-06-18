@@ -2,10 +2,11 @@
 #pragma once
 
 
+#include <reflectionzeug/property/AbstractArrayProperty.h>
+
 #include <algorithm>
 #include <functional>
 
-#include <reflectionzeug/property/AbstractArrayProperty.h>
 #include <reflectionzeug/property/ArrayAccessorValue.h>
 #include <reflectionzeug/property/ArrayAccessorGetSet.h>
 #include <reflectionzeug/property/Property.h>
@@ -100,6 +101,20 @@ AbstractArrayProperty<Type, Size>::~AbstractArrayProperty()
 }
 
 template <typename Type, size_t Size>
+Type AbstractArrayProperty<Type, Size>::getElement(size_t i) const
+{
+    return m_arrayAccessor->getElement(i);
+}
+
+template <typename Type, size_t Size>
+void AbstractArrayProperty<Type, Size>::setElement(size_t i, const Type & value)
+{
+    m_arrayAccessor->setElement(i, value);
+    this->valueChanged(this->value());
+    this->changed();
+}
+
+template <typename Type, size_t Size>
 std::string AbstractArrayProperty<Type, Size>::toString() const
 {
     std::vector<std::string> stringVector;
@@ -183,20 +198,6 @@ void AbstractArrayProperty<Type, Size>::forEach(const std::function<void(const A
     for (const AbstractProperty * prop : m_elements) {
         callback(*prop);
     }
-}
-
-template <typename Type, size_t Size>
-Type AbstractArrayProperty<Type, Size>::getElement(size_t i) const
-{
-    return m_arrayAccessor->getElement(i);
-}
-
-template <typename Type, size_t Size>
-void AbstractArrayProperty<Type, Size>::setElement(size_t i, const Type & value)
-{
-    m_arrayAccessor->setElement(i, value);
-    this->valueChanged(this->value());
-    this->changed();
 }
 
 template <typename Type, size_t Size>

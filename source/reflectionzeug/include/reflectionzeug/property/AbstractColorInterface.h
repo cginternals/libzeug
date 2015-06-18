@@ -16,10 +16,37 @@ namespace reflectionzeug
 class REFLECTIONZEUG_API AbstractColorInterface
 {
 public:
+    /**
+    *  @brief
+    *    Constructor
+    */
     AbstractColorInterface();
+
+    /**
+    *  @brief
+    *    Destructor
+    */
     virtual ~AbstractColorInterface();
 
+    /**
+    *  @brief
+    *    Convert value to color
+    *
+    *  @return
+    *    Color value
+    */
     virtual Color toColor() const = 0;
+
+    /**
+    *  @brief
+    *    Convert value from color
+    *
+    *  @param[in] value
+    *    Color value
+    *
+    *  @return
+    *    'true' if the value could be set, else 'false'
+    */
     virtual bool fromColor(const Color & color) = 0;
 };
 
