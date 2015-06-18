@@ -8,6 +8,7 @@
 namespace reflectionzeug
 {
 
+
 template <typename Type, typename... Args>
 Property<Type> * PropertyGroup::addProperty(const std::string & name, Args&&... args)
 {

@@ -16,7 +16,7 @@ PropertyColor::~PropertyColor()
 
 Color PropertyColor::toColor() const
 {
-	return this->value();
+    return this->value();
 }
 
 bool PropertyColor::fromColor(const Color & color)

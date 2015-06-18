@@ -1,4 +1,6 @@
+
 #pragma once
+
 
 #include <sstream>
 #include <type_traits>
@@ -8,8 +10,10 @@
 
 #include <reflectionzeug/Property.h>
 
+
 namespace reflectionzeug
 {
+
 
 template <typename T, unsigned Count>
 std::string glmToString(const T * data)
@@ -65,7 +69,7 @@ class Vec2Property : public reflectionzeug::ValueProperty<glm::vec2>
 {
 public:
     using Type = glm::vec2;
-    
+
 public:
     template <typename... Arguments>
     Vec2Property(Arguments&&... args)
@@ -91,7 +95,7 @@ class IVec2Property : public reflectionzeug::ValueProperty<glm::ivec2>
 {
 public:
     using Type = glm::ivec2;
-    
+
 public:
     template <typename... Arguments>
     IVec2Property(Arguments&&... args)
@@ -117,7 +121,7 @@ class Vec3Property : public reflectionzeug::ValueProperty<glm::vec3>
 {
 public:
     using Type = glm::vec3;
-    
+
 public:
     template <typename... Arguments>
     Vec3Property(Arguments&&... args)
@@ -143,7 +147,7 @@ class IVec3Property : public reflectionzeug::ValueProperty<glm::ivec3>
 {
 public:
     using Type = glm::ivec3;
-    
+
 public:
     template <typename... Arguments>
     IVec3Property(Arguments&&... args)
@@ -169,7 +173,7 @@ class Vec4Property : public reflectionzeug::ValueProperty<glm::vec4>
 {
 public:
     using Type = glm::vec4;
-    
+
 public:
     template <typename... Arguments>
     Vec4Property(Arguments&&... args)
@@ -195,7 +199,7 @@ class IVec4Property : public reflectionzeug::ValueProperty<glm::ivec4>
 {
 public:
     using Type = glm::ivec4;
-    
+
 public:
     template <typename... Arguments>
     IVec4Property(Arguments&&... args)
@@ -252,5 +256,6 @@ struct PropertyClass<IVec4Property::Type>
 {
     using Type = IVec4Property;
 };
+
 
 } // namespace reflectionzeug

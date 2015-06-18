@@ -84,22 +84,22 @@ std::vector<std::string> splitArray(const std::string & string, size_t size)
     assert(result.size() == size);
     return result;
 }
-    
+
 std::vector<std::string> split(const std::string & input, char delimiter)
 {
     std::vector<std::string> result;
     result.push_back(std::string());
     for (const char & c : input)
-	{
-		if (c == delimiter)
-		{
-			result.push_back(std::string());
-			continue;
-		}
-		
-		result.back().push_back(c);
-	}
-	return result;
+    {
+        if (c == delimiter)
+        {
+            result.push_back(std::string());
+            continue;
+        }
+        
+        result.back().push_back(c);
+    }
+    return result;
 }
 
 bool matchesRegex(const std::string & string, const std::string & regex)

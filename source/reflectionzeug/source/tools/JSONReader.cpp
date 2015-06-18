@@ -399,7 +399,6 @@ bool JSONReader::readArray(Token & tokenStart)
     }
 
     while (true) {
-
         Variant value;
         m_nodes.push_back(&value);
         bool ok = readValue();

@@ -34,12 +34,12 @@ Color Color::fromString(const std::string & string, bool * ok)
 }
 
 Color::Color()
-:   m_v{0u}
+: m_v{0u}
 {
 }
 
 Color::Color(unsigned int rgba)
-:   m_v{rgba}
+: m_v{rgba}
 {
 }
 

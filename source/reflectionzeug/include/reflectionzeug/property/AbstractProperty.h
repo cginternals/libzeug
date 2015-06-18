@@ -25,8 +25,8 @@ class PropertyGroup;
 class REFLECTIONZEUG_API AbstractProperty
 {
 public:
-    signalzeug::Signal<> 					changed;  		///< Called when the value has been changed
-    signalzeug::Signal<const std::string &> optionChanged;	///< Called when an option of the value has been changed
+    signalzeug::Signal<>                    changed;        ///< Called when the value has been changed
+    signalzeug::Signal<const std::string &> optionChanged;  ///< Called when an option of the value has been changed
 
 
 public:

@@ -105,7 +105,7 @@ REFLECTIONZEUG_API std::string trim(const std::string & string, bool removeAllWh
 *    List of strings
 */
 REFLECTIONZEUG_API std::vector<std::string> splitArray(const std::string & string, size_t size);
-    
+
 /**
 *  @brief
 *    Split string into substrings

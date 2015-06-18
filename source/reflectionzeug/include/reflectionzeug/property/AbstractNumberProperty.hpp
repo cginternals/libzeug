@@ -33,14 +33,14 @@ AbstractNumberProperty<Type>::~AbstractNumberProperty()
 template <typename Type>
 std::string AbstractNumberProperty<Type>::toString() const
 {
-	// Convert number to string
+    // Convert number to string
     return util::toString(this->value());
 }
 
 template <typename Type>
 bool AbstractNumberProperty<Type>::fromString(const std::string & string)
 {
-	// Check if string conforms to the specified format
+    // Check if string conforms to the specified format
     if (!util::matchesRegex(string, matchRegex()))
         return false;
 

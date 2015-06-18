@@ -36,7 +36,7 @@ AbstractArrayProperty<Type, Size>::AbstractArrayProperty(const std::string & nam
 template <typename Type, size_t Size>
 AbstractArrayProperty<Type, Size>::AbstractArrayProperty(
     const std::string & name,
-	std::function<Type (size_t)> getter,
+    std::function<Type (size_t)> getter,
     std::function<void(size_t, const Type &)> setter)
 : AbstractValueProperty<std::array<Type, Size>>(name, new ArrayAccessorGetSet<Type, Size>(getter, setter))
 , m_arrayAccessor(static_cast<ArrayAccessor<Type, Size>*>(this->m_accessor.get()))
@@ -48,7 +48,7 @@ template <typename Type, size_t Size>
 template <class Object>
 AbstractArrayProperty<Type, Size>::AbstractArrayProperty(
     const std::string & name,
-	Object * object,
+    Object * object,
     const Type & (Object::*getter_pointer)(size_t) const,
     void (Object::*setter_pointer)(size_t, const Type &))
 : AbstractValueProperty<std::array<Type, Size>>(name, new ArrayAccessorGetSet<Type, Size>(getter_pointer, setter_pointer))
@@ -61,7 +61,7 @@ template <typename Type, size_t Size>
 template <class Object>
 AbstractArrayProperty<Type, Size>::AbstractArrayProperty(
     const std::string & name,
-	Object * object,
+    Object * object,
     Type (Object::*getter_pointer)(size_t) const,
     void (Object::*setter_pointer)(size_t, const Type &))
 : AbstractValueProperty<std::array<Type, Size>>(name, new ArrayAccessorGetSet<Type, Size>(getter_pointer, setter_pointer))
@@ -74,7 +74,7 @@ template <typename Type, size_t Size>
 template <class Object>
 AbstractArrayProperty<Type, Size>::AbstractArrayProperty(
     const std::string & name,
-	Object * object,
+    Object * object,
     Type (Object::*getter_pointer)(size_t) const,
     void (Object::*setter_pointer)(size_t, Type))
 : AbstractValueProperty<std::array<Type, Size>>(name, new ArrayAccessorGetSet<Type, Size>(getter_pointer, setter_pointer))

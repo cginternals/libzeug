@@ -1,3 +1,4 @@
+
 #pragma once
 
 
@@ -42,16 +43,16 @@ struct is_array : public std::false_type {};
 
 template <typename Type, size_t Size>
 struct is_array<std::array<Type, Size>> : public std::true_type {};
-    
+
 template <typename Type, typename Container>
 struct is_special_array : public std::false_type {};
-    
+
 template <typename Type, size_t Size>
 struct is_special_array<Type, std::array<Type, Size>> : public std::true_type {};
 
 template <typename Condition, typename Type>
 struct value_accessor : public std::enable_if<Condition::value, Type> {};
-   
+
 /**
 *  @brief
 *    Used to choose specific property implementation for different types at compile time via SFINAE

@@ -288,7 +288,6 @@ public:
     //@}
 
 
-
 protected:
     const AbstractProperty * findProperty(const std::vector<std::string> & path) const;
     PropertyGroup * ensureGroup(const std::vector<std::string> & path);

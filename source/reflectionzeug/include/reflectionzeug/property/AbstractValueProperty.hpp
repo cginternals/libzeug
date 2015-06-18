@@ -30,7 +30,7 @@ AbstractValueProperty<Type>::AbstractValueProperty(const std::string & name, con
 template <typename Type>
 AbstractValueProperty<Type>::AbstractValueProperty(
     const std::string & name,
-	std::function<Type ()> getter,
+    std::function<Type ()> getter,
     std::function<void(const Type &)> setter)
 : AbstractProperty(name)
 , m_accessor(new AccessorGetSet<Type>(getter, setter))
@@ -41,7 +41,7 @@ template <typename Type>
 template <class Object>
 AbstractValueProperty<Type>::AbstractValueProperty(
     const std::string & name,
-	Object * object,
+    Object * object,
     const Type & (Object::*getter_pointer)() const,
     void (Object::*setter_pointer)(const Type &))
 : AbstractProperty(name)
@@ -53,7 +53,7 @@ template <typename Type>
 template <class Object>
 AbstractValueProperty<Type>::AbstractValueProperty(
     const std::string & name,
-	Object * object,
+    Object * object,
     Type (Object::*getter_pointer)() const,
     void (Object::*setter_pointer)(const Type &))
 : AbstractProperty(name)
@@ -65,7 +65,7 @@ template <typename Type>
 template <class Object>
 AbstractValueProperty<Type>::AbstractValueProperty(
     const std::string & name,
-	Object * object,
+    Object * object,
     Type (Object::*getter_pointer)() const,
     void (Object::*setter_pointer)(Type))
 : AbstractProperty(name)

@@ -34,7 +34,7 @@ template <typename T>
 bool PropertyClass<T>::fromString(const std::string & string)
 {
     // Not supported
-	return false;
+    return false;
 }
 
 template <typename T>
