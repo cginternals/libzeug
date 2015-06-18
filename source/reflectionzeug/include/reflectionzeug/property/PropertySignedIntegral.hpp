@@ -3,6 +3,7 @@
 
 
 #include <reflectionzeug/property/PropertySignedIntegral.h>
+
 #include <reflectionzeug/property/AbstractVisitor.h>
 
 

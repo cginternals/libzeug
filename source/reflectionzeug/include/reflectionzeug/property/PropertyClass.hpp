@@ -2,9 +2,8 @@
 #pragma once
 
 
-#include <iostream>
-
 #include <reflectionzeug/property/PropertyClass.h>
+
 #include <reflectionzeug/property/AbstractVisitor.h>
 
 

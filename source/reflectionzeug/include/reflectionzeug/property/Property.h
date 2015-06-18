@@ -22,82 +22,144 @@ namespace reflectionzeug
 
 /**
 *  @brief
-*    Helper selecting the used base class based on the specific type
+*    Helper class for selecting property types
+*
+*    Specialize this class template to register a new property type.
+*    Define the property class that you want to use as typedef Type.
 */
 template <typename T, typename = void>
-struct TypeSelector
+struct PropertyTypeSelector
 {
     using Type = PropertyClass<T>;
 };
 
+/**
+*  @brief
+*    Property selector for properties of type bool
+*/
 template <>
-struct TypeSelector<bool>
+struct PropertyTypeSelector<bool>
 {
     using Type = PropertyBool;
 };
 
+/**
+*  @brief
+*    Property selector for properties of type Color
+*/
 template <>
-struct TypeSelector<Color>
+struct PropertyTypeSelector<Color>
 {
     using Type = PropertyColor;
 };
 
+/**
+*  @brief
+*    Property selector for properties of type std::string
+*/
 template <>
-struct TypeSelector<std::string>
+struct PropertyTypeSelector<std::string>
 {
     using Type = PropertyString;
 };
 
+/**
+*  @brief
+*    Property selector for properties of type FilePath
+*/
 template <>
-struct TypeSelector<FilePath>
+struct PropertyTypeSelector<FilePath>
 {
     using Type = PropertyFilePath;
 };
 
+/**
+*  @brief
+*    Property selector for properties of integral types
+*/
 template <typename T>
-struct TypeSelector<T, helper::EnableIf<helper::isSignedIntegral<T>>>
+struct PropertyTypeSelector<T, helper::EnableIf<helper::isSignedIntegral<T>>>
 {
     using Type = PropertySignedIntegral<T>;
 };
 
+/**
+*  @brief
+*    Property selector for properties of unsigned integral types
+*/
 template <typename T>
-struct TypeSelector<T, helper::EnableIf<helper::isUnsignedIntegral<T>>>
+struct PropertyTypeSelector<T, helper::EnableIf<helper::isUnsignedIntegral<T>>>
 {
     using Type = PropertyUnsignedIntegral<T>;
 };
 
+/**
+*  @brief
+*    Property selector for properties of floating point types
+*/
 template <typename T>
-struct TypeSelector<T, helper::EnableIf<helper::isFloatingPoint<T>>>
+struct PropertyTypeSelector<T, helper::EnableIf<helper::isFloatingPoint<T>>>
 {
     using Type = PropertyFloatingPoint<T>;
 };
 
+/**
+*  @brief
+*    Property selector for properties of array types
+*/
 template <typename T>
-struct TypeSelector<T, helper::EnableIf<helper::isArray<T>>>
+struct PropertyTypeSelector<T, helper::EnableIf<helper::isArray<T>>>
 {
     using Type = PropertyArray<typename T::value_type, std::tuple_size<T>::value>;
 };
 
+/**
+*  @brief
+*    Property selector for properties of enum types
+*/
 template <typename T>
-struct TypeSelector<T, helper::EnableIf<std::is_enum<T>>>
+struct PropertyTypeSelector<T, helper::EnableIf<std::is_enum<T>>>
 {
     using Type = PropertyEnum<T>;
 };
 
-
 /**
 *  @brief
-*    Property
+*    Property to access a named value of a class or group
+*
+*    A property represents a named typed value that can represent,
+*    e.g., a configuration option or a state of an object. Its
+*    value resides outside of the property itself and is usually
+*    accessed by defining getter and setter functions for the value.
+*
+*    Usually, properties should be created either inside a PropertyGroup
+*    or inside an Object, and control the status of this object. 
+*    Properties are an interface that can be used to automatically announce
+*    and access values of an object, mainly for the purpose of user interaction.
+*    This can be used to create automatic GUI interfaces and to provide
+*    scripting interface for your classes.
+*
+*  @see propertyguizeug
+*  @see scriptzeug
 */
 template <typename T>
-class Property : public TypeSelector<T>::Type
+class Property : public PropertyTypeSelector<T>::Type
 {
 public:
+    /**
+    *  @brief
+    *    Constructor
+    */
     template <typename... Args>
     Property(Args&&... args);
 
+    /**
+    *  @brief
+    *    Destructor
+    */
     virtual ~Property();
 
+    // Virtual AbstractProperty interface
     virtual void accept(AbstractVisitor * visitor) override;
 };
 

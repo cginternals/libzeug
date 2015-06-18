@@ -13,22 +13,31 @@ namespace reflectionzeug
 
 /**
 *  @brief
-*    Implementation for type Color
+*    Property implementation for type Color
 */
 class PropertyColor : public AbstractValueProperty<Color>, public AbstractColorInterface
 {
 public:
+    /**
+    *  @brief
+    *    Constructor
+    */
     template <typename... Args>
     PropertyColor(Args&&... args);
 
+    /**
+    *  @brief
+    *    Destructor
+    */
     virtual ~PropertyColor();
 
+    // Virtual AbstractColorInterface interface
     virtual Color toColor() const override;
     virtual bool fromColor(const Color & color) override;
 
+    // Virtual AbstractProperty interface
     virtual std::string toString() const override;
     virtual bool fromString(const std::string & string) override;
-
     virtual void accept(AbstractVisitor * visitor) override;
 };
 

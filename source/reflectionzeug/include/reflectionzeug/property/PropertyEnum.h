@@ -16,28 +16,60 @@ namespace reflectionzeug
 
 /**
 *  @brief
-*    Implementation for enum types
+*    Property implementation for enum types
 */
 template <typename Enum>
 class PropertyEnum : public AbstractValueProperty<Enum>, public AbstractEnumInterface
 {
 public:
+    /**
+    *  @brief
+    *    Constructor
+    */
     template <typename... Args>
     PropertyEnum(Args&&... args);
 
+    /**
+    *  @brief
+    *    Destructor
+    */
     virtual ~PropertyEnum();
 
-    virtual std::string toString() const override;
-    virtual bool fromString(const std::string & string) override;
-
-    virtual bool hasChoices() const;
+    /**
+    *  @brief
+    *    Get available choices
+    *
+    *  @return
+    *    List of values
+    */
     const std::vector<Enum> & choices() const;
-    void setChoices(const std::vector<Enum> & choices);
-    virtual std::vector<std::string> choicesStrings() const;
 
-    virtual std::vector<std::string> strings() const override;
+    /**
+    *  @brief
+    *    Set available choices
+    *
+    *  @param[in] choices
+    *    List of values
+    */
+    void setChoices(const std::vector<Enum> & choices);
+
+    /**
+    *  @brief
+    *    Set available enum values
+    *
+    *  @param[in] pairs
+    *    List of values and names
+    */
     void setStrings(const std::map<Enum, std::string> & pairs);
 
+    // Virtual AbstractEnumInterface interface
+    virtual std::vector<std::string> strings() const override;
+    virtual bool hasChoices() const override;
+    virtual std::vector<std::string> choicesStrings() const override;
+
+    // Virtual AbstractProperty interface
+    virtual std::string toString() const override;
+    virtual bool fromString(const std::string & string) override;
     virtual void accept(AbstractVisitor * visitor) override;
 
 
@@ -49,16 +81,22 @@ protected:
 
 
 /**
- * @brief
- *    Specialize this template to provide default string mapping for an enum.
- */
+*  @brief
+*    Default value mapping for enum type
+*
+*    Specialize this template to provide a default string mapping for an enum.
+*/
 template <typename Enum>
 struct EnumDefaultStrings
 {
-    std::map<Enum, std::string> operator()()
-    {
-        return std::map<Enum, std::string>();
-    }
+    /**
+    *  @brief
+    *    Return available enum values and their string representations
+    *
+    *  @return
+    *    Map of values and strings
+    */
+    std::map<Enum, std::string> operator()();
 };
 
 

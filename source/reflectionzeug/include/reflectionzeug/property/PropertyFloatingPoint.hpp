@@ -3,6 +3,7 @@
 
 
 #include <reflectionzeug/property/PropertyFloatingPoint.h>
+
 #include <reflectionzeug/property/AbstractVisitor.h>
 
 

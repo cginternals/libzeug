@@ -12,19 +12,27 @@ namespace reflectionzeug
 
 /**
 *  @brief
-*    Implementation for type FilePath
+*    Property implementation for type FilePath
 */
 class PropertyFilePath : public AbstractValueProperty<FilePath>
 {
 public:
+    /**
+    *  @brief
+    *    Constructor
+    */
     template <typename... Args>
     PropertyFilePath(Args&&... args);
 
+    /**
+    *  @brief
+    *    Destructor
+    */
     virtual ~PropertyFilePath();
 
+    // Virtual AbstractProperty interface
     virtual std::string toString() const override;
     virtual bool fromString(const std::string & string) override;
-
     virtual void accept(AbstractVisitor * visitor) override;
 };
 

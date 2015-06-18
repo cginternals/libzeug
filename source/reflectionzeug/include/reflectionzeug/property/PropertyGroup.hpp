@@ -8,33 +8,6 @@
 namespace reflectionzeug
 {
 
-
-template <typename Type>
-Property<Type> * PropertyGroup::property(const std::string & path)
-{
-    // Get property by path
-    AbstractProperty * property = this->property(path);
-    if (!property) {
-        return nullptr;
-    }
-
-    // Convert into requested type
-    return property->as<Property<Type>>();
-}
-
-template <typename Type>
-const Property<Type> * PropertyGroup::property(const std::string & path) const
-{
-    // Get property by path
-    const AbstractProperty * property = this->property(path);
-    if (!property) {
-        return nullptr;
-    }
-
-    // Convert into requested type
-    return property->as<Property<Type>>();
-}
-
 template <typename Type, typename... Args>
 Property<Type> * PropertyGroup::addProperty(const std::string & name, Args&&... args)
 {
@@ -75,13 +48,13 @@ void PropertyGroup::setValue(const std::string & path, const Type & value)
     // Get property by path
     const AbstractProperty * property = this->property(path);
     if (!property) {
-        return nullptr;
+        return;
     }
 
     // Convert into requested type
     Property<Type> * typed = property->as<Property<Type>>();
     if (!typed) {
-        return nullptr;
+        return;
     }
 
     // Set value

@@ -12,24 +12,35 @@ namespace reflectionzeug
 
 /**
 *  @brief
-*    Implementation for unsigned integral types
+*    Property implementation for unsigned integral types
 */
 template <typename T>
 class PropertyUnsignedIntegral : public AbstractNumberProperty<T>, public AbstractUnsignedIntegralInterface
 {
 public:
+    /**
+    *  @brief
+    *    Constructor
+    */
     template <typename... Args>
     PropertyUnsignedIntegral(Args&&... args);
 
+    /**
+    *  @brief
+    *    Destructor
+    */
     virtual ~PropertyUnsignedIntegral();
 
+    // Virtual AbstractSignedIntegralInterface interface
     virtual unsigned long long toULongLong() const override;
     virtual bool fromULongLong(unsigned long long value) override;
 
+    // Virtual AbstractProperty interface
     virtual void accept(AbstractVisitor * visitor) override;
 
 
 protected:
+    // Virtual AbstractNumberProperty interface
     virtual std::string matchRegex() const override;
 };
 

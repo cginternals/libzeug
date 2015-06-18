@@ -13,6 +13,11 @@ PropertyBool::~PropertyBool()
 {
 }
 
+void PropertyBool::toggleValue()
+{
+    this->setValue(!this->value());
+}
+
 bool PropertyBool::toBool() const
 {
     return this->value();
@@ -42,11 +47,6 @@ void PropertyBool::accept(AbstractVisitor * visitor)
 {
     visitor->callVisitor<PropertyBool>(this);
     visitor->callVisitor<AbstractBooleanInterface>(this);
-}
-
-void PropertyBool::toggleValue()
-{
-    this->setValue(!this->value());
 }
 
 
