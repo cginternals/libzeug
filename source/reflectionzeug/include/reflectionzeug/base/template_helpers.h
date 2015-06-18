@@ -52,13 +52,12 @@ struct is_special_array<Type, std::array<Type, Size>> : public std::true_type {}
 template <typename Condition, typename Type>
 struct value_accessor : public std::enable_if<Condition::value, Type> {};
    
-/** 
- * \defgroup type_traits Type Traits
- * \brief Used to choose specific property implementation for different types at compile time via SFINAE
- * \see http://en.wikipedia.org/wiki/Substitution_failure_is_not_an_error
- */
-/** \{ */
-
+/**
+*  @brief
+*    Used to choose specific property implementation for different types at compile time via SFINAE
+*
+*  @see http://en.wikipedia.org/wiki/Substitution_failure_is_not_an_error
+*/
 template <typename Condition, typename Type = void>
 using EnableIf = typename value_accessor<Condition, Type>::type; 
 
@@ -103,11 +102,11 @@ struct isPlain : public And<Neg<std::is_reference<Type>>::value,
                             Neg<std::is_const<Type>>::value,
                             Neg<std::is_volatile<Type>>::value> {};
 
-/** \} */
 
-
-/** \brief Template for parsing typed arguments from a list of variants
- */
+/**
+*  @brief
+*    Template for parsing typed arguments from a list of variants
+*/
 template<typename T, size_t POS>
 struct ArgValue {
     static T get(const std::vector<Variant> & args) {
@@ -120,8 +119,6 @@ struct ArgValue {
     }
 };
 
-/** \brief ArgValue specialization for const references
- */
 template<typename T, size_t POS>
 struct ArgValue<const T &, POS> {
     static T get(const std::vector<Variant> & args) {
@@ -129,8 +126,6 @@ struct ArgValue<const T &, POS> {
     }
 };
 
-/** \brief ArgValue specialization for type float
- */
 template<size_t POS>
 struct ArgValue<float, POS> {
     static float get(const std::vector<Variant> & args) {
@@ -142,8 +137,6 @@ struct ArgValue<float, POS> {
     }
 };
 
-/** \brief ArgValue specialization for type double
- */
 template<size_t POS>
 struct ArgValue<double, POS> {
     static double get(const std::vector<Variant> & args) {
@@ -155,8 +148,6 @@ struct ArgValue<double, POS> {
     }
 };
 
-/** \brief ArgValue specialization for type bool
- */
 template<size_t POS>
 struct ArgValue<bool, POS> {
     static bool get(const std::vector<Variant> & args) {
@@ -168,8 +159,6 @@ struct ArgValue<bool, POS> {
     }
 };
 
-/** \brief ArgValue specialization for type string
- */
 template<size_t POS>
 struct ArgValue<std::string, POS> {
     static std::string get(const std::vector<Variant> & args) {
@@ -181,8 +170,6 @@ struct ArgValue<std::string, POS> {
     }
 };
 
-/** \brief ArgValue specialization for type VariantOld
- */
 template<size_t POS>
 struct ArgValue<Variant, POS> {
     static Variant get(const std::vector<Variant> & args) {
@@ -194,8 +181,6 @@ struct ArgValue<Variant, POS> {
     }
 };
 
-/** \brief ArgValue specialization for type const VariantOld &
- */
 template<size_t POS>
 struct ArgValue<const Variant &, POS> {
     static Variant get(const std::vector<Variant> & args) {
@@ -203,8 +188,6 @@ struct ArgValue<const Variant &, POS> {
     }
 };
 
-/** \brief ArgValue specialization for type const std::vector<VariantOld> &
- */
 template<size_t POS>
 struct ArgValue<const std::vector<Variant> &, POS> {
     static std::vector<Variant> get(const std::vector<Variant> & args) {
@@ -216,42 +199,47 @@ struct ArgValue<const std::vector<Variant> &, POS> {
     }
 };
 
-
-/** \brief Sequence of numbers
- *         (e.g., Seq<0, 1, 2>)
- */
+/**
+*  @brief
+*    Generate a sequence of numbers (e.g., Seq<0, 1, 2>)
+*/
 template<size_t... I>
 struct Seq {};
 
-/** \brief Sequence generator
- *         (e.g., GenSec<3>::Type = Seq<0, 1, 2>)
- */
+/**
+*  @brief
+*    Sequence generator (e.g., GenSec<3>::Type = Seq<0, 1, 2>)
+*/
 template<int N, size_t... I>
 struct GenSeq : GenSeq<N-1, N-1, I...> {};
 
 template<size_t... I>
 struct GenSeq<0, I...> { typedef Seq<I...> Type; };
 
-/** \brief Pick type by index
- *         (e.g., PickType<1, void, int, float>::Type = int)
- */
+/**
+*  @brief
+*    Pick type by index (e.g., PickType<1, void, int, float>::Type = int)
+*/
 template<size_t N, typename T, typename... Arguments>
 struct PickType : PickType<N-1, Arguments...> {};
 
 template<typename T, typename... Arguments>
 struct PickType<0, T, Arguments...> { typedef T Type; };
 
-/** \brief Generate ArgValue class for types and index
- *         (e.g., ArgValueGen<2, float, int, double>::Type = ArgValue<int, 2>
- */
+/**
+*  @brief
+*    Generate ArgValue class for types and index (e.g., ArgValueGen<2, float, int, double>::Type = ArgValue<int, 2>
+*/
 template<size_t I, typename... Arguments>
 struct ArgValueGen {
     typedef typename PickType<I, Arguments...>::Type T;
     typedef ArgValue<T, I>                           Type;
 };
 
-/** \brief Template for calling a static function with a return value
- */
+/**
+*  @brief
+*    Template for calling a static function with a return value
+*/
 template <typename RET, typename... Arguments>
 class CallFunction
 {
@@ -263,8 +251,10 @@ public:
     }
 };
 
-/** \brief Template for calling a static function without a return value
- */
+/**
+*  @brief
+*    Template for calling a static function without a return value
+*/
 template <typename... Arguments>
 class CallFunction<void, Arguments...>
 {
@@ -277,8 +267,10 @@ public:
     }
 };
 
-/** \brief Template for calling a member function with a return value
- */
+/**
+*  @brief
+*    Template for calling a member function with a return value
+*/
 template <typename T, typename RET, typename... Arguments>
 class CallMethod
 {
@@ -290,8 +282,10 @@ public:
     }
 };
 
-/** \brief Template for calling a member function without a return value
- */
+/**
+*  @brief
+*    Template for calling a member function without a return value
+*/
 template <typename T, typename... Arguments>
 class CallMethod<T, void, Arguments...>
 {
