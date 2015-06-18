@@ -114,7 +114,7 @@ std::string AbstractArrayProperty<Type, Size>::toString() const
 template <typename Type, size_t Size>
 bool AbstractArrayProperty<Type, Size>::fromString(const std::string & string)
 {
-    std::vector<std::string> elementStrings = util::splitArray(Size, string);
+    std::vector<std::string> elementStrings = util::splitArray(string, Size);
 
     if (elementStrings.size() != Size)
         return false;

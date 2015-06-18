@@ -57,35 +57,13 @@ std::string toString<unsigned char>(const unsigned char & value)
     return stream.str();
 }
 
-bool matchesRegex(const std::string & string, const std::string & regex)
+std::string trim(const std::string & string, bool removeAllWhitespace)
 {
-    return regex_namespace::regex_match(string, regex_namespace::regex(regex));
-}
-
-std::vector<std::string> extract(const std::string & string, const std::string & regex)
-{
-    std::vector<std::string> values;
-
-    regex_namespace::smatch matchResults;
-
-    std::string s = string;
-    while (regex_namespace::regex_search(s, matchResults, regex_namespace::regex(regex)))
-    {
-        values.push_back(matchResults[0]);
-        s = matchResults.suffix().str();
-    };
-
-    return values;
-}
-
-std::string trim(const std::string & string, bool enclosed)
-{
-    const regex_namespace::regex regex(enclosed ? "\\s+" : "(^\\s+|\\s+$)");
-    
+    const regex_namespace::regex regex(removeAllWhitespace ? "\\s+" : "(^\\s+|\\s+$)");
     return regex_namespace::regex_replace(string, regex, "");
 }
 
-std::vector<std::string> splitArray(size_t size, const std::string & string)
+std::vector<std::string> splitArray(const std::string & string, size_t size)
 {
     std::string regexString = "\\s*\\(";
     for (size_t i = 0; i < size - 1; ++i)
@@ -121,6 +99,27 @@ std::vector<std::string> split(const std::string & input, char delimiter)
 		result.back().push_back(c);
 	}
 	return result;
+}
+
+bool matchesRegex(const std::string & string, const std::string & regex)
+{
+    return regex_namespace::regex_match(string, regex_namespace::regex(regex));
+}
+
+std::vector<std::string> extract(const std::string & string, const std::string & regex)
+{
+    std::vector<std::string> values;
+
+    regex_namespace::smatch matchResults;
+
+    std::string s = string;
+    while (regex_namespace::regex_search(s, matchResults, regex_namespace::regex(regex)))
+    {
+        values.push_back(matchResults[0]);
+        s = matchResults.suffix().str();
+    };
+
+    return values;
 }
 
 

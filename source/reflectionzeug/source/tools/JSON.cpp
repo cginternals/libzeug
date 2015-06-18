@@ -7,6 +7,42 @@
 #include <reflectionzeug/tools/JSONReader.h>
 
 
+namespace {
+
+
+std::string escapeString(const std::string & in)
+{
+    std::string out = "";
+
+    for (std::string::const_iterator it = in.begin(); it != in.end(); ++it) {
+        unsigned char c = *it;
+        if (c >= ' ' and c <= '~' and c != '\\' and c != '"') {
+            out.append(1, c);
+        } else {
+            out = out + '\\';
+            switch(c) {
+                case '"':  out = out + "\"";  break;
+                case '\\': out = out + "\\"; break;
+                case '\t': out = out + "t";  break;
+                case '\r': out = out + "r";  break;
+                case '\n': out = out + "n";  break;
+                default:
+                    char const* const hexdig = "0123456789ABCDEF";
+                    out = out + "x";
+                    out.append(1, hexdig[c >> 4]);
+                    out.append(1, hexdig[c & 0xF]);
+                    break;
+            }
+        }
+    }
+
+    return out;
+}
+
+
+}
+
+
 namespace reflectionzeug {
 
 
@@ -194,35 +230,6 @@ void JSON::save(const Variant & obj, const std::string & filename, bool nice)
         out << stringify(obj, nice);
         out.close();
     }
-}
-
-std::string JSON::escapeString(const std::string & in)
-{
-    std::string out = "";
-
-    for (std::string::const_iterator it = in.begin(); it != in.end(); ++it) {
-        unsigned char c = *it;
-        if (c >= ' ' and c <= '~' and c != '\\' and c != '"') {
-            out.append(1, c);
-        } else {
-            out = out + '\\';
-            switch(c) {
-                case '"':  out = out + "\"";  break;
-                case '\\': out = out + "\\"; break;
-                case '\t': out = out + "t";  break;
-                case '\r': out = out + "r";  break;
-                case '\n': out = out + "n";  break;
-                default:
-                    char const* const hexdig = "0123456789ABCDEF";
-                    out = out + "x";
-                    out.append(1, hexdig[c >> 4]);
-                    out.append(1, hexdig[c & 0xF]);
-                    break;
-            }
-        }
-    }
-
-    return out;
 }
 
 

@@ -14,7 +14,7 @@ namespace reflectionzeug {
 *  @brief
 *    JSON parser
 */
-class JSONReader {
+class REFLECTIONZEUG_API JSONReader {
 
 
     public:
