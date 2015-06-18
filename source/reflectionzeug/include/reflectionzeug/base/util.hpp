@@ -2,15 +2,15 @@
 #pragma once
 
 
-#include <type_traits>
-
 #include <reflectionzeug/base/util.h>
 
+#include <type_traits>
 #include <sstream>
 
 
 namespace reflectionzeug
 {
+
 
 namespace util
 {
@@ -51,5 +51,6 @@ std::string join(const Iterable & iterable, const std::string & separator)
 
     
 } // namespace util
+
 
 } // namespace reflectionzeug

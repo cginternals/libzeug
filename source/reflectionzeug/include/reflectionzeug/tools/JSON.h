@@ -76,8 +76,6 @@ public:
     *    Produce nice readable output?
     */
     static void save(const Variant & obj, const std::string & filename, bool nice = false);
-
-
 };
 
 

@@ -19,6 +19,7 @@
 namespace reflectionzeug
 {
 
+
 namespace util
 {
 
@@ -124,5 +125,6 @@ std::vector<std::string> extract(const std::string & string, const std::string &
 
 
 } // namespace util
+
 
 } // namespace reflectionzeug
