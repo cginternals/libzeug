@@ -1,16 +1,11 @@
 
-#include <reflectionzeug/tools/JSON.h>
-
-#include <fstream>
-#include <sstream>
-
-#include <reflectionzeug/tools/JSONReader.h>
+#include <reflectionzeug/tools/SerializerJSON.h>
 
 
 namespace {
 
 
-std::string escapeString(const std::string & in)
+static std::string escapeString(const std::string & in)
 {
     std::string out = "";
 
@@ -39,24 +34,7 @@ std::string escapeString(const std::string & in)
     return out;
 }
 
-
-}
-
-
-namespace reflectionzeug {
-
-
-bool JSON::parse(Variant & obj, const std::string & json)
-{
-    JSONReader reader;
-    bool ok = reader.parse(json, obj);
-    if (!ok) {
-        // qDebug() << reader.getErrors();
-    }
-    return ok;
-}
-
-std::string JSON::stringify(const Variant & obj, bool nice, const std::string & indent)
+static std::string stringify(const reflectionzeug::Variant & obj, bool beautify = false, const std::string & indent = "")
 {
     // Primitive data types
     if (obj.hasType<bool>()) {
@@ -120,22 +98,22 @@ std::string JSON::stringify(const Variant & obj, bool nice, const std::string & 
 
         // Begin output
         std::string json = "{";
-        if (nice) json += "\n";
+        if (beautify) json += "\n";
 
         // Add all variables
         bool first = true;
         for (auto it : *obj.toMap()) {
             // Add separator (",")
-            if (!first) json += nice ? ",\n" : ","; else first = false;
+            if (!first) json += beautify ? ",\n" : ","; else first = false;
 
             // Get variable
             std::string name    = it.first;
-            const Variant & var = it.second;
+            const reflectionzeug::Variant & var = it.second;
 
             // Get value
             std::string value;
             if (var.isMap() || var.isArray()) {
-                value = stringify(var, nice, indent + "    ");
+                value = stringify(var, beautify, indent + "    ");
             } else if (var.isNull()) {
                 value = "null";
             } else {
@@ -146,11 +124,11 @@ std::string JSON::stringify(const Variant & obj, bool nice, const std::string & 
             }
 
             // Add value to JSON
-            json += (nice ? (indent + "    \"" + name + "\": " + value) : ("\"" + name + "\":" + value));
+            json += (beautify ? (indent + "    \"" + name + "\": " + value) : ("\"" + name + "\":" + value));
         }
 
         // Finish JSON
-        json += (nice ? "\n" + indent + "}" : "}");
+        json += (beautify ? "\n" + indent + "}" : "}");
         return json;
     }
 
@@ -161,21 +139,21 @@ std::string JSON::stringify(const Variant & obj, bool nice, const std::string & 
 
         // Begin output
         std::string json = "[";
-        if (nice) json += "\n";
+        if (beautify) json += "\n";
 
         // Add all elements
         bool first = true;
         for (auto it = obj.toArray()->begin(); it != obj.toArray()->end(); ++it) {
             // Add separator (",")
-            if (!first) json += nice ? ",\n" : ","; else first = false;
+            if (!first) json += beautify ? ",\n" : ","; else first = false;
 
             // Get variable
-            const Variant & var = *it;
+            const reflectionzeug::Variant & var = *it;
 
             // Get value
             std::string value;
             if (var.isMap() || var.isArray()) {
-                value = stringify(var, nice, indent + "    ");
+                value = stringify(var, beautify, indent + "    ");
             } else if (var.isNull()) {
                 value = "null";
             } else {
@@ -186,11 +164,11 @@ std::string JSON::stringify(const Variant & obj, bool nice, const std::string & 
             }
 
             // Add value to JSON
-            json += (nice ? (indent + "    " + value) : value);
+            json += (beautify ? (indent + "    " + value) : value);
         }
 
         // Finish JSON
-        json += (nice ? "\n" + indent + "]" : "]");
+        json += (beautify ? "\n" + indent + "]" : "]");
         return json;
     }
 
@@ -200,36 +178,25 @@ std::string JSON::stringify(const Variant & obj, bool nice, const std::string & 
     }
 }
 
-bool JSON::load(Variant & obj, const std::string & filename)
-{
-    // Open file
-    std::ifstream in(filename.c_str(), std::ios::in | std::ios::binary);
-    if (in) {
-        // Read file content
-        std::string content;
-        in.seekg(0, std::ios::end);
-        content.resize(in.tellg());
-        in.seekg(0, std::ios::beg);
-        in.read(&content[0], content.size());
-        in.close();
 
-        // Parse JSON
-        return parse(obj, content);
-    }
-
-    // Error
-    return false;
 }
 
-void JSON::save(const Variant & obj, const std::string & filename, bool nice)
+
+namespace reflectionzeug {
+
+
+SerializerJSON::SerializerJSON(OutputMode outputMode)
+: m_outputMode(outputMode)
 {
-    // Open file
-    std::ofstream out(filename.c_str(), std::ios::out | std::ios::trunc);
-    if (out) {
-        // Write JSON to file
-        out << stringify(obj, nice);
-        out.close();
-    }
+}
+
+SerializerJSON::~SerializerJSON()
+{
+}
+
+std::string SerializerJSON::toString(const Variant & obj)
+{
+    return stringify(obj, (m_outputMode == Beautify), "");
 }
 
 

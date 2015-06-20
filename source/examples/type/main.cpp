@@ -10,7 +10,8 @@
 #include <reflectionzeug/property/Property.h>
 #include <reflectionzeug/property/PropertyGroup.h>
 #include <reflectionzeug/variant/Variant.h>
-#include <reflectionzeug/tools/JSON.h>
+#include <reflectionzeug/tools/SerializerJSON.h>
+#include <reflectionzeug/tools/DeserializerJSON.h>
 
 
 using namespace reflectionzeug;
@@ -678,24 +679,34 @@ int main(int argc, char *argv[])
         printVariant(var);
         std::cout << "\n";
 
-        std::string json = JSON::stringify(var);
-        std::cout << json << "\n";
-        std::cout << "\n";
+        {
+            SerializerJSON json;
+            std::cout << json.toString(var) << "\n";
+            std::cout << "\n";
+        }
 
-        json = JSON::stringify(var, true);
-        std::cout << json << "\n";
-        std::cout << "\n";
+        {
+            SerializerJSON json(SerializerJSON::Beautify);
+            std::cout << json.toString(var) << "\n";
+            std::cout << "\n";
+        }
     }
 
     // JSON test
     /*
     {
         Variant var;
-        JSON::load(var, "/workspace/hpi/projects/gtx/data/datasets/berlin/flow/berlin_flow_2015_01_02-20_29_46.json");
 
-        std::string json = JSON::stringify(var, true);
-        std::cout << json << "\n";
-        std::cout << "\n";
+        {
+            DeserializerJSON json;
+            json.load(var, "/workspace/hpi/projects/gtx/data/datasets/berlin/flow/berlin_flow_2015_01_02-20_29_46.json");
+        }
+
+        {
+            SerializerJSON json(SerializerJSON::Beautify);
+            std::cout << json.toString(var) << "\n";
+            std::cout << "\n";
+        }
     }
     */
 }
