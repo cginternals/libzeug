@@ -186,13 +186,13 @@ TypeConverter<Type>::~TypeConverter()
 }
 
 template <typename Type>
-bool TypeConverter<Type>::canConvert(const std::type_info & targetType) const
+bool TypeConverter<Type>::canConvert(const std::type_info & /*targetType*/) const
 {
     return false;
 }
 
 template <typename Type>
-bool TypeConverter<Type>::convert(const Type & value, void * target, const std::type_info & targetType) const
+bool TypeConverter<Type>::convert(const Type & /*value*/, void * /*target*/, const std::type_info & /*targetType*/) const
 {
     return false;
 }
