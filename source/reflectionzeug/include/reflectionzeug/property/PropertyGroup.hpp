@@ -3,6 +3,7 @@
 
 
 #include <reflectionzeug/property/PropertyGroup.h>
+#include <reflectionzeug/property/Property.h>
 
 
 namespace reflectionzeug
@@ -28,7 +29,7 @@ template <typename Type>
 Type PropertyGroup::value(const std::string & path) const
 {
     // Get property by path
-    const AbstractProperty * property = this->property(path);
+    AbstractProperty * property = this->property(path);
     if (!property) {
         return nullptr;
     }
@@ -47,7 +48,7 @@ template <typename Type>
 void PropertyGroup::setValue(const std::string & path, const Type & value)
 {
     // Get property by path
-    const AbstractProperty * property = this->property(path);
+    AbstractProperty * property = this->property(path);
     if (!property) {
         return;
     }
