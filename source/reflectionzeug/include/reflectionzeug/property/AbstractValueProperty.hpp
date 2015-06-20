@@ -45,7 +45,7 @@ AbstractValueProperty<Type>::AbstractValueProperty(
     const Type & (Object::*getter_pointer)() const,
     void (Object::*setter_pointer)(const Type &))
 : AbstractProperty(name)
-, m_accessor(new AccessorGetSet<Type>(getter_pointer, setter_pointer))
+, m_accessor(new AccessorGetSet<Type>(object, getter_pointer, setter_pointer))
 {
 }
 
@@ -57,7 +57,7 @@ AbstractValueProperty<Type>::AbstractValueProperty(
     Type (Object::*getter_pointer)() const,
     void (Object::*setter_pointer)(const Type &))
 : AbstractProperty(name)
-, m_accessor(new AccessorGetSet<Type>(getter_pointer, setter_pointer))
+, m_accessor(new AccessorGetSet<Type>(object, getter_pointer, setter_pointer))
 {
 }
 
@@ -69,7 +69,7 @@ AbstractValueProperty<Type>::AbstractValueProperty(
     Type (Object::*getter_pointer)() const,
     void (Object::*setter_pointer)(Type))
 : AbstractProperty(name)
-, m_accessor(new AccessorGetSet<Type>(getter_pointer, setter_pointer))
+, m_accessor(new AccessorGetSet<Type>(object, getter_pointer, setter_pointer))
 {
 }
 
