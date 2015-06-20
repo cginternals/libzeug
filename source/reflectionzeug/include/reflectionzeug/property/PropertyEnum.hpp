@@ -106,6 +106,18 @@ bool PropertyEnum<Enum>::fromString(const std::string & string)
 }
 
 template <typename Enum>
+Variant PropertyEnum<Enum>::toVariant() const
+{
+    return Variant(toString());
+}
+
+template <typename Enum>
+bool PropertyEnum<Enum>::fromVariant(const Variant & value)
+{
+    return fromString(value.value<std::string>());
+}
+
+template <typename Enum>
 void PropertyEnum<Enum>::accept(AbstractVisitor * visitor)
 {
     visitor->callVisitor<PropertyEnum<Enum>>(this);

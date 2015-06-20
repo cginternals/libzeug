@@ -144,6 +144,42 @@ bool AbstractArrayProperty<Type, Size>::fromString(const std::string & string)
 }
 
 template <typename Type, size_t Size>
+Variant AbstractArrayProperty<Type, Size>::toVariant() const
+{
+    Variant value = Variant::array();
+    for (size_t i=0; i<Size; i++) {
+        value.toArray()->push_back(at(i)->toVariant());
+    }
+    return value;
+}
+
+template <typename Type, size_t Size>
+bool AbstractArrayProperty<Type, Size>::fromVariant(const Variant & value)
+{
+    // Check if variant is an array
+    if (!value.isArray()) {
+        return false;
+    }
+
+    // Get array
+    const VariantArray & array = *(value.toArray());
+    if (array.size() != Size) {
+        return false;
+    }
+
+    // Set values
+    for (size_t i=0; i<array.size(); i++) {
+        const Variant & value = array[i];
+
+        if (!at(i)->fromVariant(value)) {
+            return false;
+        }
+    }
+
+    return true;
+}
+
+template <typename Type, size_t Size>
 bool AbstractArrayProperty<Type, Size>::isEmpty() const
 {
     return (Size == 0);

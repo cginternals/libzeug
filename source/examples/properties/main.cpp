@@ -4,6 +4,7 @@
 #include <reflectionzeug/property/Property.h>
 #include <reflectionzeug/property/PropertyGroup.h>
 #include <reflectionzeug/tools/SerializerINI.h>
+#include <reflectionzeug/tools/SerializerJSON.h>
 #include <reflectionzeug/base/util.h>
 
 #include "MyObject.h"
@@ -130,8 +131,12 @@ void serializingProperties()
         try {
             // ... and deserialize them.
             SerializerINI serializer;
+
             Variant values;
             serializer.load(values, INI_PATH);
+            SerializerJSON json(SerializerJSON::Beautify);
+            std::cout << json.toString(values) << "\n";
+
             object.fromVariant(values);
             printGroup(object);
         }
