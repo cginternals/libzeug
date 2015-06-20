@@ -4,6 +4,8 @@
 
 #include <reflectionzeug/property/AbstractProperty.h>
 
+#include <cassert>
+
 
 namespace reflectionzeug
 {

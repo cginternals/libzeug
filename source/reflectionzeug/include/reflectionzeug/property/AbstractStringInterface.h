@@ -16,7 +16,7 @@ namespace reflectionzeug
 *    Interface for typed values to be accessed via strings
 *
 *  @remarks
-*    Since toString/fromString exist in every value property,
+*    Since toString/fromString exist in every property,
 *    this interface is empty. It is still important and can be
 *    used to indicate that a property type shall be treated as
 *    a string value.
