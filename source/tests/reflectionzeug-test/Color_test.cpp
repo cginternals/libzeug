@@ -2,7 +2,7 @@
 
 #include <string>
 
-#include <reflectionzeug/Color.h>
+#include <reflectionzeug/base/Color.h>
 
 using namespace reflectionzeug;
 
