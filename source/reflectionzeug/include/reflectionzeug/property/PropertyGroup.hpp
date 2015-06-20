@@ -26,6 +26,30 @@ Property<Type> * PropertyGroup::addProperty(const std::string & name, Args&&... 
 }
 
 template <typename Type>
+Property<Type> * PropertyGroup::property(const std::string & name)
+{
+    // Get property by path
+    Property<Type> * property = this->property(name)->as<Property<Type>>();
+    if (!property) {
+        return nullptr;
+    }
+
+    return property;
+}
+
+template <typename Type>
+const Property<Type> * PropertyGroup::property(const std::string & name) const
+{
+    // Get property by path
+    const Property<Type> * property = this->property(name)->as<Property<Type>>();
+    if (!property) {
+        return nullptr;
+    }
+
+    return property;
+}
+
+template <typename Type>
 Type PropertyGroup::value(const std::string & path) const
 {
     // Get property by path

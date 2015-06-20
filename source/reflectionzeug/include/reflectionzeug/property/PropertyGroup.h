@@ -114,6 +114,12 @@ public:
     */
     AbstractProperty * property(const std::string & path);
     const AbstractProperty * property(const std::string & path) const;
+
+    template <typename Type>
+    Property<Type> * property(const std::string & path);
+
+    template <typename Type>
+    const Property<Type> * property(const std::string & path) const;
     //@}
 
     //@{
