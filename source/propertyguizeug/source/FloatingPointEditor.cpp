@@ -1,3 +1,4 @@
+
 #include <propertyguizeug/FloatingPointEditor.h>
 
 #include <limits>
@@ -6,11 +7,16 @@
 
 #include <reflectionzeug/property/Property.h>
 
+
 using namespace reflectionzeug;
+
+
 namespace propertyguizeug
 {
 
+
 const int FloatingPointEditor::s_defaultPrecision = 3;
+
 
 void FloatingPointEditor::paint(
     QPainter * painter, 
@@ -41,7 +47,7 @@ FloatingPointEditor::FloatingPointEditor(
     auto maximum = 0.0;
 
     reflectionzeug::AbstractProperty * prop = dynamic_cast<reflectionzeug::AbstractProperty *>(m_property);
-    
+
     if (prop->hasOption("minimum"))
         minimum = prop->option("minimum").value<double>();
     else
@@ -51,7 +57,7 @@ FloatingPointEditor::FloatingPointEditor(
         maximum = prop->option("maximum").value<double>();
     else
         maximum = std::numeric_limits<double>::max();
-    
+
     spinBox->setRange(minimum, maximum);
     
     if (prop->hasOption("step"))
@@ -106,5 +112,6 @@ FloatingPointEditor::FloatingPointEditor(
 FloatingPointEditor::~FloatingPointEditor()
 {
 }
+
 
 } // namespace propertyguizeug

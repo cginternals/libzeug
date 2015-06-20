@@ -252,6 +252,33 @@ class TypeConverter<unsigned long long> : public PrimitiveTypeConverter<unsigned
 
 /**
 *  @brief
+*    Type conversion specialization for bool
+*/
+template <>
+class TypeConverter<bool> : public PrimitiveTypeConverter<bool>
+{
+};
+
+/**
+*  @brief
+*    Type conversion specialization for float
+*/
+template <>
+class TypeConverter<float> : public PrimitiveTypeConverter<float>
+{
+};
+
+/**
+*  @brief
+*    Type conversion specialization for double
+*/
+template <>
+class TypeConverter<double> : public PrimitiveTypeConverter<double>
+{
+};
+
+/**
+*  @brief
 *    Type conversion specialization for std::string
 */
 template <>
