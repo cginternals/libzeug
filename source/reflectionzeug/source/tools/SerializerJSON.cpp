@@ -38,63 +38,8 @@ static std::string escapeString(const std::string & in)
 
 static std::string stringify(const reflectionzeug::Variant & obj, bool beautify = false, const std::string & indent = "")
 {
-    // Primitive data types
-    if (obj.hasType<bool>()) {
-        return obj.value<bool>() ? "true" : "false";
-    } else if (obj.hasType<char>()) {
-        std::stringstream s;
-        s << obj.value<char>();
-        return s.str();
-    } else if (obj.hasType<unsigned char>()) {
-        std::stringstream s;
-        s << obj.value<unsigned char>();
-        return s.str();
-    } else if (obj.hasType<short>()) {
-        std::stringstream s;
-        s << obj.value<short>();
-        return s.str();
-    } else if (obj.hasType<unsigned short>()) {
-        std::stringstream s;
-        s << obj.value<unsigned short>();
-        return s.str();
-    } else if (obj.hasType<int>()) {
-        std::stringstream s;
-        s << obj.value<int>();
-        return s.str();
-    } else if (obj.hasType<unsigned int>()) {
-        std::stringstream s;
-        s << obj.value<unsigned int>();
-        return s.str();
-    } else if (obj.hasType<long>()) {
-        std::stringstream s;
-        s << obj.value<long>();
-        return s.str();
-    } else if (obj.hasType<unsigned long>()) {
-        std::stringstream s;
-        s << obj.value<unsigned long>();
-        return s.str();
-    } else if (obj.hasType<long long>()) {
-        std::stringstream s;
-        s << obj.value<long long>();
-        return s.str();
-    } else if (obj.hasType<unsigned long long>()) {
-        std::stringstream s;
-        s << obj.value<unsigned long long>();
-        return s.str();
-    } else if (obj.hasType<float>()) {
-        std::stringstream s;
-        s << obj.value<float>();
-        return s.str();
-    } else if (obj.hasType<double>()) {
-        std::stringstream s;
-        s << obj.value<double>();
-        return s.str();
-    } else if (obj.hasType<std::string>()) {
-        return obj.value<std::string>();
-    }
-
     // Variant is an object
-    else if (obj.isMap()) {
+    if (obj.isMap()) {
         // Quick output: {} if empty
         if (obj.toMap()->empty()) return "{}";
 
@@ -172,6 +117,11 @@ static std::string stringify(const reflectionzeug::Variant & obj, bool beautify 
         // Finish JSON
         json += (beautify ? "\n" + indent + "]" : "]");
         return json;
+    }
+
+    // Primitive data types
+    else if (obj.canConvert<std::string>()) {
+        return obj.value<std::string>();
     }
 
     // Invalid type for JSON output

@@ -63,6 +63,43 @@ public:
 
 /**
 *  @brief
+*    Type conversion for bool
+*/
+template <typename Type>
+class BoolConverter : public PrimitiveTypeConverter<Type>
+{
+public:
+    /**
+    *  @brief
+    *    Constructor
+    */
+    BoolConverter();
+
+    /**
+    *  @brief
+    *    Destructor
+    */
+    ~BoolConverter();
+
+    /**
+    *  @brief
+    *    Convert Type into specified target type
+    *
+    *  @param[in] value
+    *    Input value
+    *  @param[in] target
+    *    Target value
+    *  @param[in] targetType
+    *    Target type id
+    *
+    *  @return
+    *    'true', if type could be converted, else 'false'
+    */
+    bool convert(const Type & value, void * target, const std::type_info & targetType) const;
+};
+
+/**
+*  @brief
 *    Type conversion for string data types
 */
 template <typename Type>
@@ -255,7 +292,7 @@ class TypeConverter<unsigned long long> : public PrimitiveTypeConverter<unsigned
 *    Type conversion specialization for bool
 */
 template <>
-class TypeConverter<bool> : public PrimitiveTypeConverter<bool>
+class TypeConverter<bool> : public BoolConverter<bool>
 {
 };
 

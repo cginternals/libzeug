@@ -669,6 +669,8 @@ int main(int argc, char *argv[])
         (*var.toMap())["zwei"] = 2;
         (*var.toMap())["drei"] = "3";
         (*var.toMap())["vier"] = Variant::map();
+        (*var.toMap())["ja"]   = true;
+        (*var.toMap())["nein"] = false;
         (*(*var.toMap())["vier"].toMap())["a"] = 1;
         (*(*var.toMap())["vier"].toMap())["b"] = 2;
         (*(*var.toMap())["vier"].toMap())["c"] = 3;

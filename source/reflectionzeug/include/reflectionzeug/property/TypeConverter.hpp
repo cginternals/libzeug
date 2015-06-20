@@ -174,6 +174,29 @@ bool StringConverter<Type>::convert(const Type & value, void * target, const std
 }
 
 
+// Type conversion for bool
+template <typename Type>
+BoolConverter<Type>::BoolConverter()
+{
+}
+
+template <typename Type>
+BoolConverter<Type>::~BoolConverter()
+{
+}
+
+template <typename Type>
+bool BoolConverter<Type>::convert(const Type & value, void * target, const std::type_info & targetType) const
+{
+    if (targetType == typeid(std::string)) {
+        *reinterpret_cast<std::string *>(target) = (value ? "true" : "false");
+        return true;
+    } else {
+        return PrimitiveTypeConverter<Type>::convert(value, target, targetType);
+    }
+}
+
+
 // Type conversion (default empty implemention)
 template <typename Type>
 TypeConverter<Type>::TypeConverter()
