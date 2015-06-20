@@ -11,7 +11,6 @@
 #include <reflectionzeug/property/PropertyGroup.h>
 #include <reflectionzeug/variant/Variant.h>
 #include <reflectionzeug/tools/SerializerJSON.h>
-#include <reflectionzeug/tools/DeserializerJSON.h>
 
 
 using namespace reflectionzeug;
@@ -695,18 +694,13 @@ int main(int argc, char *argv[])
     // JSON test
     /*
     {
+        SerializerJSON json(SerializerJSON::Beautify);
         Variant var;
 
-        {
-            DeserializerJSON json;
-            json.load(var, "/workspace/hpi/projects/gtx/data/datasets/berlin/flow/berlin_flow_2015_01_02-20_29_46.json");
-        }
+        json.load(var, "/workspace/hpi/projects/gtx/data/datasets/berlin/flow/berlin_flow_2015_01_02-20_29_46.json");
 
-        {
-            SerializerJSON json(SerializerJSON::Beautify);
-            std::cout << json.toString(var) << "\n";
-            std::cout << "\n";
-        }
+        std::cout << json.toString(var) << "\n";
+        std::cout << "\n";
     }
     */
 }

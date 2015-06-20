@@ -65,11 +65,9 @@ set(headers
     ${header_path}/base/FilePath.h
     ${header_path}/base/template_helpers.h
 
-    ${header_path}/tools/JSONReader.h
     ${header_path}/tools/Serializer.h
     ${header_path}/tools/SerializerJSON.h
-    ${header_path}/tools/Deserializer.h
-    ${header_path}/tools/DeserializerJSON.h
+    ${header_path}/tools/JSONReader.h
 
     ${header_path}/property/property_declaration.h
     ${header_path}/property/TypeConverter.h
@@ -145,11 +143,9 @@ set(sources
     ${source_path}/base/Color.cpp
     ${source_path}/base/FilePath.cpp
 
-    ${source_path}/tools/JSONReader.cpp
     ${source_path}/tools/Serializer.cpp
     ${source_path}/tools/SerializerJSON.cpp
-    ${source_path}/tools/Deserializer.cpp
-    ${source_path}/tools/DeserializerJSON.cpp
+    ${source_path}/tools/JSONReader.cpp
 
     ${source_path}/property/AbstractAccessor.cpp
     ${source_path}/property/AbstractProperty.cpp

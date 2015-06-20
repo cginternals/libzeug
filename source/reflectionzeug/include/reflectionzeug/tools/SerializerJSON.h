@@ -42,6 +42,7 @@ public:
     virtual ~SerializerJSON();
 
     // Virtual Serializer interface
+    virtual bool fromString(Variant & obj, const std::string & string) override;
     virtual std::string toString(const Variant & obj) override;
 
 

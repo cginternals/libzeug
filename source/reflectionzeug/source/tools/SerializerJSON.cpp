@@ -1,6 +1,8 @@
 
 #include <reflectionzeug/tools/SerializerJSON.h>
 
+#include <reflectionzeug/tools/JSONReader.h>
+
 
 namespace {
 
@@ -192,6 +194,12 @@ SerializerJSON::SerializerJSON(OutputMode outputMode)
 
 SerializerJSON::~SerializerJSON()
 {
+}
+
+bool SerializerJSON::fromString(Variant & obj, const std::string & string)
+{
+    JSONReader reader;
+    return reader.parse(string, obj);
 }
 
 std::string SerializerJSON::toString(const Variant & obj)
