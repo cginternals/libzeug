@@ -8,7 +8,7 @@
 #include <glm/glm.hpp>
 #include <glm/gtc/type_ptr.hpp>
 
-#include <reflectionzeug/Property.h>
+#include <reflectionzeug/property/Property.h>
 
 
 namespace reflectionzeug
@@ -65,15 +65,12 @@ bool glmFromString(const std::string & string, T * data)
     return true;
 }
 
-class Vec2Property : public reflectionzeug::ValueProperty<glm::vec2>
+class Vec2Property : public reflectionzeug::AbstractValueProperty<glm::vec2>
 {
-public:
-    using Type = glm::vec2;
-
 public:
     template <typename... Arguments>
     Vec2Property(Arguments&&... args)
-    : reflectionzeug::ValueProperty<glm::vec2>(std::forward<Arguments>(args)...) {}
+    : reflectionzeug::AbstractValueProperty<glm::vec2>(std::forward<Arguments>(args)...) {}
 
     virtual std::string toString() const override 
     {
@@ -91,15 +88,12 @@ public:
     }
 };
 
-class IVec2Property : public reflectionzeug::ValueProperty<glm::ivec2>
+class IVec2Property : public reflectionzeug::AbstractValueProperty<glm::ivec2>
 {
-public:
-    using Type = glm::ivec2;
-
 public:
     template <typename... Arguments>
     IVec2Property(Arguments&&... args)
-    : reflectionzeug::ValueProperty<glm::ivec2>(std::forward<Arguments>(args)...) {}
+    : reflectionzeug::AbstractValueProperty<glm::ivec2>(std::forward<Arguments>(args)...) {}
 
     virtual std::string toString() const override 
     { 
@@ -117,15 +111,12 @@ public:
     }
 };
 
-class Vec3Property : public reflectionzeug::ValueProperty<glm::vec3>
+class Vec3Property : public reflectionzeug::AbstractValueProperty<glm::vec3>
 {
-public:
-    using Type = glm::vec3;
-
 public:
     template <typename... Arguments>
     Vec3Property(Arguments&&... args)
-    : reflectionzeug::ValueProperty<glm::vec3>(std::forward<Arguments>(args)...) {}
+    : reflectionzeug::AbstractValueProperty<glm::vec3>(std::forward<Arguments>(args)...) {}
 
     virtual std::string toString() const override 
     { 
@@ -143,15 +134,12 @@ public:
     }
 };
 
-class IVec3Property : public reflectionzeug::ValueProperty<glm::ivec3>
+class IVec3Property : public reflectionzeug::AbstractValueProperty<glm::ivec3>
 {
-public:
-    using Type = glm::ivec3;
-
 public:
     template <typename... Arguments>
     IVec3Property(Arguments&&... args)
-    : reflectionzeug::ValueProperty<glm::ivec3>(std::forward<Arguments>(args)...) {}
+    : reflectionzeug::AbstractValueProperty<glm::ivec3>(std::forward<Arguments>(args)...) {}
 
     virtual std::string toString() const override 
     { 
@@ -169,15 +157,12 @@ public:
     }
 };
 
-class Vec4Property : public reflectionzeug::ValueProperty<glm::vec4>
+class Vec4Property : public reflectionzeug::AbstractValueProperty<glm::vec4>
 {
-public:
-    using Type = glm::vec4;
-
 public:
     template <typename... Arguments>
     Vec4Property(Arguments&&... args)
-    : reflectionzeug::ValueProperty<glm::vec4>(std::forward<Arguments>(args)...) {}
+    : reflectionzeug::AbstractValueProperty<glm::vec4>(std::forward<Arguments>(args)...) {}
 
     virtual std::string toString() const override 
     { 
@@ -195,15 +180,12 @@ public:
     }
 };
 
-class IVec4Property : public reflectionzeug::ValueProperty<glm::ivec4>
+class IVec4Property : public reflectionzeug::AbstractValueProperty<glm::ivec4>
 {
-public:
-    using Type = glm::ivec4;
-
 public:
     template <typename... Arguments>
     IVec4Property(Arguments&&... args)
-    : reflectionzeug::ValueProperty<glm::ivec4>(std::forward<Arguments>(args)...) {}
+    : reflectionzeug::AbstractValueProperty<glm::ivec4>(std::forward<Arguments>(args)...) {}
 
     virtual std::string toString() const override 
     { 
@@ -222,37 +204,37 @@ public:
 };
 
 template <>
-struct PropertyClass<Vec2Property::Type>
+struct PropertyTypeSelector<glm::vec2>
 {
     using Type = Vec2Property;
 };
 
 template <>
-struct PropertyClass<IVec2Property::Type>
+struct PropertyTypeSelector<glm::ivec2>
 {
     using Type = IVec2Property;
 };
 
 template <>
-struct PropertyClass<Vec3Property::Type>
+struct PropertyTypeSelector<glm::vec3>
 {
     using Type = Vec3Property;
 };
 
 template <>
-struct PropertyClass<IVec3Property::Type>
+struct PropertyTypeSelector<glm::ivec3>
 {
     using Type = IVec3Property;
 };
 
 template <>
-struct PropertyClass<Vec4Property::Type>
+struct PropertyTypeSelector<glm::vec4>
 {
     using Type = Vec4Property;
 };
 
 template <>
-struct PropertyClass<IVec4Property::Type>
+struct PropertyTypeSelector<glm::ivec4>
 {
     using Type = IVec4Property;
 };
