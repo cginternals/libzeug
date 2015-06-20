@@ -67,6 +67,7 @@ set(headers
 
     ${header_path}/tools/Serializer.h
     ${header_path}/tools/SerializerJSON.h
+    ${header_path}/tools/SerializerINI.h
     ${header_path}/tools/JSONReader.h
 
     ${header_path}/property/property_declaration.h
@@ -145,6 +146,7 @@ set(sources
 
     ${source_path}/tools/Serializer.cpp
     ${source_path}/tools/SerializerJSON.cpp
+    ${source_path}/tools/SerializerINI.cpp
     ${source_path}/tools/JSONReader.cpp
 
     ${source_path}/property/AbstractAccessor.cpp

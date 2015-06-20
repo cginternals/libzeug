@@ -11,6 +11,7 @@
 #include <reflectionzeug/property/PropertyGroup.h>
 #include <reflectionzeug/variant/Variant.h>
 #include <reflectionzeug/tools/SerializerJSON.h>
+#include <reflectionzeug/tools/SerializerINI.h>
 
 
 using namespace reflectionzeug;
@@ -691,6 +692,23 @@ int main(int argc, char *argv[])
             std::cout << json.toString(var) << "\n";
             std::cout << "\n";
         }
+
+        {
+            SerializerINI ini;
+            ini.save(var, "test.ini");
+        }
+    }
+
+    // INI test
+    {
+        SerializerINI ini;
+        Variant var;
+
+        ini.load(var, "test.ini");
+
+        SerializerJSON json(SerializerJSON::Beautify);
+        std::cout << json.toString(var) << "\n";
+        std::cout << "\n";
     }
 
     // JSON test
@@ -701,7 +719,8 @@ int main(int argc, char *argv[])
 
         json.load(var, "/workspace/hpi/projects/gtx/data/datasets/berlin/flow/berlin_flow_2015_01_02-20_29_46.json");
 
-        std::cout << json.toString(var) << "\n";
+        SerializerINI ini;
+        std::cout << ini.toString(var) << "\n";
         std::cout << "\n";
     }
     */

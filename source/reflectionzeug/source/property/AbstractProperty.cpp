@@ -9,6 +9,9 @@ namespace reflectionzeug
 {
 
 
+const std::string AbstractProperty::s_nameRegexString("[a-zA-Z_]+\\w*");
+
+
 AbstractProperty::AbstractProperty(const std::string & name)
 : m_name(name)
 {

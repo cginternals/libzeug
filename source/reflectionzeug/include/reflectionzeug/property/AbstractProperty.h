@@ -25,10 +25,14 @@ class PropertyGroup;
 *  @remarks
 *    When added to a PropertyGroup, the name is used as the unique key.
 *
-* @see PropertyGroup
+*  @see PropertyGroup
 */
 class REFLECTIONZEUG_API AbstractProperty
 {
+public:
+    static const std::string s_nameRegexString; ///< RegEx for a valid property name
+
+
 public:
     signalzeug::Signal<>                    changed;        ///< Called when the value has been changed
     signalzeug::Signal<const std::string &> optionChanged;  ///< Called when an option of the value has been changed
