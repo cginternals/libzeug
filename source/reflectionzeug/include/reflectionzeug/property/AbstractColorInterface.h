@@ -12,6 +12,9 @@ namespace reflectionzeug
 /**
 *  @brief
 *    Interface for color values
+*
+*    Used to access and edit color properties (regardless of the actual color class)
+*    uniformly in the user interface.
 */
 class REFLECTIONZEUG_API AbstractColorInterface
 {

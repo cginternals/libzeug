@@ -17,7 +17,7 @@ class AbstractVisitor;
 
 /**
 *  @brief
-*    Interface for properties that are groups of other properties
+*    Interface for properties that contain other properties
 */
 class REFLECTIONZEUG_API AbstractCollection
 {

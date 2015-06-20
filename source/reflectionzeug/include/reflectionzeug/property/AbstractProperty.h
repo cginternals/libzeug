@@ -21,6 +21,11 @@ class PropertyGroup;
 /**
 *  @brief
 *    Base class for properties
+*
+*  @remarks
+*    When added to a PropertyGroup, the name is used as the unique key.
+*
+* @see PropertyGroup
 */
 class REFLECTIONZEUG_API AbstractProperty
 {
@@ -191,6 +196,12 @@ public:
     /**
     *  @brief
     *    Get options of property
+    *
+    *    Options provide additional meta information about a property.
+    *    Use options to add, e.g., minimum and maximum values,
+    *    affixes, or flags. These can be used to configure editor widgets.
+    *    Look at the class documentation of the specific property type to
+    *    get a list of supported options.
     *
     *  @return
     *    List of options

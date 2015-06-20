@@ -22,6 +22,10 @@ class Property;
 /**
 *  @brief
 *    Base class for typed array properties (read/write)
+*
+*    Property implementation that stores an std::array.
+*    It extends the property implementation for single value types,
+*    therefore the entire array can also be accessed as a single value.
 */
 template <typename Type, size_t Size>
 class AbstractArrayProperty : public AbstractValueProperty<std::array<Type, Size>>

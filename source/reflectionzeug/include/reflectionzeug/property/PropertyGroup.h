@@ -20,6 +20,10 @@ class Property;
 /**
 *  @brief
 *    Group of properties
+*
+*    A propery group is a collection of named properties while being a property itself.
+*    By default, a property group owns its properties and therefore deletes them on destruction.
+*    However, you can change this behaviour with setOwnsProperties().
 */
 class REFLECTIONZEUG_API PropertyGroup : public AbstractCollection,
                                          public AbstractProperty
