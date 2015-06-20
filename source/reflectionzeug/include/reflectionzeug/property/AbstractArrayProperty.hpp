@@ -51,7 +51,7 @@ AbstractArrayProperty<Type, Size>::AbstractArrayProperty(
     Object * object,
     const Type & (Object::*getter_pointer)(size_t) const,
     void (Object::*setter_pointer)(size_t, const Type &))
-: AbstractValueProperty<std::array<Type, Size>>(name, new ArrayAccessorGetSet<Type, Size>(getter_pointer, setter_pointer))
+: AbstractValueProperty<std::array<Type, Size>>(name, new ArrayAccessorGetSet<Type, Size>(object, getter_pointer, setter_pointer))
 , m_arrayAccessor(static_cast<ArrayAccessor<Type, Size>*>(this->m_accessor.get()))
 {
     init();
@@ -64,7 +64,7 @@ AbstractArrayProperty<Type, Size>::AbstractArrayProperty(
     Object * object,
     Type (Object::*getter_pointer)(size_t) const,
     void (Object::*setter_pointer)(size_t, const Type &))
-: AbstractValueProperty<std::array<Type, Size>>(name, new ArrayAccessorGetSet<Type, Size>(getter_pointer, setter_pointer))
+: AbstractValueProperty<std::array<Type, Size>>(name, new ArrayAccessorGetSet<Type, Size>(object, getter_pointer, setter_pointer))
 , m_arrayAccessor(static_cast<ArrayAccessor<Type, Size>*>(this->m_accessor.get()))
 {
     init();
@@ -77,7 +77,7 @@ AbstractArrayProperty<Type, Size>::AbstractArrayProperty(
     Object * object,
     Type (Object::*getter_pointer)(size_t) const,
     void (Object::*setter_pointer)(size_t, Type))
-: AbstractValueProperty<std::array<Type, Size>>(name, new ArrayAccessorGetSet<Type, Size>(getter_pointer, setter_pointer))
+: AbstractValueProperty<std::array<Type, Size>>(name, new ArrayAccessorGetSet<Type, Size>(object, getter_pointer, setter_pointer))
 , m_arrayAccessor(static_cast<ArrayAccessor<Type, Size>*>(this->m_accessor.get()))
 {
     init();
@@ -206,9 +206,11 @@ void AbstractArrayProperty<Type, Size>::init()
     // Create typed value for each element
     for (size_t i = 0; i < Size; ++i)
     {
-        this->m_elements[i] = new Property<Type>("_" + std::to_string(i),
-                                                 std::bind(&AbstractArrayProperty::getElement, this, i),
-                                                 std::bind(&AbstractArrayProperty::setElement, this, i, std::placeholders::_1));
+        this->m_elements[i] = new Property<Type>(
+            "_" + std::to_string(i),
+            std::bind(&AbstractArrayProperty::getElement, this, i),
+            std::bind(&AbstractArrayProperty::setElement, this, i, std::placeholders::_1)
+        );
     }
 }
 
@@ -240,7 +242,7 @@ AbstractArrayProperty<const Type, Size>::AbstractArrayProperty(
     const std::string & name,
     Object * object,
     const Type & (Object::*getter_pointer)(size_t) const)
-: AbstractArrayProperty<Type, Size>(name, new ArrayAccessorGetSet<const Type, Size>(getter_pointer))
+: AbstractArrayProperty<Type, Size>(name, new ArrayAccessorGetSet<const Type, Size>(object, getter_pointer))
 {
 }
 
@@ -250,7 +252,7 @@ AbstractArrayProperty<const Type, Size>::AbstractArrayProperty(
     const std::string & name,
     Object * object,
     Type (Object::*getter_pointer)(size_t) const)
-: AbstractArrayProperty<Type, Size>(name, new ArrayAccessorGetSet<const Type, Size>(getter_pointer))
+: AbstractArrayProperty<Type, Size>(name, new ArrayAccessorGetSet<const Type, Size>(object, getter_pointer))
 {
 }
 

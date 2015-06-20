@@ -23,9 +23,16 @@ template <class Object>
 AccessorGetSet<Type>::AccessorGetSet(Object * object,
     const Type & (Object::*getter_pointer)() const,
     void (Object::*setter_pointer)(const Type &))
-: m_getter(std::bind(getter_pointer, object))
-, m_setter(std::bind(setter_pointer, object, std::placeholders::_1))
 {
+    m_getter = [object, getter_pointer] () -> Type
+    {
+        return (object->*getter_pointer)();
+    };
+
+    m_setter = [object, setter_pointer] (const Type & value)
+    {
+        (object->*setter_pointer)(value);
+    };
 }
 
 template <typename Type>
@@ -33,9 +40,16 @@ template <class Object>
 AccessorGetSet<Type>::AccessorGetSet(Object * object,
     Type (Object::*getter_pointer)() const,
     void (Object::*setter_pointer)(const Type &))
-: m_getter(std::bind(getter_pointer, object))
-, m_setter(std::bind(setter_pointer, object, std::placeholders::_1))
 {
+    m_getter = [object, getter_pointer] () -> Type
+    {
+        return (object->*getter_pointer)();
+    };
+
+    m_setter = [object, setter_pointer] (const Type & value)
+    {
+        (object->*setter_pointer)(value);
+    };
 }
 
 template <typename Type>
@@ -43,9 +57,16 @@ template <class Object>
 AccessorGetSet<Type>::AccessorGetSet(Object * object,
     Type (Object::*getter_pointer)() const,
     void (Object::*setter_pointer)(Type))
-: m_getter(std::bind(getter_pointer, object))
-, m_setter(std::bind(setter_pointer, object, std::placeholders::_1))
 {
+    m_getter = [object, getter_pointer] () -> Type
+    {
+        return (object->*getter_pointer)();
+    };
+
+    m_setter = [object, setter_pointer] (const Type & value)
+    {
+        (object->*setter_pointer)(value);
+    };
 }
 
 template <typename Type>
@@ -89,16 +110,22 @@ template <typename Type>
 template <class Object>
 AccessorGetSet<const Type>::AccessorGetSet(Object * object,
     const Type & (Object::*getter_pointer)() const)
-: m_getter(std::bind(getter_pointer, object))
 {
+    m_getter = [object, getter_pointer] () -> Type
+    {
+        return (object->*getter_pointer)();
+    };
 }
 
 template <typename Type>
 template <class Object>
 AccessorGetSet<const Type>::AccessorGetSet(Object * object,
     Type (Object::*getter_pointer)() const)
-: m_getter(std::bind(getter_pointer, object))
 {
+    m_getter = [object, getter_pointer] () -> Type
+    {
+        return (object->*getter_pointer)();
+    };
 }
 
 template <typename Type>

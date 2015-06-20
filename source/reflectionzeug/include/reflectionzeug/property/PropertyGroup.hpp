@@ -29,15 +29,15 @@ template <typename Type>
 Type PropertyGroup::value(const std::string & path) const
 {
     // Get property by path
-    AbstractProperty * property = this->property(path);
+    const AbstractProperty * property = this->property(path);
     if (!property) {
-        return nullptr;
+        return Type();
     }
 
     // Convert into requested type
-    Property<Type> * typed = property->as<Property<Type>>();
+    const Property<Type> * typed = property->as<const Property<Type>>();
     if (!typed) {
-        return nullptr;
+        return Type();
     }
 
     // Get value

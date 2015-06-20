@@ -25,9 +25,16 @@ ArrayAccessorGetSet<Type, Size>::ArrayAccessorGetSet(
     Object * object,
     const Type & (Object::*getter_pointer)(size_t) const,
     void (Object::*setter_pointer)(size_t, const Type &))
-: m_getter(std::bind(getter_pointer, object))
-, m_setter(std::bind(setter_pointer, object, std::placeholders::_1))
 {
+    m_getter = [object, getter_pointer] (size_t index) -> Type
+    {
+        return (object->*getter_pointer)(index);
+    };
+
+    m_setter = [object, setter_pointer] (size_t index, const Type & value)
+    {
+        (object->*setter_pointer)(index, value);
+    };
 }
 
 template <typename Type, size_t Size>
@@ -36,9 +43,16 @@ ArrayAccessorGetSet<Type, Size>::ArrayAccessorGetSet(
     Object * object,
     Type (Object::*getter_pointer)(size_t) const,
     void (Object::*setter_pointer)(size_t, const Type &))
-: m_getter(std::bind(getter_pointer, object))
-, m_setter(std::bind(setter_pointer, object, std::placeholders::_1))
 {
+    m_getter = [object, getter_pointer] (size_t index) -> Type
+    {
+        return (object->*getter_pointer)(index);
+    };
+
+    m_setter = [object, setter_pointer] (size_t index, const Type & value)
+    {
+        (object->*setter_pointer)(index, value);
+    };
 }
 
 template <typename Type, size_t Size>
@@ -47,9 +61,16 @@ ArrayAccessorGetSet<Type, Size>::ArrayAccessorGetSet(
     Object * object,
     Type (Object::*getter_pointer)(size_t) const,
     void (Object::*setter_pointer)(size_t, Type))
-: m_getter(std::bind(getter_pointer, object))
-, m_setter(std::bind(setter_pointer, object, std::placeholders::_1))
 {
+    m_getter = [object, getter_pointer] (size_t index) -> Type
+    {
+        return (object->*getter_pointer)(index);
+    };
+
+    m_setter = [object, setter_pointer] (size_t index, const Type & value)
+    {
+        (object->*setter_pointer)(index, value);
+    };
 }
 
 template <typename Type, size_t Size>
@@ -114,8 +135,11 @@ template <class Object>
 ArrayAccessorGetSet<const Type, Size>::ArrayAccessorGetSet(
     Object * object,
     const Type & (Object::*getter_pointer)(size_t) const)
-: m_getter(std::bind(getter_pointer, object))
 {
+    m_getter = [object, getter_pointer] (size_t index) -> Type
+    {
+        return (object->*getter_pointer)(index);
+    };
 }
 
 template <typename Type, size_t Size>
@@ -123,8 +147,11 @@ template <class Object>
 ArrayAccessorGetSet<const Type, Size>::ArrayAccessorGetSet(
     Object * object,
     Type (Object::*getter_pointer)(size_t) const)
-: m_getter(std::bind(getter_pointer, object))
 {
+    m_getter = [object, getter_pointer] (size_t index) -> Type
+    {
+        return (object->*getter_pointer)(index);
+    };
 }
 
 template <typename Type, size_t Size>
