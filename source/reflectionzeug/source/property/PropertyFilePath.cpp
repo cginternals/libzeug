@@ -4,6 +4,7 @@
 #include <iostream>
 
 #include <reflectionzeug/property/AbstractVisitor.h>
+#include <reflectionzeug/variant/Variant.h>
 
 
 namespace reflectionzeug
@@ -32,6 +33,30 @@ bool PropertyFilePath::fromString(const std::string & string)
 
     this->setValue(value);
     return true;
+}
+
+Variant PropertyFilePath::toVariant() const
+{
+    // Return string variant
+    return Variant(this->value().toString());
+}
+
+bool PropertyFilePath::fromVariant(const Variant & value)
+{
+    // Read from variant of the exact type
+    if (value.hasType<FilePath>() || value.canConvert<FilePath>()) {
+        setValue( value.value<FilePath>() );
+        return true;
+    }
+
+    // Read from string
+    else if (value.hasType<std::string>() || value.canConvert<std::string>()) {
+        fromString( value.value<std::string>() );
+        return true;
+    }
+
+    // Invalid value
+    return false;
 }
 
 void PropertyFilePath::accept(AbstractVisitor * visitor)

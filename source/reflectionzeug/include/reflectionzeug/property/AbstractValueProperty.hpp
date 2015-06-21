@@ -116,7 +116,7 @@ template <typename Type>
 bool AbstractValueProperty<Type>::fromVariant(const Variant & value)
 {
     // By default, read from variant of the exact type
-    if (value.hasType<Type>()) {
+    if (value.hasType<Type>() || value.canConvert<Type>()) {
         setValue( value.value<Type>() );
         return true;
     }

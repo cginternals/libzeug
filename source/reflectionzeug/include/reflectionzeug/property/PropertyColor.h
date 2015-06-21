@@ -38,6 +38,8 @@ public:
     // Virtual AbstractProperty interface
     virtual std::string toString() const override;
     virtual bool fromString(const std::string & string) override;
+    virtual Variant toVariant() const override;
+    virtual bool fromVariant(const Variant & value) override;
     virtual void accept(AbstractVisitor * visitor) override;
 };
 

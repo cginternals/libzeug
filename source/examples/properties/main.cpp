@@ -129,6 +129,7 @@ void serializingProperties()
         auto object = MyObject{};
 
         try {
+            /*
             // ... and deserialize them.
             SerializerINI serializer;
 
@@ -139,6 +140,7 @@ void serializingProperties()
 
             object.fromVariant(values);
             printGroup(object);
+            */
         }
         catch (...)
         {
