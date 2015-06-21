@@ -1,6 +1,7 @@
 
 #include <reflectionzeug/property/AbstractProperty.h>
 
+#include <reflectionzeug/property/AbstractValueProperty.h>
 #include <reflectionzeug/property/AbstractCollection.h>
 #include <reflectionzeug/property/PropertyGroup.h>
 
@@ -35,6 +36,11 @@ void AbstractProperty::accept(AbstractVisitor * visitor)
 {
 }
 
+bool AbstractProperty::isValue() const
+{
+    return (dynamic_cast<const AbstractValueProperty *>(this) != nullptr);
+}
+
 bool AbstractProperty::isCollection() const
 {
     return (dynamic_cast<const AbstractCollection *>(this) != nullptr);
@@ -43,6 +49,16 @@ bool AbstractProperty::isCollection() const
 bool AbstractProperty::isGroup() const
 {
     return (dynamic_cast<const PropertyGroup *>(this) != nullptr);
+}
+
+AbstractValueProperty * AbstractProperty::asValue()
+{
+    return dynamic_cast<AbstractValueProperty *>(this);
+}
+
+const AbstractValueProperty * AbstractProperty::asValue() const
+{
+    return dynamic_cast<const AbstractValueProperty *>(this);
 }
 
 AbstractCollection * AbstractProperty::asCollection()

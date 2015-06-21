@@ -43,7 +43,7 @@ public:
 *
 *    Usage:
 *    \code{.cpp}
-*    class Visitor : public Visitor<AbstractValueProperty, AbstractStringInterface, Property<bool>> {};
+*    class Visitor : public Visitor<AbstractStringInterface, Property<bool>> {};
 *    \endcode
 *
 * @see Visitor< Type >

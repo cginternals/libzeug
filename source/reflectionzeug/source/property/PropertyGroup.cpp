@@ -4,8 +4,10 @@
 
 #include <reflectionzeug/property/PropertyGroup.h>
 
-#include <reflectionzeug/base/util.h>
+#include <reflectionzeug/property/AbstractValueProperty.h>
 #include <reflectionzeug/property/AbstractVisitor.h>
+
+#include <reflectionzeug/base/util.h>
 
 
 namespace reflectionzeug
@@ -192,6 +194,32 @@ AbstractProperty * PropertyGroup::takeProperty(const std::string & name)
 
     // Return property
     return property;
+}
+
+void PropertyGroup::forEachValue(const std::function<void(AbstractValueProperty &)> & callback)
+{
+    // Visit all values
+    for (AbstractProperty * property : m_properties)
+    {
+        // Check if property is a value property
+        AbstractValueProperty * value = dynamic_cast<AbstractValueProperty *>(property);
+        if (value) {
+            callback(*value);
+        }
+    }
+}
+
+void PropertyGroup::forEachValue(const std::function<void(const AbstractValueProperty &)> & callback) const
+{
+    // Visit all values
+    for (const AbstractProperty * property : m_properties)
+    {
+        // Check if property is a value property
+        const AbstractValueProperty * value = dynamic_cast<const AbstractValueProperty *>(property);
+        if (value) {
+            callback(*value);
+        }
+    }
 }
 
 void PropertyGroup::forEachCollection(const std::function<void(AbstractCollection &)> & callback)

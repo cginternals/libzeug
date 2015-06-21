@@ -75,6 +75,7 @@ set(headers
     ${header_path}/property/TypeConverter.hpp
     ${header_path}/property/AbstractProperty.h
     ${header_path}/property/AbstractProperty.hpp
+    ${header_path}/property/AbstractValueProperty.h
     ${header_path}/property/AbstractTypedProperty.h
     ${header_path}/property/AbstractTypedProperty.hpp
     ${header_path}/property/AbstractArrayProperty.h
@@ -149,6 +150,7 @@ set(sources
 
     ${source_path}/property/AbstractAccessor.cpp
     ${source_path}/property/AbstractProperty.cpp
+    ${source_path}/property/AbstractValueProperty.cpp
     ${source_path}/property/AbstractCollection.cpp
     ${source_path}/property/AbstractBooleanInterface.cpp
     ${source_path}/property/AbstractStringInterface.cpp

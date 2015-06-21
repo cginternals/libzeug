@@ -16,6 +16,8 @@ namespace reflectionzeug
 template <typename Type>
 class Property;
 
+class AbstractValueProperty;
+
 
 /**
 *  @brief
@@ -250,6 +252,18 @@ public:
     */
     template <typename Type>
     void setValue(const std::string & path, const Type & value);
+    //@}
+
+    //@{
+    /**
+    *  @brief
+    *    Execute callback function for each value property in this group
+    *
+    *  @param[in] callback
+    *    Callback function
+    */
+    void forEachValue(const std::function<void(AbstractValueProperty &)> & callback);
+    void forEachValue(const std::function<void(const AbstractValueProperty &)> & callback) const;
     //@}
 
     //@{

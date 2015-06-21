@@ -5,7 +5,7 @@
 #include <memory>
 #include <functional>
 
-#include <reflectionzeug/property/AbstractProperty.h>
+#include <reflectionzeug/property/AbstractValueProperty.h>
 #include <reflectionzeug/property/Accessor.h>
 
 
@@ -18,7 +18,7 @@ namespace reflectionzeug
 *    Base class for typed properties (read/write)
 */
 template <typename Type>
-class AbstractTypedProperty : public AbstractProperty
+class AbstractTypedProperty : public AbstractValueProperty
 {
 public:
     signalzeug::Signal<const Type &> valueChanged;  ///< Called when the value has been changed

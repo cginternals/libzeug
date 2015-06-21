@@ -67,12 +67,10 @@ void iteratingThroughProperties()
         });
     // >> "int_value" \n "enum_value" \n "float_array" \n "sub_group" \n
 
-/*
     object.forEachValue([] (AbstractValueProperty & property)
         {
             std::cout << property.toString() << std::endl;
         });
-*/
     // >> -13 \n Value1 \n (0.5, 1, 0.3) \n
 }
 
@@ -153,19 +151,10 @@ void printGroup(const PropertyGroup & group, const std::string & path)
     std::string groupPath = path + group.name() + "/";
     std::cout << groupPath << std::endl;
 
-/*
     group.forEachValue([&groupPath] (const AbstractValueProperty & property)
     {
         std::cout << groupPath + property.name() << " = " << property.toString() << std::endl;
     });
-*/
-
-    group.forEach([&groupPath] (const AbstractProperty & property)
-    {
-        if (!property.isGroup()) {
-            std::cout << groupPath + property.name() << " = " << property.toString() << std::endl;
-        }
-    } );
 
     group.forEachGroup([&groupPath] (const PropertyGroup & subGroup)
     {

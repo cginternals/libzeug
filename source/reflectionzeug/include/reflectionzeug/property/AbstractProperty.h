@@ -13,9 +13,10 @@ namespace reflectionzeug
 {
 
 
-class AbstractVisitor;
+class AbstractValueProperty;
 class AbstractCollection;
 class PropertyGroup;
+class AbstractVisitor;
 
 
 /**
@@ -140,6 +141,19 @@ public:
 
     /**
     *  @brief
+    *    Check if the property is a value property
+    *
+    *  @return
+    *    'true' if property is derived from AbstractValueProperty, else 'false'
+    *
+    *  @remarks
+    *    All properties that have an actual value, including array properties,
+    *    are value properties (only PropertyGroup isn't).
+    */
+    bool isValue() const;
+
+    /**
+    *  @brief
     *    Check if the property is a collection
     *
     *  @return
@@ -155,6 +169,18 @@ public:
     *    'true' if property is derived from PropertyGroup, else 'false'
     */
     bool isGroup() const;
+    //@}
+
+    //@{
+    /**
+    *  @brief
+    *    Get property as value property
+    *
+    *  @return
+    *    Pointer to AbstractValueProperty, or nullptr if property isn't a value property
+    */
+    AbstractValueProperty * asValue();
+    const AbstractValueProperty * asValue() const;
     //@}
 
     //@{
