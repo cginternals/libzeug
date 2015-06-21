@@ -10,7 +10,6 @@
 #include <reflectionzeug/property/PropertyString.h>
 #include <reflectionzeug/property/PropertyColor.h>
 #include <reflectionzeug/property/PropertyFilePath.h>
-#include <reflectionzeug/property/PropertyClass.h>
 #include <reflectionzeug/property/PropertyArray.h>
 #include <reflectionzeug/property/PropertyEnum.h>
 #include <reflectionzeug/property/AbstractVisitor.h>
@@ -18,6 +17,57 @@
 
 namespace reflectionzeug
 {
+
+
+/**
+*  @brief
+*    Class to throw compiler errors
+*/
+template <typename T>
+class PropertyError;
+
+
+/**
+*  @brief
+*    Class to recognize unsupported property types
+*/
+template <typename T>
+class UnsupportedPropertyType : public AbstractValueProperty<T>
+{
+public:
+    /*
+      If you got here from a compiler error, you have tried to instanciate
+      a property for an unsupported type.
+
+      Please create your own property extension class for the unsupported type
+      by inheriting from AbstractValueProperty<DataType> (and any matching
+      abstract interfaces), and provide a specialization of
+      PropertTypeSelector<DataType> with
+          using Type = DataType;
+    */
+    PropertyError<T> error;
+
+
+public:
+    template <typename... Args>
+    UnsupportedPropertyType(Args&&... args)
+    {
+    }
+
+    virtual ~UnsupportedPropertyType()
+    {
+    }
+
+    virtual std::string toString() const
+    {
+        return "";
+    }
+
+    virtual bool fromString(const std::string & string)
+    {
+        return false;
+    }
+};
 
 
 /**
@@ -30,7 +80,7 @@ namespace reflectionzeug
 template <typename T, typename = void>
 struct PropertyTypeSelector
 {
-    using Type = PropertyClass<T>;
+    using Type = UnsupportedPropertyType<T>;
 };
 
 /**

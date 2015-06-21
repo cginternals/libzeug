@@ -153,7 +153,6 @@ class MyVisitor : public reflectionzeug::Visitor<
                             PropertyString,
                             PropertyColor,
                             PropertyFilePath,
-                            PropertyClass<TestClass>,
                             PropertyEnum<MyEnum>,
                             PropertyArray<int, 3>,
                             Property<int>,
@@ -164,7 +163,6 @@ class MyVisitor : public reflectionzeug::Visitor<
                             Property<std::string>,
                             Property<FilePath>,
                             Property<Color>,
-                            Property<TestClass>,
                             Property<MyEnum>,
                             Property<std::array<int, 3>>,
                             PropertyGroup >
@@ -250,11 +248,6 @@ public:
         std::cout << prop->name() << " PropertyFilePath\n";
     }
 
-    virtual void visit(PropertyClass<TestClass> * prop) override
-    {
-        std::cout << prop->name() << " PropertyClass<TestClass>\n";
-    }
-
     virtual void visit(PropertyEnum<MyEnum> * prop) override
     {
         std::cout << prop->name() << " PropertyEnum<MyEnum>\n";
@@ -303,11 +296,6 @@ public:
     virtual void visit(Property<FilePath> * prop) override
     {
         std::cout << prop->name() << " Property<FilePath>\n";
-    }
-
-    virtual void visit(Property<TestClass> * prop) override
-    {
-        std::cout << prop->name() << " Property<TestClass>\n";
     }
 
     virtual void visit(Property<MyEnum> * prop) override
@@ -421,7 +409,12 @@ int main(int argc, char *argv[])
         Property<std::string>  propString("");
         Property<Color>        propColor("");
         Property<FilePath>     propFilePath("");
-        Property<TestClass>    propTestClass("");
+    }
+
+    // Check error for unsupported property types
+    {
+        // This has to throw a compiler error!
+        //Property<TestClass>    propTestClass("");
     }
 
     // Create array-accessors
@@ -550,9 +543,6 @@ int main(int argc, char *argv[])
 
         Property<FilePath> propFilePath;
         propFilePath.accept(&visitor);
-
-        Property<TestClass> propTestClass;
-        propTestClass.accept(&visitor);
 
         Property<MyEnum> propMyEnum;
         propMyEnum.accept(&visitor);

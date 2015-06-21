@@ -99,8 +99,6 @@ set(headers
     ${header_path}/property/PropertyArray.hpp
     ${header_path}/property/PropertyBool.h
     ${header_path}/property/PropertyBool.hpp
-    ${header_path}/property/PropertyClass.h
-    ${header_path}/property/PropertyClass.hpp
     ${header_path}/property/PropertyColor.h
     ${header_path}/property/PropertyColor.hpp
     ${header_path}/property/PropertyFilePath.h
