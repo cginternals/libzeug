@@ -41,7 +41,7 @@ public:
     *    Include the alpha value?
     *
     *  @return
-    *    HEX color string ("#AARRGGBB"/"#RRGGBB")
+    *    HEX color string ("#AARRGGBB" / "#RRGGBB")
     */
     std::string toHexString(bool includeAlpha = true) const;
 

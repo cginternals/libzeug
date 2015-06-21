@@ -148,8 +148,8 @@ void serializingProperties()
 
 void printGroup(const PropertyGroup & group, const std::string & path)
 {
-    std::string groupPath = path + group.name() + "/";
-    std::cout << groupPath << std::endl;
+    std::string groupPath = path + group.name() + PropertyGroup::s_separator;
+    std::cout << path + group.name() << std::endl;
 
     group.forEachValue([&groupPath] (const AbstractValueProperty & property)
     {
@@ -158,6 +158,6 @@ void printGroup(const PropertyGroup & group, const std::string & path)
 
     group.forEachGroup([&groupPath] (const PropertyGroup & subGroup)
     {
-        printGroup(subGroup, groupPath + "/");
+        printGroup(subGroup, groupPath);
     });
 }

@@ -14,6 +14,9 @@ namespace reflectionzeug
 {
 
 
+const char PropertyGroup::s_separator('.');
+
+
 PropertyGroup::PropertyGroup()
 : AbstractProperty("")
 , m_ownsProperties(true)
@@ -87,13 +90,13 @@ bool PropertyGroup::propertyExists(const std::string & name) const
 
 AbstractProperty * PropertyGroup::property(const std::string & path)
 {
-    std::vector<std::string> splittedPath = util::split(path, '/');
+    std::vector<std::string> splittedPath = util::split(path, s_separator);
     return const_cast<AbstractProperty *>(findProperty(splittedPath));
 }
 
 const AbstractProperty * PropertyGroup::property(const std::string & path) const
 {
-    std::vector<std::string> splittedPath = util::split(path, '/');
+    std::vector<std::string> splittedPath = util::split(path, s_separator);
     return findProperty(splittedPath);
 }
 
@@ -165,7 +168,7 @@ PropertyGroup * PropertyGroup::addGroup(const std::string & name)
 
 PropertyGroup * PropertyGroup::ensureGroup(const std::string & path)
 {
-    std::vector<std::string> splittedPath = util::split(path, '/');
+    std::vector<std::string> splittedPath = util::split(path, s_separator);
     return ensureGroup(splittedPath);
 }
 

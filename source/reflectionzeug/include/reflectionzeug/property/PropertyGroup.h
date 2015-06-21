@@ -31,6 +31,10 @@ class REFLECTIONZEUG_API PropertyGroup : public AbstractCollection,
                                          public AbstractProperty
 {
 public:
+    static const char s_separator;                              ///< Separator for property hierarchies (".", e.g., "group.subgroup.value")
+
+
+public:
     signalzeug::Signal<size_t, AbstractProperty *> beforeAdd;   ///< Called, before a property is added to the group
     signalzeug::Signal<size_t, AbstractProperty *> afterAdd;    ///< Called, after a property is added to the group
     signalzeug::Signal<size_t> beforeRemove;                    ///< Called, before a property is removed from the group

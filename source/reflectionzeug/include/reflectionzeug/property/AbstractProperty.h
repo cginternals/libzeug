@@ -31,7 +31,7 @@ class AbstractVisitor;
 class REFLECTIONZEUG_API AbstractProperty
 {
 public:
-    static const std::string s_nameRegexString; ///< RegEx for a valid property name
+    static const std::string s_nameRegexString;             ///< RegEx for a valid property name
 
 
 public:
