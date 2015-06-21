@@ -129,7 +129,6 @@ void serializingProperties()
         auto object = MyObject{};
 
         try {
-            /*
             // ... and deserialize them.
             SerializerINI serializer;
 
@@ -138,9 +137,10 @@ void serializingProperties()
             SerializerJSON json(SerializerJSON::Beautify);
             std::cout << json.toString(values) << "\n";
 
+            printGroup(object);
+
             object.fromVariant(values);
             printGroup(object);
-            */
         }
         catch (...)
         {

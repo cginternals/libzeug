@@ -247,7 +247,7 @@ Variant * SerializerINI::getSubValue(Variant & var, const std::string & name)
         unsigned int index = util::fromString<unsigned int>(name.substr(1));
         if (index >= array.size()) {
             // Create new empty value
-            array[index] = Variant();
+            array.push_back(Variant());
         }
 
         // Return variant
