@@ -3,6 +3,7 @@
 
 #include <iostream>
 
+#include <reflectionzeug/base/Color.h>
 #include <reflectionzeug/property/AbstractVisitor.h>
 
 
@@ -14,49 +15,84 @@ PropertyColor::~PropertyColor()
 {
 }
 
-Color PropertyColor::toColor() const
+void PropertyColor::getRGBA(int & r, int & g, int & b, int & a) const
 {
-    return this->value();
+    Color color = this->value();
+    r = color.red();
+    g = color.green();
+    b = color.blue();
+    a = color.alpha();
 }
 
-bool PropertyColor::fromColor(const Color & color)
+void PropertyColor::setRGBA(int r, int g, int b, int a)
 {
+    this->setValue(Color(r, g, b, a));
+}
+
+int PropertyColor::red() const
+{
+    return this->value().red();
+}
+
+void PropertyColor::setRed(int red)
+{
+    Color color = this->value();
+    color.setRed(red);
     this->setValue(color);
-    return true;
+}
+
+int PropertyColor::green() const
+{
+    return this->value().green();
+}
+
+void PropertyColor::setGreen(int green)
+{
+    Color color = this->value();
+    color.setGreen(green);
+    this->setValue(color);
+}
+
+int PropertyColor::blue() const
+{
+    return this->value().blue();
+}
+
+void PropertyColor::setBlue(int blue)
+{
+    Color color = this->value();
+    color.setBlue(blue);
+    this->setValue(color);
+}
+
+int PropertyColor::alpha() const
+{
+    return this->value().alpha();
+}
+
+void PropertyColor::setAlpha(int alpha)
+{
+    Color color = this->value();
+    color.setAlpha(alpha);
+    this->setValue(color);
 }
 
 std::string PropertyColor::toString() const
 {
-    return this->value().toString();
+    // Return hex representation
+    return toHexString();
 }
 
 bool PropertyColor::fromString(const std::string & string)
 {
-    bool ok;
-    Color value = Color::fromString(string, &ok);
-
-    if (!ok)
-    {
-        std::cout << "Could not read from string." << std::endl;
-        return false;
-    }
-
-    this->setValue(value);
-    return true;
+    // Read from hex representation
+    return fromHexString(string);
 }
 
 Variant PropertyColor::toVariant() const
 {
-    // Get color
-    Color color = this->value();
-
     // Return color as variant object
-    Variant obj = Variant::map();
-    (*(obj.toMap()))["r"] = color.red();
-    (*(obj.toMap()))["g"] = color.green();
-    (*(obj.toMap()))["b"] = color.blue();
-    (*(obj.toMap()))["a"] = color.alpha();
-    return obj;
+    return toColorVariant();
 }
 
 bool PropertyColor::fromVariant(const Variant & value)
@@ -67,25 +103,10 @@ bool PropertyColor::fromVariant(const Variant & value)
         return true;
     }
 
-    // Read from string
-    else if (value.hasType<std::string>() || value.canConvert<std::string>()) {
-        fromString( value.value<std::string>() );
-        return true;
+    // Read from string or object representation
+    else {
+        return fromColorVariant(value);
     }
-
-    // Read from object
-    else if (value.hasType<VariantMap>()) {
-        const VariantMap & map = *(value.toMap());
-        int r = map.count("r") >= 1 ? map.at("r").value<int>() : 0;
-        int g = map.count("g") >= 1 ? map.at("g").value<int>() : 0;
-        int b = map.count("b") >= 1 ? map.at("b").value<int>() : 0;
-        int a = map.count("a") >= 1 ? map.at("a").value<int>() : 255;
-        this->setValue(Color(r, g, b, a));
-        return true;
-    }
-
-    // Invalid value
-    return false;
 }
 
 void PropertyColor::accept(AbstractVisitor * visitor)

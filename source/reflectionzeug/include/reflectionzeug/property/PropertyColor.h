@@ -32,8 +32,16 @@ public:
     virtual ~PropertyColor();
 
     // Virtual AbstractColorInterface interface
-    virtual Color toColor() const override;
-    virtual bool fromColor(const Color & color) override;
+    virtual void getRGBA(int & r, int & g, int & b, int & a) const override;
+    virtual void setRGBA(int r, int g, int b, int a) override;
+    virtual int red() const override;
+    virtual void setRed(int red) override;
+    virtual int green() const override;
+    virtual void setGreen(int green) override;
+    virtual int blue() const override;
+    virtual void setBlue(int blue) override;
+    virtual int alpha() const override;
+    virtual void setAlpha(int alpha) override;
 
     // Virtual AbstractProperty interface
     virtual std::string toString() const override;

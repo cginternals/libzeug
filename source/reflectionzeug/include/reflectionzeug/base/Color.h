@@ -11,23 +11,22 @@ namespace reflectionzeug
 {
 
 
-// [TODO] Remove Color class, implement interface in AbstractColorInterface instead
-
-
 /**
 *  @brief
-*    A simple RGBA color class for use as a property value
+*    A simple RGBA color class
 */
 class REFLECTIONZEUG_API Color
 {
 public:
-    static Color fromString(const std::string & string, bool * ok);
-
-
-public:
     Color();
     explicit Color(unsigned int rgba);
     Color(int red, int green, int blue, int alpha = 255);
+
+    bool operator==(const Color & rhs) const;
+    bool operator!=(const Color & rhs) const;
+
+    unsigned int rgba() const;
+    void setRgba(unsigned int rgba);
 
     int red() const;
     void setRed(int value);
@@ -37,17 +36,6 @@ public:
     void setBlue(int value);
     int alpha() const;
     void setAlpha(int value);
-
-    unsigned int rgba() const;
-    void setRgba(unsigned int rgba);
-
-    std::string asHex(bool alpha) const;
-
-    std::string toString() const;
-    std::string toString(bool alpha) const;
-
-    bool operator==(const Color & rhs) const;
-    bool operator!=(const Color & rhs) const;
 
 
 protected:

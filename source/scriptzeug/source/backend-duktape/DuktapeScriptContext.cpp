@@ -178,11 +178,6 @@ static Variant fromDukValue(duk_context * context, duk_idx_t index = -1)
 
 static void pushToDukStack(duk_context * context, const Variant & var)
 {
-    /*
-    Variant(const char * value);
-    Variant(const std::string & value);
-    */
-
     if (var.hasType<char>()) {
         duk_push_number(context, var.value<char>());
     }
@@ -243,10 +238,6 @@ static void pushToDukStack(duk_context * context, const Variant & var)
         duk_push_boolean(context, var.value<bool>());
     }
 
-    else if (var.hasType<Color>()) {
-        duk_push_string(context, var.value<Color>().toString().c_str());
-    }
-
     else if (var.hasType<FilePath>()) {
         duk_push_string(context, var.value<FilePath>().toString().c_str());
     }
@@ -305,11 +296,6 @@ static Variant getPropertyValue(AbstractProperty * property)
     // FilePath
     else if (Property<FilePath> * prop = dynamic_cast< Property<FilePath> * >(property) ) {
         value = Variant(property->toString());
-    }
-
-    // Color
-    else if (AbstractColorInterface * prop = dynamic_cast< AbstractColorInterface * >(property) ) {
-        value = Variant::fromValue<Color>(prop->toColor());
     }
 
     // Array
