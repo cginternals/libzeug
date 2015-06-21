@@ -32,7 +32,7 @@ class PropertyError;
 *    Class to recognize unsupported property types
 */
 template <typename T>
-class UnsupportedPropertyType : public AbstractValueProperty<T>
+class UnsupportedPropertyType : public AbstractTypedProperty<T>
 {
 public:
     /*
@@ -40,7 +40,7 @@ public:
       a property for an unsupported type.
 
       Please create your own property extension class for the unsupported type
-      by inheriting from AbstractValueProperty<DataType> (and any matching
+      by inheriting from AbstractTypedProperty<DataType> (and any matching
       abstract interfaces), and provide a specialization of
       PropertTypeSelector<DataType> with
           using Type = DataType;

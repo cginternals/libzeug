@@ -16,7 +16,7 @@ namespace reflectionzeug
 *  @brief
 *    Property implementation for QString
 */
-class PropertyQString : public reflectionzeug::AbstractValueProperty<QString>, public AbstractStringInterface
+class PropertyQString : public reflectionzeug::AbstractTypedProperty<QString>, public AbstractStringInterface
 {
 public:
     /**
@@ -25,7 +25,7 @@ public:
     */
     template <typename... Arguments>
     PropertyQString(Arguments&&... args)
-    : reflectionzeug::AbstractValueProperty<QString>(std::forward<Arguments>(args)...)
+    : reflectionzeug::AbstractTypedProperty<QString>(std::forward<Arguments>(args)...)
     {
     }
 
@@ -70,7 +70,7 @@ public:
 *  @brief
 *    Property implementation for QColor
 */
-class PropertyQColor : public reflectionzeug::AbstractValueProperty<QColor>, public AbstractColorInterface
+class PropertyQColor : public reflectionzeug::AbstractTypedProperty<QColor>, public AbstractColorInterface
 {
 public:
     /**
@@ -79,7 +79,7 @@ public:
     */
     template <typename... Arguments>
     PropertyQColor(Arguments&&... args)
-    : reflectionzeug::AbstractValueProperty<QColor>(std::forward<Arguments>(args)...)
+    : reflectionzeug::AbstractTypedProperty<QColor>(std::forward<Arguments>(args)...)
     {
     }
 

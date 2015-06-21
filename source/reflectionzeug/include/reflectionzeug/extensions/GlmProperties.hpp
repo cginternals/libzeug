@@ -92,7 +92,7 @@ bool glmFromString(const std::string & string, T * data)
 *    Property implementation for GLM vector types
 */
 template <typename VectorType, typename ValueType, unsigned Size>
-class PropertyGlmVec : public reflectionzeug::AbstractValueProperty<VectorType>
+class PropertyGlmVec : public reflectionzeug::AbstractTypedProperty<VectorType>
 {
 public:
     /**
@@ -101,7 +101,7 @@ public:
     */
     template <typename... Arguments>
     PropertyGlmVec(Arguments&&... args)
-    : reflectionzeug::AbstractValueProperty<VectorType>(std::forward<Arguments>(args)...)
+    : reflectionzeug::AbstractTypedProperty<VectorType>(std::forward<Arguments>(args)...)
     {
     }
 

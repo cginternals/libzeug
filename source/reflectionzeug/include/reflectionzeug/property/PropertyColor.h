@@ -3,7 +3,7 @@
 
 
 #include <reflectionzeug/base/Color.h>
-#include <reflectionzeug/property/AbstractValueProperty.h>
+#include <reflectionzeug/property/AbstractTypedProperty.h>
 #include <reflectionzeug/property/AbstractColorInterface.h>
 
 
@@ -15,7 +15,7 @@ namespace reflectionzeug
 *  @brief
 *    Property implementation for type Color
 */
-class PropertyColor : public AbstractValueProperty<Color>, public AbstractColorInterface
+class PropertyColor : public AbstractTypedProperty<Color>, public AbstractColorInterface
 {
 public:
     /**

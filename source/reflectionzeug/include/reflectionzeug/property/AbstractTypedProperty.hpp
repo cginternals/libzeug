@@ -2,7 +2,7 @@
 #pragma once
 
 
-#include <reflectionzeug/property/AbstractValueProperty.h>
+#include <reflectionzeug/property/AbstractTypedProperty.h>
 
 #include <reflectionzeug/property/AccessorValue.h>
 #include <reflectionzeug/property/AccessorGetSet.h>
@@ -14,21 +14,21 @@ namespace reflectionzeug
 
 // Read/write
 template <typename Type>
-AbstractValueProperty<Type>::AbstractValueProperty(const std::string & name)
+AbstractTypedProperty<Type>::AbstractTypedProperty(const std::string & name)
 : AbstractProperty(name)
 , m_accessor(new AccessorValue<Type>())
 {
 }
 
 template <typename Type>
-AbstractValueProperty<Type>::AbstractValueProperty(const std::string & name, const Type & value)
+AbstractTypedProperty<Type>::AbstractTypedProperty(const std::string & name, const Type & value)
 : AbstractProperty(name)
 , m_accessor(new AccessorValue<Type>(value))
 {
 }
 
 template <typename Type>
-AbstractValueProperty<Type>::AbstractValueProperty(
+AbstractTypedProperty<Type>::AbstractTypedProperty(
     const std::string & name,
     std::function<Type ()> getter,
     std::function<void(const Type &)> setter)
@@ -39,7 +39,7 @@ AbstractValueProperty<Type>::AbstractValueProperty(
 
 template <typename Type>
 template <class Object>
-AbstractValueProperty<Type>::AbstractValueProperty(
+AbstractTypedProperty<Type>::AbstractTypedProperty(
     const std::string & name,
     Object * object,
     const Type & (Object::*getter_pointer)() const,
@@ -51,7 +51,7 @@ AbstractValueProperty<Type>::AbstractValueProperty(
 
 template <typename Type>
 template <class Object>
-AbstractValueProperty<Type>::AbstractValueProperty(
+AbstractTypedProperty<Type>::AbstractTypedProperty(
     const std::string & name,
     Object * object,
     Type (Object::*getter_pointer)() const,
@@ -63,7 +63,7 @@ AbstractValueProperty<Type>::AbstractValueProperty(
 
 template <typename Type>
 template <class Object>
-AbstractValueProperty<Type>::AbstractValueProperty(
+AbstractTypedProperty<Type>::AbstractTypedProperty(
     const std::string & name,
     Object * object,
     Type (Object::*getter_pointer)() const,
@@ -74,25 +74,25 @@ AbstractValueProperty<Type>::AbstractValueProperty(
 }
 
 template <typename Type>
-AbstractValueProperty<Type>::AbstractValueProperty(const std::string & name, Accessor<Type> * accessor)
+AbstractTypedProperty<Type>::AbstractTypedProperty(const std::string & name, Accessor<Type> * accessor)
 : AbstractProperty(name)
 , m_accessor(accessor)
 {
 }
 
 template <typename Type>
-AbstractValueProperty<Type>::~AbstractValueProperty()
+AbstractTypedProperty<Type>::~AbstractTypedProperty()
 {
 }
 
 template <typename Type>
-Type AbstractValueProperty<Type>::value() const
+Type AbstractTypedProperty<Type>::value() const
 {
     return m_accessor->value();
 }
 
 template <typename Type>
-void AbstractValueProperty<Type>::setValue(const Type & value)
+void AbstractTypedProperty<Type>::setValue(const Type & value)
 {
     m_accessor->setValue(value);
     this->valueChanged(value);
@@ -100,20 +100,20 @@ void AbstractValueProperty<Type>::setValue(const Type & value)
 }
 
 template <typename Type>
-const std::type_info & AbstractValueProperty<Type>::type() const
+const std::type_info & AbstractTypedProperty<Type>::type() const
 {
     return typeid(Type);
 }
 
 template <typename Type>
-Variant AbstractValueProperty<Type>::toVariant() const
+Variant AbstractTypedProperty<Type>::toVariant() const
 {
     // By default, return variant of the exact type
     return Variant::fromValue<Type>(this->value());
 }
 
 template <typename Type>
-bool AbstractValueProperty<Type>::fromVariant(const Variant & value)
+bool AbstractTypedProperty<Type>::fromVariant(const Variant & value)
 {
     // By default, read from variant of the exact type
     if (value.hasType<Type>() || value.canConvert<Type>()) {
@@ -128,53 +128,53 @@ bool AbstractValueProperty<Type>::fromVariant(const Variant & value)
 
 // Read-only
 template <typename Type>
-AbstractValueProperty<const Type>::AbstractValueProperty(const std::string & name)
-: AbstractValueProperty<Type>(name, new AccessorValue<const Type>())
+AbstractTypedProperty<const Type>::AbstractTypedProperty(const std::string & name)
+: AbstractTypedProperty<Type>(name, new AccessorValue<const Type>())
 {
 }
 
 template <typename Type>
-AbstractValueProperty<const Type>::AbstractValueProperty(const std::string & name, const Type & value)
-: AbstractValueProperty<Type>(name, new AccessorValue<const Type>(value))
+AbstractTypedProperty<const Type>::AbstractTypedProperty(const std::string & name, const Type & value)
+: AbstractTypedProperty<Type>(name, new AccessorValue<const Type>(value))
 {
 }
 
 template <typename Type>
-AbstractValueProperty<const Type>::AbstractValueProperty(
+AbstractTypedProperty<const Type>::AbstractTypedProperty(
     const std::string & name,
     std::function<Type ()> getter)
-: AbstractValueProperty<Type>(name, new AccessorGetSet<const Type>(getter))
+: AbstractTypedProperty<Type>(name, new AccessorGetSet<const Type>(getter))
 {
 }
 
 template <typename Type>
 template <class Object>
-AbstractValueProperty<const Type>::AbstractValueProperty(
+AbstractTypedProperty<const Type>::AbstractTypedProperty(
     const std::string & name,
     Object * object,
     const Type & (Object::*getter_pointer)() const)
-: AbstractValueProperty<Type>(name, new AccessorGetSet<const Type>(getter_pointer))
+: AbstractTypedProperty<Type>(name, new AccessorGetSet<const Type>(getter_pointer))
 {
 }
 
 template <typename Type>
 template <class Object>
-AbstractValueProperty<const Type>::AbstractValueProperty(
+AbstractTypedProperty<const Type>::AbstractTypedProperty(
     const std::string & name,
     Object * object,
     Type (Object::*getter_pointer)() const)
-: AbstractValueProperty<Type>(name, new AccessorGetSet<const Type>(getter_pointer))
+: AbstractTypedProperty<Type>(name, new AccessorGetSet<const Type>(getter_pointer))
 {
 }
 
 template <typename Type>
-AbstractValueProperty<const Type>::AbstractValueProperty(const std::string & name, Accessor<const Type> * accessor)
-: AbstractValueProperty<Type>(name, accessor)
+AbstractTypedProperty<const Type>::AbstractTypedProperty(const std::string & name, Accessor<const Type> * accessor)
+: AbstractTypedProperty<Type>(name, accessor)
 {
 }
 
 template <typename Type>
-AbstractValueProperty<const Type>::~AbstractValueProperty()
+AbstractTypedProperty<const Type>::~AbstractTypedProperty()
 {
 }
 

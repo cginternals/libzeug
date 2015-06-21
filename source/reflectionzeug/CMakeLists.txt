@@ -75,8 +75,8 @@ set(headers
     ${header_path}/property/TypeConverter.hpp
     ${header_path}/property/AbstractProperty.h
     ${header_path}/property/AbstractProperty.hpp
-    ${header_path}/property/AbstractValueProperty.h
-    ${header_path}/property/AbstractValueProperty.hpp
+    ${header_path}/property/AbstractTypedProperty.h
+    ${header_path}/property/AbstractTypedProperty.hpp
     ${header_path}/property/AbstractArrayProperty.h
     ${header_path}/property/AbstractArrayProperty.hpp
     ${header_path}/property/AbstractCollection.h

@@ -16,7 +16,7 @@ namespace reflectionzeug
 template <typename Enum>
 template <typename... Args>
 PropertyEnum<Enum>::PropertyEnum(Args&&... args)
-: AbstractValueProperty<Enum>(std::forward<Args>(args)...)
+: AbstractTypedProperty<Enum>(std::forward<Args>(args)...)
 {
     // Create default enum strings
     this->setStrings(EnumDefaultStrings<Enum>()());

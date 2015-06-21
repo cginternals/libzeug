@@ -32,12 +32,12 @@ bool gradientFromString(const std::string & string, widgetzeug::ColorGradient & 
 namespace widgetzeug
 {
 
-class ColorGradientProperty : public reflectionzeug::ValueProperty<widgetzeug::ColorGradient>
+class ColorGradientProperty : public reflectionzeug::AbstractTypedProperty<widgetzeug::ColorGradient>
 {
 public:
     template <typename... Args>
     ColorGradientProperty(Args&&... args) : 
-        ValueProperty<widgetzeug::ColorGradient>(std::forward<Args>(args)...) {}
+        AbstractTypedProperty<widgetzeug::ColorGradient>(std::forward<Args>(args)...) {}
 
     virtual std::string toString() const 
     {

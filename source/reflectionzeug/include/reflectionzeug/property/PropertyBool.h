@@ -2,7 +2,7 @@
 #pragma once
 
 
-#include <reflectionzeug/property/AbstractValueProperty.h>
+#include <reflectionzeug/property/AbstractTypedProperty.h>
 #include <reflectionzeug/property/AbstractBooleanInterface.h>
 
 
@@ -14,7 +14,7 @@ namespace reflectionzeug
 *  @brief
 *    Property implementation for type bool
 */
-class PropertyBool : public AbstractValueProperty<bool>, public AbstractBooleanInterface
+class PropertyBool : public AbstractTypedProperty<bool>, public AbstractBooleanInterface
 {
 public:
     /**

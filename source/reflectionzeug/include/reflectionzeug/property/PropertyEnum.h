@@ -6,7 +6,7 @@
 #include <vector>
 #include <map>
 
-#include <reflectionzeug/property/AbstractValueProperty.h>
+#include <reflectionzeug/property/AbstractTypedProperty.h>
 #include <reflectionzeug/property/AbstractEnumInterface.h>
 
 
@@ -19,7 +19,7 @@ namespace reflectionzeug
 *    Property implementation for enum types
 */
 template <typename Enum>
-class PropertyEnum : public AbstractValueProperty<Enum>, public AbstractEnumInterface
+class PropertyEnum : public AbstractTypedProperty<Enum>, public AbstractEnumInterface
 {
 public:
     /**

@@ -18,7 +18,7 @@ namespace reflectionzeug
 *    Base class for typed properties (read/write)
 */
 template <typename Type>
-class AbstractValueProperty : public AbstractProperty
+class AbstractTypedProperty : public AbstractProperty
 {
 public:
     signalzeug::Signal<const Type &> valueChanged;  ///< Called when the value has been changed
@@ -32,7 +32,7 @@ public:
     *  @param[in] name
     *    Property name
     */
-    AbstractValueProperty(const std::string & name = "");
+    AbstractTypedProperty(const std::string & name = "");
 
     /**
     *  @brief
@@ -43,7 +43,7 @@ public:
     *  @param[in] value
     *    Default value that is set initially
     */
-    AbstractValueProperty(const std::string & name, const Type & value);
+    AbstractTypedProperty(const std::string & name, const Type & value);
 
     /**
     *  @brief
@@ -56,7 +56,7 @@ public:
     *  @param[in] setter
     *    Function to set the value
     */
-    AbstractValueProperty(const std::string & name,
+    AbstractTypedProperty(const std::string & name,
           std::function<Type ()> getter,
           std::function<void(const Type &)> setter);
 
@@ -74,7 +74,7 @@ public:
     *    Method to set the value
     */
     template <class Object>
-    AbstractValueProperty(const std::string & name, Object * object,
+    AbstractTypedProperty(const std::string & name, Object * object,
           const Type & (Object::*getter_pointer)() const,
           void (Object::*setter_pointer)(const Type &));
 
@@ -92,7 +92,7 @@ public:
     *    Method to set the value
     */
     template <class Object>
-    AbstractValueProperty(const std::string & name, Object * object,
+    AbstractTypedProperty(const std::string & name, Object * object,
           Type (Object::*getter_pointer)() const,
           void (Object::*setter_pointer)(const Type &));
 
@@ -110,7 +110,7 @@ public:
     *    Method to set the value
     */
     template <class Object>
-    AbstractValueProperty(const std::string & name, Object * object,
+    AbstractTypedProperty(const std::string & name, Object * object,
           Type (Object::*getter_pointer)() const,
           void (Object::*setter_pointer)(Type));
 
@@ -123,13 +123,13 @@ public:
     *  @param[in] accessor
     *    Accessor to get/set the value
     */
-    AbstractValueProperty(const std::string & name, Accessor<Type> * accessor);
+    AbstractTypedProperty(const std::string & name, Accessor<Type> * accessor);
 
     /**
     *  @brief
     *    Destructor
     */
-    virtual ~AbstractValueProperty();
+    virtual ~AbstractTypedProperty();
 
     /**
     *  @brief
@@ -165,7 +165,7 @@ protected:
 *    Base class for typed properties (read-only)
 */
 template <typename Type>
-class AbstractValueProperty<const Type> : public AbstractValueProperty<Type>
+class AbstractTypedProperty<const Type> : public AbstractTypedProperty<Type>
 {
 public:
     /**
@@ -175,7 +175,7 @@ public:
     *  @param[in] name
     *    Property name
     */
-    AbstractValueProperty(const std::string & name = "");
+    AbstractTypedProperty(const std::string & name = "");
 
     /**
     *  @brief
@@ -186,7 +186,7 @@ public:
     *  @param[in] value
     *    Default value that is set initially
     */
-    AbstractValueProperty(const std::string & name, const Type & value);
+    AbstractTypedProperty(const std::string & name, const Type & value);
 
     /**
     *  @brief
@@ -197,7 +197,7 @@ public:
     *  @param[in] getter
     *    Function to get the value
     */
-    AbstractValueProperty(const std::string & name, std::function<Type ()> getter);
+    AbstractTypedProperty(const std::string & name, std::function<Type ()> getter);
 
     /**
     *  @brief
@@ -211,7 +211,7 @@ public:
     *    Method to get the value
     */
     template <class Object>
-    AbstractValueProperty(const std::string & name, Object * object,
+    AbstractTypedProperty(const std::string & name, Object * object,
           const Type & (Object::*getter_pointer)() const);
 
     /**
@@ -226,7 +226,7 @@ public:
     *    Method to get the value
     */
     template <class Object>
-    AbstractValueProperty(const std::string & name, Object * object,
+    AbstractTypedProperty(const std::string & name, Object * object,
           Type (Object::*getter_pointer)() const);
 
     /**
@@ -238,17 +238,17 @@ public:
     *  @param[in] accessor
     *    Accessor to get/set the value
     */
-    AbstractValueProperty(const std::string & name, Accessor<const Type> * accessor);
+    AbstractTypedProperty(const std::string & name, Accessor<const Type> * accessor);
 
     /**
     *  @brief
     *    Destructor
     */
-    virtual ~AbstractValueProperty();
+    virtual ~AbstractTypedProperty();
 };
 
 
 } // namespace reflectionzeug
 
 
-#include <reflectionzeug/property/AbstractValueProperty.hpp>
+#include <reflectionzeug/property/AbstractTypedProperty.hpp>

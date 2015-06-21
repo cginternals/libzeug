@@ -2,7 +2,7 @@
 #pragma once
 
 
-#include <reflectionzeug/property/AbstractValueProperty.h>
+#include <reflectionzeug/property/AbstractTypedProperty.h>
 
 
 namespace reflectionzeug
@@ -18,7 +18,7 @@ namespace reflectionzeug
 *    - maximum (Type): initialized to the greatest possible value of Type
 */
 template <typename Type>
-class AbstractNumberProperty : public AbstractValueProperty<Type>
+class AbstractNumberProperty : public AbstractTypedProperty<Type>
 {
 public:
     /**
