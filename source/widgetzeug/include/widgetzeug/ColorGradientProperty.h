@@ -4,7 +4,7 @@
 #include <QJsonObject>
 #include <QJsonArray>
 
-#include <reflectionzeug/Property.h>
+#include <reflectionzeug/property/Property.h>
 
 #include <widgetzeug/ColorGradient.h>
 
@@ -35,9 +35,6 @@ namespace widgetzeug
 class ColorGradientProperty : public reflectionzeug::ValueProperty<widgetzeug::ColorGradient>
 {
 public:
-    using Type = widgetzeug::ColorGradient;
-
-public:
     template <typename... Args>
     ColorGradientProperty(Args&&... args) : 
         ValueProperty<widgetzeug::ColorGradient>(std::forward<Args>(args)...) {}
@@ -56,6 +53,9 @@ public:
         this->setValue(value);
         return true;
     }
+
+    // [TODO] implement toVariant()/fromVariant()!
+    // [TODO] implement accept()!
 };
 
 } // namespace
@@ -64,7 +64,7 @@ namespace reflectionzeug
 {
 
 template <>
-struct PropertyClass<widgetzeug::ColorGradient>
+struct PropertTypeSelector<widgetzeug::ColorGradient>
 {
     using Type = widgetzeug::ColorGradientProperty;
 };
