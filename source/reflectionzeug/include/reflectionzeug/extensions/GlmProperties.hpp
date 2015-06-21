@@ -160,6 +160,11 @@ public:
         // Invalid value
         return false;
     }
+
+    virtual void accept(AbstractVisitor * visitor) override
+    {
+        visitor->callVisitor< PropertyGlmVec<VectorType, ValueType, Size> >(this);
+    }
 };
 
 /**
