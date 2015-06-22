@@ -56,7 +56,11 @@ bool Variant::hasType() const
 template <typename ValueType>
 bool Variant::canConvert() const
 {
-    return m_accessor->canConvert(typeid(ValueType));
+    if (!m_accessor) {
+        return false;
+    }
+
+    return m_accessor->canConvert(typeid(ValueType)) || hasType<ValueType>();
 }
 
 template <typename ValueType>
