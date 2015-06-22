@@ -2,6 +2,7 @@
 #include <reflectionzeug/variant/Variant.h>
 
 #include <reflectionzeug/property/AccessorValue.h>
+#include <reflectionzeug/tools/SerializerJSON.h>
 
 
 namespace reflectionzeug
@@ -183,6 +184,12 @@ Variant & Variant::operator=(const Variant & variant)
     m_accessor = variant.m_accessor ? variant.m_accessor->clone() : nullptr;
 
     return *this;
+}
+
+std::string Variant::toJSON() const
+{
+    SerializerJSON json;
+    return json.toString(*this);
 }
 
 

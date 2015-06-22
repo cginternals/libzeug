@@ -270,6 +270,20 @@ public:
     const VariantMap * toMap() const;
     //@}
 
+    //@{
+    /**
+    *  @brief
+    *    Get JSON representation of variant
+    *
+    *  @return
+    *    JSON representation
+    *
+    *  @see
+    *    SerializerJSON
+    */
+    std::string toJSON() const;
+    //@}
+
 
 protected:
     AbstractAccessor * m_accessor;    ///< Value accessor, can be nullptr

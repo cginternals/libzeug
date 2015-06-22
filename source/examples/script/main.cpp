@@ -193,7 +193,7 @@ public:
     FilePath getPath() const { return m_path; }
     void setPath(const FilePath & path) { m_path = path; std::cout << "m_path = " << m_path.toString() << "\n"; }
     Color getColor() const { return m_color; }
-    void setColor(const Color & color) { m_color = color; std::cout << "m_color = " << m_color.toString() << "\n"; }
+    void setColor(const Color & color) { m_color = color; std::cout << "m_color = " << m_color.red() << ", " << m_color.green() << ", " << m_color.blue() << ", " << m_color.alpha() << "\n"; }
     Enum getEnum() const { return m_enum; }
     void setEnum(const Enum & value) { m_enum = value; std::cout << "m_enum = " << (int)m_enum << "\n"; }
     int getArray(size_t index) const { return m_array[index]; }

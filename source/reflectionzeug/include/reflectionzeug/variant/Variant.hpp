@@ -7,6 +7,30 @@
 #include <reflectionzeug/property/AccessorValue.h>
 
 
+namespace
+{
+
+
+template <typename ValueType>
+struct ConvertTo
+{
+    static ValueType convertTo(const reflectionzeug::Variant & variant) {
+        return ValueType();
+    }
+};
+
+template <>
+struct ConvertTo<std::string>
+{
+    static std::string convertTo(const reflectionzeug::Variant & variant) {
+        return variant.toJSON();
+    }
+};
+
+
+} // namespace
+
+
 namespace reflectionzeug
 {
 
@@ -50,6 +74,11 @@ ValueType Variant::value(const ValueType & defaultValue) const
         if (m_accessor->convert(static_cast<void*>(&converted), typeid(ValueType))) {
             return converted;
         }
+    }
+
+    // Variant map or array to string conversion
+    else if (isMap() || isArray()) {
+        return ConvertTo<ValueType>::convertTo(*this);
     }
 
     // No conversion possible
