@@ -126,8 +126,11 @@ template <typename Type>
 bool StringConverter<Type>::convert(const Type & value, void * target, const std::type_info & targetType) const
 {
     if (targetType == typeid(bool)) {
-        int & v = *reinterpret_cast<int *>(target);
-        std::istringstream(value) >> v;
+        bool & v = *reinterpret_cast<bool *>(target);
+        if (value == "false" || value == "")
+            v = false;
+        else
+            v = true;
     } else if (targetType == typeid(char)) {
         char & v = *reinterpret_cast<char *>(target);
         std::istringstream(value) >> v;
