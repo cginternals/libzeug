@@ -6,8 +6,8 @@
 
 #include <reflectionzeug/property/AbstractValueProperty.h>
 #include <reflectionzeug/property/AbstractVisitor.h>
-
 #include <reflectionzeug/base/util.h>
+#include <reflectionzeug/tools/SerializerJSON.h>
 
 
 namespace reflectionzeug
@@ -325,13 +325,21 @@ bool PropertyGroup::fromVariant(const Variant & value)
 
 std::string PropertyGroup::toString() const
 {
-    // Not supported
-    return "";
+    // Convert group into JSON
+    SerializerJSON json;
+    return json.toString(this->toVariant());
 }
 
 bool PropertyGroup::fromString(const std::string & string)
 {
-    // Not supported
+    // Convert from JSON
+    Variant values;
+    SerializerJSON json;
+    if (json.fromString(values, string)) {
+        return fromVariant(values);
+    }
+
+    // Error
     return false;
 }
 
