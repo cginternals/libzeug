@@ -14,7 +14,7 @@ namespace
 template <typename ValueType>
 struct ConvertTo
 {
-    static ValueType convertTo(const reflectionzeug::Variant & variant) {
+    static ValueType convertTo(const reflectionzeug::Variant & /*variant*/) {
         return ValueType();
     }
 };
