@@ -1,7 +1,7 @@
 #include <iostream>
 
-#include <reflectionzeug/Color.h>
-#include <reflectionzeug/Variant.h>
+#include <reflectionzeug/base/Color.h>
+#include <reflectionzeug/variant/Variant.h>
 
 
 using namespace reflectionzeug;
@@ -43,10 +43,6 @@ int main(int argc, char *argv[])
     Variant variant = Variant::fromValue(Color(128, 128, 0));
     
     std::cout << (variant.hasType<Color>() ? "true" : "false") << std::endl;
-    std::cout << (variant.canConvert<std::string>() ? "true" : "false") << std::endl;
-    
-    /** You can register your own conversions. */
-    Variant::registerConverter(&Color::toString);
     std::cout << (variant.canConvert<std::string>() ? "true" : "false") << std::endl;
     }
 }
