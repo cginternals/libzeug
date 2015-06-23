@@ -365,7 +365,7 @@ bool JSONReader::readObject(Token & tokenStart)
             return addErrorAndRecover("Missing ':' after object member name", colon, TokenObjectEnd);
         }
 
-        Variant & value = (*currentValue().toMap())[name];
+        Variant & value = (*currentValue().asMap())[name];
         m_nodes.push_back(&value);
         bool ok = readValue();
         m_nodes.pop_back();
@@ -404,7 +404,7 @@ bool JSONReader::readArray(Token & tokenStart)
         bool ok = readValue();
         m_nodes.pop_back();
 
-        currentValue().toArray()->push_back(value);
+        currentValue().asArray()->push_back(value);
 
         if (!ok) // error already set
             return recoverFromError( TokenArrayEnd );

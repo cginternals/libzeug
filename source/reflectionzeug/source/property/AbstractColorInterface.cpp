@@ -71,10 +71,10 @@ Variant AbstractColorInterface::toColorVariant() const
 {
     // Return color as variant object
     Variant obj = Variant::map();
-    (*(obj.toMap()))["r"] = red();
-    (*(obj.toMap()))["g"] = green();
-    (*(obj.toMap()))["b"] = blue();
-    (*(obj.toMap()))["a"] = alpha();
+    (*(obj.asMap()))["r"] = red();
+    (*(obj.asMap()))["g"] = green();
+    (*(obj.asMap()))["b"] = blue();
+    (*(obj.asMap()))["a"] = alpha();
     return obj;
 }
 
@@ -88,7 +88,7 @@ bool AbstractColorInterface::fromColorVariant(const Variant & value)
 
     // Read from object
     else if (value.hasType<VariantMap>()) {
-        const VariantMap & map = *(value.toMap());
+        const VariantMap & map = *(value.asMap());
         int r = map.count("r") >= 1 ? map.at("r").value<int>() : 0;
         int g = map.count("g") >= 1 ? map.at("g").value<int>() : 0;
         int b = map.count("b") >= 1 ? map.at("b").value<int>() : 0;

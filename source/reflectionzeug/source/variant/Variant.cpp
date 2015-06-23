@@ -155,22 +155,22 @@ const std::type_info & Variant::type() const
     }
 }
 
-VariantArray * Variant::toArray()
+VariantArray * Variant::asArray()
 {
     return ptr<VariantArray>();
 }
 
-const VariantArray * Variant::toArray() const
+const VariantArray * Variant::asArray() const
 {
     return ptr<VariantArray>();
 }
 
-VariantMap * Variant::toMap()
+VariantMap * Variant::asMap()
 {
     return ptr<VariantMap>();
 }
 
-const VariantMap * Variant::toMap() const
+const VariantMap * Variant::asMap() const
 {
     return ptr<VariantMap>();
 }

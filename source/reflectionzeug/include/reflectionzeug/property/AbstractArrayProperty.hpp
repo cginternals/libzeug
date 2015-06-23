@@ -148,7 +148,7 @@ Variant AbstractArrayProperty<Type, Size>::toVariant() const
 {
     Variant value = Variant::array();
     for (size_t i=0; i<Size; i++) {
-        value.toArray()->push_back(at(i)->toVariant());
+        value.asArray()->push_back(at(i)->toVariant());
     }
     return value;
 }
@@ -162,7 +162,7 @@ bool AbstractArrayProperty<Type, Size>::fromVariant(const Variant & value)
     }
 
     // Get array
-    const VariantArray & array = *(value.toArray());
+    const VariantArray & array = *(value.asArray());
     if (array.size() != Size) {
         return false;
     }

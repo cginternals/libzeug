@@ -41,7 +41,7 @@ static std::string stringify(const reflectionzeug::Variant & obj, bool beautify 
     // Variant is an object
     if (obj.isMap()) {
         // Quick output: {} if empty
-        if (obj.toMap()->empty()) return "{}";
+        if (obj.asMap()->empty()) return "{}";
 
         // Begin output
         std::string json = "{";
@@ -49,7 +49,7 @@ static std::string stringify(const reflectionzeug::Variant & obj, bool beautify 
 
         // Add all variables
         bool first = true;
-        for (auto it : *obj.toMap()) {
+        for (auto it : *obj.asMap()) {
             // Add separator (",")
             if (!first) json += beautify ? ",\n" : ","; else first = false;
 
@@ -82,7 +82,7 @@ static std::string stringify(const reflectionzeug::Variant & obj, bool beautify 
     // Variant is an array
     else if (obj.isArray()) {
         // Quick output: [] if empty
-        if (obj.toArray()->empty()) return "[]";
+        if (obj.asArray()->empty()) return "[]";
 
         // Begin output
         std::string json = "[";
@@ -90,7 +90,7 @@ static std::string stringify(const reflectionzeug::Variant & obj, bool beautify 
 
         // Add all elements
         bool first = true;
-        for (auto it = obj.toArray()->begin(); it != obj.toArray()->end(); ++it) {
+        for (auto it = obj.asArray()->begin(); it != obj.asArray()->end(); ++it) {
             // Add separator (",")
             if (!first) json += beautify ? ",\n" : ","; else first = false;
 

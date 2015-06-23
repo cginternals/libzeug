@@ -292,7 +292,7 @@ Variant PropertyGroup::toVariant() const
         AbstractProperty * prop = it.second;
 
         // Add to variant map
-        (*map.toMap())[name] = prop->toVariant();
+        (*map.asMap())[name] = prop->toVariant();
     }
 
     // Return variant representation
@@ -307,7 +307,7 @@ bool PropertyGroup::fromVariant(const Variant & value)
     }
 
     // Get all values from variant map
-    for (auto it : *value.toMap()) {
+    for (auto it : *value.asMap()) {
         // Get name and value
         std::string     name = it.first;
         const Variant & var  = it.second;

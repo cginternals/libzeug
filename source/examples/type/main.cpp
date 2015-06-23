@@ -19,7 +19,7 @@ using namespace reflectionzeug;
 
 void printVariant(const Variant & var, const std::string & indent = "")
 {
-    for (auto attr : *var.toMap()) {
+    for (auto attr : *var.asMap()) {
         std::string name  = attr.first;
         const Variant & value = attr.second;
 
@@ -656,16 +656,16 @@ int main(int argc, char *argv[])
     // Variant map test
     {
         Variant var = Variant::map();
-        (*var.toMap())["eins"] = 1.01f;
-        (*var.toMap())["zwei"] = 2;
-        (*var.toMap())["drei"] = "3";
-        (*var.toMap())["vier"] = Variant::map();
-        (*var.toMap())["ja"]   = true;
-        (*var.toMap())["nein"] = false;
-        (*(*var.toMap())["vier"].toMap())["a"] = 1;
-        (*(*var.toMap())["vier"].toMap())["b"] = 2;
-        (*(*var.toMap())["vier"].toMap())["c"] = 3;
-        (*(*var.toMap())["vier"].toMap())["d"] = 4;
+        (*var.asMap())["eins"] = 1.01f;
+        (*var.asMap())["zwei"] = 2;
+        (*var.asMap())["drei"] = "3";
+        (*var.asMap())["vier"] = Variant::map();
+        (*var.asMap())["ja"]   = true;
+        (*var.asMap())["nein"] = false;
+        (*(*var.asMap())["vier"].asMap())["a"] = 1;
+        (*(*var.asMap())["vier"].asMap())["b"] = 2;
+        (*(*var.asMap())["vier"].asMap())["c"] = 3;
+        (*(*var.asMap())["vier"].asMap())["d"] = 4;
 
         std::cout << "var.isMap() = " << (var.isMap() ? "true" : "false") << "\n";
         printVariant(var);

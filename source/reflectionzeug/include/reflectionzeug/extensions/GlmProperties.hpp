@@ -127,7 +127,7 @@ public:
         VectorType vector = this->value();
         Variant array = Variant::array();
         for (size_t i=0; i<Size; i++) {
-            array.toArray()->push_back(vector[i]);
+            array.asArray()->push_back(vector[i]);
         }
         return array;
     }
@@ -148,7 +148,7 @@ public:
 
         // Read from variant array
         else if (value.hasType<VariantArray>()) {
-            const VariantArray & array = *(value.toArray());
+            const VariantArray & array = *(value.asArray());
             VectorType vector;
             for (size_t i=0; i<Size; i++) {
                 vector[i] = array[i].value<ValueType>();

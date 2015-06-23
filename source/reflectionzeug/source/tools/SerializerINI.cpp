@@ -79,7 +79,7 @@ void SerializerINI::serializeGroup(const std::string & name, const Variant & val
     // Serialize child values
     if (value.isMap()) {
         // Variant map
-        const VariantMap & map = *(value.toMap());
+        const VariantMap & map = *(value.asMap());
 
         // Serialize all values
         for (auto it : map) {
@@ -103,7 +103,7 @@ void SerializerINI::serializeGroup(const std::string & name, const Variant & val
         }
     } else if (value.isArray()) {
         // Variant array
-        const VariantArray & array = *(value.toArray());
+        const VariantArray & array = *(value.asArray());
 
         // Serialize all values
         for (size_t i=0; i<array.size(); i++) {
@@ -241,7 +241,7 @@ Variant * SerializerINI::getSubValue(Variant & var, const std::string & name)
         }
 
         // Get array
-        VariantArray & array = *(var.toArray());
+        VariantArray & array = *(var.asArray());
 
         // Check if a value exists
         unsigned int index = util::fromString<unsigned int>(name.substr(1));
@@ -264,7 +264,7 @@ Variant * SerializerINI::getSubValue(Variant & var, const std::string & name)
         }
 
         // Get map
-        VariantMap & map = *(var.toMap());
+        VariantMap & map = *(var.asMap());
 
         // Check if a value exists
         if (!map.count(name) > 0) {

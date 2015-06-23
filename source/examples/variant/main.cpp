@@ -13,7 +13,7 @@ int main(int argc, char *argv[])
      */
     {
     Variant map = Variant::map();
-    map.toMap()->insert({ "method", Variant(1) });
+    map.asMap()->insert({ "method", Variant(1) });
     
     std::cout << map.value<std::string>() << std::endl;
     }
