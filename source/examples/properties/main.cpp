@@ -1,36 +1,37 @@
+
 #include <iostream>
 
-#include <reflectionzeug/Property.h>
-#include <reflectionzeug/PropertyGroup.h>
-#include <reflectionzeug/PropertyDeserializer.h>
-#include <reflectionzeug/PropertySerializer.h>
-#include <reflectionzeug/util.h>
+#include <reflectionzeug/property/Property.h>
+#include <reflectionzeug/property/PropertyGroup.h>
+#include <reflectionzeug/tools/SerializerINI.h>
+#include <reflectionzeug/tools/SerializerJSON.h>
+#include <reflectionzeug/base/util.h>
 
 #include "MyObject.h"
 
-#ifdef WIN32
-#define INI_PATH "data\\properties.ini"
-#else
-#define INI_PATH "data/properties.ini"
-#endif
+
+#define INI_PATH "properties.ini"
 
 
 using namespace reflectionzeug;
+
 
 void accessingProperties();
 void iteratingThroughProperties();
 void subscribingToChanges();
 void typeDeduction();
 void serializingProperties();
-
 void printGroup(const PropertyGroup & group, const std::string & path = "");
+
 
 int main(int argc, char const *argv[])
 {
+    /*
     accessingProperties();
     iteratingThroughProperties();
     subscribingToChanges();
     typeDeduction();
+    */
     serializingProperties();
 
     return 0;
@@ -49,7 +50,7 @@ void accessingProperties()
     AbstractProperty * enumProperty = object.property("enum_value");
 
     // Access a nested property.
-    Property<bool> * floatProperty = object.property<bool>("sub_group/bool_value");
+    Property<bool> * boolProperty = object.property("sub_group/bool_value")->as<Property<bool>>();
 
     // Access by index.
     AbstractProperty * property = object.at(1);
@@ -77,7 +78,7 @@ void subscribingToChanges()
 {
     auto object = MyObject{};
 
-    Property<int> * intProperty = object.property<int>("int_value");
+    Property<int> * intProperty = object.property("int_value")->as<Property<int>>();
 
     // Subscribe to updates of a property
     intProperty->valueChanged.connect(
@@ -94,10 +95,10 @@ void typeDeduction()
 {
     auto object = MyObject{};
 
-    AbstractValueProperty * property = object.property("float_array")->asValue();
+    AbstractProperty * property = object.property("float_array");
 
     // Deduce a property's type via its type() method.
-    if (property->type() == Property<std::array<float, 3>>::stype())
+    if (property->type() == typeid(std::array<float, 3>))
     {
         std::cout << property->name() << " is of type std::array<float, 3>." << std::endl;
     }
@@ -112,10 +113,10 @@ void serializingProperties()
         object.setValue<std::array<float, 3>>("float_array", {{ 4.8f, 15.16f, 23.42f }});
         object.setValue<bool>("sub_group/bool_value", false);
         
-        // Serialize property hierarchies with the PropertySerializer ...
+        // Serialize property hierarchies ...
         try {
-            PropertySerializer serializer{};
-            serializer.serialize(object, INI_PATH);
+            SerializerINI serializer;
+            serializer.save(object.toVariant(), INI_PATH);
         }
         catch (...)
         {
@@ -126,9 +127,17 @@ void serializingProperties()
         auto object = MyObject{};
 
         try {
-            // ... and deserialize them with the PropertyDeserializer.
-            auto deserializer = PropertyDeserializer{};
-            deserializer.deserialize(object, INI_PATH);
+            // ... and deserialize them.
+            SerializerINI serializer;
+
+            Variant values;
+            serializer.load(values, INI_PATH);
+            SerializerJSON json(SerializerJSON::Beautify);
+            std::cout << json.toString(values) << "\n";
+
+            printGroup(object);
+
+            object.fromVariant(values);
             printGroup(object);
         }
         catch (...)
@@ -139,8 +148,8 @@ void serializingProperties()
 
 void printGroup(const PropertyGroup & group, const std::string & path)
 {
-    std::string groupPath = path + group.name() + "/";
-    std::cout << groupPath << std::endl;
+    std::string groupPath = path + group.name() + PropertyGroup::s_separator;
+    std::cout << path + group.name() << std::endl;
 
     group.forEachValue([&groupPath] (const AbstractValueProperty & property)
     {
@@ -149,6 +158,6 @@ void printGroup(const PropertyGroup & group, const std::string & path)
 
     group.forEachGroup([&groupPath] (const PropertyGroup & subGroup)
     {
-        printGroup(subGroup, groupPath + "/");
+        printGroup(subGroup, groupPath);
     });
 }

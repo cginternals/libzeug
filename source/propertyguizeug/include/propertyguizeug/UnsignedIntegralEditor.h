@@ -1,11 +1,12 @@
 #pragma once
 
 #include <propertyguizeug/PropertyEditor.h>
+
 #include <signalzeug/ScopedConnection.h>
 
 namespace reflectionzeug
 {
-    class UnsignedIntegralPropertyInterface;
+    class AbstractUnsignedIntegralInterface;
 }
 
 namespace propertyguizeug
@@ -24,19 +25,19 @@ namespace propertyguizeug
 class PROPERTYGUIZEUG_API UnsignedIntegralEditor : public PropertyEditor
 {
 public:
-    using Type = reflectionzeug::UnsignedIntegralPropertyInterface;
+    using Type = reflectionzeug::AbstractUnsignedIntegralInterface;
     
     static void paint(QPainter * painter, 
                       const QStyleOptionViewItem & option, 
-                      reflectionzeug::UnsignedIntegralPropertyInterface & property);
+                      reflectionzeug::AbstractUnsignedIntegralInterface & property);
     
 public:
-    UnsignedIntegralEditor(reflectionzeug::UnsignedIntegralPropertyInterface * property, 
+    UnsignedIntegralEditor(reflectionzeug::AbstractUnsignedIntegralInterface * property, 
                            QWidget * parent = nullptr);
     virtual ~UnsignedIntegralEditor();
 
 private:
-    reflectionzeug::UnsignedIntegralPropertyInterface * m_property;
+    reflectionzeug::AbstractUnsignedIntegralInterface * m_property;
     signalzeug::ScopedConnection m_propertyChangedConnection;
 };
 

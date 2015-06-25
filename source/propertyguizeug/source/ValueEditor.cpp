@@ -2,26 +2,26 @@
 
 #include <QLineEdit>
 
-#include <reflectionzeug/AbstractValueProperty.h>
+#include <reflectionzeug/property/AbstractProperty.h>
 
 using namespace reflectionzeug;
 namespace propertyguizeug
 {
     
-ValueEditor::ValueEditor(AbstractValueProperty * property, QWidget * parent)
+ValueEditor::ValueEditor(AbstractProperty * property, QWidget * parent)
 :   PropertyEditor{parent}
 ,   m_lineEdit{new QLineEdit{this}}
 ,   m_property{property}
-{   
+{
     addWidget(m_lineEdit);
     setFocusProxy(m_lineEdit);
-    
+
     m_lineEdit->setText(QString::fromStdString(m_property->toString()));
-    
+
     connect(m_lineEdit, &QLineEdit::editingFinished, 
             this, &ValueEditor::editingFinished);
 
-    m_propertyChangedConnection = m_property->valueChanged.connect(
+    m_propertyChangedConnection = m_property->changed.connect(
         [this]()
         {
             m_lineEdit->setText(QString::fromStdString(m_property->toString()));
@@ -31,7 +31,7 @@ ValueEditor::ValueEditor(AbstractValueProperty * property, QWidget * parent)
 ValueEditor::~ValueEditor()
 {
 }
-    
+
 void ValueEditor::editingFinished()
 {
     m_property->fromString(m_lineEdit->text().toStdString());

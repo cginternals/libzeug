@@ -7,7 +7,6 @@
 namespace reflectionzeug
 {
     class AbstractProperty;
-    class AbstractValueProperty;
     class PropertyGroup;
 }
 

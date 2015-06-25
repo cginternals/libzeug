@@ -4,8 +4,8 @@
 #include <QWidget>
 #include <QPushButton>
 
-#include <reflectionzeug/Property.h>
-#include <reflectionzeug/PropertyGroup.h>
+#include <reflectionzeug/property/Property.h>
+#include <reflectionzeug/property/PropertyGroup.h>
 
 #include <propertyguizeug/PropertyBrowser.h>
 

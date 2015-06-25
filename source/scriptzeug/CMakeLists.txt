@@ -5,17 +5,8 @@ message(STATUS "Lib ${target}")
 
 # External libraries
 
-find_package(V8)
-option(LIBZEUG_USE_V8 "Compile V8 JavaScript backend" ${V8_FOUND})
-
 
 # Includes
-
-if (LIBZEUG_USE_V8 AND V8_FOUND)
-    include_directories(
-        ${V8_INCLUDE_DIR}
-    )
-endif()
 
 include_directories(
     BEFORE
@@ -33,12 +24,6 @@ set(libs
     signalzeug
 )
 
-if (LIBZEUG_USE_V8 AND V8_FOUND)
-    set(libs ${libs}
-        ${V8_LIBRARY}
-    )
-endif()
-
 
 # Compiler definitions
 
@@ -46,10 +31,6 @@ if (OPTION_BUILD_STATIC)
     add_definitions("-DSCRIPTZEUG_STATIC")
 else()
     add_definitions("-DSCRIPTZEUG_EXPORTS")
-endif()
-
-if (LIBZEUG_USE_V8 AND V8_FOUND)
-    add_definitions("-DLIBZEUG_USE_V8")
 endif()
 
 if (WIN32)
@@ -77,15 +58,6 @@ set(sources
     ${source_path}/backend-duktape/DuktapeScriptContext.cpp
     ${source_path}/backend-duktape/DuktapeScriptContext.h
 )
-
-if (LIBZEUG_USE_V8 AND V8_FOUND)
-    set(sources ${sources}
-        ${source_path}/backend-v8/V8ScriptContext.cpp
-    )
-    set(headers ${headers}
-        ${source_path}/backend-v8/V8ScriptContext.h
-    )
-endif()
 
 # Group source files
 set(header_group "Header Files (API)")

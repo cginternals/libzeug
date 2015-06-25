@@ -3,7 +3,7 @@
 #include <QComboBox>
 #include <QLineEdit>
 
-#include <reflectionzeug/Property.h>
+#include <reflectionzeug/property/Property.h>
 
 #include "util.h"
 
@@ -11,13 +11,14 @@ using namespace reflectionzeug;
 namespace propertyguizeug
 {
     
-StringEditor::StringEditor(StringPropertyInterface * property, QWidget * parent)
+StringEditor::StringEditor(AbstractStringInterface * property, QWidget * parent)
 :   PropertyEditor{parent}
 ,   m_property{property}
 {   
     QWidget * widget = nullptr;
 
-    if (m_property->hasOption("choices"))
+    AbstractProperty * prop = dynamic_cast<AbstractProperty *>(m_property);
+    if (prop->hasOption("choices"))
         widget = createComboBox();
     else
         widget = createLineEdit();
@@ -34,19 +35,20 @@ QWidget * StringEditor::createComboBox()
 {
     auto comboBox = new QComboBox{this};
 
-    auto choices = m_property->option("choices").value<std::vector<std::string>>();
+    AbstractProperty * prop = dynamic_cast<AbstractProperty *>(m_property);
+    auto choices = prop->option("choices").value<std::vector<std::string>>();
 
     comboBox->addItems(util::toQStringList(choices));
-    comboBox->setCurrentText(QString::fromStdString(m_property->toString()));
+    comboBox->setCurrentText(QString::fromStdString(prop->toString()));
     
     using StringActivatedPtr = void (QComboBox::*) (const QString &);
     connect(comboBox, static_cast<StringActivatedPtr>(&QComboBox::activated),
             this, &StringEditor::setString);
 
-    m_propertyChangedConnection = m_property->valueChanged.connect(
-        [this, comboBox]()
+    m_propertyChangedConnection = prop->changed.connect(
+        [this, comboBox, prop]()
         {
-            comboBox->setCurrentText(QString::fromStdString(m_property->toString()));
+            comboBox->setCurrentText(QString::fromStdString(prop->toString()));
         });
 
     return comboBox;
@@ -56,9 +58,11 @@ QWidget * StringEditor::createLineEdit()
 {
     auto lineEdit = new QLineEdit{this};
     
-    lineEdit->setText(QString::fromStdString(m_property->toString()));
+    AbstractProperty * prop = dynamic_cast<AbstractProperty *>(m_property);
+
+    lineEdit->setText(QString::fromStdString(prop->toString()));
     
-    const auto deferred = m_property->option<bool>("deferred", false);
+    const auto deferred = prop->option<bool>("deferred", false);
 
     if (deferred)
     {
@@ -74,10 +78,10 @@ QWidget * StringEditor::createLineEdit()
                 this, &StringEditor::setString);
     }
     
-    m_propertyChangedConnection = m_property->valueChanged.connect(
-        [this, lineEdit]()
+    m_propertyChangedConnection = prop->changed.connect(
+        [this, lineEdit, prop]()
         {
-            lineEdit->setText(QString::fromStdString(m_property->toString()));
+            lineEdit->setText(QString::fromStdString(prop->toString()));
         });
 
     return lineEdit;
@@ -85,7 +89,8 @@ QWidget * StringEditor::createLineEdit()
 
 void StringEditor::setString(const QString & text)
 {
-    m_property->fromString(text.toStdString());
+    AbstractProperty * prop = dynamic_cast<AbstractProperty *>(m_property);
+    prop->fromString(text.toStdString());
 }
 
 } // namespace propertyguizeug

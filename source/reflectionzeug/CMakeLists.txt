@@ -59,91 +59,118 @@ set(source_path "${CMAKE_CURRENT_SOURCE_DIR}/source")
 set(headers
     ${header_path}/reflectionzeug_api.h
 
-    ${header_path}/AbstractProperty.h
-    ${header_path}/AbstractProperty.hpp
-    ${header_path}/AbstractPropertyCollection.h
-    ${header_path}/AbstractPropertyVisitor.h
-    ${header_path}/AbstractPropertyVisitor.hpp
-    ${header_path}/AbstractValueProperty.h
-    ${header_path}/ArrayProperty.h
-    ${header_path}/ArrayProperty.hpp
-    ${header_path}/BoolProperty.h
-    ${header_path}/BoolProperty.hpp
-    ${header_path}/ClassProperty.h
-    ${header_path}/ClassProperty.hpp
-    ${header_path}/Color.h
-    ${header_path}/ColorProperty.h
-    ${header_path}/ColorProperty.hpp
-    ${header_path}/ColorPropertyInterface.h
-    ${header_path}/EnumProperty.h
-    ${header_path}/EnumProperty.hpp
-    ${header_path}/EnumPropertyInterface.h
-    ${header_path}/FilePath.h
-    ${header_path}/FilePathProperty.h
-    ${header_path}/FilePathProperty.hpp
-    ${header_path}/FloatingPointProperty.h
-    ${header_path}/FloatingPointProperty.hpp
-    ${header_path}/FloatingPointPropertyInterface.h
-    ${header_path}/Function.h
-    ${header_path}/NumberProperty.h
-    ${header_path}/NumberProperty.hpp
+    ${header_path}/base/util.h
+    ${header_path}/base/util.hpp
+    ${header_path}/base/Color.h
+    ${header_path}/base/FilePath.h
+    ${header_path}/base/template_helpers.h
+
+    ${header_path}/tools/Serializer.h
+    ${header_path}/tools/SerializerJSON.h
+    ${header_path}/tools/SerializerINI.h
+    ${header_path}/tools/JSONReader.h
+
+    ${header_path}/property/property_declaration.h
+    ${header_path}/property/TypeConverter.h
+    ${header_path}/property/TypeConverter.hpp
+    ${header_path}/property/AbstractProperty.h
+    ${header_path}/property/AbstractProperty.hpp
+    ${header_path}/property/AbstractValueProperty.h
+    ${header_path}/property/AbstractTypedProperty.h
+    ${header_path}/property/AbstractTypedProperty.hpp
+    ${header_path}/property/AbstractArrayProperty.h
+    ${header_path}/property/AbstractArrayProperty.hpp
+    ${header_path}/property/AbstractCollection.h
+    ${header_path}/property/AbstractAccessor.h
+    ${header_path}/property/Accessor.h
+    ${header_path}/property/Accessor.hpp
+    ${header_path}/property/AccessorGetSet.h
+    ${header_path}/property/AccessorGetSet.hpp
+    ${header_path}/property/AccessorValue.h
+    ${header_path}/property/AccessorValue.hpp
+    ${header_path}/property/ArrayAccessor.h
+    ${header_path}/property/ArrayAccessor.hpp
+    ${header_path}/property/ArrayAccessorGetSet.h
+    ${header_path}/property/ArrayAccessorGetSet.hpp
+    ${header_path}/property/ArrayAccessorValue.h
+    ${header_path}/property/ArrayAccessorValue.hpp
+    ${header_path}/property/PropertyEnum.h
+    ${header_path}/property/PropertyEnum.hpp
+    ${header_path}/property/PropertyArray.h
+    ${header_path}/property/PropertyArray.hpp
+    ${header_path}/property/PropertyBool.h
+    ${header_path}/property/PropertyBool.hpp
+    ${header_path}/property/PropertyColor.h
+    ${header_path}/property/PropertyColor.hpp
+    ${header_path}/property/PropertyFilePath.h
+    ${header_path}/property/PropertyFilePath.hpp
+    ${header_path}/property/PropertyFloatingPoint.h
+    ${header_path}/property/PropertyFloatingPoint.hpp
+    ${header_path}/property/PropertySignedIntegral.h
+    ${header_path}/property/PropertySignedIntegral.hpp
+    ${header_path}/property/PropertyString.h
+    ${header_path}/property/PropertyString.hpp
+    ${header_path}/property/PropertyUnsignedIntegral.h
+    ${header_path}/property/PropertyUnsignedIntegral.hpp
+    ${header_path}/property/AbstractNumberProperty.h
+    ${header_path}/property/AbstractNumberProperty.hpp
+    ${header_path}/property/AbstractBooleanInterface.h
+    ${header_path}/property/AbstractStringInterface.h
+    ${header_path}/property/AbstractColorInterface.h
+    ${header_path}/property/AbstractFloatingPointInterface.h
+    ${header_path}/property/AbstractSignedIntegralInterface.h
+    ${header_path}/property/AbstractUnsignedIntegralInterface.h
+    ${header_path}/property/AbstractEnumInterface.h
+    ${header_path}/property/AbstractVisitor.h
+    ${header_path}/property/AbstractVisitor.hpp
+    ${header_path}/property/Visitor.h
+    ${header_path}/property/Property.h
+    ${header_path}/property/Property.hpp
+    ${header_path}/property/PropertyGroup.h
+    ${header_path}/property/PropertyGroup.hpp
+
+    ${header_path}/function/Function.h
+    ${header_path}/function/Function.hpp
+
+    ${header_path}/variant/Variant.h
+    ${header_path}/variant/Variant.hpp
+
     ${header_path}/Object.h
-    ${header_path}/Property.h
-    ${header_path}/PropertyDeserializer.h
-    ${header_path}/PropertyGroup.h
-    ${header_path}/PropertyGroup.hpp
-    ${header_path}/PropertySerializer.h
-    ${header_path}/PropertyVisitor.h
-    ${header_path}/SignedIntegralProperty.h
-    ${header_path}/SignedIntegralProperty.hpp
-    ${header_path}/SignedIntegralPropertyInterface.h
-    ${header_path}/StandardPropertyVisitor.h
-    ${header_path}/StringProperty.h
-    ${header_path}/StringProperty.hpp
-    ${header_path}/StringPropertyInterface.h
-    ${header_path}/TemplateHelper.h
-    ${header_path}/UnsignedIntegralProperty.h
-    ${header_path}/UnsignedIntegralProperty.hpp
-    ${header_path}/UnsignedIntegralPropertyInterface.h
-    ${header_path}/ValueProperty.h
-    ${header_path}/ValueProperty.hpp
-    ${header_path}/Variant.h
-    ${header_path}/Variant.hpp
-    ${header_path}/VariantConverterRegistry.h
-    ${header_path}/VariantConverterRegistry.hpp
-    ${header_path}/VariantConverterInit.h
-    ${header_path}/VariantHolder.h
-    ${header_path}/VariantHolder.hpp
-    ${header_path}/property_declaration.h
-    ${header_path}/specialization_helpers.h
-    ${header_path}/util.h
-    ${header_path}/util.hpp
-    ${header_path}/extensions/GlmProperties.hpp
 )
 
 set(sources
-    ${source_path}/AbstractProperty.cpp
-    ${source_path}/AbstractPropertyCollection.cpp
-    ${source_path}/AbstractPropertyVisitor.cpp
-    ${source_path}/AbstractValueProperty.cpp
-    ${source_path}/BoolProperty.cpp
-    ${source_path}/Color.cpp
-    ${source_path}/ColorProperty.cpp
-    ${source_path}/ColorPropertyInterface.cpp
-    ${source_path}/EnumPropertyInterface.cpp
-    ${source_path}/FilePath.cpp
-    ${source_path}/FilePathProperty.cpp
-    ${source_path}/FloatingPointPropertyInterface.cpp
+    ${source_path}/base/util.cpp
+    ${source_path}/base/Color.cpp
+    ${source_path}/base/FilePath.cpp
+
+    ${source_path}/tools/Serializer.cpp
+    ${source_path}/tools/SerializerJSON.cpp
+    ${source_path}/tools/SerializerINI.cpp
+    ${source_path}/tools/JSONReader.cpp
+
+    ${source_path}/property/AbstractAccessor.cpp
+    ${source_path}/property/AbstractProperty.cpp
+    ${source_path}/property/AbstractValueProperty.cpp
+    ${source_path}/property/AbstractCollection.cpp
+    ${source_path}/property/AbstractBooleanInterface.cpp
+    ${source_path}/property/AbstractStringInterface.cpp
+    ${source_path}/property/AbstractColorInterface.cpp
+    ${source_path}/property/AbstractFloatingPointInterface.cpp
+    ${source_path}/property/AbstractSignedIntegralInterface.cpp
+    ${source_path}/property/AbstractUnsignedIntegralInterface.cpp
+    ${source_path}/property/AbstractEnumInterface.cpp
+    ${source_path}/property/AbstractVisitor.cpp
+    ${source_path}/property/PropertyBool.cpp
+    ${source_path}/property/PropertyString.cpp
+    ${source_path}/property/PropertyColor.cpp
+    ${source_path}/property/PropertyFilePath.cpp
+    ${source_path}/property/PropertyGroup.cpp
+
+    ${source_path}/function/Function.cpp
+
+    ${source_path}/variant/Variant.cpp
+
     ${source_path}/Object.cpp
-    ${source_path}/PropertyDeserializer.cpp
-    ${source_path}/PropertyGroup.cpp
-    ${source_path}/PropertySerializer.cpp
-    ${source_path}/StringProperty.cpp
-    ${source_path}/StringPropertyInterface.cpp
-    ${source_path}/SignedIntegralPropertyInterface.cpp
-    ${source_path}/UnsignedIntegralPropertyInterface.cpp
-    ${source_path}/util.cpp
-    ${source_path}/Variant.cpp
 )
 
 # Group source files

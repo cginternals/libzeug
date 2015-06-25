@@ -2,7 +2,9 @@
 
 
 #include <string>
-#include <reflectionzeug/Variant.h>
+
+#include <reflectionzeug/variant/Variant.h>
+
 #include <scriptzeug/scriptzeug_api.h>
 
 
@@ -30,7 +32,7 @@ public:
     virtual reflectionzeug::Variant evaluate(const std::string & code) = 0;
 
 protected:
-	ScriptContext * m_scriptContext; /**< Script context holding this backend */
+	ScriptContext * m_scriptContext; ///< Script context holding this backend
 };
 
 

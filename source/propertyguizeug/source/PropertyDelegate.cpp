@@ -4,7 +4,7 @@
 
 #include <QApplication>
 
-#include <reflectionzeug/AbstractProperty.h>
+#include <reflectionzeug/property/AbstractProperty.h>
 
 #include <propertyguizeug/PropertyEditorFactory.h>
 #include <propertyguizeug/PropertyPainter.h>
@@ -49,13 +49,13 @@ void PropertyDelegate::paint(QPainter * painter,
 
 	AbstractProperty * property = retrieveProperty(index);
 
-	if (!property->isValue())
+	if (property->isCollection())
 		return;
 
 	QStyleOptionViewItem opt = option;
 	initStyleOption(&opt, index);
 
-	m_propertyPainter->drawValue(painter, opt, *property->asValue());
+	m_propertyPainter->drawValue(painter, opt, *property);
 }
 
 QWidget * PropertyDelegate::createEditor(QWidget * parent,
@@ -63,10 +63,10 @@ QWidget * PropertyDelegate::createEditor(QWidget * parent,
 {
     AbstractProperty * property = retrieveProperty(index);
 
-    if (!property->isValue())
+    if (property->isCollection())
         return QStyledItemDelegate::createEditor(parent, option, index);
 
-    return m_editorFactory->createEditor(*property->asValue(), parent);
+    return m_editorFactory->createEditor(*property, parent);
 }
 
 void PropertyDelegate::updateEditorGeometry(QWidget * editor, const QStyleOptionViewItem & option,
