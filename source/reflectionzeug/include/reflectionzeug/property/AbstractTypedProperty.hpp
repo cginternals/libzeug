@@ -153,7 +153,7 @@ AbstractTypedProperty<const Type>::AbstractTypedProperty(
     const std::string & name,
     Object * object,
     const Type & (Object::*getter_pointer)() const)
-: AbstractTypedProperty<Type>(name, new AccessorGetSet<const Type>(getter_pointer))
+: AbstractTypedProperty<Type>(name, new AccessorGetSet<const Type>(object, getter_pointer))
 {
 }
 
@@ -163,7 +163,7 @@ AbstractTypedProperty<const Type>::AbstractTypedProperty(
     const std::string & name,
     Object * object,
     Type (Object::*getter_pointer)() const)
-: AbstractTypedProperty<Type>(name, new AccessorGetSet<const Type>(getter_pointer))
+: AbstractTypedProperty<Type>(name, new AccessorGetSet<const Type>(object, getter_pointer))
 {
 }
 

@@ -65,7 +65,7 @@ bool Accessor<const Type>::isReadOnly() const
 }
 
 template <typename Type>
-void Accessor<const Type>::setValue(const Type & value)
+void Accessor<const Type>::setValue(const Type & /*value*/)
 {
     // Read-only value!
 }

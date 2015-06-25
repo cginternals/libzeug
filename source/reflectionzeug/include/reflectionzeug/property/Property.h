@@ -50,7 +50,7 @@ public:
 
 public:
     template <typename... Args>
-    UnsupportedPropertyType(Args&&... args)
+    UnsupportedPropertyType(Args&&... /*args*/)
     {
     }
 
@@ -63,7 +63,7 @@ public:
         return "";
     }
 
-    virtual bool fromString(const std::string & string)
+    virtual bool fromString(const std::string & /*string*/)
     {
         return false;
     }
