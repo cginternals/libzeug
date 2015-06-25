@@ -267,7 +267,7 @@ Variant * SerializerINI::getSubValue(Variant & var, const std::string & name)
         VariantMap & map = *(var.asMap());
 
         // Check if a value exists
-        if (!map.count(name) > 0) {
+        if (map.count(name) <= 0) {
             // Create new empty value
             map[name] = Variant();
         }

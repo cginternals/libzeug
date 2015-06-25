@@ -13,7 +13,7 @@ static std::string escapeString(const std::string & in)
 
     for (std::string::const_iterator it = in.begin(); it != in.end(); ++it) {
         unsigned char c = *it;
-        if (c >= ' ' and c <= '~' and c != '\\' and c != '"') {
+		if (c >= ' ' && c <= '~' && c != '\\' && c != '"') {
             out.append(1, c);
         } else {
             out = out + '\\';

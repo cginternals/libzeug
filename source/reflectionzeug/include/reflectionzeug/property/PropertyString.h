@@ -14,7 +14,7 @@ namespace reflectionzeug
 *  @brief
 *    Property implementation for type std::string
 */
-class PropertyString : public AbstractTypedProperty<std::string>, public AbstractStringInterface
+class REFLECTIONZEUG_API PropertyString : public AbstractTypedProperty<std::string>, public AbstractStringInterface
 {
 public:
     /**

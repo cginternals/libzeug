@@ -50,7 +50,7 @@ template <typename Type>
 bool PrimitiveTypeConverter<Type>::convert(const Type & value, void * target, const std::type_info & targetType) const
 {
     if (targetType == typeid(bool)) {
-        *reinterpret_cast<bool *>(target) = (bool)value;
+        *reinterpret_cast<bool *>(target) = (value != 0);
     } else if (targetType == typeid(char)) {
         *reinterpret_cast<char *>(target) = (char)value;
     } else if (targetType == typeid(unsigned char)) {

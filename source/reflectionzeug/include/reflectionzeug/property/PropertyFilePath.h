@@ -14,7 +14,7 @@ namespace reflectionzeug
 *  @brief
 *    Property implementation for type FilePath
 */
-class PropertyFilePath : public AbstractTypedProperty<FilePath>
+class REFLECTIONZEUG_API PropertyFilePath : public AbstractTypedProperty<FilePath>
 {
 public:
     /**

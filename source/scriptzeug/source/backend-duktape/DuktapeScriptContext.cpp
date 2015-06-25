@@ -211,11 +211,11 @@ static void pushToDukStack(duk_context * context, const Variant & var)
     }
 
     if (var.hasType<long long>()) {
-        duk_push_number(context, var.value<long long>());
+        duk_push_number(context, (duk_double_t)var.value<long long>());
     }
 
     else if (var.hasType<unsigned long long>()) {
-        duk_push_number(context, var.value<unsigned long long>());
+		duk_push_number(context, (duk_double_t)var.value<unsigned long long>());
     }
 
     if (var.hasType<float>()) {

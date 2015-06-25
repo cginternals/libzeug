@@ -2,6 +2,8 @@
 #pragma once
 
 
+#include <array>
+
 #include <reflectionzeug/property/Accessor.h>
 
 
