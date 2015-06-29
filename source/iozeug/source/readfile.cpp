@@ -1,11 +1,12 @@
 
-#include <fstream>
-
 #include <iozeug/readfile.h>
+
+#include <fstream>
 
 
 namespace iozeug
 {
+
 
 bool readFile(const std::string & filePath, std::string & content)
 {
@@ -20,7 +21,6 @@ bool readFile(const std::string & filePath, std::string & content)
 	return true;
 }
 
-// convenience
 std::string readFile(const std::string & filePath)
 {
 	std::string content;
@@ -28,5 +28,6 @@ std::string readFile(const std::string & filePath)
 
 	return content;
 }
+
 
 } // namespace iozeug
