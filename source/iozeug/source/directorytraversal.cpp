@@ -1,8 +1,11 @@
 
 #include <iozeug/directorytraversal.h>
 
+#include <cassert>
+#include <iostream>
+
 #ifdef _MSC_VER
-#include "windows.h"
+#include <windows.h>
 #include "dirent_msvc.h"
 #else
 #include <dirent.h>
@@ -21,7 +24,7 @@ void getFiles(const std::string & directory, bool recursive, std::vector<std::st
     DIR * dir = opendir(directory.c_str());
     if (!dir)
     {
-        std::cout() << "Could not open directory " << directory << "." << std::endl;
+        std::cout << "Could not open directory " << directory << "." << std::endl;
         return;
     }
 
@@ -81,16 +84,39 @@ std::vector<std::string> getFiles(const std::string & directory, bool recursive)
     return files;
 }
 
-void scanDirectory(const std::string & directory, const std::string & fileExtension, bool recursive)
+std::vector<std::string> scanDirectory(const std::string & directory, const std::string & fileExtension, bool recursive)
 {
-    for (const std::string & file: getFiles(directory, recursive))
-    {
-        std::string extension = getExtension(file);
+    std::vector<std::string> fileList;
 
+    // Get all files in the directory
+    auto files = getFiles(directory, recursive);
+    for (const std::string & file : files)
+    {
+        // Check extension
+        std::string extension = getExtension(file);
         if (fileExtension != "*" && extension != fileExtension)
             continue;
 
-        NamedString::create("/"+file, new File(file));
+        // Add file to list
+        fileList.push_back(file);
+    }
+
+    return fileList;
+}
+
+void scanDirectory(const std::string & directory, const std::string & fileExtension, bool recursive, const std::function<void(const std::string &)> & callback)
+{
+    // Get all files in the directory
+    auto files = getFiles(directory, recursive);
+    for (const std::string & file : files)
+    {
+        // Check extension
+        std::string extension = getExtension(file);
+        if (fileExtension != "*" && extension != fileExtension)
+            continue;
+
+        // Call callback function
+        callback(file);
     }
 }
 

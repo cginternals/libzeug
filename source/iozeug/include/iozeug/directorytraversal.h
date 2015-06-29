@@ -3,6 +3,8 @@
 
 
 #include <string>
+#include <vector>
+#include <functional>
 
 #include <iozeug/iozeug_api.h>
 
@@ -73,11 +75,8 @@ IOZEUG_API std::vector<std::string> scanDirectory(const std::string & directory,
 *    Search recursively in sub-directories?
 *  @param[in] callback
 *    Function that is called for each found file
-*
-*  @return
-*    List of found files, including the directory name
 */
-IOZEUG_API std::vector<std::string> scanDirectory(const std::string & directory, const std::string & fileExtension, bool recursive = false);
+IOZEUG_API void scanDirectory(const std::string & directory, const std::string & fileExtension, bool recursive, const std::function<void(const std::string &)> & callback);
 
 
 } // namespace iozeug
