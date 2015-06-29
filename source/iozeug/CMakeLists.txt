@@ -40,10 +40,14 @@ set(source_path "${CMAKE_CURRENT_SOURCE_DIR}/source")
 set(headers
     ${header_path}/iozeug_api.h
     ${header_path}/readfile.h
+    ${header_path}/directorytraversal.h
+    ${header_path}/filename.h
 )
 
 set(sources
     ${source_path}/readfile.cpp
+    ${source_path}/directorytraversal.cpp
+    ${source_path}/filename.cpp
 )
 
 # Group source files
