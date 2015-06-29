@@ -422,7 +422,7 @@ int main(int argc, char *argv[])
         // Direct value
         std::cout << "Array accessor (direct value)\n";
 
-        ArrayAccessorValue<int, 3> accessor1({1, 2, 3});
+        ArrayAccessorValue<int, 3> accessor1(std::array<int, 3>{{1, 2, 3}});
         std::cout << "value[0] = " << accessor1.getElement(0) << " (1)\n";
         std::cout << "value[1] = " << accessor1.getElement(1) << " (2)\n";
         std::cout << "value[2] = " << accessor1.getElement(2) << " (3)\n";
@@ -547,7 +547,7 @@ int main(int argc, char *argv[])
         Property<MyEnum> propMyEnum;
         propMyEnum.accept(&visitor);
 
-        Property<std::array<int, 3>> propArray("array", std::array<int, 3>{0, 0, 0});
+        Property<std::array<int, 3>> propArray("array", std::array<int, 3>{{0, 0, 0}});
         propArray.accept(&visitor);
 
         Property<int> propertyInt("Integer");

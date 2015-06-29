@@ -71,7 +71,7 @@ public:
     virtual void setValue(const Type & value) = 0;
 
     // Virtual AbstractAccessor interface
-    virtual const std::type_info & type() const;
+    virtual const std::type_info & type() const override;
     virtual bool canConvert(const std::type_info & targetType) const override;
     virtual bool convert(void * target, const std::type_info & targetType) const override;
 };
