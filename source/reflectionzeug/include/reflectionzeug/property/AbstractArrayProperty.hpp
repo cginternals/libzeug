@@ -244,8 +244,12 @@ void AbstractArrayProperty<Type, Size>::init()
     {
         this->m_elements[i] = new Property<Type>(
             "_" + std::to_string(i),
-            std::bind(&AbstractArrayProperty::getElement, this, i),
-            std::bind(&AbstractArrayProperty::setElement, this, i, std::placeholders::_1)
+            [this, i] () -> Type {
+                return AbstractArrayProperty::getElement(i);
+            },
+            [this, i] (const Type & value) {
+                AbstractArrayProperty::setElement(i, value);
+            }
         );
     }
 }

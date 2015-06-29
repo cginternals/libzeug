@@ -31,10 +31,13 @@ set(LINUX_COMPILE_FLAGS
       -Wextra       # -> 
       -Werror       # ->
       -fPIC         # -> use position independent code
-      
+
+      -ftemplate-backtrace-limit=0
+
       -Wno-unknown-warning-option
       -Wno-reinterpret-base-class 
       -Wno-overloaded-virtual
+      -Wno-inconsistent-missing-override
 
       -Wreturn-type
       -Wno-unused-parameter
