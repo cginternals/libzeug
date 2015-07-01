@@ -38,26 +38,6 @@ public:
     *
     *  @param[in] name
     *    Property name
-    */
-    AbstractArrayProperty(const std::string & name);
-
-    /**
-    *  @brief
-    *    Constructor
-    *
-    *  @param[in] name
-    *    Property name
-    *  @param[in] defaultValue
-    *    Default value that is set initially
-    */
-    AbstractArrayProperty(const std::string & name, const std::array<Type, Size> & value);
-
-    /**
-    *  @brief
-    *    Constructor
-    *
-    *  @param[in] name
-    *    Property name
     *  @param[in] getter
     *    Function to get an element of the array
     *  @param[in] setter
@@ -195,26 +175,6 @@ template <typename Type, size_t Size>
 class AbstractArrayProperty<const Type, Size> : public AbstractArrayProperty<Type, Size>
 {
 public:
-    /**
-    *  @brief
-    *    Constructor
-    *
-    *  @param[in] name
-    *    Property name
-    */
-    AbstractArrayProperty(const std::string & name);
-
-    /**
-    *  @brief
-    *    Constructor
-    *
-    *  @param[in] name
-    *    Property name
-    *  @param[in] defaultValue
-    *    Default value that is set initially
-    */
-    AbstractArrayProperty(const std::string & name, const std::array<Type, Size> & value);
-
     /**
     *  @brief
     *    Constructor

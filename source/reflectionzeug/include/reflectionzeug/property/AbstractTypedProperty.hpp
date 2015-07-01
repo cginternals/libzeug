@@ -4,7 +4,6 @@
 
 #include <reflectionzeug/property/AbstractTypedProperty.h>
 
-#include <reflectionzeug/property/AccessorValue.h>
 #include <reflectionzeug/property/AccessorGetSet.h>
 
 
@@ -13,20 +12,6 @@ namespace reflectionzeug
 
 
 // Read/write
-template <typename Type>
-AbstractTypedProperty<Type>::AbstractTypedProperty(const std::string & name)
-: AbstractValueProperty(name)
-, m_accessor(new AccessorValue<Type>())
-{
-}
-
-template <typename Type>
-AbstractTypedProperty<Type>::AbstractTypedProperty(const std::string & name, const Type & value)
-: AbstractValueProperty(name)
-, m_accessor(new AccessorValue<Type>(value))
-{
-}
-
 template <typename Type>
 AbstractTypedProperty<Type>::AbstractTypedProperty(
     const std::string & name,
@@ -127,18 +112,6 @@ bool AbstractTypedProperty<Type>::fromVariant(const Variant & value)
 
 
 // Read-only
-template <typename Type>
-AbstractTypedProperty<const Type>::AbstractTypedProperty(const std::string & name)
-: AbstractTypedProperty<Type>(name, new AccessorValue<const Type>())
-{
-}
-
-template <typename Type>
-AbstractTypedProperty<const Type>::AbstractTypedProperty(const std::string & name, const Type & value)
-: AbstractTypedProperty<Type>(name, new AccessorValue<const Type>(value))
-{
-}
-
 template <typename Type>
 AbstractTypedProperty<const Type>::AbstractTypedProperty(
     const std::string & name,

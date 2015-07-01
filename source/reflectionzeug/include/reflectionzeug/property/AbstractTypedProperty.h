@@ -31,26 +31,6 @@ public:
     *
     *  @param[in] name
     *    Property name
-    */
-    AbstractTypedProperty(const std::string & name = "");
-
-    /**
-    *  @brief
-    *    Constructor
-    *
-    *  @param[in] name
-    *    Property name
-    *  @param[in] value
-    *    Default value that is set initially
-    */
-    AbstractTypedProperty(const std::string & name, const Type & value);
-
-    /**
-    *  @brief
-    *    Constructor
-    *
-    *  @param[in] name
-    *    Property name
     *  @param[in] getter
     *    Function to get the value
     *  @param[in] setter
@@ -168,26 +148,6 @@ template <typename Type>
 class AbstractTypedProperty<const Type> : public AbstractTypedProperty<Type>
 {
 public:
-    /**
-    *  @brief
-    *    Constructor
-    *
-    *  @param[in] name
-    *    Property name
-    */
-    AbstractTypedProperty(const std::string & name = "");
-
-    /**
-    *  @brief
-    *    Constructor
-    *
-    *  @param[in] name
-    *    Property name
-    *  @param[in] value
-    *    Default value that is set initially
-    */
-    AbstractTypedProperty(const std::string & name, const Type & value);
-
     /**
     *  @brief
     *    Constructor

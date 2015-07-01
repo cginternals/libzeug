@@ -7,7 +7,6 @@
 #include <algorithm>
 #include <functional>
 
-#include <reflectionzeug/property/ArrayAccessorValue.h>
 #include <reflectionzeug/property/ArrayAccessorGetSet.h>
 #include <reflectionzeug/property/Property.h>
 
@@ -17,22 +16,6 @@ namespace reflectionzeug
 
 
 // Read/write
-template <typename Type, size_t Size>
-AbstractArrayProperty<Type, Size>::AbstractArrayProperty(const std::string & name)
-: AbstractTypedProperty<std::array<Type, Size>>(name, new ArrayAccessorValue<Type, Size>())
-, m_arrayAccessor(static_cast<ArrayAccessor<Type, Size>*>(this->m_accessor.get()))
-{
-    init();
-}
-
-template <typename Type, size_t Size>
-AbstractArrayProperty<Type, Size>::AbstractArrayProperty(const std::string & name, const std::array<Type, Size> & value)
-: AbstractTypedProperty<std::array<Type, Size>>(name, new ArrayAccessorValue<Type, Size>(value))
-, m_arrayAccessor(static_cast<ArrayAccessor<Type, Size>*>(this->m_accessor.get()))
-{
-    init();
-}
-
 template <typename Type, size_t Size>
 AbstractArrayProperty<Type, Size>::AbstractArrayProperty(
     const std::string & name,
@@ -256,18 +239,6 @@ void AbstractArrayProperty<Type, Size>::init()
 
 
 // Read-only
-template <typename Type, size_t Size>
-AbstractArrayProperty<const Type, Size>::AbstractArrayProperty(const std::string & name)
-: AbstractArrayProperty<Type, Size>(name, new ArrayAccessorValue<const Type, Size>())
-{
-}
-
-template <typename Type, size_t Size>
-AbstractArrayProperty<const Type, Size>::AbstractArrayProperty(const std::string & name, const std::array<Type, Size> & value)
-: AbstractArrayProperty<Type, Size>(name, new ArrayAccessorValue<const Type, Size>(value))
-{
-}
-
 template <typename Type, size_t Size>
 AbstractArrayProperty<const Type, Size>::AbstractArrayProperty(
     const std::string & name,
