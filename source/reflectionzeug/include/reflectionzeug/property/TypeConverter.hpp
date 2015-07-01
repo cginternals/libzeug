@@ -7,6 +7,13 @@
 #include <sstream>
 
 
+// Turn off warnings for expression (value != 0) for float and double
+#ifdef __GNUC__
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wfloat-equal"
+#endif
+
+
 namespace reflectionzeug
 {
 
@@ -225,3 +232,9 @@ bool TypeConverter<Type>::convert(const Type & /*value*/, void * /*target*/, con
 
 
 } // namespace reflectionzeug
+
+
+// Restore warnings
+#ifdef __GNUC__
+#pragma GCC diagnostic pop
+#endif
