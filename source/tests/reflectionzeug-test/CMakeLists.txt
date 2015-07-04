@@ -2,6 +2,12 @@
 set(target reflectionzeug-test)
 message(STATUS "Test ${target}")
 
+# Generate Property Instanciation Tests
+set(testdir ${CMAKE_SOURCE_DIR}/source/tests/reflectionzeug-test)
+set(filelist ${testdir}/instanciationTestsFiles.txt)
+# execute_process(COMMAND python ${testdir}/generateInstanciationTests.py ${testdir} ${filelist})
+add_custom_target("generatePropertyTests" COMMAND python ${testdir}/generateInstanciationTests.py ${testdir} ${filelist})
+
 # External libraries
 
 # ...
@@ -32,8 +38,18 @@ set(libs
 
 set(sources
     main.cpp
-    Color_test.cpp
+    # Color_test.cpp
 )
+
+if(EXISTS ${filelist})
+    FILE(READ ${filelist} contents)
+    STRING(REGEX REPLACE ";" "\\\\;" contents "${contents}")
+    STRING(REGEX REPLACE "\n" ";" contents "${contents}")
+    set(sources
+        ${sources}
+        ${contents}
+    )
+endif()
 
 
 # Build executable
