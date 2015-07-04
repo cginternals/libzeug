@@ -18,6 +18,7 @@ public:
     virtual ~DuktapeScriptContext();
 
     virtual void registerObject(reflectionzeug::PropertyGroup * obj);
+    virtual void unregisterObject(reflectionzeug::PropertyGroup * obj);
     virtual reflectionzeug::Variant evaluate(const std::string & code);
 
 protected:

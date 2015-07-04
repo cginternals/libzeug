@@ -34,6 +34,7 @@ public:
     virtual ~ScriptContext();
 
     void registerObject(reflectionzeug::PropertyGroup * obj);
+    void unregisterObject(reflectionzeug::PropertyGroup * obj);
 
     reflectionzeug::Variant evaluate(const std::string & code);
 

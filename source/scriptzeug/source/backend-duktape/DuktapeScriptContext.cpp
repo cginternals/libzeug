@@ -450,6 +450,15 @@ void DuktapeScriptContext::registerObject(PropertyGroup * obj)
     duk_pop(m_context);
 }
 
+void DuktapeScriptContext::unregisterObject(PropertyGroup * obj)
+{
+    duk_push_global_object(m_context);
+
+    duk_del_prop_string(m_context, duk_get_top_index(m_context), obj->name().c_str());
+
+    duk_pop(m_context);
+}
+
 Variant DuktapeScriptContext::evaluate(const std::string & code)
 {
     duk_int_t error = duk_peval_string(m_context, code.c_str());

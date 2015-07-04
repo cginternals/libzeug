@@ -27,22 +27,32 @@ ScriptContext::ScriptContext(const std::string & backend)
 ScriptContext::~ScriptContext()
 {
     // Release backend
-    if (m_backend)
+    if (m_backend) {
         delete m_backend;
+    }
 }
 
 void ScriptContext::registerObject(reflectionzeug::PropertyGroup * obj)
 {
-    if (m_backend)
+    if (m_backend) {
         m_backend->registerObject(obj);
+    }
+}
+
+void ScriptContext::unregisterObject(reflectionzeug::PropertyGroup * obj)
+{
+    if (m_backend) {
+        m_backend->unregisterObject(obj);
+    }
 }
 
 Variant ScriptContext::evaluate(const std::string & code)
 {
-    if (m_backend)
+    if (m_backend) {
         return m_backend->evaluate(code);
-    else
+    } else {
         return Variant();
+    }
 }
 
 
