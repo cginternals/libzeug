@@ -11,6 +11,10 @@ namespace iozeug
 {
 
 
+IOZEUG_API std::string getBaseName(const std::string & filePath);
+
+IOZEUG_API std::string getPath(const std::string & filePath);
+
 /**
 *  @brief
 *    Get filename extension
