@@ -34,15 +34,35 @@ public:
 protected:
 };
 
+namespace {
+${DATATYPE} staticGetter()
+{
+    return ${DATATYPE}();
+}
+
+void staticSetter(${DATATYPE} value)
+{
+}
+}
+
 
 // Propterty instanciaton (read/write)
 
 TEST_F(PropertyInstance${CAPITALDATATYPE}_test, instanciatePropertyWith_String_LambdaGetter_LambdaSetter)
 {
-    auto get = [] () {return 0;};
+    auto get = [] () {return ${DATATYPE}();};
     auto set = [] (const ${DATATYPE} & val) {};
 
     auto prop = new Property<${DATATYPE}>("${DATATYPE}Property", get, set);
+
+    ASSERT_EQ(typeid(${DATATYPE}), prop->type());
+
+    delete prop;
+}
+
+TEST_F(PropertyInstance${CAPITALDATATYPE}_test, instanciatePropertyWith_String_StaticGetter_StaticSetter)
+{
+    auto prop = new Property<${DATATYPE}>("${DATATYPE}Property", &staticGetter, &staticSetter);
 
     ASSERT_EQ(typeid(${DATATYPE}), prop->type());
 
@@ -90,9 +110,18 @@ TEST_F(PropertyInstance${CAPITALDATATYPE}_test, instanciatePropertyWith_String_O
 
 TEST_F(PropertyInstance${CAPITALDATATYPE}_test, instanciateConstPropertyWith_String_LambdaGetter)
 {
-    auto get = [] () {return 0;};
+    auto get = [] () {return ${DATATYPE}();};
 
     auto prop = new Property<const ${DATATYPE}>("${DATATYPE}Property", get);
+
+    ASSERT_EQ(typeid(${DATATYPE}), prop->type());
+
+    delete prop;
+}
+
+TEST_F(PropertyInstance${CAPITALDATATYPE}_test, instanciateConstPropertyWith_String_StaticGetter)
+{
+    auto prop = new Property<const ${DATATYPE}>("${DATATYPE}Property", &staticGetter);
 
     ASSERT_EQ(typeid(${DATATYPE}), prop->type());
 
@@ -149,9 +178,20 @@ TEST_F(PropertyInstance${CAPITALDATATYPE}_test, instanciateAccessorWith_String_V
 
 TEST_F(PropertyInstance${CAPITALDATATYPE}_test, instanciateAccessorWith_String_LambdaGetter_LambdaSetter)
 {
-    auto get = [] () {return 0;};
+    auto get = [] () {return ${DATATYPE}();};
     auto set = [] (const ${DATATYPE} & val) {};
     auto accessor = new AccessorGetSet<${DATATYPE}>(get, set);
+
+    auto prop = new Property<${DATATYPE}>("${DATATYPE}Property", accessor);
+
+    ASSERT_EQ(typeid(${DATATYPE}), prop->type());
+
+    delete prop;
+}
+
+TEST_F(PropertyInstance${CAPITALDATATYPE}_test, instanciateAccessorWith_String_StaticGetter_StaticSetter)
+{
+    auto accessor = new AccessorGetSet<${DATATYPE}>(&staticGetter, &staticSetter);
 
     auto prop = new Property<${DATATYPE}>("${DATATYPE}Property", accessor);
 
@@ -224,8 +264,19 @@ TEST_F(PropertyInstance${CAPITALDATATYPE}_test, instanciateConstAccessorWith_Str
 
 TEST_F(PropertyInstance${CAPITALDATATYPE}_test, instanciateConstAccessorWith_String_LambdaGetter)
 {
-    auto get = [] () {return 0;};
+    auto get = [] () {return ${DATATYPE}();};
     auto accessor = new AccessorGetSet<const ${DATATYPE}>(get);
+
+    auto prop = new Property<const ${DATATYPE}>("${DATATYPE}Property", accessor);
+
+    ASSERT_EQ(typeid(${DATATYPE}), prop->type());
+
+    delete prop;
+}
+
+TEST_F(PropertyInstance${CAPITALDATATYPE}_test, instanciateConstAccessorWith_String_StaticGetter)
+{
+    auto accessor = new AccessorGetSet<const ${DATATYPE}>(&staticGetter);
 
     auto prop = new Property<const ${DATATYPE}>("${DATATYPE}Property", accessor);
 
