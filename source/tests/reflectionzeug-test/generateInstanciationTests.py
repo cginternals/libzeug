@@ -88,7 +88,7 @@ TEST_F(PropertyInstance${CAPITALDATATYPE}_test, instanciatePropertyWith_String_O
 
 // Propterty instanciaton (read only)
 
-TEST_F(PropertyInstance${CAPITALDATATYPE}_test, instanciateConstPropertyWith_String_LambdaGetter_LambdaSetter)
+TEST_F(PropertyInstance${CAPITALDATATYPE}_test, instanciateConstPropertyWith_String_LambdaGetter)
 {
     auto get = [] () {return 0;};
 
@@ -99,7 +99,7 @@ TEST_F(PropertyInstance${CAPITALDATATYPE}_test, instanciateConstPropertyWith_Str
     delete prop;
 }
 
-TEST_F(PropertyInstance${CAPITALDATATYPE}_test, instanciateConstPropertyWith_String_Object_ConstGetterConst_SetterConst)
+TEST_F(PropertyInstance${CAPITALDATATYPE}_test, instanciateConstPropertyWith_String_Object_ConstGetterConst)
 {
     auto obj = new MyObject<${DATATYPE}>;
     auto prop = new Property<const ${DATATYPE}>("${DATATYPE}Property", obj, &MyObject<${DATATYPE}>::constgetterconst);
@@ -111,7 +111,7 @@ TEST_F(PropertyInstance${CAPITALDATATYPE}_test, instanciateConstPropertyWith_Str
     delete obj;
 }
 
-TEST_F(PropertyInstance${CAPITALDATATYPE}_test, instanciateConstPropertyWith_String_Object_GetterConst_SetterConst)
+TEST_F(PropertyInstance${CAPITALDATATYPE}_test, instanciateConstPropertyWith_String_Object_GetterConst)
 {
     auto obj = new MyObject<${DATATYPE}>;
     auto prop = new Property<const ${DATATYPE}>("${DATATYPE}Property", obj, &MyObject<${DATATYPE}>::getterconst);
@@ -222,7 +222,7 @@ TEST_F(PropertyInstance${CAPITALDATATYPE}_test, instanciateConstAccessorWith_Str
     delete prop;
 }
 
-TEST_F(PropertyInstance${CAPITALDATATYPE}_test, instanciateConstAccessorWith_String_LambdaGetter_LambdaSetter)
+TEST_F(PropertyInstance${CAPITALDATATYPE}_test, instanciateConstAccessorWith_String_LambdaGetter)
 {
     auto get = [] () {return 0;};
     auto accessor = new AccessorGetSet<const ${DATATYPE}>(get);
@@ -234,7 +234,7 @@ TEST_F(PropertyInstance${CAPITALDATATYPE}_test, instanciateConstAccessorWith_Str
     delete prop;
 }
 
-TEST_F(PropertyInstance${CAPITALDATATYPE}_test, instanciateConstAccessorWith_String_Object_ConstGetterConst_SetterConst)
+TEST_F(PropertyInstance${CAPITALDATATYPE}_test, instanciateConstAccessorWith_String_Object_ConstGetterConst)
 {
     auto obj = new MyObject<${DATATYPE}>;
     auto accessor = new AccessorGetSet<const ${DATATYPE}>(obj, &MyObject<${DATATYPE}>::constgetterconst);
@@ -247,7 +247,7 @@ TEST_F(PropertyInstance${CAPITALDATATYPE}_test, instanciateConstAccessorWith_Str
     delete obj;
 }
 
-TEST_F(PropertyInstance${CAPITALDATATYPE}_test, instanciateConstAccessorWith_String_Object_GetterConst_SetterConst)
+TEST_F(PropertyInstance${CAPITALDATATYPE}_test, instanciateConstAccessorWith_String_Object_GetterConst)
 {
     auto obj = new MyObject<${DATATYPE}>;
     auto accessor = new AccessorGetSet<const ${DATATYPE}>(obj, &MyObject<${DATATYPE}>::getterconst);
