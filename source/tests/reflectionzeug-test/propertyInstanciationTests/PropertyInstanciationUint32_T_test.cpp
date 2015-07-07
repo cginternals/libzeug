@@ -21,15 +21,35 @@ public:
 protected:
 };
 
+namespace {
+uint32_t staticGetter()
+{
+    return uint32_t();
+}
+
+void staticSetter(uint32_t value)
+{
+}
+}
+
 
 // Propterty instanciaton (read/write)
 
 TEST_F(PropertyInstanceUint32_T_test, instanciatePropertyWith_String_LambdaGetter_LambdaSetter)
 {
-    auto get = [] () {return 0;};
+    auto get = [] () {return uint32_t();};
     auto set = [] (const uint32_t & val) {};
 
     auto prop = new Property<uint32_t>("uint32_tProperty", get, set);
+
+    ASSERT_EQ(typeid(uint32_t), prop->type());
+
+    delete prop;
+}
+
+TEST_F(PropertyInstanceUint32_T_test, instanciatePropertyWith_String_StaticGetter_StaticSetter)
+{
+    auto prop = new Property<uint32_t>("uint32_tProperty", &staticGetter, &staticSetter);
 
     ASSERT_EQ(typeid(uint32_t), prop->type());
 
@@ -75,9 +95,9 @@ TEST_F(PropertyInstanceUint32_T_test, instanciatePropertyWith_String_Object_Gett
 
 // Propterty instanciaton (read only)
 
-TEST_F(PropertyInstanceUint32_T_test, instanciateConstPropertyWith_String_LambdaGetter_LambdaSetter)
+TEST_F(PropertyInstanceUint32_T_test, instanciateConstPropertyWith_String_LambdaGetter)
 {
-    auto get = [] () {return 0;};
+    auto get = [] () {return uint32_t();};
 
     auto prop = new Property<const uint32_t>("uint32_tProperty", get);
 
@@ -86,7 +106,16 @@ TEST_F(PropertyInstanceUint32_T_test, instanciateConstPropertyWith_String_Lambda
     delete prop;
 }
 
-TEST_F(PropertyInstanceUint32_T_test, instanciateConstPropertyWith_String_Object_ConstGetterConst_SetterConst)
+TEST_F(PropertyInstanceUint32_T_test, instanciateConstPropertyWith_String_StaticGetter)
+{
+    auto prop = new Property<const uint32_t>("uint32_tProperty", &staticGetter);
+
+    ASSERT_EQ(typeid(uint32_t), prop->type());
+
+    delete prop;
+}
+
+TEST_F(PropertyInstanceUint32_T_test, instanciateConstPropertyWith_String_Object_ConstGetterConst)
 {
     auto obj = new MyObject<uint32_t>;
     auto prop = new Property<const uint32_t>("uint32_tProperty", obj, &MyObject<uint32_t>::constgetterconst);
@@ -98,7 +127,7 @@ TEST_F(PropertyInstanceUint32_T_test, instanciateConstPropertyWith_String_Object
     delete obj;
 }
 
-TEST_F(PropertyInstanceUint32_T_test, instanciateConstPropertyWith_String_Object_GetterConst_SetterConst)
+TEST_F(PropertyInstanceUint32_T_test, instanciateConstPropertyWith_String_Object_GetterConst)
 {
     auto obj = new MyObject<uint32_t>;
     auto prop = new Property<const uint32_t>("uint32_tProperty", obj, &MyObject<uint32_t>::getterconst);
@@ -136,9 +165,20 @@ TEST_F(PropertyInstanceUint32_T_test, instanciateAccessorWith_String_Value)
 
 TEST_F(PropertyInstanceUint32_T_test, instanciateAccessorWith_String_LambdaGetter_LambdaSetter)
 {
-    auto get = [] () {return 0;};
+    auto get = [] () {return uint32_t();};
     auto set = [] (const uint32_t & val) {};
     auto accessor = new AccessorGetSet<uint32_t>(get, set);
+
+    auto prop = new Property<uint32_t>("uint32_tProperty", accessor);
+
+    ASSERT_EQ(typeid(uint32_t), prop->type());
+
+    delete prop;
+}
+
+TEST_F(PropertyInstanceUint32_T_test, instanciateAccessorWith_String_StaticGetter_StaticSetter)
+{
+    auto accessor = new AccessorGetSet<uint32_t>(&staticGetter, &staticSetter);
 
     auto prop = new Property<uint32_t>("uint32_tProperty", accessor);
 
@@ -209,9 +249,9 @@ TEST_F(PropertyInstanceUint32_T_test, instanciateConstAccessorWith_String_Value)
     delete prop;
 }
 
-TEST_F(PropertyInstanceUint32_T_test, instanciateConstAccessorWith_String_LambdaGetter_LambdaSetter)
+TEST_F(PropertyInstanceUint32_T_test, instanciateConstAccessorWith_String_LambdaGetter)
 {
-    auto get = [] () {return 0;};
+    auto get = [] () {return uint32_t();};
     auto accessor = new AccessorGetSet<const uint32_t>(get);
 
     auto prop = new Property<const uint32_t>("uint32_tProperty", accessor);
@@ -221,7 +261,18 @@ TEST_F(PropertyInstanceUint32_T_test, instanciateConstAccessorWith_String_Lambda
     delete prop;
 }
 
-TEST_F(PropertyInstanceUint32_T_test, instanciateConstAccessorWith_String_Object_ConstGetterConst_SetterConst)
+TEST_F(PropertyInstanceUint32_T_test, instanciateConstAccessorWith_String_StaticGetter)
+{
+    auto accessor = new AccessorGetSet<const uint32_t>(&staticGetter);
+
+    auto prop = new Property<const uint32_t>("uint32_tProperty", accessor);
+
+    ASSERT_EQ(typeid(uint32_t), prop->type());
+
+    delete prop;
+}
+
+TEST_F(PropertyInstanceUint32_T_test, instanciateConstAccessorWith_String_Object_ConstGetterConst)
 {
     auto obj = new MyObject<uint32_t>;
     auto accessor = new AccessorGetSet<const uint32_t>(obj, &MyObject<uint32_t>::constgetterconst);
@@ -234,7 +285,7 @@ TEST_F(PropertyInstanceUint32_T_test, instanciateConstAccessorWith_String_Object
     delete obj;
 }
 
-TEST_F(PropertyInstanceUint32_T_test, instanciateConstAccessorWith_String_Object_GetterConst_SetterConst)
+TEST_F(PropertyInstanceUint32_T_test, instanciateConstAccessorWith_String_Object_GetterConst)
 {
     auto obj = new MyObject<uint32_t>;
     auto accessor = new AccessorGetSet<const uint32_t>(obj, &MyObject<uint32_t>::getterconst);

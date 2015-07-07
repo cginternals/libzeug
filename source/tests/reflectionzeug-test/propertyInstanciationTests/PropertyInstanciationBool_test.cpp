@@ -21,15 +21,35 @@ public:
 protected:
 };
 
+namespace {
+bool staticGetter()
+{
+    return bool();
+}
+
+void staticSetter(bool value)
+{
+}
+}
+
 
 // Propterty instanciaton (read/write)
 
 TEST_F(PropertyInstanceBool_test, instanciatePropertyWith_String_LambdaGetter_LambdaSetter)
 {
-    auto get = [] () {return 0;};
+    auto get = [] () {return bool();};
     auto set = [] (const bool & val) {};
 
     auto prop = new Property<bool>("boolProperty", get, set);
+
+    ASSERT_EQ(typeid(bool), prop->type());
+
+    delete prop;
+}
+
+TEST_F(PropertyInstanceBool_test, instanciatePropertyWith_String_StaticGetter_StaticSetter)
+{
+    auto prop = new Property<bool>("boolProperty", &staticGetter, &staticSetter);
 
     ASSERT_EQ(typeid(bool), prop->type());
 
@@ -75,9 +95,9 @@ TEST_F(PropertyInstanceBool_test, instanciatePropertyWith_String_Object_GetterCo
 
 // Propterty instanciaton (read only)
 
-TEST_F(PropertyInstanceBool_test, instanciateConstPropertyWith_String_LambdaGetter_LambdaSetter)
+TEST_F(PropertyInstanceBool_test, instanciateConstPropertyWith_String_LambdaGetter)
 {
-    auto get = [] () {return 0;};
+    auto get = [] () {return bool();};
 
     auto prop = new Property<const bool>("boolProperty", get);
 
@@ -86,7 +106,16 @@ TEST_F(PropertyInstanceBool_test, instanciateConstPropertyWith_String_LambdaGett
     delete prop;
 }
 
-TEST_F(PropertyInstanceBool_test, instanciateConstPropertyWith_String_Object_ConstGetterConst_SetterConst)
+TEST_F(PropertyInstanceBool_test, instanciateConstPropertyWith_String_StaticGetter)
+{
+    auto prop = new Property<const bool>("boolProperty", &staticGetter);
+
+    ASSERT_EQ(typeid(bool), prop->type());
+
+    delete prop;
+}
+
+TEST_F(PropertyInstanceBool_test, instanciateConstPropertyWith_String_Object_ConstGetterConst)
 {
     auto obj = new MyObject<bool>;
     auto prop = new Property<const bool>("boolProperty", obj, &MyObject<bool>::constgetterconst);
@@ -98,7 +127,7 @@ TEST_F(PropertyInstanceBool_test, instanciateConstPropertyWith_String_Object_Con
     delete obj;
 }
 
-TEST_F(PropertyInstanceBool_test, instanciateConstPropertyWith_String_Object_GetterConst_SetterConst)
+TEST_F(PropertyInstanceBool_test, instanciateConstPropertyWith_String_Object_GetterConst)
 {
     auto obj = new MyObject<bool>;
     auto prop = new Property<const bool>("boolProperty", obj, &MyObject<bool>::getterconst);
@@ -136,9 +165,20 @@ TEST_F(PropertyInstanceBool_test, instanciateAccessorWith_String_Value)
 
 TEST_F(PropertyInstanceBool_test, instanciateAccessorWith_String_LambdaGetter_LambdaSetter)
 {
-    auto get = [] () {return 0;};
+    auto get = [] () {return bool();};
     auto set = [] (const bool & val) {};
     auto accessor = new AccessorGetSet<bool>(get, set);
+
+    auto prop = new Property<bool>("boolProperty", accessor);
+
+    ASSERT_EQ(typeid(bool), prop->type());
+
+    delete prop;
+}
+
+TEST_F(PropertyInstanceBool_test, instanciateAccessorWith_String_StaticGetter_StaticSetter)
+{
+    auto accessor = new AccessorGetSet<bool>(&staticGetter, &staticSetter);
 
     auto prop = new Property<bool>("boolProperty", accessor);
 
@@ -209,9 +249,9 @@ TEST_F(PropertyInstanceBool_test, instanciateConstAccessorWith_String_Value)
     delete prop;
 }
 
-TEST_F(PropertyInstanceBool_test, instanciateConstAccessorWith_String_LambdaGetter_LambdaSetter)
+TEST_F(PropertyInstanceBool_test, instanciateConstAccessorWith_String_LambdaGetter)
 {
-    auto get = [] () {return 0;};
+    auto get = [] () {return bool();};
     auto accessor = new AccessorGetSet<const bool>(get);
 
     auto prop = new Property<const bool>("boolProperty", accessor);
@@ -221,7 +261,18 @@ TEST_F(PropertyInstanceBool_test, instanciateConstAccessorWith_String_LambdaGett
     delete prop;
 }
 
-TEST_F(PropertyInstanceBool_test, instanciateConstAccessorWith_String_Object_ConstGetterConst_SetterConst)
+TEST_F(PropertyInstanceBool_test, instanciateConstAccessorWith_String_StaticGetter)
+{
+    auto accessor = new AccessorGetSet<const bool>(&staticGetter);
+
+    auto prop = new Property<const bool>("boolProperty", accessor);
+
+    ASSERT_EQ(typeid(bool), prop->type());
+
+    delete prop;
+}
+
+TEST_F(PropertyInstanceBool_test, instanciateConstAccessorWith_String_Object_ConstGetterConst)
 {
     auto obj = new MyObject<bool>;
     auto accessor = new AccessorGetSet<const bool>(obj, &MyObject<bool>::constgetterconst);
@@ -234,7 +285,7 @@ TEST_F(PropertyInstanceBool_test, instanciateConstAccessorWith_String_Object_Con
     delete obj;
 }
 
-TEST_F(PropertyInstanceBool_test, instanciateConstAccessorWith_String_Object_GetterConst_SetterConst)
+TEST_F(PropertyInstanceBool_test, instanciateConstAccessorWith_String_Object_GetterConst)
 {
     auto obj = new MyObject<bool>;
     auto accessor = new AccessorGetSet<const bool>(obj, &MyObject<bool>::getterconst);

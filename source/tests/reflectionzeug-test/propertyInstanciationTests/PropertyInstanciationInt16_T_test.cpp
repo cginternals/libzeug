@@ -21,15 +21,35 @@ public:
 protected:
 };
 
+namespace {
+int16_t staticGetter()
+{
+    return int16_t();
+}
+
+void staticSetter(int16_t value)
+{
+}
+}
+
 
 // Propterty instanciaton (read/write)
 
 TEST_F(PropertyInstanceInt16_T_test, instanciatePropertyWith_String_LambdaGetter_LambdaSetter)
 {
-    auto get = [] () {return 0;};
+    auto get = [] () {return int16_t();};
     auto set = [] (const int16_t & val) {};
 
     auto prop = new Property<int16_t>("int16_tProperty", get, set);
+
+    ASSERT_EQ(typeid(int16_t), prop->type());
+
+    delete prop;
+}
+
+TEST_F(PropertyInstanceInt16_T_test, instanciatePropertyWith_String_StaticGetter_StaticSetter)
+{
+    auto prop = new Property<int16_t>("int16_tProperty", &staticGetter, &staticSetter);
 
     ASSERT_EQ(typeid(int16_t), prop->type());
 
@@ -75,9 +95,9 @@ TEST_F(PropertyInstanceInt16_T_test, instanciatePropertyWith_String_Object_Gette
 
 // Propterty instanciaton (read only)
 
-TEST_F(PropertyInstanceInt16_T_test, instanciateConstPropertyWith_String_LambdaGetter_LambdaSetter)
+TEST_F(PropertyInstanceInt16_T_test, instanciateConstPropertyWith_String_LambdaGetter)
 {
-    auto get = [] () {return 0;};
+    auto get = [] () {return int16_t();};
 
     auto prop = new Property<const int16_t>("int16_tProperty", get);
 
@@ -86,7 +106,16 @@ TEST_F(PropertyInstanceInt16_T_test, instanciateConstPropertyWith_String_LambdaG
     delete prop;
 }
 
-TEST_F(PropertyInstanceInt16_T_test, instanciateConstPropertyWith_String_Object_ConstGetterConst_SetterConst)
+TEST_F(PropertyInstanceInt16_T_test, instanciateConstPropertyWith_String_StaticGetter)
+{
+    auto prop = new Property<const int16_t>("int16_tProperty", &staticGetter);
+
+    ASSERT_EQ(typeid(int16_t), prop->type());
+
+    delete prop;
+}
+
+TEST_F(PropertyInstanceInt16_T_test, instanciateConstPropertyWith_String_Object_ConstGetterConst)
 {
     auto obj = new MyObject<int16_t>;
     auto prop = new Property<const int16_t>("int16_tProperty", obj, &MyObject<int16_t>::constgetterconst);
@@ -98,7 +127,7 @@ TEST_F(PropertyInstanceInt16_T_test, instanciateConstPropertyWith_String_Object_
     delete obj;
 }
 
-TEST_F(PropertyInstanceInt16_T_test, instanciateConstPropertyWith_String_Object_GetterConst_SetterConst)
+TEST_F(PropertyInstanceInt16_T_test, instanciateConstPropertyWith_String_Object_GetterConst)
 {
     auto obj = new MyObject<int16_t>;
     auto prop = new Property<const int16_t>("int16_tProperty", obj, &MyObject<int16_t>::getterconst);
@@ -136,9 +165,20 @@ TEST_F(PropertyInstanceInt16_T_test, instanciateAccessorWith_String_Value)
 
 TEST_F(PropertyInstanceInt16_T_test, instanciateAccessorWith_String_LambdaGetter_LambdaSetter)
 {
-    auto get = [] () {return 0;};
+    auto get = [] () {return int16_t();};
     auto set = [] (const int16_t & val) {};
     auto accessor = new AccessorGetSet<int16_t>(get, set);
+
+    auto prop = new Property<int16_t>("int16_tProperty", accessor);
+
+    ASSERT_EQ(typeid(int16_t), prop->type());
+
+    delete prop;
+}
+
+TEST_F(PropertyInstanceInt16_T_test, instanciateAccessorWith_String_StaticGetter_StaticSetter)
+{
+    auto accessor = new AccessorGetSet<int16_t>(&staticGetter, &staticSetter);
 
     auto prop = new Property<int16_t>("int16_tProperty", accessor);
 
@@ -209,9 +249,9 @@ TEST_F(PropertyInstanceInt16_T_test, instanciateConstAccessorWith_String_Value)
     delete prop;
 }
 
-TEST_F(PropertyInstanceInt16_T_test, instanciateConstAccessorWith_String_LambdaGetter_LambdaSetter)
+TEST_F(PropertyInstanceInt16_T_test, instanciateConstAccessorWith_String_LambdaGetter)
 {
-    auto get = [] () {return 0;};
+    auto get = [] () {return int16_t();};
     auto accessor = new AccessorGetSet<const int16_t>(get);
 
     auto prop = new Property<const int16_t>("int16_tProperty", accessor);
@@ -221,7 +261,18 @@ TEST_F(PropertyInstanceInt16_T_test, instanciateConstAccessorWith_String_LambdaG
     delete prop;
 }
 
-TEST_F(PropertyInstanceInt16_T_test, instanciateConstAccessorWith_String_Object_ConstGetterConst_SetterConst)
+TEST_F(PropertyInstanceInt16_T_test, instanciateConstAccessorWith_String_StaticGetter)
+{
+    auto accessor = new AccessorGetSet<const int16_t>(&staticGetter);
+
+    auto prop = new Property<const int16_t>("int16_tProperty", accessor);
+
+    ASSERT_EQ(typeid(int16_t), prop->type());
+
+    delete prop;
+}
+
+TEST_F(PropertyInstanceInt16_T_test, instanciateConstAccessorWith_String_Object_ConstGetterConst)
 {
     auto obj = new MyObject<int16_t>;
     auto accessor = new AccessorGetSet<const int16_t>(obj, &MyObject<int16_t>::constgetterconst);
@@ -234,7 +285,7 @@ TEST_F(PropertyInstanceInt16_T_test, instanciateConstAccessorWith_String_Object_
     delete obj;
 }
 
-TEST_F(PropertyInstanceInt16_T_test, instanciateConstAccessorWith_String_Object_GetterConst_SetterConst)
+TEST_F(PropertyInstanceInt16_T_test, instanciateConstAccessorWith_String_Object_GetterConst)
 {
     auto obj = new MyObject<int16_t>;
     auto accessor = new AccessorGetSet<const int16_t>(obj, &MyObject<int16_t>::getterconst);
