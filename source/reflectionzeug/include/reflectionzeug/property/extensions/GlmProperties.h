@@ -126,7 +126,7 @@ public:
         // Return variant array
         VectorType vector = this->value();
         Variant array = Variant::array();
-        for (VectorType::length_type i = 0; i<Size; i++) {
+        for (typename VectorType::length_type i = 0; i<Size; i++) {
             array.asArray()->push_back(vector[i]);
         }
         return array;
@@ -136,7 +136,7 @@ public:
     {
         // Read from variant of the exact type
         if (value.hasType<VectorType>() || value.canConvert<VectorType>()) {
-            this->setValue( value.value<VectorType>() );
+            this->setValue( value.template value<VectorType>() );
             return true;
         }
 
@@ -150,8 +150,8 @@ public:
         else if (value.hasType<VariantArray>()) {
             const VariantArray & array = *(value.asArray());
             VectorType vector;
-            for (VectorType::length_type i=0; i<Size; i++) {
-                vector[i] = array[i].value<ValueType>();
+            for (typename VectorType::length_type i=0; i<Size; i++) {
+                vector[i] = array[i].template value<ValueType>();
             }
             this->setValue(vector);
             return true;
