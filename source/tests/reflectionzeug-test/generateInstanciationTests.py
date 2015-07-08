@@ -7,7 +7,7 @@ directory = os.path.join(sys.argv[1], 'propertyInstanciationTests')
 generatedCppsFile = sys.argv[2]
 
 # 
-datatypes = ['bool', 'int8_t', 'uint8_t', 'int16_t', 'uint16_t', 'int32_t', 'uint32_t', 'int64_t', 'uint64_t']
+datatypes = ['bool', 'float', 'double', 'int8_t', 'uint8_t', 'int16_t', 'uint16_t', 'int32_t', 'uint32_t', 'int64_t', 'uint64_t']
 
 
 def getSpecificFileContent(datatype, datatypeC):
