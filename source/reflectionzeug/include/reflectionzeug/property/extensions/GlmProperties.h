@@ -126,7 +126,7 @@ public:
         // Return variant array
         VectorType vector = this->value();
         Variant array = Variant::array();
-        for (size_t i=0; i<Size; i++) {
+        for (VectorType::length_type i = 0; i<Size; i++) {
             array.asArray()->push_back(vector[i]);
         }
         return array;
@@ -150,7 +150,7 @@ public:
         else if (value.hasType<VariantArray>()) {
             const VariantArray & array = *(value.asArray());
             VectorType vector;
-            for (size_t i=0; i<Size; i++) {
+            for (VectorType::length_type i=0; i<Size; i++) {
                 vector[i] = array[i].value<ValueType>();
             }
             this->setValue(vector);
