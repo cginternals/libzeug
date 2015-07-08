@@ -2,8 +2,6 @@
 
 #include <gmock/gmock.h>
 
-#include <string>
-
 #include <reflectionzeug/property/Property.h>
 
 #include "../MyObject.h"
