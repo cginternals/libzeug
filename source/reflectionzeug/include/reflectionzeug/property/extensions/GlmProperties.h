@@ -25,7 +25,7 @@ namespace reflectionzeug
 *  @return
 *    String representation
 */
-template <typename T, unsigned Size>
+template <typename T, glm::length_t Size>
 std::string glmToString(const T * data)
 {
     std::stringstream ss;
@@ -57,7 +57,7 @@ std::string glmToString(const T * data)
 *  @return
 *    'true' if all went fine, else 'false'
 */
-template <typename T, unsigned Size>
+template <typename T, glm::length_t Size>
 bool glmFromString(const std::string & string, T * data)
 {
     std::string elementRegex = std::is_integral<T>::value ? "(-|\\+)?\\d+" : "(-|\\+)?\\d+\\.?\\d*";
@@ -91,7 +91,7 @@ bool glmFromString(const std::string & string, T * data)
 *  @brief
 *    Property implementation for GLM vector types
 */
-template <typename VectorType, typename ValueType, unsigned Size>
+template <typename VectorType, typename ValueType, glm::length_t Size>
 class PropertyGlmVec : public reflectionzeug::AbstractTypedProperty<VectorType>
 {
 public:
@@ -126,7 +126,7 @@ public:
         // Return variant array
         VectorType vector = this->value();
         Variant array = Variant::array();
-        for (VectorType::length_type i = 0; i<Size; i++) {
+        for (glm::length_t i = 0; i<Size; i++) {
             array.asArray()->push_back(vector[i]);
         }
         return array;
@@ -136,7 +136,7 @@ public:
     {
         // Read from variant of the exact type
         if (value.hasType<VectorType>() || value.canConvert<VectorType>()) {
-            this->setValue( value.value<VectorType>() );
+            this->setValue( value.template value<VectorType>() );
             return true;
         }
 
@@ -150,8 +150,8 @@ public:
         else if (value.hasType<VariantArray>()) {
             const VariantArray & array = *(value.asArray());
             VectorType vector;
-            for (VectorType::length_type i=0; i<Size; i++) {
-                vector[i] = array[i].value<ValueType>();
+            for (glm::length_t i=0; i<Size; i++) {
+                vector[i] = array[i].template value<ValueType>();
             }
             this->setValue(vector);
             return true;
