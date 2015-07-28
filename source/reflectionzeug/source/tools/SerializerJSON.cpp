@@ -126,7 +126,7 @@ static std::string stringify(const reflectionzeug::Variant & obj, bool beautify 
 
     // Invalid type for JSON output
     else {
-        return "";
+        return "null";
     }
 }
 
