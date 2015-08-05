@@ -21,7 +21,7 @@ ColorSchemeGraphicsItemGroup::ColorSchemeGraphicsItemGroup(
     const DpiAwareGraphicsView * view)
 : m_label{ new QGraphicsTextItem(identifier, this) }
 , m_view{ view }
-, m_minClasses{ std::numeric_limits<int>::max() }
+, m_minClasses{ std::numeric_limits<uint>::max() }
 , m_maxClasses{ 0 }
 {
     m_label->setRotation(-90);
