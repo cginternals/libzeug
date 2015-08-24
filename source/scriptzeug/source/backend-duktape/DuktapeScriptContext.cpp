@@ -54,7 +54,14 @@ public:
             pushToDukStack(m_context, var);
         }
 
-        duk_call(m_context, args.size());
+        duk_int_t error = duk_pcall(m_context, args.size());
+
+        if (error)
+        {
+            std::cerr << std::string(duk_safe_to_string(m_context, -1)) << std::endl;
+            duk_pop_2(m_context);
+            return Variant();
+        }
 
         Variant value = fromDukValue(m_context, -1);
         duk_pop_2(m_context);
@@ -215,7 +222,7 @@ static void pushToDukStack(duk_context * context, const Variant & var)
     }
 
     else if (var.hasType<unsigned long long>()) {
-		duk_push_number(context, (duk_double_t)var.value<unsigned long long>());
+        duk_push_number(context, (duk_double_t)var.value<unsigned long long>());
     }
 
     if (var.hasType<float>()) {
