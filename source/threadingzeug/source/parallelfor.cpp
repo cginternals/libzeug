@@ -8,7 +8,19 @@
 namespace threadingzeug
 {
 
-void parallel_for(int start, int end, std::function<void(int i)> callback)
+void forEach(int start, int end, std::function<void(int i)> callback, bool parallelize)
+{
+    selectParallelization(parallelize)(start, end, callback);
+}
+
+ForSignature selectParallelization(bool parallelize)
+{
+    return parallelize ?
+        static_cast<void (*)(int, int, std::function<void(int i)>)>(parallelFor) :
+        static_cast<void (*)(int, int, std::function<void(int i)>)>(sequentialFor);
+}
+
+void parallelFor(int start, int end, std::function<void(int i)> callback)
 {
 #ifdef USE_OPENMP
 
@@ -36,7 +48,7 @@ void parallel_for(int start, int end, std::function<void(int i)> callback)
 #endif
 }
 
-void sequential_for(int start, int end, std::function<void(int i)> callback)
+void sequentialFor(int start, int end, std::function<void(int i)> callback)
 {
 	for (int i = start; i < end; ++i)
 	{
