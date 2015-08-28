@@ -161,7 +161,6 @@ set(sources
     ${source_path}/property/AbstractEnumInterface.cpp
     ${source_path}/property/AbstractVisitor.cpp
     ${source_path}/property/PropertyBool.cpp
-    ${source_path}/property/PropertyString.cpp
     ${source_path}/property/PropertyColor.cpp
     ${source_path}/property/PropertyFilePath.cpp
     ${source_path}/property/PropertyGroup.cpp

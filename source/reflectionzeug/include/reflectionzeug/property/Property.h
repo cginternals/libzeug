@@ -110,7 +110,17 @@ struct PropertyTypeSelector<Color>
 template <>
 struct PropertyTypeSelector<std::string>
 {
-    using Type = PropertyString;
+    using Type = PropertyString<std::string>;
+};
+
+/**
+*  @brief
+*    Property selector for properties of type const std::string
+*/
+template <>
+struct PropertyTypeSelector<const std::string>
+{
+    using Type = PropertyString<const std::string>;
 };
 
 /**

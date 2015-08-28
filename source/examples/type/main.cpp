@@ -150,7 +150,7 @@ class MyVisitor : public reflectionzeug::Visitor<
                             PropertyFloatingPoint<float>,
                             PropertyFloatingPoint<double>,
                             PropertyBool,
-                            PropertyString,
+                            PropertyString<std::string>,
                             PropertyColor,
                             PropertyFilePath,
                             PropertyEnum<MyEnum>,
@@ -233,7 +233,7 @@ public:
         std::cout << prop->name() << " PropertyBool\n";
     }
 
-    virtual void visit(PropertyString * prop) override
+    virtual void visit(PropertyString<std::string> * prop) override
     {
         std::cout << prop->name() << " PropertyString\n";
     }
