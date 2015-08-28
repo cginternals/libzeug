@@ -150,7 +150,17 @@ struct PropertyTypeSelector<const std::string>
 template <>
 struct PropertyTypeSelector<FilePath>
 {
-    using Type = PropertyFilePath;
+    using Type = PropertyFilePath<FilePath>;
+};
+
+/**
+*  @brief
+*    Property selector for properties of type const FilePath
+*/
+template <>
+struct PropertyTypeSelector<const FilePath>
+{
+    using Type = PropertyFilePath<const FilePath>;
 };
 
 /**

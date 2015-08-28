@@ -152,7 +152,7 @@ class MyVisitor : public reflectionzeug::Visitor<
                             PropertyBool<bool>,
                             PropertyString<std::string>,
                             PropertyColor<Color>,
-                            PropertyFilePath,
+                            PropertyFilePath<FilePath>,
                             PropertyEnum<MyEnum>,
                             PropertyArray<int, 3>,
                             Property<int>,
@@ -243,7 +243,7 @@ public:
         std::cout << prop->name() << " PropertyColor\n";
     }
 
-    virtual void visit(PropertyFilePath * prop) override
+    virtual void visit(PropertyFilePath<FilePath> * prop) override
     {
         std::cout << prop->name() << " PropertyFilePath\n";
     }
