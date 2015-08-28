@@ -6,6 +6,7 @@
 #include "../MyObject.h"
 
 using namespace reflectionzeug;
+using std::string;
 
 
 
@@ -153,7 +154,7 @@ TEST_F(PropertyInstanceBool_test, instanciateAccessorWith_String)
 
 TEST_F(PropertyInstanceBool_test, instanciateAccessorWith_String_Value)
 {
-    auto accessor = new AccessorValue<bool>(0);
+    auto accessor = new AccessorValue<bool>(bool());
     auto prop = new Property<bool>("boolProperty", accessor);
 
     ASSERT_EQ(typeid(bool), prop->type());
@@ -239,7 +240,7 @@ TEST_F(PropertyInstanceBool_test, instanciateConstAccessorWith_String)
 
 TEST_F(PropertyInstanceBool_test, instanciateConstAccessorWith_String_Value)
 {
-    auto accessor = new AccessorValue<const bool>(0);
+    auto accessor = new AccessorValue<const bool>(bool());
     auto prop = new Property<bool>("boolProperty", accessor);
 
     ASSERT_EQ(typeid(bool), prop->type());

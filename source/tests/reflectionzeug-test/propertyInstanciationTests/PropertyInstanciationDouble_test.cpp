@@ -6,6 +6,7 @@
 #include "../MyObject.h"
 
 using namespace reflectionzeug;
+using std::string;
 
 
 
@@ -153,7 +154,7 @@ TEST_F(PropertyInstanceDouble_test, instanciateAccessorWith_String)
 
 TEST_F(PropertyInstanceDouble_test, instanciateAccessorWith_String_Value)
 {
-    auto accessor = new AccessorValue<double>(0);
+    auto accessor = new AccessorValue<double>(double());
     auto prop = new Property<double>("doubleProperty", accessor);
 
     ASSERT_EQ(typeid(double), prop->type());
@@ -239,7 +240,7 @@ TEST_F(PropertyInstanceDouble_test, instanciateConstAccessorWith_String)
 
 TEST_F(PropertyInstanceDouble_test, instanciateConstAccessorWith_String_Value)
 {
-    auto accessor = new AccessorValue<const double>(0);
+    auto accessor = new AccessorValue<const double>(double());
     auto prop = new Property<double>("doubleProperty", accessor);
 
     ASSERT_EQ(typeid(double), prop->type());

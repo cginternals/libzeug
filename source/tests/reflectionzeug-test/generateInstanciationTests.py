@@ -7,7 +7,7 @@ directory = os.path.join(sys.argv[1], 'propertyInstanciationTests')
 generatedCppsFile = sys.argv[2]
 
 # 
-datatypes = ['bool', 'float', 'double', 'int8_t', 'uint8_t', 'int16_t', 'uint16_t', 'int32_t', 'uint32_t', 'int64_t', 'uint64_t']
+datatypes = ['bool', 'float', 'double', 'int8_t', 'uint8_t', 'int16_t', 'uint16_t', 'int32_t', 'uint32_t', 'int64_t', 'uint64_t', 'string']
 
 
 def getPropertyTestFileContent(datatype, datatypeC):
@@ -19,6 +19,7 @@ def getPropertyTestFileContent(datatype, datatypeC):
 #include "../MyObject.h"
 
 using namespace reflectionzeug;
+using std::string;
 
 
 
@@ -166,7 +167,7 @@ TEST_F(PropertyInstance${CAPITALDATATYPE}_test, instanciateAccessorWith_String)
 
 TEST_F(PropertyInstance${CAPITALDATATYPE}_test, instanciateAccessorWith_String_Value)
 {
-    auto accessor = new AccessorValue<${DATATYPE}>(0);
+    auto accessor = new AccessorValue<${DATATYPE}>(${DATATYPE}());
     auto prop = new Property<${DATATYPE}>("${DATATYPE}Property", accessor);
 
     ASSERT_EQ(typeid(${DATATYPE}), prop->type());
@@ -252,7 +253,7 @@ TEST_F(PropertyInstance${CAPITALDATATYPE}_test, instanciateConstAccessorWith_Str
 
 TEST_F(PropertyInstance${CAPITALDATATYPE}_test, instanciateConstAccessorWith_String_Value)
 {
-    auto accessor = new AccessorValue<const ${DATATYPE}>(0);
+    auto accessor = new AccessorValue<const ${DATATYPE}>(${DATATYPE}());
     auto prop = new Property<${DATATYPE}>("${DATATYPE}Property", accessor);
 
     ASSERT_EQ(typeid(${DATATYPE}), prop->type());
@@ -323,6 +324,7 @@ def getPropertyArrayTestFileContent(datatype, datatypeC):
 #include "../MyObject.h"
 
 using namespace reflectionzeug;
+using std::string;
 
 
 
