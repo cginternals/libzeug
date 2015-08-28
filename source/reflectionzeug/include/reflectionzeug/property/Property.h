@@ -90,7 +90,17 @@ struct PropertyTypeSelector
 template <>
 struct PropertyTypeSelector<bool>
 {
-    using Type = PropertyBool;
+    using Type = PropertyBool<bool>;
+};
+
+/**
+*  @brief
+*    Property selector for properties of type const bool
+*/
+template <>
+struct PropertyTypeSelector<const bool>
+{
+    using Type = PropertyBool<const bool>;
 };
 
 /**
