@@ -110,7 +110,17 @@ struct PropertyTypeSelector<const bool>
 template <>
 struct PropertyTypeSelector<Color>
 {
-    using Type = PropertyColor;
+    using Type = PropertyColor<Color>;
+};
+
+/**
+*  @brief
+*    Property selector for properties of type const Color
+*/
+template <>
+struct PropertyTypeSelector<const Color>
+{
+    using Type = PropertyColor<const Color>;
 };
 
 /**

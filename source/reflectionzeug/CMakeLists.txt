@@ -160,7 +160,6 @@ set(sources
     ${source_path}/property/AbstractUnsignedIntegralInterface.cpp
     ${source_path}/property/AbstractEnumInterface.cpp
     ${source_path}/property/AbstractVisitor.cpp
-    ${source_path}/property/PropertyColor.cpp
     ${source_path}/property/PropertyFilePath.cpp
     ${source_path}/property/PropertyGroup.cpp
 
