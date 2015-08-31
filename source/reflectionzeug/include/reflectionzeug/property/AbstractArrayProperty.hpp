@@ -8,6 +8,7 @@
 #include <functional>
 
 #include <reflectionzeug/property/ArrayAccessorGetSet.h>
+#include <reflectionzeug/property/ArrayAccessorValue.h>
 #include <reflectionzeug/property/Property.h>
 
 
