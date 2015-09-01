@@ -8,22 +8,31 @@
 namespace threadingzeug
 {
 
-template<typename T>
-void parallel_for(const std::vector<T>& elements, std::function<void(const T& element)> callback);
+THREADINGZEUG_API void forEach(int start, int end, std::function<void(int i)> callback, bool parallelize = true);
+
+using ForSignature = void (*)(int, int, std::function<void(int i)>);
+
+template <typename T, typename U>
+ForSignature selectParallelization(const T & value, const U & threshold);
+
+THREADINGZEUG_API ForSignature selectParallelization(bool);
 
 template<typename T>
-void parallel_for(std::vector<T>& elements, std::function<void(T& element)> callback);
+void parallelFor(const std::vector<T>& elements, std::function<void(const T& element)> callback);
 
-THREADINGZEUG_API void parallel_for(int start, int end, std::function<void(int i)> callback);
+template<typename T>
+void parallelFor(std::vector<T>& elements, std::function<void(T& element)> callback);
+
+THREADINGZEUG_API void parallelFor(int start, int end, std::function<void(int i)> callback);
 
 
 template<typename T>
-void sequential_for(const std::vector<T>& elements, std::function<void(const T& element)> callback);
+void sequentialFor(const std::vector<T>& elements, std::function<void(const T& element)> callback);
 
 template<typename T>
-void sequential_for(std::vector<T>& elements, std::function<void(T& element)> callback);
+void sequentialFor(std::vector<T>& elements, std::function<void(T& element)> callback);
 
-THREADINGZEUG_API void sequential_for(int start, int end, std::function<void(int i)> callback);
+THREADINGZEUG_API void sequentialFor(int start, int end, std::function<void(int i)> callback);
 
 } // namespace threadingzeug
 
