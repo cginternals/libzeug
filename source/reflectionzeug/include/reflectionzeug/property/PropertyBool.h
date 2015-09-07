@@ -14,7 +14,8 @@ namespace reflectionzeug
 *  @brief
 *    Property implementation for type bool
 */
-class REFLECTIONZEUG_API PropertyBool : public AbstractTypedProperty<bool>, public AbstractBooleanInterface
+template <typename T>
+class PropertyBool : public AbstractTypedProperty<T>, public AbstractBooleanInterface
 {
 public:
     /**

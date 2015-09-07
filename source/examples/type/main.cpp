@@ -149,10 +149,10 @@ class MyVisitor : public reflectionzeug::Visitor<
                             PropertyUnsignedIntegral<unsigned int>,
                             PropertyFloatingPoint<float>,
                             PropertyFloatingPoint<double>,
-                            PropertyBool,
-                            PropertyString,
-                            PropertyColor,
-                            PropertyFilePath,
+                            PropertyBool<bool>,
+                            PropertyString<std::string>,
+                            PropertyColor<Color>,
+                            PropertyFilePath<FilePath>,
                             PropertyEnum<MyEnum>,
                             PropertyArray<int, 3>,
                             Property<int>,
@@ -228,22 +228,22 @@ public:
         std::cout << prop->name() << " PropertyFloatingPoint<double>\n";
     }
 
-    virtual void visit(PropertyBool * prop) override
+    virtual void visit(PropertyBool<bool> * prop) override
     {
         std::cout << prop->name() << " PropertyBool\n";
     }
 
-    virtual void visit(PropertyString * prop) override
+    virtual void visit(PropertyString<std::string> * prop) override
     {
         std::cout << prop->name() << " PropertyString\n";
     }
 
-    virtual void visit(PropertyColor * prop) override
+    virtual void visit(PropertyColor<Color> * prop) override
     {
         std::cout << prop->name() << " PropertyColor\n";
     }
 
-    virtual void visit(PropertyFilePath * prop) override
+    virtual void visit(PropertyFilePath<FilePath> * prop) override
     {
         std::cout << prop->name() << " PropertyFilePath\n";
     }

@@ -90,7 +90,17 @@ struct PropertyTypeSelector
 template <>
 struct PropertyTypeSelector<bool>
 {
-    using Type = PropertyBool;
+    using Type = PropertyBool<bool>;
+};
+
+/**
+*  @brief
+*    Property selector for properties of type const bool
+*/
+template <>
+struct PropertyTypeSelector<const bool>
+{
+    using Type = PropertyBool<const bool>;
 };
 
 /**
@@ -100,7 +110,17 @@ struct PropertyTypeSelector<bool>
 template <>
 struct PropertyTypeSelector<Color>
 {
-    using Type = PropertyColor;
+    using Type = PropertyColor<Color>;
+};
+
+/**
+*  @brief
+*    Property selector for properties of type const Color
+*/
+template <>
+struct PropertyTypeSelector<const Color>
+{
+    using Type = PropertyColor<const Color>;
 };
 
 /**
@@ -110,7 +130,17 @@ struct PropertyTypeSelector<Color>
 template <>
 struct PropertyTypeSelector<std::string>
 {
-    using Type = PropertyString;
+    using Type = PropertyString<std::string>;
+};
+
+/**
+*  @brief
+*    Property selector for properties of type const std::string
+*/
+template <>
+struct PropertyTypeSelector<const std::string>
+{
+    using Type = PropertyString<const std::string>;
 };
 
 /**
@@ -120,7 +150,17 @@ struct PropertyTypeSelector<std::string>
 template <>
 struct PropertyTypeSelector<FilePath>
 {
-    using Type = PropertyFilePath;
+    using Type = PropertyFilePath<FilePath>;
+};
+
+/**
+*  @brief
+*    Property selector for properties of type const FilePath
+*/
+template <>
+struct PropertyTypeSelector<const FilePath>
+{
+    using Type = PropertyFilePath<const FilePath>;
 };
 
 /**

@@ -7,6 +7,7 @@
 #include "../MyObject.h"
 
 using namespace reflectionzeug;
+using std::string;
 
 
 

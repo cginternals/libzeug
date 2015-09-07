@@ -6,6 +6,7 @@
 #include "../MyObject.h"
 
 using namespace reflectionzeug;
+using std::string;
 
 
 
@@ -153,7 +154,7 @@ TEST_F(PropertyInstanceUint16_T_test, instanciateAccessorWith_String)
 
 TEST_F(PropertyInstanceUint16_T_test, instanciateAccessorWith_String_Value)
 {
-    auto accessor = new AccessorValue<uint16_t>(0);
+    auto accessor = new AccessorValue<uint16_t>(uint16_t());
     auto prop = new Property<uint16_t>("uint16_tProperty", accessor);
 
     ASSERT_EQ(typeid(uint16_t), prop->type());
@@ -239,7 +240,7 @@ TEST_F(PropertyInstanceUint16_T_test, instanciateConstAccessorWith_String)
 
 TEST_F(PropertyInstanceUint16_T_test, instanciateConstAccessorWith_String_Value)
 {
-    auto accessor = new AccessorValue<const uint16_t>(0);
+    auto accessor = new AccessorValue<const uint16_t>(uint16_t());
     auto prop = new Property<uint16_t>("uint16_tProperty", accessor);
 
     ASSERT_EQ(typeid(uint16_t), prop->type());

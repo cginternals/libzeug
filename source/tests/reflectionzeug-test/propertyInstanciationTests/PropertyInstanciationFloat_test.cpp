@@ -6,6 +6,7 @@
 #include "../MyObject.h"
 
 using namespace reflectionzeug;
+using std::string;
 
 
 
@@ -153,7 +154,7 @@ TEST_F(PropertyInstanceFloat_test, instanciateAccessorWith_String)
 
 TEST_F(PropertyInstanceFloat_test, instanciateAccessorWith_String_Value)
 {
-    auto accessor = new AccessorValue<float>(0);
+    auto accessor = new AccessorValue<float>(float());
     auto prop = new Property<float>("floatProperty", accessor);
 
     ASSERT_EQ(typeid(float), prop->type());
@@ -239,7 +240,7 @@ TEST_F(PropertyInstanceFloat_test, instanciateConstAccessorWith_String)
 
 TEST_F(PropertyInstanceFloat_test, instanciateConstAccessorWith_String_Value)
 {
-    auto accessor = new AccessorValue<const float>(0);
+    auto accessor = new AccessorValue<const float>(float());
     auto prop = new Property<float>("floatProperty", accessor);
 
     ASSERT_EQ(typeid(float), prop->type());
