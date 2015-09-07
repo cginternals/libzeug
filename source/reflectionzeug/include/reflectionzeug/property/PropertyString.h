@@ -15,7 +15,7 @@ namespace reflectionzeug
 *    Property implementation for type std::string
 */
 template <typename T>
-class REFLECTIONZEUG_API PropertyString : public AbstractTypedProperty<T>, public AbstractStringInterface
+class PropertyString : public AbstractTypedProperty<T>, public AbstractStringInterface
 {
 public:
     /**

@@ -16,7 +16,7 @@ namespace reflectionzeug
 *    Property implementation for type Color
 */
 template <typename T>
-class REFLECTIONZEUG_API PropertyColor : public AbstractTypedProperty<T>, public AbstractColorInterface
+class PropertyColor : public AbstractTypedProperty<T>, public AbstractColorInterface
 {
 public:
     /**
