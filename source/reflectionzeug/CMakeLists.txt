@@ -165,7 +165,6 @@ set(sources
     ${source_path}/property/PropertyColor.cpp
     ${source_path}/property/PropertyFilePath.cpp
     ${source_path}/property/PropertyGroup.cpp
-	${source_path}/property/PropertyUnsignedIntegral.cpp
 
     ${source_path}/function/Function.cpp
 
