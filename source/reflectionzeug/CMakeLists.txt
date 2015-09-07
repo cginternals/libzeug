@@ -161,7 +161,6 @@ set(sources
     ${source_path}/property/AbstractEnumInterface.cpp
     ${source_path}/property/AbstractVisitor.cpp
     ${source_path}/property/PropertyGroup.cpp
-	${source_path}/property/PropertyUnsignedIntegral.cpp
 
     ${source_path}/function/Function.cpp
 
