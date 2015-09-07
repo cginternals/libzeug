@@ -34,7 +34,7 @@ void parallelFor(size_t start, size_t end, std::function<void(size_t i)> callbac
 #ifdef USE_OPENMP
 
     #pragma omp parallel for
-    for (auto i = start; i < end; ++i)
+    for (std::int64_t i = static_cast<std::int64_t>(start); i < static_cast<std::int64_t>(end); ++i)
     {
         callback(i);
     }
