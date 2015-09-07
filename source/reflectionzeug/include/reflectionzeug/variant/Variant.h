@@ -69,12 +69,16 @@ public:
 
     /**
     *  @brief
-    *    Create an empty variant array
+    *    Create an empty or specifically sized variant array
+    *
+    *  @param count
+    *    The initial size of the array
     *
     *  @return
     *    Variant instance
     */
     static Variant array();
+    static Variant array(size_t count);
 
     /**
     *  @brief

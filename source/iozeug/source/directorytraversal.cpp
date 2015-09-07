@@ -86,10 +86,12 @@ std::vector<std::string> getFiles(const std::string & directory, bool recursive)
 
 std::vector<std::string> scanDirectory(const std::string & directory, const std::string & fileExtension, bool recursive)
 {
+    const auto sanitizedDirectory = directory.back() == '/' ? directory.substr(0, directory.size() - 1) : directory;
+
     std::vector<std::string> fileList;
 
     // Get all files in the directory
-    auto files = getFiles(directory, recursive);
+    auto files = getFiles(sanitizedDirectory, recursive);
     for (const std::string & file : files)
     {
         // Check extension
@@ -106,8 +108,10 @@ std::vector<std::string> scanDirectory(const std::string & directory, const std:
 
 void scanDirectory(const std::string & directory, const std::string & fileExtension, bool recursive, const std::function<void(const std::string &)> & callback)
 {
+    const auto sanitizedDirectory = directory.back() == '/' ? directory.substr(0, directory.size() - 1) : directory;
+
     // Get all files in the directory
-    auto files = getFiles(directory, recursive);
+    auto files = getFiles(sanitizedDirectory, recursive);
     for (const std::string & file : files)
     {
         // Check extension

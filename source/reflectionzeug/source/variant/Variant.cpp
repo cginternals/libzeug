@@ -16,6 +16,13 @@ Variant Variant::array()
     return variant;
 }
 
+Variant Variant::array(size_t count)
+{
+    Variant variant;
+    variant.m_accessor = new AccessorValue<VariantArray>(VariantArray(count));
+    return variant;
+}
+
 Variant Variant::map()
 {
     Variant variant;
