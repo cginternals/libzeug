@@ -30,11 +30,11 @@ QColor lerpColor(const ColorGradientStop & stop1, const ColorGradientStop & stop
     const auto vec1 = QVector4D(color1.redF(), color1.greenF(), color1.blueF(), color1.alphaF());
     const auto vec2 = QVector4D(color2.redF(), color2.greenF(), color2.blueF(), color2.alphaF());
     
-    const auto avg = QVector4D{(vec1 + vec2) / 2.0f};
+    const auto avg = QVector4D{(vec1 + vec2) / 2.0};
     
     auto result = QVector4D{};
     if (pos > midpoint)
-        result = mix(avg, vec2, (pos - midpoint) / (1.0f - midpoint));
+        result = mix(avg, vec2, (pos - midpoint) / (1.0 - midpoint));
     else
         result = mix(vec1, avg,  pos / midpoint);
 
