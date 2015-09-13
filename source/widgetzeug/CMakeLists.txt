@@ -58,9 +58,9 @@ set(api_includes
 
     ${header_path}/ControlWidgetSettings.h
     # color widgets
-    #${header_path}/ColorGradient.h
+    ${header_path}/ColorGradient.h
     #${header_path}/ColorGradientProperty.h
-    #${header_path}/ColorGradientStop.h
+    ${header_path}/ColorGradientStop.h
     #${header_path}/ColorGradientWidget.h
     ${header_path}/ColorScheme.h
     ${header_path}/ColorSchemeControlWidget.h
@@ -93,7 +93,7 @@ set(sources
 
     ${source_path}/ControlWidgetSettings.cpp
     # color widgets
-    #${source_path}/ColorGradient.cpp
+    ${source_path}/ColorGradient.cpp
     #${source_path}/ColorGradientLabel.cpp
     #${source_path}/ColorGradientLabel.h
     #${source_path}/ColorGradientMidpointBar.cpp
@@ -102,7 +102,7 @@ set(sources
     #${source_path}/ColorGradientMidpointWidget.h
     #${source_path}/ColorGradientModel.cpp
     #${source_path}/ColorGradientModel.h
-    #${source_path}/ColorGradientStop.cpp
+    ${source_path}/ColorGradientStop.cpp
     #${source_path}/ColorGradientStopBar.cpp
     #${source_path}/ColorGradientStopBar.h
     #${source_path}/ColorGradientStopModel.cpp
