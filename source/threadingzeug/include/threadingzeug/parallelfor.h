@@ -10,9 +10,9 @@ namespace threadingzeug
 {
 
 THREADINGZEUG_API void forEach(
-      size_t start
-    , size_t end
-    , std::function<void(size_t i)> callback
+      std::uint64_t start
+    , std::uint64_t end
+    , std::function<void(std::uint64_t i)> callback
     , bool parallelize = true);
 
 THREADINGZEUG_API void forEach(
@@ -29,9 +29,9 @@ template<typename T>
 void parallelFor(std::vector<T> & elements, std::function<void(T & element)> callback);
 
 THREADINGZEUG_API void parallelFor(
-      size_t start
-    , size_t end
-    , std::function<void(size_t i)> callback);
+      std::uint64_t start
+    , std::uint64_t end
+    , std::function<void(std::uint64_t i)> callback);
 
 THREADINGZEUG_API void parallelFor(
       std::uint32_t start
@@ -46,9 +46,9 @@ template<typename T>
 void sequentialFor(std::vector<T> & elements, std::function<void(T & element)> callback);
 
 THREADINGZEUG_API void sequentialFor(
-      size_t start
-    , size_t end
-    , std::function<void(size_t i)> callback);
+      std::uint64_t start
+    , std::uint64_t end
+    , std::function<void(std::uint64_t i)> callback);
 
 THREADINGZEUG_API void sequentialFor(
       std::uint32_t start
