@@ -13,6 +13,7 @@
 #include <propertyguizeug/StringEditor.h>
 #include <propertyguizeug/UnsignedIntegralEditor.h>
 #include <propertyguizeug/ValueEditor.h>
+#include <propertyguizeug/VariantEditor.h>
 
 
 #include <propertyguizeug/PropertyEditorPlugin.h>
@@ -33,7 +34,8 @@ PropertyEditorFactory::PropertyEditorFactory()
         FloatingPointEditor,
         SignedIntegralEditor,
         StringEditor,
-        UnsignedIntegralEditor>{});
+        UnsignedIntegralEditor,
+        VariantEditor>{});
 }
 
 QWidget * PropertyEditorFactory::createEditor(
