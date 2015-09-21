@@ -17,6 +17,7 @@ namespace
     const char * c_duktapeFunctionPointerKey = "duk_function_pointer";
     const char * c_duktapePropertyNameKey = "duk_property_name";
     const char * c_duktapeStashFreeFunctionIndexKey = "duk_next_function_index";
+    const char * c_duktapeStashContextPointer = "duk_context_pointer";
 }
 
 
@@ -25,6 +26,7 @@ namespace scriptzeug
 {
 
 
+static ScriptContext * getScriptContext(duk_context * context);
 static Variant fromDukValue(duk_context * context, duk_idx_t index);
 static void pushToDukStack(duk_context * context, const Variant & var);
 
@@ -34,9 +36,11 @@ class DuktapeFunction : public reflectionzeug::AbstractFunction
 public:
     DuktapeFunction(duk_context * context, int funcIndex)
     : AbstractFunction("")
+    , m_scriptContext(nullptr)
     , m_context(context)
     , m_duktapeStashIndex(funcIndex)
     {
+        m_scriptContext = getScriptContext(m_context);
     }
 
     virtual AbstractFunction *clone()
@@ -54,7 +58,14 @@ public:
             pushToDukStack(m_context, var);
         }
 
-        duk_call(m_context, args.size());
+        duk_int_t error = duk_pcall(m_context, args.size());
+
+        if (error)
+        {
+            m_scriptContext->scriptException(std::string(duk_safe_to_string(m_context, -1)));
+            duk_pop_2(m_context);
+            return Variant();
+        }
 
         Variant value = fromDukValue(m_context, -1);
         duk_pop_2(m_context);
@@ -62,10 +73,20 @@ public:
     }
 
 protected:
+    ScriptContext * m_scriptContext;
     duk_context *   m_context;
     int             m_duktapeStashIndex;
 };
 
+
+static ScriptContext * getScriptContext(duk_context * context)
+{
+    duk_push_global_stash(context);
+    duk_get_prop_string(context, -1, c_duktapeStashContextPointer);
+    void * context_ptr = duk_get_pointer(context, -1);
+    duk_pop_2(context);
+    return static_cast<ScriptContext *>(context_ptr);
+}
 
 static Variant fromDukValue(duk_context * context, duk_idx_t index = -1)
 {
@@ -215,7 +236,7 @@ static void pushToDukStack(duk_context * context, const Variant & var)
     }
 
     else if (var.hasType<unsigned long long>()) {
-		duk_push_number(context, (duk_double_t)var.value<unsigned long long>());
+        duk_push_number(context, (duk_double_t)var.value<unsigned long long>());
     }
 
     if (var.hasType<float>()) {
@@ -434,6 +455,13 @@ DuktapeScriptContext::DuktapeScriptContext(ScriptContext * scriptContext)
 : AbstractScriptContext(scriptContext)
 {
     m_context = duk_create_heap_default();
+
+    // Make ScriptContext pointer available through duktape context
+    duk_push_global_stash(m_context);
+    void * context_ptr = static_cast<void *>(scriptContext);
+    duk_push_pointer(m_context, context_ptr);
+    duk_put_prop_string(m_context, -2, c_duktapeStashContextPointer);
+    duk_pop(m_context);
 }
 
 DuktapeScriptContext::~DuktapeScriptContext()
