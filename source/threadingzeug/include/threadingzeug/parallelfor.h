@@ -2,7 +2,7 @@
 
 #include <functional>
 #include <vector>
-#include <cstddef>
+#include <cstdint>
 
 #include <threadingzeug/threadingzeug_api.h>
 
