@@ -24,7 +24,7 @@ __Our [wiki](https://github.com/hpicgs/libzeug/wiki) contains information to hel
 | Jenkins | Ubuntu 14.04 | GCC 4.9 | default | [![Build Status](http://jenkins.hpi3d.de/buildStatus/icon?job=libzeug-linux-gcc4.9)](http://jenkins.hpi3d.de/job/libzeug-linux-gcc4.9)|
 | Jenkins | Ubuntu 14.04 | Clang 3.5 | default | [![Build Status](http://jenkins.hpi3d.de/buildStatus/icon?job=libzeug-linux-clang3.5)](http://jenkins.hpi3d.de/job/libzeug-linux-clang3.5) |
 | Jenkins | OS X 10.10 | Clang 3.5 | default | [![Build Status](http://jenkins.hpi3d.de/buildStatus/icon?job=libzeug-osx-clang3.5)](http://jenkins.hpi3d.de/job/libzeug-osx-clang3.5) |
-| Jenkins | Windows 8.1 | MSVC 2013 Update 3 | default | [![Build Status](http://jenkins.hpi3d.de/buildStatus/icon?job=libzeug-windows-msvc2013)](http://jenkins.hpi3d.de/job/libzeug-windows-msvc2013) |
+| Jenkins | Windows 8.1 | MSVC 2013 Update 5 | default | [![Build Status](http://jenkins.hpi3d.de/buildStatus/icon?job=libzeug-windows-msvc2013)](http://jenkins.hpi3d.de/job/libzeug-windows-msvc2013) |
 | Jenkins | Windows 8.1 | MSVC 2015 | default | [![Build Status](http://jenkins.hpi3d.de/buildStatus/icon?job=libzeug-windows-msvc2015)](http://jenkins.hpi3d.de/job/libzeug-windows-msvc2015) |
 
 ToDo
