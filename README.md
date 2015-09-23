@@ -14,9 +14,20 @@ The current modules in libzeug are:
  * [signalzeug](#signalzeug)
  * [threadingzeug](#threadingzeug)
 
-The current release is [libzeug-v0.5.0](https://github.com/hpicgs/libzeug/releases/tag/v0.5.0).
+The latest release is [libzeug-v0.5.0](https://github.com/hpicgs/libzeug/releases/tag/v0.5.0).
 
 __Our [wiki](https://github.com/hpicgs/libzeug/wiki) contains information to help you get started.__
+
+| Service | System | Compiler | Options | Status |
+| ------- | ------ | -------- | ------- | ------ |
+| Jenkins | Ubuntu 14.04 | GCC 4.8 | default | [![Build Status](http://jenkins.hpi3d.de/buildStatus/icon?job=libzeug-linux-gcc4.8&style=plastic)](http://jenkins.hpi3d.de/job/libzeug-linux-gcc4.8)|
+| Jenkins | Ubuntu 14.04 | GCC 4.9 | default | [![Build Status](http://jenkins.hpi3d.de/buildStatus/icon?job=libzeug-linux-gcc4.9&style=plastic)](http://jenkins.hpi3d.de/job/libzeug-linux-gcc4.9)|
+| Jenkins | Ubuntu 14.04 | Clang 3.5 | default | [![Build Status](http://jenkins.hpi3d.de/buildStatus/icon?job=libzeug-linux-clang3.5&style=plastic)](http://jenkins.hpi3d.de/job/libzeug-linux-clang3.5) |
+| Jenkins | OS X 10.10 | Clang 3.5 | default | [![Build Status](http://jenkins.hpi3d.de/buildStatus/icon?job=libzeug-osx-clang3.5&style=plastic)](http://jenkins.hpi3d.de/job/libzeug-osx-clang3.5) |
+| Jenkins | Windows 8.1 | MSVC 2013 Update 3 | default | [![Build Status](http://jenkins.hpi3d.de/buildStatus/icon?job=libzeug-windows-msvc2013&style=plastic)](http://jenkins.hpi3d.de/job/libzeug-windows-msvc2013) |
+| Jenkins | Windows 8.1 | MSVC 2015 | default | [![Build Status](http://jenkins.hpi3d.de/buildStatus/icon?job=libzeug-windows-msvc2015&style=plastic)](http://jenkins.hpi3d.de/job/libzeug-windows-msvc2015) |
+
+ToDo
 
 ### Documentation
 
