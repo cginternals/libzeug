@@ -55,7 +55,7 @@ void MessageWidget::print(
 	{
     case QtMsgType::QtDebugMsg:
 #ifdef _DEBUG
-        html = QString("%1 %2(%3): %4\n").arg(t).arg(context.file).arg(context.line).arg(message);
+        html = QString("%1 %2(%3): %4").arg(t).arg(context.file).arg(context.line).arg(message);
 #else
 		html = QString("%1: %2").arg(t).arg(message);
 #endif
