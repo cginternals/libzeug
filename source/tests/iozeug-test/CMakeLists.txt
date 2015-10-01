@@ -34,6 +34,7 @@ set(libs
 set(sources
     main.cpp
     FilePath_test.cpp
+    SystemInfo_test.cpp
 )
 
 
