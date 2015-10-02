@@ -62,7 +62,6 @@ set(headers
 )
 
 set(sources
-    ${source_path}/parallelfor.cpp
 )
 
 # Group source files
