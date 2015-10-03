@@ -13,6 +13,9 @@ namespace threadingzeug
 {
 
 
+THREADINGZEUG_API int getNumberOfThreads();
+
+
 // Necessary for type deduction with lambdas
 // see http://stackoverflow.com/questions/13358672/how-to-convert-a-lambda-to-an-stdfunction-using-templates
 template <typename T>
