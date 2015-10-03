@@ -14,7 +14,7 @@ namespace threadingzeug
 
 
 #ifndef USE_OPENMP
-    const auto numberOfThreads = std::max(static_cast<size_t>(2), static_cast<size_t>(std::thread::hardware_concurrency()));
+    const auto numberOfThreads = getNumberOfThreads();
 #endif
 
 
@@ -32,7 +32,7 @@ void parallelFor(T start, T end, typename identity<std::function<void(T)>>::type
 {
 #ifdef USE_OPENMP
 
-    typedef std::make_signed<T>::type signed_T;
+    using signed_T = typename std::make_signed<T>::type;
 
     #pragma omp parallel for
     for (signed_T i = static_cast<signed_T>(start); i < static_cast<signed_T>(end); ++i)

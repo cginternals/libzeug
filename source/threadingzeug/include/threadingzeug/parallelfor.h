@@ -13,7 +13,7 @@ namespace threadingzeug
 {
 
 
-THREADINGZEUG_API int getNumberOfThreads();
+THREADINGZEUG_API size_t getNumberOfThreads();
 
 
 // Necessary for type deduction with lambdas
