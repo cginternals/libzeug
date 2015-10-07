@@ -40,6 +40,7 @@ add_subdirectory(loggingzeug)
 add_subdirectory(scriptzeug)
 add_subdirectory(propertyguizeug)
 add_subdirectory(widgetzeug)
+add_subdirectory(stringzeug)
 
 # Examples
 set(IDE_FOLDER "Examples")
