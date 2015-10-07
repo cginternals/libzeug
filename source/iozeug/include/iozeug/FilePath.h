@@ -45,7 +45,7 @@ public:
     *  @remarks
     *    Trailing slashes are removed.
     */
-    std::string path() const;
+    const std::string & path() const;
 
     /**
     *  @brief
@@ -117,7 +117,12 @@ public:
 
 
 protected:
+    std::string toPath(const std::string & str) const;
+
+
+protected:
     std::string m_string;
+    std::string m_path;
 };
 
 

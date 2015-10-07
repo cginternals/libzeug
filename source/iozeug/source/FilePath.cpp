@@ -10,21 +10,25 @@ namespace iozeug
 
 FilePath::FilePath()
 : m_string("")
+, m_path("")
 {
 }
 
 FilePath::FilePath(const FilePath & filePath)
 : m_string(filePath.path())
+, m_path(toPath(m_string))
 {
 }
 
 FilePath::FilePath(const std::string & string)
 : m_string(string)
+, m_path(toPath(m_string))
 {
 }
 
 FilePath::FilePath(const char * string)
 : m_string(string)
+, m_path(toPath(m_string))
 {
 }
 
@@ -40,11 +44,17 @@ const std::string & FilePath::originalPath() const
 void FilePath::setPath(const std::string & path)
 {
     m_string = path;
+    m_path = toPath(m_string);
 }
 
-std::string FilePath::path() const
+const std::string & FilePath::path() const
 {
-    auto copy = m_string;
+    return m_path;
+}
+
+std::string FilePath::toPath(const std::string & str) const
+{
+    auto copy = str;
     std::replace( copy.begin(), copy.end(), '\\', '/');
     auto i = copy.find_last_of("/");
     if (i == copy.size()-1)
