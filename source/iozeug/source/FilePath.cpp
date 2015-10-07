@@ -32,12 +32,7 @@ FilePath::~FilePath()
 {
 }
 
-FilePath FilePath::fromString(const std::string & string)
-{    
-    return FilePath(string);
-}
-
-const std::string & FilePath::path() const
+const std::string & FilePath::originalPath() const
 {
     return m_string;
 }
@@ -47,16 +42,21 @@ void FilePath::setPath(const std::string & path)
     m_string = path;
 }
 
-std::string FilePath::uniformPath() const
+std::string FilePath::path() const
 {
     auto copy = m_string;
-    std::replace( copy.begin(), copy.end(), '\\', '/'); 
+    std::replace( copy.begin(), copy.end(), '\\', '/');
+    auto i = copy.find_last_of("/");
+    if (i == copy.size()-1)
+    {
+        copy = copy.substr(0, copy.size()-1);
+    }
     return copy;
 }
 
 std::string FilePath::baseName() const
 {
-    auto path = this->uniformPath();
+    auto path = this->path();
     auto i = path.find_last_of("/");
 
     if (i != std::string::npos)
@@ -74,7 +74,7 @@ std::string FilePath::baseName() const
 
 std::string FilePath::fileName() const
 {
-    auto path = this->uniformPath();
+    auto path = this->path();
     auto i = path.find_last_of("/");
 
     if (i != std::string::npos)
@@ -87,7 +87,7 @@ std::string FilePath::fileName() const
 
 std::string FilePath::extension() const
 {
-    auto path = this->uniformPath();
+    auto path = this->path();
     auto i = path.find_last_of("/");
 
     if (i != std::string::npos)
@@ -105,7 +105,7 @@ std::string FilePath::extension() const
 
 std::string FilePath::directoryPath() const
 {
-    auto path = this->uniformPath();
+    auto path = this->path();
     auto pos = path.find_last_of("/");
 
     if (pos == std::string::npos)
