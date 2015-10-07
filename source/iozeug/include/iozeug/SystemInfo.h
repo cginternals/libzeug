@@ -21,19 +21,19 @@ public:
 
     /**
     *  @brief
-    *    Get platform specific path seperator.
+    *    Get platform specific path seperator
     */
     static std::string pathSeperator();
 
     /**
     *  @brief
-    *    Get platform specific shared library prefix.
+    *    Get platform specific shared library prefix
     */
     static std::string libPrefix();
 
     /**
     *  @brief
-    *    Get platform specific shared library extension.
+    *    Get platform specific shared library extension
     */
     static std::string libExtension();
 };
