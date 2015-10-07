@@ -5,11 +5,17 @@ message(STATUS "Lib ${target}")
 
 # External libraries
 
+# Fallback: Use boost regex
+if(NOT OPTION_BUILD_WITH_STD_REGEX)
+    find_package(Boost COMPONENTS regex REQUIRED)
+endif()
+
 
 # Includes
 
-include_directories(
-)
+if(NOT OPTION_BUILD_WITH_STD_REGEX)
+    include_directories(${Boost_INCLUDE_DIRS})
+endif()
 
 include_directories(
     BEFORE
@@ -22,6 +28,11 @@ include_directories(
 
 set(libs
 )
+
+if(NOT OPTION_BUILD_WITH_STD_REGEX)
+    link_directories(${Boost_LIBRARY_DIR})
+    set(libs ${libs} ${Boost_LIBRARIES})
+endif()
 
 
 # Compiler definitions
