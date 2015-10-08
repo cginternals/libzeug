@@ -11,6 +11,12 @@ namespace
 #else
     const std::string g_sep = "/";
 #endif
+
+bool endsWith(const std::string & str, const std::string & ending)
+{
+    return str.find_last_of(ending) == str.size() - 1;
+}
+
 }
 
 
@@ -53,6 +59,23 @@ std::string getExtension(const std::string & filename)
         return std::string();
 
     return filename.substr(pos+1);
+}
+
+std::string removeTrailingPathSeparator(const std::string & path)
+{
+    auto returnPath = path;
+
+    while (returnPath.size() > 0 && (endsWith(returnPath, g_sep)))
+    {
+        returnPath = returnPath.substr(0, returnPath.size() - 1);
+    }
+
+    return returnPath;
+}
+
+std::string ensurePathSeparatorEnding(const std::string & path)
+{
+    return removeTrailingPathSeparator(path) + g_sep;
 }
 
 
