@@ -5,7 +5,7 @@
 #include <QWindow>
 #include <QScreen>
 
-#include <reflectionzeug/AbstractProperty.h>
+#include <reflectionzeug/property/AbstractProperty.h>
 
 #include <propertyguizeug/PropertyModel.h>
 #include <propertyguizeug/PropertyDelegate.h>

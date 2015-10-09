@@ -2,7 +2,8 @@
 
 #include <QString>
 
-#include <reflectionzeug/property_declaration.h>
+#include <reflectionzeug/property/property_declaration.h>
+
 #include <signalzeug/ScopedConnection.h>
 
 #include <propertyguizeug/PropertyEditor.h>

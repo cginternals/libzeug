@@ -1,7 +1,7 @@
 
 # LIBZEUG_FOUND
 # LIBZEUG_LIBRARIES
-# LIBZEUG_INCLUDES
+# LIBZEUG_INCLUDE_DIRS
 # LIBZEUG_BINARIES                  (win32 only)
 # LIBZEUG_BINARY_[RELEASE|DEBUG]    (win32 only)
 
@@ -117,7 +117,7 @@ macro (find LIB_NAME HEADER)
         endif()
     endif()
 
-    list(APPEND LIBZEUG_INCLUDES ${${LIB_NAME_UPPER}_INCLUDE_DIR})
+    list(APPEND LIBZEUG_INCLUDE_DIRS ${${LIB_NAME_UPPER}_INCLUDE_DIR})
     list(APPEND LIBZEUG_LIBRARIES ${${LIB_NAME_UPPER}_LIBRARIES})
     list(APPEND LIBZEUG_BINARIES ${${LIB_NAME_UPPER}_BINARIES})
 
@@ -166,9 +166,9 @@ find(threading   threadingzeug/threadingzeug_api.h     ${LIB_PATHS})
 find(widget      widgetzeug/widgetzeug_api.h           ${LIB_PATHS})
 
 # DEBUG
-#message("LIBZEUG_INCLUDES  = ${LIBZEUG_INCLUDES}")
+#message("LIBZEUG_INCLUDE_DIRS  = ${LIBZEUG_INCLUDE_DIRS}")
 #message("LIBZEUG_LIBRARIES = ${LIBZEUG_LIBRARIES}")
 
 include(FindPackageHandleStandardArgs)
-find_package_handle_standard_args(LIBZEUG DEFAULT_MSG LIBZEUG_LIBRARIES LIBZEUG_INCLUDES)
+find_package_handle_standard_args(LIBZEUG DEFAULT_MSG LIBZEUG_LIBRARIES LIBZEUG_INCLUDE_DIRS)
 mark_as_advanced(LIBZEUG_FOUND)

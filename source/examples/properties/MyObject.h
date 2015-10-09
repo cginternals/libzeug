@@ -1,4 +1,6 @@
+
 #pragma once
+
 
 #include <array>
 
@@ -6,6 +8,7 @@
 
 
 enum class MyEnum : char { Value1, Value2, Value3 };
+
 
 class MyObject : public reflectionzeug::Object
 {
@@ -30,6 +33,8 @@ private:
 
 
 namespace reflectionzeug {
+
+
 // Define string mapping for MyEnum.
 // Will be used in fromString() / toString() methods.
 template <>
@@ -46,4 +51,5 @@ struct EnumDefaultStrings<MyEnum>
     }
 };
 
-}
+
+} // namespace reflectionzeug

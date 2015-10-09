@@ -2,9 +2,9 @@
 
 #include <functional>
 
-#include <reflectionzeug/AbstractValueProperty.h>
-#include <reflectionzeug/PropertyGroup.h>
-#include <reflectionzeug/Property.h>
+#include <reflectionzeug/property/AbstractCollection.h>
+#include <reflectionzeug/property/PropertyGroup.h>
+#include <reflectionzeug/property/Property.h>
 
 #include <propertyguizeug/PropertyModel.h>
 
@@ -18,22 +18,15 @@ PropertyItem::PropertyItem(
 :   m_property(property)
 ,   m_parent(nullptr)
 {
-    if (property->isValue())
-    {
-        AbstractValueProperty * value = property->asValue();
-        
-        m_connections.append(value->valueChanged.onFire([this, model]() { model->onValueChanged(this); }));
-    }
-    
     if (property->isCollection())
     {
-        AbstractPropertyCollection * collection = property->asCollection();
+        AbstractCollection * collection = property->asCollection();
         collection->forEach([this, model] (AbstractProperty & child) 
         {
             appendChild(new PropertyItem(&child, model));
         });
 
-        if (collection->isGroup())
+        if (property->isGroup())
         {
             PropertyGroup * group = property->asGroup();
 
@@ -44,6 +37,10 @@ PropertyItem::PropertyItem(
                 group->afterRemove.onFire([this, model]() { model->onAfterRemove(); })
             });
         }
+    }
+
+    else {
+        m_connections.append(property->changed.onFire([this, model]() { model->onValueChanged(this); }));
     }
 }
 

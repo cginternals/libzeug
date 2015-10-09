@@ -2,8 +2,11 @@
 
 
 #include <string>
+
 #include <signalzeug/Signal.h>
-#include <reflectionzeug/Variant.h>
+
+#include <reflectionzeug/variant/Variant.h>
+
 #include <scriptzeug/scriptzeug_api.h>
 
 
@@ -31,6 +34,7 @@ public:
     virtual ~ScriptContext();
 
     void registerObject(reflectionzeug::PropertyGroup * obj);
+    void unregisterObject(reflectionzeug::PropertyGroup * obj);
 
     reflectionzeug::Variant evaluate(const std::string & code);
 

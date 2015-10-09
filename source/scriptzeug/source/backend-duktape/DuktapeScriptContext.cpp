@@ -1,10 +1,12 @@
 #include "DuktapeScriptContext.h"
 
+#include <iostream>
 #include <functional>
 
+#include <reflectionzeug/property/Property.h>
+#include <reflectionzeug/function/Function.h>
+#include <reflectionzeug/variant/Variant.h>
 #include <reflectionzeug/Object.h>
-#include <reflectionzeug/Variant.h>
-#include <reflectionzeug/Function.h>
 
 #include "scriptzeug/ScriptContext.h"
 
@@ -15,6 +17,7 @@ namespace
     const char * c_duktapeFunctionPointerKey = "duk_function_pointer";
     const char * c_duktapePropertyNameKey = "duk_property_name";
     const char * c_duktapeStashFreeFunctionIndexKey = "duk_next_function_index";
+    const char * c_duktapeStashContextPointer = "duk_context_pointer";
 }
 
 
@@ -23,6 +26,7 @@ namespace scriptzeug
 {
 
 
+static ScriptContext * getScriptContext(duk_context * context);
 static Variant fromDukValue(duk_context * context, duk_idx_t index);
 static void pushToDukStack(duk_context * context, const Variant & var);
 
@@ -32,9 +36,11 @@ class DuktapeFunction : public reflectionzeug::AbstractFunction
 public:
     DuktapeFunction(duk_context * context, int funcIndex)
     : AbstractFunction("")
+    , m_scriptContext(nullptr)
     , m_context(context)
     , m_duktapeStashIndex(funcIndex)
     {
+        m_scriptContext = getScriptContext(m_context);
     }
 
     virtual AbstractFunction *clone()
@@ -52,7 +58,14 @@ public:
             pushToDukStack(m_context, var);
         }
 
-        duk_call(m_context, args.size());
+        duk_int_t error = duk_pcall(m_context, args.size());
+
+        if (error)
+        {
+            m_scriptContext->scriptException(std::string(duk_safe_to_string(m_context, -1)));
+            duk_pop_2(m_context);
+            return Variant();
+        }
 
         Variant value = fromDukValue(m_context, -1);
         duk_pop_2(m_context);
@@ -60,10 +73,20 @@ public:
     }
 
 protected:
+    ScriptContext * m_scriptContext;
     duk_context *   m_context;
     int             m_duktapeStashIndex;
 };
 
+
+static ScriptContext * getScriptContext(duk_context * context)
+{
+    duk_push_global_stash(context);
+    duk_get_prop_string(context, -1, c_duktapeStashContextPointer);
+    void * context_ptr = duk_get_pointer(context, -1);
+    duk_pop_2(context);
+    return static_cast<ScriptContext *>(context_ptr);
+}
 
 static Variant fromDukValue(duk_context * context, duk_idx_t index = -1)
 {
@@ -176,15 +199,47 @@ static Variant fromDukValue(duk_context * context, duk_idx_t index = -1)
 
 static void pushToDukStack(duk_context * context, const Variant & var)
 {
-    if (var.hasType<char*>()) {
-        duk_push_string(context, var.value<char*>());
+    if (var.hasType<char>()) {
+        duk_push_number(context, var.value<char>());
     }
 
-    else if (var.hasType<std::string>()) {
-        duk_push_string(context, var.value<std::string>().c_str());
+    else if (var.hasType<unsigned char>()) {
+        duk_push_number(context, var.value<unsigned char>());
     }
 
-    else if (var.hasType<float>()) {
+    if (var.hasType<short>()) {
+        duk_push_number(context, var.value<short>());
+    }
+
+    else if (var.hasType<unsigned short>()) {
+        duk_push_number(context, var.value<unsigned short>());
+    }
+
+    if (var.hasType<int>()) {
+        duk_push_number(context, var.value<int>());
+    }
+
+    else if (var.hasType<unsigned int>()) {
+        duk_push_number(context, var.value<unsigned int>());
+    }
+
+    if (var.hasType<long>()) {
+        duk_push_number(context, var.value<long>());
+    }
+
+    else if (var.hasType<unsigned long>()) {
+        duk_push_number(context, var.value<unsigned long>());
+    }
+
+    if (var.hasType<long long>()) {
+        duk_push_number(context, (duk_double_t)var.value<long long>());
+    }
+
+    else if (var.hasType<unsigned long long>()) {
+        duk_push_number(context, (duk_double_t)var.value<unsigned long long>());
+    }
+
+    if (var.hasType<float>()) {
         duk_push_number(context, var.value<float>());
     }
 
@@ -192,12 +247,20 @@ static void pushToDukStack(duk_context * context, const Variant & var)
         duk_push_number(context, var.value<double>());
     }
 
-    else if (var.hasType<int>()) {
-        duk_push_int(context, var.value<int>());
+    else if (var.hasType<char*>()) {
+        duk_push_string(context, var.value<char*>());
+    }
+
+    else if (var.hasType<std::string>()) {
+        duk_push_string(context, var.value<std::string>().c_str());
     }
 
     else if (var.hasType<bool>()) {
         duk_push_boolean(context, var.value<bool>());
+    }
+
+    else if (var.hasType<FilePath>()) {
+        duk_push_string(context, var.value<FilePath>().toString().c_str());
     }
 
     else if (var.hasType<VariantArray>()) {
@@ -219,22 +282,6 @@ static void pushToDukStack(duk_context * context, const Variant & var)
             duk_put_prop_string(context, -2, pair.first.c_str());
         }
     }
-
-    else if (var.canConvert<double>()) {
-        duk_push_number(context, var.value<double>());
-    }
-
-    else if (var.canConvert<int>()) {
-        duk_push_number(context, var.value<int>());
-    }
-
-    else if (var.canConvert<std::string>()) {
-        duk_push_string(context, var.value<std::string>().c_str());
-    }
-
-    else if (var.canConvert<Color>()) {
-        duk_push_string(context, var.value<Color>().toString().c_str());
-    }
 }
 
 static Variant getPropertyValue(AbstractProperty * property)
@@ -248,42 +295,32 @@ static Variant getPropertyValue(AbstractProperty * property)
     }
 
     // Unsigned integral
-    else if (UnsignedIntegralPropertyInterface * prop = dynamic_cast< UnsignedIntegralPropertyInterface * >(property) ) {
+    else if (AbstractUnsignedIntegralInterface * prop = dynamic_cast< AbstractUnsignedIntegralInterface * >(property) ) {
         value = Variant((unsigned int)prop->toULongLong());
     }
 
     // Signed integral
-    else if (SignedIntegralPropertyInterface * prop = dynamic_cast< SignedIntegralPropertyInterface * >(property) ) {
+    else if (AbstractSignedIntegralInterface * prop = dynamic_cast< AbstractSignedIntegralInterface * >(property) ) {
         value = Variant((int)prop->toLongLong());
     }
 
     // Floating point number
-    else if (FloatingPointPropertyInterface * prop = dynamic_cast< FloatingPointPropertyInterface * >(property) ) {
+    else if (AbstractFloatingPointInterface * prop = dynamic_cast< AbstractFloatingPointInterface * >(property) ) {
         value = Variant((double)prop->toDouble());
     }
 
-    // Enum
-    else if (EnumPropertyInterface * prop = dynamic_cast< EnumPropertyInterface * >(property) ) {
-        value = Variant(prop->toString());
-    }
-
     // String
-    else if (StringPropertyInterface * prop = dynamic_cast< StringPropertyInterface * >(property) ) {
-        value = Variant(prop->toString());
+    else if (AbstractStringInterface * prop = dynamic_cast< AbstractStringInterface * >(property) ) {
+        value = Variant(property->toString());
     }
 
     // FilePath
     else if (Property<FilePath> * prop = dynamic_cast< Property<FilePath> * >(property) ) {
-        value = Variant(prop->value().toString());
-    }
-
-    // Color
-    else if (ColorPropertyInterface * prop = dynamic_cast< ColorPropertyInterface * >(property) ) {
-        value = Variant::fromValue<Color>(prop->toColor());
+        value = Variant(property->toString());
     }
 
     // Array
-    else if (AbstractPropertyCollection * prop = dynamic_cast< AbstractPropertyCollection * >(property) ) {
+    else if (AbstractCollection * prop = dynamic_cast< AbstractCollection * >(property) ) {
         VariantArray array;
         for (size_t i=0; i<prop->count(); i++) {
             AbstractProperty * subprop = prop->at(i);
@@ -292,95 +329,20 @@ static Variant getPropertyValue(AbstractProperty * property)
         value = Variant(array);
     }
 
-    // Generic ValueProperty
-    else if (AbstractValueProperty * prop = dynamic_cast< AbstractValueProperty * >(property) ) {
-        value = Variant(prop->toString());        
+    // Generic property
+    else {
+        value = property->toVariant();
     }
 
     return value;
 }
 
-static void setPropertyValue(AbstractProperty * property, const Variant &value)
+static void setPropertyValue(AbstractProperty * property, const Variant & value)
 {
     // Check property
     if (property) {
-         // Boolean
-        if (Property<bool> * prop = dynamic_cast< Property<bool> * >(property) ) {
-            prop->setValue( value.value<bool>() );
-        }
-
-        // Unsigned integral
-        else if (UnsignedIntegralPropertyInterface * prop = dynamic_cast< UnsignedIntegralPropertyInterface * >(property) ) {
-            prop->fromULongLong( value.value<unsigned int>() );
-        }
-
-        // Signed integral
-        else if (SignedIntegralPropertyInterface * prop = dynamic_cast< SignedIntegralPropertyInterface * >(property) ) {
-            prop->fromLongLong( value.value<int>() );
-        }
-
-        // Floating point number
-        else if (FloatingPointPropertyInterface * prop = dynamic_cast< FloatingPointPropertyInterface * >(property) ) {
-            prop->fromDouble( value.value<double>() );
-        }
-
-        // Enum
-        else if (EnumPropertyInterface * prop = dynamic_cast< EnumPropertyInterface * >(property) ) {
-            prop->fromString( value.value<std::string>() );
-        }
-
-        // String
-        else if (StringPropertyInterface * prop = dynamic_cast< StringPropertyInterface * >(property) ) {
-            prop->fromString( value.value<std::string>() );
-        }
-
-        // FilePath
-        else if (Property<FilePath> * prop = dynamic_cast< Property<FilePath> * >(property) ) {
-            prop->setValue( value.value<std::string>() );
-        }
-
-        // Color
-        else if (ColorPropertyInterface * prop = dynamic_cast< ColorPropertyInterface * >(property) ) {
-            if (value.hasType<VariantArray>()) {
-                VariantArray array = value.value<VariantArray>();
-                Color color(0, 0, 0, 255);
-                switch (array.size()) 
-                {
-                case 4: 
-                    color.setAlpha(array.at(3).value<int>());
-                case 3:
-                    color.setBlue(array.at(2).value<int>());
-                    color.setGreen(array.at(1).value<int>());
-                    color.setRed(array.at(0).value<int>());
-                }
-                prop->fromColor(color);
-            } else if (value.hasType<VariantMap>()) {
-                VariantMap map = value.value<VariantMap>();
-                int r = map.count("r") >= 1 ? map.at("r").value<int>() : 0;
-                int g = map.count("g") >= 1 ? map.at("g").value<int>() : 0;
-                int b = map.count("b") >= 1 ? map.at("b").value<int>() : 0;
-                int a = map.count("a") >= 1 ? map.at("a").value<int>() : 255;
-                prop->fromColor(Color(r, g, b, a));
-            } else {
-                prop->fromString(value.value<std::string>());
-            }
-        }
-
-        // Array
-        else if (AbstractPropertyCollection * prop = dynamic_cast< AbstractPropertyCollection * >(property) ) {
-            if (value.hasType<VariantArray>()) {
-                VariantArray array = value.value<VariantArray>();
-                for (size_t i=0; i<(size_t)array.size() && i<prop->count(); i++) {
-                    AbstractProperty * subprop = prop->at(i);
-                    setPropertyValue(subprop, array.at(i));
-                }
-            }
-        }
-
-        // Generic ValueProperty
-        else if (AbstractValueProperty * prop = dynamic_cast< AbstractValueProperty * >(property) ) {
-            prop->fromString(value.value<std::string>());
-        }
+        // Set value from variant
+        property->fromVariant(value);
     }
 }
 
@@ -493,6 +455,13 @@ DuktapeScriptContext::DuktapeScriptContext(ScriptContext * scriptContext)
 : AbstractScriptContext(scriptContext)
 {
     m_context = duk_create_heap_default();
+
+    // Make ScriptContext pointer available through duktape context
+    duk_push_global_stash(m_context);
+    void * context_ptr = static_cast<void *>(scriptContext);
+    duk_push_pointer(m_context, context_ptr);
+    duk_put_prop_string(m_context, -2, c_duktapeStashContextPointer);
+    duk_pop(m_context);
 }
 
 DuktapeScriptContext::~DuktapeScriptContext()
@@ -505,6 +474,15 @@ void DuktapeScriptContext::registerObject(PropertyGroup * obj)
     duk_push_global_object(m_context);
 
     registerObj(duk_get_top_index(m_context), obj);
+
+    duk_pop(m_context);
+}
+
+void DuktapeScriptContext::unregisterObject(PropertyGroup * obj)
+{
+    duk_push_global_object(m_context);
+
+    duk_del_prop_string(m_context, duk_get_top_index(m_context), obj->name().c_str());
 
     duk_pop(m_context);
 }

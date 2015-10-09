@@ -1,13 +1,14 @@
 #pragma once
 
 #include <propertyguizeug/PropertyEditor.h>
+
 #include <signalzeug/ScopedConnection.h>
 
 class QLineEdit;
 
 namespace reflectionzeug 
 {
-    class AbstractValueProperty;
+    class AbstractProperty;
 }
 
 namespace propertyguizeug
@@ -16,7 +17,7 @@ namespace propertyguizeug
 class PROPERTYGUIZEUG_API ValueEditor : public PropertyEditor
 {
 public:
-    ValueEditor(reflectionzeug::AbstractValueProperty * property, 
+    ValueEditor(reflectionzeug::AbstractProperty * property, 
                 QWidget * parent = nullptr);
     virtual ~ValueEditor();
     
@@ -25,7 +26,7 @@ public:
 private:
     QLineEdit * m_lineEdit;
     
-    reflectionzeug::AbstractValueProperty * m_property;
+    reflectionzeug::AbstractProperty * m_property;
     signalzeug::ScopedConnection m_propertyChangedConnection;
 };
 

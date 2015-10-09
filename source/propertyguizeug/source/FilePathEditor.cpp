@@ -6,7 +6,7 @@
 #include <QSettings>
 #include <QVariant>
 
-#include <reflectionzeug/Property.h>
+#include <reflectionzeug/property/Property.h>
 
 using namespace reflectionzeug;
 namespace propertyguizeug

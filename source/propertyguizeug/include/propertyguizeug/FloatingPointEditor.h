@@ -1,13 +1,14 @@
 #pragma once
 
-#include <reflectionzeug/property_declaration.h>
+#include <reflectionzeug/property/property_declaration.h>
+
 #include <signalzeug/ScopedConnection.h>
 
 #include <propertyguizeug/PropertyEditor.h>
 
 namespace reflectionzeug
 {
-    class FloatingPointPropertyInterface;
+    class AbstractFloatingPointInterface;
 }
 
 namespace propertyguizeug
@@ -27,14 +28,14 @@ namespace propertyguizeug
 class PROPERTYGUIZEUG_API FloatingPointEditor : public PropertyEditor
 {
 public:
-    using Type = reflectionzeug::FloatingPointPropertyInterface;
+    using Type = reflectionzeug::AbstractFloatingPointInterface;
     
     static void paint(QPainter * painter, 
                       const QStyleOptionViewItem & option, 
-                      reflectionzeug::FloatingPointPropertyInterface & property);
+                      reflectionzeug::AbstractFloatingPointInterface & property);
     
 public:
-    FloatingPointEditor(reflectionzeug::FloatingPointPropertyInterface * property, 
+    FloatingPointEditor(reflectionzeug::AbstractFloatingPointInterface * property, 
                         QWidget * parent = nullptr);
     virtual ~FloatingPointEditor();
                         
@@ -42,7 +43,7 @@ private:
     static const int s_defaultPrecision;
 
 private:
-    reflectionzeug::FloatingPointPropertyInterface * m_property;
+    reflectionzeug::AbstractFloatingPointInterface * m_property;
     signalzeug::ScopedConnection m_propertyChangedConnection;
 };
 

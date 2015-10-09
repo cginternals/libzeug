@@ -2,7 +2,8 @@
 
 #include <QComboBox>
 
-#include <reflectionzeug/EnumPropertyInterface.h>
+#include <reflectionzeug/property/AbstractProperty.h>
+#include <reflectionzeug/property/AbstractEnumInterface.h>
 
 #include "util.h"
 
@@ -11,7 +12,7 @@ namespace propertyguizeug
 {
     
 EnumEditor::EnumEditor(
-    reflectionzeug::EnumPropertyInterface * property, 
+    reflectionzeug::AbstractEnumInterface * property, 
     QWidget * parent)
 :   PropertyEditor{parent}
 ,   m_property{property}
@@ -21,10 +22,12 @@ EnumEditor::EnumEditor(
         strings = property->choicesStrings();
     else
         strings = property->strings();
-    
+
+    AbstractProperty * prop = dynamic_cast<AbstractProperty *>(m_property);
+
     auto comboBox = new QComboBox{this};
     comboBox->addItems(util::toQStringList(strings));
-    comboBox->setCurrentText(QString::fromStdString(m_property->toString()));
+    comboBox->setCurrentText(QString::fromStdString(prop->toString()));
     
     addWidget(comboBox);
     setFocusProxy(comboBox);
@@ -32,10 +35,10 @@ EnumEditor::EnumEditor(
     connect(comboBox, &QComboBox::currentTextChanged, 
             this, &EnumEditor::setString);
 
-    m_propertyChangedConnection = m_property->valueChanged.connect(
-        [this, comboBox]()
+    m_propertyChangedConnection = prop->changed.connect(
+        [this, prop, comboBox]()
         {
-            comboBox->setCurrentText(QString::fromStdString(m_property->toString()));
+            comboBox->setCurrentText(QString::fromStdString(prop->toString()));
         });
 }
 
@@ -45,7 +48,9 @@ EnumEditor::~EnumEditor()
     
 void EnumEditor::setString(const QString & text)
 {
-    m_property->fromString(text.toStdString());
+    AbstractProperty * prop = dynamic_cast<AbstractProperty *>(m_property);
+
+    prop->fromString(text.toStdString());
 }
 
 } // namespace propertyguizeug

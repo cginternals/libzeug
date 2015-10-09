@@ -2,8 +2,8 @@
 
 #include <iostream>
 
-#include <reflectionzeug/Property.h>
-#include <reflectionzeug/PropertyGroup.h>
+#include <reflectionzeug/property/Property.h>
+#include <reflectionzeug/property/PropertyGroup.h>
 
 #include "PropertyItem.h"
 
@@ -30,6 +30,16 @@ PropertyModel::PropertyModel(PropertyGroup * group, QObject * parent)
 PropertyModel::~PropertyModel()
 {
     delete m_root;
+}
+
+reflectionzeug::AbstractProperty * PropertyModel::propertyAt(const QModelIndex & index) const
+{
+    propertyguizeug::PropertyItem * item = retrieveItem(index);
+    if (item) {
+        return item->property();
+    } else {
+        return nullptr;
+    }
 }
 
 QModelIndex PropertyModel::index(int row, int column, const QModelIndex & parentIndex) const
@@ -102,7 +112,7 @@ Qt::ItemFlags PropertyModel::flags(const QModelIndex & index) const
 
     Qt::ItemFlags flags = Qt::ItemIsSelectable;
 
-    if (index.column() == 1 && item->property()->isValue() && !item->isReadOnly())
+    if (index.column() == 1 && !item->property()->isCollection() && !item->isReadOnly())
         flags |= Qt::ItemIsEditable;
 
     if (item->isEnabled())

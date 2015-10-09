@@ -2,7 +2,7 @@
 
 #include <cassert>
 
-#include <reflectionzeug/Property.h>
+#include <reflectionzeug/property/Property.h>
 
 #include <propertyguizeug/BoolEditor.h>
 #include <propertyguizeug/ColorEditor.h>
@@ -13,6 +13,7 @@
 #include <propertyguizeug/StringEditor.h>
 #include <propertyguizeug/UnsignedIntegralEditor.h>
 #include <propertyguizeug/ValueEditor.h>
+#include <propertyguizeug/VariantEditor.h>
 
 
 #include <propertyguizeug/PropertyEditorPlugin.h>
@@ -33,11 +34,12 @@ PropertyEditorFactory::PropertyEditorFactory()
         FloatingPointEditor,
         SignedIntegralEditor,
         StringEditor,
-        UnsignedIntegralEditor>{});
+        UnsignedIntegralEditor,
+        VariantEditor>{});
 }
 
 QWidget * PropertyEditorFactory::createEditor(
-    AbstractValueProperty & property, 
+    AbstractProperty & property, 
     QWidget * parent)
 {
     assert(parent);
@@ -53,8 +55,10 @@ QWidget * PropertyEditorFactory::createEditor(
             break;
     }
 
-    if (!m_editor)
+    // Fallback to default editor
+    if (!m_editor) {
         m_editor = new ValueEditor{&property, m_parentWidget};
+    }
 
     return m_editor;
 }
