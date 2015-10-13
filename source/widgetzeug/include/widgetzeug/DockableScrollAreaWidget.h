@@ -55,7 +55,7 @@ public:
       * Appends the widget to the vertical layout of this dock widget, thereby wrapping the 
       * widget inside a QGroupWidget and using the widgets window title as the groupbox's title.
       */
-    void addWidget(QWidget * widget);
+    void addWidget(QWidget * widget, int stretch = 0);
 
 protected:
 
