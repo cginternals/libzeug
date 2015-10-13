@@ -34,6 +34,7 @@ set(libs
 set(sources
     main.cpp
     conversion_test.cpp
+    manipulation_test.cpp
     # manipulation_test.cpp
     # regex_test.cpp
 )
