@@ -43,6 +43,7 @@ if(OPTION_BUILD_TESTS AND GMOCK_FOUND AND GTEST_FOUND)
     # Tests
 add_test_without_ctest(reflectionzeug-test)
 add_test_without_ctest(iozeug-test)
+add_test_without_ctest(stringzeug-test)
 #   add_test_without_ctest(scriptzeug-test)
 #   add_test_without_ctest(threadingzeug-test)
 #   add_test_without_ctest(widgetzeug-test)
