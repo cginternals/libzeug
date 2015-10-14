@@ -43,12 +43,16 @@ set(headers
     ${header_path}/readfile.h
     ${header_path}/directorytraversal.h
     ${header_path}/filename.h
+    ${header_path}/FilePath.h
+    ${header_path}/SystemInfo.h
 )
 
 set(sources
     ${source_path}/readfile.cpp
     ${source_path}/directorytraversal.cpp
     ${source_path}/filename.cpp
+    ${source_path}/FilePath.cpp
+    ${source_path}/SystemInfo.cpp
 )
 
 # Group source files
