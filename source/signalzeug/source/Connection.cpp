@@ -9,9 +9,33 @@ Connection::Connection()
 {
 }
 
+Connection::Connection(const Connection & other)
+: m_state(other.m_state)
+{
+}
+
+Connection::Connection(Connection && other)
+    : m_state(std::move(other.m_state))
+{
+}
+
 Connection::Connection(const AbstractSignal * signal, Id id)
 :   m_state(new State { signal, id })
 {
+}
+
+Connection & Connection::operator=(const Connection & other)
+{
+    m_state = other.m_state;
+
+    return *this;
+}
+
+Connection & Connection::operator=(Connection && other)
+{
+    m_state = std::move(other.m_state);
+
+    return *this;
 }
 
 Connection::Id Connection::id() const
