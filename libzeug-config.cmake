@@ -162,6 +162,7 @@ find(propertygui propertyguizeug/propertyguizeug_api.h ${LIB_PATHS})
 find(reflection  reflectionzeug/reflectionzeug_api.h   ${LIB_PATHS})
 find(script      scriptzeug/scriptzeug_api.h           ${LIB_PATHS})
 find(signal      signalzeug/signalzeug_api.h           ${LIB_PATHS})
+find(string      stringzeug/stringzeug_api.h           ${LIB_PATHS})
 find(threading   threadingzeug/threadingzeug_api.h     ${LIB_PATHS})
 find(widget      widgetzeug/widgetzeug_api.h           ${LIB_PATHS})
 
