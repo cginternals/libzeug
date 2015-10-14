@@ -14,15 +14,30 @@ ScopedConnection::ScopedConnection(const Connection & connection)
 {
 }
 
+ScopedConnection::ScopedConnection(ScopedConnection && other)
+:   m_connection(std::move(other.m_connection))
+{
+}
+
 ScopedConnection::~ScopedConnection()
 {
 	m_connection.disconnect();
 }
 
-void ScopedConnection::operator=(const Connection & connection)
+ScopedConnection& ScopedConnection::operator=(const Connection & connection)
 {
 	m_connection.disconnect();
 	m_connection = connection;
+
+    return *this;
+}
+
+ScopedConnection& ScopedConnection::operator=(ScopedConnection && other)
+{
+    m_connection.disconnect();
+    m_connection = std::move(other.m_connection);
+
+    return *this;
 }
 
 } // namespace signalzeug

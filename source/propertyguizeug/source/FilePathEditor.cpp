@@ -93,7 +93,13 @@ void FilePathEditor::setFilePath()
     if (filePath.isEmpty() || filePath == s_openFileDialog)
         return;
     
+    if (m_property->value().string() == filePath.toStdString())
+    {
+        return;
+    }
+
     this->pushRecentlyUsedFilePath(filePath);
+
     m_property->setValue(filePath.toStdString());
 }
     

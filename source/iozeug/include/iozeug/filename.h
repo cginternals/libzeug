@@ -32,5 +32,28 @@ IOZEUG_API std::string getPath(const std::string & filePath);
 */
 IOZEUG_API std::string getExtension(const std::string & filename);
 
+/**
+*  @brief
+*    Makes sure given path does not end with (platform specific) separator
+*
+*  @param[in] path
+*    Path to directory or file
+*
+*  @return
+*    Path to directory or file with ensured missing separator ending
+*/
+IOZEUG_API std::string removeTrailingPathSeparator(const std::string & path);
+
+/**
+*  @brief
+*    Makes sure given path ends with (platform specific) separator
+*
+*  @param[in] path
+*    Path to directory or file
+*
+*  @return
+*    Path to directory or file with ensured separator ending
+*/
+IOZEUG_API std::string ensurePathSeparatorEnding(const std::string & path);
 
 } // namespace iozeug

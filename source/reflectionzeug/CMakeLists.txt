@@ -112,6 +112,8 @@ set(headers
     ${header_path}/property/PropertyString.hpp
     ${header_path}/property/PropertyUnsignedIntegral.h
     ${header_path}/property/PropertyUnsignedIntegral.hpp
+    ${header_path}/property/PropertyVariant.h
+    ${header_path}/property/PropertyVariant.hpp
     ${header_path}/property/AbstractNumberProperty.h
     ${header_path}/property/AbstractNumberProperty.hpp
     ${header_path}/property/AbstractBooleanInterface.h
@@ -121,6 +123,7 @@ set(headers
     ${header_path}/property/AbstractSignedIntegralInterface.h
     ${header_path}/property/AbstractUnsignedIntegralInterface.h
     ${header_path}/property/AbstractEnumInterface.h
+    ${header_path}/property/AbstractVariantInterface.h
     ${header_path}/property/AbstractVisitor.h
     ${header_path}/property/AbstractVisitor.hpp
     ${header_path}/property/Visitor.h
@@ -158,6 +161,7 @@ set(sources
     ${source_path}/property/AbstractSignedIntegralInterface.cpp
     ${source_path}/property/AbstractUnsignedIntegralInterface.cpp
     ${source_path}/property/AbstractEnumInterface.cpp
+    ${source_path}/property/AbstractVariantInterface.cpp
     ${source_path}/property/AbstractVisitor.cpp
     ${source_path}/property/PropertyGroup.cpp
 

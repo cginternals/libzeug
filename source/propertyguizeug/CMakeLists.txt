@@ -76,6 +76,7 @@ set(headers
     ${header_path}/ULongLongSpinBox.h
     ${header_path}/UnsignedIntegralEditor.h
     ${header_path}/ValueEditor.h
+    ${header_path}/VariantEditor.h
 )
 
 set(sources
@@ -103,6 +104,7 @@ set(sources
     ${source_path}/util.cpp
     ${source_path}/util.h
     ${source_path}/ValueEditor.cpp
+    ${source_path}/VariantEditor.cpp
 )
 
 # Group source files

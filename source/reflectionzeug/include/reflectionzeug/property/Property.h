@@ -12,6 +12,7 @@
 #include <reflectionzeug/property/PropertyFilePath.h>
 #include <reflectionzeug/property/PropertyArray.h>
 #include <reflectionzeug/property/PropertyEnum.h>
+#include <reflectionzeug/property/PropertyVariant.h>
 #include <reflectionzeug/property/AbstractVisitor.h>
 
 
@@ -211,6 +212,26 @@ template <typename T>
 struct PropertyTypeSelector<T, helper::EnableIf<std::is_enum<T>>>
 {
     using Type = PropertyEnum<T>;
+};
+
+/**
+ *  @brief
+ *    Property selector for properties of variant types
+ */
+template <>
+struct PropertyTypeSelector<reflectionzeug::Variant>
+{
+    using Type = PropertyVariant<reflectionzeug::Variant>;
+};
+
+/**
+ *  @brief
+ *    Property selector for properties of const variant types
+ */
+template <>
+struct PropertyTypeSelector<const reflectionzeug::Variant>
+{
+    using Type = PropertyVariant<const reflectionzeug::Variant>;
 };
 
 /**

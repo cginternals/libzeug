@@ -41,11 +41,11 @@ if(OPTION_BUILD_TESTS AND GMOCK_FOUND AND GTEST_FOUND)
     set_target_properties(test PROPERTIES EXCLUDE_FROM_DEFAULT_BUILD 1)
 
     # Tests
-add_test_without_ctest(reflectionzeug-test)
-add_test_without_ctest(iozeug-test)
-add_test_without_ctest(stringzeug-test)
+    add_test_without_ctest(reflectionzeug-test)
+    add_test_without_ctest(iozeug-test)
+    add_test_without_ctest(stringzeug-test)
 #   add_test_without_ctest(scriptzeug-test)
-#   add_test_without_ctest(threadingzeug-test)
-#   add_test_without_ctest(widgetzeug-test)
+    add_test_without_ctest(threadingzeug-test)
+    add_test_without_ctest(widgetzeug-test)
 
 endif()
