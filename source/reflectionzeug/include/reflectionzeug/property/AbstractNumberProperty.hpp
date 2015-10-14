@@ -7,7 +7,8 @@
 #include <limits>
 #include <sstream>
 
-#include <reflectionzeug/base/util.h>
+#include <stringzeug/conversion.h>
+#include <stringzeug/regex.h>
 
 
 namespace reflectionzeug
@@ -34,18 +35,18 @@ template <typename Type>
 std::string AbstractNumberProperty<Type>::toString() const
 {
     // Convert number to string
-    return util::toString(this->value());
+    return stringzeug::toString(this->value());
 }
 
 template <typename Type>
 bool AbstractNumberProperty<Type>::fromString(const std::string & string)
 {
     // Check if string conforms to the specified format
-    if (!util::matchesRegex(string, matchRegex()))
+    if (!stringzeug::matchesRegex(string, matchRegex()))
         return false;
 
     // Convert string to number
-    this->setValue(util::fromString<Type>(string));
+    this->setValue(stringzeug::fromString<Type>(string));
     return true;
 }
 

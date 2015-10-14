@@ -16,6 +16,7 @@ include_directories(
 include_directories(
     BEFORE
     ${CMAKE_SOURCE_DIR}/source/signalzeug/include
+    ${CMAKE_SOURCE_DIR}/source/stringzeug/include
     ${CMAKE_SOURCE_DIR}/source/reflectionzeug/include
     ${CMAKE_SOURCE_DIR}/source/propertyguizeug/include
     ${CMAKE_SOURCE_DIR}/source/widgetzeug/include
@@ -30,6 +31,7 @@ set(libs
     widgetzeug
     propertyguizeug
     signalzeug
+    stringzeug
     reflectionzeug
 )
 

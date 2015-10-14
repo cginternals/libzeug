@@ -21,6 +21,7 @@ include_directories(
     BEFORE
     ${CMAKE_SOURCE_DIR}/source/signalzeug/include
     ${CMAKE_SOURCE_DIR}/source/loggingzeug/include
+    ${CMAKE_SOURCE_DIR}/source/stringzeug/include
     ${CMAKE_CURRENT_SOURCE_DIR}/include
 )
 
@@ -30,6 +31,7 @@ include_directories(
 set(libs
     signalzeug
     loggingzeug
+    stringzeug
 )
 
 if(NOT OPTION_BUILD_WITH_STD_REGEX)
@@ -59,8 +61,6 @@ set(source_path "${CMAKE_CURRENT_SOURCE_DIR}/source")
 set(headers
     ${header_path}/reflectionzeug_api.h
 
-    ${header_path}/base/util.h
-    ${header_path}/base/util.hpp
     ${header_path}/base/Color.h
     ${header_path}/base/FilePath.h
     ${header_path}/base/template_helpers.h
@@ -139,7 +139,6 @@ set(headers
 )
 
 set(sources
-    ${source_path}/base/util.cpp
     ${source_path}/base/Color.cpp
     ${source_path}/base/FilePath.cpp
 

@@ -5,7 +5,6 @@
 #include <reflectionzeug/property/PropertyGroup.h>
 #include <reflectionzeug/tools/SerializerINI.h>
 #include <reflectionzeug/tools/SerializerJSON.h>
-#include <reflectionzeug/base/util.h>
 
 #include "MyObject.h"
 
