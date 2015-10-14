@@ -43,6 +43,10 @@ else()
     add_definitions("-DSTRINGZEUG_EXPORTS")
 endif()
 
+if(OPTION_BUILD_WITH_STD_REGEX)
+    add_definitions("-DUSE_STD_REGEX")
+endif()
+
 
 # Sources
 
