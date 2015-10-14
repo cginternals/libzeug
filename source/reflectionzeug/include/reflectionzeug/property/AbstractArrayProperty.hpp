@@ -115,7 +115,7 @@ std::string AbstractArrayProperty<Type, Size>::toString() const
 template <typename Type, size_t Size>
 bool AbstractArrayProperty<Type, Size>::fromString(const std::string & string)
 {
-    std::vector<std::string> elementStrings = stringzeug::splitArray(string, Size);
+    std::vector<std::string> elementStrings = stringzeug::parseArray(string, Size);
 
     if (elementStrings.size() != Size)
         return false;

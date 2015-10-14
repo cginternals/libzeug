@@ -22,7 +22,7 @@ std::string trim(const std::string & string, bool removeAllWhitespace)
     return regex_namespace::regex_replace(string, regex, "");
 }
 
-std::vector<std::string> splitArray(const std::string & string, size_t size)
+std::vector<std::string> parseArray(const std::string & string, size_t size)
 {
     std::string regexString = "\\s*\\(";
     for (size_t i = 0; i < size - 1; ++i)

@@ -53,7 +53,7 @@ STRINGZEUG_API std::string trim(const std::string & string, bool removeAllWhites
 *  @return
 *    List of strings
 */
-STRINGZEUG_API std::vector<std::string> splitArray(const std::string & string, size_t size);
+STRINGZEUG_API std::vector<std::string> parseArray(const std::string & string, size_t size);
 
 /**
 *  @brief

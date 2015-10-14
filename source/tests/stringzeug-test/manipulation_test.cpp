@@ -34,10 +34,10 @@ TEST_F(manipulation_test, trim)
     ASSERT_EQ("Thisisastring.", trim2);
 }
 
-TEST_F(manipulation_test, splitArray)
+TEST_F(manipulation_test, parseArray)
 {
     std::string stringArray = "(element1, element2   ,element3,element4)";
-    std::vector<std::string> vec = splitArray(stringArray, 4);
+    std::vector<std::string> vec = parseArray(stringArray, 4);
     std::vector<std::string> vecComp {"element1", "element2", "element3", "element4"};
 
     ASSERT_EQ(vecComp, vec);
