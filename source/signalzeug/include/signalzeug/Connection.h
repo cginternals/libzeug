@@ -27,6 +27,11 @@ protected:
 
 public:
 	Connection();
+    Connection(const Connection & other);
+    Connection(Connection && other);
+
+    Connection & operator=(const Connection & other);
+    Connection & operator=(Connection && other);
 
 	void disconnect();
 
