@@ -84,6 +84,19 @@ std::vector<std::string> getFiles(const std::string & directory, bool recursive)
     return files;
 }
 
+std::vector<std::string> getFiles(const std::vector<std::string> & directories, bool recursive)
+{
+    std::vector<std::string> files;
+
+    for (const std::string & directory : directories)
+    {
+        const std::vector<std::string> fs(iozeug::getFiles(directory, recursive));
+        files.insert(files.end(), fs.begin(), fs.end());
+    }
+
+    return files;
+}
+
 std::vector<std::string> scanDirectory(const std::string & directory, const std::string & fileExtension, bool recursive)
 {
     const auto sanitizedDirectory = directory.back() == '/' ? directory.substr(0, directory.size() - 1) : directory;

@@ -17,7 +17,7 @@ namespace iozeug
 *  @brief
 *    List all files in a directory
 *
-*  @param[in] dirName
+*  @param[in] directory
 *    Path to directory (exluding a trailing '/'!)
 *  @param[in] recursive
 *    Search recursively in sub-directories?
@@ -37,7 +37,7 @@ IOZEUG_API void getFiles(const std::string & directory, bool recursive, std::vec
 *  @brief
 *    List all files in a directory
 *
-*  @param[in] dirName
+*  @param[in] directory
 *    Path to directory (exluding a trailing '/'!)
 *  @param[in] recursive
 *    Search recursively in sub-directories?
@@ -46,6 +46,20 @@ IOZEUG_API void getFiles(const std::string & directory, bool recursive, std::vec
 *    List of files
 */
 IOZEUG_API std::vector<std::string> getFiles(const std::string & directory, bool recursive);
+
+/**
+*  @brief
+*    List all files in a directory
+*
+*  @param[in] directories
+*    Vector of paths to directories (exluding a trailing '/'!)
+*  @param[in] recursive
+*    Search recursively in sub-directories?
+*
+*  @return
+*    List of files
+*/
+IOZEUG_API std::vector<std::string> getFiles(const std::vector<std::string> & directories, bool recursive);
 
 /**
 *  @brief
