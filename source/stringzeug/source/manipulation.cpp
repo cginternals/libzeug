@@ -1,6 +1,8 @@
 
 #include <stringzeug/manipulation.h>
 
+#include <cassert>
+
 #ifdef USE_STD_REGEX
     #include <regex>
 
