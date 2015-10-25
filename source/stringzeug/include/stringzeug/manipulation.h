@@ -67,7 +67,49 @@ STRINGZEUG_API std::vector<std::string> parseArray(const std::string & string, s
 *  @return
 *    List of strings
 */
-STRINGZEUG_API std::vector<std::string> split(const std::string & input, char delimiter);
+STRINGZEUG_API std::vector<std::string> split(const std::string & string, char delimiter);
+
+/**
+*  @brief
+*    Check if a string contains a substring
+*
+*  @param[in] string
+*    Input string
+*  @param[in] containsstring
+*    String that is checked if contained in first param string
+*
+*  @return
+*    true if string contains containsstring, false otherwise
+*/
+STRINGZEUG_API bool contains(const std::string & string, const std::string & containsstring);
+
+/**
+*  @brief
+*    Check if a string starts with a given prefix
+*
+*  @param[in] string
+*    Input string
+*  @param[in] prefix
+*    Prefix to be checked
+*
+*  @return
+*    true if string starts with prefix, false otherwise
+*/
+STRINGZEUG_API bool hasPrefix(const std::string & string, const std::string & prefix);
+
+/**
+*  @brief
+*    Check if a string ends with a given suffix
+*
+*  @param[in] string
+*    Input string
+*  @param[in] suffix
+*    Suffix to be checked
+*
+*  @return
+*    true if string ends with suffix, false otherwise
+*/
+STRINGZEUG_API bool hasSuffix(const std::string & string, const std::string & suffix);
 
 
 } // namespace stringzeug
