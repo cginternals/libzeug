@@ -51,3 +51,44 @@ TEST_F(manipulation_test, split)
 
     ASSERT_EQ(vecComp, vec);
 }
+
+TEST_F(manipulation_test, contains)
+{
+    std::string str = "this string contains several words.";
+
+    ASSERT_TRUE(contains(str, "string"));
+    ASSERT_TRUE(contains(str, " "));
+    ASSERT_TRUE(contains(str, "this string contains several words."));
+    ASSERT_TRUE(contains(str, "."));
+
+    ASSERT_FALSE(contains(str, "not"));
+    ASSERT_FALSE(contains(str, "  "));
+    ASSERT_FALSE(contains(str, ","));
+}
+
+TEST_F(manipulation_test, hasPrefix)
+{
+    std::string str = "abc";
+
+    ASSERT_TRUE(hasPrefix(str, "a"));
+    ASSERT_TRUE(hasPrefix(str, "ab"));
+    ASSERT_TRUE(hasPrefix(str, "abc"));
+
+    ASSERT_FALSE(hasPrefix(str, "abcd"));
+    ASSERT_FALSE(hasPrefix(str, "b"));
+    ASSERT_FALSE(hasPrefix(str, "c"));
+}
+
+TEST_F(manipulation_test, hasSuffix)
+{
+    std::string str = "abc";
+
+    ASSERT_TRUE(hasSuffix(str, "c"));
+    ASSERT_TRUE(hasSuffix(str, "bc"));
+    ASSERT_TRUE(hasSuffix(str, "abc"));
+
+    ASSERT_FALSE(hasSuffix(str, "a"));
+    ASSERT_FALSE(hasSuffix(str, "b"));
+    ASSERT_FALSE(hasSuffix(str, "ab"));
+    ASSERT_FALSE(hasSuffix(str, "d"));
+}
