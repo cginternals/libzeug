@@ -32,6 +32,11 @@ QWidget * VariantEditor::createLineEdit()
     
     AbstractProperty * prop = dynamic_cast<AbstractProperty *>(m_property);
 
+    if (prop == nullptr)
+    {
+        return nullptr;
+    }
+
     lineEdit->setText(QString::fromStdString(prop->toString()));
 
     connect(lineEdit, &QLineEdit::textEdited, this, &VariantEditor::setString);
@@ -48,6 +53,12 @@ QWidget * VariantEditor::createLineEdit()
 void VariantEditor::setString(const QString & text)
 {
     AbstractProperty * prop = dynamic_cast<AbstractProperty *>(m_property);
+
+    if (prop == nullptr)
+    {
+        return;
+    }
+
     prop->fromString(text.toStdString());
 }
 

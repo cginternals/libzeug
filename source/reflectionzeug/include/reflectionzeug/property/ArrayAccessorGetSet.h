@@ -18,6 +18,7 @@ namespace reflectionzeug
 template <typename Type, size_t Size>
 class ArrayAccessorGetSet : public ArrayAccessor<Type, Size>
 {
+    static_assert(Size > 0, "Size has to be greater than 0");
 public:
     /**
     *  @brief

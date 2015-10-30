@@ -63,7 +63,7 @@ void ColorSchemeGraphicsView::createGroup(const QString & identifier)
 
 void ColorSchemeGraphicsView::insertScheme(const QString & group, const ColorScheme * scheme)
 {
-    assert(scheme);
+    assert(scheme != nullptr);
 
     createGroup(group);
 

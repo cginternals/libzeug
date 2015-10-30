@@ -40,18 +40,18 @@ TEST_F(PropertyInstanceVariantArray_test, instanciatePropertyWith_String_LambdaG
     auto get = [] (size_t) {return Variant();};
     auto set = [] (size_t, const Variant & val) {};
 
-    auto prop = new PropertyArray<Variant, 0>("VariantProperty", get, set);
+    auto prop = new PropertyArray<Variant, 1>("VariantProperty", get, set);
 
-    ASSERT_EQ(typeid(std::array<Variant, 0>), prop->type());
+    ASSERT_EQ(typeid(std::array<Variant, 1>), prop->type());
 
     delete prop;
 }
 
 TEST_F(PropertyInstanceVariantArray_test, instanciatePropertyWith_String_StaticGetter_StaticSetter)
 {
-    auto prop = new PropertyArray<Variant, 0>("VariantProperty", &staticGetter, &staticSetter);
+    auto prop = new PropertyArray<Variant, 1>("VariantProperty", &staticGetter, &staticSetter);
 
-    ASSERT_EQ(typeid(std::array<Variant, 0>), prop->type());
+    ASSERT_EQ(typeid(std::array<Variant, 1>), prop->type());
 
     delete prop;
 }
@@ -59,9 +59,9 @@ TEST_F(PropertyInstanceVariantArray_test, instanciatePropertyWith_String_StaticG
 TEST_F(PropertyInstanceVariantArray_test, instanciatePropertyWith_String_Object_ConstGetterConst_SetterConst)
 {
     auto obj = new MyObject<Variant>;
-    auto prop = new PropertyArray<Variant, 0>("VariantProperty", obj, &MyObject<Variant>::arrayConstgetterconst, &MyObject<Variant>::arraySetterconst);
+    auto prop = new PropertyArray<Variant, 1>("VariantProperty", obj, &MyObject<Variant>::arrayConstgetterconst, &MyObject<Variant>::arraySetterconst);
 
-    ASSERT_EQ(typeid(std::array<Variant, 0>), prop->type());
+    ASSERT_EQ(typeid(std::array<Variant, 1>), prop->type());
 
 
     delete prop;
@@ -71,9 +71,9 @@ TEST_F(PropertyInstanceVariantArray_test, instanciatePropertyWith_String_Object_
 TEST_F(PropertyInstanceVariantArray_test, instanciatePropertyWith_String_Object_GetterConst_SetterConst)
 {
     auto obj = new MyObject<Variant>;
-    auto prop = new PropertyArray<Variant, 0>("VariantProperty", obj, &MyObject<Variant>::arrayGetterconst, &MyObject<Variant>::arraySetterconst);
+    auto prop = new PropertyArray<Variant, 1>("VariantProperty", obj, &MyObject<Variant>::arrayGetterconst, &MyObject<Variant>::arraySetterconst);
 
-    ASSERT_EQ(typeid(std::array<Variant, 0>), prop->type());
+    ASSERT_EQ(typeid(std::array<Variant, 1>), prop->type());
 
 
     delete prop;
@@ -83,9 +83,9 @@ TEST_F(PropertyInstanceVariantArray_test, instanciatePropertyWith_String_Object_
 TEST_F(PropertyInstanceVariantArray_test, instanciatePropertyWith_String_Object_GetterConst_Setter)
 {
     auto obj = new MyObject<Variant>;
-    auto prop = new PropertyArray<Variant, 0>("VariantProperty", obj, &MyObject<Variant>::arrayGetterconst, &MyObject<Variant>::arraySetter);
+    auto prop = new PropertyArray<Variant, 1>("VariantProperty", obj, &MyObject<Variant>::arrayGetterconst, &MyObject<Variant>::arraySetter);
 
-    ASSERT_EQ(typeid(std::array<Variant, 0>), prop->type());
+    ASSERT_EQ(typeid(std::array<Variant, 1>), prop->type());
 
 
     delete prop;
@@ -99,18 +99,18 @@ TEST_F(PropertyInstanceVariantArray_test, instanciateConstPropertyWith_String_La
 {
     auto get = [] (size_t) {return Variant();};
 
-    auto prop = new PropertyArray<const Variant, 0>("VariantProperty", get);
+    auto prop = new PropertyArray<const Variant, 1>("VariantProperty", get);
 
-    ASSERT_EQ(typeid(std::array<Variant, 0>), prop->type());
+    ASSERT_EQ(typeid(std::array<Variant, 1>), prop->type());
 
     delete prop;
 }
 
 TEST_F(PropertyInstanceVariantArray_test, instanciateConstPropertyWith_String_StaticGetter)
 {
-    auto prop = new PropertyArray<const Variant, 0>("VariantProperty", &staticGetter);
+    auto prop = new PropertyArray<const Variant, 1>("VariantProperty", &staticGetter);
 
-    ASSERT_EQ(typeid(std::array<Variant, 0>), prop->type());
+    ASSERT_EQ(typeid(std::array<Variant, 1>), prop->type());
 
     delete prop;
 }
@@ -118,9 +118,9 @@ TEST_F(PropertyInstanceVariantArray_test, instanciateConstPropertyWith_String_St
 TEST_F(PropertyInstanceVariantArray_test, instanciateConstPropertyWith_String_Object_ConstGetterConst)
 {
     auto obj = new MyObject<Variant>;
-    auto prop = new PropertyArray<const Variant, 0>("VariantProperty", obj, &MyObject<Variant>::arrayConstgetterconst);
+    auto prop = new PropertyArray<const Variant, 1>("VariantProperty", obj, &MyObject<Variant>::arrayConstgetterconst);
 
-    ASSERT_EQ(typeid(std::array<Variant, 0>), prop->type());
+    ASSERT_EQ(typeid(std::array<Variant, 1>), prop->type());
 
 
     delete prop;
@@ -130,9 +130,9 @@ TEST_F(PropertyInstanceVariantArray_test, instanciateConstPropertyWith_String_Ob
 TEST_F(PropertyInstanceVariantArray_test, instanciateConstPropertyWith_String_Object_GetterConst)
 {
     auto obj = new MyObject<Variant>;
-    auto prop = new PropertyArray<const Variant, 0>("VariantProperty", obj, &MyObject<Variant>::arrayGetterconst);
+    auto prop = new PropertyArray<const Variant, 1>("VariantProperty", obj, &MyObject<Variant>::arrayGetterconst);
 
-    ASSERT_EQ(typeid(std::array<Variant, 0>), prop->type());
+    ASSERT_EQ(typeid(std::array<Variant, 1>), prop->type());
 
 
     delete prop;
@@ -145,20 +145,20 @@ TEST_F(PropertyInstanceVariantArray_test, instanciateConstPropertyWith_String_Ob
 
 TEST_F(PropertyInstanceVariantArray_test, instanciateAccessorWith_String)
 {
-    auto accessor = new ArrayAccessorValue<Variant, 0>();
-    auto prop = new PropertyArray<Variant, 0>("VariantProperty", accessor);
+    auto accessor = new ArrayAccessorValue<Variant, 1>();
+    auto prop = new PropertyArray<Variant, 1>("VariantProperty", accessor);
 
-    ASSERT_EQ(typeid(std::array<Variant, 0>), prop->type());
+    ASSERT_EQ(typeid(std::array<Variant, 1>), prop->type());
 
     delete prop;
 }
 
 TEST_F(PropertyInstanceVariantArray_test, instanciateAccessorWith_String_Value)
 {
-    auto accessor = new ArrayAccessorValue<Variant, 0>(std::array<Variant, 0>());
-    auto prop = new PropertyArray<Variant, 0>("VariantProperty", accessor);
+    auto accessor = new ArrayAccessorValue<Variant, 1>(std::array<Variant, 1>());
+    auto prop = new PropertyArray<Variant, 1>("VariantProperty", accessor);
 
-    ASSERT_EQ(typeid(std::array<Variant, 0>), prop->type());
+    ASSERT_EQ(typeid(std::array<Variant, 1>), prop->type());
 
     delete prop;
 }
@@ -167,22 +167,22 @@ TEST_F(PropertyInstanceVariantArray_test, instanciateAccessorWith_String_LambdaG
 {
     auto get = [] (size_t) {return Variant();};
     auto set = [] (size_t, const Variant & val) {};
-    auto accessor = new ArrayAccessorGetSet<Variant, 0>(get, set);
+    auto accessor = new ArrayAccessorGetSet<Variant, 1>(get, set);
 
-    auto prop = new PropertyArray<Variant, 0>("VariantProperty", accessor);
+    auto prop = new PropertyArray<Variant, 1>("VariantProperty", accessor);
 
-    ASSERT_EQ(typeid(std::array<Variant, 0>), prop->type());
+    ASSERT_EQ(typeid(std::array<Variant, 1>), prop->type());
 
     delete prop;
 }
 
 TEST_F(PropertyInstanceVariantArray_test, instanciateAccessorWith_String_StaticGetter_StaticSetter)
 {
-    auto accessor = new ArrayAccessorGetSet<Variant, 0>(&staticGetter, &staticSetter);
+    auto accessor = new ArrayAccessorGetSet<Variant, 1>(&staticGetter, &staticSetter);
 
-    auto prop = new PropertyArray<Variant, 0>("VariantProperty", accessor);
+    auto prop = new PropertyArray<Variant, 1>("VariantProperty", accessor);
 
-    ASSERT_EQ(typeid(std::array<Variant, 0>), prop->type());
+    ASSERT_EQ(typeid(std::array<Variant, 1>), prop->type());
 
     delete prop;
 }
@@ -190,10 +190,10 @@ TEST_F(PropertyInstanceVariantArray_test, instanciateAccessorWith_String_StaticG
 TEST_F(PropertyInstanceVariantArray_test, instanciateAccessorWith_String_Object_ConstGetterConst_SetterConst)
 {
     auto obj = new MyObject<Variant>;
-    auto accessor = new ArrayAccessorGetSet<Variant, 0>(obj, &MyObject<Variant>::arrayConstgetterconst, &MyObject<Variant>::arraySetterconst);
-    auto prop = new PropertyArray<Variant, 0>("VariantProperty", accessor);
+    auto accessor = new ArrayAccessorGetSet<Variant, 1>(obj, &MyObject<Variant>::arrayConstgetterconst, &MyObject<Variant>::arraySetterconst);
+    auto prop = new PropertyArray<Variant, 1>("VariantProperty", accessor);
 
-    ASSERT_EQ(typeid(std::array<Variant, 0>), prop->type());
+    ASSERT_EQ(typeid(std::array<Variant, 1>), prop->type());
 
 
     delete prop;
@@ -203,10 +203,10 @@ TEST_F(PropertyInstanceVariantArray_test, instanciateAccessorWith_String_Object_
 TEST_F(PropertyInstanceVariantArray_test, instanciateAccessorWith_String_Object_GetterConst_SetterConst)
 {
     auto obj = new MyObject<Variant>;
-    auto accessor = new ArrayAccessorGetSet<Variant, 0>(obj, &MyObject<Variant>::arrayGetterconst, &MyObject<Variant>::arraySetterconst);
-    auto prop = new PropertyArray<Variant, 0>("VariantProperty", accessor);
+    auto accessor = new ArrayAccessorGetSet<Variant, 1>(obj, &MyObject<Variant>::arrayGetterconst, &MyObject<Variant>::arraySetterconst);
+    auto prop = new PropertyArray<Variant, 1>("VariantProperty", accessor);
 
-    ASSERT_EQ(typeid(std::array<Variant, 0>), prop->type());
+    ASSERT_EQ(typeid(std::array<Variant, 1>), prop->type());
 
 
     delete prop;
@@ -216,10 +216,10 @@ TEST_F(PropertyInstanceVariantArray_test, instanciateAccessorWith_String_Object_
 TEST_F(PropertyInstanceVariantArray_test, instanciateAccessorWith_String_Object_GetterConst_Setter)
 {
     auto obj = new MyObject<Variant>;
-    auto accessor = new ArrayAccessorGetSet<Variant, 0>(obj, &MyObject<Variant>::arrayGetterconst, &MyObject<Variant>::arraySetter);
-    auto prop = new PropertyArray<Variant, 0>("VariantProperty", accessor);
+    auto accessor = new ArrayAccessorGetSet<Variant, 1>(obj, &MyObject<Variant>::arrayGetterconst, &MyObject<Variant>::arraySetter);
+    auto prop = new PropertyArray<Variant, 1>("VariantProperty", accessor);
 
-    ASSERT_EQ(typeid(std::array<Variant, 0>), prop->type());
+    ASSERT_EQ(typeid(std::array<Variant, 1>), prop->type());
 
 
     delete prop;
@@ -231,20 +231,20 @@ TEST_F(PropertyInstanceVariantArray_test, instanciateAccessorWith_String_Object_
 
 TEST_F(PropertyInstanceVariantArray_test, instanciateConstAccessorWith_String)
 {
-    auto accessor = new ArrayAccessorValue<const Variant, 0>();
-    auto prop = new PropertyArray<const Variant, 0>("VariantProperty", accessor);
+    auto accessor = new ArrayAccessorValue<const Variant, 1>();
+    auto prop = new PropertyArray<const Variant, 1>("VariantProperty", accessor);
 
-    ASSERT_EQ(typeid(std::array<Variant, 0>), prop->type());
+    ASSERT_EQ(typeid(std::array<Variant, 1>), prop->type());
 
     delete prop;
 }
 
 TEST_F(PropertyInstanceVariantArray_test, instanciateConstAccessorWith_String_Value)
 {
-    auto accessor = new ArrayAccessorValue<const Variant, 0>(std::array<Variant, 0>());
-    auto prop = new PropertyArray<Variant, 0>("VariantProperty", accessor);
+    auto accessor = new ArrayAccessorValue<const Variant, 1>(std::array<Variant, 1>());
+    auto prop = new PropertyArray<Variant, 1>("VariantProperty", accessor);
 
-    ASSERT_EQ(typeid(std::array<Variant, 0>), prop->type());
+    ASSERT_EQ(typeid(std::array<Variant, 1>), prop->type());
 
     delete prop;
 }
@@ -252,22 +252,22 @@ TEST_F(PropertyInstanceVariantArray_test, instanciateConstAccessorWith_String_Va
 TEST_F(PropertyInstanceVariantArray_test, instanciateConstAccessorWith_String_LambdaGetter)
 {
     auto get = [] (size_t) {return Variant();};
-    auto accessor = new ArrayAccessorGetSet<const Variant, 0>(get);
+    auto accessor = new ArrayAccessorGetSet<const Variant, 1>(get);
 
-    auto prop = new PropertyArray<const Variant, 0>("VariantProperty", accessor);
+    auto prop = new PropertyArray<const Variant, 1>("VariantProperty", accessor);
 
-    ASSERT_EQ(typeid(std::array<Variant, 0>), prop->type());
+    ASSERT_EQ(typeid(std::array<Variant, 1>), prop->type());
 
     delete prop;
 }
 
 TEST_F(PropertyInstanceVariantArray_test, instanciateConstAccessorWith_String_StaticGetter)
 {
-    auto accessor = new ArrayAccessorGetSet<const Variant, 0>(&staticGetter);
+    auto accessor = new ArrayAccessorGetSet<const Variant, 1>(&staticGetter);
 
-    auto prop = new PropertyArray<const Variant, 0>("VariantProperty", accessor);
+    auto prop = new PropertyArray<const Variant, 1>("VariantProperty", accessor);
 
-    ASSERT_EQ(typeid(std::array<Variant, 0>), prop->type());
+    ASSERT_EQ(typeid(std::array<Variant, 1>), prop->type());
 
     delete prop;
 }
@@ -275,10 +275,10 @@ TEST_F(PropertyInstanceVariantArray_test, instanciateConstAccessorWith_String_St
 TEST_F(PropertyInstanceVariantArray_test, instanciateConstAccessorWith_String_Object_ConstGetterConst)
 {
     auto obj = new MyObject<Variant>;
-    auto accessor = new ArrayAccessorGetSet<const Variant, 0>(obj, &MyObject<Variant>::arrayConstgetterconst);
-    auto prop = new PropertyArray<const Variant, 0>("VariantProperty", accessor);
+    auto accessor = new ArrayAccessorGetSet<const Variant, 1>(obj, &MyObject<Variant>::arrayConstgetterconst);
+    auto prop = new PropertyArray<const Variant, 1>("VariantProperty", accessor);
 
-    ASSERT_EQ(typeid(std::array<Variant, 0>), prop->type());
+    ASSERT_EQ(typeid(std::array<Variant, 1>), prop->type());
 
 
     delete prop;
@@ -288,10 +288,10 @@ TEST_F(PropertyInstanceVariantArray_test, instanciateConstAccessorWith_String_Ob
 TEST_F(PropertyInstanceVariantArray_test, instanciateConstAccessorWith_String_Object_GetterConst)
 {
     auto obj = new MyObject<Variant>;
-    auto accessor = new ArrayAccessorGetSet<const Variant, 0>(obj, &MyObject<Variant>::arrayGetterconst);
-    auto prop = new PropertyArray<const Variant, 0>("VariantProperty", accessor);
+    auto accessor = new ArrayAccessorGetSet<const Variant, 1>(obj, &MyObject<Variant>::arrayGetterconst);
+    auto prop = new PropertyArray<const Variant, 1>("VariantProperty", accessor);
 
-    ASSERT_EQ(typeid(std::array<Variant, 0>), prop->type());
+    ASSERT_EQ(typeid(std::array<Variant, 1>), prop->type());
 
 
     delete prop;

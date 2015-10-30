@@ -31,6 +31,7 @@ template <typename Type, size_t Size>
 class AbstractArrayProperty : public AbstractTypedProperty<std::array<Type, Size>>
                             , public AbstractCollection
 {
+    static_assert(Size > 0, "Size has to be greater than 0");
 public:
     /**
     *  @brief
@@ -174,6 +175,7 @@ protected:
 template <typename Type, size_t Size>
 class AbstractArrayProperty<const Type, Size> : public AbstractArrayProperty<Type, Size>
 {
+    static_assert(Size > 0, "Size has to be greater than 0");
 public:
     /**
     *  @brief

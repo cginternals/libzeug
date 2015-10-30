@@ -39,6 +39,12 @@ UnsignedIntegralEditor::UnsignedIntegralEditor(
     auto maximum = 0ull;
 
     AbstractProperty * prop = dynamic_cast<AbstractProperty *>(m_property);
+
+    if (prop == nullptr)
+    {
+        return;
+    }
+
     if (prop->hasOption("minimum"))
         minimum = prop->option("minimum").value<qulonglong>();
     else

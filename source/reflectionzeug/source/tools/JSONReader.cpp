@@ -80,6 +80,11 @@ static std::string codePointToUTF8(unsigned int cp)
 
 
 JSONReader::JSONReader()
+: m_begin(nullptr)
+, m_end(nullptr)
+, m_current(nullptr)
+, m_lastValueEnd(nullptr)
+, m_lastValue(nullptr)
 {
 }
 
@@ -96,8 +101,8 @@ bool JSONReader::parse(const char * beginDoc, const char * endDoc, Variant & roo
     m_begin           = beginDoc;
     m_end             = endDoc;
     m_current         = m_begin;
-    m_lastValueEnd    = 0;
-    m_lastValue       = 0;
+    m_lastValueEnd    = nullptr;
+    m_lastValue       = nullptr;
     m_errors.clear();
     while (!m_nodes.empty())
         m_nodes.pop_back();
@@ -464,11 +469,11 @@ bool JSONReader::decodeNumber(Token & token)
 bool JSONReader::decodeDouble(Token & token)
 {
     double value = 0;
-    bool ok = false;
+    //bool ok = false;
     std::string buffer(token.begin, token.end-token.begin);
     value = atof(buffer.c_str());
-    if (ok)
-        return addError( "'" + std::string(token.begin, token.end-token.begin) + "' is not a number.", token );
+    //if (ok)
+    //    return addError( "'" + std::string(token.begin, token.end-token.begin) + "' is not a number.", token );
     currentValue() = value;
     return true;
 }

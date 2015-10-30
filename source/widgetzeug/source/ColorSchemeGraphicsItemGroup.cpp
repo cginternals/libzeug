@@ -40,7 +40,7 @@ void ColorSchemeGraphicsItemGroup::paint(QPainter * painter,
 
 void ColorSchemeGraphicsItemGroup::addScheme(const ColorScheme * scheme)
 {
-    if (!scheme || m_itemsByScheme.contains(scheme))
+    if (scheme == nullptr || m_itemsByScheme.contains(scheme))
         return;
 
     auto item = new ColorSchemeGraphicsItem(*scheme);
