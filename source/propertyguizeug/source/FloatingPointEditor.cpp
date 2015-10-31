@@ -48,6 +48,8 @@ FloatingPointEditor::FloatingPointEditor(
 
     reflectionzeug::AbstractProperty * prop = dynamic_cast<reflectionzeug::AbstractProperty *>(m_property);
 
+    assert(prop != nullptr);
+
     if (prop->hasOption("minimum"))
         minimum = prop->option("minimum").value<double>();
     else

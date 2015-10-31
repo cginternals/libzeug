@@ -81,9 +81,15 @@ void ColorEditor::paint(
                       
 ColorEditor::ColorEditor(AbstractColorInterface * property, QWidget * parent)
 :   PropertyEditor{parent}
-,   m_includeAlpha{dynamic_cast<AbstractProperty *>(property)->option<bool>("alpha", true)}
+,   m_includeAlpha{true}
 ,   m_property{property}
 {
+    auto colorProperty = dynamic_cast<AbstractProperty *>(property);
+
+    assert(colorProperty != nullptr);
+
+    m_includeAlpha = colorProperty->option<bool>("alpha", true);
+
     // Get color
     QColor color = toQColor(*m_property);
 

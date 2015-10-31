@@ -18,6 +18,9 @@ StringEditor::StringEditor(AbstractStringInterface * property, QWidget * parent)
     QWidget * widget = nullptr;
 
     AbstractProperty * prop = dynamic_cast<AbstractProperty *>(m_property);
+
+    assert(prop != nullptr);
+
     if (prop->hasOption("choices"))
         widget = createComboBox();
     else
@@ -36,6 +39,9 @@ QWidget * StringEditor::createComboBox()
     auto comboBox = new QComboBox{this};
 
     AbstractProperty * prop = dynamic_cast<AbstractProperty *>(m_property);
+
+    assert(prop != nullptr);
+
     auto choices = prop->option("choices").value<std::vector<std::string>>();
 
     comboBox->addItems(util::toQStringList(choices));
@@ -59,6 +65,8 @@ QWidget * StringEditor::createLineEdit()
     auto lineEdit = new QLineEdit{this};
     
     AbstractProperty * prop = dynamic_cast<AbstractProperty *>(m_property);
+
+    assert(prop != nullptr);
 
     lineEdit->setText(QString::fromStdString(prop->toString()));
     
@@ -90,6 +98,9 @@ QWidget * StringEditor::createLineEdit()
 void StringEditor::setString(const QString & text)
 {
     AbstractProperty * prop = dynamic_cast<AbstractProperty *>(m_property);
+
+    assert(prop != nullptr);
+
     prop->fromString(text.toStdString());
 }
 

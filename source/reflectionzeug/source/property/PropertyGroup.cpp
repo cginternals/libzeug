@@ -183,7 +183,10 @@ AbstractProperty * PropertyGroup::takeProperty(const std::string & name)
     // Get property and property index
     AbstractProperty * property = m_propertiesMap.at(name);
     auto it = std::find(m_properties.begin(), m_properties.end(), property);
-    size_t index = indexOf( (*it) );
+
+    assert(it != m_properties.end());
+
+    size_t index = indexOf(*it);
 
     // Invoke callback
     beforeRemove(index);

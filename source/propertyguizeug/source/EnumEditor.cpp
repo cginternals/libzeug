@@ -50,6 +50,8 @@ void EnumEditor::setString(const QString & text)
 {
     AbstractProperty * prop = dynamic_cast<AbstractProperty *>(m_property);
 
+    assert(prop != nullptr);
+
     prop->fromString(text.toStdString());
 }
 

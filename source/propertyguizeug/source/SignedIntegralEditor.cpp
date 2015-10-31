@@ -40,6 +40,9 @@ SignedIntegralEditor::SignedIntegralEditor(
     auto maximum = 0ll;
 
     AbstractProperty * prop = dynamic_cast<AbstractProperty *>(m_property);
+
+    assert(prop != nullptr);
+
     if (prop->hasOption("minimum"))
         minimum = prop->option("minimum").value<qlonglong>();
     else

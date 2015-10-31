@@ -70,9 +70,11 @@ void ColorSchemeGraphicsView::insertScheme(const QString & group, const ColorSch
     m_minClasses = qMin(scheme->minClasses(), m_minClasses);
     m_maxClasses = qMax(scheme->maxClasses(), m_maxClasses);
 
-    assert(m_graphicsItemGroups.value(group) != nullptr);
+    auto graphicsItemGroup = m_graphicsItemGroups.value(group);
 
-    m_graphicsItemGroups.value(group)->addScheme(scheme);
+    assert(graphicsItemGroup != nullptr);
+
+    graphicsItemGroup->addScheme(scheme);
 
     update();
 }

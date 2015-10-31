@@ -12,6 +12,7 @@ namespace reflectionzeug
 // Read/write accessor
 template <typename Type>
 AccessorValue<Type>::AccessorValue()
+: m_value()
 {
 }
 
