@@ -55,6 +55,7 @@ void AccessorValue<Type>::setValue(const Type & value)
 // Read-only accessor
 template <typename Type>
 AccessorValue<const Type>::AccessorValue()
+: m_value()
 {
 }
 
