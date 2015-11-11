@@ -468,10 +468,11 @@ bool JSONReader::decodeNumber(Token & token)
 
 bool JSONReader::decodeDouble(Token & token)
 {
-    double value = 0;
+    double value = 0.0;
     //bool ok = false;
     std::string buffer(token.begin, token.end-token.begin);
-    value = atof(buffer.c_str());
+    std::stringstream stream(buffer);
+    stream >> value;
     //if (ok)
     //    return addError( "'" + std::string(token.begin, token.end-token.begin) + "' is not a number.", token );
     currentValue() = value;
