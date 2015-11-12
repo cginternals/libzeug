@@ -64,18 +64,12 @@ std::vector<std::string> split(const std::string & input, char delimiter)
 
 bool contains(const std::string & string, const std::string & containsstring)
 {
-    if (string.find(containsstring) != std::string::npos)
-        return true;
-
-    return false;
+    return string.find(containsstring) != std::string::npos;
 }
 
 bool hasPrefix(const std::string & string, const std::string & prefix)
 {
-    if (string.find(prefix) == 0)
-        return true;
-
-    return false;
+    return string.find(prefix) == 0;
 }
 
 bool hasSuffix(const std::string & string, const std::string & suffix)
