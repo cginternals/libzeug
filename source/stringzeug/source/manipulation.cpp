@@ -62,5 +62,26 @@ std::vector<std::string> split(const std::string & input, char delimiter)
     return result;
 }
 
+bool contains(const std::string & string, const std::string & containsstring)
+{
+    if (string.find(containsstring) != std::string::npos)
+        return true;
+
+    return false;
+}
+
+bool hasPrefix(const std::string & string, const std::string & prefix)
+{
+    if (string.find(prefix) == 0)
+        return true;
+
+    return false;
+}
+
+bool hasSuffix(const std::string & string, const std::string & suffix)
+{
+    return string.size() >= suffix.size() && string.compare(string.size() - suffix.size(), suffix.size(), suffix) == 0;
+}
+
 
 } // namespace stringzeug
