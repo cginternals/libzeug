@@ -73,14 +73,14 @@ TEST_F(conversion_test, fromString_uint)
     auto val = fromString<unsigned int>(str);
 
     ASSERT_EQ(typeid(unsigned int), typeid(val));
-    ASSERT_EQ(6, val);
+    ASSERT_EQ(6u, val);
 
     str = "asd";
 
     val = fromString<unsigned int>(str);
 
     ASSERT_EQ(typeid(unsigned int), typeid(val));
-    ASSERT_EQ(0, val);
+    ASSERT_EQ(0u, val);
 }
 
 TEST_F(conversion_test, fromString_float)

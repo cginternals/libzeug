@@ -25,7 +25,7 @@ namespace stringzeug
 *    String
 */
 template <class Iterable>
-STRINGZEUG_API std::string join(const Iterable & iterable, const std::string & separator);
+std::string join(const Iterable & iterable, const std::string & separator);
 
 /**
 *  @brief
