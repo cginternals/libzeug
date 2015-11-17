@@ -10,6 +10,8 @@
 
 #include <reflectionzeug/property/Property.h>
 
+#include <stringzeug/regex.h>
+
 
 namespace reflectionzeug
 {
@@ -71,10 +73,10 @@ bool glmFromString(const std::string & string, T * data)
     }
     ss << elementRegex << "\\)\\s*";
 
-    if (!reflectionzeug::util::matchesRegex(string, ss.str()))
+    if (!stringzeug::matchesRegex(string, ss.str()))
         return false;
 
-    std::vector<std::string> parts = reflectionzeug::util::extract(string, elementRegex);
+    std::vector<std::string> parts = stringzeug::extract(string, elementRegex);
 
     assert(parts.size() == Size);
 
