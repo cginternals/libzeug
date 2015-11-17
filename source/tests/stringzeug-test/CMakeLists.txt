@@ -1,6 +1,13 @@
 
-set(target typeexample)
-message(STATUS "Example ${target}")
+set(target stringzeug-test)
+message(STATUS "Test ${target}")
+
+# Generate Property Instanciation Tests
+set(testdir ${CMAKE_SOURCE_DIR}/source/tests/stringzeug-test)
+
+# External libraries
+
+# ...
 
 # Includes
 
@@ -9,32 +16,41 @@ include_directories(
 
 include_directories(
     BEFORE
-    ${CMAKE_SOURCE_DIR}/source/signalzeug/include
     ${CMAKE_SOURCE_DIR}/source/stringzeug/include
-    ${CMAKE_SOURCE_DIR}/source/reflectionzeug/include
 )
+
 
 # Libraries
 
 set(libs
-    signalzeug
+    ${GMOCK_LIBRARIES}
+    ${GTEST_LIBRARIES}
     stringzeug
-    reflectionzeug
 )
 
-# Compiler definitions
 
 # Sources
 
 set(sources
     main.cpp
+    conversion_test.cpp
+    manipulation_test.cpp
+    # manipulation_test.cpp
+    # regex_test.cpp
 )
+
 
 # Build executable
 
 add_executable(${target} ${sources})
 
 target_link_libraries(${target} ${libs})
+
+
+if(MSVC)
+    # -> msvc14 : declaration hides class member (problem in qt)
+    set(DEFAULT_COMPILE_FLAGS ${DEFAULT_COMPILE_FLAGS} /wd4458)
+endif()
 
 target_compile_options(${target} PRIVATE ${DEFAULT_COMPILE_FLAGS})
 
@@ -47,11 +63,3 @@ set_target_properties(${target}
     LINK_FLAGS_DEBUG            "${DEFAULT_LINKER_FLAGS_DEBUG}"
     LINK_FLAGS_RELEASE          "${DEFAULT_LINKER_FLAGS_RELEASE}"
     DEBUG_POSTFIX               "d${DEBUG_POSTFIX}")
-
-# Deployment
-
-install(TARGETS ${target}
-    RUNTIME DESTINATION ${INSTALL_EXAMPLES}
-    LIBRARY DESTINATION ${INSTALL_SHARED}
-    ARCHIVE DESTINATION ${INSTALL_LIB}
-)

@@ -11,6 +11,8 @@
 #include <reflectionzeug/property/ArrayAccessorValue.h>
 #include <reflectionzeug/property/Property.h>
 
+#include <stringzeug/manipulation.h>
+
 
 namespace reflectionzeug
 {
@@ -107,13 +109,13 @@ std::string AbstractArrayProperty<Type, Size>::toString() const
         stringVector.push_back(at(i)->toString());
     }
 
-    return "(" + util::join(stringVector, ", ") + ")";
+    return "(" + stringzeug::join(stringVector, ", ") + ")";
 }
 
 template <typename Type, size_t Size>
 bool AbstractArrayProperty<Type, Size>::fromString(const std::string & string)
 {
-    std::vector<std::string> elementStrings = util::splitArray(string, Size);
+    std::vector<std::string> elementStrings = stringzeug::parseArray(string, Size);
 
     if (elementStrings.size() != Size)
         return false;

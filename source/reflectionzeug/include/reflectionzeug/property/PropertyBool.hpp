@@ -51,7 +51,7 @@ std::string PropertyBool<T>::toString() const
 template <typename T>
 bool PropertyBool<T>::fromString(const std::string & string)
 {
-    if (!util::matchesRegex(string, "(true|false)"))
+    if (!stringzeug::matchesRegex(string, "(true|false)"))
         return false;
 
     this->setValue(string == "true");

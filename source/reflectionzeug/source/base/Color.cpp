@@ -3,8 +3,6 @@
 
 #include <cassert>
 
-#include <reflectionzeug/base/util.h>
-
 
 namespace reflectionzeug
 {

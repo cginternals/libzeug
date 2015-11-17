@@ -11,8 +11,10 @@
     namespace regex_namespace = boost;
 #endif
 
-#include <reflectionzeug/base/util.h>
 #include <reflectionzeug/property/AbstractProperty.h>
+
+#include <stringzeug/conversion.h>
+#include <stringzeug/manipulation.h>
 
 
 namespace reflectionzeug {
@@ -107,7 +109,7 @@ void SerializerINI::serializeGroup(const std::string & name, const Variant & val
 
         // Serialize all values
         for (size_t i=0; i<array.size(); i++) {
-            std::string     subName  = "_" + util::toString(i);
+            std::string     subName  = "_" + stringzeug::toString(i);
             const Variant & subValue = array[i];
             if (!subValue.isMap() && !subValue.isArray()) {
                 serializeValue(subName, subValue);
@@ -119,7 +121,7 @@ void SerializerINI::serializeGroup(const std::string & name, const Variant & val
 
         // Serialize all groups
         for (size_t i=0; i<array.size(); i++) {
-            std::string     subName  = "_" + util::toString(i);
+            std::string     subName  = "_" + stringzeug::toString(i);
             const Variant & subValue = array[i];
             if (subValue.isMap() || subValue.isArray()) {
                 serializeGroup(subName, subValue);
@@ -175,7 +177,7 @@ void SerializerINI::parseGroup(const std::string & line)
     std::string path = line.substr(1, line.length() - 2);
 
     // Split path into components
-    std::vector<std::string> names = util::split(path, '/');
+    std::vector<std::string> names = stringzeug::split(path, '/');
 
     // Get variant leaf node, create variants in between if necessary
     m_currentOut = m_rootOutput;
@@ -244,7 +246,7 @@ Variant * SerializerINI::getSubValue(Variant & var, const std::string & name)
         VariantArray & array = *(var.asArray());
 
         // Check if a value exists
-        unsigned int index = util::fromString<unsigned int>(name.substr(1));
+        unsigned int index = stringzeug::fromString<unsigned int>(name.substr(1));
         if (index >= array.size()) {
             // Create new empty value
             array.push_back(Variant());

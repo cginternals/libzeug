@@ -1,18 +1,24 @@
 
-set(target scriptzeug)
+set(target stringzeug)
 message(STATUS "Lib ${target}")
 
 
 # External libraries
 
+# Fallback: Use boost regex
+if(NOT OPTION_BUILD_WITH_STD_REGEX)
+    find_package(Boost COMPONENTS regex REQUIRED)
+endif()
+
 
 # Includes
 
+if(NOT OPTION_BUILD_WITH_STD_REGEX)
+    include_directories(${Boost_INCLUDE_DIRS})
+endif()
+
 include_directories(
     BEFORE
-    ${CMAKE_SOURCE_DIR}/source/signalzeug/include
-    ${CMAKE_SOURCE_DIR}/source/stringzeug/include
-    ${CMAKE_SOURCE_DIR}/source/reflectionzeug/include
     ${CMAKE_CURRENT_SOURCE_DIR}/include
     ${CMAKE_CURRENT_SOURCE_DIR}/source
 )
@@ -21,24 +27,25 @@ include_directories(
 # Libraries
 
 set(libs
-    reflectionzeug
-    signalzeug
-    stringzeug
 )
+
+if(NOT OPTION_BUILD_WITH_STD_REGEX)
+    link_directories(${Boost_LIBRARY_DIR})
+    set(libs ${libs} ${Boost_LIBRARIES})
+endif()
 
 
 # Compiler definitions
 
 if (OPTION_BUILD_STATIC)
-    add_definitions("-DSCRIPTZEUG_STATIC")
+    add_definitions("-DSTRINGZEUG_STATIC")
 else()
-    add_definitions("-DSCRIPTZEUG_EXPORTS")
+    add_definitions("-DSTRINGZEUG_EXPORTS")
 endif()
 
-if (WIN32)
-    add_definitions("-DNOMINMAX")
+if(OPTION_BUILD_WITH_STD_REGEX)
+    add_definitions("-DUSE_STD_REGEX")
 endif()
-
 
 
 # Sources
@@ -47,18 +54,18 @@ set(header_path "${CMAKE_CURRENT_SOURCE_DIR}/include/${target}")
 set(source_path "${CMAKE_CURRENT_SOURCE_DIR}/source")
 
 set(headers
-    ${header_path}/scriptzeug_api.h
-    ${header_path}/ScriptContext.h
-    ${header_path}/backend/AbstractScriptContext.h
+    ${header_path}/stringzeug_api.h
+    ${header_path}/conversion.h
+    ${header_path}/conversion.hpp
+    ${header_path}/regex.h
+    ${header_path}/manipulation.h
+    ${header_path}/manipulation.hpp
 )
 
 set(sources
-    ${source_path}/ScriptContext.cpp
-    ${source_path}/backend/AbstractScriptContext.cpp
-    ${source_path}/backend-duktape/duktape-1.2.1/duktape.c
-    ${source_path}/backend-duktape/duktape-1.2.1/duktape.h
-    ${source_path}/backend-duktape/DuktapeScriptContext.cpp
-    ${source_path}/backend-duktape/DuktapeScriptContext.h
+    ${source_path}/conversion.cpp
+    ${source_path}/regex.cpp
+    ${source_path}/manipulation.cpp
 )
 
 # Group source files
@@ -79,12 +86,6 @@ else()
 endif()
 
 target_link_libraries(${target} ${libs})
-
-
-if(MSVC)
-    # -> msvc14 : declaration hides previous local decl (problem in duktape)
-    set(DEFAULT_COMPILE_FLAGS ${DEFAULT_COMPILE_FLAGS} /wd4456)
-endif()
 
 target_compile_options(${target} PRIVATE ${DEFAULT_COMPILE_FLAGS})
 

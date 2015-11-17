@@ -18,6 +18,7 @@ include_directories(
 include_directories(
     BEFORE
     ${CMAKE_SOURCE_DIR}/source/signalzeug/include
+    ${CMAKE_SOURCE_DIR}/source/stringzeug/include
     ${CMAKE_SOURCE_DIR}/source/reflectionzeug/include
     ${CMAKE_CURRENT_SOURCE_DIR}/include
 )
@@ -30,7 +31,9 @@ set(libs
     Qt5::Gui
     Qt5::Widgets
     reflectionzeug
-	signalzeug
+    signalzeug
+    signalzeug
+	stringzeug
 )
 
 

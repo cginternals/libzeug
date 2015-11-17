@@ -1,8 +1,9 @@
 #include <propertyguizeug/UnsignedIntegralEditor.h>
 
-#include <reflectionzeug/base/util.h>
 #include <reflectionzeug/property/AbstractProperty.h>
 #include <reflectionzeug/property/AbstractUnsignedIntegralInterface.h>
+
+#include <stringzeug/conversion.h>
 
 #include <propertyguizeug/ULongLongSpinBox.h>
 
@@ -18,7 +19,7 @@ void UnsignedIntegralEditor::paint(
     AbstractProperty & prop = dynamic_cast<AbstractProperty &>(property);
     const auto prefix = QString::fromStdString(prop.option<std::string>("prefix", ""));
     const auto suffix = QString::fromStdString(prop.option<std::string>("suffix", ""));
-    const auto valueString = QString::fromStdString(util::toString(property.toULongLong()));
+    const auto valueString = QString::fromStdString(stringzeug::toString(property.toULongLong()));
 
     drawString(prefix + valueString + suffix, painter, option);
 }

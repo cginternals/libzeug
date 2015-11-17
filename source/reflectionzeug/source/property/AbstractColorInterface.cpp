@@ -4,7 +4,7 @@
 #include <sstream>
 #include <iomanip>
 
-#include <reflectionzeug/base/util.h>
+#include <stringzeug/regex.h>
 
 
 namespace reflectionzeug
@@ -39,7 +39,7 @@ std::string AbstractColorInterface::toHexString(bool includeAlpha) const
 bool AbstractColorInterface::fromHexString(const std::string & hex)
 {
     // Check string format
-    bool ok = util::matchesRegex(hex, "#([0-9A-Fa-f]{8}|[0-9A-Fa-f]{6})");
+    bool ok = stringzeug::matchesRegex(hex, "#([0-9A-Fa-f]{8}|[0-9A-Fa-f]{6})");
     if (!ok) {
         return false;
     }

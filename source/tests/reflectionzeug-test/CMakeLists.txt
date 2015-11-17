@@ -21,6 +21,7 @@ include_directories(
     BEFORE
     ${CMAKE_SOURCE_DIR}/source/reflectionzeug/include
     ${CMAKE_SOURCE_DIR}/source/signalzeug/include
+    ${CMAKE_SOURCE_DIR}/source/stringzeug/include
 )
 
 
@@ -31,6 +32,7 @@ set(libs
     ${GTEST_LIBRARIES}
     reflectionzeug
     signalzeug
+    stringzeug
 )
 
 
