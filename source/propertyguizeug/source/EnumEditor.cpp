@@ -16,17 +16,19 @@ EnumEditor::EnumEditor(
     QWidget * parent)
 :   PropertyEditor{parent}
 ,   m_property{property}
+,   m_model(nullptr)
 {
-    auto strings = std::vector<std::string>{};
-    if (property->hasChoices())
-        strings = property->choicesStrings();
-    else
-        strings = property->strings();
+    const auto strings = property->hasChoices() ? property->choicesStrings() : property->strings();
 
     AbstractProperty * prop = dynamic_cast<AbstractProperty *>(m_property);
 
+    assert(prop != nullptr);
+
+    m_model = new ChoicesModel(prop, strings);
+
     auto comboBox = new QComboBox{this};
-    comboBox->addItems(util::toQStringList(strings));
+
+    comboBox->setModel(m_model);
     comboBox->setCurrentText(QString::fromStdString(prop->toString()));
     
     addWidget(comboBox);
@@ -44,6 +46,7 @@ EnumEditor::EnumEditor(
 
 EnumEditor::~EnumEditor()
 {
+    delete m_model;
 }
     
 void EnumEditor::setString(const QString & text)
