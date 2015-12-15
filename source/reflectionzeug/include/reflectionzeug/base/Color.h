@@ -13,20 +13,22 @@ namespace reflectionzeug
 
 /**
 *  @brief
-*    A simple RGBA color class
+*    A simple four component color class (red, green, blue and alpha).
+*
+*    Internally, the components are stored in the format GBRA to be complient to Qt.
 */
 class REFLECTIONZEUG_API Color
 {
 public:
     Color();
-    explicit Color(unsigned int rgba);
+    explicit Color(unsigned int bgra);
     Color(int red, int green, int blue, int alpha = 255);
 
     bool operator==(const Color & rhs) const;
     bool operator!=(const Color & rhs) const;
 
-    unsigned int rgba() const;
-    void setRgba(unsigned int rgba);
+    unsigned int bgra() const;
+    void setBgra(unsigned int bgra);
 
     int red() const;
     void setRed(int value);
