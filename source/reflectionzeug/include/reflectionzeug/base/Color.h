@@ -37,6 +37,7 @@ public:
     int alpha() const;
     void setAlpha(int value);
 
+    Color interpolate(const Color & other, float interpolationValue) const;
 
 protected:
     union {

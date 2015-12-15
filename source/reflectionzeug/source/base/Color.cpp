@@ -90,5 +90,15 @@ void Color::setRgba(unsigned int rgba)
     m_v = rgba;
 }
 
+Color Color::interpolate(const Color & other, float interpolationValue) const
+{
+    return Color(
+        m_rgba.r * (1.0 - interpolationValue) + other.m_rgba.r * interpolationValue,
+        m_rgba.g * (1.0 - interpolationValue) + other.m_rgba.g * interpolationValue,
+        m_rgba.b * (1.0 - interpolationValue) + other.m_rgba.b * interpolationValue,
+        m_rgba.a * (1.0 - interpolationValue) + other.m_rgba.a * interpolationValue
+    );
+}
+
 
 } // namespace reflectionzeug
