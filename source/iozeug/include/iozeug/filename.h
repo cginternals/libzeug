@@ -10,10 +10,27 @@
 namespace iozeug
 {
 
+/**
+*  @brief
+*    Get the base name of the file path parameter
+*
+*  @param[in] filename
+*    Full file name including path and extension (e.g., /path/to/file.extension)
+*  @return
+*    The base name without path and extension (e.g., file)
+*/
+IOZEUG_API std::string getBaseName(const std::string & filename);
 
-IOZEUG_API std::string getBaseName(const std::string & filePath);
-
-IOZEUG_API std::string getPath(const std::string & filePath);
+/**
+*  @brief
+*    Get the base name of the file path parameter
+*
+*  @param[in] filename
+*    Full file name including path and extension (e.g., /path/to/file.extension)
+*  @return
+*    The base name without path and extension (e.g., file)
+*/
+IOZEUG_API std::string getPath(const std::string & filename);
 
 /**
 *  @brief
