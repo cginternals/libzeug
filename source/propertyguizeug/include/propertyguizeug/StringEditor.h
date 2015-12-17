@@ -5,6 +5,7 @@
 #include <signalzeug/ScopedConnection.h>
 
 #include <propertyguizeug/PropertyEditor.h>
+#include <propertyguizeug/ChoicesModel.h>
 
 class QWidget;
 
@@ -38,8 +39,9 @@ private:
 
     void setString(const QString & text);
 
-private:    
+private:
     reflectionzeug::AbstractStringInterface * m_property;
+    ChoicesModel * m_model;
     signalzeug::ScopedConnection m_propertyChangedConnection;
 };
 
