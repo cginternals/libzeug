@@ -1,67 +1,115 @@
 
+# 
+# External dependencies
+# 
+
+# find_package(THIRDPARTY REQUIRED)
+
+
+# 
+# Executable name and options
+# 
+
+# Target name
 set(target widgetexample)
+
+# Exit here if required dependencies are not met
 message(STATUS "Example ${target}")
 
-# External libraries
 
-find_package(Qt5Core    5.1 REQUIRED)
-find_package(Qt5Gui     5.1 REQUIRED)
-find_package(Qt5Widgets 5.1 REQUIRED)
-
-# Includes
-
-include_directories(
-)
-
-include_directories(
-    BEFORE
-    ${CMAKE_SOURCE_DIR}/source/signalzeug/include
-    ${CMAKE_SOURCE_DIR}/source/widgetzeug/include
-)
-
-# Libraries
-
-set(libs
-    widgetzeug
-    signalzeug
-)
-
-# Compiler definitions
-
+# 
 # Sources
+# 
 
 set(sources
     main.cpp
 )
 
+
+# 
+# Create executable
+# 
+
 # Build executable
+add_executable(${target}
+    MACOSX_BUNDLE
+    ${sources}
+)
 
-add_executable(${target} ${sources})
+# Create namespaced alias
+add_executable(${META_PROJECT_NAME}::${target} ALIAS ${target})
 
-target_link_libraries(${target} ${libs})
-qt5_use_modules(${target} Core Gui Widgets)
 
-if(MSVC)
-    # -> msvc14 : declaration hides class member (problem in qt)
-    set(DEFAULT_COMPILE_FLAGS ${DEFAULT_COMPILE_FLAGS} /wd4458)
-endif()
-
-target_compile_options(${target} PRIVATE ${DEFAULT_COMPILE_FLAGS})
+# 
+# Project options
+# 
 
 set_target_properties(${target}
     PROPERTIES
-    LINKER_LANGUAGE              CXX
-    FOLDER                      "${IDE_FOLDER}"
-    COMPILE_DEFINITIONS_DEBUG   "${DEFAULT_COMPILE_DEFS_DEBUG}"
-    COMPILE_DEFINITIONS_RELEASE "${DEFAULT_COMPILE_DEFS_RELEASE}"
-    LINK_FLAGS_DEBUG            "${DEFAULT_LINKER_FLAGS_DEBUG}"
-    LINK_FLAGS_RELEASE          "${DEFAULT_LINKER_FLAGS_RELEASE}"
-    DEBUG_POSTFIX               "d${DEBUG_POSTFIX}")
+    ${DEFAULT_PROJECT_OPTIONS}
+    FOLDER "${IDE_FOLDER}"
+)
 
+
+# 
+# Include directories
+# 
+
+target_include_directories(${target}
+    PRIVATE
+    ${DEFAULT_INCLUDE_DIRECTORIES}
+    ${CMAKE_CURRENT_SOURCE_DIR}
+    ${PROJECT_BINARY_DIR}/source/include
+)
+
+
+# 
+# Libraries
+# 
+
+target_link_libraries(${target}
+    PRIVATE
+    ${DEFAULT_LIBRARIES}
+    ${META_PROJECT_NAME}::widgetzeug
+)
+
+
+# 
+# Compile definitions
+# 
+
+target_compile_definitions(${target}
+    PRIVATE
+    ${DEFAULT_COMPILE_DEFINITIONS}
+)
+
+
+# 
+# Compile options
+# 
+
+target_compile_options(${target}
+    PRIVATE
+    ${DEFAULT_COMPILE_OPTIONS}
+)
+
+
+# 
+# Linker options
+# 
+
+target_link_libraries(${target}
+    PRIVATE
+    ${DEFAULT_LINKER_OPTIONS}
+)
+
+
+# 
 # Deployment
+# 
 
+# Executable
 install(TARGETS ${target}
-    RUNTIME DESTINATION ${INSTALL_EXAMPLES}
-    LIBRARY DESTINATION ${INSTALL_SHARED}
-    ARCHIVE DESTINATION ${INSTALL_LIB}
+    RUNTIME DESTINATION ${INSTALL_BIN} COMPONENT examples
+    BUNDLE  DESTINATION ${INSTALL_BIN} COMPONENT examples
 )

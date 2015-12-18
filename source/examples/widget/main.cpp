@@ -16,7 +16,7 @@
 
 #include <widgetzeug/dark_fusion_style.hpp>
 
-#include "libzeug-version.h"
+#include "libzeug/libzeug-version.h"
 
 
 using namespace widgetzeug;
@@ -73,8 +73,8 @@ int main(int argc, char *argv[])
 {
     QApplication app(argc, argv);
     QApplication::setApplicationName("widgetzeug-example");
-    QApplication::setOrganizationName(META_AUTHOR_ORGANIZATION);
-    QApplication::setApplicationVersion(META_VERSION);
+    QApplication::setOrganizationName(LIBZEUG_AUTHOR_ORGANIZATION);
+    QApplication::setApplicationVersion(LIBZEUG_VERSION);
     
     enableDarkFusionStyle();
     

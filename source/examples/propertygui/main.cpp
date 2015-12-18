@@ -10,7 +10,7 @@
 //#include <reflectionzeug/PropertyDeserializer.h>
 #include <propertyguizeug/PropertyBrowser.h>
 
-#include "libzeug-version.h"
+#include "libzeug/libzeug-version.h"
 
 #include "Switch.h"
 
@@ -29,7 +29,7 @@ int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);
     QApplication::setApplicationName("propertygui-example");
-    QApplication::setOrganizationName(META_AUTHOR_ORGANIZATION);
+    QApplication::setOrganizationName(LIBZEUG_AUTHOR_ORGANIZATION);
 
     auto * widget = new QWidget();
     widget->setMinimumWidth(200);

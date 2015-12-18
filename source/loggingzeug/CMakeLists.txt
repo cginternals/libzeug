@@ -1,52 +1,47 @@
 
+# 
+# External dependencies
+# 
+
+# find_package(THIRDPARTY REQUIRED)
+
+
+# 
+# Library name and options
+# 
+
+# Target name
 set(target loggingzeug)
+
+# Exit here if required dependencies are not met
 message(STATUS "Lib ${target}")
 
-
-# External libraries
-
-
-# Includes
-
-include_directories(
-    BEFORE
-    ${CMAKE_CURRENT_SOURCE_DIR}/include
-)
+# Set API export file and macro
+string(TOUPPER ${target} target_upper)
+set(export_file  "include/${target}/${target}_api.h")
+set(export_macro "${target_upper}_API")
 
 
-# Libraries
-
-set(libs
-)
-
-
-# Compiler definitions
-
-if (OPTION_BUILD_STATIC)
-    add_definitions("-DLOGGINGZEUG_STATIC")
-else()
-    add_definitions("-DLOGGINGZEUG_EXPORTS")
-endif()
-
-
+# 
 # Sources
+# 
 
-set(header_path "${CMAKE_CURRENT_SOURCE_DIR}/include/${target}")
-set(source_path "${CMAKE_CURRENT_SOURCE_DIR}/source")
+set(include_path "${CMAKE_CURRENT_SOURCE_DIR}/include/${target}")
+set(source_path  "${CMAKE_CURRENT_SOURCE_DIR}/source")
 
 set(headers
-    ${header_path}/loggingzeug_api.h
-
-    ${header_path}/AbstractLogHandler.h
-    ${header_path}/ConsoleLogHandler.h
-    ${header_path}/FileLogHandler.h
-    ${header_path}/LogMessage.h
-    ${header_path}/LogMessageBuilder.h
-    ${header_path}/LogMessageBuilder.hpp
-    ${header_path}/formatString.h
-    ${header_path}/formatString.hpp
-    ${header_path}/logging.h
-    ${header_path}/logging.hpp
+    ${include_path}/logging.h
+    
+    ${include_path}/AbstractLogHandler.h
+    ${include_path}/ConsoleLogHandler.h
+    ${include_path}/FileLogHandler.h
+    ${include_path}/LogMessage.h
+    ${include_path}/LogMessageBuilder.h
+    ${include_path}/LogMessageBuilder.hpp
+    ${include_path}/formatString.h
+    ${include_path}/formatString.hpp
+    ${include_path}/logging.h
+    ${include_path}/logging.hpp
 )
 
 set(sources
@@ -61,44 +56,149 @@ set(sources
 # Group source files
 set(header_group "Header Files (API)")
 set(source_group "Source Files")
-source_group_by_path(${header_path} "\\\\.h$|\\\\.hpp$" 
+source_group_by_path(${include_path} "\\\\.h$|\\\\.hpp$" 
     ${header_group} ${headers})
-source_group_by_path(${source_path} "\\\\.cpp$|\\\\.c$|\\\\.h$|\\\\.hpp$" 
+source_group_by_path(${source_path}  "\\\\.cpp$|\\\\.c$|\\\\.h$|\\\\.hpp$" 
     ${source_group} ${sources})
 
 
+# 
+# Create library
+# 
+
 # Build library
+add_library(${target}
+    ${sources}
+    ${headers}
+)
 
-if(OPTION_BUILD_STATIC)
-    add_library(${target} ${headers} ${sources})
-else()
-    add_library(${target} SHARED ${headers} ${sources})
-endif()
+# Create namespaced alias
+add_library(${META_PROJECT_NAME}::${target} ALIAS ${target})
 
-target_link_libraries(${target} ${libs})
+# Export library for downstream projects
+export(TARGETS ${target} NAMESPACE ${META_PROJECT_NAME}:: FILE ${PROJECT_BINARY_DIR}/cmake/${target}/${target}-export.cmake)
 
-target_compile_options(${target} PRIVATE ${DEFAULT_COMPILE_FLAGS})
+# Create API export header
+generate_export_header(${target}
+    EXPORT_FILE_NAME  ${export_file}
+    EXPORT_MACRO_NAME ${export_macro}
+)
+
+
+# 
+# Project options
+# 
 
 set_target_properties(${target}
     PROPERTIES
-    LINKER_LANGUAGE              CXX
-    FOLDER                      "${IDE_FOLDER}"
-    COMPILE_DEFINITIONS_DEBUG   "${DEFAULT_COMPILE_DEFS_DEBUG}"
-    COMPILE_DEFINITIONS_RELEASE "${DEFAULT_COMPILE_DEFS_RELEASE}"
-    LINK_FLAGS_DEBUG            "${DEFAULT_LINKER_FLAGS_DEBUG}"
-    LINK_FLAGS_RELEASE          "${DEFAULT_LINKER_FLAGS_RELEASE}"
-    DEBUG_POSTFIX               "d${DEBUG_POSTFIX}"
-    INCLUDE_PATH                "${header_path}")
+    ${DEFAULT_PROJECT_OPTIONS}
+    FOLDER "${IDE_FOLDER}"
+)
+
+# 
+# Include directories
+# 
+
+target_include_directories(${target}
+    PRIVATE    # Includes that are needed internally for this project
+    ${PROJECT_BINARY_DIR}/source/include
+    ${CMAKE_CURRENT_SOURCE_DIR}/include
+    ${CMAKE_CURRENT_BINARY_DIR}/include
+
+    PUBLIC     # Includes that are needed for this project AND for any downstream project using this library
+    ${DEFAULT_INCLUDE_DIRECTORIES}
+
+    INTERFACE  # Includes for downstream projects to use this project
+    $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
+    $<BUILD_INTERFACE:${CMAKE_CURRENT_BINARY_DIR}/include>
+    $<INSTALL_INTERFACE:include>
+)
 
 
+# 
+# Libraries
+# 
+
+target_link_libraries(${target}
+    PRIVATE    # Libraries that are needed internally for this project
+
+    PUBLIC     # Libraries that are needed for this project AND for any downstream project using this library
+    ${DEFAULT_LIBRARIES}
+
+    INTERFACE  # Libraries for downstream projects to use this library
+)
+
+
+# 
+# Compile definitions
+# 
+
+target_compile_definitions(${target}
+    PRIVATE    # Definitions that are needed internally for this project
+
+    PUBLIC     # Definitions that are needed for this project AND for any downstream project using this library
+    $<$<NOT:$<BOOL:${BUILD_SHARED_LIBS}>>:${target_upper}_STATIC_DEFINE>
+    ${DEFAULT_COMPILE_DEFINITIONS}
+
+    INTERFACE  # Definitions for downstream projects to use this library
+)
+
+
+# 
+# Compile options
+# 
+
+target_compile_options(${target}
+    PRIVATE    # Options that are needed internally for this project
+
+    PUBLIC     # Options that are needed for this project AND for any downstream project using this library
+    ${DEFAULT_COMPILE_OPTIONS}
+
+    INTERFACE  # Options for downstream projects to use this library
+)
+
+
+# 
+# Linker options
+# 
+
+target_link_libraries(${target}
+    PRIVATE    # Options that are needed internally for this project
+
+    PUBLIC     # Options that are needed for this project AND for any downstream project using this library
+    ${DEFAULT_LINKER_OPTIONS}
+
+    INTERFACE  # Options for downstream projects to use this library
+)
+
+
+# 
 # Deployment
+# 
 
 # Library
 install(TARGETS ${target}
-    RUNTIME DESTINATION ${INSTALL_BIN}
-    LIBRARY DESTINATION ${INSTALL_SHARED}
-    ARCHIVE DESTINATION ${INSTALL_LIB}
+    EXPORT  "${target}-export"            COMPONENT dev
+    RUNTIME DESTINATION ${INSTALL_BIN}    COMPONENT runtime
+    LIBRARY DESTINATION ${INSTALL_SHARED} COMPONENT runtime
+    ARCHIVE DESTINATION ${INSTALL_LIB}    COMPONENT dev
 )
 
 # Header files
-install(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/include/${target} DESTINATION ${INSTALL_INCLUDE})
+install(DIRECTORY
+    ${CMAKE_CURRENT_SOURCE_DIR}/include/${target} DESTINATION ${INSTALL_INCLUDE}
+    COMPONENT dev
+)
+
+# Generated header files
+install(DIRECTORY
+    ${CMAKE_CURRENT_BINARY_DIR}/include/${target} DESTINATION ${INSTALL_INCLUDE}
+    COMPONENT dev
+)
+
+# CMake config
+install(EXPORT ${target}-export
+    NAMESPACE   ${META_PROJECT_NAME}::
+    DESTINATION ${INSTALL_CMAKE}/${target}
+    COMPONENT   dev
+)

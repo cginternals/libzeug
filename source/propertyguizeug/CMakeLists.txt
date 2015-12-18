@@ -1,83 +1,72 @@
 
-set(target propertyguizeug)
-message(STATUS "Lib ${target}")
-
-
-# External libraries
+# 
+# External dependencies
+# 
 
 find_package(Qt5Core    5.1 REQUIRED)
 find_package(Qt5Gui     5.1 REQUIRED)
 find_package(Qt5Widgets 5.1 REQUIRED)
 
+# Enable automoc
+set(CMAKE_AUTOMOC ON)
+SET(CMAKE_AUTOUIC ON)
+set(AUTOMOC_MOC_OPTIONS PROPERTIES FOLDER CMakeAutomocTargets)
+set_property(GLOBAL PROPERTY AUTOMOC_FOLDER CMakeAutomocTargets)
 
-# Includes
-
-include_directories(
-)
-
-include_directories(
-    BEFORE
-    ${CMAKE_SOURCE_DIR}/source/signalzeug/include
-    ${CMAKE_SOURCE_DIR}/source/stringzeug/include
-    ${CMAKE_SOURCE_DIR}/source/reflectionzeug/include
-    ${CMAKE_CURRENT_SOURCE_DIR}/include
-)
-
-
-# Libraries
-
-set(libs
-    Qt5::Core
-    Qt5::Gui
-    Qt5::Widgets
-    reflectionzeug
-    signalzeug
-    signalzeug
-	stringzeug
-)
-
-
-# Compiler definitions
-
-if (OPTION_BUILD_STATIC)
-    add_definitions("-DPROPERTYGUIZEUG_STATIC")
-else()
-    add_definitions("-DPROPERTYGUIZEUG_EXPORTS")
+# ENABLE CMP0020: Automatically link Qt executables to qtmain target on Windows.
+if (POLICY CMP0020)
+    cmake_policy(SET CMP0020 NEW)
 endif()
 
-#
-# Sources
-#
 
-set(header_path "${CMAKE_CURRENT_SOURCE_DIR}/include/${target}")
-set(source_path "${CMAKE_CURRENT_SOURCE_DIR}/source")
+# 
+# Library name and options
+# 
+
+# Target name
+set(target propertyguizeug)
+
+# Exit here if required dependencies are not met
+message(STATUS "Lib ${target}")
+
+# Set API export file and macro
+string(TOUPPER ${target} target_upper)
+set(export_file  "include/${target}/${target}_api.h")
+set(export_macro "${target_upper}_API")
+
+
+# 
+# Sources
+# 
+
+set(include_path "${CMAKE_CURRENT_SOURCE_DIR}/include/${target}")
+set(source_path  "${CMAKE_CURRENT_SOURCE_DIR}/source")
 
 set(headers
-    ${header_path}/propertyguizeug_api.h
-    ${header_path}/BoolEditor.h
-    ${header_path}/ColorButton.h
-    ${header_path}/ColorEditor.h
-    ${header_path}/ChoicesModel.h
-    ${header_path}/dpi_util.h
-    ${header_path}/EnumEditor.h
-    ${header_path}/FilePathEditor.h
-    ${header_path}/FloatingPointEditor.h
-    ${header_path}/LongLongSpinBox.h
-    ${header_path}/PropertyBrowser.h
-    ${header_path}/PropertyBrowser.hpp
-    ${header_path}/PropertyDelegate.h
-    ${header_path}/PropertyEditor.h
-    ${header_path}/PropertyEditorFactory.h
-    ${header_path}/PropertyEditorPlugin.h
-    ${header_path}/PropertyModel.h
-    ${header_path}/PropertyPainter.h
-    ${header_path}/PropertyPainterPlugin.h
-    ${header_path}/SignedIntegralEditor.h
-    ${header_path}/StringEditor.h
-    ${header_path}/ULongLongSpinBox.h
-    ${header_path}/UnsignedIntegralEditor.h
-    ${header_path}/ValueEditor.h
-    ${header_path}/VariantEditor.h
+    ${include_path}/BoolEditor.h
+    ${include_path}/ColorButton.h
+    ${include_path}/ColorEditor.h
+    ${include_path}/ChoicesModel.h
+    ${include_path}/dpi_util.h
+    ${include_path}/EnumEditor.h
+    ${include_path}/FilePathEditor.h
+    ${include_path}/FloatingPointEditor.h
+    ${include_path}/LongLongSpinBox.h
+    ${include_path}/PropertyBrowser.h
+    ${include_path}/PropertyBrowser.hpp
+    ${include_path}/PropertyDelegate.h
+    ${include_path}/PropertyEditor.h
+    ${include_path}/PropertyEditorFactory.h
+    ${include_path}/PropertyEditorPlugin.h
+    ${include_path}/PropertyModel.h
+    ${include_path}/PropertyPainter.h
+    ${include_path}/PropertyPainterPlugin.h
+    ${include_path}/SignedIntegralEditor.h
+    ${include_path}/StringEditor.h
+    ${include_path}/ULongLongSpinBox.h
+    ${include_path}/UnsignedIntegralEditor.h
+    ${include_path}/ValueEditor.h
+    ${include_path}/VariantEditor.h
 )
 
 set(sources
@@ -112,52 +101,156 @@ set(sources
 # Group source files
 set(header_group "Header Files (API)")
 set(source_group "Source Files")
-source_group_by_path(${header_path} "\\\\.h$|\\\\.hpp$" 
+source_group_by_path(${include_path} "\\\\.h$|\\\\.hpp$" 
     ${header_group} ${headers})
-source_group_by_path(${source_path} "\\\\.cpp$|\\\\.c$|\\\\.h$|\\\\.hpp$" 
+source_group_by_path(${source_path}  "\\\\.cpp$|\\\\.c$|\\\\.h$|\\\\.hpp$" 
     ${source_group} ${sources})
 
-#
+
+# 
+# Create library
+# 
+
 # Build library
-#
+add_library(${target}
+    ${sources}
+    ${headers}
+)
 
-if(OPTION_BUILD_STATIC)
-    add_library(${target} ${headers} ${sources})
-else()
-    add_library(${target} SHARED ${headers} ${sources})
-endif()
+# Create namespaced alias
+add_library(${META_PROJECT_NAME}::${target} ALIAS ${target})
 
-target_link_libraries(${target} ${libs})
+# Export library for downstream projects
+export(TARGETS ${target} NAMESPACE ${META_PROJECT_NAME}:: FILE ${PROJECT_BINARY_DIR}/cmake/${target}/${target}-export.cmake)
+
+# Create API export header
+generate_export_header(${target}
+    EXPORT_FILE_NAME  ${export_file}
+    EXPORT_MACRO_NAME ${export_macro}
+)
 
 
-if(MSVC)
-    # -> msvc14 : declaration hides class member (problem in qt)
-    set(DEFAULT_COMPILE_FLAGS ${DEFAULT_COMPILE_FLAGS} /wd4458)
-endif()
-
-target_compile_options(${target} PRIVATE ${DEFAULT_COMPILE_FLAGS})
+# 
+# Project options
+# 
 
 set_target_properties(${target}
     PROPERTIES
-    LINKER_LANGUAGE              CXX
-    FOLDER                      "${IDE_FOLDER}"
-    COMPILE_DEFINITIONS_DEBUG   "${DEFAULT_COMPILE_DEFS_DEBUG}"
-    COMPILE_DEFINITIONS_RELEASE "${DEFAULT_COMPILE_DEFS_RELEASE}"
-    LINK_FLAGS_DEBUG            "${DEFAULT_LINKER_FLAGS_DEBUG}"
-    LINK_FLAGS_RELEASE          "${DEFAULT_LINKER_FLAGS_RELEASE}"
-    DEBUG_POSTFIX               "d${DEBUG_POSTFIX}"
-    INCLUDE_PATH                "${header_path}")
+    ${DEFAULT_PROJECT_OPTIONS}
+    FOLDER "${IDE_FOLDER}"
+)
 
-#
+# 
+# Include directories
+# 
+
+target_include_directories(${target}
+    PRIVATE    # Includes that are needed internally for this project
+    ${PROJECT_BINARY_DIR}/source/include
+    ${CMAKE_CURRENT_SOURCE_DIR}/include
+    ${CMAKE_CURRENT_BINARY_DIR}/include
+    ${CMAKE_CURRENT_BINARY_DIR}
+
+    PUBLIC     # Includes that are needed for this project AND for any downstream project using this library
+    ${DEFAULT_INCLUDE_DIRECTORIES}
+
+    INTERFACE  # Includes for downstream projects to use this project
+    $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
+    $<BUILD_INTERFACE:${CMAKE_CURRENT_BINARY_DIR}/include>
+    $<INSTALL_INTERFACE:include>
+)
+
+
+# 
+# Libraries
+# 
+
+target_link_libraries(${target}
+    PRIVATE    # Libraries that are needed internally for this project
+    
+    PUBLIC     # Libraries that are needed for this project AND for any downstream project using this library
+    ${DEFAULT_LIBRARIES}
+    Qt5::Core
+    Qt5::Gui
+    Qt5::Widgets
+    ${META_PROJECT_NAME}::reflectionzeug
+    ${META_PROJECT_NAME}::signalzeug
+	${META_PROJECT_NAME}::stringzeug
+
+    INTERFACE  # Libraries for downstream projects to use this library
+)
+
+
+# 
+# Compile definitions
+# 
+
+target_compile_definitions(${target}
+    PRIVATE    # Definitions that are needed internally for this project
+
+    PUBLIC     # Definitions that are needed for this project AND for any downstream project using this library
+    $<$<NOT:$<BOOL:${BUILD_SHARED_LIBS}>>:${target_upper}_STATIC_DEFINE>
+    ${DEFAULT_COMPILE_DEFINITIONS}
+
+    INTERFACE  # Definitions for downstream projects to use this library
+)
+
+
+# 
+# Compile options
+# 
+
+target_compile_options(${target}
+    PRIVATE    # Options that are needed internally for this project
+
+    PUBLIC     # Options that are needed for this project AND for any downstream project using this library
+    ${DEFAULT_COMPILE_OPTIONS}
+
+    INTERFACE  # Options for downstream projects to use this library
+)
+
+
+# 
+# Linker options
+# 
+
+target_link_libraries(${target}
+    PRIVATE    # Options that are needed internally for this project
+
+    PUBLIC     # Options that are needed for this project AND for any downstream project using this library
+    ${DEFAULT_LINKER_OPTIONS}
+
+    INTERFACE  # Options for downstream projects to use this library
+)
+
+
+# 
 # Deployment
-#
+# 
 
 # Library
 install(TARGETS ${target}
-    RUNTIME DESTINATION ${INSTALL_BIN}
-    LIBRARY DESTINATION ${INSTALL_SHARED}
-    ARCHIVE DESTINATION ${INSTALL_LIB}
+    EXPORT  "${target}-export"            COMPONENT dev
+    RUNTIME DESTINATION ${INSTALL_BIN}    COMPONENT runtime
+    LIBRARY DESTINATION ${INSTALL_SHARED} COMPONENT runtime
+    ARCHIVE DESTINATION ${INSTALL_LIB}    COMPONENT dev
 )
 
 # Header files
-install(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/include/${target} DESTINATION ${INSTALL_INCLUDE})
+install(DIRECTORY
+    ${CMAKE_CURRENT_SOURCE_DIR}/include/${target} DESTINATION ${INSTALL_INCLUDE}
+    COMPONENT dev
+)
+
+# Generated header files
+install(DIRECTORY
+    ${CMAKE_CURRENT_BINARY_DIR}/include/${target} DESTINATION ${INSTALL_INCLUDE}
+    COMPONENT dev
+)
+
+# CMake config
+install(EXPORT ${target}-export
+    NAMESPACE   ${META_PROJECT_NAME}::
+    DESTINATION ${INSTALL_CMAKE}/${target}
+    COMPONENT   dev
+)
