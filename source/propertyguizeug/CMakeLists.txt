@@ -3,9 +3,9 @@
 # External dependencies
 # 
 
-find_package(Qt5Core    5.1 REQUIRED)
-find_package(Qt5Gui     5.1 REQUIRED)
-find_package(Qt5Widgets 5.1 REQUIRED)
+find_package(Qt5Core    5.1)
+find_package(Qt5Gui     5.1)
+find_package(Qt5Widgets 5.1)
 
 # Enable automoc
 set(CMAKE_AUTOMOC ON)
@@ -27,7 +27,12 @@ endif()
 set(target propertyguizeug)
 
 # Exit here if required dependencies are not met
-message(STATUS "Lib ${target}")
+if (NOT Qt5Core_FOUND)
+    message(STATUS "Lib ${target} skipped: Qt5 not found")
+    return()
+else()
+    message(STATUS "Lib ${target}")
+endif()
 
 # Set API export file and macro
 string(TOUPPER ${target} target_upper)

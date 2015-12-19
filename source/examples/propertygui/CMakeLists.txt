@@ -14,7 +14,12 @@
 set(target propertyguiexample)
 
 # Exit here if required dependencies are not met
-message(STATUS "Example ${target}")
+if(NOT TARGET ${META_PROJECT_NAME}::propertyguizeug)
+    message(STATUS "Example ${target} skipped: propertyguizeug not build")
+    return()
+else()
+    message(STATUS "Example ${target}")
+endif()
 
 
 # 

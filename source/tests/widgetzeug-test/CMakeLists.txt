@@ -5,7 +5,13 @@
 
 # Target name
 set(target widgetzeug-test)
-message(STATUS "Test ${target}")
+
+if(NOT TARGET ${META_PROJECT_NAME}::widgetzeug)
+    message(STATUS "Test ${target} skipped: widgetzeug not build")
+    return()
+else()
+    message(STATUS "Test ${target}")
+endif()
 
 
 # 

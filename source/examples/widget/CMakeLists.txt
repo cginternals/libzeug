@@ -14,7 +14,12 @@
 set(target widgetexample)
 
 # Exit here if required dependencies are not met
-message(STATUS "Example ${target}")
+if(NOT TARGET ${META_PROJECT_NAME}::widgetzeug)
+    message(STATUS "Example ${target} skipped: widgetzeug not build")
+    return()
+else()
+    message(STATUS "Example ${target}")
+endif()
 
 
 # 
