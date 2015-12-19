@@ -17,6 +17,7 @@ include(cmake/Custom.cmake)
 set_policy(CMP0028 NEW) # ENABLE CMP0028: Double colon in target name means ALIAS or IMPORTED target.
 set_policy(CMP0054 NEW) # ENABLE CMP0054: Only interpret if() arguments as variables or keywords when unquoted.
 set_policy(CMP0042 NEW) # ENABLE CMP0042: MACOSX_RPATH is enabled by default.
+set_policy(CMP0063 NEW) # ENABLE CMP0063: Honor visibility properties for all target types.
 
 
 # 
@@ -46,12 +47,11 @@ set(META_NAME_VERSION        "${META_PROJECT_NAME} v${META_VERSION} (${META_VERS
 # 
 
 # Project options
-option(BUILD_SHARED_LIBS     "Build shared instead of static libraries."              ON)
-option(OPTION_SELF_CONTAINED "Create a self-contained install with all dependencies." OFF)
-option(OPTION_BUILD_TESTS    "Build tests."                                           ON)
-option(OPTION_BUILD_DOCS     "Build documentation."                                   OFF)
-option(OPTION_BUILD_EXAMPLES "Build examples."                                        OFF)
-
+option(BUILD_SHARED_LIBS            "Build shared instead of static libraries."              ON)
+option(OPTION_SELF_CONTAINED        "Create a self-contained install with all dependencies." OFF)
+option(OPTION_BUILD_TESTS           "Build tests."                                           ON)
+option(OPTION_BUILD_DOCS            "Build documentation."                                   OFF)
+option(OPTION_BUILD_EXAMPLES        "Build examples."                                        OFF)
 option(OPTION_BUILD_WITH_STD_REGEX  "Use std::regex instead of Boost"   ON)
 option(OPTION_BUILD_WITH_STD_THREAD "Use std::thread instead of OpenMP" OFF)
 

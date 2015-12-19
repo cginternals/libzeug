@@ -3,6 +3,9 @@
 # Platform and architecture setup
 # 
 
+# Get upper case system name
+string(TOUPPER ${CMAKE_SYSTEM_NAME} SYSTEM_NAME_UPPER)
+
 # Determine architecture (32/64 bit)
 set(X64 OFF)
 if(CMAKE_SIZEOF_VOID_P EQUAL 8)
@@ -41,9 +44,10 @@ set(DEFAULT_LIBRARIES)
 # Compile definitions
 # 
 
-set(CMAKE_CXX_VISIBILITY_PRESET "hidden")
+set(DEFAULT_COMPILE_DEFINITIONS
+    SYSTEM_${SYSTEM_NAME_UPPER}
+)
 
-set(DEFAULT_COMPILE_DEFINITIONS)
 
 # 
 # Compile options

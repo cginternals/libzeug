@@ -99,21 +99,22 @@ set_target_properties(${target}
     FOLDER "${IDE_FOLDER}"
 )
 
+
 # 
 # Include directories
 # 
 
 target_include_directories(${target}
-    PRIVATE    # Includes that are needed internally for this project
+    PRIVATE
     ${PROJECT_BINARY_DIR}/source/include
     ${CMAKE_CURRENT_SOURCE_DIR}/include
     ${CMAKE_CURRENT_BINARY_DIR}/include
     ${ADDITIONAL_INCLUDES}
 
-    PUBLIC     # Includes that are needed for this project AND for any downstream project using this library
+    PUBLIC
     ${DEFAULT_INCLUDE_DIRECTORIES}
 
-    INTERFACE  # Includes for downstream projects to use this project
+    INTERFACE
     $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
     $<BUILD_INTERFACE:${CMAKE_CURRENT_BINARY_DIR}/include>
     $<INSTALL_INTERFACE:include>
@@ -125,13 +126,13 @@ target_include_directories(${target}
 # 
 
 target_link_libraries(${target}
-    PRIVATE    # Libraries that are needed internally for this project
+    PRIVATE
     ${ADDITIONAL_LIBRARIES}
 
-    PUBLIC     # Libraries that are needed for this project AND for any downstream project using this library
+    PUBLIC
     ${DEFAULT_LIBRARIES}
 
-    INTERFACE  # Libraries for downstream projects to use this library
+    INTERFACE
 )
 
 
@@ -140,14 +141,14 @@ target_link_libraries(${target}
 # 
 
 target_compile_definitions(${target}
-    PRIVATE    # Definitions that are needed internally for this project
+    PRIVATE
     $<$<BOOL:${OPTION_BUILD_WITH_STD_REGEX}>:USE_STD_REGEX>
 
-    PUBLIC     # Definitions that are needed for this project AND for any downstream project using this library
+    PUBLIC
     $<$<NOT:$<BOOL:${BUILD_SHARED_LIBS}>>:${target_upper}_STATIC_DEFINE>
     ${DEFAULT_COMPILE_DEFINITIONS}
 
-    INTERFACE  # Definitions for downstream projects to use this library
+    INTERFACE
 )
 
 
@@ -156,12 +157,12 @@ target_compile_definitions(${target}
 # 
 
 target_compile_options(${target}
-    PRIVATE    # Options that are needed internally for this project
+    PRIVATE
 
-    PUBLIC     # Options that are needed for this project AND for any downstream project using this library
+    PUBLIC
     ${DEFAULT_COMPILE_OPTIONS}
 
-    INTERFACE  # Options for downstream projects to use this library
+    INTERFACE
 )
 
 
@@ -170,12 +171,12 @@ target_compile_options(${target}
 # 
 
 target_link_libraries(${target}
-    PRIVATE    # Options that are needed internally for this project
+    PRIVATE
 
-    PUBLIC     # Options that are needed for this project AND for any downstream project using this library
+    PUBLIC
     ${DEFAULT_LINKER_OPTIONS}
 
-    INTERFACE  # Options for downstream projects to use this library
+    INTERFACE
 )
 
 
