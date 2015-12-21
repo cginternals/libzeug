@@ -7,13 +7,13 @@
 
 # List of modules
 set(MODULE_NAMES
+    signalzeug
+    stringzeug
+    reflectionzeug
     iozeug
     loggingzeug
     propertyguizeug
-    reflectionzeug
     scriptzeug
-    signalzeug
-    stringzeug
     threadingzeug
     widgetzeug
 )
