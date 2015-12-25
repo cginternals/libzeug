@@ -61,7 +61,7 @@ QSize ChoicesModel::iconSize() const
         return { 0u, 0u };
     }
 
-    const auto size = m_property->option("pixmapSize").value<std::pair<std::uint32_t, std::uint32_t>>();
+    const auto size = m_property->option("pixmapSize").value<std::pair<uint32_t, uint32_t>>();
 
     return QSize(size.first, size.second);
 }
