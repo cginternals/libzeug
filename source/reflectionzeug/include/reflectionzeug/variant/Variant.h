@@ -229,6 +229,7 @@ public:
     */
     template <typename ValueType>
     ValueType value(const ValueType & defaultValue = ValueType()) const;
+    //@}
 
     //@{
     /**
