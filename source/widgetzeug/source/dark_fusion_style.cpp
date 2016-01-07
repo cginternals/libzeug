@@ -1,4 +1,4 @@
-#pragma once
+#include <widgetzeug/dark_fusion_style.h>
 
 #include <QApplication>
 #include <QStyleFactory>

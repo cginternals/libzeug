@@ -11,7 +11,7 @@
 
 //#include <widgetzeug/ColorGradient.h>
 //#include <widgetzeug/ColorGradientProperty.h>
-#include <widgetzeug/dark_fusion_style.hpp>
+#include <widgetzeug/dark_fusion_style.h>
 
 using namespace reflectionzeug;
 using namespace propertyguizeug;

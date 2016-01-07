@@ -51,7 +51,7 @@ set(source_path  "${CMAKE_CURRENT_SOURCE_DIR}/source")
 set(headers
     ${include_path}/make_unique.hpp
     ${include_path}/RGBABrush.hpp
-    ${include_path}/dark_fusion_style.hpp
+    ${include_path}/dark_fusion_style.h
 
     ${include_path}/ControlWidgetSettings.h
     # color widgets
@@ -89,6 +89,8 @@ set(sources
     ${source_path}/util.hpp
 
     ${source_path}/ControlWidgetSettings.cpp
+    ${source_path}/dark_fusion_style.cpp
+    
     # color widgets
     ${source_path}/ColorGradient.cpp
     #${source_path}/ColorGradientLabel.cpp

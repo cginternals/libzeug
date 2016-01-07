@@ -14,29 +14,24 @@
 
 #include <widgetzeug/ControlWidgetSettings.h>
 
-#include <widgetzeug/dark_fusion_style.hpp>
-
+#include <widgetzeug/dark_fusion_style.h>
 #include "libzeug/libzeug-version.h"
 
 
-using namespace widgetzeug;
-
-
-ColorSchemeControlWidget * g_colorSchemeControlWidget{ nullptr };
+widgetzeug::ColorSchemeControlWidget * g_colorSchemeControlWidget{ nullptr };
 
 QWidget * getOrCreateColorScemeControlWidget()
 {
 	if (g_colorSchemeControlWidget)
 		return g_colorSchemeControlWidget;
 
-	g_colorSchemeControlWidget = new ColorSchemeControlWidget(QObject::tr("Color Scheme Controller"));
+    g_colorSchemeControlWidget = new widgetzeug::ColorSchemeControlWidget(QObject::tr("Color Scheme Controller"));
 	g_colorSchemeControlWidget->setFileName("data/colorbrewer.json");
 
-    ControlWidgetSettings::restore("Color Scheme Controller", *g_colorSchemeControlWidget);
+    widgetzeug::ControlWidgetSettings::restore("Color Scheme Controller", *g_colorSchemeControlWidget);
 
 	return g_colorSchemeControlWidget;
 }
-
 
 
 //ColorGradientWidget * getOrCreateColorGradientWidget(QLabel * label)
@@ -64,19 +59,14 @@ QWidget * getOrCreateColorScemeControlWidget()
 //    return widget;
 //}
 
-
-#include <QCompleter>
-#include <QStringListModel>
-
-
 int main(int argc, char *argv[])
 {
     QApplication app(argc, argv);
     QApplication::setApplicationName("widgetzeug-example");
     QApplication::setOrganizationName(LIBZEUG_AUTHOR_ORGANIZATION);
     QApplication::setApplicationVersion(LIBZEUG_VERSION);
-    
-    enableDarkFusionStyle();
+
+    widgetzeug::enableDarkFusionStyle();
     
     qApp->setAttribute(Qt::AA_UseHighDpiPixmaps);
 
@@ -109,7 +99,7 @@ int main(int argc, char *argv[])
     auto result = app.exec();
 
     if (g_colorSchemeControlWidget)
-        ControlWidgetSettings::store("Color Scheme Controller", *g_colorSchemeControlWidget);
+        widgetzeug::ControlWidgetSettings::store("Color Scheme Controller", *g_colorSchemeControlWidget);
 
     return result;
 }
