@@ -21,7 +21,7 @@ namespace stringzeug
 std::string trim(const std::string & string, bool removeAllWhitespace)
 {
     const regex_namespace::regex regex(removeAllWhitespace ? "\\s+" : "(^\\s+|\\s+$)");
-    return regex_namespace::regex_replace(string, regex, "");
+    return regex_namespace::regex_replace(string, regex, std::string());
 }
 
 std::vector<std::string> parseArray(const std::string & string, size_t size)
