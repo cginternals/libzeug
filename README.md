@@ -20,13 +20,13 @@ __Our [wiki](https://github.com/hpicgs/libzeug/wiki) contains information to hel
 
 | Service | System | Compiler | Options | Status |
 | ------- | ------ | -------- | ------- | ------ |
-| Jenkins | Ubuntu 14.04 | GCC 4.8 | all/tests | [![Build Status](http://jenkins.hpi3d.de/buildStatus/icon?job=libzeug-linux-gcc4.8)](http://jenkins.hpi3d.de/job/libzeug-linux-gcc4.8)|
-| Jenkins | Ubuntu 14.04 | GCC 4.9 | all/tests | [![Build Status](http://jenkins.hpi3d.de/buildStatus/icon?job=libzeug-linux-gcc4.9)](http://jenkins.hpi3d.de/job/libzeug-linux-gcc4.9)|
-| Jenkins | Ubuntu 14.04 | GCC 5.3 | all/tests | [![Build Status](http://jenkins.hpi3d.de/buildStatus/icon?job=libzeug-linux-gcc4.9)](http://jenkins.hpi3d.de/job/libzeug-linux-gcc5.3)|
+| Jenkins | Ubuntu 14.04 | GCC 4.8 | all, test | [![Build Status](http://jenkins.hpi3d.de/buildStatus/icon?job=libzeug-linux-gcc4.8)](http://jenkins.hpi3d.de/job/libzeug-linux-gcc4.8)|
+| Jenkins | Ubuntu 14.04 | GCC 4.9 | all, test | [![Build Status](http://jenkins.hpi3d.de/buildStatus/icon?job=libzeug-linux-gcc4.9)](http://jenkins.hpi3d.de/job/libzeug-linux-gcc4.9)|
+| Jenkins | Ubuntu 14.04 | GCC 5.3 | all, test | [![Build Status](http://jenkins.hpi3d.de/buildStatus/icon?job=libzeug-linux-gcc4.9)](http://jenkins.hpi3d.de/job/libzeug-linux-gcc5.3)|
 | Jenkins | Ubuntu 14.04 | Clang 3.5 | all | [![Build Status](http://jenkins.hpi3d.de/buildStatus/icon?job=libzeug-linux-clang3.5)](http://jenkins.hpi3d.de/job/libzeug-linux-clang3.5) |
 | Jenkins | OS X 10.10 | Clang 3.5 | - | [![Build Status](http://jenkins.hpi3d.de/buildStatus/icon?job=libzeug-osx-clang3.5)](http://jenkins.hpi3d.de/job/libzeug-osx-clang3.5) |
-| Jenkins | Windows 8.1 | MSVC 2013 Update 5 | all/tests/install | [![Build Status](http://jenkins.hpi3d.de/buildStatus/icon?job=libzeug-windows-msvc2013)](http://jenkins.hpi3d.de/job/libzeug-windows-msvc2013) |
-| Jenkins | Windows 8.1 | MSVC 2015 Update 1 | all/tests/install | [![Build Status](http://jenkins.hpi3d.de/buildStatus/icon?job=libzeug-windows-msvc2015)](http://jenkins.hpi3d.de/job/libzeug-windows-msvc2015) |
+| Jenkins | Windows 8.1 | MSVC 2013 Update 5 | all, test, install | [![Build Status](http://jenkins.hpi3d.de/buildStatus/icon?job=libzeug-windows-msvc2013)](http://jenkins.hpi3d.de/job/libzeug-windows-msvc2013) |
+| Jenkins | Windows 8.1 | MSVC 2015 Update 1 | all, test, install | [![Build Status](http://jenkins.hpi3d.de/buildStatus/icon?job=libzeug-windows-msvc2015)](http://jenkins.hpi3d.de/job/libzeug-windows-msvc2015) |
 
 ToDo
 
