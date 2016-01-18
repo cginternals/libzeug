@@ -15,7 +15,7 @@ template <typename Type>
 Type fromString(const std::string & string)
 {
     std::stringstream stream(string);
-    typename std::remove_const<Type>::type value;
+    auto value = typename std::remove_const<Type>::type();
     stream >> value;
     return value;
 }
