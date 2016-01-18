@@ -24,10 +24,7 @@ TEST_F(conversion_test, fromString_char)
 
     ASSERT_EQ(typeid(char), typeid(val));
 
-    std::stringstream stream(str);
-    int value;
-    stream >> value;
-    auto test = static_cast<char>(value);
+    auto test = static_cast<char>(0);
 
     ASSERT_EQ(test, val);
 }
@@ -41,10 +38,7 @@ TEST_F(conversion_test, fromString_uchar)
 
     ASSERT_EQ(typeid(unsigned char), typeid(val));
 
-    std::stringstream stream(str);
-    int value;
-    stream >> value;
-    auto test = static_cast<unsigned char>(value);
+    auto test = static_cast<unsigned char>(0);
 
     ASSERT_EQ(test, val);
 }
