@@ -10,7 +10,7 @@ template <>
 char fromString<char>(const std::string & string)
 {
     std::stringstream stream(string);
-    int value;
+    auto value = int();
     stream >> value;
     return static_cast<char>(value);
 }
@@ -19,7 +19,7 @@ template <>
 unsigned char fromString<unsigned char>(const std::string & string)
 {
     std::stringstream stream(string);
-    unsigned int value;
+    auto value = unsigned int();
     stream >> value;
     return static_cast<unsigned char>(value);
 }
