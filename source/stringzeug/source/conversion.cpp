@@ -9,8 +9,10 @@ namespace stringzeug
 template <>
 char fromString<char>(const std::string & string)
 {
+    using T = int;
+
     std::stringstream stream(string);
-    auto value = int();
+    auto value = T();
     stream >> value;
     return static_cast<char>(value);
 }
@@ -18,8 +20,10 @@ char fromString<char>(const std::string & string)
 template <>
 unsigned char fromString<unsigned char>(const std::string & string)
 {
+    using T = unsigned int;
+
     std::stringstream stream(string);
-    auto value = unsigned int();
+    auto value = T();
     stream >> value;
     return static_cast<unsigned char>(value);
 }
