@@ -3,8 +3,6 @@
 
 #include <cassert>
 
-#include <reflectionzeug/base/util.h>
-
 
 namespace reflectionzeug
 {
@@ -15,8 +13,8 @@ Color::Color()
 {
 }
 
-Color::Color(unsigned int rgba)
-: m_v{rgba}
+Color::Color(unsigned int bgra)
+: m_v{bgra}
 {
 }
 
@@ -82,14 +80,24 @@ void Color::setAlpha(int value)
     m_rgba.a = static_cast<unsigned char>(value);
 }
 
-unsigned int Color::rgba() const
+unsigned int Color::bgra() const
 {
     return m_v;
 }
 
-void Color::setRgba(unsigned int rgba)
+void Color::setBgra(unsigned int bgra)
 {
-    m_v = rgba;
+    m_v = bgra;
+}
+
+Color Color::interpolate(const Color & other, float interpolationValue) const
+{
+    return Color(
+        static_cast<int>(m_rgba.r * (1.0 - interpolationValue) + other.m_rgba.r * interpolationValue),
+        static_cast<int>(m_rgba.g * (1.0 - interpolationValue) + other.m_rgba.g * interpolationValue),
+        static_cast<int>(m_rgba.b * (1.0 - interpolationValue) + other.m_rgba.b * interpolationValue),
+        static_cast<int>(m_rgba.a * (1.0 - interpolationValue) + other.m_rgba.a * interpolationValue)
+    );
 }
 
 

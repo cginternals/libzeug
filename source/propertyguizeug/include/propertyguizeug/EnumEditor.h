@@ -1,8 +1,9 @@
 #pragma once
 
-#include <propertyguizeug/PropertyEditor.h>
-
 #include <signalzeug/ScopedConnection.h>
+
+#include <propertyguizeug/PropertyEditor.h>
+#include <propertyguizeug/ChoicesModel.h>
 
 namespace reflectionzeug
 {
@@ -26,6 +27,7 @@ public:
 
 private:
     reflectionzeug::AbstractEnumInterface * m_property;
+    ChoicesModel * m_model;
     signalzeug::ScopedConnection m_propertyChangedConnection;
 };
 

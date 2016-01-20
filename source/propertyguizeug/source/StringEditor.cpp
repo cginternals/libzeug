@@ -14,7 +14,8 @@ namespace propertyguizeug
 StringEditor::StringEditor(AbstractStringInterface * property, QWidget * parent)
 :   PropertyEditor{parent}
 ,   m_property{property}
-{   
+,   m_model(nullptr)
+{
     QWidget * widget = nullptr;
 
     AbstractProperty * prop = dynamic_cast<AbstractProperty *>(m_property);
@@ -32,6 +33,7 @@ StringEditor::StringEditor(AbstractStringInterface * property, QWidget * parent)
 
 StringEditor::~StringEditor()
 {
+    delete m_model;
 }
 
 QWidget * StringEditor::createComboBox()
@@ -42,10 +44,15 @@ QWidget * StringEditor::createComboBox()
 
     assert(prop != nullptr);
 
-    auto choices = prop->option("choices").value<std::vector<std::string>>();
+    m_model = new ChoicesModel(prop);
 
-    comboBox->addItems(util::toQStringList(choices));
+    comboBox->setModel(m_model);
     comboBox->setCurrentText(QString::fromStdString(prop->toString()));
+
+    if (m_model->hasIcons())
+    {
+        comboBox->setIconSize(m_model->iconSize());
+    }
     
     using StringActivatedPtr = void (QComboBox::*) (const QString &);
     connect(comboBox, static_cast<StringActivatedPtr>(&QComboBox::activated),

@@ -6,8 +6,9 @@
 
 #include <reflectionzeug/property/AbstractValueProperty.h>
 #include <reflectionzeug/property/AbstractVisitor.h>
-#include <reflectionzeug/base/util.h>
 #include <reflectionzeug/tools/SerializerJSON.h>
+
+#include <stringzeug/manipulation.h>
 
 
 namespace reflectionzeug
@@ -90,13 +91,13 @@ bool PropertyGroup::propertyExists(const std::string & name) const
 
 AbstractProperty * PropertyGroup::property(const std::string & path)
 {
-    std::vector<std::string> splittedPath = util::split(path, s_separator);
+    std::vector<std::string> splittedPath = stringzeug::split(path, s_separator);
     return const_cast<AbstractProperty *>(findProperty(splittedPath));
 }
 
 const AbstractProperty * PropertyGroup::property(const std::string & path) const
 {
-    std::vector<std::string> splittedPath = util::split(path, s_separator);
+    std::vector<std::string> splittedPath = stringzeug::split(path, s_separator);
     return findProperty(splittedPath);
 }
 
@@ -168,7 +169,7 @@ PropertyGroup * PropertyGroup::addGroup(const std::string & name)
 
 PropertyGroup * PropertyGroup::ensureGroup(const std::string & path)
 {
-    std::vector<std::string> splittedPath = util::split(path, s_separator);
+    std::vector<std::string> splittedPath = stringzeug::split(path, s_separator);
     return ensureGroup(splittedPath);
 }
 

@@ -17,7 +17,7 @@ bool endsWith(const std::string & str, const std::string & ending)
     return str.find_last_of(ending) == str.size() - 1;
 }
 
-}
+} // namespace
 
 
 namespace iozeug
