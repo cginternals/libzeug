@@ -1,6 +1,6 @@
 #pragma once
 
-#include "duktape-1.2.1/duktape.h"
+#include "duktape-1.4.0/duktape.h"
 
 #include <scriptzeug/backend/AbstractScriptContext.h>
 

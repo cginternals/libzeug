@@ -36,8 +36,9 @@ set(headers
 set(sources
     ${source_path}/ScriptContext.cpp
     ${source_path}/backend/AbstractScriptContext.cpp
-    ${source_path}/backend-duktape/duktape-1.2.1/duktape.c
-    ${source_path}/backend-duktape/duktape-1.2.1/duktape.h
+    ${source_path}/backend-duktape/duktape-1.4.0/duktape.c
+    ${source_path}/backend-duktape/duktape-1.4.0/duktape.h
+    ${source_path}/backend-duktape/duktape-1.4.0/duk_config.h
     ${source_path}/backend-duktape/DuktapeScriptContext.cpp
     ${source_path}/backend-duktape/DuktapeScriptContext.h
 )
