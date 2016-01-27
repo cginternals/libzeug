@@ -4,6 +4,7 @@
 
 #include <string>
 #include <vector>
+#include <set>
 
 #include <stringzeug/stringzeug_api.h>
 
@@ -40,6 +41,20 @@ std::string join(const Iterable & iterable, const std::string & separator);
 *    String
 */
 STRINGZEUG_API std::string trim(const std::string & string, bool removeAllWhitespace = false);
+
+/**
+*  @brief
+*    Remove all occurences of provided characters from the string.
+*
+*  @param[in] string
+*    Input string that is to be processed.
+*  @param[in] blacklist
+*    Set of single characters that are to be removed.
+*
+*  @return
+*    New string with the characters beeing removed.
+*/
+STRINGZEUG_API std::string stripped(const std::string & string, const std::set<char> & blacklist);
 
 /**
 *  @brief

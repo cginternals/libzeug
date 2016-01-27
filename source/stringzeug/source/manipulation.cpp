@@ -24,6 +24,15 @@ std::string trim(const std::string & string, bool removeAllWhitespace)
     return regex_namespace::regex_replace(string, regex, std::string());
 }
 
+std::string stripped(const std::string & string, const std::set<char> & blacklist)
+{
+    auto result = string;
+    result.erase(std::remove_if(result.begin(), result.end(), [&blacklist](char x) {
+        return blacklist.count(x) > 0; }), result.end());
+
+    return result;
+}
+
 std::vector<std::string> parseArray(const std::string & string, size_t size)
 {
     std::string regexString = "\\s*\\(";
