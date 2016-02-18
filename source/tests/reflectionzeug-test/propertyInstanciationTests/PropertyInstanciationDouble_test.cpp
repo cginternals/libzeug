@@ -26,7 +26,7 @@ double staticGetter()
     return double();
 }
 
-void staticSetter(double value)
+void staticSetter(double /*value*/)
 {
 }
 }
@@ -37,7 +37,7 @@ void staticSetter(double value)
 TEST_F(PropertyInstanceDouble_test, instanciatePropertyWith_String_LambdaGetter_LambdaSetter)
 {
     auto get = [] () {return double();};
-    auto set = [] (const double & val) {};
+    auto set = [] (const double & /*val*/) {};
 
     auto prop = new Property<double>("doubleProperty", get, set);
 
@@ -165,7 +165,7 @@ TEST_F(PropertyInstanceDouble_test, instanciateAccessorWith_String_Value)
 TEST_F(PropertyInstanceDouble_test, instanciateAccessorWith_String_LambdaGetter_LambdaSetter)
 {
     auto get = [] () {return double();};
-    auto set = [] (const double & val) {};
+    auto set = [] (const double & /*val*/) {};
     auto accessor = new AccessorGetSet<double>(get, set);
 
     auto prop = new Property<double>("doubleProperty", accessor);

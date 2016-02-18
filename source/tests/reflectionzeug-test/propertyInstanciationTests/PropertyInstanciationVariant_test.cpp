@@ -26,7 +26,7 @@ Variant staticGetter()
     return Variant();
 }
 
-void staticSetter(Variant value)
+void staticSetter(Variant /*value*/)
 {
 }
 }
@@ -37,7 +37,7 @@ void staticSetter(Variant value)
 TEST_F(PropertyInstanceVariant_test, instanciatePropertyWith_String_LambdaGetter_LambdaSetter)
 {
     auto get = [] () {return Variant();};
-    auto set = [] (const Variant & val) {};
+    auto set = [] (const Variant & /*val*/) {};
 
     auto prop = new Property<Variant>("VariantProperty", get, set);
 
@@ -165,7 +165,7 @@ TEST_F(PropertyInstanceVariant_test, instanciateAccessorWith_String_Value)
 TEST_F(PropertyInstanceVariant_test, instanciateAccessorWith_String_LambdaGetter_LambdaSetter)
 {
     auto get = [] () {return Variant();};
-    auto set = [] (const Variant & val) {};
+    auto set = [] (const Variant & /*val*/) {};
     auto accessor = new AccessorGetSet<Variant>(get, set);
 
     auto prop = new Property<Variant>("VariantProperty", accessor);

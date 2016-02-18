@@ -39,7 +39,7 @@ ${DATATYPE} staticGetter()
     return ${DATATYPE}();
 }
 
-void staticSetter(${DATATYPE} value)
+void staticSetter(${DATATYPE} /*value*/)
 {
 }
 }
@@ -50,7 +50,7 @@ void staticSetter(${DATATYPE} value)
 TEST_F(PropertyInstance${CAPITALDATATYPE}_test, instanciatePropertyWith_String_LambdaGetter_LambdaSetter)
 {
     auto get = [] () {return ${DATATYPE}();};
-    auto set = [] (const ${DATATYPE} & val) {};
+    auto set = [] (const ${DATATYPE} & /*val*/) {};
 
     auto prop = new Property<${DATATYPE}>("${DATATYPE}Property", get, set);
 
@@ -178,7 +178,7 @@ TEST_F(PropertyInstance${CAPITALDATATYPE}_test, instanciateAccessorWith_String_V
 TEST_F(PropertyInstance${CAPITALDATATYPE}_test, instanciateAccessorWith_String_LambdaGetter_LambdaSetter)
 {
     auto get = [] () {return ${DATATYPE}();};
-    auto set = [] (const ${DATATYPE} & val) {};
+    auto set = [] (const ${DATATYPE} & /*val*/) {};
     auto accessor = new AccessorGetSet<${DATATYPE}>(get, set);
 
     auto prop = new Property<${DATATYPE}>("${DATATYPE}Property", accessor);
@@ -344,7 +344,7 @@ ${DATATYPE} staticGetter(size_t)
     return ${DATATYPE}();
 }
 
-void staticSetter(size_t, ${DATATYPE} value)
+void staticSetter(size_t, ${DATATYPE} /*value*/)
 {
 }
 }
@@ -355,20 +355,20 @@ void staticSetter(size_t, ${DATATYPE} value)
 TEST_F(PropertyInstance${CAPITALDATATYPE}Array_test, instanciatePropertyWith_String_LambdaGetter_LambdaSetter)
 {
     auto get = [] (size_t) {return ${DATATYPE}();};
-    auto set = [] (size_t, const ${DATATYPE} & val) {};
+    auto set = [] (size_t, const ${DATATYPE} & /*val*/) {};
 
-    auto prop = new PropertyArray<${DATATYPE}, 0>("${DATATYPE}Property", get, set);
+    auto prop = new PropertyArray<${DATATYPE}, 1>("${DATATYPE}Property", get, set);
 
-    ASSERT_EQ(typeid(std::array<${DATATYPE}, 0>), prop->type());
+    ASSERT_EQ(typeid(std::array<${DATATYPE}, 1>), prop->type());
 
     delete prop;
 }
 
 TEST_F(PropertyInstance${CAPITALDATATYPE}Array_test, instanciatePropertyWith_String_StaticGetter_StaticSetter)
 {
-    auto prop = new PropertyArray<${DATATYPE}, 0>("${DATATYPE}Property", &staticGetter, &staticSetter);
+    auto prop = new PropertyArray<${DATATYPE}, 1>("${DATATYPE}Property", &staticGetter, &staticSetter);
 
-    ASSERT_EQ(typeid(std::array<${DATATYPE}, 0>), prop->type());
+    ASSERT_EQ(typeid(std::array<${DATATYPE}, 1>), prop->type());
 
     delete prop;
 }
@@ -376,9 +376,9 @@ TEST_F(PropertyInstance${CAPITALDATATYPE}Array_test, instanciatePropertyWith_Str
 TEST_F(PropertyInstance${CAPITALDATATYPE}Array_test, instanciatePropertyWith_String_Object_ConstGetterConst_SetterConst)
 {
     auto obj = new MyObject<${DATATYPE}>;
-    auto prop = new PropertyArray<${DATATYPE}, 0>("${DATATYPE}Property", obj, &MyObject<${DATATYPE}>::arrayConstgetterconst, &MyObject<${DATATYPE}>::arraySetterconst);
+    auto prop = new PropertyArray<${DATATYPE}, 1>("${DATATYPE}Property", obj, &MyObject<${DATATYPE}>::arrayConstgetterconst, &MyObject<${DATATYPE}>::arraySetterconst);
 
-    ASSERT_EQ(typeid(std::array<${DATATYPE}, 0>), prop->type());
+    ASSERT_EQ(typeid(std::array<${DATATYPE}, 1>), prop->type());
 
 
     delete prop;
@@ -388,9 +388,9 @@ TEST_F(PropertyInstance${CAPITALDATATYPE}Array_test, instanciatePropertyWith_Str
 TEST_F(PropertyInstance${CAPITALDATATYPE}Array_test, instanciatePropertyWith_String_Object_GetterConst_SetterConst)
 {
     auto obj = new MyObject<${DATATYPE}>;
-    auto prop = new PropertyArray<${DATATYPE}, 0>("${DATATYPE}Property", obj, &MyObject<${DATATYPE}>::arrayGetterconst, &MyObject<${DATATYPE}>::arraySetterconst);
+    auto prop = new PropertyArray<${DATATYPE}, 1>("${DATATYPE}Property", obj, &MyObject<${DATATYPE}>::arrayGetterconst, &MyObject<${DATATYPE}>::arraySetterconst);
 
-    ASSERT_EQ(typeid(std::array<${DATATYPE}, 0>), prop->type());
+    ASSERT_EQ(typeid(std::array<${DATATYPE}, 1>), prop->type());
 
 
     delete prop;
@@ -400,9 +400,9 @@ TEST_F(PropertyInstance${CAPITALDATATYPE}Array_test, instanciatePropertyWith_Str
 TEST_F(PropertyInstance${CAPITALDATATYPE}Array_test, instanciatePropertyWith_String_Object_GetterConst_Setter)
 {
     auto obj = new MyObject<${DATATYPE}>;
-    auto prop = new PropertyArray<${DATATYPE}, 0>("${DATATYPE}Property", obj, &MyObject<${DATATYPE}>::arrayGetterconst, &MyObject<${DATATYPE}>::arraySetter);
+    auto prop = new PropertyArray<${DATATYPE}, 1>("${DATATYPE}Property", obj, &MyObject<${DATATYPE}>::arrayGetterconst, &MyObject<${DATATYPE}>::arraySetter);
 
-    ASSERT_EQ(typeid(std::array<${DATATYPE}, 0>), prop->type());
+    ASSERT_EQ(typeid(std::array<${DATATYPE}, 1>), prop->type());
 
 
     delete prop;
@@ -416,18 +416,18 @@ TEST_F(PropertyInstance${CAPITALDATATYPE}Array_test, instanciateConstPropertyWit
 {
     auto get = [] (size_t) {return ${DATATYPE}();};
 
-    auto prop = new PropertyArray<const ${DATATYPE}, 0>("${DATATYPE}Property", get);
+    auto prop = new PropertyArray<const ${DATATYPE}, 1>("${DATATYPE}Property", get);
 
-    ASSERT_EQ(typeid(std::array<${DATATYPE}, 0>), prop->type());
+    ASSERT_EQ(typeid(std::array<${DATATYPE}, 1>), prop->type());
 
     delete prop;
 }
 
 TEST_F(PropertyInstance${CAPITALDATATYPE}Array_test, instanciateConstPropertyWith_String_StaticGetter)
 {
-    auto prop = new PropertyArray<const ${DATATYPE}, 0>("${DATATYPE}Property", &staticGetter);
+    auto prop = new PropertyArray<const ${DATATYPE}, 1>("${DATATYPE}Property", &staticGetter);
 
-    ASSERT_EQ(typeid(std::array<${DATATYPE}, 0>), prop->type());
+    ASSERT_EQ(typeid(std::array<${DATATYPE}, 1>), prop->type());
 
     delete prop;
 }
@@ -435,9 +435,9 @@ TEST_F(PropertyInstance${CAPITALDATATYPE}Array_test, instanciateConstPropertyWit
 TEST_F(PropertyInstance${CAPITALDATATYPE}Array_test, instanciateConstPropertyWith_String_Object_ConstGetterConst)
 {
     auto obj = new MyObject<${DATATYPE}>;
-    auto prop = new PropertyArray<const ${DATATYPE}, 0>("${DATATYPE}Property", obj, &MyObject<${DATATYPE}>::arrayConstgetterconst);
+    auto prop = new PropertyArray<const ${DATATYPE}, 1>("${DATATYPE}Property", obj, &MyObject<${DATATYPE}>::arrayConstgetterconst);
 
-    ASSERT_EQ(typeid(std::array<${DATATYPE}, 0>), prop->type());
+    ASSERT_EQ(typeid(std::array<${DATATYPE}, 1>), prop->type());
 
 
     delete prop;
@@ -447,9 +447,9 @@ TEST_F(PropertyInstance${CAPITALDATATYPE}Array_test, instanciateConstPropertyWit
 TEST_F(PropertyInstance${CAPITALDATATYPE}Array_test, instanciateConstPropertyWith_String_Object_GetterConst)
 {
     auto obj = new MyObject<${DATATYPE}>;
-    auto prop = new PropertyArray<const ${DATATYPE}, 0>("${DATATYPE}Property", obj, &MyObject<${DATATYPE}>::arrayGetterconst);
+    auto prop = new PropertyArray<const ${DATATYPE}, 1>("${DATATYPE}Property", obj, &MyObject<${DATATYPE}>::arrayGetterconst);
 
-    ASSERT_EQ(typeid(std::array<${DATATYPE}, 0>), prop->type());
+    ASSERT_EQ(typeid(std::array<${DATATYPE}, 1>), prop->type());
 
 
     delete prop;
@@ -462,20 +462,20 @@ TEST_F(PropertyInstance${CAPITALDATATYPE}Array_test, instanciateConstPropertyWit
 
 TEST_F(PropertyInstance${CAPITALDATATYPE}Array_test, instanciateAccessorWith_String)
 {
-    auto accessor = new ArrayAccessorValue<${DATATYPE}, 0>();
-    auto prop = new PropertyArray<${DATATYPE}, 0>("${DATATYPE}Property", accessor);
+    auto accessor = new ArrayAccessorValue<${DATATYPE}, 1>();
+    auto prop = new PropertyArray<${DATATYPE}, 1>("${DATATYPE}Property", accessor);
 
-    ASSERT_EQ(typeid(std::array<${DATATYPE}, 0>), prop->type());
+    ASSERT_EQ(typeid(std::array<${DATATYPE}, 1>), prop->type());
 
     delete prop;
 }
 
 TEST_F(PropertyInstance${CAPITALDATATYPE}Array_test, instanciateAccessorWith_String_Value)
 {
-    auto accessor = new ArrayAccessorValue<${DATATYPE}, 0>(std::array<${DATATYPE}, 0>());
-    auto prop = new PropertyArray<${DATATYPE}, 0>("${DATATYPE}Property", accessor);
+    auto accessor = new ArrayAccessorValue<${DATATYPE}, 1>(std::array<${DATATYPE}, 1>());
+    auto prop = new PropertyArray<${DATATYPE}, 1>("${DATATYPE}Property", accessor);
 
-    ASSERT_EQ(typeid(std::array<${DATATYPE}, 0>), prop->type());
+    ASSERT_EQ(typeid(std::array<${DATATYPE}, 1>), prop->type());
 
     delete prop;
 }
@@ -483,23 +483,23 @@ TEST_F(PropertyInstance${CAPITALDATATYPE}Array_test, instanciateAccessorWith_Str
 TEST_F(PropertyInstance${CAPITALDATATYPE}Array_test, instanciateAccessorWith_String_LambdaGetter_LambdaSetter)
 {
     auto get = [] (size_t) {return ${DATATYPE}();};
-    auto set = [] (size_t, const ${DATATYPE} & val) {};
-    auto accessor = new ArrayAccessorGetSet<${DATATYPE}, 0>(get, set);
+    auto set = [] (size_t, const ${DATATYPE} & /*val*/) {};
+    auto accessor = new ArrayAccessorGetSet<${DATATYPE}, 1>(get, set);
 
-    auto prop = new PropertyArray<${DATATYPE}, 0>("${DATATYPE}Property", accessor);
+    auto prop = new PropertyArray<${DATATYPE}, 1>("${DATATYPE}Property", accessor);
 
-    ASSERT_EQ(typeid(std::array<${DATATYPE}, 0>), prop->type());
+    ASSERT_EQ(typeid(std::array<${DATATYPE}, 1>), prop->type());
 
     delete prop;
 }
 
 TEST_F(PropertyInstance${CAPITALDATATYPE}Array_test, instanciateAccessorWith_String_StaticGetter_StaticSetter)
 {
-    auto accessor = new ArrayAccessorGetSet<${DATATYPE}, 0>(&staticGetter, &staticSetter);
+    auto accessor = new ArrayAccessorGetSet<${DATATYPE}, 1>(&staticGetter, &staticSetter);
 
-    auto prop = new PropertyArray<${DATATYPE}, 0>("${DATATYPE}Property", accessor);
+    auto prop = new PropertyArray<${DATATYPE}, 1>("${DATATYPE}Property", accessor);
 
-    ASSERT_EQ(typeid(std::array<${DATATYPE}, 0>), prop->type());
+    ASSERT_EQ(typeid(std::array<${DATATYPE}, 1>), prop->type());
 
     delete prop;
 }
@@ -507,10 +507,10 @@ TEST_F(PropertyInstance${CAPITALDATATYPE}Array_test, instanciateAccessorWith_Str
 TEST_F(PropertyInstance${CAPITALDATATYPE}Array_test, instanciateAccessorWith_String_Object_ConstGetterConst_SetterConst)
 {
     auto obj = new MyObject<${DATATYPE}>;
-    auto accessor = new ArrayAccessorGetSet<${DATATYPE}, 0>(obj, &MyObject<${DATATYPE}>::arrayConstgetterconst, &MyObject<${DATATYPE}>::arraySetterconst);
-    auto prop = new PropertyArray<${DATATYPE}, 0>("${DATATYPE}Property", accessor);
+    auto accessor = new ArrayAccessorGetSet<${DATATYPE}, 1>(obj, &MyObject<${DATATYPE}>::arrayConstgetterconst, &MyObject<${DATATYPE}>::arraySetterconst);
+    auto prop = new PropertyArray<${DATATYPE}, 1>("${DATATYPE}Property", accessor);
 
-    ASSERT_EQ(typeid(std::array<${DATATYPE}, 0>), prop->type());
+    ASSERT_EQ(typeid(std::array<${DATATYPE}, 1>), prop->type());
 
 
     delete prop;
@@ -520,10 +520,10 @@ TEST_F(PropertyInstance${CAPITALDATATYPE}Array_test, instanciateAccessorWith_Str
 TEST_F(PropertyInstance${CAPITALDATATYPE}Array_test, instanciateAccessorWith_String_Object_GetterConst_SetterConst)
 {
     auto obj = new MyObject<${DATATYPE}>;
-    auto accessor = new ArrayAccessorGetSet<${DATATYPE}, 0>(obj, &MyObject<${DATATYPE}>::arrayGetterconst, &MyObject<${DATATYPE}>::arraySetterconst);
-    auto prop = new PropertyArray<${DATATYPE}, 0>("${DATATYPE}Property", accessor);
+    auto accessor = new ArrayAccessorGetSet<${DATATYPE}, 1>(obj, &MyObject<${DATATYPE}>::arrayGetterconst, &MyObject<${DATATYPE}>::arraySetterconst);
+    auto prop = new PropertyArray<${DATATYPE}, 1>("${DATATYPE}Property", accessor);
 
-    ASSERT_EQ(typeid(std::array<${DATATYPE}, 0>), prop->type());
+    ASSERT_EQ(typeid(std::array<${DATATYPE}, 1>), prop->type());
 
 
     delete prop;
@@ -533,10 +533,10 @@ TEST_F(PropertyInstance${CAPITALDATATYPE}Array_test, instanciateAccessorWith_Str
 TEST_F(PropertyInstance${CAPITALDATATYPE}Array_test, instanciateAccessorWith_String_Object_GetterConst_Setter)
 {
     auto obj = new MyObject<${DATATYPE}>;
-    auto accessor = new ArrayAccessorGetSet<${DATATYPE}, 0>(obj, &MyObject<${DATATYPE}>::arrayGetterconst, &MyObject<${DATATYPE}>::arraySetter);
-    auto prop = new PropertyArray<${DATATYPE}, 0>("${DATATYPE}Property", accessor);
+    auto accessor = new ArrayAccessorGetSet<${DATATYPE}, 1>(obj, &MyObject<${DATATYPE}>::arrayGetterconst, &MyObject<${DATATYPE}>::arraySetter);
+    auto prop = new PropertyArray<${DATATYPE}, 1>("${DATATYPE}Property", accessor);
 
-    ASSERT_EQ(typeid(std::array<${DATATYPE}, 0>), prop->type());
+    ASSERT_EQ(typeid(std::array<${DATATYPE}, 1>), prop->type());
 
 
     delete prop;
@@ -548,20 +548,20 @@ TEST_F(PropertyInstance${CAPITALDATATYPE}Array_test, instanciateAccessorWith_Str
 
 TEST_F(PropertyInstance${CAPITALDATATYPE}Array_test, instanciateConstAccessorWith_String)
 {
-    auto accessor = new ArrayAccessorValue<const ${DATATYPE}, 0>();
-    auto prop = new PropertyArray<const ${DATATYPE}, 0>("${DATATYPE}Property", accessor);
+    auto accessor = new ArrayAccessorValue<const ${DATATYPE}, 1>();
+    auto prop = new PropertyArray<const ${DATATYPE}, 1>("${DATATYPE}Property", accessor);
 
-    ASSERT_EQ(typeid(std::array<${DATATYPE}, 0>), prop->type());
+    ASSERT_EQ(typeid(std::array<${DATATYPE}, 1>), prop->type());
 
     delete prop;
 }
 
 TEST_F(PropertyInstance${CAPITALDATATYPE}Array_test, instanciateConstAccessorWith_String_Value)
 {
-    auto accessor = new ArrayAccessorValue<const ${DATATYPE}, 0>(std::array<${DATATYPE}, 0>());
-    auto prop = new PropertyArray<${DATATYPE}, 0>("${DATATYPE}Property", accessor);
+    auto accessor = new ArrayAccessorValue<const ${DATATYPE}, 1>(std::array<${DATATYPE}, 1>());
+    auto prop = new PropertyArray<${DATATYPE}, 1>("${DATATYPE}Property", accessor);
 
-    ASSERT_EQ(typeid(std::array<${DATATYPE}, 0>), prop->type());
+    ASSERT_EQ(typeid(std::array<${DATATYPE}, 1>), prop->type());
 
     delete prop;
 }
@@ -569,22 +569,22 @@ TEST_F(PropertyInstance${CAPITALDATATYPE}Array_test, instanciateConstAccessorWit
 TEST_F(PropertyInstance${CAPITALDATATYPE}Array_test, instanciateConstAccessorWith_String_LambdaGetter)
 {
     auto get = [] (size_t) {return ${DATATYPE}();};
-    auto accessor = new ArrayAccessorGetSet<const ${DATATYPE}, 0>(get);
+    auto accessor = new ArrayAccessorGetSet<const ${DATATYPE}, 1>(get);
 
-    auto prop = new PropertyArray<const ${DATATYPE}, 0>("${DATATYPE}Property", accessor);
+    auto prop = new PropertyArray<const ${DATATYPE}, 1>("${DATATYPE}Property", accessor);
 
-    ASSERT_EQ(typeid(std::array<${DATATYPE}, 0>), prop->type());
+    ASSERT_EQ(typeid(std::array<${DATATYPE}, 1>), prop->type());
 
     delete prop;
 }
 
 TEST_F(PropertyInstance${CAPITALDATATYPE}Array_test, instanciateConstAccessorWith_String_StaticGetter)
 {
-    auto accessor = new ArrayAccessorGetSet<const ${DATATYPE}, 0>(&staticGetter);
+    auto accessor = new ArrayAccessorGetSet<const ${DATATYPE}, 1>(&staticGetter);
 
-    auto prop = new PropertyArray<const ${DATATYPE}, 0>("${DATATYPE}Property", accessor);
+    auto prop = new PropertyArray<const ${DATATYPE}, 1>("${DATATYPE}Property", accessor);
 
-    ASSERT_EQ(typeid(std::array<${DATATYPE}, 0>), prop->type());
+    ASSERT_EQ(typeid(std::array<${DATATYPE}, 1>), prop->type());
 
     delete prop;
 }
@@ -592,10 +592,10 @@ TEST_F(PropertyInstance${CAPITALDATATYPE}Array_test, instanciateConstAccessorWit
 TEST_F(PropertyInstance${CAPITALDATATYPE}Array_test, instanciateConstAccessorWith_String_Object_ConstGetterConst)
 {
     auto obj = new MyObject<${DATATYPE}>;
-    auto accessor = new ArrayAccessorGetSet<const ${DATATYPE}, 0>(obj, &MyObject<${DATATYPE}>::arrayConstgetterconst);
-    auto prop = new PropertyArray<const ${DATATYPE}, 0>("${DATATYPE}Property", accessor);
+    auto accessor = new ArrayAccessorGetSet<const ${DATATYPE}, 1>(obj, &MyObject<${DATATYPE}>::arrayConstgetterconst);
+    auto prop = new PropertyArray<const ${DATATYPE}, 1>("${DATATYPE}Property", accessor);
 
-    ASSERT_EQ(typeid(std::array<${DATATYPE}, 0>), prop->type());
+    ASSERT_EQ(typeid(std::array<${DATATYPE}, 1>), prop->type());
 
 
     delete prop;
@@ -605,10 +605,10 @@ TEST_F(PropertyInstance${CAPITALDATATYPE}Array_test, instanciateConstAccessorWit
 TEST_F(PropertyInstance${CAPITALDATATYPE}Array_test, instanciateConstAccessorWith_String_Object_GetterConst)
 {
     auto obj = new MyObject<${DATATYPE}>;
-    auto accessor = new ArrayAccessorGetSet<const ${DATATYPE}, 0>(obj, &MyObject<${DATATYPE}>::arrayGetterconst);
-    auto prop = new PropertyArray<const ${DATATYPE}, 0>("${DATATYPE}Property", accessor);
+    auto accessor = new ArrayAccessorGetSet<const ${DATATYPE}, 1>(obj, &MyObject<${DATATYPE}>::arrayGetterconst);
+    auto prop = new PropertyArray<const ${DATATYPE}, 1>("${DATATYPE}Property", accessor);
 
-    ASSERT_EQ(typeid(std::array<${DATATYPE}, 0>), prop->type());
+    ASSERT_EQ(typeid(std::array<${DATATYPE}, 1>), prop->type());
 
 
     delete prop;

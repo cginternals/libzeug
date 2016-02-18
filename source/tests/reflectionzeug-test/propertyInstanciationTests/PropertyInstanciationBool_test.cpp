@@ -26,7 +26,7 @@ bool staticGetter()
     return bool();
 }
 
-void staticSetter(bool value)
+void staticSetter(bool /*value*/)
 {
 }
 }
@@ -37,7 +37,7 @@ void staticSetter(bool value)
 TEST_F(PropertyInstanceBool_test, instanciatePropertyWith_String_LambdaGetter_LambdaSetter)
 {
     auto get = [] () {return bool();};
-    auto set = [] (const bool & val) {};
+    auto set = [] (const bool & /*val*/) {};
 
     auto prop = new Property<bool>("boolProperty", get, set);
 
@@ -165,7 +165,7 @@ TEST_F(PropertyInstanceBool_test, instanciateAccessorWith_String_Value)
 TEST_F(PropertyInstanceBool_test, instanciateAccessorWith_String_LambdaGetter_LambdaSetter)
 {
     auto get = [] () {return bool();};
-    auto set = [] (const bool & val) {};
+    auto set = [] (const bool & /*val*/) {};
     auto accessor = new AccessorGetSet<bool>(get, set);
 
     auto prop = new Property<bool>("boolProperty", accessor);

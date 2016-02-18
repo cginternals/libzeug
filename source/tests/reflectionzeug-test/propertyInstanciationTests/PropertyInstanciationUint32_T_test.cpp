@@ -26,7 +26,7 @@ uint32_t staticGetter()
     return uint32_t();
 }
 
-void staticSetter(uint32_t value)
+void staticSetter(uint32_t /*value*/)
 {
 }
 }
@@ -37,7 +37,7 @@ void staticSetter(uint32_t value)
 TEST_F(PropertyInstanceUint32_T_test, instanciatePropertyWith_String_LambdaGetter_LambdaSetter)
 {
     auto get = [] () {return uint32_t();};
-    auto set = [] (const uint32_t & val) {};
+    auto set = [] (const uint32_t & /*val*/) {};
 
     auto prop = new Property<uint32_t>("uint32_tProperty", get, set);
 
@@ -165,7 +165,7 @@ TEST_F(PropertyInstanceUint32_T_test, instanciateAccessorWith_String_Value)
 TEST_F(PropertyInstanceUint32_T_test, instanciateAccessorWith_String_LambdaGetter_LambdaSetter)
 {
     auto get = [] () {return uint32_t();};
-    auto set = [] (const uint32_t & val) {};
+    auto set = [] (const uint32_t & /*val*/) {};
     auto accessor = new AccessorGetSet<uint32_t>(get, set);
 
     auto prop = new Property<uint32_t>("uint32_tProperty", accessor);

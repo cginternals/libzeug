@@ -27,7 +27,7 @@ bool staticGetter(size_t)
     return bool();
 }
 
-void staticSetter(size_t, bool value)
+void staticSetter(size_t, bool /*value*/)
 {
 }
 }
@@ -38,7 +38,7 @@ void staticSetter(size_t, bool value)
 TEST_F(PropertyInstanceBoolArray_test, instanciatePropertyWith_String_LambdaGetter_LambdaSetter)
 {
     auto get = [] (size_t) {return bool();};
-    auto set = [] (size_t, const bool & val) {};
+    auto set = [] (size_t, const bool & /*val*/) {};
 
     auto prop = new PropertyArray<bool, 1>("boolProperty", get, set);
 
@@ -166,7 +166,7 @@ TEST_F(PropertyInstanceBoolArray_test, instanciateAccessorWith_String_Value)
 TEST_F(PropertyInstanceBoolArray_test, instanciateAccessorWith_String_LambdaGetter_LambdaSetter)
 {
     auto get = [] (size_t) {return bool();};
-    auto set = [] (size_t, const bool & val) {};
+    auto set = [] (size_t, const bool & /*val*/) {};
     auto accessor = new ArrayAccessorGetSet<bool, 1>(get, set);
 
     auto prop = new PropertyArray<bool, 1>("boolProperty", accessor);

@@ -26,7 +26,7 @@ uint16_t staticGetter()
     return uint16_t();
 }
 
-void staticSetter(uint16_t value)
+void staticSetter(uint16_t /*value*/)
 {
 }
 }
@@ -37,7 +37,7 @@ void staticSetter(uint16_t value)
 TEST_F(PropertyInstanceUint16_T_test, instanciatePropertyWith_String_LambdaGetter_LambdaSetter)
 {
     auto get = [] () {return uint16_t();};
-    auto set = [] (const uint16_t & val) {};
+    auto set = [] (const uint16_t & /*val*/) {};
 
     auto prop = new Property<uint16_t>("uint16_tProperty", get, set);
 
@@ -165,7 +165,7 @@ TEST_F(PropertyInstanceUint16_T_test, instanciateAccessorWith_String_Value)
 TEST_F(PropertyInstanceUint16_T_test, instanciateAccessorWith_String_LambdaGetter_LambdaSetter)
 {
     auto get = [] () {return uint16_t();};
-    auto set = [] (const uint16_t & val) {};
+    auto set = [] (const uint16_t & /*val*/) {};
     auto accessor = new AccessorGetSet<uint16_t>(get, set);
 
     auto prop = new Property<uint16_t>("uint16_tProperty", accessor);

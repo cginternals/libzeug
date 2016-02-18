@@ -27,7 +27,7 @@ int8_t staticGetter(size_t)
     return int8_t();
 }
 
-void staticSetter(size_t, int8_t value)
+void staticSetter(size_t, int8_t /*value*/)
 {
 }
 }
@@ -38,7 +38,7 @@ void staticSetter(size_t, int8_t value)
 TEST_F(PropertyInstanceInt8_TArray_test, instanciatePropertyWith_String_LambdaGetter_LambdaSetter)
 {
     auto get = [] (size_t) {return int8_t();};
-    auto set = [] (size_t, const int8_t & val) {};
+    auto set = [] (size_t, const int8_t & /*val*/) {};
 
     auto prop = new PropertyArray<int8_t, 1>("int8_tProperty", get, set);
 
@@ -166,7 +166,7 @@ TEST_F(PropertyInstanceInt8_TArray_test, instanciateAccessorWith_String_Value)
 TEST_F(PropertyInstanceInt8_TArray_test, instanciateAccessorWith_String_LambdaGetter_LambdaSetter)
 {
     auto get = [] (size_t) {return int8_t();};
-    auto set = [] (size_t, const int8_t & val) {};
+    auto set = [] (size_t, const int8_t & /*val*/) {};
     auto accessor = new ArrayAccessorGetSet<int8_t, 1>(get, set);
 
     auto prop = new PropertyArray<int8_t, 1>("int8_tProperty", accessor);

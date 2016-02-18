@@ -26,7 +26,7 @@ int64_t staticGetter()
     return int64_t();
 }
 
-void staticSetter(int64_t value)
+void staticSetter(int64_t /*value*/)
 {
 }
 }
@@ -37,7 +37,7 @@ void staticSetter(int64_t value)
 TEST_F(PropertyInstanceInt64_T_test, instanciatePropertyWith_String_LambdaGetter_LambdaSetter)
 {
     auto get = [] () {return int64_t();};
-    auto set = [] (const int64_t & val) {};
+    auto set = [] (const int64_t & /*val*/) {};
 
     auto prop = new Property<int64_t>("int64_tProperty", get, set);
 
@@ -165,7 +165,7 @@ TEST_F(PropertyInstanceInt64_T_test, instanciateAccessorWith_String_Value)
 TEST_F(PropertyInstanceInt64_T_test, instanciateAccessorWith_String_LambdaGetter_LambdaSetter)
 {
     auto get = [] () {return int64_t();};
-    auto set = [] (const int64_t & val) {};
+    auto set = [] (const int64_t & /*val*/) {};
     auto accessor = new AccessorGetSet<int64_t>(get, set);
 
     auto prop = new Property<int64_t>("int64_tProperty", accessor);

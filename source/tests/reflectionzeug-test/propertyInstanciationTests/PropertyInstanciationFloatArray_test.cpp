@@ -27,7 +27,7 @@ float staticGetter(size_t)
     return float();
 }
 
-void staticSetter(size_t, float value)
+void staticSetter(size_t, float /*value*/)
 {
 }
 }
@@ -38,7 +38,7 @@ void staticSetter(size_t, float value)
 TEST_F(PropertyInstanceFloatArray_test, instanciatePropertyWith_String_LambdaGetter_LambdaSetter)
 {
     auto get = [] (size_t) {return float();};
-    auto set = [] (size_t, const float & val) {};
+    auto set = [] (size_t, const float & /*val*/) {};
 
     auto prop = new PropertyArray<float, 1>("floatProperty", get, set);
 
@@ -166,7 +166,7 @@ TEST_F(PropertyInstanceFloatArray_test, instanciateAccessorWith_String_Value)
 TEST_F(PropertyInstanceFloatArray_test, instanciateAccessorWith_String_LambdaGetter_LambdaSetter)
 {
     auto get = [] (size_t) {return float();};
-    auto set = [] (size_t, const float & val) {};
+    auto set = [] (size_t, const float & /*val*/) {};
     auto accessor = new ArrayAccessorGetSet<float, 1>(get, set);
 
     auto prop = new PropertyArray<float, 1>("floatProperty", accessor);
