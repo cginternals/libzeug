@@ -25,7 +25,7 @@ public:
     {
     }
 
-    State validate(QString & input, int & pos) const override
+    State validate(QString & input, int & /*pos*/) const override
     {
         const auto fileInfo = QFileInfo{input};
 
@@ -37,7 +37,7 @@ public:
 };
 
 
-DataLinkWidget::DataLinkWidget(QWidget * parent)
+DataLinkWidget::DataLinkWidget(QWidget * /*parent*/)
 :   m_watcher{new QFileSystemWatcher{this}}
 ,   m_watchFile{false}
 ,   m_ui{make_unique<Ui_DataLinkWidget>()}

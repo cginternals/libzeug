@@ -35,6 +35,6 @@ inline const QBrush RGBABrush(
         }
 
     return QBrush(image);
-};
+}
 
 } // namespace widgetzeug

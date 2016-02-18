@@ -23,7 +23,7 @@ qreal DpiAwareWidget::devicePixelRatio() const
     return DpiAware::devicePixelRatio(this);
 }
 
-void DpiAwareWidget::showEvent(QShowEvent * event)
+void DpiAwareWidget::showEvent(QShowEvent * /*event*/)
 {
     auto window = handle(*this);
 

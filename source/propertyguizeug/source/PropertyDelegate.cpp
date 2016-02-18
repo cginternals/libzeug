@@ -70,7 +70,7 @@ QWidget * PropertyDelegate::createEditor(QWidget * parent,
 }
 
 void PropertyDelegate::updateEditorGeometry(QWidget * editor, const QStyleOptionViewItem & option,
-    const QModelIndex & index) const
+    const QModelIndex & /*index*/) const
 {
     editor->setGeometry(option.rect);
 }

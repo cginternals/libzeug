@@ -310,12 +310,12 @@ static Variant getPropertyValue(AbstractProperty * property)
     }
 
     // String
-    else if (AbstractStringInterface * prop = dynamic_cast< AbstractStringInterface * >(property) ) {
+    else if (nullptr != dynamic_cast< AbstractStringInterface * >(property) ) {
         value = Variant(property->toString());
     }
 
     // FilePath
-    else if (Property<FilePath> * prop = dynamic_cast< Property<FilePath> * >(property) ) {
+    else if (nullptr != dynamic_cast< Property<FilePath> * >(property) ) {
         value = Variant(property->toString());
     }
 

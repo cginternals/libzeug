@@ -24,4 +24,4 @@ inline const QBrush TransparencyBackgroundBrush()
 		}
 
 	return QBrush(backgroundImage);
-};
+}

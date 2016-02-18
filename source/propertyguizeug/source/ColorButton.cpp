@@ -63,7 +63,7 @@ void ColorButton::setColor(const QColor & color)
 	updateColor();
 }
 
-void ColorButton::mousePressEvent(QMouseEvent * event)
+void ColorButton::mousePressEvent(QMouseEvent * /*event*/)
 {
     emit pressed();
 }

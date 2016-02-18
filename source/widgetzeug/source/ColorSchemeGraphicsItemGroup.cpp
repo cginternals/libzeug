@@ -33,8 +33,8 @@ QRectF ColorSchemeGraphicsItemGroup::boundingRect() const
     return QRect();
 }
 
-void ColorSchemeGraphicsItemGroup::paint(QPainter * painter, 
-    const QStyleOptionGraphicsItem * option, QWidget * widget)
+void ColorSchemeGraphicsItemGroup::paint(QPainter * /*painter*/, 
+    const QStyleOptionGraphicsItem * /*option*/, QWidget * /*widget*/)
 {
 }
 

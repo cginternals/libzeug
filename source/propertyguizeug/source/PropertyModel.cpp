@@ -121,7 +121,7 @@ Qt::ItemFlags PropertyModel::flags(const QModelIndex & index) const
     return flags;
 }
 
-QVariant PropertyModel::headerData(int section, Qt::Orientation orientation, int role) const
+QVariant PropertyModel::headerData(int section, Qt::Orientation /*orientation*/, int role) const
 {
     if (role == Qt::DisplayRole) {
         if (section == 0)

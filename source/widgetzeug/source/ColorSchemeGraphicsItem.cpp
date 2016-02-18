@@ -236,9 +236,9 @@ QRectF ColorSchemeGraphicsItem::boundingRect() const
 }
 
 void ColorSchemeGraphicsItem::paint(
-    QPainter * painter, 
-    const QStyleOptionGraphicsItem * option, 
-    QWidget * widget)
+    QPainter * /*painter*/, 
+    const QStyleOptionGraphicsItem * /*option*/, 
+    QWidget * /*widget*/)
 {
 }
 
@@ -258,7 +258,7 @@ void ColorSchemeGraphicsItem::hoverLeaveEvent(QGraphicsSceneHoverEvent * event)
     update();
 }
 
-void ColorSchemeGraphicsItem::mousePressEvent(QGraphicsSceneMouseEvent * event)
+void ColorSchemeGraphicsItem::mousePressEvent(QGraphicsSceneMouseEvent * /*event*/)
 {
     setSelected(true, true);
 }
