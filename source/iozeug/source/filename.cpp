@@ -11,6 +11,7 @@ namespace
 #else
     const std::string g_sep = "/";
 #endif
+	const std::string g_allSep = "/\\";
 
 bool endsWith(const std::string & str, const std::string & ending)
 {
@@ -26,7 +27,7 @@ namespace iozeug
 
 std::string getBaseName(const std::string & filePath)
 {
-    auto i = filePath.find_last_of(g_sep);
+    auto i = filePath.find_last_of(g_allSep);
 
     std::string fileName = filePath;
 
@@ -45,7 +46,7 @@ std::string getBaseName(const std::string & filePath)
 
 std::string getPath(const std::string & filePath)
 {
-    auto i = filePath.find_last_of(g_sep);
+    auto i = filePath.find_last_of(g_allSep);
     return i == filePath.npos ? "" : filePath.substr(0, i);
 }
 
@@ -65,7 +66,7 @@ std::string removeTrailingPathSeparator(const std::string & path)
 {
     auto returnPath = path;
 
-    while (returnPath.size() > 0 && (endsWith(returnPath, g_sep)))
+    while (returnPath.size() > 0 && (endsWith(returnPath, g_allSep)))
     {
         returnPath = returnPath.substr(0, returnPath.size() - 1);
     }
@@ -75,7 +76,19 @@ std::string removeTrailingPathSeparator(const std::string & path)
 
 std::string ensurePathSeparatorEnding(const std::string & path)
 {
-    return removeTrailingPathSeparator(path) + g_sep;
+	if (endsWith(path, g_allSep))
+	{
+		return path;
+	}
+
+	auto i = path.find_last_of(g_allSep);
+
+	if (i == std::string::npos)
+	{
+		return path + g_sep;
+	} else {
+		return path + path[i];
+	}
 }
 
 
