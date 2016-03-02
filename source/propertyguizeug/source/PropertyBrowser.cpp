@@ -72,7 +72,7 @@ void PropertyBrowser::setAlwaysExpandGroups(bool b)
     m_alwaysExpandGroups = b;
 }
 
-void PropertyBrowser::showEvent(QShowEvent * event)
+void PropertyBrowser::showEvent(QShowEvent * /*event*/)
 {    
     auto window = windowHandle();
     

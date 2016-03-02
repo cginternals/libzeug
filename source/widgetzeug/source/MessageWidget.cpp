@@ -39,25 +39,28 @@ MessageWidget::~MessageWidget()
 
 void MessageWidget::print(
     const QtMsgType type
-,   const QMessageLogContext & context
+,   const QMessageLogContext & /*context*/
+#ifdef _DEBUG
+    context
+#endif
 ,   const QDateTime & timestamp
 ,   const QString & message)
 {
 #ifdef _NDEBUG
-	const QString t(timestamp.toString("hh:mm:ss"));
+    const QString t(timestamp.toString("hh:mm:ss"));
 #else
-	const QString t(timestamp.toString("hh:mm:ss:zzz"));
+    const QString t(timestamp.toString("hh:mm:ss:zzz"));
 #endif
-	//const QString timestamp(entry.timestamp().toString("hh:mm:ss"));
+    //const QString timestamp(entry.timestamp().toString("hh:mm:ss"));
 
     QString html;
-	switch (type)
-	{
+    switch (type)
+    {
     case QtMsgType::QtDebugMsg:
 #ifdef _DEBUG
         html = QString("%1 %2(%3): %4").arg(t).arg(context.file).arg(context.line).arg(message);
 #else
-		html = QString("%1: %2").arg(t).arg(message);
+        html = QString("%1: %2").arg(t).arg(message);
 #endif
 		break;
 

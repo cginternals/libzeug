@@ -27,7 +27,7 @@ Variant staticGetter(size_t)
     return Variant();
 }
 
-void staticSetter(size_t, Variant value)
+void staticSetter(size_t, Variant /*value*/)
 {
 }
 }
@@ -38,7 +38,7 @@ void staticSetter(size_t, Variant value)
 TEST_F(PropertyInstanceVariantArray_test, instanciatePropertyWith_String_LambdaGetter_LambdaSetter)
 {
     auto get = [] (size_t) {return Variant();};
-    auto set = [] (size_t, const Variant & val) {};
+    auto set = [] (size_t, const Variant & /*val*/) {};
 
     auto prop = new PropertyArray<Variant, 1>("VariantProperty", get, set);
 
@@ -166,7 +166,7 @@ TEST_F(PropertyInstanceVariantArray_test, instanciateAccessorWith_String_Value)
 TEST_F(PropertyInstanceVariantArray_test, instanciateAccessorWith_String_LambdaGetter_LambdaSetter)
 {
     auto get = [] (size_t) {return Variant();};
-    auto set = [] (size_t, const Variant & val) {};
+    auto set = [] (size_t, const Variant & /*val*/) {};
     auto accessor = new ArrayAccessorGetSet<Variant, 1>(get, set);
 
     auto prop = new PropertyArray<Variant, 1>("VariantProperty", accessor);

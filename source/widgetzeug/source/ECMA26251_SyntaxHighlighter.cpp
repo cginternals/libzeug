@@ -69,7 +69,7 @@ ECMA26251SyntaxHighlight::ECMA26251SyntaxHighlight()
 
     addPattern("//[.]*[^\\n]*(\\n|$)", commentFormat);
     addMultiLinePattern("/\\*", "\\*/", commentFormat);
-};
+}
 
 ECMA26251SyntaxHighlight::~ECMA26251SyntaxHighlight()
 {

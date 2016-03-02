@@ -8,41 +8,32 @@ set(target reflectionzeug-test)
 message(STATUS "Test ${target}")
 
 
+# Generate Property Instanciation Tests
+set(testdir ${CMAKE_SOURCE_DIR}/source/tests/reflectionzeug-test)
+set(filelist ${testdir}/instanciationTestsFiles.txt)
+add_custom_target("generatePropertyTests" COMMAND python ${testdir}/generateInstanciationTests.py ${testdir} ${filelist})
+
+
 # 
 # Sources
 # 
 
 set(sources
     main.cpp
-    # Color_test.cpp
-    
-    propertyInstanciationTests/PropertyInstanciationBool_test.cpp
-    propertyInstanciationTests/PropertyInstanciationFloat_test.cpp
-    propertyInstanciationTests/PropertyInstanciationDouble_test.cpp
-    propertyInstanciationTests/PropertyInstanciationInt8_T_test.cpp
-    propertyInstanciationTests/PropertyInstanciationUint8_T_test.cpp
-    propertyInstanciationTests/PropertyInstanciationInt16_T_test.cpp
-    propertyInstanciationTests/PropertyInstanciationUint16_T_test.cpp
-    propertyInstanciationTests/PropertyInstanciationInt32_T_test.cpp
-    propertyInstanciationTests/PropertyInstanciationUint32_T_test.cpp
-    propertyInstanciationTests/PropertyInstanciationInt64_T_test.cpp
-    propertyInstanciationTests/PropertyInstanciationUint64_T_test.cpp
-    propertyInstanciationTests/PropertyInstanciationString_test.cpp
-    propertyInstanciationTests/PropertyInstanciationVariant_test.cpp
-    propertyInstanciationTests/PropertyInstanciationBoolArray_test.cpp
-    propertyInstanciationTests/PropertyInstanciationFloatArray_test.cpp
-    propertyInstanciationTests/PropertyInstanciationDoubleArray_test.cpp
-    propertyInstanciationTests/PropertyInstanciationInt8_TArray_test.cpp
-    propertyInstanciationTests/PropertyInstanciationUint8_TArray_test.cpp
-    propertyInstanciationTests/PropertyInstanciationInt16_TArray_test.cpp
-    propertyInstanciationTests/PropertyInstanciationUint16_TArray_test.cpp
-    propertyInstanciationTests/PropertyInstanciationInt32_TArray_test.cpp
-    propertyInstanciationTests/PropertyInstanciationUint32_TArray_test.cpp
-    propertyInstanciationTests/PropertyInstanciationInt64_TArray_test.cpp
-    propertyInstanciationTests/PropertyInstanciationUint64_TArray_test.cpp
-    propertyInstanciationTests/PropertyInstanciationStringArray_test.cpp
-    propertyInstanciationTests/PropertyInstanciationVariantArray_test.cpp
 )
+
+#
+# Add generated instanciation tests to sources
+#
+if(EXISTS ${filelist})
+    FILE(READ ${filelist} contents)
+    STRING(REGEX REPLACE ";" "\\\\;" contents "${contents}")
+    STRING(REGEX REPLACE "\n" ";" contents "${contents}")
+    set(sources
+        ${sources}
+        ${contents}
+    )
+endif()
 
 
 # 

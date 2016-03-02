@@ -45,6 +45,8 @@ void parseFormat(std::ostream& stream, const char*& format)
 			case 'i':
 				stream << std::internal;
 				break;
+			default:
+				break;
 		}
 	}
 
@@ -76,6 +78,8 @@ void parseFormat(std::ostream& stream, const char*& format)
 			case '0':
 				stream << std::setfill('0');
 				break;
+			default:
+				break;
 		}
 	}
 
@@ -96,6 +100,8 @@ void parseFormat(std::ostream& stream, const char*& format)
 				break;
 			case 'e':
 				stream << std::scientific;
+				break;
+			default:
 				break;
 		}
 	}
@@ -145,6 +151,8 @@ void parseFormat(std::ostream& stream, const char*& format)
 				break;
 			case 'x':
 				stream << std::hex;
+				break;
+			default:
 				break;
 		}
 	}

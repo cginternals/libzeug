@@ -347,7 +347,7 @@ bool JSONReader::readString()
     return c == '"';
 }
 
-bool JSONReader::readObject(Token & tokenStart)
+bool JSONReader::readObject(Token & /*tokenStart*/)
 {
     Token tokenName;
     std::string name;
@@ -395,7 +395,7 @@ bool JSONReader::readObject(Token & tokenStart)
     return addErrorAndRecover("Missing '}' or object member name", tokenName, TokenObjectEnd);
 }
 
-bool JSONReader::readArray(Token & tokenStart)
+bool JSONReader::readArray(Token & /*tokenStart*/)
 {
     currentValue() = Variant::array();
     skipSpaces();

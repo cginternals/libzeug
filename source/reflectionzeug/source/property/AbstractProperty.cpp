@@ -32,7 +32,7 @@ std::string AbstractProperty::name() const
     return m_name;
 }
 
-void AbstractProperty::accept(AbstractVisitor * visitor)
+void AbstractProperty::accept(AbstractVisitor * /*visitor*/)
 {
 }
 

@@ -27,7 +27,7 @@ string staticGetter(size_t)
     return string();
 }
 
-void staticSetter(size_t, string value)
+void staticSetter(size_t, string /*value*/)
 {
 }
 }
@@ -38,7 +38,7 @@ void staticSetter(size_t, string value)
 TEST_F(PropertyInstanceStringArray_test, instanciatePropertyWith_String_LambdaGetter_LambdaSetter)
 {
     auto get = [] (size_t) {return string();};
-    auto set = [] (size_t, const string & val) {};
+    auto set = [] (size_t, const string & /*val*/) {};
 
     auto prop = new PropertyArray<string, 1>("stringProperty", get, set);
 
@@ -166,7 +166,7 @@ TEST_F(PropertyInstanceStringArray_test, instanciateAccessorWith_String_Value)
 TEST_F(PropertyInstanceStringArray_test, instanciateAccessorWith_String_LambdaGetter_LambdaSetter)
 {
     auto get = [] (size_t) {return string();};
-    auto set = [] (size_t, const string & val) {};
+    auto set = [] (size_t, const string & /*val*/) {};
     auto accessor = new ArrayAccessorGetSet<string, 1>(get, set);
 
     auto prop = new PropertyArray<string, 1>("stringProperty", accessor);

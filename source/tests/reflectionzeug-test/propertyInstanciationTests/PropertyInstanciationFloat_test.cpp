@@ -26,7 +26,7 @@ float staticGetter()
     return float();
 }
 
-void staticSetter(float value)
+void staticSetter(float /*value*/)
 {
 }
 }
@@ -37,7 +37,7 @@ void staticSetter(float value)
 TEST_F(PropertyInstanceFloat_test, instanciatePropertyWith_String_LambdaGetter_LambdaSetter)
 {
     auto get = [] () {return float();};
-    auto set = [] (const float & val) {};
+    auto set = [] (const float & /*val*/) {};
 
     auto prop = new Property<float>("floatProperty", get, set);
 
@@ -165,7 +165,7 @@ TEST_F(PropertyInstanceFloat_test, instanciateAccessorWith_String_Value)
 TEST_F(PropertyInstanceFloat_test, instanciateAccessorWith_String_LambdaGetter_LambdaSetter)
 {
     auto get = [] () {return float();};
-    auto set = [] (const float & val) {};
+    auto set = [] (const float & /*val*/) {};
     auto accessor = new AccessorGetSet<float>(get, set);
 
     auto prop = new Property<float>("floatProperty", accessor);

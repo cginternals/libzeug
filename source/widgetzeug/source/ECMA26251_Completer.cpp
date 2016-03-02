@@ -42,7 +42,7 @@ namespace
 ECMA26251Completer::ECMA26251Completer()
 {
     registerWords(ECMA_Keywords);
-};
+}
 
 ECMA26251Completer::~ECMA26251Completer()
 {

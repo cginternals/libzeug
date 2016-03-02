@@ -147,7 +147,7 @@ qulonglong ULongLongSpinBox::valueFromText(const QString & text)
     
 qulonglong ULongLongSpinBox::validateAndInterpret(
     const QString & input, 
-    int & pos, 
+    int & /*pos*/, 
     QValidator::State & state) const
 {
     qulonglong num = m_min;

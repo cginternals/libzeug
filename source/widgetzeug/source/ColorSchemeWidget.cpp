@@ -12,7 +12,7 @@
 namespace widgetzeug
 {
 
-ColorSchemeWidget::ColorSchemeWidget(QWidget * parent)
+ColorSchemeWidget::ColorSchemeWidget(QWidget * /*parent*/)
 : m_ui{ new Ui_ColorSchemeWidget() }
 , m_scheme{ nullptr }
 {
