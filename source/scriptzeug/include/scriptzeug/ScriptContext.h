@@ -49,6 +49,15 @@ public:
 
     /**
     *  @brief
+    *    Constructor
+    *
+    *  @param[in] backend
+    *    Scripting backend (must NOT be null)
+    */
+    ScriptContext(AbstractScriptContext * backend);
+
+    /**
+    *  @brief
     *    Destructor
     */
     virtual ~ScriptContext();

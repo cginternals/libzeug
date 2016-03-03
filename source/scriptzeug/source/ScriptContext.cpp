@@ -25,6 +25,11 @@ ScriptContext::ScriptContext(const std::string & backend)
     }
 }
 
+ScriptContext::ScriptContext(AbstractScriptContext * backend)
+: m_backend(backend)
+{
+}
+
 ScriptContext::~ScriptContext()
 {
     // Release backend
