@@ -3,6 +3,7 @@
 
 
 #include <string>
+#include <functional>
 
 #include <stringzeug/stringzeug_api.h>
 
