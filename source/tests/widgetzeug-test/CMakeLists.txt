@@ -1,4 +1,10 @@
 
+#
+# Dependencies
+#
+
+find_package(Qt5Widgets)
+
 # 
 # Executable name and options
 # 
