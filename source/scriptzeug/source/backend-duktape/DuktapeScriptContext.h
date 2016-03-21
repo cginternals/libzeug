@@ -21,11 +21,8 @@ public:
     /**
     *  @brief
     *    Constructor
-    *
-    *  @param[in] scriptContext
-    *    Script context that owns the backend (must NOT be null)
     */
-    DuktapeScriptContext(ScriptContext * scriptContext);
+    DuktapeScriptContext();
 
     /**
     *  @brief
@@ -34,6 +31,7 @@ public:
     virtual ~DuktapeScriptContext();
 
     // Virtual AbstractScriptContext functions
+    virtual void initialize(ScriptContext * scriptContext) override;
     virtual void registerObject(reflectionzeug::PropertyGroup * obj) override;
     virtual void unregisterObject(reflectionzeug::PropertyGroup * obj) override;
     virtual reflectionzeug::Variant evaluate(const std::string & code) override;

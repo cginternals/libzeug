@@ -31,17 +31,26 @@ public:
     /**
     *  @brief
     *    Constructor
-    *
-    *  @param[in] scriptContext
-    *    Script context that owns the backend (must NOT be null)
     */
-    AbstractScriptContext(ScriptContext * scriptContext);
+    AbstractScriptContext();
 
     /**
     *  @brief
     *    Destructor
     */
     virtual ~AbstractScriptContext();
+
+    /**
+    *  @brief
+    *    Initialize scripting backend
+    *
+    *  @param[in] scriptContext
+    *    Script context that owns the backend (must NOT be null)
+    *
+    *  @remarks
+    *    Be sure to assign the script context to m_scriptContext.
+    */
+    virtual void initialize(ScriptContext * scriptContext) = 0;
 
     /**
     *  @brief

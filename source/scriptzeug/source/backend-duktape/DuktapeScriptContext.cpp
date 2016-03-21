@@ -454,10 +454,20 @@ static duk_ret_t wrapFunction(duk_context * context)
 
 
 
-DuktapeScriptContext::DuktapeScriptContext(ScriptContext * scriptContext)
-: AbstractScriptContext(scriptContext)
+DuktapeScriptContext::DuktapeScriptContext()
 {
+    // Create duktape script context
     m_context = duk_create_heap_default();
+}
+
+DuktapeScriptContext::~DuktapeScriptContext()
+{
+    duk_destroy_heap(m_context);
+}
+
+void DuktapeScriptContext::initialize(ScriptContext * scriptContext)
+{
+    m_scriptContext = scriptContext;
 
     // Make ScriptContext pointer available through duktape context
     duk_push_global_stash(m_context);
@@ -465,11 +475,6 @@ DuktapeScriptContext::DuktapeScriptContext(ScriptContext * scriptContext)
     duk_push_pointer(m_context, context_ptr);
     duk_put_prop_string(m_context, -2, c_duktapeStashContextPointer);
     duk_pop(m_context);
-}
-
-DuktapeScriptContext::~DuktapeScriptContext()
-{
-    duk_destroy_heap(m_context);
 }
 
 void DuktapeScriptContext::registerObject(PropertyGroup * obj)

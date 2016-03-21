@@ -21,22 +21,24 @@ ScriptContext::ScriptContext(const std::string & backend)
     // Javascript (duktape)
     if (backend == "duktape" || backend == "javascript" || backend == "js")
     {
-        m_backend = new DuktapeScriptContext(this);
+        m_backend = new DuktapeScriptContext();
+        m_backend->initialize(this);
     }
 }
 
 ScriptContext::ScriptContext(AbstractScriptContext * backend)
 : m_backend(backend)
 {
+    // Register backend
+    if (m_backend) {
+        m_backend->initialize(this);
+    }
 }
 
 ScriptContext::~ScriptContext()
 {
     // Release backend
-    if (m_backend)
-    {
-        delete m_backend;
-    }
+    delete m_backend;
 }
 
 void ScriptContext::registerObject(reflectionzeug::PropertyGroup * obj)
