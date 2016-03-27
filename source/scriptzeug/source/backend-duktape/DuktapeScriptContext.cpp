@@ -46,7 +46,7 @@ public:
         m_scriptContext = getScriptContext(m_context);
     }
 
-    virtual AbstractFunction *clone()
+    virtual AbstractFunction * clone()
     {
         return new DuktapeFunction(m_context, m_duktapeStashIndex);
     }
@@ -130,7 +130,7 @@ static Variant fromDukValue(duk_context * context, duk_idx_t index = -1)
         //        it would be hard to determine the right use of function-variants.
         //        The script context could of course manage a list of created functions an delete them on destruction,
         //        but that would not solve the problem of "memory leak" while the program is running.
-        DuktapeFunction *function = new DuktapeFunction(context, funcIndex);
+        DuktapeFunction * function = new DuktapeFunction(context, funcIndex);
         return Variant::fromValue<AbstractFunction *>(function);
     }
 
@@ -455,6 +455,7 @@ static duk_ret_t wrapFunction(duk_context * context)
 
 
 DuktapeScriptContext::DuktapeScriptContext()
+: m_context(nullptr)
 {
     // Create duktape script context
     m_context = duk_create_heap_default();
@@ -477,11 +478,36 @@ void DuktapeScriptContext::initialize(ScriptContext * scriptContext)
     duk_pop(m_context);
 }
 
+void DuktapeScriptContext::setGlobalNamespace(const std::string & name)
+{
+    // Set namespace
+    m_namespace = name;
+
+    // Create global object for namespace
+    if (m_namespace != "")
+    {
+        duk_push_global_object(m_context);
+        duk_idx_t parentId = duk_get_top_index(m_context);
+        duk_push_object(m_context);
+        duk_put_prop_string(m_context, parentId, m_namespace.c_str());
+        duk_pop(m_context);
+    }
+}
+
 void DuktapeScriptContext::registerObject(PropertyGroup * obj)
 {
     duk_push_global_object(m_context);
 
+    if (m_namespace != "") {
+        duk_push_string(m_context, m_namespace.c_str());
+        duk_get_prop(m_context, -2);
+    }
+
     registerObj(duk_get_top_index(m_context), obj);
+
+    if (m_namespace != "") {
+        duk_pop(m_context);
+    }
 
     duk_pop(m_context);
 }

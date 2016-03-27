@@ -64,6 +64,27 @@ public:
 
     /**
     *  @brief
+    *    Set global namespace
+    *
+    *  @param[in] name
+    *    Namespace at which global objects are registered
+    *
+    *  @remarks
+    *    If set, objects are not registered globally but into
+    *    an object with the given name. E.g., if the global
+    *    namespace is 'myapp', registerObject(obj) can be
+    *    accessed via 'myapp.obj' instead of 'obj'.
+    *
+    *    Some backends, such as the Qml scripting backend,
+    *    may require a global namespace, since they do not
+    *    allow to modify the global object. In this case,
+    *    setGlobalNamespace() can be used to make other
+    *    backends compatible.
+    */
+    void setGlobalNamespace(const std::string & name);
+
+    /**
+    *  @brief
     *    Expose object to scripting
     *
     *  @param[in] obj

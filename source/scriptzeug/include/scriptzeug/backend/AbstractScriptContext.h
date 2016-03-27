@@ -54,6 +54,17 @@ public:
 
     /**
     *  @brief
+    *    Set global namespace
+    *
+    *  @param[in] name
+    *    Namespace at which global objects are registered
+    *
+    *  @see ScriptContext::setGlobalNamespace
+    */
+    virtual void setGlobalNamespace(const std::string & name) = 0;
+
+    /**
+    *  @brief
     *    Expose object to scripting
     *
     *  @param[in] obj

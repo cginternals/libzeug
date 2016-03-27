@@ -4,6 +4,8 @@
 
 #include "duktape-1.4.0/duktape.h"
 
+#include <string>
+
 #include <scriptzeug/backend/AbstractScriptContext.h>
 
 
@@ -32,6 +34,7 @@ public:
 
     // Virtual AbstractScriptContext functions
     virtual void initialize(ScriptContext * scriptContext) override;
+    virtual void setGlobalNamespace(const std::string & name) override;
     virtual void registerObject(reflectionzeug::PropertyGroup * obj) override;
     virtual void unregisterObject(reflectionzeug::PropertyGroup * obj) override;
     virtual reflectionzeug::Variant evaluate(const std::string & code) override;
@@ -42,7 +45,8 @@ protected:
 
 
 protected:
-    duk_context * m_context; ///< Duktape context
+    duk_context * m_context;    ///< Duktape context
+    std::string   m_namespace;  ///< Global namespace
 };
 
 
