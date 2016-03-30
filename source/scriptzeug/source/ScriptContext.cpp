@@ -41,6 +41,14 @@ ScriptContext::~ScriptContext()
     delete m_backend;
 }
 
+void ScriptContext::setGlobalNamespace(const std::string & name)
+{
+    if (m_backend)
+    {
+        m_backend->setGlobalNamespace(name);
+    }
+}
+
 void ScriptContext::registerObject(reflectionzeug::PropertyGroup * obj)
 {
     if (m_backend)
