@@ -4,7 +4,7 @@
 
 #include <threadingzeug/parallelfor.h>
 
-#include <thread>
+#include <future>
 #include <vector>
 #include <algorithm>
 
@@ -42,21 +42,25 @@ void parallelFor(T start, T end, typename identity<std::function<void(T)>>::type
 
 #else
 
-    auto threads = std::vector<std::thread>(numberOfThreads);
-    
+    auto futures = std::vector<std::future<void>>(numberOfThreads);
+    auto count = end - start;
+    auto step = static_cast<size_t>(std::ceil(float(count) / numberOfThreads));
+
     for (auto i = static_cast<size_t>(0); i < numberOfThreads; ++i)
     {
-        threads[i] = std::thread([start, end, i, &callback] () {
-            for (auto k = start + i; k < end; k += numberOfThreads)
+        futures[i] = std::async(std::launch::async, [i, step, end, &callback] () {
+            const auto e = std::min(static_cast<T>((i+1) * step), end);
+
+            for (auto k = i * step; k < e; ++k)
             {
                 callback(k);
             }
         });
     }
 
-    for (auto & thread : threads)
+    for (auto & future : futures)
     {
-        thread.join();
+        future.wait();
     }
 
 #endif

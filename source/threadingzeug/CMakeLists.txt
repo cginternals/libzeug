@@ -132,11 +132,11 @@ target_link_libraries(${target}
 
 target_compile_definitions(${target}
     PRIVATE
-    $<$<BOOL:"NOT ${OPTION_BUILD_WITH_STD_THREAD} AND ${OPENMP_FOUND}">:USE_OPENMP>
 
     PUBLIC
     $<$<NOT:$<BOOL:${BUILD_SHARED_LIBS}>>:${target_upper}_STATIC_DEFINE>
     ${DEFAULT_COMPILE_DEFINITIONS}
+    $<$<BOOL:"NOT ${OPTION_BUILD_WITH_STD_THREAD} AND ${OPENMP_FOUND}">:USE_OPENMP>
 
     INTERFACE
 )
@@ -148,10 +148,10 @@ target_compile_definitions(${target}
 
 target_compile_options(${target}
     PRIVATE
-    $<$<BOOL:"NOT ${OPTION_BUILD_WITH_STD_THREAD} AND ${OPENMP_FOUND}">:${OpenMP_CXX_FLAGS}>
 
     PUBLIC
     ${DEFAULT_COMPILE_OPTIONS}
+    $<$<BOOL:"NOT ${OPTION_BUILD_WITH_STD_THREAD} AND ${OPENMP_FOUND}">:${OpenMP_CXX_FLAGS}>
 
     INTERFACE
 )
@@ -166,6 +166,7 @@ target_link_libraries(${target}
 
     PUBLIC
     ${DEFAULT_LINKER_OPTIONS}
+    $<$<NOT:$<CXX_COMPILER_ID:MSVC>>:${OpenMP_CXX_FLAGS}>
 
     INTERFACE
 )
