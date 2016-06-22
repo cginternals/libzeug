@@ -48,10 +48,10 @@ void parallelFor(T start, T end, typename identity<std::function<void(T)>>::type
 
     for (auto i = static_cast<size_t>(0); i < numberOfThreads; ++i)
     {
-        futures[i] = std::async(std::launch::async, [i, step, end, &callback] () {
-            const auto e = std::min(static_cast<T>((i+1) * step), end);
+        futures[i] = std::async(std::launch::async, [i, step, start, end, &callback] () {
+            const auto e = std::min(static_cast<T>(start + (i+1) * step), end);
 
-            for (auto k = i * step; k < e; ++k)
+            for (auto k = start + i * step; k < e; ++k)
             {
                 callback(k);
             }
