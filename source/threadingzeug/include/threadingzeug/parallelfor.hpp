@@ -4,6 +4,7 @@
 
 #include <threadingzeug/parallelfor.h>
 
+#include <cmath>
 #include <future>
 #include <vector>
 #include <algorithm>
