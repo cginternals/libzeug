@@ -11,6 +11,8 @@
 #include <dirent.h>
 #endif
 
+#include <loggingzeug/logging.h>
+
 #include <iozeug/filename.h>
 
 
@@ -24,7 +26,7 @@ void getFiles(const std::string & directory, bool recursive, std::vector<std::st
     DIR * dir = opendir(directory.c_str());
     if (!dir)
     {
-        std::cout << "Could not open directory " << directory << "." << std::endl;
+        loggingzeug::warning() << "Could not open directory " << directory << ".";
         return;
     }
 
