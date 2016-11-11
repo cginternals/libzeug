@@ -39,7 +39,7 @@ FilePathEditor::FilePathEditor(Property<FilePath> * property, QWidget * parent)
     
     using StringActivatedPtr = void (QCompleter::*)(const QString &);
     connect(completer, static_cast<StringActivatedPtr>(&QCompleter::activated),
-            this, &FilePathEditor::handleItemActivated);
+            this, &FilePathEditor::handleItemActivated, Qt::QueuedConnection);
     
     connect(m_lineEdit, &QLineEdit::selectionChanged, 
         [this]()
