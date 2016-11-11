@@ -9,6 +9,7 @@
 #include <QFont>
 #include <QFileInfo>
 #include <QUrl>
+#include <QtGlobal>
 
 
 namespace widgetzeug
@@ -64,6 +65,9 @@ void MessageWidget::print(
 #endif
 		break;
 
+#if QT_VERSION >= 0x050500
+    case QtMsgType::QtInfoMsg:
+#endif // QT_VERSION
     case QtMsgType::QtCriticalMsg:
     case QtMsgType::QtFatalMsg:
     case QtMsgType::QtWarningMsg:

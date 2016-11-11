@@ -113,6 +113,7 @@ target_include_directories(${target}
 
 target_link_libraries(${target}
     PRIVATE
+    ${META_PROJECT_NAME}::loggingzeug
 
     PUBLIC
     ${DEFAULT_LIBRARIES}
