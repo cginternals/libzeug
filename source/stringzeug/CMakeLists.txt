@@ -128,12 +128,12 @@ target_include_directories(${target}
 
 target_link_libraries(${target}
     PRIVATE
-    ${ADDITIONAL_LIBRARIES}
-
+    
     PUBLIC
     ${DEFAULT_LIBRARIES}
 
     INTERFACE
+    ${ADDITIONAL_LIBRARIES}
 )
 
 
