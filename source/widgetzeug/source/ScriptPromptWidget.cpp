@@ -37,6 +37,7 @@ ScriptPromptWidget::ScriptPromptWidget(QWidget * parent)
 , m_syntaxHighlighter(nullptr)
 , m_urisPasteDelimiter(", ")
 , m_urisPasteQuotMarks(true)
+, m_historyIt(m_history.constEnd())
 {
     setFont(QFont("Consolas, Courier New"));
     connect(this, &QTextEdit::cursorPositionChanged, this, &ScriptPromptWidget::onCursorPositionChanged);
@@ -167,6 +168,11 @@ void ScriptPromptWidget::updateLastInHistory()
 
 void ScriptPromptWidget::setCommandFromHistory()
 {
+    if (m_history.constBegin() == m_historyIt)
+    {
+        return;
+    }
+
     if (m_history.constEnd() == m_historyIt)
         --m_historyIt;
 
